@@ -164,7 +164,7 @@ namespace ColorLib
             {"ij",  new string[2] {"[ij]",  "pria"      } },
             {"oin", new string[2] {"[oin]", "soin"      } },
             {"_muet", new string[2] {"[#]", "\'muet\'"  } },
-            {"q_caduc", new string[2] {"[-]", "e caduc" } },
+            {"q_caduc", new string[2] {"[-]", "e caduc" } }, 
         };
 
         // -------------------------------------------------------------------------------------------------------------------
