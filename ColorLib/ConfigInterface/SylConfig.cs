@@ -114,7 +114,10 @@ namespace ColorLib
         public CharFormatting NextCF()
         {
             CharFormatting toReturn = sylButtons[counter].cf;
-            counter = (counter + 1) % nrSetButtons;
+            if (nrSetButtons > 0)
+                counter = (counter + 1) % nrSetButtons;
+            else
+                counter = 0;
             return toReturn;
         }
 
