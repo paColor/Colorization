@@ -241,5 +241,11 @@
   <ItemGroup>
     <None Include="Resources\Couper.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\l_muettes_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\l_muettes_26.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

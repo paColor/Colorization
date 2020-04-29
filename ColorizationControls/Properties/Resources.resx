@@ -139,6 +139,9 @@
   <data name="voycons_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\voycons_26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="l_muettes_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\l_muettes_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="lines" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lines.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -178,6 +181,9 @@
   <data name="BoldSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BoldSet.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Couper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Couper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="black2_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\black2_30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -214,7 +220,7 @@
   <data name="mots_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mots_30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Couper" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Couper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="l_muettes_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\l_muettes_26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

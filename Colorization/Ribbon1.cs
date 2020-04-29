@@ -44,8 +44,11 @@ namespace Colorization
         private static void MarkNoir(PPTText t) => t.MarkNoir();
         private static void MarkVoyCons(PPTText t) => t.MarkVoyCons();
 
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         public static void Init()
         {
+            logger.ConditionalTrace("Init");
             ConfigControl.markSelLetters = Ribbon1.ColorSelectedLetters;
             ConfigControl.colorizeAllSelPhons = Ribbon1.ColorizeSelectedPhons;
             ConfigControl.colSylSelLetters = Ribbon1.ColorSelectedSyls;
@@ -53,45 +56,54 @@ namespace Colorization
             ConfigControl.colVoyConsSelText = Ribbon1.ColorSelectedVoyCons;
             ConfigControl.colLignesSelText = Ribbon1.ColorSelectedLignes;
             ConfigControl.colNoirSelText = Ribbon1.ColorSelectedNoir;
+            ConfigControl.colMuettesSelText = Ribbon1.ColorSelectedMuettes;
         }
 
         public static void ColorizeSelectedPhons()
         {
+            logger.ConditionalTrace("ColorizeSelectedPhons");
             ActOnSelectedText(ColorizePhons, ActoOnRangePPTText);
         }
 
         public static void ColorSelectedLetters()
         {
+            logger.ConditionalTrace("ColorSelectedLetters");
             ActOnSelectedText(MarkLetters, ActoOnRangePPTText);
         }
 
         public static void ColorSelectedSyls()
         {
+            logger.ConditionalTrace("ColorSelectedSyls");
             ActOnSelectedText(MarkSyls, ActoOnRangePPTText);
         }
 
         public static void ColorSelectedWords()
         {
+            logger.ConditionalTrace("ColorSelectedWords");
             ActOnSelectedText(MarkWords, ActoOnRangePPTText);
         }
 
         public static void ColorSelectedMuettes()
         {
+            logger.ConditionalTrace("ColorSelectedMuettes");
             ActOnSelectedText(MarkMuettes, ActoOnRangePPTText);
         }
 
         public static void ColorSelectedNoir()
         {
+            logger.ConditionalTrace("ColorSelectedNoir");
             ActOnSelectedText(MarkNoir, ActoOnRangePPTText);
         }
 
         public static void ColorSelectedVoyCons()
         {
+            logger.ConditionalTrace("ColorSelectedVoyCons");
             ActOnSelectedText(MarkVoyCons, ActoOnRangePPTText);
         }
 
         public static void ColorSelectedLignes()
         {
+            logger.ConditionalTrace("ColorSelectedLignes");
             ActOnSelectedText(null, MarkLignes);
         }
 

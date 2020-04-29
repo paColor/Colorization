@@ -57,6 +57,7 @@ namespace ColorizationWord
             ConfigControl.colLignesSelText = WordRibbon.ColorSelectedLignes;
             ConfigControl.colVoyConsSelText = WordRibbon.ColorSelectedVoyCons;
             ConfigControl.colNoirSelText = WordRibbon.ColorSelectedNoir;
+            ConfigControl.colMuettesSelText = WordRibbon.ColorSelectedMuettes;
         }
 
         public static void ColorSelectedPhons()

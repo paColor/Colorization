@@ -44,6 +44,7 @@ namespace ColorizationControls
         public static ExecuteTask colVoyConsSelText { set; private get; }
         public static ExecuteTask colNoirSelText { set; private get; }
         public static ExecuteTask colorizeAllSelPhons { set; private get; }
+        public static ExecuteTask colMuettesSelText { set; private get; }
         public static ExecuteTask markSelLetters { set; private get; }
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -89,9 +90,12 @@ namespace ColorizationControls
 
             theConf = inConf;
 
-            theConf.colors[pct].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
-            theConf.colors[pct].updateButton = this.UpdateSonButton;
-            theConf.colors[pct].updateCbx = this.UpdateCbxSon;
+            theConf.colors[PhonConfType.phonemes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
+            theConf.colors[PhonConfType.phonemes].updateButton = this.UpdateSonButton;
+            theConf.colors[PhonConfType.phonemes].updateCbx = this.UpdateCbxSon;
+            theConf.colors[PhonConfType.muettes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
+            theConf.colors[PhonConfType.muettes].updateButton = this.UpdateSonButton;
+            theConf.colors[PhonConfType.muettes].updateCbx = this.UpdateCbxSon;
             theConf.pBDQ.updateLetterButtons = this.UpdateLetterButtons;
             theConf.pBDQ.updateLetterButton = this.UpdateLetterButton;
             theConf.sylConf.updateSylButtons = this.UpdateSylButtons;
@@ -120,7 +124,7 @@ namespace ColorizationControls
             mcd4Syls.FullOpen = true;
 
             // pct
-            pct = PhonConfType.phonemes;
+            pct = PhonConfType.phonemes; //  par défaut on édite la configration des phonèmes
 
             countPasteLetters = 0;
 
@@ -355,7 +359,14 @@ namespace ColorizationControls
         private void btcPhons_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btcPhons_Click");
-            colorizeAllSelPhons();
+            if (pct == PhonConfType.phonemes)
+            {
+                colorizeAllSelPhons();
+            }
+            else
+            {
+                colMuettesSelText();
+            }
         }
 
 
@@ -695,5 +706,29 @@ namespace ColorizationControls
                     break;
             }
         }
+        
+        private void configMuettesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("configMuettesToolStripMenuItem_Click pct == {0}", pct.ToString());
+            if (pct == PhonConfType.phonemes)
+            {
+                pct = PhonConfType.muettes;
+                configMuettesToolStripMenuItem.Text = "Config Phonèmes";
+                configMuettesToolStripMenuItem.Image = Properties.Resources.phon;
+                btcPhons.Image = Properties.Resources.l_muettes_26;
+                ttipLettreEnNoir.SetToolTip(btcPhons, "Coloriser les lettres muettes");
+            }
+            else
+            {
+                pct = PhonConfType.phonemes;
+                configMuettesToolStripMenuItem.Text = "Config Muettes";
+                configMuettesToolStripMenuItem.Image = Properties.Resources.l_muettes_16;
+                btcPhons.Image = Properties.Resources.phon;
+                ttipLettreEnNoir.SetToolTip(btcPhons, "Coloriser les phonèmes");
+            }
+            UpdateAllSoundCbxAndButtons();
+        }
+
+        
     }
 }

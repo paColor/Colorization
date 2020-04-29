@@ -127,22 +127,7 @@
             this.cbuHilight = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCouleurs = new System.Windows.Forms.TabPage();
-            this.btcLNoir2 = new System.Windows.Forms.Button();
-            this.btcPhons = new System.Windows.Forms.Button();
             this.tabAutres = new System.Windows.Forms.TabPage();
-            this.btcLNoir = new System.Windows.Forms.Button();
-            this.btSVoyCons = new System.Windows.Forms.Button();
-            this.pbHL5 = new System.Windows.Forms.PictureBox();
-            this.pbHL4 = new System.Windows.Forms.PictureBox();
-            this.pbHL3 = new System.Windows.Forms.PictureBox();
-            this.pbHL2 = new System.Windows.Forms.PictureBox();
-            this.pbHL1 = new System.Windows.Forms.PictureBox();
-            this.pbHL0 = new System.Windows.Forms.PictureBox();
-            this.cmsEffacerCopier = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiCouper = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiCopier = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiColler = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiEffacer = new System.Windows.Forms.ToolStripMenuItem();
             this.btSC5 = new System.Windows.Forms.Button();
             this.btSC4 = new System.Windows.Forms.Button();
             this.cbSEcrit = new System.Windows.Forms.CheckBox();
@@ -155,6 +140,7 @@
             this.lblSylText = new System.Windows.Forms.Label();
             this.btCPBDQ = new System.Windows.Forms.Button();
             this.btL7 = new System.Windows.Forms.Button();
+            this.cmsEffacerCopier = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.btL6 = new System.Windows.Forms.Button();
             this.btL5 = new System.Windows.Forms.Button();
             this.btL4 = new System.Windows.Forms.Button();
@@ -163,16 +149,10 @@
             this.btL1 = new System.Windows.Forms.Button();
             this.btL0 = new System.Windows.Forms.Button();
             this.lblLetters = new System.Windows.Forms.Label();
-            this.btZeLignes = new System.Windows.Forms.Button();
-            this.btcLbpdq = new System.Windows.Forms.Button();
-            this.btSMots = new System.Windows.Forms.Button();
-            this.btSAppliquer = new System.Windows.Forms.Button();
             this.tabAvancé = new System.Windows.Forms.TabPage();
             this.lblAttentionPerf = new System.Windows.Forms.Label();
             this.cbAlettresNoir = new System.Windows.Forms.CheckBox();
             this.tabAPropos = new System.Windows.Forms.TabPage();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.butLicense = new System.Windows.Forms.Button();
             this.linkCodeCouleurAPI = new System.Windows.Forms.LinkLabel();
             this.linkCERAS = new System.Windows.Forms.LinkLabel();
@@ -183,18 +163,41 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.lblText = new System.Windows.Forms.Label();
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
+            this.cmsPhonVSMuettes = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btcLNoir2 = new System.Windows.Forms.Button();
+            this.btcPhons = new System.Windows.Forms.Button();
+            this.btcLNoir = new System.Windows.Forms.Button();
+            this.btSVoyCons = new System.Windows.Forms.Button();
+            this.pbHL5 = new System.Windows.Forms.PictureBox();
+            this.pbHL4 = new System.Windows.Forms.PictureBox();
+            this.pbHL3 = new System.Windows.Forms.PictureBox();
+            this.pbHL2 = new System.Windows.Forms.PictureBox();
+            this.pbHL1 = new System.Windows.Forms.PictureBox();
+            this.pbHL0 = new System.Windows.Forms.PictureBox();
+            this.tsmiCouper = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCopier = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiColler = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiEffacer = new System.Windows.Forms.ToolStripMenuItem();
+            this.btZeLignes = new System.Windows.Forms.Button();
+            this.btcLbpdq = new System.Windows.Forms.Button();
+            this.btSMots = new System.Windows.Forms.Button();
+            this.btSAppliquer = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.configMuettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
             this.tabAutres.SuspendLayout();
+            this.cmsEffacerCopier.SuspendLayout();
+            this.tabAvancé.SuspendLayout();
+            this.tabAPropos.SuspendLayout();
+            this.cmsPhonVSMuettes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).BeginInit();
-            this.cmsEffacerCopier.SuspendLayout();
-            this.tabAvancé.SuspendLayout();
-            this.tabAPropos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -1386,31 +1389,6 @@
             this.tabCouleurs.Text = "Phonèmes";
             this.ttipLettreEnNoir.SetToolTip(this.tabCouleurs, "Configuration pour la colorisation des phonèmes");
             // 
-            // btcLNoir2
-            // 
-            this.btcLNoir2.BackColor = System.Drawing.SystemColors.Control;
-            this.btcLNoir2.Image = global::ColorizationControls.Properties.Resources.black2_30;
-            this.btcLNoir2.Location = new System.Drawing.Point(290, 6);
-            this.btcLNoir2.Name = "btcLNoir2";
-            this.btcLNoir2.Size = new System.Drawing.Size(38, 38);
-            this.btcLNoir2.TabIndex = 165;
-            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir2, "Coloriser les lignes. Soit en surlignant avec les couleurs\r\nci-dessous, soit en a" +
-        "ppliquant les couleurs des syllabes\r\nci-dessus.");
-            this.btcLNoir2.UseVisualStyleBackColor = false;
-            this.btcLNoir2.Click += new System.EventHandler(this.btcLNoir_Click);
-            // 
-            // btcPhons
-            // 
-            this.btcPhons.BackColor = System.Drawing.SystemColors.Control;
-            this.btcPhons.Image = global::ColorizationControls.Properties.Resources.phon;
-            this.btcPhons.Location = new System.Drawing.Point(6, 6);
-            this.btcPhons.Name = "btcPhons";
-            this.btcPhons.Size = new System.Drawing.Size(38, 38);
-            this.btcPhons.TabIndex = 110;
-            this.ttipLettreEnNoir.SetToolTip(this.btcPhons, "Coloriser les phonèmes");
-            this.btcPhons.UseVisualStyleBackColor = false;
-            this.btcPhons.Click += new System.EventHandler(this.btcPhons_Click);
-            // 
             // tabAutres
             // 
             this.tabAutres.BackColor = System.Drawing.SystemColors.Control;
@@ -1453,131 +1431,6 @@
             this.tabAutres.TabIndex = 3;
             this.tabAutres.Text = "Autres";
             this.ttipLettreEnNoir.SetToolTip(this.tabAutres, "Configuration pour la colorisation de lettres, syllabes, mots, lignes");
-            // 
-            // btcLNoir
-            // 
-            this.btcLNoir.BackColor = System.Drawing.SystemColors.Control;
-            this.btcLNoir.Image = global::ColorizationControls.Properties.Resources.black2_30;
-            this.btcLNoir.Location = new System.Drawing.Point(262, 152);
-            this.btcLNoir.Name = "btcLNoir";
-            this.btcLNoir.Size = new System.Drawing.Size(38, 38);
-            this.btcLNoir.TabIndex = 164;
-            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir, "Coloriser les lignes. Soit en surlignant avec les couleurs\r\nci-dessous, soit en a" +
-        "ppliquant les couleurs des syllabes\r\nci-dessus.");
-            this.btcLNoir.UseVisualStyleBackColor = false;
-            this.btcLNoir.Click += new System.EventHandler(this.btcLNoir_Click);
-            // 
-            // btSVoyCons
-            // 
-            this.btSVoyCons.BackColor = System.Drawing.SystemColors.Control;
-            this.btSVoyCons.Image = global::ColorizationControls.Properties.Resources.voycons_30;
-            this.btSVoyCons.Location = new System.Drawing.Point(207, 152);
-            this.btSVoyCons.Name = "btSVoyCons";
-            this.btSVoyCons.Size = new System.Drawing.Size(38, 38);
-            this.btSVoyCons.TabIndex = 163;
-            this.ttipLettreEnNoir.SetToolTip(this.btSVoyCons, "Coloriser les lignes. Soit en surlignant avec les couleurs\r\nci-dessous, soit en a" +
-        "ppliquant les couleurs des syllabes\r\nci-dessus.");
-            this.btSVoyCons.UseVisualStyleBackColor = false;
-            this.btSVoyCons.Click += new System.EventHandler(this.btSVoyCons_Click);
-            // 
-            // pbHL5
-            // 
-            this.pbHL5.Location = new System.Drawing.Point(307, 231);
-            this.pbHL5.Name = "pbHL5";
-            this.pbHL5.Size = new System.Drawing.Size(17, 13);
-            this.pbHL5.TabIndex = 162;
-            this.pbHL5.TabStop = false;
-            this.pbHL5.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // pbHL4
-            // 
-            this.pbHL4.Location = new System.Drawing.Point(253, 231);
-            this.pbHL4.Name = "pbHL4";
-            this.pbHL4.Size = new System.Drawing.Size(17, 13);
-            this.pbHL4.TabIndex = 161;
-            this.pbHL4.TabStop = false;
-            this.pbHL4.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // pbHL3
-            // 
-            this.pbHL3.Location = new System.Drawing.Point(199, 231);
-            this.pbHL3.Name = "pbHL3";
-            this.pbHL3.Size = new System.Drawing.Size(17, 13);
-            this.pbHL3.TabIndex = 160;
-            this.pbHL3.TabStop = false;
-            this.pbHL3.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // pbHL2
-            // 
-            this.pbHL2.Location = new System.Drawing.Point(145, 231);
-            this.pbHL2.Name = "pbHL2";
-            this.pbHL2.Size = new System.Drawing.Size(17, 13);
-            this.pbHL2.TabIndex = 159;
-            this.pbHL2.TabStop = false;
-            this.pbHL2.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // pbHL1
-            // 
-            this.pbHL1.Location = new System.Drawing.Point(91, 231);
-            this.pbHL1.Name = "pbHL1";
-            this.pbHL1.Size = new System.Drawing.Size(17, 13);
-            this.pbHL1.TabIndex = 158;
-            this.pbHL1.TabStop = false;
-            this.pbHL1.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // pbHL0
-            // 
-            this.pbHL0.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.pbHL0.Location = new System.Drawing.Point(38, 231);
-            this.pbHL0.Name = "pbHL0";
-            this.pbHL0.Size = new System.Drawing.Size(17, 13);
-            this.pbHL0.TabIndex = 157;
-            this.pbHL0.TabStop = false;
-            this.pbHL0.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // cmsEffacerCopier
-            // 
-            this.cmsEffacerCopier.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiCouper,
-            this.tsmiCopier,
-            this.tsmiColler,
-            this.tsmiEffacer});
-            this.cmsEffacerCopier.Name = "cmsEffacerCopier";
-            this.cmsEffacerCopier.Size = new System.Drawing.Size(114, 92);
-            this.cmsEffacerCopier.Text = "Choix";
-            this.cmsEffacerCopier.Opening += new System.ComponentModel.CancelEventHandler(this.cmsEffacerCopier_Opening);
-            // 
-            // tsmiCouper
-            // 
-            this.tsmiCouper.Image = global::ColorizationControls.Properties.Resources.Couper;
-            this.tsmiCouper.Name = "tsmiCouper";
-            this.tsmiCouper.Size = new System.Drawing.Size(113, 22);
-            this.tsmiCouper.Text = "Couper";
-            this.tsmiCouper.Click += new System.EventHandler(this.tsmiCouper_Click);
-            // 
-            // tsmiCopier
-            // 
-            this.tsmiCopier.Image = global::ColorizationControls.Properties.Resources.Copier;
-            this.tsmiCopier.Name = "tsmiCopier";
-            this.tsmiCopier.Size = new System.Drawing.Size(113, 22);
-            this.tsmiCopier.Text = "Copier";
-            this.tsmiCopier.Click += new System.EventHandler(this.tsmiCopier_Click);
-            // 
-            // tsmiColler
-            // 
-            this.tsmiColler.Image = global::ColorizationControls.Properties.Resources.Coller;
-            this.tsmiColler.Name = "tsmiColler";
-            this.tsmiColler.Size = new System.Drawing.Size(113, 22);
-            this.tsmiColler.Text = "Coller";
-            this.tsmiColler.Click += new System.EventHandler(this.tsmiColler_Click);
-            // 
-            // tsmiEffacer
-            // 
-            this.tsmiEffacer.Image = global::ColorizationControls.Properties.Resources.Effacer15;
-            this.tsmiEffacer.Name = "tsmiEffacer";
-            this.tsmiEffacer.Size = new System.Drawing.Size(113, 22);
-            this.tsmiEffacer.Text = "Effacer";
-            this.tsmiEffacer.Click += new System.EventHandler(this.tsmiEffacer_Click);
             // 
             // btSC5
             // 
@@ -1703,6 +1556,18 @@
             this.btL7.UseVisualStyleBackColor = true;
             this.btL7.Click += new System.EventHandler(this.LetterButton_Click);
             // 
+            // cmsEffacerCopier
+            // 
+            this.cmsEffacerCopier.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiCouper,
+            this.tsmiCopier,
+            this.tsmiColler,
+            this.tsmiEffacer});
+            this.cmsEffacerCopier.Name = "cmsEffacerCopier";
+            this.cmsEffacerCopier.Size = new System.Drawing.Size(114, 92);
+            this.cmsEffacerCopier.Text = "Choix";
+            this.cmsEffacerCopier.Opening += new System.ComponentModel.CancelEventHandler(this.cmsEffacerCopier_Opening);
+            // 
             // btL6
             // 
             this.btL6.ContextMenuStrip = this.cmsEffacerCopier;
@@ -1797,54 +1662,6 @@
             this.lblLetters.TabIndex = 133;
             this.lblLetters.Text = "Configurer les lettres à mettre en évidence ";
             // 
-            // btZeLignes
-            // 
-            this.btZeLignes.BackColor = System.Drawing.SystemColors.Control;
-            this.btZeLignes.Image = global::ColorizationControls.Properties.Resources.lines_30;
-            this.btZeLignes.Location = new System.Drawing.Point(153, 152);
-            this.btZeLignes.Name = "btZeLignes";
-            this.btZeLignes.Size = new System.Drawing.Size(38, 38);
-            this.btZeLignes.TabIndex = 154;
-            this.ttipLettreEnNoir.SetToolTip(this.btZeLignes, "Coloriser les lignes. ");
-            this.btZeLignes.UseVisualStyleBackColor = false;
-            this.btZeLignes.Click += new System.EventHandler(this.btZeLignes_Click);
-            // 
-            // btcLbpdq
-            // 
-            this.btcLbpdq.BackColor = System.Drawing.SystemColors.Control;
-            this.btcLbpdq.Image = global::ColorizationControls.Properties.Resources.bdpq;
-            this.btcLbpdq.Location = new System.Drawing.Point(7, 6);
-            this.btcLbpdq.Name = "btcLbpdq";
-            this.btcLbpdq.Size = new System.Drawing.Size(38, 38);
-            this.btcLbpdq.TabIndex = 150;
-            this.ttipLettreEnNoir.SetToolTip(this.btcLbpdq, "Coloriser les lettres");
-            this.btcLbpdq.UseVisualStyleBackColor = false;
-            this.btcLbpdq.Click += new System.EventHandler(this.btcLbpdq_Click);
-            // 
-            // btSMots
-            // 
-            this.btSMots.BackColor = System.Drawing.SystemColors.Control;
-            this.btSMots.Image = global::ColorizationControls.Properties.Resources.mots_30;
-            this.btSMots.Location = new System.Drawing.Point(87, 152);
-            this.btSMots.Name = "btSMots";
-            this.btSMots.Size = new System.Drawing.Size(47, 38);
-            this.btSMots.TabIndex = 145;
-            this.ttipLettreEnNoir.SetToolTip(this.btSMots, "Coloriser les mots");
-            this.btSMots.UseVisualStyleBackColor = false;
-            this.btSMots.Click += new System.EventHandler(this.btSMots_Click);
-            // 
-            // btSAppliquer
-            // 
-            this.btSAppliquer.BackColor = System.Drawing.SystemColors.Control;
-            this.btSAppliquer.Image = global::ColorizationControls.Properties.Resources.syll_dys_30;
-            this.btSAppliquer.Location = new System.Drawing.Point(29, 152);
-            this.btSAppliquer.Name = "btSAppliquer";
-            this.btSAppliquer.Size = new System.Drawing.Size(38, 38);
-            this.btSAppliquer.TabIndex = 143;
-            this.ttipLettreEnNoir.SetToolTip(this.btSAppliquer, "Coloriser les syllabes");
-            this.btSAppliquer.UseVisualStyleBackColor = false;
-            this.btSAppliquer.Click += new System.EventHandler(this.btSAppliquer_Click);
-            // 
             // tabAvancé
             // 
             this.tabAvancé.BackColor = System.Drawing.SystemColors.Control;
@@ -1907,26 +1724,6 @@
             this.tabAPropos.Size = new System.Drawing.Size(337, 502);
             this.tabAPropos.TabIndex = 2;
             this.tabAPropos.Text = "A propos";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackgroundImage = global::ColorizationControls.Properties.Resources.Coloriƨation;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox2.Location = new System.Drawing.Point(100, 30);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(180, 38);
-            this.pictureBox2.TabIndex = 12;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = global::ColorizationControls.Properties.Resources.LogoColorization;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox1.Location = new System.Drawing.Point(23, 16);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(62, 64);
-            this.pictureBox1.TabIndex = 11;
-            this.pictureBox1.TabStop = false;
             // 
             // butLicense
             // 
@@ -2035,6 +1832,228 @@
             this.ttipLettreEnNoir.InitialDelay = 500;
             this.ttipLettreEnNoir.ReshowDelay = 100;
             // 
+            // cmsPhonVSMuettes
+            // 
+            this.cmsPhonVSMuettes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.configMuettesToolStripMenuItem});
+            this.cmsPhonVSMuettes.Name = "cmsPhonVSMuettes";
+            this.cmsPhonVSMuettes.Size = new System.Drawing.Size(157, 26);
+            // 
+            // btcLNoir2
+            // 
+            this.btcLNoir2.BackColor = System.Drawing.SystemColors.Control;
+            this.btcLNoir2.Image = global::ColorizationControls.Properties.Resources.black2_30;
+            this.btcLNoir2.Location = new System.Drawing.Point(290, 6);
+            this.btcLNoir2.Name = "btcLNoir2";
+            this.btcLNoir2.Size = new System.Drawing.Size(38, 38);
+            this.btcLNoir2.TabIndex = 165;
+            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir2, "Coloriser les lignes. Soit en surlignant avec les couleurs\r\nci-dessous, soit en a" +
+        "ppliquant les couleurs des syllabes\r\nci-dessus.");
+            this.btcLNoir2.UseVisualStyleBackColor = false;
+            this.btcLNoir2.Click += new System.EventHandler(this.btcLNoir_Click);
+            // 
+            // btcPhons
+            // 
+            this.btcPhons.BackColor = System.Drawing.SystemColors.Control;
+            this.btcPhons.ContextMenuStrip = this.cmsPhonVSMuettes;
+            this.btcPhons.Image = global::ColorizationControls.Properties.Resources.phon;
+            this.btcPhons.Location = new System.Drawing.Point(6, 6);
+            this.btcPhons.Name = "btcPhons";
+            this.btcPhons.Size = new System.Drawing.Size(38, 38);
+            this.btcPhons.TabIndex = 110;
+            this.ttipLettreEnNoir.SetToolTip(this.btcPhons, "Coloriser les phonèmes");
+            this.btcPhons.UseVisualStyleBackColor = false;
+            this.btcPhons.Click += new System.EventHandler(this.btcPhons_Click);
+            // 
+            // btcLNoir
+            // 
+            this.btcLNoir.BackColor = System.Drawing.SystemColors.Control;
+            this.btcLNoir.Image = global::ColorizationControls.Properties.Resources.black2_30;
+            this.btcLNoir.Location = new System.Drawing.Point(262, 152);
+            this.btcLNoir.Name = "btcLNoir";
+            this.btcLNoir.Size = new System.Drawing.Size(38, 38);
+            this.btcLNoir.TabIndex = 164;
+            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir, "Coloriser les lignes. Soit en surlignant avec les couleurs\r\nci-dessous, soit en a" +
+        "ppliquant les couleurs des syllabes\r\nci-dessus.");
+            this.btcLNoir.UseVisualStyleBackColor = false;
+            this.btcLNoir.Click += new System.EventHandler(this.btcLNoir_Click);
+            // 
+            // btSVoyCons
+            // 
+            this.btSVoyCons.BackColor = System.Drawing.SystemColors.Control;
+            this.btSVoyCons.Image = global::ColorizationControls.Properties.Resources.voycons_30;
+            this.btSVoyCons.Location = new System.Drawing.Point(207, 152);
+            this.btSVoyCons.Name = "btSVoyCons";
+            this.btSVoyCons.Size = new System.Drawing.Size(38, 38);
+            this.btSVoyCons.TabIndex = 163;
+            this.ttipLettreEnNoir.SetToolTip(this.btSVoyCons, "Coloriser les lignes. Soit en surlignant avec les couleurs\r\nci-dessous, soit en a" +
+        "ppliquant les couleurs des syllabes\r\nci-dessus.");
+            this.btSVoyCons.UseVisualStyleBackColor = false;
+            this.btSVoyCons.Click += new System.EventHandler(this.btSVoyCons_Click);
+            // 
+            // pbHL5
+            // 
+            this.pbHL5.Location = new System.Drawing.Point(307, 231);
+            this.pbHL5.Name = "pbHL5";
+            this.pbHL5.Size = new System.Drawing.Size(17, 13);
+            this.pbHL5.TabIndex = 162;
+            this.pbHL5.TabStop = false;
+            this.pbHL5.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // pbHL4
+            // 
+            this.pbHL4.Location = new System.Drawing.Point(253, 231);
+            this.pbHL4.Name = "pbHL4";
+            this.pbHL4.Size = new System.Drawing.Size(17, 13);
+            this.pbHL4.TabIndex = 161;
+            this.pbHL4.TabStop = false;
+            this.pbHL4.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // pbHL3
+            // 
+            this.pbHL3.Location = new System.Drawing.Point(199, 231);
+            this.pbHL3.Name = "pbHL3";
+            this.pbHL3.Size = new System.Drawing.Size(17, 13);
+            this.pbHL3.TabIndex = 160;
+            this.pbHL3.TabStop = false;
+            this.pbHL3.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // pbHL2
+            // 
+            this.pbHL2.Location = new System.Drawing.Point(145, 231);
+            this.pbHL2.Name = "pbHL2";
+            this.pbHL2.Size = new System.Drawing.Size(17, 13);
+            this.pbHL2.TabIndex = 159;
+            this.pbHL2.TabStop = false;
+            this.pbHL2.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // pbHL1
+            // 
+            this.pbHL1.Location = new System.Drawing.Point(91, 231);
+            this.pbHL1.Name = "pbHL1";
+            this.pbHL1.Size = new System.Drawing.Size(17, 13);
+            this.pbHL1.TabIndex = 158;
+            this.pbHL1.TabStop = false;
+            this.pbHL1.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // pbHL0
+            // 
+            this.pbHL0.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.pbHL0.Location = new System.Drawing.Point(38, 231);
+            this.pbHL0.Name = "pbHL0";
+            this.pbHL0.Size = new System.Drawing.Size(17, 13);
+            this.pbHL0.TabIndex = 157;
+            this.pbHL0.TabStop = false;
+            this.pbHL0.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // tsmiCouper
+            // 
+            this.tsmiCouper.Image = global::ColorizationControls.Properties.Resources.Couper;
+            this.tsmiCouper.Name = "tsmiCouper";
+            this.tsmiCouper.Size = new System.Drawing.Size(113, 22);
+            this.tsmiCouper.Text = "Couper";
+            this.tsmiCouper.Click += new System.EventHandler(this.tsmiCouper_Click);
+            // 
+            // tsmiCopier
+            // 
+            this.tsmiCopier.Image = global::ColorizationControls.Properties.Resources.Copier;
+            this.tsmiCopier.Name = "tsmiCopier";
+            this.tsmiCopier.Size = new System.Drawing.Size(113, 22);
+            this.tsmiCopier.Text = "Copier";
+            this.tsmiCopier.Click += new System.EventHandler(this.tsmiCopier_Click);
+            // 
+            // tsmiColler
+            // 
+            this.tsmiColler.Image = global::ColorizationControls.Properties.Resources.Coller;
+            this.tsmiColler.Name = "tsmiColler";
+            this.tsmiColler.Size = new System.Drawing.Size(113, 22);
+            this.tsmiColler.Text = "Coller";
+            this.tsmiColler.Click += new System.EventHandler(this.tsmiColler_Click);
+            // 
+            // tsmiEffacer
+            // 
+            this.tsmiEffacer.Image = global::ColorizationControls.Properties.Resources.Effacer15;
+            this.tsmiEffacer.Name = "tsmiEffacer";
+            this.tsmiEffacer.Size = new System.Drawing.Size(113, 22);
+            this.tsmiEffacer.Text = "Effacer";
+            this.tsmiEffacer.Click += new System.EventHandler(this.tsmiEffacer_Click);
+            // 
+            // btZeLignes
+            // 
+            this.btZeLignes.BackColor = System.Drawing.SystemColors.Control;
+            this.btZeLignes.Image = global::ColorizationControls.Properties.Resources.lines_30;
+            this.btZeLignes.Location = new System.Drawing.Point(153, 152);
+            this.btZeLignes.Name = "btZeLignes";
+            this.btZeLignes.Size = new System.Drawing.Size(38, 38);
+            this.btZeLignes.TabIndex = 154;
+            this.ttipLettreEnNoir.SetToolTip(this.btZeLignes, "Coloriser les lignes. ");
+            this.btZeLignes.UseVisualStyleBackColor = false;
+            this.btZeLignes.Click += new System.EventHandler(this.btZeLignes_Click);
+            // 
+            // btcLbpdq
+            // 
+            this.btcLbpdq.BackColor = System.Drawing.SystemColors.Control;
+            this.btcLbpdq.Image = global::ColorizationControls.Properties.Resources.bdpq;
+            this.btcLbpdq.Location = new System.Drawing.Point(7, 6);
+            this.btcLbpdq.Name = "btcLbpdq";
+            this.btcLbpdq.Size = new System.Drawing.Size(38, 38);
+            this.btcLbpdq.TabIndex = 150;
+            this.ttipLettreEnNoir.SetToolTip(this.btcLbpdq, "Coloriser les lettres");
+            this.btcLbpdq.UseVisualStyleBackColor = false;
+            this.btcLbpdq.Click += new System.EventHandler(this.btcLbpdq_Click);
+            // 
+            // btSMots
+            // 
+            this.btSMots.BackColor = System.Drawing.SystemColors.Control;
+            this.btSMots.Image = global::ColorizationControls.Properties.Resources.mots_30;
+            this.btSMots.Location = new System.Drawing.Point(87, 152);
+            this.btSMots.Name = "btSMots";
+            this.btSMots.Size = new System.Drawing.Size(47, 38);
+            this.btSMots.TabIndex = 145;
+            this.ttipLettreEnNoir.SetToolTip(this.btSMots, "Coloriser les mots");
+            this.btSMots.UseVisualStyleBackColor = false;
+            this.btSMots.Click += new System.EventHandler(this.btSMots_Click);
+            // 
+            // btSAppliquer
+            // 
+            this.btSAppliquer.BackColor = System.Drawing.SystemColors.Control;
+            this.btSAppliquer.Image = global::ColorizationControls.Properties.Resources.syll_dys_30;
+            this.btSAppliquer.Location = new System.Drawing.Point(29, 152);
+            this.btSAppliquer.Name = "btSAppliquer";
+            this.btSAppliquer.Size = new System.Drawing.Size(38, 38);
+            this.btSAppliquer.TabIndex = 143;
+            this.ttipLettreEnNoir.SetToolTip(this.btSAppliquer, "Coloriser les syllabes");
+            this.btSAppliquer.UseVisualStyleBackColor = false;
+            this.btSAppliquer.Click += new System.EventHandler(this.btSAppliquer_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackgroundImage = global::ColorizationControls.Properties.Resources.Coloriƨation;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox2.Location = new System.Drawing.Point(100, 30);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(180, 38);
+            this.pictureBox2.TabIndex = 12;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::ColorizationControls.Properties.Resources.LogoColorization;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox1.Location = new System.Drawing.Point(23, 16);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(62, 64);
+            this.pictureBox1.TabIndex = 11;
+            this.pictureBox1.TabStop = false;
+            // 
+            // configMuettesToolStripMenuItem
+            // 
+            this.configMuettesToolStripMenuItem.Image = global::ColorizationControls.Properties.Resources.l_muettes_16;
+            this.configMuettesToolStripMenuItem.Name = "configMuettesToolStripMenuItem";
+            this.configMuettesToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.configMuettesToolStripMenuItem.Text = "Config Muettes";
+            this.configMuettesToolStripMenuItem.Click += new System.EventHandler(this.configMuettesToolStripMenuItem_Click);
+            // 
             // ConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2051,17 +2070,18 @@
             this.tabCouleurs.PerformLayout();
             this.tabAutres.ResumeLayout(false);
             this.tabAutres.PerformLayout();
+            this.cmsEffacerCopier.ResumeLayout(false);
+            this.tabAvancé.ResumeLayout(false);
+            this.tabAvancé.PerformLayout();
+            this.tabAPropos.ResumeLayout(false);
+            this.tabAPropos.PerformLayout();
+            this.cmsPhonVSMuettes.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbHL5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).EndInit();
-            this.cmsEffacerCopier.ResumeLayout(false);
-            this.tabAvancé.ResumeLayout(false);
-            this.tabAvancé.PerformLayout();
-            this.tabAPropos.ResumeLayout(false);
-            this.tabAPropos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -2223,5 +2243,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiColler;
         private System.Windows.Forms.ToolStripMenuItem tsmiEffacer;
         private System.Windows.Forms.ToolStripMenuItem tsmiCouper;
+        private System.Windows.Forms.ContextMenuStrip cmsPhonVSMuettes;
+        private System.Windows.Forms.ToolStripMenuItem configMuettesToolStripMenuItem;
     }
 }
