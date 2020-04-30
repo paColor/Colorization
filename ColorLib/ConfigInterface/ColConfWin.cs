@@ -27,9 +27,10 @@ using System.Diagnostics;
 namespace ColorLib
 {
     public enum CERASColors { CERAS_oi, CERAS_o, CERAS_an, CERAS_5, CERAS_E, CERAS_e, CERAS_u, CERAS_on, CERAS_eu,
-        CERAS_oin, CERAS_muet }
+        CERAS_oin, CERAS_muet, CERAS_rosé
+    }
     public enum PredefCols { black, darkYellow, orange, darkGreen, violet, darkBlue, red, brown, blue, green, grey, pureBlue,
-        white, neutral}
+        pinnk, white, neutral}
 
     public delegate void ExecuteTask();
 
@@ -58,6 +59,7 @@ namespace ColorLib
             new RGB(071, 115, 255), // CERAS_eu     --> bleu
             new RGB(0, 200, 0),     // CERAS_oin    --> vert
             new RGB(166, 166, 166), // CERAS_muet   --> gris
+            new RGB(255, 100, 177), // CERAS_rosé   --> rose
             new RGB(0, 0, 255),     // bleuPur      --> bleu
             new RGB(255, 255, 255), // blanc        --> blanc
             new RGB(221, 221, 221), // neutre       --> gris // il est important qu'il ne s'agisse pas d'une couleur de WdColorIndex
@@ -321,6 +323,16 @@ namespace ColorLib
         public void SetCeras()
         {
             InitColorCeras();
+            UpdCBXs();
+        }
+
+        public void SetCerasRose()
+        {
+            InitColorCeras();
+            Set("é", predefCF[(int)CERASColors.CERAS_rosé]);
+            SetChkSon("j", true);
+            Set("j", new CharFormatting(false, true, false, false, true, predefinedColors[(int)PredefCols.black],
+                false, predefinedColors[(int)PredefCols.neutral]));
             UpdCBXs();
         }
 

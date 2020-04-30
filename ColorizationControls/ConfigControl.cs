@@ -344,6 +344,12 @@ namespace ColorizationControls
             theConf.colors[pct].SetCeras();
         }
 
+        private void btGCerasRose_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("btnCERAS_Click");
+            theConf.colors[pct].SetCerasRose();
+        }
+
         private void btnTout_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btnTout_Click");
@@ -729,6 +735,5 @@ namespace ColorizationControls
             UpdateAllSoundCbxAndButtons();
         }
 
-        
     }
 }
