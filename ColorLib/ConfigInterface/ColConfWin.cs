@@ -29,8 +29,8 @@ namespace ColorLib
     public enum CERASColors { CERAS_oi, CERAS_o, CERAS_an, CERAS_5, CERAS_E, CERAS_e, CERAS_u, CERAS_on, CERAS_eu,
         CERAS_oin, CERAS_muet, CERAS_rosé
     }
-    public enum PredefCols { black, darkYellow, orange, darkGreen, violet, darkBlue, red, brown, blue, green, grey, pureBlue,
-        pinnk, white, neutral}
+    public enum PredefCols { black, darkYellow, orange, darkGreen, violet, darkBlue, red, brown, blue, green, grey, pink, 
+        pureBlue, white, neutral}
 
     public delegate void ExecuteTask();
 

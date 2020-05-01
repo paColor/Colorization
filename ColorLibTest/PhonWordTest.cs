@@ -297,7 +297,7 @@ namespace ColorLibTest
                 "tEb", "dRyid", "o", "pje", "dy", "nwaR", "m@iR", "flamin", "o", "bOR",
                 "dy", "tibR", "e", "bRam", "o", "bOR", "dy", "g@Z", "mEt@", "syR",
                 "l", "aR", "dy", "dj2", "la", "flES", "d°", "l", "aRS@Z", "d",
-                "aSij", "e", "d°", "ROl@", "@t@", "le", "d2", "S°vE", "fORZ2R", "misteRj2",
+                "aSil", "e", "d°", "ROl@", "@t@", "le", "d2", "S°vE", "fORZ2R", "misteRj2",
                 "e", "pyis@", "ty", "savE", "tORdR", "tus", "le", "REj§", "d@", "yn",
                 "s2l", "fl@m", "l°", "kuS@", "R@k§tRE", "l", "oROR", "d@", "t§", "am",
                 "jER", "kRwazE", "d°m5", "d@", "t§", "fek§", "sERvo", "ty", "sakRE", "l°",

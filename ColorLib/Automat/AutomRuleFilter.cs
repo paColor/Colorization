@@ -43,7 +43,8 @@ namespace ColorLib
             {"Regle_s_final", Regle_s_final},
             {"Regle_t_final", Regle_t_final},
             {"Regle_tien", Regle_tien},
-            {"Regle_finD", Regle_finD}
+            {"Regle_finD", Regle_finD},
+            {"Regle_ill", Regle_ill}
         };
 
         private CheckRuleFunction crf;
@@ -223,6 +224,8 @@ namespace ColorLib
                     mots_t_final_hashed.Add(mots_t_final[i], null);
                 for (int i = 0; i < mots_d_final.Length; i++)
                     mots_d_final_hashed.Add(mots_d_final[i], null);
+                for (int i = 0; i <except_ill.Length; i++)
+                    except_ill_hashed.Add(except_ill[i], null);
             }
             initiated = true;
         }
@@ -679,6 +682,63 @@ namespace ColorLib
             if (pos_mot == mSing.Length -1)
                 toReturn = mots_d_final_hashed.ContainsKey(mSing);
             return toReturn;
+        }
+
+        static string[] except_ill = // les mots où ill se pronoce [il] et non [j] ou [ij]
+        {
+            "achille", "achilles", "achillée", "achillées", "ancillaire", "ancillaires", "armadille", "armadilles", "aspergillose", 
+            "aspergilloses", "aspergillus", "axillaire", "axillaires", "bacillaire", "bacillaires", "bacille", "bacilles", 
+            "bellevillois", "bellevilloise", "bellevilloises", "bidonville", "bidonvilles", "bill", "billevesée", 
+            "billevesées", "billion", "billions", "bills", "bougainvillée", "bougainvillées", "bougainvillier", "bougainvilliers", 
+            "calville", "calvilles", "canetille", "canetilles", "capillaire", "capillaires", "capillarité", "capillarités", 
+            "capilliculteur", "capilliculteurs", "caterpillar", "chinchilla", "chinchillas", "cochenille", "cochenilles", "codicille", 
+            "codicilles", "colibacille", "colibacilles", "cyrillique", "cyrilliques", "défibrillateur", "défibrillateurs", 
+            "défibrillation", "défibrillations", "défibriller", "défibrille", "défibrilles", "défibrillons", "défibrillez", 
+            "défibrillent", "défibrillé", "défibrillais", "défibrillait", "défibrillions", "défibrilliez", "défibrillaient", 
+            "défibrillai", "défibrillas", "défibrilla", "défibrillâmes", "défibrillâtes", "défibrillèrent", "défibrillerai", 
+            "défibrilleras", "défibrillera", "défibrillerons", "défibrillerez", "défibrilleront", "défibrillerais", "défibrillerait", 
+            "défibrillerions", "défibrilleriez", "défibrilleraient", "défibrillasse", "défibrillasses", "défibrillât", 
+            "défibrillassions", "défibrillassiez", "défibrillassent", "défibrillant", "défibrillée", "défibrillées", 
+            "désillusion", "désillusionné", "désillusionnés", "désillusionnement", "désillusionnements", "désillusionner", 
+            "désillusions", "distillat", "distillateur", "distillation", "distillations", "distiller", "distille", "distilles", 
+            "distillons", "distillez", "distillent", "distillé", "distillais", "distillait", "distillions", "distilliez", 
+            "distillaient", "distillai", "distillas", "distilla", "distillâmes", "distillâtes", "distillèrent", "distillerai", 
+            "distilleras", "distillera", "distillerons", "distillerez", "distilleront", "distillerais", "distillerait", 
+            "distillerions", "distilleriez", "distilleraient", "distillasse", "distillasses", "distillât", "distillassions", 
+            "distillassiez", "distillassent", "distillant", "distillée", "distillées", "drill", "fibrillation", "fibrillations", 
+            "fringillidé", "fritillaires", "gilles", "grill", "imbécillité", "imbécillités", "instiller", "instille", "instilles", 
+            "instillons", "instillez", "instillent", "instillé", "instillais", "instillait", "instillions", "instilliez", 
+            "instillaient", "instillai", "instillas", "instilla", "instillâmes", "instillâtes", "instillèrent", "instillerai", 
+            "instilleras", "instillera", "instillerons", "instillerez", "instilleront", "instillerais", "instillerait", 
+            "instillerions", "instilleriez", "instilleraient", "instillasse", "instillasses", "instillât", "instillassions", 
+            "instillassiez", "instillassent", "instillant", "instillée", "instillées", "killer", "killers", "krill", "krills", 
+            "lilliputien", "lilliputienne", "lilliputiennes", "lilliputiens", "lillois", "lilloise", "lilloises", "mandrill", 
+            "mandrills", "maxillaire", "maxillaires", "multimilliardaire", "multimilliardaires", "multimillionnaire", 
+            "multimillionnaires", "papillaire", "papillaires", "pénicilline", "pénicillines", "pupillaire", "pupillaires", 
+            "pupillarité", "pupillarités", "pusillanime", "pusillanimes", "pusillanimité", "pusillanimités", "quatrillion", 
+            "quatrillions", "schilling", "schillings", "shilling", "shillings", "sigillaire", "sigillaires", "sigillé", "sigillée", 
+            "sigillées", "sigillés", "thrill", "thriller", "thrillers", "thrills", "till", "tills", "transillumination", 
+            "transilluminations", "trillion", "trillions", "twill", "vaudeville", "vaudevilles", "vaudevillesque", "vaudevillesques", 
+            "verticille", "verticilles", "willaya", "willayas", "william", "williams"
+        };
+
+        private static StringDictionary except_ill_hashed = new StringDictionary();
+
+        /// <summary>
+        /// Vérifie si le mot est une exception pour les lettres ill qui se prononcent [il]. La méthode peut
+        /// être appelée pour le i de "ill" et pour le prmier 'l' de "ill"
+        /// </summary>
+        /// <param name="mot">Le mot à vérifier</param>
+        /// <param name="pos_mot">la position (basée sur zéro) de la lettre dans le mot qu'on est en train d'étudier</param>
+        /// <returns></returns>
+        public static bool Regle_ill(string mot, int pos_mot)
+        {
+            bool condMet = false;
+            if (mot[pos_mot] == 'i')
+                condMet = ((pos_mot < mot.Length - 2) && (mot[pos_mot + 1] == 'l') && (mot[pos_mot + 2] == 'l'));
+            else if (mot[pos_mot] == 'l')
+                condMet = ((pos_mot > 0) && (mot[pos_mot - 1] == 'i') && (pos_mot < mot.Length - 1) && (mot[pos_mot + 1] == 'l'));
+            return (condMet && except_ill_hashed.ContainsKey(mot));
         }
 
         public bool Check (PhonWord pw, int pos, string firstPart, string secondPart)

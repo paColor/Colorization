@@ -33,7 +33,7 @@ namespace ColorLib
     {
         static private string theAutomat =
 			@"{
-				'a' : [['u','il','in','nc_ai_fin','ai_fin','i','n','m','nm','y_except','y_fin','yat','y', '*'],
+				'a' : [['u','il','in','nc_ai_fin','ai_fin','fais','i','n','m','nm','y_except','y_fin','yat','y', '*'],
 						{'n':[{'+':/n[bcçdfgjklmpqrstvwxz]/i},'a_tilda',2],
 						'm':[{'+':/m[mbp]/i},'a_tilda',2], // règle du m devant m, b, p
 						'nm':[{'+':/n(s?)$/i},'a_tilda',2],
@@ -46,6 +46,7 @@ namespace ColorLib
 						'in':[{'+':/i[nm]([bcçdfghjklnmpqrstvwxz]|$)/i},'e_tilda',3], // toute succession 'ain' 'aim' suivie d'une consonne ou d'une fin de mot
 						'nc_ai_fin':[this.Regle_nc_ai_final,'E_comp',2],
 						'ai_fin':[{'+':/i$/i},'e_comp',2],
+						'fais':[{'-':/f/i,'+':/is[aeiouy]/i},'q', 2], // (PAE - 30.04.20) faisais et toutes les variations
 						'i':[{'+':/[iî]/i},'E_comp',2],
 						'*':[{},'a',1]}],
 				'â' : [['*'],
@@ -114,12 +115,12 @@ namespace ColorLib
 						'em_gene':[{'+':/m[bcçdfghjklmnpqrstvwxz]/i},'a_tilda',2], // 'em' cas général => son [a_tilda]
 						'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
 						'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
-						'except_en':[{'-':/exam|mino|édu/i,'+':/n(s?)$/i},'e_tilda',2], // exceptions des mots où le 'en' final se prononce [e_tilda] (héritage latin)
+						'except_en':[{'-':/(exam|mino|édu)/i,'+':/n(s?)$/i},'e_tilda',2], // exceptions des mots où le 'en' final se prononce [e_tilda] (héritage latin)
 						'een':[{'-':/é/i,'+':/n(s?)$/i},'e_tilda',2], // les mots qui se terminent par 'éen'
 						'ien':[{'-':/[bcdlmrstvh]i/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 						'ien_2':[{'-':/ï/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // mots avec 'ïen' => son [e_tilda]
 						'nm':[{'+':/[nm]$/i},'a_tilda',2],
-						'd_except': [{'-':/^bl|^ou|^damn/i, '+':/d(s?)$/i},'E',1], // [PAE 22.02.20] pour covrir oued, bled, damned
+						'd_except': [{'-':/(^bl|^ou|^damn)/i, '+':/d(s?)$/i},'E',1], // [PAE 22.02.20] pour covrir oued, bled, damned
 						'drz_final':[{'+':/[drz](s?)$/i},'e_comp',2], // e suivi d'un d,r ou z en fin de mot done le son [e]
 						'que_isole':[{'-':/^qu/i,'+':/$/i},'q',1], // que isolé
 						'que_gue_final':[{'-':/[gq]u/i,'+':/(s?)$/i},'q_caduc',1], // que ou gue final
@@ -177,7 +178,7 @@ namespace ColorLib
 							'g_muet_our','g_muet_an','g_muet_fin', '*'],
 							{'g':[{'+':/g/i},'g',2],
 							'n':[{'+':/n/i},'N',2],
-							'ao':[{'+':/a|o/i},'g',1],
+							'ao':[{'+':/(a|o)/i},'g',1],
 							'eiy':[{'+':/[eéèêëïiy]/i},'Z',1], // un 'g' suivi de e,i,y se prononce [Z]
 							'g_muet_oin':[{'-':/oi(n?)/i},'_muet',1], // un 'g' précédé de 'oin' ou de 'oi' ne se prononce pas ; ex. : poing, doigt
 							'g_muet_our':[{'-':/ou(r)/i},'_muet',1], // un 'g' précédé de 'our' ou de 'ou(' ne se prononce pas ; ex. : bourg
@@ -190,8 +191,8 @@ namespace ColorLib
 							'*':[{},'g',1]}],
 					'h' : [['*'],
 							{'*':[{},'_muet',1]}],
-					'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill','tranquille',
-							'ill','@ill','@il','ll','ui','ient_1','ient_2','ie','i_voyelle', '*'],
+					'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill',
+							'ill','except_ill', '@ill','@il','ll','ui','ient_1','ient_2','ie','i_voyelle', '*'],
 							{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng$/i},'i',1],
 							'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
 							'm':[{'+':/m[bcçdfghjklnpqrstvwxz]/i},'e_tilda',2],
@@ -200,8 +201,8 @@ namespace ColorLib
 							'lldeb':[{'-':/^/i,'+':/ll/i},'i',1],
 							'vill':[{'-':/v/i,'+':/ll/i},'i',1],
 							'mill':[{'-':/m/i,'+':/ll/i},'i',1],
-							'tranquille':[{'-':/tranqu/i,'+':/ll/i},'i',1],
 							'ill':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i',1], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
+							'except_ill':[this.Regle_ill,'i',1],
 							'@ill':[{'-':/[aeo]/i,'+':/ll/i},'j',3], // par défaut précédé d'une voyelle et suivi de 'll' donne le son [j]
 							'@il':[{'-':/[aeou]/i,'+':/l(s?)$/i},'j',2], // par défaut précédé d'une voyelle et suivi de 'l' donne le son [j]
 							'll':[{'+':/ll/i},'j',3], // par défaut avec ll donne le son [j]
@@ -221,11 +222,12 @@ namespace ColorLib
 							{'*':[{},'Z',1]}],
 					'k' : [['*'],
 							{'*':[{},'k',1]}],
-					'l' : [['vill','mill','tranquille','illdeb','ill','eil','ll','excep_il', 'apostrophe','lisole', '*'],
+					'l' : [['vill','mill','tranquille','illdeb','except_ill_l','ill','eil','ll','excep_il', 'apostrophe','lisole', '*'],
 							{'vill':[{'-':/^vi/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
 							'mill':[{'-':/^mi/i,'+':/l/i},'l',2], // mille, million, etc. => son [l]
 							'tranquille':[{'-':/tranqui/i,'+':/l/i},'l',2], // tranquille => son [l]
 							'illdeb':[{'-':/^i/i,'+':/l/i},'l',2], // 'ill' en début de mot = son [l] ; exemple : illustration
+							'except_ill_l':[this.Regle_ill,'l',2],
 							'lisole':[{'+':/$/i,'-':/^/i},'l',1], // exemple : l'animal
 							'ill':[{'-':/.i/i,'+':/l/i},'j',2], // par défaut, 'ill' donne le son [j]
 							'll':[{'+':/l/i},'l',2], // à défaut de l'application d'une autre règle, 'll' donne le son [l]
@@ -255,7 +257,7 @@ namespace ColorLib
 							}],
 					'o' : [['in','oignon','i',
 							//'ouat','oui','oue',
-							'tomn','monsieur','n','m','nm','y1','u','o','oe_0','oe_1','oe_2', 'oe_3','voeux','oeufs','noeud','oeu_defaut','oe_defaut', '*'],
+							'tomn','monsieur','n','m','nm','y1','u','o','oe_0','oe_1','oe_2', 'oe_3','voeux','oeufs','noeud','oeu_defaut','oe_4','oe_defaut', '*'],
 							{'in':[{'+':/i[nm]([bcçdfghjklpqrstvwxz]|$)/i},'w_e_tilda',3],
 							'oignon':[{'-':/^/i,'+':/ignon/i},'o',2],
 							'i':[{'+':/(i|î|y)/i},'oi',2], // [PAE 26.02.20] introduction du phonème oi pour pouvoir le marquer dans la convention CERAS
@@ -275,6 +277,7 @@ namespace ColorLib
 							'oe_1':[{'-':/c/i,'+':/e/i},'o',1], // exemple : coefficient
 							'oe_2':[{'-':/m/i,'+':/e/i},'oi',2], // exemple : moelle [PAE 26.02.2020] remplacé par 'oi'
 							'oe_3':[{'-':/f/i,'+':/e/i},'e',2], // exemple : foetus
+							'oe_4':[{'-':/(gastr|électr|inc|min)/i,'+':/e/i},'o',1], // [PAE 26.02.2020] électroencéphalogramme, minoen
 							'oe_defaut':[{'+':/e/i},'x2',2], // exemple : oeil
 							'*':[{},'o',1]
 							}],

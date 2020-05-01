@@ -166,13 +166,22 @@ namespace ColorLibTest
 
 			tt = TheText.NewTestTheText(
 				@"ayons, balaya, ayatollah, kayac, tokay, mayonnaise, fayot, maya, himalaya, crayeux, paresse, abesses,
-				  dilemme, impeccable, chevrier, caramels, bedonnant"
+				  dilemme, impeccable, chevrier, caramels, bedonnant, faisons, affaisseraient, refaisaient, tranquille,
+				  illégalement, lilliputien, millimétré, distillerait, tranquillises, tranquillités, tranquillisantes,
+				  tranquillos, désillusionné, distiller, illogisme, illustraient, illégalement, illumineront, imbécillité,
+				  instillassiez, millésime, millionnaire, multimilliardaires, multimillionnaire, villégiature, villageoises,
+				  villa,
+				  examen, minoen, gastroentérologue, électroencéphalographie"
 			);
 
 			string[] phonetique = new string[]
 			{
 				"Ej§", "balEja", "ajatOla", "kajak", "tOkE", "majOnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
-				"dilEm", "5pEkabl", "S°vRije", "kaRamEl", "b°dOn@"
+				"dilEm", "5pEkabl", "S°vRije", "kaRamEl", "b°dOn@", "f°z§", "afEs°RE", "R°f°zE", "tR@kil", "ilegal°m@",
+				"lilipysj5", "milimetRe", "distil°RE", "tR@kiliz", "tR@kilite", "tR@kiliz@t", "tR@kilOs", "dezilyzjOne",
+				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnER",
+				"myltimiljaRdER", "myltimiljOnER", "vileZjatyR", "vilaZwaz", "vila",
+				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi"
 			};
 
 			pws = tt.GetPhonWords();
@@ -181,9 +190,6 @@ namespace ColorLibTest
 				Console.WriteLine(pws[i].AllStringInfo());
 				Assert.AreEqual(phonetique[i], pws[i].Phonetique());
 			}
-
-
-
 		}
 
 
