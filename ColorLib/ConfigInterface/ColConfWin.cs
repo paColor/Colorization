@@ -60,6 +60,7 @@ namespace ColorLib
             new RGB(0, 200, 0),     // CERAS_oin    --> vert
             new RGB(166, 166, 166), // CERAS_muet   --> gris
             new RGB(255, 100, 177), // CERAS_rosé   --> rose
+
             new RGB(0, 0, 255),     // bleuPur      --> bleu
             new RGB(255, 255, 255), // blanc        --> blanc
             new RGB(221, 221, 221), // neutre       --> gris // il est important qu'il ne s'agisse pas d'une couleur de WdColorIndex
