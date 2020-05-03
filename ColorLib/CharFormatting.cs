@@ -24,6 +24,7 @@ using System.Text;
 
 namespace ColorLib
 {
+    [Serializable]
     readonly public struct RGB
     {
         private readonly Int32 color;
@@ -55,6 +56,7 @@ namespace ColorLib
         }
     }
 
+    [Serializable]
     public class CharFormatting
     {
         public bool bold { get; private set; } // true means set it bold. false no change

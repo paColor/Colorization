@@ -22,11 +22,38 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace ColorLib
 {
     public static class BaseConfig
     {
-        public static CultureInfo cultF = new CultureInfo("fr-FR"); 
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public static CultureInfo cultF = new CultureInfo("fr-FR");
+
+        private const string colorizationDirName = "Colorization";
+        public static readonly string colorizationDirPath =
+            System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), colorizationDirName);
+
+        public static void Init()
+        {
+            logger.ConditionalTrace("Init");
+            // Ensure that colorizationDirPath folder does exist
+            if (!System.IO.Directory.Exists(colorizationDirPath))
+            {
+                try
+                {
+                    System.IO.Directory.CreateDirectory(colorizationDirPath);
+                    logger.Info("Dossier {0} créé.", colorizationDirPath);
+                }
+                catch (System.IO.IOException e)
+                {
+                    MessageBox.Show("Impossible de créer le répertoire" + colorizationDirPath);
+                    logger.Error("Impossible de créer le répertoire {0}. Erreur {1}", colorizationDirPath, e.Message);
+                }
+            }
+        }
+
     }
 }

@@ -26,9 +26,12 @@ using System.Diagnostics;
 
 namespace ColorLib
 {
+    [Serializable]
     public enum CERASColors { CERAS_oi, CERAS_o, CERAS_an, CERAS_5, CERAS_E, CERAS_e, CERAS_u, CERAS_on, CERAS_eu,
         CERAS_oin, CERAS_muet, CERAS_rosé
     }
+
+    [Serializable]
     public enum PredefCols { black, darkYellow, orange, darkGreen, violet, darkBlue, red, brown, blue, green, grey, pink, 
         pureBlue, white, neutral}
 
@@ -36,6 +39,7 @@ namespace ColorLib
 
     public delegate void ExecTaskOnSon(string son);
 
+    [Serializable]
     public class ColConfWin
     {
         // -------------------------------------------------------------------------------------------------------------------
@@ -60,6 +64,7 @@ namespace ColorLib
             new RGB(0, 200, 0),     // CERAS_oin    --> vert
             new RGB(166, 166, 166), // CERAS_muet   --> gris
             new RGB(255, 100, 177), // CERAS_rosé   --> rose
+
             new RGB(0, 0, 255),     // bleuPur      --> bleu
             new RGB(255, 255, 255), // blanc        --> blanc
             new RGB(221, 221, 221), // neutre       --> gris // il est important qu'il ne s'agisse pas d'une couleur de WdColorIndex
@@ -173,10 +178,11 @@ namespace ColorLib
         // -----------------------------------------------  public  members -------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
-        public ExecuteTask updateAllSoundCbxAndButtons { set; private get; }
+
+        [NonSerialized] public ExecuteTask updateAllSoundCbxAndButtons; // { set; private get; }
         // Method to call in order to update the checkboxes for the sounds (sons)
-        public ExecTaskOnSon updateButton { set; private get; }
-        public ExecTaskOnSon updateCbx { set; private get; }
+        [NonSerialized] public ExecTaskOnSon updateButton; // { set; private get; }
+        [NonSerialized] public ExecTaskOnSon updateCbx; // { set; private get; }
         
         // -------------------------------------------------------------------------------------------------------------------
         // -----------------------------------------------  private  members -------------------------------------------------

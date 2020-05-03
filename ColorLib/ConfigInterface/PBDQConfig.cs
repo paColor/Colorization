@@ -26,14 +26,16 @@ namespace ColorLib
 {
     public delegate void ExecTaskOnLetterButton(int buttonNr);
 
+    [Serializable]
     public class PBDQConfig
     {
         public const char inactiveLetter = ' '; // letter used to determinde that the button is inactive.
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public ExecuteTask updateLetterButtons { set; private get; }
-        public ExecTaskOnLetterButton updateLetterButton { set; private get; }
+        [NonSerialized] public ExecuteTask updateLetterButtons; // { set; private get; }
+        [NonSerialized] public ExecTaskOnLetterButton updateLetterButton; // { set; private get; }
+        
         public bool markAsBlack { get; private set; }
         // indicates whether non selected letters should be left as they are (false) or marked black (true)
 

@@ -20,21 +20,55 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows.Forms;
 
 namespace ColorLib
 {
+    [Serializable]
     public enum PhonConfType { phonemes, muettes }
 
+    [Serializable]
     public class Config
     {
         // *************************************************** Static **********************************************************
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
+        private const string ConfigDirName = "Config";
+        private static readonly string ConfigDirPath = 
+            Path.Combine(BaseConfig.colorizationDirPath, ConfigDirName);
+        private const string DefaultFileName = "ClrzConfig";
+        private const string ClrzExtension = ".clrz";
+        private static readonly string DefaultConfFile = Path.Combine(ConfigDirPath, DefaultFileName + ClrzExtension);
+
+
         private static Dictionary<Object, Config> theConfs; // key is a window
         private static Dictionary<Object, List<Object>> doc2Win; // key is document, value is list of windows
 
+        public static void Init()
+        {
+            logger.ConditionalTrace("Init");
+            ColConfWin.Init();
+            // Ensure that ConfigDirPath folder does exist
+            if (!System.IO.Directory.Exists(ConfigDirPath))
+            {
+                try
+                {
+                    System.IO.Directory.CreateDirectory(ConfigDirPath);
+                    logger.Info("Dossier {0} créé.", ConfigDirPath);
+                }
+                catch (System.IO.IOException e)
+                {
+                    MessageBox.Show("Impossible de créer le répertoire" + ConfigDirPath);
+                    logger.Error("Impossible de créer le répertoire {0}. Erreur {1}", ConfigDirPath, e.Message);
+                }
+            }
+            theConfs = new Dictionary<object, Config>();
+            doc2Win = new Dictionary<object, List<object>>();
+        }
 
         public static Config GetConfigFor(Object win, Object doc)
             // returns the Config associated with the Object, normally the active window. 
@@ -70,6 +104,25 @@ namespace ColorLib
                 logger.ConditionalTrace("DocClosed. {0} corresponding window(s) to remove.", theWindows.Count);
                 foreach (Object win in theWindows)
                 {
+                    Config conf;
+                    if (theConfs.TryGetValue(win, out conf))
+                    {
+                        try
+                        {
+                            IFormatter formatter = new BinaryFormatter();
+                            Stream stream = new FileStream(DefaultConfFile, FileMode.Create, FileAccess.Write, FileShare.None);
+                            formatter.Serialize(stream, conf);
+                            stream.Close();
+                        }
+                        catch (System.IO.IOException e)
+                        {
+                            logger.Error("Impossible d'écrire la config par défaut. Erreur {0}", e.Message);
+                        }
+                    }
+                    else
+                    {
+                        logger.Error("No config is found for closing window.");
+                    }
                     theConfs.Remove(win);
                 }
                 doc2Win.Remove(doc);
@@ -81,14 +134,6 @@ namespace ColorLib
             }
         }
 
-        public static void Init()
-        {
-            logger.ConditionalTrace("Init");
-            ColConfWin.Init();
-            theConfs = new Dictionary<object, Config>();
-            doc2Win = new Dictionary<object, List<object>>();
-        }
-
         // *************************************************** Instantiated ****************************************************
 
         public PBDQConfig pBDQ { get; private set; }
@@ -98,6 +143,7 @@ namespace ColorLib
 
         public Config()
         {
+            logger.ConditionalTrace("Config");
             pBDQ = new PBDQConfig();
             sylConf = new SylConfig();
             unsetBeh = new UnsetBehConf();

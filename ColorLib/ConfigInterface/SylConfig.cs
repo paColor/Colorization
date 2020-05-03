@@ -25,10 +25,14 @@ using System.Text;
 
 namespace ColorLib
 {
-    public delegate void ExecTaskOnSylButton(int buttonNr);  
+    public delegate void ExecTaskOnSylButton(int buttonNr);
 
+    [Serializable]
     public class SylConfig
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+        [Serializable]
         public struct SylButtonConf
         {
             public bool buttonClickable;
@@ -37,10 +41,9 @@ namespace ColorLib
 
         public const int nrButtons = 6;
 
-        public ExecuteTask updateSylButtons { set; private get; }
-        public ExecTaskOnSylButton updateSylButton { set; private get; }
+        [NonSerialized] public ExecuteTask updateSylButtons; // { set; private get; }
+        [NonSerialized] public ExecTaskOnSylButton updateSylButton; // { set; private get; }
 
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private bool doubleConsStd; // définit si les syllabes sont coupées entre deux consonnes doublées.
         private bool modeEcrit; // définit si une syllabe muette en fin de mot doit être considérée comme une syllabe

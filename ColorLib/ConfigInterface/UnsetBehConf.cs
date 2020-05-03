@@ -24,11 +24,13 @@ using System.Text;
 
 namespace ColorLib
 {
+    [Serializable]
     public enum Ucbx { bold, italic, underline, color, hilight, all, last } // all avant-dernier, last dernier
 
+    [Serializable]
     public class UnsetBehConf
     {
-        public ExecuteTask updateUCheckBoxes { private get; set; }
+        [NonSerialized] public ExecuteTask updateUCheckBoxes; // { private get; set; }
 
         private static string[] cbuNames = new string[] { "Bold", "Italic", "Underline", "Color", "Hilight", "All" };
 
