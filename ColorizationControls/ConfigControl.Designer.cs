@@ -652,7 +652,7 @@
             this.btnj.Name = "btnj";
             this.btnj.Size = new System.Drawing.Size(61, 25);
             this.btnj.TabIndex = 61;
-            this.btnj.Text = "fille";
+            this.btnj.Text = "paille";
             this.btnj.UseVisualStyleBackColor = true;
             this.btnj.Click += new System.EventHandler(this.SonButton_Click);
             // 

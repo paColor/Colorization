@@ -339,6 +339,9 @@ namespace ColorLib
             SetChkSon("j", true);
             Set("j", new CharFormatting(false, true, false, false, true, predefinedColors[(int)PredefCols.black],
                 false, predefinedColors[(int)PredefCols.neutral]));
+            // (oin)
+            SetChkSon("oin", false);
+            Set("oin", predefCF[(int)PredefCols.black]);
             UpdCBXs();
         }
 
