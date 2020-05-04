@@ -204,17 +204,17 @@ namespace ColorLib
 							'ill':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i',1], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
 							'except_ill':[this.Regle_ill,'i',1],
 							'@ill':[{'-':/[aeo]/i,'+':/ll/i},'j',3], // par défaut précédé d'une voyelle et suivi de 'll' donne le son [j]
-							'@il':[{'-':/[aeou]/i,'+':/l(s?)$/i},'i_j',2], // par défaut précédé d'une voyelle et suivi de 'l' donne le son [j]
+							'@il':[{'-':/[aeou]/i,'+':/l(s?)$/i},'j',2], // par défaut précédé d'une voyelle et suivi de 'l' donne le son [j]
 							'll':[{'+':/ll/i},'j',3], // par défaut avec ll donne le son [j]
 							'ui':[{'-':/u/i,'+':/ent/i},'i',1], // essuient, appuient
 							'ient_1':[this.Regle_ient,'i',1], // règle spécifique pour différencier les verbes du premier groupe 3ème pers pluriel
-							'ient_2':[{'+':/ent(s)?$/i},'i_j',1], // si la règle précédente ne fonctionne pas
+							'ient_2':[{'+':/ent(s)?$/i},'j',1], // si la règle précédente ne fonctionne pas
 							'ie':[{'+':/e(s|nt)?$/i},'i',1], // mots terminés par -ie(s|nt)
-							'i_voyelle':[{'+':/[aäâeéèêëoôöuù]/i},'i_j',1], // i suivi d'une voyelle donne [j]
+							'i_voyelle':[{'+':/[aäâeéèêëoôöuù]/i},'j',1], // i suivi d'une voyelle donne [j]
 							'*':[{},'i',1]}],
 					'ï' : [['thai', 'aie', '*'],
-							{'thai':[{'-':/t(h?)a/i},'i_j',1], // taï, thaï et dérivés
-							'aie':[{'-':/[ao]/i,'+':/e/i},'i_j',1], // païen et autres
+							{'thai':[{'-':/t(h?)a/i},'j',1], // taï, thaï et dérivés
+							'aie':[{'-':/[ao]/i,'+':/e/i},'j',1], // païen et autres
 							'*':[{},'i',1]}],
 					'î' : [['*'],
 							{'*':[{},'i',1]}],
@@ -232,7 +232,7 @@ namespace ColorLib
 							'ill':[{'-':/.i/i,'+':/l/i},'j',2], // par défaut, 'ill' donne le son [j]
 							'll':[{'+':/l/i},'l',2], // à défaut de l'application d'une autre règle, 'll' donne le son [l]
 							'excep_il':[{'-':/fusi|outi|genti|sourci|persi/i,'+':/(s?)$/i},'_muet',1], // les exceptions trouvées ou le 'l' à la fin ne se prononce pas : fusil, gentil, outil
-							'eil':[{'-':/e(u?)i/i},'i_j',1], // les mots terminés en 'eil' ou 'ueil' => son [j]
+							'eil':[{'-':/e(u?)i/i},'j',1], // les mots terminés en 'eil' ou 'ueil' => son [j]
 							'apostrophe':[{'+':/('|’)/i},'l',2], // apostrophe
 							'*':[{},'l',1]}],
 					'm' : [['m','tomn','damn','misole','apostrophe', '*'],
@@ -377,7 +377,7 @@ namespace ColorLib
 							'*':[{},'ks',1],
 							'@':[{'+':/$/i},'_muet',1]}],
 					'y' : [['m','n','nm','abbaye','y_voyelle', '*'],
-							{'y_voyelle':[{'+':/[aeiouéèàüëöêîôûù]/i},'i_j',1], // y suivi d'une voyelle donne [j]
+							{'y_voyelle':[{'+':/[aeiouéèàüëöêîôûù]/i},'j',1], // y suivi d'une voyelle donne [j]
 							'abbaye':[{'-':/abba/i,'+':/e/i},'i', 1], // abbaye... bien irrégulier
 							'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
 							'm':[{'+':/m[mpb]/i},'e_tilda',2],
