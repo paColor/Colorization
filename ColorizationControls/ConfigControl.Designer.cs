@@ -1987,12 +1987,12 @@
             // 
             this.linkCERAS.AutoSize = true;
             this.linkCERAS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkCERAS.Location = new System.Drawing.Point(104, 348);
+            this.linkCERAS.Location = new System.Drawing.Point(97, 346);
             this.linkCERAS.Name = "linkCERAS";
-            this.linkCERAS.Size = new System.Drawing.Size(115, 15);
+            this.linkCERAS.Size = new System.Drawing.Size(135, 15);
             this.linkCERAS.TabIndex = 5;
             this.linkCERAS.TabStop = true;
-            this.linkCERAS.Text = "http://www.ceras.ch/";
+            this.linkCERAS.Text = "http://www.api.ceras.ch/";
             this.linkCERAS.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCERAS_LinkClicked);
             // 
             // linkInfoAtColorization
