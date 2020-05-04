@@ -79,9 +79,33 @@ namespace ColorLib
             if (!theConfs.TryGetValue(win, out toReturn))
             {
                 // it is a new window
-                toReturn = new Config();
+                // Does a default file configuration exist?
+                if (File.Exists(DefaultConfFile))
+                {
+                    try
+                    {
+                        // Load it
+                        IFormatter formatter = new BinaryFormatter();
+                        Stream stream = new FileStream(DefaultConfFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        toReturn = (Config)formatter.Deserialize(stream);
+                        stream.Close();
+                        logger.ConditionalTrace("Default Config File loaded.");
+                    }
+                    catch (System.IO.IOException e)
+                    {
+                        logger.Error("Impossible de lire la config par défaut dans le fichier {0}. Erreur {1}", 
+                            DefaultConfFile, e.Message);
+                        toReturn = new Config(); // essayons de sauver les meubles.
+                        logger.ConditionalTrace("New Config created.");
+                    }
+                }
+                else
+                {
+                    // create a new config
+                    toReturn = new Config();
+                    logger.ConditionalTrace("New Config created.");
+                }
                 theConfs.Add(win, toReturn);
-                logger.ConditionalTrace("New Config created");
 
                 // is it a new document?
                 List<Object> theWindows;
@@ -113,10 +137,12 @@ namespace ColorLib
                             Stream stream = new FileStream(DefaultConfFile, FileMode.Create, FileAccess.Write, FileShare.None);
                             formatter.Serialize(stream, conf);
                             stream.Close();
+                            logger.ConditionalTrace("Default Config File saved.");
                         }
                         catch (System.IO.IOException e)
                         {
-                            logger.Error("Impossible d'écrire la config par défaut. Erreur {0}", e.Message);
+                            logger.Error("Impossible d'écrire la config par défaut dans le fichier {0}. Erreur {1}",
+                                DefaultConfFile, e.Message);
                         }
                     }
                     else
