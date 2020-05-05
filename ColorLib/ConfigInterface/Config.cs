@@ -41,7 +41,8 @@ namespace ColorLib
         private static readonly string ConfigDirPath = 
             Path.Combine(BaseConfig.colorizationDirPath, ConfigDirName);
         private const string DefaultFileName = "ClrzConfig";
-        private const string ClrzExtension = ".clrz";
+        private const string ClrzExtension = ".clrz"; // for automatic saving
+        private const string SavedConfiExtension = ".clrzn"; // for user saved configs
         private static readonly string DefaultConfFile = Path.Combine(ConfigDirPath, DefaultFileName + ClrzExtension);
 
 
@@ -167,6 +168,9 @@ namespace ColorLib
         public SylConfig sylConf { get; private set; }
         public UnsetBehConf unsetBeh { get; private set; }
 
+        [OptionalField(VersionAdded = 2)]
+        private string configName;
+
         public Config()
         {
             logger.ConditionalTrace("Config");
@@ -176,6 +180,13 @@ namespace ColorLib
             colors = new Dictionary<PhonConfType, ColConfWin>(2);
             colors[PhonConfType.muettes] = new ColConfWin(PhonConfType.muettes);
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
+            configName = "";
+        }
+
+        [OnDeserializing]
+        private void SetOptionalFieldsDefault(StreamingContext sc)
+        {
+            configName = "";
         }
 
     }

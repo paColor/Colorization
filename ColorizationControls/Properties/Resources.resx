@@ -127,6 +127,9 @@
   <data name="syll_dys_35" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\syll_dys_35.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="disquette 14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\disquette 14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Bold" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Bold.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -145,6 +148,9 @@
   <data name="lines" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lines.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CLasseur 16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CLasseur 16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Coloriƨation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Coloriƨation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -153,9 +159,6 @@
   </data>
   <data name="LogoColorization" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LogoColorization.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="voycons_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\voycons_30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="phon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\phon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -175,11 +178,17 @@
   <data name="BoldSetMouseOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BoldSetMouseOn.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bdpq" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bdpq.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Underscore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Underscore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BoldSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BoldSet.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="l_muettes_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\l_muettes_26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Couper" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Couper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -190,11 +199,14 @@
   <data name="Colorization" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Colorization.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ItalicSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ItalicSet.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="voycons_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\voycons_30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="UnderscoreSetOver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UnderscoreSetOver.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ItalicSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItalicSet.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ItalicSetOver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ItalicSetOver.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -208,8 +220,8 @@
   <data name="BoldPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BoldPressed.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="bdpq" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bdpq.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="disquette-blanc 14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\disquette-blanc 14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="syll_dys_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\syll_dys_26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -220,7 +232,7 @@
   <data name="mots_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mots_30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="l_muettes_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\l_muettes_26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Classeur nb 16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Classeur nb 16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

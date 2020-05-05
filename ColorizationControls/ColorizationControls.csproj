@@ -247,5 +247,17 @@
   <ItemGroup>
     <None Include="Resources\l_muettes_26.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disquette 14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disquette-blanc 14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CLasseur 16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Classeur nb 16.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

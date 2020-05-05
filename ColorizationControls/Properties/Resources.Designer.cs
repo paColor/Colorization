@@ -133,6 +133,26 @@ namespace ColorizationControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CLasseur_16 {
+            get {
+                object obj = ResourceManager.GetObject("CLasseur 16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Classeur_nb_16 {
+            get {
+                object obj = ResourceManager.GetObject("Classeur nb 16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Coller {
             get {
                 object obj = ResourceManager.GetObject("Coller", resourceCulture);
@@ -176,6 +196,26 @@ namespace ColorizationControls.Properties {
         internal static System.Drawing.Bitmap Couper {
             get {
                 object obj = ResourceManager.GetObject("Couper", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap disquette_14 {
+            get {
+                object obj = ResourceManager.GetObject("disquette 14", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap disquette_blanc_14 {
+            get {
+                object obj = ResourceManager.GetObject("disquette-blanc 14", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -546,6 +546,23 @@ namespace ColorizationControls
             }
         }
 
+        //--------------------------------------------------------------------------------------------
+        // --------------------------------------  Onglet Sauv. --------------------------------------
+        //--------------------------------------------------------------------------------------------
+        private void btSauvSauv_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btSauvCharger_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //--------------------------------------------------------------------------------------------
+        // ------------------------------------  Onglet A propos -------------------------------------
+        //--------------------------------------------------------------------------------------------
+
         private void linkLireCouleur_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             logger.ConditionalTrace("linkLireCouleur_LinkClicked");
@@ -587,6 +604,9 @@ namespace ColorizationControls
             lf.Dispose();
         }
 
+        //--------------------------------------------------------------------------------------------
+        // -------------------------  Context Menu Strip - Clic droit --------------------------------
+        //--------------------------------------------------------------------------------------------
 
         // cms => context menu strip
         private void cmsEffacerCopier_Opening(object sender, CancelEventArgs e)
