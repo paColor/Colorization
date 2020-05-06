@@ -95,6 +95,19 @@ namespace ColorLib
         // z_g, ex z^, remplacé par Z
         // w5,  ???
 
+        // créons des réserves pour assurer la compatibilité des fichiers de sauvegarde futurs, si nous introduisons de 
+        // nouveaux phonèmes. Comme nous créons des tableaux qui ont cette longueur, ça pourrait poser des problèmes,
+        // si les tableaux n'ont pas la même dimension.
+        // Les tests semblent prouver que la taille de cet enum n'a pas d'impact sur la compatibilité des sauvegardes...
+        // comme ça ne mange presque pas de pain, gardons-les quand même.
+
+        reserve1,
+        reserve2,
+        reserve3,
+        reserve4,
+        reserve5,
+        
+
         lastPhon // used to iterate through all values. We could avoid this by using a Dictionary, but the advantage seems limited...
     }
 

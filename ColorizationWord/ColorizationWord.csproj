@@ -211,8 +211,6 @@
     <EmbeddedResource Include="WordRibbon.resx">
       <DependentUpon>WordRibbon.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="ColorizationPPT_TemporaryKey.pfx" />
-    <None Include="ColorizationWord_TemporaryKey.pfx" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -238,8 +236,6 @@
       <DependentUpon>ColorizationMSW.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <None Include="SignAssemblyPAE1.pfx" />
-    <None Include="SignPierreAlainEtique.pfx" />
     <None Include="Sign_Pierre-Alain_Etique.pfx" />
   </ItemGroup>
   <ItemGroup>

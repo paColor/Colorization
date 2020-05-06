@@ -139,7 +139,7 @@ namespace ColorizationControls
             }
 
             double factor = confContr.CurrentAutoScaleDimensions.Width / dimWidth;
-            configTaskPane.Width = (int)(OrigWidth * factor);
+            configTaskPane.Width = ((int)(OrigWidth * factor)) + 3;
             
             logger.Info("confContr.CurrentAutoScaleDimensions.Width == {0}", confContr.CurrentAutoScaleDimensions.Width);
             logger.Info("confContr.AutoScaleDimensions.Width == {0}", confContr.AutoScaleDimensions.Width);

@@ -75,7 +75,7 @@ namespace ColorizationControls
         private string cmsButType; // type of button, that was right clicked e.g. "btSC", "btL", "btn", ...
         private int cmsButNr;
         private string cmsButSon = "";
-        private int countPasteLetters;
+        private int countPasteLetters; // pour itérer à traver lettersToPaste quand on colle sur une lettre vide.
         private const string lettersToPaste = @"ƨ$@#<>*%()?![]{},.;:/\-_§°~¦|";
 
         
@@ -90,6 +90,8 @@ namespace ColorizationControls
 
             theConf = inConf;
 
+            theConf.updateConfigName = this.UpdateConfigName;
+            theConf.updateListeConfigs = this.UpdateListeConfigs;
             theConf.colors[PhonConfType.phonemes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
             theConf.colors[PhonConfType.phonemes].updateButton = this.UpdateSonButton;
             theConf.colors[PhonConfType.phonemes].updateCbx = this.UpdateCbxSon;
@@ -260,7 +262,7 @@ namespace ColorizationControls
 
         private void ConfigControl_Load(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("ConfigControl_Load");
+            logger.Info("ConfigControl_Load");
             UpdateAll();
         }
 
@@ -549,6 +551,73 @@ namespace ColorizationControls
         //--------------------------------------------------------------------------------------------
         // --------------------------------------  Onglet Sauv. --------------------------------------
         //--------------------------------------------------------------------------------------------
+
+        private void tabSauv_Enter(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("tabSauv_Enter");
+            UpdateSauvTab();
+        }
+
+        public void UpdateConfigName()
+        {
+            logger.ConditionalTrace("UpdateConfigName");
+            txtBNomConfig.Text = theConf.GetConfigName();
+        }
+
+        public void UpdateListeConfigs()
+        {
+            logger.ConditionalTrace("UpdateListeConfigs");
+        }
+
+        public void UpdateSauvTab()
+        {
+            logger.ConditionalTrace("UpdateSauvTab");
+            UpdateConfigName();
+            UpdateListeConfigs();
+        }
+
+        private void txtBNomConfig_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case '/':
+                case '\\':
+                case '?':
+                case '%':
+                case '*':
+                case ':':
+                case '|':
+                case '<':
+                case '>':
+                case '"':
+                    e.Handled = true;
+                    break;
+
+                case '\r':
+                    if (SaveConfigUnderConfName())
+                        e.Handled = true;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private bool SaveConfigUnderConfName()
+        {
+            bool toReturn = false;
+            if (txtBNomConfig.Text.Length > 0)
+            {
+                toReturn = theConf.SaveConfig(txtBNomConfig.Text);
+                if (!toReturn)
+                {
+                    string message = String.Format("Impossible de sauvegarder la configuration {0}", txtBNomConfig.Text);
+                    MessageBox.Show(message, "Coloriƨation");
+                }
+            }
+            return toReturn;
+        }
+
         private void btSauvSauv_Click(object sender, EventArgs e)
         {
 
@@ -755,5 +824,6 @@ namespace ColorizationControls
             UpdateAllSoundCbxAndButtons();
         }
 
+        
     }
 }

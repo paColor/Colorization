@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -41,13 +42,14 @@ namespace ColorLib
         private static readonly string ConfigDirPath = 
             Path.Combine(BaseConfig.colorizationDirPath, ConfigDirName);
         private const string DefaultFileName = "ClrzConfig";
-        private const string ClrzExtension = ".clrz"; // for automatic saving
+        private const string DefaultAutomaticExtension = ".clrz"; // for automatic saving
         private const string SavedConfiExtension = ".clrzn"; // for user saved configs
-        private static readonly string DefaultConfFile = Path.Combine(ConfigDirPath, DefaultFileName + ClrzExtension);
-
+        private static readonly string DefaultConfFileWOExt = Path.Combine(ConfigDirPath, DefaultFileName);
+        private static readonly string DefaultConfFile = DefaultConfFileWOExt + DefaultAutomaticExtension;
 
         private static Dictionary<Object, Config> theConfs; // key is a window
         private static Dictionary<Object, List<Object>> doc2Win; // key is document, value is list of windows
+
 
         public static void Init()
         {
@@ -71,6 +73,30 @@ namespace ColorLib
             doc2Win = new Dictionary<object, List<object>>();
         }
 
+        /// <summary>
+        /// Retourne la liste des configurations enregistrées.
+        /// </summary>
+        /// <remarks>Si un nom de la liste est utilisé pour sauvegarder une config, l'ancienne sera écrasée.</remarks>
+        /// <returns>Liste des noms de configuration.</returns>
+        public static List<string> GetSavedConfigNames()
+        {
+            List<string> toReturn = new List<string>();
+            try
+            {
+                var configFiles = Directory.EnumerateFiles(ConfigDirPath, "*" + SavedConfiExtension);
+                foreach (string fileName in configFiles)
+                {
+                    toReturn.Add(fileName.Substring(0, fileName.Length - SavedConfiExtension.Length));
+                }
+            }
+            catch (System.IO.IOException e)
+            {
+                logger.Error("Impossible de charger la liste de fichiers de sauvegarde du répertoire {0}. Message: {1}",
+                    ConfigDirPath, e.Message);
+            }
+            return toReturn;
+        }
+
         public static Config GetConfigFor(Object win, Object doc)
             // returns the Config associated with the Object, normally the active window. 
             // if there is none, a new one with the defauilt config is created.
@@ -90,9 +116,9 @@ namespace ColorLib
                         Stream stream = new FileStream(DefaultConfFile, FileMode.Open, FileAccess.Read, FileShare.Read);
                         toReturn = (Config)formatter.Deserialize(stream);
                         stream.Close();
-                        logger.ConditionalTrace("Default Config File loaded.");
+                        logger.Info("Default Config File loaded.");
                     }
-                    catch (System.IO.IOException e)
+                    catch (Exception e) when (e is IOException || e is SerializationException)
                     {
                         logger.Error("Impossible de lire la config par défaut dans le fichier {0}. Erreur {1}", 
                             DefaultConfFile, e.Message);
@@ -132,27 +158,15 @@ namespace ColorLib
                     Config conf;
                     if (theConfs.TryGetValue(win, out conf))
                     {
-                        try
-                        {
-                            IFormatter formatter = new BinaryFormatter();
-                            Stream stream = new FileStream(DefaultConfFile, FileMode.Create, FileAccess.Write, FileShare.None);
-                            formatter.Serialize(stream, conf);
-                            stream.Close();
-                            logger.ConditionalTrace("Default Config File saved.");
-                        }
-                        catch (System.IO.IOException e)
-                        {
-                            logger.Error("Impossible d'écrire la config par défaut dans le fichier {0}. Erreur {1}",
-                                DefaultConfFile, e.Message);
-                        }
+                        _ = conf.SaveConfig(DefaultConfFileWOExt, DefaultAutomaticExtension);
                     }
                     else
                     {
-                        logger.Error("No config is found for closing window.");
+                        logger.ConditionalTrace("No config is found for closing window.");
                     }
-                    theConfs.Remove(win);
+                    _ = theConfs.Remove(win);
                 }
-                doc2Win.Remove(doc);
+                _ = doc2Win.Remove(doc);
             }
             else
             {
@@ -162,6 +176,11 @@ namespace ColorLib
         }
 
         // *************************************************** Instantiated ****************************************************
+
+        [NonSerialized]
+        public ExecuteTask updateConfigName;
+        [NonSerialized]
+        public ExecuteTask updateListeConfigs;
 
         public PBDQConfig pBDQ { get; private set; }
         public Dictionary<PhonConfType, ColConfWin> colors { get; private set; }
@@ -181,6 +200,42 @@ namespace ColorLib
             colors[PhonConfType.muettes] = new ColConfWin(PhonConfType.muettes);
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
             configName = "";
+        }
+
+        /// <summary>
+        /// Donne le nom de la configuration tel qu'enregistré dans le fichier de suavegarde.
+        /// </summary>
+        /// <returns>Le nom de la config.</returns>
+        public string GetConfigName() => configName;
+
+        
+
+        /// <summary>
+        /// Sauve la configuration sous le nom indiqué.
+        /// </summary>
+        /// <param name="name">Le nom sous lequel la configuration doit être enregistrée.</param>
+        /// <returns>true si la sauvegarde a pu avoir lieu, sinon false. </returns>
+        public bool SaveConfig(string name) => SaveConfig(Path.Combine(ConfigDirPath, name), SavedConfiExtension);
+
+        private bool SaveConfig (string fileName, string extension)
+        {
+            bool toReturn = false;
+            try
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(fileName + extension, FileMode.Create, FileAccess.Write, FileShare.None);
+                formatter.Serialize(stream, this);
+                stream.Close();
+                toReturn = true;
+                logger.Info("Config {0} enregistrée", fileName + extension);
+            }
+            catch (Exception e) when (e is IOException || e is SerializationException)
+            {
+                logger.Error("Impossible d'écrire la config par défaut dans le fichier {0}. Erreur {1}",
+                    DefaultConfFile, e.Message);
+                toReturn = false;
+            }
+            return toReturn;
         }
 
         [OnDeserializing]
