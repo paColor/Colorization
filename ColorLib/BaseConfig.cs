@@ -31,6 +31,7 @@ namespace ColorLib
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static CultureInfo cultF = new CultureInfo("fr-FR");
+        public const string ColorizationName = "Coloriƨation";
 
         private const string colorizationDirName = "Colorization";
         public static readonly string colorizationDirPath =

@@ -202,7 +202,7 @@ namespace ColorLib
 							'vill':[{'-':/v/i,'+':/ll/i},'i',1],
 							'mill':[{'-':/m/i,'+':/ll/i},'i',1],
 							'ill':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i',1], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
-							'except_ill':[this.Regle_ill,'i',1],
+							'except_ill':[this.Regle_ill,'i',1], // PAE - 07.05.20
 							'@ill':[{'-':/[aeo]/i,'+':/ll/i},'j',3], // par défaut précédé d'une voyelle et suivi de 'll' donne le son [j]
 							'@il':[{'-':/[aeou]/i,'+':/l(s?)$/i},'j',2], // par défaut précédé d'une voyelle et suivi de 'l' donne le son [j]
 							'll':[{'+':/ll/i},'j',3], // par défaut avec ll donne le son [j]

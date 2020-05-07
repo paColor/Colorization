@@ -124,8 +124,8 @@ namespace ColorizationControls
             theWin = inWin;
             theDoc = inDoc;
             customTaskPanes = inCustomTaskPanes;
-            confContr = new ConfigControl(Config.GetConfigFor(theWin, inDoc), version);
-            configTaskPane = customTaskPanes.Add(confContr, "Coloriƨation", theWin);
+            confContr = new ConfigControl(inWin, inDoc, version);
+            configTaskPane = customTaskPanes.Add(confContr, BaseConfig.ColorizationName, theWin);
 
             double dimWidth;
             if (confContr.AutoScaleMode == AutoScaleMode.Dpi)

@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
@@ -43,9 +44,8 @@ namespace ColorLib
             Path.Combine(BaseConfig.colorizationDirPath, ConfigDirName);
         private const string DefaultFileName = "ClrzConfig";
         private const string DefaultAutomaticExtension = ".clrz"; // for automatic saving
-        private const string SavedConfiExtension = ".clrzn"; // for user saved configs
-        private static readonly string DefaultConfFileWOExt = Path.Combine(ConfigDirPath, DefaultFileName);
-        private static readonly string DefaultConfFile = DefaultConfFileWOExt + DefaultAutomaticExtension;
+        private const string SavedConfigExtension = ".clrzn"; // for user saved configs
+        private static readonly string DefaultConfFile = Path.Combine(ConfigDirPath, DefaultFileName) + DefaultAutomaticExtension;
 
         private static Dictionary<Object, Config> theConfs; // key is a window
         private static Dictionary<Object, List<Object>> doc2Win; // key is document, value is list of windows
@@ -83,10 +83,10 @@ namespace ColorLib
             List<string> toReturn = new List<string>();
             try
             {
-                var configFiles = Directory.EnumerateFiles(ConfigDirPath, "*" + SavedConfiExtension);
+                var configFiles = Directory.EnumerateFiles(ConfigDirPath, "*" + SavedConfigExtension);
                 foreach (string fileName in configFiles)
                 {
-                    toReturn.Add(fileName.Substring(0, fileName.Length - SavedConfiExtension.Length));
+                    toReturn.Add(Path.GetFileNameWithoutExtension(fileName));
                 }
             }
             catch (System.IO.IOException e)
@@ -97,6 +97,58 @@ namespace ColorLib
             return toReturn;
         }
 
+        /// <summary>
+        /// Charge la configuration portant le nom <c>name</c>.
+        /// </summary>
+        /// <param name="name">Le nom de la configuration à charger.</param>
+        /// <returns>La configuration chargée ou null si le chargement échoue.</returns>
+        public static Config LoadConfig(string name, Object win, Object doc)
+        {
+            logger.ConditionalTrace("LoadConfig {0}", name);
+            Config toReturn = LoadConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension);
+            if (toReturn != null)
+            {
+                if (theConfs.ContainsKey(win))
+                {
+                    theConfs.Remove(win);
+                }
+                else
+                {
+                    // le cas où win ne serait pas connu ne devrait pas arriver.
+                    logger.Info("On charge une config dans une fenêtre qui n'en avait pas jusqu'à présent.");
+                }
+                UpdateWindowsLists(win, doc, toReturn);
+            }
+            return toReturn;
+        }
+
+        private static Config LoadConfigFile(string fileName)
+        {
+            logger.ConditionalTrace("LoadConfigFile {0}", fileName);
+            Config toReturn = null;
+            try
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                toReturn = (Config)formatter.Deserialize(stream);
+                stream.Close();
+                logger.Info("Config File {0} loaded.", fileName);
+            }
+            catch (Exception e) when (e is IOException || e is SerializationException)
+            {
+                logger.Error("Impossible de lire la config dans le fichier {0}. Erreur {1}",
+                   fileName, e.Message);
+            }
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Donne la confiuration qui correspond à la fenêtre <c>win</c>. Mémorise les infos pour
+        /// que l'évènement de fermeture du document <c>doc</c> soit traité correctement
+        /// </summary>
+        /// <param name="win">La fenêtre pour la quelle on veut un objet <c>Config</c>.</param>
+        /// <param name="doc">Le document attaché à la fenêtre. </param>
+        /// <returns>La <c>Config</c> pour la fenêtre.</returns>
         public static Config GetConfigFor(Object win, Object doc)
             // returns the Config associated with the Object, normally the active window. 
             // if there is none, a new one with the defauilt config is created.
@@ -109,19 +161,9 @@ namespace ColorLib
                 // Does a default file configuration exist?
                 if (File.Exists(DefaultConfFile))
                 {
-                    try
+                    toReturn = LoadConfigFile(DefaultConfFile);
+                    if (toReturn == null)
                     {
-                        // Load it
-                        IFormatter formatter = new BinaryFormatter();
-                        Stream stream = new FileStream(DefaultConfFile, FileMode.Open, FileAccess.Read, FileShare.Read);
-                        toReturn = (Config)formatter.Deserialize(stream);
-                        stream.Close();
-                        logger.Info("Default Config File loaded.");
-                    }
-                    catch (Exception e) when (e is IOException || e is SerializationException)
-                    {
-                        logger.Error("Impossible de lire la config par défaut dans le fichier {0}. Erreur {1}", 
-                            DefaultConfFile, e.Message);
                         toReturn = new Config(); // essayons de sauver les meubles.
                         logger.ConditionalTrace("New Config created.");
                     }
@@ -132,19 +174,31 @@ namespace ColorLib
                     toReturn = new Config();
                     logger.ConditionalTrace("New Config created.");
                 }
-                theConfs.Add(win, toReturn);
-
-                // is it a new document?
-                List<Object> theWindows;
-                if (!doc2Win.TryGetValue(doc, out theWindows))
-                {
-                    // the document is not yet known
-                    theWindows = new List<Object>();
-                    doc2Win.Add(doc, theWindows);
-                }
-                theWindows.Add(win);
+                UpdateWindowsLists(win, doc, toReturn);
             }
             return toReturn;
+        }
+
+        /// <summary>
+        /// Met à jour les listes statiques rattachées au doc et à win pour mémoriser que <c>theNewConf</c>
+        /// leur est rattaché.
+        /// </summary>
+        /// <param name="win">la fenêtre à laquelle <c>theNewConf</c> doir être rattaché.</param>
+        /// <param name="doc">le document auquel est rattaché la fenêtre.</param>
+        /// <param name="theNewConf">La configuration qui doit être mémorisée.</param>
+        private static void UpdateWindowsLists(Object win, Object doc, Config theNewConf)
+        {
+            theConfs.Add(win, theNewConf);
+
+            // is it a new document?
+            List<Object> theWindows;
+            if (!doc2Win.TryGetValue(doc, out theWindows))
+            {
+                // the document is not yet known
+                theWindows = new List<Object>();
+                doc2Win.Add(doc, theWindows);
+            }
+            theWindows.Add(win);
         }
 
         public static void DocClosed(Object doc)
@@ -158,7 +212,7 @@ namespace ColorLib
                     Config conf;
                     if (theConfs.TryGetValue(win, out conf))
                     {
-                        _ = conf.SaveConfig(DefaultConfFileWOExt, DefaultAutomaticExtension);
+                        _ = conf.SaveConfigFile(DefaultConfFile);
                     }
                     else
                     {
@@ -208,38 +262,43 @@ namespace ColorLib
         /// <returns>Le nom de la config.</returns>
         public string GetConfigName() => configName;
 
-        
 
         /// <summary>
         /// Sauve la configuration sous le nom indiqué.
         /// </summary>
         /// <param name="name">Le nom sous lequel la configuration doit être enregistrée.</param>
         /// <returns>true si la sauvegarde a pu avoir lieu, sinon false. </returns>
-        public bool SaveConfig(string name) => SaveConfig(Path.Combine(ConfigDirPath, name), SavedConfiExtension);
+        public bool SaveConfig(string name)
+        {
+            bool toReturn = SaveConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension);
+            configName = name;
+            updateListeConfigs();
+            return toReturn;
+        }
 
-        private bool SaveConfig (string fileName, string extension)
+        private bool SaveConfigFile (string fileName)
         {
             bool toReturn = false;
             try
             {
                 IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(fileName + extension, FileMode.Create, FileAccess.Write, FileShare.None);
+                Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
                 formatter.Serialize(stream, this);
                 stream.Close();
                 toReturn = true;
-                logger.Info("Config {0} enregistrée", fileName + extension);
+                logger.Info("Config {0} enregistrée", fileName);
             }
             catch (Exception e) when (e is IOException || e is SerializationException)
             {
-                logger.Error("Impossible d'écrire la config par défaut dans le fichier {0}. Erreur {1}",
-                    DefaultConfFile, e.Message);
+                logger.Error("Impossible d'écrire le fichier de config {0}. Erreur: {1}",
+                    fileName, e.Message);
                 toReturn = false;
             }
             return toReturn;
         }
 
         [OnDeserializing]
-        private void SetOptionalFieldsDefault(StreamingContext sc)
+        private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
         {
             configName = "";
         }

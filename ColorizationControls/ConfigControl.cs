@@ -62,7 +62,10 @@ namespace ColorizationControls
             // public SonInfo() {}
         }
 
-        private Config theConf;
+        private Object theWin; // La fenêtre dans laquelle le contrôle est placé.
+        private Object theDoc; // le document ouvert dans la fenêtre.
+        private Config theConf; // la configuration dont le contrôle est le GUI
+
         private Dictionary<int, Button> letterButtons;
         private RGB defaultLetterButtonCol;
         private Button[] sylButtons;
@@ -73,8 +76,8 @@ namespace ColorizationControls
 
         private PhonConfType pct;
         private string cmsButType; // type of button, that was right clicked e.g. "btSC", "btL", "btn", ...
-        private int cmsButNr;
-        private string cmsButSon = "";
+        private int cmsButNr; // le numéro du bouton cliqué droit
+        private string cmsButSon = ""; // contient le son du bouton cliqué droit
         private int countPasteLetters; // pour itérer à traver lettersToPaste quand on colle sur une lettre vide.
         private const string lettersToPaste = @"ƨ$@#<>*%()?![]{},.;:/\-_§°~¦|";
 
@@ -84,25 +87,13 @@ namespace ColorizationControls
             StaticColorizControls.Init();
         }
 
-        public ConfigControl(Config inConf, string version)
+        public ConfigControl(Object inWin, Object inDoc, string version)
         {
             InitializeComponent(); // calls the setup of the whole component
-
-            theConf = inConf;
-
-            theConf.updateConfigName = this.UpdateConfigName;
-            theConf.updateListeConfigs = this.UpdateListeConfigs;
-            theConf.colors[PhonConfType.phonemes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
-            theConf.colors[PhonConfType.phonemes].updateButton = this.UpdateSonButton;
-            theConf.colors[PhonConfType.phonemes].updateCbx = this.UpdateCbxSon;
-            theConf.colors[PhonConfType.muettes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
-            theConf.colors[PhonConfType.muettes].updateButton = this.UpdateSonButton;
-            theConf.colors[PhonConfType.muettes].updateCbx = this.UpdateCbxSon;
-            theConf.pBDQ.updateLetterButtons = this.UpdateLetterButtons;
-            theConf.pBDQ.updateLetterButton = this.UpdateLetterButton;
-            theConf.sylConf.updateSylButtons = this.UpdateSylButtons;
-            theConf.sylConf.updateSylButton = this.UpdateSylButton;
-            theConf.unsetBeh.updateUCheckBoxes = this.UpdateUcheckBoxes;
+            theWin = inWin;
+            theDoc = inDoc;
+            theConf = Config.GetConfigFor(theWin, theDoc);
+            InitializeTheConf();
 
             // letterButtons
             letterButtons = new Dictionary<int, Button>(8);
@@ -134,7 +125,8 @@ namespace ColorizationControls
             
             if (ApplicationDeployment.IsNetworkDeployed)
                 version = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
-                // we try to use the deployment version... Should work for distributed versions.
+                // we try to use the deployment version... Should work for distributed versions. Else we use the version
+                // set by the higher level, which corresponds to the assembly version.
 
             lblVersion.Text = "Version: " + version;
         }
@@ -259,6 +251,23 @@ namespace ColorizationControls
             UpdateSylButtons();
         }
 
+        private void InitializeTheConf()
+        // établit le lien entre le contrôle et la config en définissant les upcalls.
+        {
+            theConf.updateConfigName = this.UpdateConfigName;
+            theConf.updateListeConfigs = this.UpdateListeConfigs;
+            theConf.colors[PhonConfType.phonemes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
+            theConf.colors[PhonConfType.phonemes].updateButton = this.UpdateSonButton;
+            theConf.colors[PhonConfType.phonemes].updateCbx = this.UpdateCbxSon;
+            theConf.colors[PhonConfType.muettes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
+            theConf.colors[PhonConfType.muettes].updateButton = this.UpdateSonButton;
+            theConf.colors[PhonConfType.muettes].updateCbx = this.UpdateCbxSon;
+            theConf.pBDQ.updateLetterButtons = this.UpdateLetterButtons;
+            theConf.pBDQ.updateLetterButton = this.UpdateLetterButton;
+            theConf.sylConf.updateSylButtons = this.UpdateSylButtons;
+            theConf.sylConf.updateSylButton = this.UpdateSylButton;
+            theConf.unsetBeh.updateUCheckBoxes = this.UpdateUcheckBoxes;
+        }
 
         private void ConfigControl_Load(object sender, EventArgs e)
         {
@@ -335,6 +344,7 @@ namespace ColorizationControls
             else
                 b.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.black];
         }
+
 
         //--------------------------------------------------------------------------------------------
         // -------------------------- Boutons généraux phonèmes---------------------------------------
@@ -554,6 +564,7 @@ namespace ColorizationControls
 
         private void tabSauv_Enter(object sender, EventArgs e)
         {
+            // Quand l'utilisateur rend l'onglet visible
             logger.ConditionalTrace("tabSauv_Enter");
             UpdateSauvTab();
         }
@@ -562,11 +573,14 @@ namespace ColorizationControls
         {
             logger.ConditionalTrace("UpdateConfigName");
             txtBNomConfig.Text = theConf.GetConfigName();
+            btSauvSauv.Enabled = (txtBNomConfig.Text.Length > 0);
         }
 
         public void UpdateListeConfigs()
         {
             logger.ConditionalTrace("UpdateListeConfigs");
+            lbConfigs.DataSource = Config.GetSavedConfigNames();
+            btSauvCharger.Enabled = (lbConfigs.Items.Count > 0);
         }
 
         public void UpdateSauvTab()
@@ -578,6 +592,7 @@ namespace ColorizationControls
 
         private void txtBNomConfig_KeyPress(object sender, KeyPressEventArgs e)
         {
+            logger.ConditionalTrace("txtBNomConfig_KeyPress: {0}", e.KeyChar);
             switch (e.KeyChar)
             {
                 case '/':
@@ -590,12 +605,19 @@ namespace ColorizationControls
                 case '<':
                 case '>':
                 case '"':
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(@"Les caractères /\?%*:|<>");
+                    sb.Append("\" ne peuvent pas être utilisés dans le nom d'une configuration.");
+                    MessageBox.Show(sb.ToString(), BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     e.Handled = true;
                     break;
 
                 case '\r':
-                    if (SaveConfigUnderConfName())
+                    if (txtBNomConfig.Text.Length > 0)
+                    {
+                        btSauvSauv.PerformClick();
                         e.Handled = true;
+                    }
                     break;
 
                 default:
@@ -603,29 +625,62 @@ namespace ColorizationControls
             }
         }
 
-        private bool SaveConfigUnderConfName()
+        private void txtBNomConfig_KeyUp(object sender, KeyEventArgs e)
         {
-            bool toReturn = false;
-            if (txtBNomConfig.Text.Length > 0)
-            {
-                toReturn = theConf.SaveConfig(txtBNomConfig.Text);
-                if (!toReturn)
-                {
-                    string message = String.Format("Impossible de sauvegarder la configuration {0}", txtBNomConfig.Text);
-                    MessageBox.Show(message, "Coloriƨation");
-                }
-            }
-            return toReturn;
+            logger.ConditionalTrace("txtBNomConfig_KeyUp - nbre caractères: {0}", txtBNomConfig.Text.Length);
+            // En fonction du nombre de caractères que contient le nom de la config, on peut activer ou désactiver 
+            // le bouton de sauvegarde.
+            btSauvSauv.Enabled = (txtBNomConfig.Text.Length > 0);
         }
 
         private void btSauvSauv_Click(object sender, EventArgs e)
         {
-
+            logger.ConditionalTrace("btSauvSauv_Click");
+            if (txtBNomConfig.Text.Length > 0)
+            {
+                bool doIt = true;
+                if (lbConfigs.FindStringExact(txtBNomConfig.Text) != ListBox.NoMatches)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    string message = String.Format(
+                        "Un configuration poartant le nom \"{0}\" est déjà enregistrée. Souhaitez-vous l'écraser?",
+                        txtBNomConfig.Text);
+                    var result = MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+                    doIt = (result == DialogResult.Yes);
+                }
+                if (doIt)
+                {
+                    if (!theConf.SaveConfig(txtBNomConfig.Text))
+                    {
+                        string message = String.Format("Impossible de sauvegarder la configuration {0}", txtBNomConfig.Text);
+                        MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                logger.Warn("btSauvSauv_Click a été exécuté alors que txtBNomConfig.Text est vide.");
+            }
         }
 
         private void btSauvCharger_Click(object sender, EventArgs e)
         {
-
+            logger.ConditionalTrace("btSauvCharger_Click");
+            string configName = lbConfigs.SelectedItem.ToString();
+            Config newConfig = Config.LoadConfig(configName, theWin, theDoc);
+            if (newConfig != null)
+            {
+                theConf = newConfig;
+                InitializeTheConf();
+                UpdateAll();
+                UpdateConfigName();
+            }
+            else
+            {
+                string message = String.Format("Impossible de charger la configuration {0}", configName);
+                MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         //--------------------------------------------------------------------------------------------
@@ -824,6 +879,5 @@ namespace ColorizationControls
             UpdateAllSoundCbxAndButtons();
         }
 
-        
     }
 }

@@ -1110,12 +1110,13 @@
             // btGCERAS
             // 
             this.btGCERAS.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.btGCERAS.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btGCERAS.Location = new System.Drawing.Point(62, 48);
             this.btGCERAS.Name = "btGCERAS";
             this.btGCERAS.Size = new System.Drawing.Size(104, 20);
             this.btGCERAS.TabIndex = 83;
-            this.btGCERAS.Text = "CERAS (foncé)";
-            this.ttipCERAS.SetToolTip(this.btGCERAS, "Configure les phonèmes selon \r\nle modèle proposé par le CERAS \r\n(www.ceras.ch)");
+            this.btGCERAS.Text = "API ceras (foncé)";
+            this.ttipCERAS.SetToolTip(this.btGCERAS, "Configure les phonèmes selon \r\nle modèle proposé par le CERAS \r\n(api.ceras.ch)");
             this.btGCERAS.UseVisualStyleBackColor = false;
             this.btGCERAS.Click += new System.EventHandler(this.btnCERAS_Click);
             // 
@@ -1126,9 +1127,9 @@
             this.btGCerasRose.Name = "btGCerasRose";
             this.btGCerasRose.Size = new System.Drawing.Size(104, 20);
             this.btGCerasRose.TabIndex = 166;
-            this.btGCerasRose.Text = "CERAS (rosé)";
+            this.btGCerasRose.Text = "API ceras (rosé)";
             this.ttipCERAS.SetToolTip(this.btGCerasRose, "Configure les phonèmes selon \r\nle modèle proposé par le CERAS\r\navec le son \"é\" en" +
-        " rosé.");
+        " rosé.\r\n(api.ceras.ch)");
             this.btGCerasRose.UseVisualStyleBackColor = false;
             this.btGCerasRose.Click += new System.EventHandler(this.btGCerasRose_Click);
             // 
@@ -1324,7 +1325,7 @@
             // 
             // btSauvCharger
             // 
-            this.btSauvCharger.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.btSauvCharger.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btSauvCharger.Image = global::ColorizationControls.Properties.Resources.Classeur_nb_16;
             this.btSauvCharger.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btSauvCharger.Location = new System.Drawing.Point(205, 270);
@@ -1349,7 +1350,8 @@
             this.lbConfigs.FormattingEnabled = true;
             this.lbConfigs.Location = new System.Drawing.Point(20, 181);
             this.lbConfigs.Name = "lbConfigs";
-            this.lbConfigs.Size = new System.Drawing.Size(156, 277);
+            this.lbConfigs.Size = new System.Drawing.Size(167, 277);
+            this.lbConfigs.Sorted = true;
             this.lbConfigs.TabIndex = 4;
             // 
             // lblTitreSauv
@@ -1364,7 +1366,7 @@
             // 
             // btSauvSauv
             // 
-            this.btSauvSauv.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.btSauvSauv.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btSauvSauv.Image = global::ColorizationControls.Properties.Resources.disquette_blanc_14;
             this.btSauvSauv.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btSauvSauv.Location = new System.Drawing.Point(95, 93);
@@ -1393,6 +1395,7 @@
             this.txtBNomConfig.Size = new System.Drawing.Size(200, 20);
             this.txtBNomConfig.TabIndex = 0;
             this.txtBNomConfig.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBNomConfig_KeyPress);
+            this.txtBNomConfig.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBNomConfig_KeyUp);
             // 
             // tabControl1
             // 
