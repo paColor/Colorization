@@ -259,5 +259,8 @@
   <ItemGroup>
     <None Include="Resources\Classeur nb 16.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Effacer15-noir.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

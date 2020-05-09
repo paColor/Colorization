@@ -590,38 +590,25 @@ namespace ColorizationControls
             UpdateListeConfigs();
         }
 
+        // --------------- txtBNomConfig : Text Box contenant le nom de la config ------------------------
+        
         private void txtBNomConfig_KeyPress(object sender, KeyPressEventArgs e)
         {
-            logger.ConditionalTrace("txtBNomConfig_KeyPress: {0}", e.KeyChar);
-            switch (e.KeyChar)
+            logger.ConditionalTrace("txtBNomConfig_KeyPress: \'{0}\'", e.KeyChar);
+            const string forbiddenChars = @"<>:/\|?*" + "\"";
+            if (forbiddenChars.Contains(e.KeyChar))
             {
-                case '/':
-                case '\\':
-                case '?':
-                case '%':
-                case '*':
-                case ':':
-                case '|':
-                case '<':
-                case '>':
-                case '"':
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append(@"Les caractères /\?%*:|<>");
-                    sb.Append("\" ne peuvent pas être utilisés dans le nom d'une configuration.");
-                    MessageBox.Show(sb.ToString(), BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    e.Handled = true;
-                    break;
-
-                case '\r':
-                    if (txtBNomConfig.Text.Length > 0)
-                    {
-                        btSauvSauv.PerformClick();
-                        e.Handled = true;
-                    }
-                    break;
-
-                default:
-                    break;
+                StringBuilder sb = new StringBuilder();
+                sb.Append(@"Les caractères /\?%*:|<>");
+                sb.Append("\" ne peuvent pas être utilisés dans le nom d'une configuration.");
+                MessageBox.Show(sb.ToString(), BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                e.Handled = true;
+                logger.Info("Caractère refusé pour le nom de config: \'{0}\', code ASCII \'{1}\'", e.KeyChar, (int)e.KeyChar);
+            }
+            else if (e.KeyChar == '\r' && txtBNomConfig.Text.Length > 0)
+            {
+                btSauvSauv.PerformClick();
+                e.Handled = true;
             }
         }
 
@@ -633,6 +620,9 @@ namespace ColorizationControls
             btSauvSauv.Enabled = (txtBNomConfig.Text.Length > 0);
         }
 
+        
+        // --------------------------------- btSauvSauv : Bouton "Sauver" ------------------ ------------------------
+
         private void btSauvSauv_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btSauvSauv_Click");
@@ -641,9 +631,8 @@ namespace ColorizationControls
                 bool doIt = true;
                 if (lbConfigs.FindStringExact(txtBNomConfig.Text) != ListBox.NoMatches)
                 {
-                    StringBuilder sb = new StringBuilder();
                     string message = String.Format(
-                        "Un configuration poartant le nom \"{0}\" est déjà enregistrée. Souhaitez-vous l'écraser?",
+                        "Un configuration poartant le nom \'{0}\' est déjà enregistrée. Souhaitez-vous l'écraser?",
                         txtBNomConfig.Text);
                     var result = MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning);
@@ -653,7 +642,7 @@ namespace ColorizationControls
                 {
                     if (!theConf.SaveConfig(txtBNomConfig.Text))
                     {
-                        string message = String.Format("Impossible de sauvegarder la configuration \"{0}\"", txtBNomConfig.Text);
+                        string message = String.Format("Impossible de sauvegarder la configuration \'{0}\'", txtBNomConfig.Text);
                         MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -663,6 +652,31 @@ namespace ColorizationControls
                 logger.Warn("btSauvSauv_Click a été exécuté alors que txtBNomConfig.Text est vide.");
             }
         }
+
+        private void btSauvSauv_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            logger.ConditionalTrace("btSauvSauv_KeyPress: \'{0}\'", e.KeyChar);
+            if (e.KeyChar == '\r')
+            {
+                btSauvSauv.PerformClick();
+                e.Handled = true;
+            }
+        }
+
+
+        // --------------- lbConfigs : ListBox contenant la liste des configs sauvegardées ------------------------
+
+        private void lbConfigs_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            logger.ConditionalTrace("lbConfigs_KeyPress: \'{0}\'", e.KeyChar);
+            if (e.KeyChar == '\r')
+            {
+                btSauvCharger.PerformClick();
+                e.Handled = true;
+            }
+        }
+
+        // --------------------------------- btSauvCharger : Bouton "Charger" ------------------ ------------------------
 
         private void btSauvCharger_Click(object sender, EventArgs e)
         {
@@ -678,16 +692,44 @@ namespace ColorizationControls
             }
             else
             {
-                string message = String.Format("Impossible de charger la configuration \"{0}\"", configName);
+                string message = String.Format("Impossible de charger la configuration \'{0}\'", configName);
                 MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void lbConfigs_KeyPress(object sender, KeyPressEventArgs e)
+        private void btSauvCharger_KeyPress(object sender, KeyPressEventArgs e)
         {
-            logger.ConditionalTrace("lbConfigs_KeyPress: {0}", e.KeyChar);
+            logger.ConditionalTrace("btSauvCharger_KeyPress: \'{0}\'", e.KeyChar);
             if (e.KeyChar == '\r')
+            {
                 btSauvCharger.PerformClick();
+                e.Handled = true;
+            }
+        }
+
+        // --------------------------------- btSauvCharger : Bouton "Effacer" ------------------ ------------------------
+
+        private void btSauvEffacer_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("btSauvCharger_Click");
+            string configName = lbConfigs.SelectedItem.ToString();
+            string message = String.Format(
+                        "Voulez-vous vraiment effacer la configuration \'{0}\' ?",
+                        configName);
+            var result = MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                if (Config.DeleteSavedConfig(configName))
+                {
+                    UpdateListeConfigs();
+                }
+                else
+                {
+                    string errMessages = String.Format("Impossible d'effacer la configuration \'{0}\'", configName);
+                    MessageBox.Show(errMessages, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         //--------------------------------------------------------------------------------------------
@@ -886,6 +928,5 @@ namespace ColorizationControls
             UpdateAllSoundCbxAndButtons();
         }
 
-        
     }
 }

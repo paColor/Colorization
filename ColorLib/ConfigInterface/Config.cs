@@ -37,6 +37,9 @@ namespace ColorLib
     public class Config
     {
         // *************************************************** Static **********************************************************
+
+        // -------------------------------------- Private Static Members -------------------------------------------------------
+
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private const string ConfigDirName = "Config";
@@ -50,7 +53,12 @@ namespace ColorLib
         private static Dictionary<Object, Config> theConfs; // key is a window
         private static Dictionary<Object, List<Object>> doc2Win; // key is document, value is list of windows
 
+        // -------------------------------------- Public Static Methods -------------------------------------------------------
 
+        /// <summary>
+        /// Initialise la partie statique de la classe (la gestion du  mapping entre documents, fenêtres et configurations).
+        /// </summary>
+        /// <remarks> Est responsable de la création du répertoire où seront sauvegardées les configs.</remarks>
         public static void Init()
         {
             logger.ConditionalTrace("Init");
@@ -61,7 +69,7 @@ namespace ColorLib
                 try
                 {
                     System.IO.Directory.CreateDirectory(ConfigDirPath);
-                    logger.Info("Dossier \"{0}\" créé.", ConfigDirPath);
+                    logger.Info("Dossier \'{0}\' créé.", ConfigDirPath);
                 }
                 catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
                 {
@@ -91,7 +99,7 @@ namespace ColorLib
             }
             catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
             {
-                logger.Error("Impossible de charger la liste de fichiers de sauvegarde du répertoire \"{0}\". Message: {1}",
+                logger.Error("Impossible de charger la liste de fichiers de sauvegarde du répertoire \'{0}\'. Message: {1}",
                     ConfigDirPath, e.Message);
             }
             return toReturn;
@@ -104,7 +112,7 @@ namespace ColorLib
         /// <returns>La configuration chargée ou null si le chargement échoue.</returns>
         public static Config LoadConfig(string name, Object win, Object doc)
         {
-            logger.ConditionalTrace("LoadConfig \"{0}\"", name);
+            logger.ConditionalTrace("LoadConfig \'{0}\'", name);
             Config toReturn = LoadConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension);
             if (toReturn != null)
             {
@@ -118,30 +126,6 @@ namespace ColorLib
                     logger.Info("On charge une config dans une fenêtre qui n'en avait pas jusqu'à présent.");
                 }
                 UpdateWindowsLists(win, doc, toReturn);
-            }
-            return toReturn;
-        }
-
-        private static Config LoadConfigFile(string fileName)
-        {
-            Config toReturn = null;
-            Stream stream = null;
-            try
-            {
-                IFormatter formatter = new BinaryFormatter();
-                stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-                toReturn = (Config)formatter.Deserialize(stream);
-                stream.Close();
-                logger.Info("Config File \"{0}\" loaded.", fileName);
-            }
-            catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
-            {
-                logger.Error("Impossible de lire la config dans le fichier \"{0}\". Erreur {1}",
-                   fileName, e.Message);
-                if (stream != null)
-                {
-                    stream.Dispose();
-                }
             }
             return toReturn;
         }
@@ -184,27 +168,13 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Met à jour les listes statiques rattachées au doc et à win pour mémoriser que <c>theNewConf</c>
-        /// leur est rattaché.
-        /// </summary>
-        /// <param name="win">la fenêtre à laquelle <c>theNewConf</c> doir être rattaché.</param>
-        /// <param name="doc">le document auquel est rattaché la fenêtre.</param>
-        /// <param name="theNewConf">La configuration qui doit être mémorisée.</param>
-        private static void UpdateWindowsLists(Object win, Object doc, Config theNewConf)
-        {
-            theConfs.Add(win, theNewConf);
-
-            // is it a new document?
-            List<Object> theWindows;
-            if (!doc2Win.TryGetValue(doc, out theWindows))
-            {
-                // the document is not yet known
-                theWindows = new List<Object>();
-                doc2Win.Add(doc, theWindows);
-            }
-            theWindows.Add(win);
-        }
-
+        /// Informe la gestion de configurations, que le document <c>doc</c> a été fermé par l'utilisateur.
+        /// </summary
+        /// <remarks>
+        /// S'assure que tous les configs, liées au document soient sauvegardées, et oubliées et met à jour la 
+        /// gestion de fenêtres et de documents.
+        /// </remarks>
+        /// <param name="doc">Le document qui se ferme.</param>
         public static void DocClosed(Object doc)
         {
             logger.ConditionalTrace("DocClosed");
@@ -233,6 +203,81 @@ namespace ColorLib
                 // there was never a Config for this document. This can happen if no colorization took place.
             }
         }
+
+        /// <summary>
+        /// Efface la configuration portant le nom <c>confName</c>.
+        /// </summary>
+        /// <param name="confName">Le nom de la configuration à effacer des configurations enregistrées.</param>
+        public static bool DeleteSavedConfig(string confName)
+        {
+            bool toReturn = false;
+            string fileName = "";
+            try
+            {
+                fileName = Path.Combine(ConfigDirPath, confName) + SavedConfigExtension;
+                File.Delete(fileName);
+                toReturn = true;
+                logger.ConditionalTrace("Fichier \'{0}\' effacé", fileName);
+            }
+            catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
+            {
+                logger.Error("Impossible d'effacer la configuration \'{0}\' dans le fichier \"{1}\". Erreur {2}",
+                   confName, fileName, e.Message);
+                toReturn = false;
+            }
+            return toReturn;
+        }
+
+
+        // -------------------------------------- Public Static Methods -------------------------------------------------------
+
+        private static Config LoadConfigFile(string fileName)
+        {
+            Config toReturn = null;
+            Stream stream = null;
+            try
+            {
+                IFormatter formatter = new BinaryFormatter();
+                stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                toReturn = (Config)formatter.Deserialize(stream);
+                stream.Close();
+                logger.Info("Config File \'{0}\' loaded.", fileName);
+            }
+            catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
+            {
+                logger.Error("Impossible de lire la config dans le fichier \'{0}\'. Erreur {1}",
+                   fileName, e.Message);
+                if (stream != null)
+                {
+                    stream.Dispose();
+                }
+            }
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Met à jour les listes statiques rattachées au doc et à win pour mémoriser que <c>theNewConf</c>
+        /// leur est rattaché.
+        /// </summary>
+        /// <param name="win">la fenêtre à laquelle <c>theNewConf</c> doir être rattaché.</param>
+        /// <param name="doc">le document auquel est rattaché la fenêtre.</param>
+        /// <param name="theNewConf">La configuration qui doit être mémorisée.</param>
+        private static void UpdateWindowsLists(Object win, Object doc, Config theNewConf)
+        {
+            theConfs.Add(win, theNewConf);
+
+            // is it a new document?
+            List<Object> theWindows;
+            if (!doc2Win.TryGetValue(doc, out theWindows))
+            {
+                // the document is not yet known
+                theWindows = new List<Object>();
+                doc2Win.Add(doc, theWindows);
+            }
+            theWindows.Add(win);
+        }
+
+
 
         // *************************************************** Instantiated ****************************************************
 
@@ -275,7 +320,7 @@ namespace ColorLib
         /// <returns>true si la sauvegarde a pu avoir lieu, sinon false. </returns>
         public bool SaveConfig(string name)
         {
-            logger.ConditionalTrace("SaveConfig \"{0}\"", name);
+            logger.ConditionalTrace("SaveConfig \'{0}\'", name);
             bool toReturn = SaveConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension);
             configName = name;
             updateListeConfigs();
@@ -293,11 +338,11 @@ namespace ColorLib
                 formatter.Serialize(stream, this);
                 stream.Close();
                 toReturn = true;
-                logger.Info("Config \"{0}\" enregistrée", fileName);
+                logger.Info("Config \'{0}\' enregistrée", fileName);
             }
             catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
             {
-                logger.Error("Impossible d'écrire le fichier de config \"{0}\". Erreur: {1}",
+                logger.Error("Impossible d'écrire le fichier de config \'{0}\'. Erreur: {1}",
                     fileName, e.Message);
                 if (stream != null)
                 {
