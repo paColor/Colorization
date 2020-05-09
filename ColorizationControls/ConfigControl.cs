@@ -653,7 +653,7 @@ namespace ColorizationControls
                 {
                     if (!theConf.SaveConfig(txtBNomConfig.Text))
                     {
-                        string message = String.Format("Impossible de sauvegarder la configuration {0}", txtBNomConfig.Text);
+                        string message = String.Format("Impossible de sauvegarder la configuration \"{0}\"", txtBNomConfig.Text);
                         MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -678,9 +678,16 @@ namespace ColorizationControls
             }
             else
             {
-                string message = String.Format("Impossible de charger la configuration {0}", configName);
+                string message = String.Format("Impossible de charger la configuration \"{0}\"", configName);
                 MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void lbConfigs_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            logger.ConditionalTrace("lbConfigs_KeyPress: {0}", e.KeyChar);
+            if (e.KeyChar == '\r')
+                btSauvCharger.PerformClick();
         }
 
         //--------------------------------------------------------------------------------------------
@@ -879,5 +886,6 @@ namespace ColorizationControls
             UpdateAllSoundCbxAndButtons();
         }
 
+        
     }
 }

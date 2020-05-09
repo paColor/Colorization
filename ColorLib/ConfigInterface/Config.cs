@@ -61,9 +61,9 @@ namespace ColorLib
                 try
                 {
                     System.IO.Directory.CreateDirectory(ConfigDirPath);
-                    logger.Info("Dossier {0} créé.", ConfigDirPath);
+                    logger.Info("Dossier \"{0}\" créé.", ConfigDirPath);
                 }
-                catch (System.IO.IOException e)
+                catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
                 {
                     MessageBox.Show("Impossible de créer le répertoire" + ConfigDirPath);
                     logger.Error("Impossible de créer le répertoire {0}. Erreur {1}", ConfigDirPath, e.Message);
@@ -89,9 +89,9 @@ namespace ColorLib
                     toReturn.Add(Path.GetFileNameWithoutExtension(fileName));
                 }
             }
-            catch (System.IO.IOException e)
+            catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
             {
-                logger.Error("Impossible de charger la liste de fichiers de sauvegarde du répertoire {0}. Message: {1}",
+                logger.Error("Impossible de charger la liste de fichiers de sauvegarde du répertoire \"{0}\". Message: {1}",
                     ConfigDirPath, e.Message);
             }
             return toReturn;
@@ -104,7 +104,7 @@ namespace ColorLib
         /// <returns>La configuration chargée ou null si le chargement échoue.</returns>
         public static Config LoadConfig(string name, Object win, Object doc)
         {
-            logger.ConditionalTrace("LoadConfig {0}", name);
+            logger.ConditionalTrace("LoadConfig \"{0}\"", name);
             Config toReturn = LoadConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension);
             if (toReturn != null)
             {
@@ -124,20 +124,24 @@ namespace ColorLib
 
         private static Config LoadConfigFile(string fileName)
         {
-            logger.ConditionalTrace("LoadConfigFile {0}", fileName);
             Config toReturn = null;
+            Stream stream = null;
             try
             {
                 IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 toReturn = (Config)formatter.Deserialize(stream);
                 stream.Close();
-                logger.Info("Config File {0} loaded.", fileName);
+                logger.Info("Config File \"{0}\" loaded.", fileName);
             }
-            catch (Exception e) when (e is IOException || e is SerializationException)
+            catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
             {
-                logger.Error("Impossible de lire la config dans le fichier {0}. Erreur {1}",
+                logger.Error("Impossible de lire la config dans le fichier \"{0}\". Erreur {1}",
                    fileName, e.Message);
+                if (stream != null)
+                {
+                    stream.Dispose();
+                }
             }
             return toReturn;
         }
@@ -203,6 +207,7 @@ namespace ColorLib
 
         public static void DocClosed(Object doc)
         {
+            logger.ConditionalTrace("DocClosed");
             List<Object> theWindows;
             if (doc2Win.TryGetValue(doc, out theWindows))
             {
@@ -270,6 +275,7 @@ namespace ColorLib
         /// <returns>true si la sauvegarde a pu avoir lieu, sinon false. </returns>
         public bool SaveConfig(string name)
         {
+            logger.ConditionalTrace("SaveConfig \"{0}\"", name);
             bool toReturn = SaveConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension);
             configName = name;
             updateListeConfigs();
@@ -279,19 +285,24 @@ namespace ColorLib
         private bool SaveConfigFile (string fileName)
         {
             bool toReturn = false;
+            Stream stream = null;
             try
             {
                 IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+                stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
                 formatter.Serialize(stream, this);
                 stream.Close();
                 toReturn = true;
-                logger.Info("Config {0} enregistrée", fileName);
+                logger.Info("Config \"{0}\" enregistrée", fileName);
             }
-            catch (Exception e) when (e is IOException || e is SerializationException)
+            catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
             {
-                logger.Error("Impossible d'écrire le fichier de config {0}. Erreur: {1}",
+                logger.Error("Impossible d'écrire le fichier de config \"{0}\". Erreur: {1}",
                     fileName, e.Message);
+                if (stream != null)
+                {
+                    stream.Dispose();
+                }
                 toReturn = false;
             }
             return toReturn;
@@ -300,6 +311,7 @@ namespace ColorLib
         [OnDeserializing]
         private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
         {
+            logger.ConditionalTrace("SetOptionalFieldsToDefaultVal");
             configName = "";
         }
 

@@ -1353,6 +1353,7 @@
             this.lbConfigs.Size = new System.Drawing.Size(167, 277);
             this.lbConfigs.Sorted = true;
             this.lbConfigs.TabIndex = 4;
+            this.lbConfigs.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lbConfigs_KeyPress);
             // 
             // lblTitreSauv
             // 
