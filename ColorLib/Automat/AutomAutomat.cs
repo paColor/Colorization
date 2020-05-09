@@ -31,7 +31,61 @@ namespace ColorLib
 {
     public class AutomAutomat : AutomElement
     {
-        static private string theAutomat =
+		/*****************************************************************************************************************
+		
+		La syntaxe de l'automate est plagiée de LireCouleur. Le contenu est à 95% le même.. 
+		Bien sûr, l’automate est en fait un emboitement de structures. 
+		Au premier niveau, c’est une liste d’éléments {e1, e2, e3, …, en}
+		Chaque élément ex correspond à une structure « key : value »
+		value est composé d’une liste de deux éléments notés [él1, él2]
+		él1 est une liste d’éléments
+		él2 est une liste de « key : value »
+		où cette fois value est un triplet (ou liste de trois éléments) composé
+		•	d’une liste l
+		•	d’un string
+		•	d’un nombre entier
+		la liste l, contient soit un identifiant de fonction, ou une liste de un ou deux « key : value »
+		où value est une expression régulière et key la façon de l’utiliser dans le mot qu’on travaille.
+
+		Il y a donc finalement trois éléments de base :
+		1.	« key : value », où key est un nom entre guillemets simples et value n’importe quel objet
+		2.	La liste {} qui contient des objets séparés par une virgule
+		3.	La liste [] qui contient des objets séparés par une virgule
+		Je ne sais pas quelle est la différence entre la liste [] et la liste {}. Il faudrait vérifier dans Javascript.
+		L’automate est donc une liste de key-value pairs, où les values sont des listes et on descend récursivement 
+		dans les possibilités. Syntaxiquement, c’est donc finalement assez simple. Comme nous cherchons la sémantique de 
+		cet automate, nous avons considéré une syntaxe plus sophistiquée.
+		*)
+
+		alphaChar =         "a" | "b" | ... | "z";
+		digit =             "0" | "1" | ... | "9";
+		quoteMark =         "'"
+		charWithoutSlash =  alphaChar | digit | charactersWOCapitalsOrSlash
+								(* en fait n'importe quel caractère qui peut se retrouver dans un texte, sauf les majuscules *)
+		identifier =        alphaChar, { alphaChar | digit | "_" };
+		char =              charWithoutSlash | "/";
+		letter =            quoteMark, char, quoteMark;
+		name =              quoteMark, identifier, quoteMark;
+		regexRule =         charWithoutSlash, {charWithoutSlash}; 
+								(* on se simplifie la vie en définissant une règle regex comme une suite de caractères sans "/" *)
+		regex =             "/", regexRule, "/"
+		ruleFilterComp =    ((quoteMark, "+", quoteMark) | (quoteMark, "-", quoteMark)), ":", regex, "i";
+		ruleFilter =        ("{", ruleFilterComp, [",", ruleFilterComp], "}") | identifier;
+		rule =              name, ":", "[", ruleFilter, ",", name, ",", digit, [",", name], "]" ;
+		ruleList =          "{", rule, {",", rule}, "}";
+		ruleOrder =         "[", name, {",", name}, "]";
+		letterAutomat =     char, ":", "[", ruleOrder, ",", ruleList, "]";
+		automat =           "{", letterAutomat, {",", letterAutomat}, "}";
+
+		(* 
+		Par rapport à l’automate original, nous avons ajouté la possibilité de mettre un nom à la fin de la ligne rule. 
+		Si ce nom est présent, il indique le nom d’un flag qui doit être mis pour que la règle soit prise en compte.
+		*) 
+		
+		***************************************************************************************************************************/
+
+
+		static private string theAutomat =
 			@"{
 				'a' : [['u','il','in','nc_ai_fin','ai_fin','fais','i','n','m','nm','y_except','y_fin','yat','y', '*'],
 						{'n':[{'+':/n[bcçdfgjklmpqrstvwxz]/i},'a_tilda',2],
@@ -415,8 +469,8 @@ namespace ColorLib
              * {List of AutomLetter separated by ','}
              */
 
-            // Let's skip possible leading spaces
-            int pos = 0;
+		// Let's skip possible leading spaces
+		int pos = 0;
             pos = GetNextChar(pos);
             // The char at pos must be an {
             Debug.Assert(s[pos] == '{', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomAutomat, on attend un \'{{\' en début d'automate.",

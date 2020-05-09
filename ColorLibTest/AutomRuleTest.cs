@@ -78,6 +78,21 @@ namespace ColorLibTest
                 StringAssert.Contains(e.Message, "faux");
             }
 
+            // ****************************** TEST 5 **************************************
+            tstAR = @"'_ent':[this.Regle_mots_ent,'a_tilda',2,IllCeras] 
+                // quelques mots (adverbes ou noms) terminés par ent, avec flag";
+            pos = 0;
+            ar = new AutomRule(tstAR, ref pos, vRN);
+            Assert.AreEqual(']', tstAR[pos]);
+            rTxt = ar.ToString();
+            StringAssert.Matches(rTxt, new Regex(@"RuleName: _ent\r\n"));
+            StringAssert.Matches(rTxt, new Regex(@"rf: Regle_mots_ent\r\n"));
+            StringAssert.Matches(rTxt, new Regex(@"prevRegex: \r\n"));
+            StringAssert.Matches(rTxt, new Regex(@"follRegEx: \r\n"));
+            StringAssert.Matches(rTxt, new Regex(@"isFirstLetter: False\r\n"));
+            StringAssert.Matches(rTxt, new Regex(@"p: a_tilda\r\n"));
+            StringAssert.Matches(rTxt, new Regex(@"incr: 2\r\n"));
+
         } // TestAutomRule
 
         private string FP (PhonWord pw, int pos)

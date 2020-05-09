@@ -25,12 +25,35 @@ using System.Diagnostics;
 
 namespace ColorLib
 {
+    /**************************************************************************************************
+     *                                                REMINDER                                        
+     * Syntax of a rule:
+     * 
+     * regexRule =         charWithoutSlash, {charWithoutSlash}; 
+	 *						 (* on se simplifie la vie en définissant une règle regex comme une suite 
+     *						    de caractères sans "/" *)
+     * regex =             "/", regexRule, "/"
+	 * ruleFilterComp =    ((quoteMark, "+", quoteMark) | (quoteMark, "-", quoteMark)), ":", regex, "i";
+	 * ruleFilter =        ("{", ruleFilterComp, [",", ruleFilterComp], "}") | identifier;
+	 * rule =              name, ":", "[", ruleFilter, ",", name, ",", digit, [",", name], "]" ;
+     * 
+     * '+' means after the current letter in the word.
+     * '-' means before the current letter in the word
+     * the three names on the rule line mean
+     *   1) name of the rule
+     *   2) name of the phonème that is applied by the rule if the rulefilter is evaluated to true
+     *   3) name of the flag that must be checked before the rule is fired.
+     *   
+     *  digit on the rule line is the number of letters for the considered phonème.
+     *
+     * ************************************************************************************************/
     public class AutomRule : AutomElement
     {
         public string RuleName { get; }
         private AutomRuleFilter rf;
         private Phonemes p;
         private int incr;
+        private AutomFlagsConfig.RuleFlag flag;
 
         /************************       CONSTRUCTOR          ******************************************
          * Create an AutomRule Object
@@ -107,12 +130,31 @@ namespace ColorLib
 
             // let's find the increment i.e. le pas
             pos = GetNextChar(pos + 1);
-            var endOfNumberPos = s.IndexOf(']', pos);
-            Debug.Assert(endOfNumberPos > pos, String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend \']\' après le pas.",
+            var endOfNumberPos = s.IndexOfAny("],".ToCharArray(), pos);
+            Debug.Assert(endOfNumberPos > pos, String.Format(BaseConfig.cultF,
+                "La pos {0} de {1} n'est pas un AutomRule, on attend \']\' ou \',\' après le pas.",
                 pos - start, s.Substring(start, (pos + 1) - start)));
             var theIntString = s.Substring(pos, endOfNumberPos - pos).Trim();
             incr = int.Parse(theIntString, BaseConfig.cultF);
             pos = endOfNumberPos;
+
+            // if we are on a coma, there is an identifier to load.
+            if (s[pos] == ',')
+            {
+                pos = GetNextChar(pos + 1);
+                var endOfFlagName = s.IndexOf(']', pos);
+                Debug.Assert(endOfFlagName > pos, String.Format(BaseConfig.cultF,
+                    "La pos {0} de {1} n'est pas un AutomRule, on attend \']\' après le nom de flag.",
+                    pos - start, s.Substring(start, (pos + 1) - start)));
+                var flagName = s.Substring(pos, endOfFlagName - pos).Trim();
+                flag = (AutomFlagsConfig.RuleFlag)Enum.Parse(typeof(AutomFlagsConfig.RuleFlag), flagName);
+                pos = endOfFlagName;
+            }
+            else
+            {
+                flag = AutomFlagsConfig.RuleFlag.dummy;
+            }
+
             end = pos;
 
         } // constructor AutomRule
@@ -136,7 +178,7 @@ namespace ColorLib
 
         public bool TryApplyRule (PhonWord pw, ref int pos, string firstPart, string secondPart)
         {
-            bool found = rf.Check(pw, pos, firstPart, secondPart);
+            bool found = pw.T.GetConfig().flagConf.GetFlag(flag) && rf.Check(pw, pos, firstPart, secondPart);
             if (found) 
             {
                 PhonInW piw = new PhonInW(pw, pos, pos + incr - 1, p, RuleName);

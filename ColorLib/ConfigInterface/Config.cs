@@ -294,6 +294,22 @@ namespace ColorLib
         [OptionalField(VersionAdded = 2)]
         private string configName;
 
+        [OptionalField(VersionAdded = 2)]
+        private AutomFlagsConfig aFlagC;
+
+        public AutomFlagsConfig flagConf 
+        { 
+            get 
+            {
+                return aFlagC;
+            } 
+            
+            private set
+            {
+                aFlagC = value;
+            }
+        }
+
         public Config()
         {
             logger.ConditionalTrace("Config");
@@ -304,6 +320,7 @@ namespace ColorLib
             colors[PhonConfType.muettes] = new ColConfWin(PhonConfType.muettes);
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
             configName = "";
+            aFlagC = new AutomFlagsConfig();
         }
 
         /// <summary>
