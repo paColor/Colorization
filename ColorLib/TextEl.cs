@@ -31,7 +31,7 @@ namespace ColorLib
         public int First { get; protected set; } // start index of the word in T
         public int Last { get; protected set; }
         private const string consonnes = "bcdfghjklmnpqrstvwxzç";
-        private const string voyelles = "aeiouyœéàèùäëïöüâêîôû";
+        private const string voyelles = "aeiouyœéàèùäëïöüâêîôûœ";
 
         public static bool EstConsonne(char c)
         {
@@ -65,7 +65,7 @@ namespace ColorLib
 
         protected void SetCharFormat(CharFormatting cf)
         {
-            ColoredTextEl cte = new ColoredTextEl(this, cf);
+            FormattesTextEl cte = new FormattesTextEl(this, cf);
             T.Formats.Add(cte);
         }
 

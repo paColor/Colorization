@@ -101,8 +101,8 @@ namespace ColorLib
         // Les tests semblent prouver que la taille de cet enum n'a pas d'impact sur la compatibilité des sauvegardes...
         // comme ça ne mange presque pas de pain, gardons-les quand même.
 
-        reserve1,
-        reserve2,
+        j_ill,      // utilisé dans la version CERAS des règles pour "ill" et "il" correspond au son 'j'
+        i_j_ill,    // utilisé dans la version CERAS des règles pour "ill" (et "il") correspond au son 'ij'
         reserve3,
         reserve4,
         reserve5,
@@ -234,6 +234,8 @@ namespace ColorLib
             { Phonemes.gz,          "gz" },
             { Phonemes.verb_3p,     "" },
             { Phonemes._muet,       "" },
+            { Phonemes.j_ill,       "j" },
+            { Phonemes.i_j_ill,     "ij" },
             { Phonemes.firstPhon,   "FIRSTPHON" },
             { Phonemes.lastPhon,    "LASTPHON" }
         };

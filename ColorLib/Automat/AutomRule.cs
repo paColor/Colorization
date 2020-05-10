@@ -53,7 +53,7 @@ namespace ColorLib
         private AutomRuleFilter rf;
         private Phonemes p;
         private int incr;
-        private AutomFlagsConfig.RuleFlag flag;
+        private ColConfWin.RuleFlag flag;
 
         /************************       CONSTRUCTOR          ******************************************
          * Create an AutomRule Object
@@ -147,12 +147,12 @@ namespace ColorLib
                     "La pos {0} de {1} n'est pas un AutomRule, on attend \']\' après le nom de flag.",
                     pos - start, s.Substring(start, (pos + 1) - start)));
                 var flagName = s.Substring(pos, endOfFlagName - pos).Trim();
-                flag = (AutomFlagsConfig.RuleFlag)Enum.Parse(typeof(AutomFlagsConfig.RuleFlag), flagName);
+                flag = (ColConfWin.RuleFlag)Enum.Parse(typeof(ColConfWin.RuleFlag), flagName);
                 pos = endOfFlagName;
             }
             else
             {
-                flag = AutomFlagsConfig.RuleFlag.dummy;
+                flag = ColConfWin.RuleFlag.dummy;
             }
 
             end = pos;
@@ -178,7 +178,7 @@ namespace ColorLib
 
         public bool TryApplyRule (PhonWord pw, ref int pos, string firstPart, string secondPart)
         {
-            bool found = pw.T.GetConfig().flagConf.GetFlag(flag) && rf.Check(pw, pos, firstPart, secondPart);
+            bool found = pw.T.GetConfig().colors[PhonConfType.phonemes].GetFlag(flag) && rf.Check(pw, pos, firstPart, secondPart);
             if (found) 
             {
                 PhonInW piw = new PhonInW(pw, pos, pos + incr - 1, p, RuleName);

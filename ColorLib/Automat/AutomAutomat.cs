@@ -245,8 +245,8 @@ namespace ColorLib
 							'*':[{},'g',1]}],
 					'h' : [['*'],
 							{'*':[{},'_muet',1]}],
-					'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill',
-							'ill','except_ill', '@ill','@il','ll','ui','ient_1','ient_2','ie','i_voyelle', '*'],
+					'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill','tranquille',
+							'ill','except_ill','ill_Ceras', '@ill','@il','ll','@il_Ceras','ll_Ceras','ui','ient_1','ient_2','ie','i_voyelle', '*'],
 							{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng$/i},'i',1],
 							'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
 							'm':[{'+':/m[bcçdfghjklnpqrstvwxz]/i},'e_tilda',2],
@@ -255,11 +255,15 @@ namespace ColorLib
 							'lldeb':[{'-':/^/i,'+':/ll/i},'i',1],
 							'vill':[{'-':/v/i,'+':/ll/i},'i',1],
 							'mill':[{'-':/m/i,'+':/ll/i},'i',1],
-							'ill':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i',1], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
+							'tranquille' : [{'-':/tranqu/i,'+':/ll/i},'i',1,IllCeras],
+							'ill':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i',1,IllLireCouleur], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
+							'ill_Ceras':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i_j_ill',3,IllCeras], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
 							'except_ill':[this.Regle_ill,'i',1], // PAE - 07.05.20
-							'@ill':[{'-':/[aeo]/i,'+':/ll/i},'j',3], // par défaut précédé d'une voyelle et suivi de 'll' donne le son [j]
-							'@il':[{'-':/[aeou]/i,'+':/l(s?)$/i},'j',2], // par défaut précédé d'une voyelle et suivi de 'l' donne le son [j]
-							'll':[{'+':/ll/i},'j',3], // par défaut avec ll donne le son [j]
+							'@ill':[{'-':/[aeoœ]/i,'+':/ll/i},'j',3,IllLireCouleur], // par défaut précédé d'une voyelle et suivi de 'll' donne le son [j]
+							'@il':[{'-':/[aeouœ]/i,'+':/l(s?)$/i},'j',2,IllLireCouleur], // par défaut précédé d'une voyelle et suivi de 'l' donne le son [j]
+							'@il_Ceras':[{'-':/[aeouœ]/i,'+':/l(s?)$/i},'j_ill',2, IllCeras], // par défaut précédé d'une voyelle et suivi de 'l' donne le son [ill]
+							'll':[{'+':/ll/i},'j',3, IllLireCouleur], // par défaut avec ll donne le son [j]
+							'll_Ceras':[{'+':/ll/i},'j_ill',3, IllCeras], // par défaut avec ll donne le son [ill]
 							'ui':[{'-':/u/i,'+':/ent/i},'i',1], // essuient, appuient
 							'ient_1':[this.Regle_ient,'i',1], // règle spécifique pour différencier les verbes du premier groupe 3ème pers pluriel
 							'ient_2':[{'+':/ent(s)?$/i},'j',1], // si la règle précédente ne fonctionne pas

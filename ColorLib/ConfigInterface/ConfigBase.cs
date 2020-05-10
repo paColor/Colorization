@@ -24,43 +24,23 @@ using System.Text;
 
 namespace ColorLib
 {
+    /// <summary>
+    /// Classe de base pour les différentes classes de configuration.
+    /// </summary>
     [Serializable]
-    public enum Ucbx { bold, italic, underline, color, hilight, all, last } // all avant-dernier, last dernier
-
-    [Serializable]
-    public class UnsetBehConf : ConfigBase
+    public class ConfigBase
     {
-        [NonSerialized] public ExecuteTask updateUCheckBoxes; // { private get; set; }
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private static string[] cbuNames = new string[] { "Bold", "Italic", "Underline", "Color", "Hilight", "All" };
-
-        private bool[] act;
-        private Dictionary<string, int> cbuMap;
-
-        public UnsetBehConf()
+        /// <summary>
+        /// Est appelé à la fin de la désérialisation pour permettre d'initilaiser les membres optionnels
+        /// qui n'ont pas pu être traités par les mécanismes classiques. Il y a en effet des problèmes avec les 
+        /// collections qui semblent être désérialisées après lappel de la méthode [OnDeserialized]
+        /// </summary>
+        internal virtual void PostLoadInitOptionalFields()
         {
-            act = new bool[(int)Ucbx.last];
-            cbuMap = new Dictionary<string, int>((int)Ucbx.last);
-            for (int i = 0; i < (int)Ucbx.last; i++)
-            {
-                act[i] = false;
-                cbuMap[cbuNames[i]] = i;
-            }
+            logger.ConditionalTrace("PostLoadInitOptionalFields");
+            // Par défaut: ne rien faire :-)
         }
-
-        public void CbuChecked(string cbuName, bool val)
-        {
-            int btuIndex = cbuMap[cbuName];
-            act[btuIndex] = val;
-            if (btuIndex == (int)Ucbx.all)
-            {
-                for (int i = 0; i < (int)Ucbx.all; i++)
-                    act[i] = val;
-                updateUCheckBoxes();
-            }
-        }
-
-        public bool CbuVal(string cbuName) => act[cbuMap[cbuName]];
-        public bool CbuVal(Ucbx u) => act[(int)u];
     }
 }

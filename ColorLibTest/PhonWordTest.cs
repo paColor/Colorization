@@ -31,6 +31,7 @@ namespace ColorLibTest
         private void CheckTextVsSyls(string txt, string[] syls, bool std, bool ecrit)
         {
             TheText tt = TheText.NewTestTheText(txt);
+            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             tt.GetConfig().sylConf.DoubleConsModified(std);
             tt.GetConfig().sylConf.ModeEcritModified(ecrit);
             List<PhonWord> pws = tt.GetPhonWords();
@@ -52,6 +53,7 @@ namespace ColorLibTest
             string txt = @"audacieux";
             string syllabe = "au-da-cieux";
             TheText tt = TheText.NewTestTheText(txt);
+            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             List<PhonWord> pws = tt.GetPhonWords();
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls();
@@ -61,6 +63,7 @@ namespace ColorLibTest
             txt = @"colorƨation";
             syllabe = "co-lo-rƨa-tion";
             tt = TheText.NewTestTheText(txt);
+            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             pws = tt.GetPhonWords();
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls();
@@ -150,6 +153,7 @@ namespace ColorLibTest
             StringBuilder sb = new StringBuilder();
             TheText.Init();
             TheText tt = TheText.NewTestTheText(txt);
+            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             List<PhonWord> pws = tt.GetPhonWords();
             int i = 0;
             int nrLines = pws.Count / wordsPerLine;
@@ -182,6 +186,7 @@ namespace ColorLibTest
         private void CheckTextVsPhons(string txt, string[] phons)
         {
             TheText tt = TheText.NewTestTheText(txt);
+            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             List<PhonWord> pws = tt.GetPhonWords();
             for (int i = 0; i < phons.Length; i++)
             {
@@ -337,7 +342,7 @@ namespace ColorLibTest
                 "@", "ale", "m§", "fil", "tRO", "l§", "fRisOn", "e", "tuS", "pREsk",
                 "o", "glEv", "l°", "v@", "ki", "t", "@pORta", "dus°m@", "m°", "sulEv",
                 "e", "Z°", "vE", "syivR", "s2", "ki", "m", "EmE", "mwa", "bani",
-                "l2R", "2il", "fiks", "m", "atiR", "o", "f§", "d°", "l", "5fini",
+                "l2R", "2j", "fiks", "m", "atiR", "o", "f§", "d°", "l", "5fini",
                 "Z", "i", "kuR", "n°", "fERme", "pa", "la", "pORt", "fyneRER", "pas§",
                 "kaR", "s", "E", "la", "lwa", "nyl", "n°", "p2", "s", "i",
                 "sustRER", "tu", "p@S", "e", "s°", "gR@", "sjEkl", "avEk", "tus", "se",

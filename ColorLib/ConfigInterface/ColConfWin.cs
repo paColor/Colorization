@@ -23,16 +23,18 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
 namespace ColorLib
 {
     [Serializable]
     public enum CERASColors { CERAS_oi, CERAS_o, CERAS_an, CERAS_5, CERAS_E, CERAS_e, CERAS_u, CERAS_on, CERAS_eu,
-        CERAS_oin, CERAS_muet, CERAS_rosé
+        CERAS_oin, CERAS_muet, CERAS_rosé, CERAS_ill,
     }
 
     [Serializable]
     public enum PredefCols { black, darkYellow, orange, darkGreen, violet, darkBlue, red, brown, blue, green, grey, pink, 
+        pureGreen,
         pureBlue, white, neutral}
 
     public delegate void ExecuteTask();
@@ -40,13 +42,23 @@ namespace ColorLib
     public delegate void ExecTaskOnSon(string son);
 
     [Serializable]
-    public class ColConfWin
+    public class ColConfWin : ConfigBase
     {
+        // -------------------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------    public types   --------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// mode à utiliser pour les "ill"
+        /// </summary>
+        /// [Serializable]
+        public enum IllRule { ceras, lirecouleur }
+
         // -------------------------------------------------------------------------------------------------------------------
         // --------------------------------------------  public static members -----------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
-        
-        public const int nrSons = 40; // don't forget to increase in case...
+
+        public const int nrSons = 41; // don't forget to increase in case...
 
         // phonemes: les couleurs par phonème qui peuvent être éditées et qui seront appliquées lors de la colorisation des phonèmes.
         // muettes: couleurs appliquées aux phonèmes dans le cas où on ne veut que coloriser les muettes
@@ -64,18 +76,29 @@ namespace ColorLib
             new RGB(0, 200, 0),     // CERAS_oin    --> vert
             new RGB(166, 166, 166), // CERAS_muet   --> gris
             new RGB(255, 100, 177), // CERAS_rosé   --> rose
+            new RGB(0, 255, 0),     // CERAS_ill    --> vert pur / grenouille
 
             new RGB(0, 0, 255),     // bleuPur      --> bleu
             new RGB(255, 255, 255), // blanc        --> blanc
             new RGB(221, 221, 221), // neutre       --> gris // il est important qu'il ne s'agisse pas d'une couleur de WdColorIndex
         };
 
-        public static CharFormatting[] predefCF; 
+        public static CharFormatting[] predefCF;
         // CharFormattings corresponding to the predefined colors.
 
-        
+        // -------------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------  Internal Types ---------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
 
-        
+        /// <summary>
+        /// Contient les identifiants pour les flags de contrôle des règles de l'automate
+        /// </summary>
+        /// <remarks>
+        /// IllCeras: les "ill" et "il" sont traités comme un son.
+        /// IllLireCouleur: les "ill" et "il" sont traités en fonction des phonèmes effectivement présents
+        /// dans les mots. fille par exemple donne fij°. l'un des deux flags doit être mis.
+        /// </remarks>
+        internal enum RuleFlag { dummy, IllCeras, IllLireCouleur, last }
 
         // -------------------------------------------------------------------------------------------------------------------
         // --------------------------------------------  private static members ----------------------------------------------
@@ -104,6 +127,7 @@ namespace ColorLib
             {"5",   new List<Phonemes> (1) {Phonemes.e_tilda}},
             {"w",   new List<Phonemes> (1) {Phonemes.w}},
             {"j",   new List<Phonemes> (1) {Phonemes.j}},
+            {"ill", new List<Phonemes> (2) {Phonemes.j_ill, Phonemes.i_j_ill}},
             {"ng",  new List<Phonemes> (1) {Phonemes.J}},
             {"gn",  new List<Phonemes> (1) {Phonemes.N}},
             {"l",   new List<Phonemes> (1) {Phonemes.l}},
@@ -147,10 +171,11 @@ namespace ColorLib
             {"oi",  new string[2] {"[oi]",  "noix"      } },
             {"5",   new string[2] {"[5]",   "fin"       } },
             {"w",   new string[2] {"[w]",   "kiwi"      } },
-            {"j",   new string[2] {"[j]",   "fille"     } },
+            {"j",   new string[2] {"[j]",   "payer"     } },
+            {"ill", new string[2] {"[ill]", "feuille"   } },
             {"ng",  new string[2] {"[ng]",  "parking"   } },
             {"gn",  new string[2] {"[gn]",  "ligne"     } },
-            {"l",   new string[2] {"[l]",   "ville"     } },
+            {"l",   new string[2] {"[l]",   "aller"     } },
             {"v",   new string[2] {"[v]",   "veau"      } },
             {"f",   new string[2] {"[f]",   "effacer"   } },
             {"p",   new string[2] {"[p]",   "papa"      } },
@@ -183,7 +208,37 @@ namespace ColorLib
         // Method to call in order to update the checkboxes for the sounds (sons)
         [NonSerialized] public ExecTaskOnSon updateButton; // { set; private get; }
         [NonSerialized] public ExecTaskOnSon updateCbx; // { set; private get; }
-        
+        [NonSerialized] public ExecuteTask updateIllRule;
+
+        /// <summary>
+        /// Permet de déterminer le mode à utiliser pour les "ill". A utiliser en lecture et en écriture.
+        /// </summary>
+        public IllRule IllRuleToUse
+        {
+            get
+            {
+                if (flags[(int)RuleFlag.IllCeras])
+                    return IllRule.ceras;
+                else
+                    return IllRule.lirecouleur;
+            }
+
+            set
+            {
+                if (value == IllRule.ceras)
+                {
+                    flags[(int)RuleFlag.IllCeras] = true;
+                    flags[(int)RuleFlag.IllLireCouleur] = false;
+                }
+                else if (value == IllRule.lirecouleur)
+                {
+                    flags[(int)RuleFlag.IllCeras] = false;
+                    flags[(int)RuleFlag.IllLireCouleur] = true;
+                }
+                updateIllRule();
+            }
+        }
+
         // -------------------------------------------------------------------------------------------------------------------
         // -----------------------------------------------  private  members -------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
@@ -199,6 +254,10 @@ namespace ColorLib
         private Dictionary<string, CharFormatting> cfSon;
         private Dictionary<string, bool> chkSon; // indique si le CharFormatting du son doit être appliqué ou non.
 
+        // --------------------------------- La configuration du traitement des "ill"  ---------------------------------------
+        [OptionalField(VersionAdded = 2)]
+        private List<bool> flags;
+        // on se sert de RuleFlags comme index dans le tableau.
 
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  public static methods ---------------------------------------------
@@ -247,17 +306,27 @@ namespace ColorLib
 
         public ColConfWin(PhonConfType inPct)
         {
+            updateIllRule = DummyExecuteTask;
+            updateAllSoundCbxAndButtons = DummyExecuteTask;
+            updateButton = DummyExecTaskOnSon;
+            updateCbx = DummyExecTaskOnSon;
+
             cfPhon = new CharFormatting[(int)Phonemes.lastPhon];
             chkPhon = new bool[(int)Phonemes.lastPhon];
 
             cfSon = new Dictionary<string, CharFormatting>(sonMap.Count);
             chkSon = new Dictionary<string, bool>(sonMap.Count);
 
+            flags = new List<bool>((int)RuleFlag.last);
+            for (int i = 0; i < (int)RuleFlag.last; i++)
+                flags.Add(true); // par défaut, les règles sont actives.
+            flags[(int)RuleFlag.IllLireCouleur] = false; // config par défaut
+
             pct = inPct;
             switch (pct)
             {
                 case PhonConfType.phonemes:
-                    InitColorCeras();
+                    InitColorCerasRose();
                     break;
                 case PhonConfType.muettes:
                     InitColorMuettes();
@@ -334,14 +403,7 @@ namespace ColorLib
 
         public void SetCerasRose()
         {
-            InitColorCeras();
-            Set("é", predefCF[(int)CERASColors.CERAS_rosé]);
-            SetChkSon("j", true);
-            Set("j", new CharFormatting(false, true, false, false, true, predefinedColors[(int)PredefCols.black],
-                false, predefinedColors[(int)PredefCols.neutral]));
-            // (oin)
-            SetChkSon("oin", false);
-            Set("oin", predefCF[(int)PredefCols.black]);
+            InitColorCerasRose();
             UpdCBXs();
         }
 
@@ -362,12 +424,41 @@ namespace ColorLib
             }
         }
 
+        // -------------------------------------------------------------------------------------------------------------------
+        // ---------------------------------------------------  internal  methods ---------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
+
+        internal override void PostLoadInitOptionalFields()
+        {
+            logger.ConditionalTrace("PostLoadInitOptionalFields");
+            if (cfPhon.Length < (int)Phonemes.lastPhon)
+            {
+                Array.Resize(ref cfPhon, (int)Phonemes.lastPhon);
+                Array.Resize(ref chkPhon, (int)Phonemes.lastPhon);
+                logger.ConditionalTrace("cfPhon & chkPhon resized.");
+            }
+            if (!cfSon.ContainsKey("ill"))
+            {
+                Set("ill", predefCF[(int)PredefCols.black]);
+                SetChkSon("ill", false);
+                logger.ConditionalTrace("Son \"ill\" initialisé.");
+            }
+        }
+
+        // ------------------------------------------------------- Rule Flags ---------------------------------------------------
+
+        /// <summary>
+        /// Gives the value of the said flag.
+        /// </summary>
+        /// <param name="rf">identifier of the flag one wants the value of.</param>
+        /// <returns>The value of the flag.</returns>
+        internal bool GetFlag(RuleFlag rf) => flags[(int)rf];
 
         // -------------------------------------------------------------------------------------------------------------------
         // ---------------------------------------------------  private  methods ---------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
-        
+
         private void Set(Phonemes p, CharFormatting chF) => cfPhon[(int)p] = chF;
 
         private void Set(string son, CharFormatting cf)
@@ -390,14 +481,20 @@ namespace ColorLib
 
         private void CleanAllSons()
         {
+            logger.ConditionalTrace("CleanAllSons");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
+            {
                 Set(k.Key, predefCF[(int)PredefCols.black]);
+            }
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
+            {
                 SetChkSon(k.Key, false);
+            }
         }
 
         private void InitColorCeras()
         {
+            logger.ConditionalTrace("InitColorCeras");
             CleanAllSons();
 
             // o
@@ -451,8 +548,29 @@ namespace ColorLib
             Set("_muet", predefCF[(int)CERASColors.CERAS_muet]);
         }
 
+        private void InitColorCerasRose()
+        {
+            logger.ConditionalTrace("InitColorCerasRose");
+            // est construit en delta par rapport à InitColorCeras
+            InitColorCeras();
+            // changer la couleur du é en rosé
+            Set("é", predefCF[(int)CERASColors.CERAS_rosé]);
+
+            // activer le son ill
+            SetChkSon("ill", true);
+            Set("ill", new CharFormatting(false, true, false, false, true, predefinedColors[(int)CERASColors.CERAS_ill],
+                false, predefinedColors[(int)PredefCols.neutral]));
+
+            // désactiver le (oin)
+            SetChkSon("oin", false);
+            Set("oin", predefCF[(int)PredefCols.black]);
+
+            IllRuleToUse = IllRule.ceras;
+        }
+
         private void InitColorMuettes()
         {
+            logger.ConditionalTrace("InitColorMuettes");
             CleanAllSons();
             SetChkSon("_muet", true);
             Set("_muet", predefCF[(int)CERASColors.CERAS_muet]);
@@ -460,8 +578,31 @@ namespace ColorLib
 
         private void UpdCBXs ()
         {
+            logger.ConditionalTrace("UpdCBXs");
             updateAllSoundCbxAndButtons();
             //colorizeAllSelPhons();
+        }
+
+        private void DummyExecuteTask()
+        {
+            // do nothing. Is only here to have a viable default value for the upcalls.
+            logger.ConditionalTrace("DummyExecuteTask");
+        }
+
+        private void DummyExecTaskOnSon(string son)
+        {
+            // do nothing. Is only here to have a viable default value for the upcalls.
+            logger.ConditionalTrace("DummyExecTaskOnSon \'{0}\'", son);
+        }
+
+        [OnDeserializing()]
+        private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
+        {
+            logger.ConditionalTrace("SetOptionalFieldsToDefaultVal");
+            flags = new List<bool>((int)RuleFlag.last);
+            for (int i = 0; i < (int)RuleFlag.last; i++)
+                flags.Add(true); // par défaut, les règles sont actives.
+            flags[(int)RuleFlag.IllLireCouleur] = false; // config par défaut
         }
 
     }

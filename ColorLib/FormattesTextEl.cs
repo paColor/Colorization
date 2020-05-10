@@ -24,17 +24,17 @@ using System.Text;
 
 namespace ColorLib
 {
-    public class ColoredTextEl : TextEl
+    public class FormattesTextEl : TextEl
     {
         public CharFormatting cf { get; private set; }
 
-        public ColoredTextEl(TextEl te, CharFormatting inCf)
+        public FormattesTextEl(TextEl te, CharFormatting inCf)
             :base(te)
         {
             cf = inCf;
         }
 
-        public ColoredTextEl(TheText inT, int inFirst, int inLast, CharFormatting inCf)
+        public FormattesTextEl(TheText inT, int inFirst, int inLast, CharFormatting inCf)
             : base(inT, inFirst, inLast)
         {
             cf = inCf;

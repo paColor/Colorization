@@ -27,7 +27,7 @@ namespace ColorLib
     public delegate void ExecTaskOnLetterButton(int buttonNr);
 
     [Serializable]
-    public class PBDQConfig
+    public class PBDQConfig : ConfigBase
     {
         public const char inactiveLetter = ' '; // letter used to determinde that the button is inactive.
 

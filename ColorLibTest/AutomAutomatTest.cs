@@ -105,6 +105,9 @@ namespace ColorLibTest
 
 			tt = TheText.NewTestTheText(@"briefing, berlingot, sapin, imbécile, limbe, afin, prier, ville, paille, triage,
                                appartient, amplifient, glorifient, avec, franc, spray, abbaye");
+
+			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+
 			pws = tt.GetPhonWords();
 
 			CheckPhons(pws, 0, "briefing", "bRij°fiG");
@@ -137,6 +140,9 @@ namespace ColorLibTest
 
 			tt = TheText.NewTestTheText(@"bredouilla, ouest, bled, blé, caïd, vieux. oeuf, wapiti, kiwi, weimar, wurst, noix, royal,
 							   poissons, australopithèque");
+
+			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+
 			pws = tt.GetPhonWords();
 
 			CheckPhons(pws, 0, "bredouilla", "bR°duja");
@@ -163,6 +169,7 @@ namespace ColorLibTest
 			List<PhonWord> pws;
 
 			TheText.Init();
+			
 
 			tt = TheText.NewTestTheText(
 				@"ayons, balaya, ayatollah, kayac, tokay, mayonnaise, fayot, maya, himalaya, crayeux, paresse, abesses,
@@ -174,6 +181,8 @@ namespace ColorLibTest
 				  examen, minoen, gastroentérologue, électroencéphalographie"
 			);
 
+			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+
 			string[] phonetique = new string[]
 			{
 				"Ej§", "balEja", "ajatOla", "kajak", "tOkE", "majOnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
@@ -182,6 +191,73 @@ namespace ColorLibTest
 				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnER",
 				"myltimiljaRdER", "myltimiljOnER", "vileZjatyR", "vilaZwaz", "vila",
 				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi"
+			};
+
+			pws = tt.GetPhonWords();
+			for (int i = 0; i < phonetique.Length; i++)
+			{
+				Console.WriteLine(pws[i].AllStringInfo());
+				Assert.AreEqual(phonetique[i], pws[i].Phonetique());
+			}
+		}
+
+		[TestMethod]
+		public void TestFindPhons4()
+		{
+			TheText tt;
+			List<PhonWord> pws;
+
+			TheText.Init();
+
+
+			tt = TheText.NewTestTheText(
+				@"ayons, balaya, ayatollah, kayac, tokay, mayonnaise, fayot, maya, himalaya, crayeux, paresse, abesses,
+				  dilemme, impeccable, chevrier, caramels, bedonnant, faisons, affaisseraient, refaisaient, tranquille,
+				  illégalement, lilliputien, millimétré, distillerait, tranquillises, tranquillités, tranquillisantes,
+				  tranquillos, désillusionné, distiller, illogisme, illustraient, illégalement, illumineront, imbécillité,
+				  instillassiez, millésime, millionnaire, multimilliardaires, multimillionnaire, villégiature, villageoises,
+				  villa,
+				  examen, minoen, gastroentérologue, électroencéphalographie"
+			);
+
+			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.ceras;
+
+			string[] phonetique = new string[]
+			{
+				"Ej§", "balEja", "ajatOla", "kajak", "tOkE", "majOnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
+				"dilEm", "5pEkabl", "S°vRije", "kaRamEl", "b°dOn@", "f°z§", "afEs°RE", "R°f°zE", "tR@kil", "ilegal°m@",
+				"lilipysj5", "milimetRe", "distil°RE", "tR@kiliz", "tR@kilite", "tR@kiliz@t", "tR@kilOs", "dezilyzjOne",
+				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnER",
+				"myltimiljaRdER", "myltimiljOnER", "vileZjatyR", "vilaZwaz", "vila",
+				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi"
+			};
+
+			pws = tt.GetPhonWords();
+			for (int i = 0; i < phonetique.Length; i++)
+			{
+				Console.WriteLine(pws[i].AllStringInfo());
+				Assert.AreEqual(phonetique[i], pws[i].Phonetique());
+			}
+		}
+
+		[TestMethod]
+		public void TestFindPhons5()
+		{
+			TheText tt;
+			List<PhonWord> pws;
+
+			TheText.Init();
+
+
+			tt = TheText.NewTestTheText(
+				@"abeille, accueillant"
+			);
+
+			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.ceras;
+
+			string[] phonetique = new string[]
+			{
+				"abEj", "ak2j@"
 			};
 
 			pws = tt.GetPhonWords();

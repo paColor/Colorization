@@ -242,6 +242,21 @@ namespace ColorizationControls
             }
         }
 
+        internal void UpdateIllRadioB()
+        {
+            logger.ConditionalTrace("UpdateUcheckBoxes");
+            if (theConf.colors[pct].IllRuleToUse == ColConfWin.IllRule.ceras)
+            {
+                rbnIllCeras.Checked = true;
+                rbnIllLireCouleur.Checked = false;
+            }
+            else
+            {
+                rbnIllCeras.Checked = false;
+                rbnIllLireCouleur.Checked = true;
+            } 
+        }
+
         public void UpdateAll()
         {
             logger.ConditionalTrace("UpdateAll");
@@ -249,6 +264,7 @@ namespace ColorizationControls
             UpdateLetterButtons();
             UpdateUcheckBoxes();
             UpdateSylButtons();
+            UpdateIllRadioB();
         }
 
         private void InitializeTheConf()
@@ -259,9 +275,11 @@ namespace ColorizationControls
             theConf.colors[PhonConfType.phonemes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
             theConf.colors[PhonConfType.phonemes].updateButton = this.UpdateSonButton;
             theConf.colors[PhonConfType.phonemes].updateCbx = this.UpdateCbxSon;
+            theConf.colors[PhonConfType.phonemes].updateIllRule = this.UpdateIllRadioB;
             theConf.colors[PhonConfType.muettes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
             theConf.colors[PhonConfType.muettes].updateButton = this.UpdateSonButton;
             theConf.colors[PhonConfType.muettes].updateCbx = this.UpdateCbxSon;
+            theConf.colors[PhonConfType.muettes].updateIllRule = this.UpdateIllRadioB;
             theConf.pBDQ.updateLetterButtons = this.UpdateLetterButtons;
             theConf.pBDQ.updateLetterButton = this.UpdateLetterButton;
             theConf.sylConf.updateSylButtons = this.UpdateSylButtons;
@@ -478,6 +496,22 @@ namespace ColorizationControls
             Debug.Assert(cbu.Name.StartsWith("cbu"));
             string cbuNameEnd = cbu.Name.Substring(3, cbu.Name.Length - 3);
             theConf.unsetBeh.CbuChecked(cbuNameEnd, cbu.Checked);
+        }
+
+        //--------------------------------------------------------------------------------------------
+        // ---------------------------------- RadioButton "ill" --------------------------------------
+        //--------------------------------------------------------------------------------------------
+
+        private void rbnIll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbnIllCeras.Checked)
+            {
+                theConf.colors[pct].IllRuleToUse = ColConfWin.IllRule.ceras;
+            }
+            else
+            {
+                theConf.colors[pct].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+            }
         }
 
         //--------------------------------------------------------------------------------------------
@@ -928,5 +962,6 @@ namespace ColorizationControls
             UpdateAllSoundCbxAndButtons();
         }
 
+        
     }
 }

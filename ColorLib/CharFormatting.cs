@@ -29,28 +29,28 @@ namespace ColorLib
     {
         private readonly Int32 color;
         public static implicit operator Int32(RGB r) => r.color;
-        public static implicit operator System.Drawing.Color(RGB r) => System.Drawing.Color.FromArgb(r.R(), r.G(), r.B());
+        public static implicit operator System.Drawing.Color(RGB r) => System.Drawing.Color.FromArgb(r.R, r.G, r.B);
         public static implicit operator RGB(System.Drawing.Color col) => new RGB(col.R, col.G, col.B);
 
         public RGB(byte red, byte green, byte blue) => color = red + (256 * green) + 65536 * blue;
-        public int R() => color % 256;
-        public int G() => (color % 65536) / 256;
-        public int B() => (color / 65536);
+        public int R { get{return color % 256;} }
+        public int G { get { return (color % 65536) / 256; } }
+        public int B { get { return (color / 65536); } }
 
         public bool Dark()
         {
-            return (R() + G() + (0.8*B())) < 400;
+            return ((0.9*R) + (1.5*G) + (0.5*B)) < 380;
         }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(15);
             sb.Append("(");
-            sb.Append(R().ToString());
+            sb.Append(R.ToString());
             sb.Append(", ");
-            sb.Append(G().ToString());
+            sb.Append(G.ToString());
             sb.Append(", ");
-            sb.Append(B().ToString());
+            sb.Append(B.ToString());
             sb.Append(")");
             return sb.ToString();
         }

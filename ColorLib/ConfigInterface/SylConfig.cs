@@ -28,7 +28,7 @@ namespace ColorLib
     public delegate void ExecTaskOnSylButton(int buttonNr);
 
     [Serializable]
-    public class SylConfig
+    public class SylConfig: ConfigBase
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 

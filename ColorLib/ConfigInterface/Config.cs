@@ -34,7 +34,7 @@ namespace ColorLib
     public enum PhonConfType { phonemes, muettes }
 
     [Serializable]
-    public class Config
+    public class Config : ConfigBase
     {
         // *************************************************** Static **********************************************************
 
@@ -43,7 +43,7 @@ namespace ColorLib
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private const string ConfigDirName = "Config";
-        private static readonly string ConfigDirPath = 
+        private static readonly string ConfigDirPath =
             Path.Combine(BaseConfig.colorizationDirPath, ConfigDirName);
         private const string DefaultFileName = "ClrzConfig";
         private const string DefaultAutomaticExtension = ".clrz"; // for automatic saving
@@ -113,7 +113,8 @@ namespace ColorLib
         public static Config LoadConfig(string name, Object win, Object doc)
         {
             logger.ConditionalTrace("LoadConfig \'{0}\'", name);
-            Config toReturn = LoadConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension);
+            Config toReturn = null;
+            toReturn = LoadConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension);
             if (toReturn != null)
             {
                 if (theConfs.ContainsKey(win))
@@ -138,8 +139,8 @@ namespace ColorLib
         /// <param name="doc">Le document attaché à la fenêtre. </param>
         /// <returns>La <c>Config</c> pour la fenêtre.</returns>
         public static Config GetConfigFor(Object win, Object doc)
-            // returns the Config associated with the Object, normally the active window. 
-            // if there is none, a new one with the defauilt config is created.
+        // returns the Config associated with the Object, normally the active window. 
+        // if there is none, a new one with the defauilt config is created.
         {
             logger.ConditionalTrace("GetConfigFor");
             Config toReturn;
@@ -152,6 +153,11 @@ namespace ColorLib
                     toReturn = LoadConfigFile(DefaultConfFile);
                     if (toReturn == null)
                     {
+                        StringBuilder sb = new StringBuilder();
+                        sb.AppendLine("Ouuuups! Une erreur s'est produite en chargeant votre dernière configuration. Désolé!");
+                        sb.AppendLine("La configuration par défaut est chargée à la place.");
+                        MessageBox.Show(sb.ToString(), BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        logger.Info("Error MessageBox displayed.");
                         toReturn = new Config(); // essayons de sauver les meubles.
                         logger.ConditionalTrace("New Config created.");
                     }
@@ -241,12 +247,13 @@ namespace ColorLib
                 stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 toReturn = (Config)formatter.Deserialize(stream);
                 stream.Close();
+                toReturn.PostLoadInitOptionalFields();
                 logger.Info("Config File \'{0}\' loaded.", fileName);
             }
-            catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
+            catch (Exception e) // when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
             {
-                logger.Error("Impossible de lire la config dans le fichier \'{0}\'. Erreur {1}",
-                   fileName, e.Message);
+                logger.Error("Impossible de lire la config dans le fichier \'{0}\'. Erreur:  {1}. StackTrace: {2}",
+                   fileName, e.Message, e.StackTrace);
                 if (stream != null)
                 {
                     stream.Dispose();
@@ -294,22 +301,6 @@ namespace ColorLib
         [OptionalField(VersionAdded = 2)]
         private string configName;
 
-        [OptionalField(VersionAdded = 2)]
-        private AutomFlagsConfig aFlagC;
-
-        public AutomFlagsConfig flagConf 
-        { 
-            get 
-            {
-                return aFlagC;
-            } 
-            
-            private set
-            {
-                aFlagC = value;
-            }
-        }
-
         public Config()
         {
             logger.ConditionalTrace("Config");
@@ -320,7 +311,6 @@ namespace ColorLib
             colors[PhonConfType.muettes] = new ColConfWin(PhonConfType.muettes);
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
             configName = "";
-            aFlagC = new AutomFlagsConfig();
         }
 
         /// <summary>
@@ -344,7 +334,7 @@ namespace ColorLib
             return toReturn;
         }
 
-        private bool SaveConfigFile (string fileName)
+        private bool SaveConfigFile(string fileName)
         {
             bool toReturn = false;
             Stream stream = null;
@@ -370,11 +360,23 @@ namespace ColorLib
             return toReturn;
         }
 
-        [OnDeserializing]
+        [OnDeserializing()]
         private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
         {
             logger.ConditionalTrace("SetOptionalFieldsToDefaultVal");
             configName = "";
+        }
+
+        internal override void PostLoadInitOptionalFields()
+        {
+            logger.ConditionalTrace("PostLoadInitOptionalFields");
+            pBDQ.PostLoadInitOptionalFields();
+            foreach (ColConfWin ccf in colors.Values)
+            {
+                ccf.PostLoadInitOptionalFields();
+            }
+            sylConf.PostLoadInitOptionalFields();
+            unsetBeh.PostLoadInitOptionalFields();
         }
 
     }
