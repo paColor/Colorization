@@ -674,9 +674,11 @@ namespace ColorizationControls
                 }
                 if (doIt)
                 {
-                    if (!theConf.SaveConfig(txtBNomConfig.Text))
+                    string msgTxt;
+                    if (!theConf.SaveConfig(txtBNomConfig.Text, out msgTxt))
                     {
-                        string message = String.Format("Impossible de sauvegarder la configuration \'{0}\'", txtBNomConfig.Text);
+                        string message = String.Format("Impossible de sauvegarder la configuration \'{0}\'. Erreur: {1}", 
+                            txtBNomConfig.Text, msgTxt);
                         MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -710,13 +712,19 @@ namespace ColorizationControls
             }
         }
 
+        private void lbConfigs_DoubleClick(object sender, EventArgs e)
+        {
+            btSauvCharger.PerformClick();
+        }
+
         // --------------------------------- btSauvCharger : Bouton "Charger" ------------------ ------------------------
 
         private void btSauvCharger_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btSauvCharger_Click");
             string configName = lbConfigs.SelectedItem.ToString();
-            Config newConfig = Config.LoadConfig(configName, theWin, theDoc);
+            string errMsg;
+            Config newConfig = Config.LoadConfig(configName, theWin, theDoc, out errMsg);
             if (newConfig != null)
             {
                 theConf = newConfig;
@@ -726,7 +734,8 @@ namespace ColorizationControls
             }
             else
             {
-                string message = String.Format("Impossible de charger la configuration \'{0}\'", configName);
+                string message = String.Format("Impossible de charger la configuration \'{0}\'. Erreur: {1}", 
+                    configName, errMsg);
                 MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -741,7 +750,7 @@ namespace ColorizationControls
             }
         }
 
-        // --------------------------------- btSauvCharger : Bouton "Effacer" ------------------ ------------------------
+        // --------------------------------- btSauv : Bouton "Effacer" ------------------ ------------------------
 
         private void btSauvEffacer_Click(object sender, EventArgs e)
         {
@@ -754,13 +763,14 @@ namespace ColorizationControls
                 MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                if (Config.DeleteSavedConfig(configName))
+                string errTxt;
+                if (Config.DeleteSavedConfig(configName, out errTxt))
                 {
                     UpdateListeConfigs();
                 }
                 else
                 {
-                    string errMessages = String.Format("Impossible d'effacer la configuration \'{0}\'", configName);
+                    string errMessages = String.Format("Impossible d'effacer la configuration \'{0}\'. Erreur: {1}", configName, errTxt);
                     MessageBox.Show(errMessages, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -795,7 +805,14 @@ namespace ColorizationControls
         {
             logger.ConditionalTrace("linkCodeCouleurAPI_LinkClicked");
             this.linkCodeCouleurAPI.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://api.ceras.ch/wp-content/uploads/2020/01/Sons-couleurs-symboles-et-coloriseur-API.pdf");
+            System.Diagnostics.Process.Start("https://colorization.ch/docs/Sons-couleurs-symboles-et-coloriseur-API.pdf");
+        }
+
+        private void linkCodeCouleurAPIRose_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            logger.ConditionalTrace("linkCodeCouleurAPIRose_LinkClicked");
+            this.linkCodeCouleurAPIRose.LinkVisited = true;
+            System.Diagnostics.Process.Start("https://colorization.ch/docs/Sons_couleurs_COLORISEUR_API_rose_2020.pdf");
         }
 
 
@@ -809,6 +826,11 @@ namespace ColorizationControls
             lf.Location = p;
             _ = lf.ShowDialog();
             lf.Dispose();
+        }
+
+        private void butAide_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://colorization.ch/docs/Manuel_Utilisateur_Colorization.pdf");
         }
 
         //--------------------------------------------------------------------------------------------
@@ -962,6 +984,5 @@ namespace ColorizationControls
             UpdateAllSoundCbxAndButtons();
         }
 
-        
     }
 }

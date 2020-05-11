@@ -110,11 +110,11 @@ namespace ColorLib
         /// </summary>
         /// <param name="name">Le nom de la configuration à charger.</param>
         /// <returns>La configuration chargée ou null si le chargement échoue.</returns>
-        public static Config LoadConfig(string name, Object win, Object doc)
+        public static Config LoadConfig(string name, Object win, Object doc, out string errMsg)
         {
             logger.ConditionalTrace("LoadConfig \'{0}\'", name);
             Config toReturn = null;
-            toReturn = LoadConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension);
+            toReturn = LoadConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension, out errMsg);
             if (toReturn != null)
             {
                 if (theConfs.ContainsKey(win))
@@ -150,12 +150,15 @@ namespace ColorLib
                 // Does a default file configuration exist?
                 if (File.Exists(DefaultConfFile))
                 {
-                    toReturn = LoadConfigFile(DefaultConfFile);
+                    string errMsg;
+                    toReturn = LoadConfigFile(DefaultConfFile, out errMsg);
                     if (toReturn == null)
                     {
                         StringBuilder sb = new StringBuilder();
-                        sb.AppendLine("Ouuuups! Une erreur s'est produite en chargeant votre dernière configuration. Désolé!");
+                        sb.AppendLine("Ouuuups! Une erreur s'est produite en chargeant la configuration de votre dernière session. Désolé!");
                         sb.AppendLine("La configuration par défaut est chargée à la place.");
+                        sb.Append("Message du système: ");
+                        sb.AppendLine(errMsg);
                         MessageBox.Show(sb.ToString(), BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         logger.Info("Error MessageBox displayed.");
                         toReturn = new Config(); // essayons de sauver les meubles.
@@ -193,7 +196,8 @@ namespace ColorLib
                     Config conf;
                     if (theConfs.TryGetValue(win, out conf))
                     {
-                        _ = conf.SaveConfigFile(DefaultConfFile);
+                        string msgTxt;
+                        _ = conf.SaveConfigFile(DefaultConfFile, out msgTxt);
                     }
                     else
                     {
@@ -214,10 +218,11 @@ namespace ColorLib
         /// Efface la configuration portant le nom <c>confName</c>.
         /// </summary>
         /// <param name="confName">Le nom de la configuration à effacer des configurations enregistrées.</param>
-        public static bool DeleteSavedConfig(string confName)
+        public static bool DeleteSavedConfig(string confName, out string msgTxt)
         {
             bool toReturn = false;
             string fileName = "";
+            msgTxt = "";
             try
             {
                 fileName = Path.Combine(ConfigDirPath, confName) + SavedConfigExtension;
@@ -227,8 +232,10 @@ namespace ColorLib
             }
             catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
             {
-                logger.Error("Impossible d'effacer la configuration \'{0}\' dans le fichier \"{1}\". Erreur {2}",
-                   confName, fileName, e.Message);
+                logger.Error(BaseConfig.cultF,
+                    "Impossible d'effacer la configuration \'{0}\' dans le fichier \"{1}\". Erreur {2}. StackTrace: {3}", 
+                    confName, fileName, e.Message, e.StackTrace);
+                msgTxt = e.Message;
                 toReturn = false;
             }
             return toReturn;
@@ -237,10 +244,11 @@ namespace ColorLib
 
         // -------------------------------------- Public Static Methods -------------------------------------------------------
 
-        private static Config LoadConfigFile(string fileName)
+        private static Config LoadConfigFile(string fileName, out string errMsg)
         {
             Config toReturn = null;
             Stream stream = null;
+            errMsg = "";
             try
             {
                 IFormatter formatter = new BinaryFormatter();
@@ -252,8 +260,9 @@ namespace ColorLib
             }
             catch (Exception e) // when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
             {
-                logger.Error("Impossible de lire la config dans le fichier \'{0}\'. Erreur:  {1}. StackTrace: {2}",
+                logger.Error("Impossible de lire la config dans le fichier \'{0}\'. Erreur: {1}. StackTrace: {2}",
                    fileName, e.Message, e.StackTrace);
+                errMsg = e.Message;
                 if (stream != null)
                 {
                     stream.Dispose();
@@ -325,19 +334,20 @@ namespace ColorLib
         /// </summary>
         /// <param name="name">Le nom sous lequel la configuration doit être enregistrée.</param>
         /// <returns>true si la sauvegarde a pu avoir lieu, sinon false. </returns>
-        public bool SaveConfig(string name)
+        public bool SaveConfig(string name, out string msgTxt)
         {
             logger.ConditionalTrace("SaveConfig \'{0}\'", name);
-            bool toReturn = SaveConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension);
             configName = name;
+            bool toReturn = SaveConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension, out msgTxt);
             updateListeConfigs();
             return toReturn;
         }
 
-        private bool SaveConfigFile(string fileName)
+        private bool SaveConfigFile(string fileName, out string msgTxt)
         {
             bool toReturn = false;
             Stream stream = null;
+            msgTxt = "";
             try
             {
                 IFormatter formatter = new BinaryFormatter();
@@ -345,12 +355,13 @@ namespace ColorLib
                 formatter.Serialize(stream, this);
                 stream.Close();
                 toReturn = true;
-                logger.Info("Config \'{0}\' enregistrée", fileName);
+                logger.Info("Fichier de config \'{0}\' enregistré", fileName);
             }
             catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
             {
-                logger.Error("Impossible d'écrire le fichier de config \'{0}\'. Erreur: {1}",
-                    fileName, e.Message);
+                logger.Error("Impossible d'écrire le fichier de config \'{0}\'. Erreur: {1}. StackTrace {2}",
+                    fileName, e.Message, e.StackTrace);
+                msgTxt = e.Message;
                 if (stream != null)
                 {
                     stream.Dispose();

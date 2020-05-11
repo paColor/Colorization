@@ -126,23 +126,8 @@
   <metadata name="ttipCERAS.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="ttipCERAS.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="ttipTout.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>123, 17</value>
-  </metadata>
-  <metadata name="ttipRien.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>218, 17</value>
-  </metadata>
   <metadata name="ttpPhonEnNoir.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>312, 17</value>
-  </metadata>
-  <metadata name="ttpPhonEnNoir.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>312, 17</value>
-  </metadata>
-  <metadata name="ttipLettreEnNoir.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>444, 17</value>
   </metadata>
   <metadata name="ttipLettreEnNoir.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>444, 17</value>
@@ -150,14 +135,8 @@
   <metadata name="cmsPhonVSMuettes.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>729, 17</value>
   </metadata>
-  <metadata name="ttipLettreEnNoir.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>444, 17</value>
-  </metadata>
   <metadata name="cmsEffacerCopier.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>583, 17</value>
-  </metadata>
-  <metadata name="ttipLettreEnNoir.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>444, 17</value>
   </metadata>
   <data name="lblAttentionPerf.Text" xml:space="preserve">
     <value>Attention: L'activation d'une de ces options peut  considéra-
@@ -165,6 +144,12 @@ blement ralentir le programme. Il est plus rapide et
 probablement plus intuitif d'utiliser la commande "mettre en 
 noir" (le petit oiseau) pour réinitialiser le texte.
  </value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Le service API du centre régional d'apprentissages
+spécialisés Berne, Jura, Neuchâtel (CERAS) a défini  des
+couleurs pour la colorisation des phonèmes qui ont été
+reprises dans la configuration par défaut.</value>
   </data>
   <data name="lblText.Text" xml:space="preserve">
     <value>Coloriƨation est le résultat d'une demande de mon 

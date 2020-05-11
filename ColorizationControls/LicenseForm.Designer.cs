@@ -78,7 +78,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "LicenseForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "License Coloriƨation ";
+            this.Text = "Licence Coloriƨation ";
             this.ResumeLayout(false);
             this.PerformLayout();
 
