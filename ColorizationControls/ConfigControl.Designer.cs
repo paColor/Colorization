@@ -192,6 +192,8 @@
             this.cbAlettresNoir = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tabAPropos = new System.Windows.Forms.TabPage();
+            this.linkCodeCouleurAPIRose = new System.Windows.Forms.LinkLabel();
+            this.butAide = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.butLicense = new System.Windows.Forms.Button();
@@ -204,8 +206,6 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.lblText = new System.Windows.Forms.Label();
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
-            this.butAide = new System.Windows.Forms.Button();
-            this.linkCodeCouleurAPIRose = new System.Windows.Forms.LinkLabel();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -2195,6 +2195,28 @@
             this.tabAPropos.TabIndex = 2;
             this.tabAPropos.Text = "A propos";
             // 
+            // linkCodeCouleurAPIRose
+            // 
+            this.linkCodeCouleurAPIRose.AutoSize = true;
+            this.linkCodeCouleurAPIRose.Location = new System.Drawing.Point(189, 329);
+            this.linkCodeCouleurAPIRose.Name = "linkCodeCouleurAPIRose";
+            this.linkCodeCouleurAPIRose.Size = new System.Drawing.Size(102, 13);
+            this.linkCodeCouleurAPIRose.TabIndex = 14;
+            this.linkCodeCouleurAPIRose.TabStop = true;
+            this.linkCodeCouleurAPIRose.Text = "Code couleur (rosé) ";
+            this.linkCodeCouleurAPIRose.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCodeCouleurAPIRose_LinkClicked);
+            // 
+            // butAide
+            // 
+            this.butAide.Location = new System.Drawing.Point(204, 461);
+            this.butAide.Name = "butAide";
+            this.butAide.Size = new System.Drawing.Size(75, 23);
+            this.butAide.TabIndex = 13;
+            this.butAide.Text = "Aide";
+            this.ttipLettreEnNoir.SetToolTip(this.butAide, "Charge le manuel utilisateur.");
+            this.butAide.UseVisualStyleBackColor = true;
+            this.butAide.Click += new System.EventHandler(this.butAide_Click);
+            // 
             // pictureBox2
             // 
             this.pictureBox2.BackgroundImage = global::ColorizationControls.Properties.Resources.Coloriƨation;
@@ -2253,7 +2275,7 @@
             // 
             this.linkInfoAtColorization.AutoSize = true;
             this.linkInfoAtColorization.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkInfoAtColorization.Location = new System.Drawing.Point(101, 433);
+            this.linkInfoAtColorization.Location = new System.Drawing.Point(101, 429);
             this.linkInfoAtColorization.Name = "linkInfoAtColorization";
             this.linkInfoAtColorization.Size = new System.Drawing.Size(118, 15);
             this.linkInfoAtColorization.TabIndex = 8;
@@ -2267,12 +2289,12 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(6, 381);
+            this.label4.Location = new System.Drawing.Point(6, 393);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(319, 45);
+            this.label4.Size = new System.Drawing.Size(319, 30);
             this.label4.TabIndex = 7;
             this.label4.Text = "Vos commentaires, suggestions, rapports d\'erreur,... sont \r\nbien-entendu les bien" +
-    "venus. Vous pouvez me les envoyer\r\nà\r\n";
+    "venus. Écrivez à\r\n";
             // 
             // label2
             // 
@@ -2322,28 +2344,6 @@
             this.ttipLettreEnNoir.AutoPopDelay = 6000;
             this.ttipLettreEnNoir.InitialDelay = 500;
             this.ttipLettreEnNoir.ReshowDelay = 100;
-            // 
-            // butAide
-            // 
-            this.butAide.Location = new System.Drawing.Point(204, 461);
-            this.butAide.Name = "butAide";
-            this.butAide.Size = new System.Drawing.Size(75, 23);
-            this.butAide.TabIndex = 13;
-            this.butAide.Text = "Aide";
-            this.ttipLettreEnNoir.SetToolTip(this.butAide, "Charge le manuel utilisateur.");
-            this.butAide.UseVisualStyleBackColor = true;
-            this.butAide.Click += new System.EventHandler(this.butAide_Click);
-            // 
-            // linkCodeCouleurAPIRose
-            // 
-            this.linkCodeCouleurAPIRose.AutoSize = true;
-            this.linkCodeCouleurAPIRose.Location = new System.Drawing.Point(189, 329);
-            this.linkCodeCouleurAPIRose.Name = "linkCodeCouleurAPIRose";
-            this.linkCodeCouleurAPIRose.Size = new System.Drawing.Size(102, 13);
-            this.linkCodeCouleurAPIRose.TabIndex = 14;
-            this.linkCodeCouleurAPIRose.TabStop = true;
-            this.linkCodeCouleurAPIRose.Text = "Code couleur (rosé) ";
-            this.linkCodeCouleurAPIRose.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCodeCouleurAPIRose_LinkClicked);
             // 
             // ConfigControl
             // 

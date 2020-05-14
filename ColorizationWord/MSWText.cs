@@ -136,7 +136,7 @@ namespace ColorizationWord
             //MessageBox.Show(sb.ToString());
         }
 
-        protected override void SetChars(FormattesTextEl cte)
+        protected override void SetChars(FormattedTextEl cte)
         {
             rgeWork.SetRange(rgStart + cte.First, rgStart + cte.Last + 1); // End pointe sur le caractère qui suit le range...
             ApplyCFToRange(cte.cf, rgeWork, this.GetConfig());

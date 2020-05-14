@@ -319,7 +319,7 @@ namespace ColorLib
             colors = new Dictionary<PhonConfType, ColConfWin>(2);
             colors[PhonConfType.muettes] = new ColConfWin(PhonConfType.muettes);
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
-            configName = "";
+            configName = "Hippocampéléphantocamélos";
         }
 
         /// <summary>

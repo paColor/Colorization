@@ -168,7 +168,7 @@ namespace ColorizationControls
                 // button
                 UpdateSonButton(son);
             }
-            cbSBlackPhons.Checked = (ColConfWin.defBeh == ColConfWin.DefBeh.noir);
+            cbSBlackPhons.Checked = (theConf.colors[pct].defBeh == ColConfWin.DefBeh.noir);
             ResumeLayout();
             theConf.colors[pct].EnableCbxSonsEventHandling();
         }
@@ -486,7 +486,7 @@ namespace ColorizationControls
             logger.ConditionalTrace("cbSBlackPhons_CheckedChanged");
             Debug.Assert(sender != null);
             CheckBox cbx = (CheckBox)sender;
-            ColConfWin.DefaultBehaviourChangedTo(cbx.Checked);
+            theConf.colors[pct].DefaultBehaviourChangedTo(cbx.Checked);
         }
 
         private void UcheckBoxes_CheckedChanged(object sender, EventArgs e)
@@ -615,6 +615,14 @@ namespace ColorizationControls
             logger.ConditionalTrace("UpdateListeConfigs");
             lbConfigs.DataSource = Config.GetSavedConfigNames();
             btSauvCharger.Enabled = (lbConfigs.Items.Count > 0);
+            if (!String.IsNullOrEmpty(txtBNomConfig.Text))
+            {
+                int pos = lbConfigs.FindString(txtBNomConfig.Text);
+                if (pos != ListBox.NoMatches)
+                {
+                    lbConfigs.SetSelected(pos, true);
+                }
+            }
         }
 
         public void UpdateSauvTab()

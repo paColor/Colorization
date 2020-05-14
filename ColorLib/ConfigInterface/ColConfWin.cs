@@ -33,8 +33,8 @@ namespace ColorLib
     }
 
     [Serializable]
-    public enum PredefCols { black, darkYellow, orange, darkGreen, violet, darkBlue, red, brown, blue, green, grey, pink, 
-        pureGreen,
+    public enum PredefCols { black, darkYellow, orange, darkGreen, violet, darkBlue, red, brown, blue, turquoise, grey, pink, 
+        frogGreen,
         pureBlue, white, neutral}
 
     public delegate void ExecuteTask();
@@ -51,8 +51,15 @@ namespace ColorLib
         /// <summary>
         /// mode à utiliser pour les "ill"
         /// </summary>
-        /// [Serializable]
+        [Serializable]
         public enum IllRule { ceras, lirecouleur }
+
+        /// <summary>
+        /// posibilités de valeur pour le flag <c>defBeh</c> qui indique comment doit se comporter la
+        /// mise en couleur des phonèmes qui n'ont pas d'instructions de fomratage.
+        /// </summary>
+        [Serializable]
+        public enum DefBeh { transparent, noir }
 
         // -------------------------------------------------------------------------------------------------------------------
         // --------------------------------------------  public static members -----------------------------------------------
@@ -65,7 +72,7 @@ namespace ColorLib
 
         public static RGB[] predefinedColors = new RGB[] {
             new RGB(000, 000, 000), // CERAS_oi     --> noir
-            new RGB(222, 211, 000), // CERAS_o      --> jaune
+            new RGB(240, 222, 000), // CERAS_o      --> jaune
             new RGB(237, 125, 049), // CERAS_an     --> orange
             new RGB(051, 153, 102), // CERAS_5      --> vert comme sapin
             new RGB(164, 020, 210), // CERAS_E      --> violet
@@ -73,10 +80,10 @@ namespace ColorLib
             new RGB(255, 000, 000), // CERAS_u      --> rouge
             new RGB(171, 121, 066), // CERAS_on     --> marron
             new RGB(071, 115, 255), // CERAS_eu     --> bleu
-            new RGB(0, 200, 0),     // CERAS_oin    --> vert
+            new RGB(015, 201, 221), // CERAS_oin    --> turquoise
             new RGB(166, 166, 166), // CERAS_muet   --> gris
             new RGB(255, 100, 177), // CERAS_rosé   --> rose
-            new RGB(0, 255, 0),     // CERAS_ill    --> vert pur / grenouille
+            new RGB(127, 241, 0),   // CERAS_ill    --> vert grenouille
 
             new RGB(0, 0, 255),     // bleuPur      --> bleu
             new RGB(255, 255, 255), // blanc        --> blanc
@@ -105,9 +112,6 @@ namespace ColorLib
         // -------------------------------------------------------------------------------------------------------------------
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private static CharFormatting defChF; // CharFormatting returned for phonemes where the checkbox is not set
-        public enum DefBeh { transparent, noir }
-        public static DefBeh defBeh;
 
         private static Dictionary<string, List<Phonemes>> sonMap = new Dictionary<string, List<Phonemes>>(nrSons) // don't forget to increase in case...
         {
@@ -200,7 +204,33 @@ namespace ColorLib
         };
 
         // -------------------------------------------------------------------------------------------------------------------
-        // -----------------------------------------------  public  members -------------------------------------------------
+        // ----------------------------------------------  public static methods ---------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
+
+        public static void Init()
+        {
+            predefCF = new CharFormatting[predefinedColors.Length + 1];  // +1 for the enutral entry
+            for (int i = 0; i < predefinedColors.Length; i++)
+                predefCF[i] = new CharFormatting(predefinedColors[i]);
+            predefCF[(int)PredefCols.neutral] = new CharFormatting();
+        }
+
+        // -------------------------------------------------- Mapping "sons" to text  ------------------------------------------
+
+        public static string DisplayText(string son) => sonOutMap[son][0];
+
+        public static string ExampleText(string son) => sonOutMap[son][1];
+
+        // ------------------------------------------------------- About sons  -----------------------------------------------
+
+        public static Dictionary<string, List<Phonemes>>.KeyCollection GetListOfSons() => sonMap.Keys;
+
+        // ******************************************************************************************************************
+        //  ****************************************************** INSTANTIATED *********************************************
+        // ******************************************************************************************************************
+
+        // -------------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------  public  members --------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
 
@@ -259,46 +289,13 @@ namespace ColorLib
         private List<bool> flags;
         // on se sert de RuleFlags comme index dans le tableau.
 
-        // -------------------------------------------------------------------------------------------------------------------
-        // ----------------------------------------------  public static methods ---------------------------------------------
-        // -------------------------------------------------------------------------------------------------------------------
+        // ------------------------ Le paramétrage du comportement pour le phonèmes "non formatés"  ---------------------------
+        [OptionalField(VersionAdded = 3)]
+        public DefBeh defBeh;
 
-        public static void Init()
-        {
-            predefCF = new CharFormatting[predefinedColors.Length + 1];  // +1 for the enutral entry
-            for (int i = 0; i< predefinedColors.Length; i++)
-                predefCF[i] = new CharFormatting(predefinedColors[i]);
-            predefCF[(int)PredefCols.neutral] = new CharFormatting();
+        [OptionalField(VersionAdded = 3)]
+        private CharFormatting defChF; // CharFormatting returned for phonemes where the checkbox is not set
 
-            defBeh = DefBeh.transparent;
-            defChF = predefCF[(int)PredefCols.neutral];
-        }
-
-        // -------------------------------------------------- Mapping "sons" to text  ------------------------------------------
-
-        public static string DisplayText(string son) => sonOutMap[son][0];
-
-        public static string ExampleText(string son) => sonOutMap[son][1];
-
-        // ------------------------------------------------------- About sons  -----------------------------------------------
-
-        public static Dictionary<string, List<Phonemes>>.KeyCollection GetListOfSons() => sonMap.Keys;
-
-        public static void DefaultBehaviourChangedTo(bool val)
-        // true --> phonèmes non traitées en noir
-        // false --> phonèmes non traitées sans changement de couleur
-        {
-            if (val)
-            {
-                defBeh = DefBeh.noir;
-                defChF = predefCF[(int)PredefCols.black];
-            }
-            else
-            {
-                defBeh = DefBeh.transparent;
-                defChF = predefCF[(int)PredefCols.neutral];
-            }
-        }
 
         // -------------------------------------------------------------------------------------------------------------------
         // ---------------------------------------------------  public  methods ----------------------------------------------
@@ -306,6 +303,9 @@ namespace ColorLib
 
         public ColConfWin(PhonConfType inPct)
         {
+            defBeh = DefBeh.transparent;
+            defChF = predefCF[(int)PredefCols.neutral];
+
             updateIllRule = DummyExecuteTask;
             updateAllSoundCbxAndButtons = DummyExecuteTask;
             updateButton = DummyExecTaskOnSon;
@@ -421,6 +421,24 @@ namespace ColorLib
             {
                 SetChkSon(son, chkValue);
                 updateButton(son);
+            }
+        }
+
+        // ---------------------------------------------------  Default Behaviour  ------------------------------------------------------
+
+        public void DefaultBehaviourChangedTo(bool val)
+        // true --> phonèmes non traitées en noir
+        // false --> phonèmes non traitées sans changement de couleur
+        {
+            if (val)
+            {
+                defBeh = DefBeh.noir;
+                defChF = predefCF[(int)PredefCols.black];
+            }
+            else
+            {
+                defBeh = DefBeh.transparent;
+                defChF = predefCF[(int)PredefCols.neutral];
             }
         }
 
@@ -561,9 +579,10 @@ namespace ColorLib
             Set("ill", new CharFormatting(false, true, false, false, true, predefinedColors[(int)CERASColors.CERAS_ill],
                 false, predefinedColors[(int)PredefCols.neutral]));
 
+            // commenté le 14.05.2020 - J'ai eu un feedback de M. Tissot qui suggérait de le laisser mais avec une autre couleur.
             // désactiver le (oin)
-            SetChkSon("oin", false);
-            Set("oin", predefCF[(int)PredefCols.black]);
+            // SetChkSon("oin", false);
+            // Set("oin", predefCF[(int)PredefCols.black]);
 
             IllRuleToUse = IllRule.ceras;
         }
@@ -603,6 +622,8 @@ namespace ColorLib
             for (int i = 0; i < (int)RuleFlag.last; i++)
                 flags.Add(true); // par défaut, les règles sont actives.
             flags[(int)RuleFlag.IllLireCouleur] = false; // config par défaut
+            defBeh = DefBeh.transparent;
+            defChF = predefCF[(int)PredefCols.neutral];
         }
 
     }

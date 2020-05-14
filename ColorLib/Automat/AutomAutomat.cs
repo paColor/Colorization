@@ -245,7 +245,7 @@ namespace ColorLib
 							'*':[{},'g',1]}],
 					'h' : [['*'],
 							{'*':[{},'_muet',1]}],
-					'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill','tranquille',
+					'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill','mill2','tranquille',
 							'ill','except_ill','ill_Ceras', '@ill','@il','ll','@il_Ceras','ll_Ceras','ui','ient_1','ient_2','ie','i_voyelle', '*'],
 							{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng$/i},'i',1],
 							'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
@@ -254,7 +254,8 @@ namespace ColorLib
 							'prec_2cons':[{'-':/[ptkcbdgfv][lr]/i, '+':/[aäâeéèêëoôöuù]/i},'i_j',1], // précédé de 2 consonnes (en position 3), doit apparaître comme [ij] [PAE 20.02.20: rajouté les voyelles]
 							'lldeb':[{'-':/^/i,'+':/ll/i},'i',1],
 							'vill':[{'-':/v/i,'+':/ll/i},'i',1],
-							'mill':[{'-':/m/i,'+':/ll/i},'i',1],
+							'mill':[{'-':/m/i,'+':/ll/i},'i',1,IllLireCouleur],
+							'mill2':[{'-':/^m/i,'+':/ll[^(et)]/i},'i',1,IllCeras],
 							'tranquille' : [{'-':/tranqu/i,'+':/ll/i},'i',1,IllCeras],
 							'ill':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i',1,IllLireCouleur], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
 							'ill_Ceras':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i_j_ill',3,IllCeras], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
@@ -282,7 +283,7 @@ namespace ColorLib
 							{'*':[{},'k',1]}],
 					'l' : [['vill','mill','tranquille','illdeb','except_ill_l','ill','eil','ll','excep_il', 'apostrophe','lisole', '*'],
 							{'vill':[{'-':/^vi/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
-							'mill':[{'-':/^mi/i,'+':/l/i},'l',2], // mille, million, etc. => son [l]
+							'mill':[{'-':/^mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
 							'tranquille':[{'-':/tranqui/i,'+':/l/i},'l',2], // tranquille => son [l]
 							'illdeb':[{'-':/^i/i,'+':/l/i},'l',2], // 'ill' en début de mot = son [l] ; exemple : illustration
 							'except_ill_l':[this.Regle_ill,'l',2],

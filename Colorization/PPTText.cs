@@ -77,7 +77,7 @@ namespace Colorization
                 tRange.Font.Color.RGB = ColConfWin.predefinedColors[(int)PredefCols.black];
         }
 
-        protected override void SetChars(FormattesTextEl cte)
+        protected override void SetChars(FormattedTextEl cte)
         {
             TextRange theChars = txtRange.Characters(cte.First + 1, cte.Last - cte.First + 1);
             ApplyCFToRange(cte.cf, theChars, this.GetConfig());

@@ -162,26 +162,30 @@ namespace ColorLibTest
 			CheckPhons(pws, 14, "australopithèque", "ostRalOpitEk");
 		}
 
+		private void CheckTextVsPhonetique(string txt, string[] phons, ColConfWin.IllRule ill)
+		{
+			TheText tt = TheText.NewTestTheText(txt);
+			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ill;
+			List<PhonWord> pws = tt.GetPhonWords();
+			for (int i = 0; i < phons.Length; i++)
+			{
+				Console.WriteLine(pws[i].AllStringInfo());
+				Assert.AreEqual(phons[i], pws[i].Phonetique());
+			}
+		}
+
 		[TestMethod]
 		public void TestFindPhons3()
 		{
-			TheText tt;
-			List<PhonWord> pws;
-
 			TheText.Init();
-			
-
-			tt = TheText.NewTestTheText(
+			string txt =
 				@"ayons, balaya, ayatollah, kayac, tokay, mayonnaise, fayot, maya, himalaya, crayeux, paresse, abesses,
 				  dilemme, impeccable, chevrier, caramels, bedonnant, faisons, affaisseraient, refaisaient, tranquille,
 				  illégalement, lilliputien, millimétré, distillerait, tranquillises, tranquillités, tranquillisantes,
 				  tranquillos, désillusionné, distiller, illogisme, illustraient, illégalement, illumineront, imbécillité,
 				  instillassiez, millésime, millionnaire, multimilliardaires, multimillionnaire, villégiature, villageoises,
 				  villa,
-				  examen, minoen, gastroentérologue, électroencéphalographie"
-			);
-
-			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+				  examen, minoen, gastroentérologue, électroencéphalographie";
 
 			string[] phonetique = new string[]
 			{
@@ -192,13 +196,7 @@ namespace ColorLibTest
 				"myltimiljaRdER", "myltimiljOnER", "vileZjatyR", "vilaZwaz", "vila",
 				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi"
 			};
-
-			pws = tt.GetPhonWords();
-			for (int i = 0; i < phonetique.Length; i++)
-			{
-				Console.WriteLine(pws[i].AllStringInfo());
-				Assert.AreEqual(phonetique[i], pws[i].Phonetique());
-			}
+			CheckTextVsPhonetique(txt, phonetique, ColConfWin.IllRule.lirecouleur);
 		}
 
 		[TestMethod]
@@ -243,29 +241,16 @@ namespace ColorLibTest
 		[TestMethod]
 		public void TestFindPhons5()
 		{
-			TheText tt;
-			List<PhonWord> pws;
-
 			TheText.Init();
-
-
-			tt = TheText.NewTestTheText(
-				@"abeille, accueillant"
-			);
-
-			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.ceras;
+			string txt =
+				@"abeille, accueillant";
 
 			string[] phonetique = new string[]
 			{
 				"abEj", "ak2j@"
 			};
 
-			pws = tt.GetPhonWords();
-			for (int i = 0; i < phonetique.Length; i++)
-			{
-				Console.WriteLine(pws[i].AllStringInfo());
-				Assert.AreEqual(phonetique[i], pws[i].Phonetique());
-			}
+			CheckTextVsPhonetique(txt, phonetique, ColConfWin.IllRule.ceras);
 		}
 
 
