@@ -218,13 +218,13 @@ namespace ColorLib
             ApplyFormatting();
         } 
 
-        protected virtual void SetChars(FormattedTextEl cte) { }
+        protected virtual void SetChars(FormattedTextEl fte) { }
         // Formatte les caractères identifiés par cte au format voulu
         // N'est pas "abstract" pour simplifier le test.
 
         protected void ApplyFormatting() {
-            foreach (FormattedTextEl cte in Formats)
-                SetChars(cte);
+            foreach (FormattedTextEl fte in Formats)
+                SetChars(fte);
         }
     }
 }

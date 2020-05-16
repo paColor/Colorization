@@ -217,8 +217,19 @@ namespace ColorLib
 
         // -------------------------------------------------- Mapping "sons" to text  ------------------------------------------
 
+        /// <summary>
+        /// Retourne le texte utilisé dans l'affichage pour identifier un son. La pluspart du temps il s'agit
+        /// du nom du son entre crochet (par exemple [@])
+        /// </summary>
+        /// <param name="son">Le son dont on veut le texte affiché.</param>
+        /// <returns></returns>
         public static string DisplayText(string son) => sonOutMap[son][0];
 
+        /// <summary>
+        /// Retourne l'exemple à utiliser pour le son donné. Par exemple "feuille".
+        /// </summary>
+        /// <param name="son">Le son pour lequel on veut un example.</param>
+        /// <returns>L'example illsutrant le son.</returns>
         public static string ExampleText(string son) => sonOutMap[son][1];
 
         // ------------------------------------------------------- About sons  -----------------------------------------------

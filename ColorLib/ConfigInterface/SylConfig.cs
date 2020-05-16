@@ -77,8 +77,8 @@ namespace ColorLib
 
         public void SylButtonModified(int butNr, CharFormatting inCf)
         {
+            logger.ConditionalTrace("SylButtonModified butNr: {0}", butNr);
             sylButtons[butNr].cf = inCf;
-            updateSylButton(butNr);
             if (butNr == nrSetButtons)
             {
                 nrSetButtons++;
@@ -87,7 +87,14 @@ namespace ColorLib
                     sylButtons[nrSetButtons].buttonClickable = true;
                     updateSylButton(nrSetButtons);
                 }
+                if (inCf.changeColor == false)
+                {
+                    // c'est un problème. Il faut une couleur, sinon l'expérience utilisateur n'est pas consistante.
+                    // mettons le bouton à noir.
+                    sylButtons[butNr].cf = new CharFormatting(inCf, ColConfWin.predefinedColors[(int)PredefCols.black]);
+                }
             }
+            updateSylButton(butNr);
         }
 
         public void SylButtonModified(string butNrTxt, CharFormatting inCf)

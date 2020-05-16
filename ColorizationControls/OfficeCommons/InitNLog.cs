@@ -8,7 +8,8 @@ using NLog;
 namespace ColorizationControls
 {
     /// <summary>
-    /// <c>InitNLog</c> contains the static code that must be executed when the application starts and when it terminates.
+    /// <c>InitNLog</c> contains the static code that must be executed when the application starts and when it terminates, 
+    /// in order to configure NLog correctly.
     /// </summary>
     public static class InitNLog
     {
