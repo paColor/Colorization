@@ -197,7 +197,6 @@
     <Compile Include="WordRibbon.Designer.cs">
       <DependentUpon>WordRibbon.cs</DependentUpon>
     </Compile>
-    <None Include="ColorizationWord_TemporaryKey.pfx" />
     <None Include="Resources\phon-carré 30.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
