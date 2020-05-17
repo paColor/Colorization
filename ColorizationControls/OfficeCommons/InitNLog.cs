@@ -30,8 +30,8 @@ namespace ColorizationControls
             {
                 Layout = "${longdate} ${uppercase:${level}} ${logger} ${message}"
             };
-            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc);  // everything
-            //nLogConfig.AddRule(LogLevel.Info, LogLevel.Fatal, dc);  // everything equal or higher than Info
+            //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc);  // everything
+            nLogConfig.AddRule(LogLevel.Info, LogLevel.Fatal, dc);  // everything equal or higher than Info
 
             //// nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.*");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.ConfigPane");

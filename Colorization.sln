@@ -39,6 +39,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorizationWord", "Coloriz
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConfigWis", "TestConfigWis\TestConfigWis.csproj", "{D49B9EB0-5DA4-4B46-809F-A8C5C3B15292}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CAACC00-1139-4FAD-8B01-59F74845932C} = {1CAACC00-1139-4FAD-8B01-59F74845932C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -183,6 +183,12 @@ namespace ColorLibTest
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Compare la représentation phonétique de <c>txt</c> avec le tableau
+        /// de phonèmes phons et génère une erreur s'il y a une différence.
+        /// </summary>
+        /// <param name="txt">le texte à comparer</param>
+        /// <param name="phons">le tableau de phonèmes corects</param>
         private void CheckTextVsPhons(string txt, string[] phons)
         {
             TheText tt = TheText.NewTestTheText(txt);
