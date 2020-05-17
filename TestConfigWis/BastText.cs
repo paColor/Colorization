@@ -18,7 +18,7 @@ namespace TestConfigWis
             charFormattings = new CharFormatting[s.Length];
         }
 
-        protected override void SetChars(FormattesTextEl fte)
+        protected override void SetChars(FormattedTextEl fte)
         {
             for (int i = fte.First; i<=fte.Last; i++)
             {
