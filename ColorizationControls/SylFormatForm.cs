@@ -30,8 +30,18 @@ using System.Threading.Tasks;
 
 namespace ColorizationControls
 {
+    /// <summary>
+    /// <c>SylFormatForm</c> se comporte comme <c>CharFormatForm</c> dont elle est une descendante, sauf pour la
+    /// définition du titre de la fenêtre qui s'appelle ici "Formatage syllabe no "
+    /// </summary>
     public class SylFormatForm : CharFormatForm
     {
+        /// <summary>
+        /// Crée la fenêtre pour la définition du formatage pour une syllabe. Permet de déterminer 
+        /// </summary>
+        /// <param name="cf"></param>
+        /// <param name="theSylButton"></param>
+        /// <param name="inCharFormResult"></param>
         public SylFormatForm(CharFormatting cf, string theSylButton, SetCharFormResult inCharFormResult)
             : base(cf, theSylButton, inCharFormResult)
         { }
@@ -39,7 +49,7 @@ namespace ColorizationControls
         protected override string FormName(string theSylButton)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("Formattage syllabe no ");
+            sb.Append("Formatage syllabe no ");
             sb.Append(int.Parse(theSylButton) + 1);
             return sb.ToString();
         }

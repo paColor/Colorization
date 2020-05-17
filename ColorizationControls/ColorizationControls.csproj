@@ -262,5 +262,11 @@
   <ItemGroup>
     <None Include="Resources\Effacer15-noir.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Défaut-16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Défaut-161.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

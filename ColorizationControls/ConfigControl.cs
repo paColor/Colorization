@@ -62,6 +62,11 @@ namespace ColorizationControls
             // public SonInfo() {}
         }
 
+        /// <summary>
+        /// Facteur avec lequel il faut multiplier les grandeurs en pixels pour s'adapter à l'écran de l'utilisateur.
+        /// </summary>
+        public double ScaleFactor { get; private set; }
+
         private Object theWin; // La fenêtre dans laquelle le contrôle est placé.
         private Object theDoc; // le document ouvert dans la fenêtre.
         private Config theConf; // la configuration dont le contrôle est le GUI
@@ -78,6 +83,7 @@ namespace ColorizationControls
         private string cmsButType; // type of button, that was right clicked e.g. "btSC", "btL", "btn", ...
         private int cmsButNr; // le numéro du bouton cliqué droit
         private string cmsButSon = ""; // contient le son du bouton cliqué droit
+        private CharFormatting cmsCF; // contient le CharFormatting du bouton cliqué droit.
         private int countPasteLetters; // pour itérer à traver lettersToPaste quand on colle sur une lettre vide.
         private const string lettersToPaste = @"ƨ$@#<>*%()?![]{},.;:/\-_§°~¦|";
 
@@ -90,6 +96,25 @@ namespace ColorizationControls
         public ConfigControl(Object inWin, Object inDoc, string version)
         {
             InitializeComponent(); // calls the setup of the whole component
+
+            // Compute ScaleFacor
+            double dimWidth;
+            if (AutoScaleMode == AutoScaleMode.Dpi)
+                dimWidth = 96; // value observed on the development machine
+            else if (AutoScaleMode == AutoScaleMode.Font)
+                dimWidth = 6; // value observed on the development machine
+            else
+            {
+                dimWidth = AutoScaleDimensions.Width;
+                logger.Warn("Unexpected AutoScaleMode encountered. Scaling may not work properly.");
+            }
+            ScaleFactor = CurrentAutoScaleDimensions.Width / dimWidth;
+            logger.Info("CurrentAutoScaleDimensions.Width == {0}", CurrentAutoScaleDimensions.Width);
+            logger.Info("AutoScaleDimensions.Width == {0}", AutoScaleDimensions.Width);
+            logger.Info("factor == {0}", ScaleFactor);
+            logger.Info("AutoScaleMode is {0}", AutoScaleMode.ToString());
+
+            // theConf
             theWin = inWin;
             theDoc = inDoc;
             theConf = Config.GetConfigFor(theWin, theDoc);
@@ -168,7 +193,7 @@ namespace ColorizationControls
                 // button
                 UpdateSonButton(son);
             }
-            cbSBlackPhons.Checked = (ColConfWin.defBeh == ColConfWin.DefBeh.noir);
+            cbSBlackPhons.Checked = (theConf.colors[pct].defBeh == ColConfWin.DefBeh.noir);
             ResumeLayout();
             theConf.colors[pct].EnableCbxSonsEventHandling();
         }
@@ -229,6 +254,7 @@ namespace ColorizationControls
             SetButtonColor(theButton, theButtonCol);
             sylPictureBoxes[butNr].BackColor = thePbxCol;
             theButton.Enabled = sbC.buttonClickable;
+            sylPictureBoxes[butNr].Enabled = sbC.buttonClickable;
         }
 
 
@@ -486,7 +512,7 @@ namespace ColorizationControls
             logger.ConditionalTrace("cbSBlackPhons_CheckedChanged");
             Debug.Assert(sender != null);
             CheckBox cbx = (CheckBox)sender;
-            ColConfWin.DefaultBehaviourChangedTo(cbx.Checked);
+            theConf.colors[pct].DefaultBehaviourChangedTo(cbx.Checked);
         }
 
         private void UcheckBoxes_CheckedChanged(object sender, EventArgs e)
@@ -615,6 +641,14 @@ namespace ColorizationControls
             logger.ConditionalTrace("UpdateListeConfigs");
             lbConfigs.DataSource = Config.GetSavedConfigNames();
             btSauvCharger.Enabled = (lbConfigs.Items.Count > 0);
+            if (!String.IsNullOrEmpty(txtBNomConfig.Text))
+            {
+                int pos = lbConfigs.FindString(txtBNomConfig.Text);
+                if (pos != ListBox.NoMatches)
+                {
+                    lbConfigs.SetSelected(pos, true);
+                }
+            }
         }
 
         public void UpdateSauvTab()
@@ -666,7 +700,7 @@ namespace ColorizationControls
                 if (lbConfigs.FindStringExact(txtBNomConfig.Text) != ListBox.NoMatches)
                 {
                     string message = String.Format(
-                        "Un configuration poartant le nom \'{0}\' est déjà enregistrée. Souhaitez-vous l'écraser?",
+                        "Un configuration poartant le nom \'{0}\' est déjà enregistrée. Souhaitez-vous le remplacer?",
                         txtBNomConfig.Text);
                     var result = MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning);
@@ -757,7 +791,8 @@ namespace ColorizationControls
             logger.ConditionalTrace("btSauvCharger_Click");
             string configName = lbConfigs.SelectedItem.ToString();
             string message = String.Format(
-                        "Voulez-vous vraiment effacer la configuration \'{0}\' ?",
+                        "Voulez-vous vraiment effacer la configuration \'{0}\' ? Cette opération est " +
+                        "irréversible",
                         configName);
             var result = MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
@@ -774,6 +809,17 @@ namespace ColorizationControls
                     MessageBox.Show(errMessages, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        // --------------------------------- btSauv : Bouton "Par défaut" ------------------ ------------------------
+
+        private void btSauvDefaut_Click(object sender, EventArgs e)
+        {
+            theConf = Config.GetDefaultConfigFor(theWin, theDoc);
+            InitializeTheConf();
+            UpdateAll();
+            UpdateSauvTab();
+            btSauvSauv.Focus();
         }
 
         //--------------------------------------------------------------------------------------------
@@ -834,18 +880,61 @@ namespace ColorizationControls
         }
 
         //--------------------------------------------------------------------------------------------
-        // -------------------------  Context Menu Strip - Clic droit --------------------------------
+        // -------------------  Context Menu Strip - Clic droit EffacerCopier ------------------------
         //--------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Fais en sorte que les éléments du menu, correspondent au <c>CharFormatting</c> reçu en paramètre.
+        /// </summary>
+        /// <param name="cf">Le <c>Charformatting</c> pour les éléments du menu.</param>
+        /// <param name="txt">Le texte à utiliser pour le menu de la couleur du texte.</param>
+        private void SetTsmiGISforCF(CharFormatting cf, string txt = "Texte")
+        {
+            tsmiGras.Enabled = true;
+            tsmiItalique.Enabled = true;
+            tsmiSouligne.Enabled = true;
+            tsmiCouleur.Enabled = true;
+            if (HilightForm.CanOperate())
+            {
+                tsmiSurlignage.Enabled = true;
+                tsmiSurlignage.Visible = true;
+                tsmiSurlignage.BackColor = cf.hilightColor;
+                tsmiSurlignage.Checked = cf.changeHilight;
+                if (cf.hilightColor.Dark())
+                    tsmiSurlignage.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.white];
+                else
+                    tsmiSurlignage.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.black];
+            }
+            else
+            {
+                tsmiSurlignage.Enabled = false;
+                tsmiSurlignage.Visible = false;
+            }
+            tsmiGras.Checked = cf.bold;
+            tsmiItalique.Checked = cf.italic;
+            tsmiSouligne.Checked = cf.underline;
+            tsmiCouleur.Text = txt;
+            tsmiCouleur.BackColor = cf.color;
+            if (cf.color.Dark())
+                tsmiCouleur.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.white];
+            else
+                tsmiCouleur.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.black]; 
+        }
 
         // cms => context menu strip
         private void cmsEffacerCopier_Opening(object sender, CancelEventArgs e)
         {
-            string cName = cmsEffacerCopier.SourceControl.Name;
+            string cName = cmsEffacerCopier.SourceControl.Name; 
             logger.ConditionalTrace("cmsEffacerCopier_Opening {0}", cName);
             tsmiCouper.Enabled = false;
             tsmiCopier.Enabled = false;
             tsmiEffacer.Enabled = false;
-            tsmiColler.Enabled = (clipboard != null); 
+            tsmiColler.Enabled = (clipboard != null);
+            tsmiGras.Enabled = false;
+            tsmiItalique.Enabled = false;
+            tsmiSouligne.Enabled = false;
+            tsmiCouleur.Enabled = false;
+            tsmiSurlignage.Enabled = false;
             if (cName.StartsWith("btL"))
             {
                 // Bouton Lettre
@@ -858,6 +947,8 @@ namespace ColorizationControls
                     tsmiCouper.Enabled = true;
                     tsmiCopier.Enabled = true;
                     tsmiEffacer.Enabled = true;
+                    cmsCF = theConf.pBDQ.GetCfForPBDQLetter(c);
+                    SetTsmiGISforCF(cmsCF);
                 }
             }
             else if (cName.StartsWith("btSC") || cName.StartsWith("pbHL"))
@@ -875,6 +966,8 @@ namespace ColorizationControls
                             tsmiEffacer.Enabled = true;
                         }
                     }
+                    cmsCF = theConf.sylConf.GetSylButtonConfFor(cmsButNr).cf;
+                    SetTsmiGISforCF(cmsCF);
                 } 
                 else
                 {
@@ -890,6 +983,8 @@ namespace ColorizationControls
                     tsmiCopier.Enabled = true;
                     tsmiEffacer.Enabled = true;
                 }
+                cmsCF = theConf.colors[pct].Get(cmsButSon);
+                SetTsmiGISforCF(cmsCF,ColConfWin.ExampleText(cmsButSon));
             }
         }
 
@@ -961,7 +1056,80 @@ namespace ColorizationControls
                     break;
             }
         }
-        
+
+        private void APplyCFToClickedButton(CharFormatting cf)
+        {
+            logger.ConditionalTrace("APplyCFToClickedButton");
+            switch (cmsButType)
+            {
+                case "btL":
+                    _ = theConf.pBDQ.UpdateLetter(cmsButNr, cf);
+                    break;
+                case "btSC":
+                    theConf.sylConf.SylButtonModified(cmsButNr, cf);
+                    break;
+                case "btn":
+                    theConf.colors[pct].SetCbxAndCF(cmsButSon, cf);
+                    break;
+            }
+        }
+
+        private void tsmiGras_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("APplyCFToClickedButton");
+            APplyCFToClickedButton(new CharFormatting(cmsCF, !cmsCF.bold, cmsCF.italic, cmsCF.underline));
+        }
+
+        private void tsmiItalique_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("APplyCFToClickedButton");
+            APplyCFToClickedButton(new CharFormatting(cmsCF, cmsCF.bold, !cmsCF.italic, cmsCF.underline));
+        }
+
+        private void tsmiSouligne_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("APplyCFToClickedButton");
+            APplyCFToClickedButton(new CharFormatting(cmsCF, cmsCF.bold, cmsCF.italic, !cmsCF.underline));
+        }
+
+        private void tsmiCouleur_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("tsmiCouleur_Click");
+            Point p = cmsEffacerCopier.PointToScreen(tsmiCouleur.Bounds.Location); // position relative à l'écran
+            p.Offset((int)(-450 * ScaleFactor), (int)(-100 * ScaleFactor));
+            var mcd = new MyColorDialog();
+            mcd.CustomColors = StaticColorizControls.customColors;
+            mcd.AnyColor = true;
+            mcd.FullOpen = true;
+            mcd.Color = cmsCF.color;
+            mcd.SetPos(p);
+            if (mcd.ShowDialog() == DialogResult.OK)
+            {
+                APplyCFToClickedButton(new CharFormatting(cmsCF, mcd.Color));
+                StaticColorizControls.customColors = mcd.CustomColors;
+            }
+            mcd.Dispose();
+        }
+
+        private void tsmiSurlignage_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("tsmiSurlignage_Click");
+            Point p = cmsEffacerCopier.PointToScreen(tsmiCouleur.Bounds.Location); // position relative à l'écran
+            HilightForm hiForm = new HilightForm(cmsCF.hilightColor);
+            p.Offset((int)(ScaleFactor * (-hiForm.Width)), (int)(ScaleFactor * (-(hiForm.Height / 2))));
+            hiForm.Location = p;
+            if (hiForm.ShowDialog() == DialogResult.OK)
+            {
+                APplyCFToClickedButton(new CharFormatting(cmsCF.bold, cmsCF.italic, cmsCF.underline, cmsCF.caps, cmsCF.changeColor, cmsCF.color,
+                           true, hiForm.GetSelectedColor()));
+            }
+            hiForm.Dispose();
+        }
+
+        //--------------------------------------------------------------------------------------------
+        // -------------------  Context Menu Strip - Clic droit configMuettes ------------------------
+        //--------------------------------------------------------------------------------------------
+
         private void configMuettesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("configMuettesToolStripMenuItem_Click pct == {0}", pct.ToString());
@@ -983,6 +1151,5 @@ namespace ColorizationControls
             }
             UpdateAllSoundCbxAndButtons();
         }
-
     }
 }

@@ -55,7 +55,7 @@ namespace ColorLib
 
     {
         public string S { get; private set; } //the text to colorize
-        public List<FormattesTextEl> Formats { get; private set; }
+        public List<FormattedTextEl> Formats { get; private set; }
         // list of the elemnts whose formatting must changed
 
         private List<Word> words;
@@ -81,7 +81,7 @@ namespace ColorLib
         {
             Debug.Assert(s != null);
             this.S = s;
-            Formats = new List<FormattesTextEl>((s.Length * 3)/4);
+            Formats = new List<FormattedTextEl>((s.Length * 3)/4);
             phonWords = null;
             theConf = inConf;
             words = null;
@@ -148,7 +148,7 @@ namespace ColorLib
             {
                 CharFormatting cf = theConf.pBDQ.GetCfForPBDQLetter(S[i]);
                 if (cf != null)
-                    Formats.Add(new FormattesTextEl(this, i, i, cf));
+                    Formats.Add(new FormattedTextEl(this, i, i, cf));
             }
             ApplyFormatting();
         }
@@ -194,7 +194,7 @@ namespace ColorLib
                     while ((i < smallCapsS.Length) && (TextEl.EstVoyelle(smallCapsS[i])))
                         i++;
                     end = i - 1;
-                    Formats.Add(new FormattesTextEl(this, start, end, voyCF));
+                    Formats.Add(new FormattedTextEl(this, start, end, voyCF));
                 }
                 else if (TextEl.EstConsonne(smallCapsS[i]))
                 {
@@ -203,7 +203,7 @@ namespace ColorLib
                     while ((i < smallCapsS.Length) && (TextEl.EstConsonne(smallCapsS[i])))
                         i++;
                     end = i - 1;
-                    Formats.Add(new FormattesTextEl(this, start, end, consCF));
+                    Formats.Add(new FormattedTextEl(this, start, end, consCF));
                 }
                 else
                     i++;
@@ -214,17 +214,17 @@ namespace ColorLib
         public void MarkNoir() 
         {
             CFForceBlack cfFB = new CFForceBlack();
-            Formats.Add(new FormattesTextEl(this, 0, S.Length-1, cfFB));
+            Formats.Add(new FormattedTextEl(this, 0, S.Length-1, cfFB));
             ApplyFormatting();
         } 
 
-        protected virtual void SetChars(FormattesTextEl cte) { }
+        protected virtual void SetChars(FormattedTextEl fte) { }
         // Formatte les caractères identifiés par cte au format voulu
         // N'est pas "abstract" pour simplifier le test.
 
         protected void ApplyFormatting() {
-            foreach (FormattesTextEl cte in Formats)
-                SetChars(cte);
+            foreach (FormattedTextEl fte in Formats)
+                SetChars(fte);
         }
     }
 }

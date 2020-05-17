@@ -74,10 +74,40 @@ namespace ColorLib
 
         public char GetLetterForButtonNr(int butNr) => selLetters[butNr];
 
+        /// <summary>
+        /// Met à jour la configuration du bouton <c>buttonNr</c> avec <c>cf</c>.
+        /// </summary>
+        /// <param name="buttonNr">Le nr du bouton pour lequel il y a un nouveau <c>cf</c></param>
+        /// <param name="cf">Le nouveau <c>CharFormatting</c> pour le bouton.</param>
+        /// <returns><c>false</c> si la lettre du bouton en question est égale à la lettre inactive (' '). A ce 
+        /// momtn-là, rien n'est fait. <c>true</c> si la modification a été effectuée avec succès.</returns>
+        public bool UpdateLetter(int buttonNr, CharFormatting cf)
+        {
+            logger.ConditionalTrace("UpdateLetter bouton no {0}", buttonNr);
+            bool toReturn = false;
+            char c = selLetters[buttonNr];
+            if (c != inactiveLetter)
+            {
+                toReturn = true;
+                bpdqCF[c] = cf;
+                updateLetterButton(buttonNr);
+            }
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Met à jour la configuration pour le bouton <c>buttonNr</c>. Si le caractère <c>c</c> est déjà utilisé
+        /// pour un autre bouton, la modification est refusée et la méthode retourne <c>false</c>. Si <c>c</c> est 
+        /// le caractère inactif ' ', le bouton est "effacé". 
+        /// </summary>
+        /// <param name="buttonNr">Identifie le bouton à modifier par son numéro.</param>
+        /// <param name="c">Le caractère pour le bouton.</param>
+        /// <param name="cf">Le nouveau <c>CharFormatting</c> pour le bouton</param>
+        /// <returns></returns>
         public bool UpdateLetter (int buttonNr, char c, CharFormatting cf)
             // returns false if the update could not be executed because the letter is already handled.
         {
-            logger.ConditionalTrace("UodateLetter buttonNr: {0}, c: \'{1}\'", buttonNr, c);
+            logger.ConditionalTrace("UpdateLetter buttonNr: {0}, c: \'{1}\'", buttonNr, c);
             bool toReturn = true;
             char previousC = selLetters[buttonNr];
 

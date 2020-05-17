@@ -65,7 +65,7 @@ namespace ColorLib
 
         protected void SetCharFormat(CharFormatting cf)
         {
-            FormattesTextEl cte = new FormattesTextEl(this, cf);
+            FormattedTextEl cte = new FormattedTextEl(this, cf);
             T.Formats.Add(cte);
         }
 

@@ -139,7 +139,7 @@ namespace ColorLib
         /// <param name="doc">Le document attaché à la fenêtre. </param>
         /// <returns>La <c>Config</c> pour la fenêtre.</returns>
         public static Config GetConfigFor(Object win, Object doc)
-        // returns the Config associated with the Object, normally the active window. 
+        // returns the Config associated with the Object win, normally the active window. 
         // if there is none, a new one with the defauilt config is created.
         {
             logger.ConditionalTrace("GetConfigFor");
@@ -175,6 +175,23 @@ namespace ColorLib
             }
             return toReturn;
         }
+
+        /// <summary>
+        /// Retourne une <c>Config</c> par défaut pour la fenêtre et le document donnés. S'il existait déjà une config pour
+        /// cette fenêtre, cette config est définitivement perdue.
+        /// </summary>
+        /// <param name="win">La fenêtre pour la quelle on veut un objet <c>Config</c>.</param>
+        /// <param name="doc">Le document attaché à la fenêtre.</param>
+        /// <returns></returns>
+        public static Config GetDefaultConfigFor(Object win, Object doc)
+        {
+            logger.ConditionalTrace("GetDefaultConfigFor");
+            _ = theConfs.Remove(win); // Effaçons une éventuelle config enregistrée pour la fenêtre.
+            Config toReturn = new Config();
+            UpdateWindowsLists(win, doc, toReturn);
+            return toReturn;
+        }
+
 
         /// <summary>
         /// Informe la gestion de configurations, que le document <c>doc</c> a été fermé par l'utilisateur.
@@ -319,7 +336,7 @@ namespace ColorLib
             colors = new Dictionary<PhonConfType, ColConfWin>(2);
             colors[PhonConfType.muettes] = new ColConfWin(PhonConfType.muettes);
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
-            configName = "";
+            configName = "Hippocampéléphantocamélos";
         }
 
         /// <summary>

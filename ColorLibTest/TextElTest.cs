@@ -22,11 +22,11 @@ namespace ColorLibTest
         {
             CharFormatting cf = new CharFormatting();
             SetCharFormat(cf);
-            List<FormattesTextEl> query =
+            List<FormattedTextEl> query =
                 (from cte in tt.Formats
                 where cte.First == this.First
                 select cte).ToList();
-            foreach (FormattesTextEl cte in query)
+            foreach (FormattedTextEl cte in query)
             {
                 Assert.AreEqual(cte.Last, this.Last);
                 Assert.AreSame(cf, cte.cf);
