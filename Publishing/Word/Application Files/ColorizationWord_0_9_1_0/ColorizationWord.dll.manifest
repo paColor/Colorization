@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="ColorizationWord.dll" version="0.9.0.0" publicKeyToken="39aaa72ec171435d" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="ColorizationWord.dll" version="0.9.1.0" publicKeyToken="39aaa72ec171435d" language="neutral" processorArchitecture="msil" type="win32" />
   <description xmlns="urn:schemas-microsoft-com:asm.v1">ColorizationWord</description>
   <application />
   <entryPoint>
@@ -167,50 +167,50 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Colorization.dll" size="78336">
-      <assemblyIdentity name="Colorization" version="0.8.0.42370" publicKeyToken="39AAA72EC171435D" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Colorization.dll" size="77824">
+      <assemblyIdentity name="Colorization" version="0.8.0.32174" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>WVT5mibe5CRADk+2m+XfJlVR0q2/FpOMa23B24Ej+dY=</dsig:DigestValue>
+        <dsig:DigestValue>BfBbEOol7JWgPKfImzImOLj9TB2cbIjERnCM16MEoyw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ColorizationControls.dll" size="211968">
-      <assemblyIdentity name="ColorizationControls" version="1.0.0.0" publicKeyToken="39AAA72EC171435D" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ColorizationControls.dll" size="217088">
+      <assemblyIdentity name="ColorizationControls" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>u8RJiKR9WrLa7NE9Ex9WGuWh4X2YV/IkQQg2mQSf3LY=</dsig:DigestValue>
+        <dsig:DigestValue>W78ZmcgHBvzFurEMyjY7SVy/MOATGae7Z301iW+Qi+g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ColorizationWord.dll" size="54784">
-      <assemblyIdentity name="ColorizationWord" version="0.8.0.42391" publicKeyToken="39AAA72EC171435D" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ColorizationWord.dll" size="54272">
+      <assemblyIdentity name="ColorizationWord" version="0.8.0.32192" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>90crfp7RG0cHG9e5LlfG8SKZqXNRKnE1gCGeke8QKjw=</dsig:DigestValue>
+        <dsig:DigestValue>iVqZ6UWPQtX5Yv+QgNKlwWeAd22r3Y8wACgUPAQ/VlU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ColorLib.dll" size="132608">
-      <assemblyIdentity name="ColorLib" version="1.0.0.0" publicKeyToken="39AAA72EC171435D" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ColorLib.dll" size="133120">
+      <assemblyIdentity name="ColorLib" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>4tUN+sQ9t0xGjPS/dBAt8E+C9/zxSYMSp7QxzvRSODA=</dsig:DigestValue>
+        <dsig:DigestValue>LF+ztcCQT2PAVCTeEQpTg1UE5C5PJZD1Q2JtT+yzmS0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -251,7 +251,7 @@
     <vstav3:entryPointsCollection>
       <vstav3:entryPoints>
         <vstav3:entryPoint class="ColorizationWord.ColorizationMSW">
-          <assemblyIdentity name="ColorizationWord" version="0.8.0.42391" publicKeyToken="39AAA72EC171435D" language="neutral" processorArchitecture="msil" />
+          <assemblyIdentity name="ColorizationWord" version="0.8.0.32192" language="neutral" processorArchitecture="msil" />
         </vstav3:entryPoint>
       </vstav3:entryPoints>
     </vstav3:entryPointsCollection>
@@ -265,11 +265,11 @@
             <vstov4:friendlyName>ColorizationWord</vstov4:friendlyName>
             <vstov4:description>ColorizationWord</vstov4:description>
             <vstov4.1:ribbonTypes xmlns:vstov4.1="urn:schemas-microsoft-com:vsto.v4.1">
-              <vstov4.1:ribbonType name="ColorizationWord.WordRibbon, ColorizationWord, Version=0.8.0.42391, Culture=neutral, PublicKeyToken=39aaa72ec171435d" />
+              <vstov4.1:ribbonType name="ColorizationWord.WordRibbon, ColorizationWord, Version=0.8.0.32192, Culture=neutral, PublicKeyToken=null" />
             </vstov4.1:ribbonTypes>
           </vstov4:appAddIn>
         </vstov4:customization>
       </vstov4:customizations>
     </vstav3:application>
   </vstav3:addIn>
-<publisherIdentity name="CN=Pierre-Alain Etique, O=Etique &amp; CO, C=CH" issuerKeyHash="91fd2cd66e91bd84d9767dba181373b091b05e65" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>xuYlv7vgYv1THbajXOIFvD4ZZiI=</DigestValue></Reference></SignedInfo><SignatureValue>Z1rI9OvUaSDXfNnLi2xuXegTzbpddFCoPzurzhstuwxreZhGyvKDL78bKeLHmmk7lAbnhb5y5cRdryxInNkQuUjYPPVof56BC0xZS4IQbzsKsYG7OTBckx4BFbtwHN2gxu0VGz9Y7cU7LzametsC3sNxIpVVg3J0LHZ9uKmnFhIvYBPkoz3E0yBlkMyDyjHWbi1rWRCkODcAnvDAsYKFFoXE+eIvgHMTWN2Ofrc9ejdI6e2qw+hcvYB7U++q2vtKmciR8WiUUZDOAnBUMtjb0ui/Pl/D5wvjJPdFaif0P3FQuTc3KKCOgaoxlSDEG5TUzLShbyKpjWA0cBPsmRt3fQ==</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>01DDCf0yz5p7yrW5gpJDjS9DM5TGF0vF/MhISgc++hL3rXIyiePJPA8BSM/Vo7qPn0COOV8WeQfcVmsD/JAAGlW9/zo6gRlkaeeCdPl3hRzto3U3cz6cyRvtWN52i0AZz8fW6V4QJCjkVIYbh/DaybFaBTBgrzE7JUB5ISxnkvF/ZnoTWNGSxFA3+cWtefYWg1JoxDvXEqmlMFEu42F8cRleVP2LSSZceOXqsODARiROSSpCf0W3+q5DqYVLIEnB8gAUWSZtmEMuiwIQ5rFmkjyIx6Uy8on8mjaE4nr6lgb81emI/vTLwgmvGlxBySHJhlbbcYzOgqkI4wZJrYFL8Q==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="2266193ebc05e25ca3b61d53fd62e0bbbf25e6c6" Description="" Url=""><as:assemblyIdentity name="ColorizationWord.dll" version="0.9.0.0" publicKeyToken="39aaa72ec171435d" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=Pierre-Alain Etique, O=Etique &amp; CO, C=CH</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>Exz3+EqiwEy3RYG2M3lHI3086kE=</DigestValue></Reference></SignedInfo><SignatureValue>YjEDe6RCItV4H8CeAnspbG6xptJLi2cB67wG6QwFhXreOuz3e95aX99kre2kSLgqE9vMMCuTfbKlX460eVlaILUVVzXNbVQsoRywi16KRGnpyny9GNAQ8sQeapc4U/ErZnjqlYJ6IHhoMOWV0yv4uxNqJsIBVjAgH7p1O9U/WLnpnRjfk5LWRP4lO+SST0pnn+uEcHhhWyDYPvb/2tCKKjQd7WLUSoORt26R7kuZrWgZGcQxmA/J1QnJ2APP1tMjYgtzfPvROL4RX/jz/QVaNhedDtH6ObUrv/bMzE3Y0OHDtEQr2KdO4FYQcnGzUNAmMEf+XHt21zYdsuMQTtWBfA==</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>01DDCf0yz5p7yrW5gpJDjS9DM5TGF0vF/MhISgc++hL3rXIyiePJPA8BSM/Vo7qPn0COOV8WeQfcVmsD/JAAGlW9/zo6gRlkaeeCdPl3hRzto3U3cz6cyRvtWN52i0AZz8fW6V4QJCjkVIYbh/DaybFaBTBgrzE7JUB5ISxnkvF/ZnoTWNGSxFA3+cWtefYWg1JoxDvXEqmlMFEu42F8cRleVP2LSSZceOXqsODARiROSSpCf0W3+q5DqYVLIEnB8gAUWSZtmEMuiwIQ5rFmkjyIx6Uy8on8mjaE4nr6lgb81emI/vTLwgmvGlxBySHJhlbbcYzOgqkI4wZJrYFL8Q==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIDYDCCAkigAwIBAgIQSEb5zlzoYY5Fillp2/HrgjANBgkqhkiG9w0BAQUFADBBMQswCQYDVQQGEwJDSDEUMBIGA1UECgwLRXRpcXVlICYgQ08xHDAaBgNVBAMME1BpZXJyZS1BbGFpbiBFdGlxdWUwHhcNMjAwNDA5MjI0MTE0WhcNMzAwNDA5MjI1MTE0WjBBMQswCQYDVQQGEwJDSDEUMBIGA1UECgwLRXRpcXVlICYgQ08xHDAaBgNVBAMME1BpZXJyZS1BbGFpbiBFdGlxdWUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDTUMMJ/TLPmnvKtbmCkkONL0MzlMYXS8X8yEhKBz76EvetcjKJ48k8DwFIz9Wjuo+fQI45XxZ5B9xWawP8kAAaVb3/OjqBGWRp54J0+XeFHO2jdTdzPpzJG+1Y3naLQBnPx9bpXhAkKORUhhuH8NrJsVoFMGCvMTslQHkhLGeS8X9mehNY0ZLEUDf5xa159haDUmjEO9cSqaUwUS7jYXxxGV5U/YtJJlx45eqw4MBGJE5JKkJ/Rbf6rkOphUsgScHyABRZJm2YQy6LAhDmsWaSPIjHpTLyifyaNoTievqWBvzV6Yj+9MvCCa8aXEHJIcmGVttxjM6CqQjjBkmtgUvxAgMBAAGjVDBSMA4GA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAzAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSR/SzWbpG9hNl2fboYE3OwkbBeZTANBgkqhkiG9w0BAQUFAAOCAQEATth6urZ3DruTIFLLDDPGajLXyqTFbluQ2R2KU2Mkiu9wVc6YaPKxVMlNAyPZsXntkvqOTiHE2I+UPo+p1h7DSEQC4T4onKckkJ2gmQA0hbFqANeyEaAYwUrCiVY9cDzHSyN2ZxEUg86p8ztF8pegEFBvIvm+ZWr/x15xvZudkqxYa1seltlPlX19shbRejy+uCgWnYjh+sZHFWfP1CLD1Enpqqc/fTujGjWwb0cNYjaPG6V1QUQJ2eVRylMQ7UBmZnQcugk1TamX2Coans1lstn5h9iSWDPufaolzYBT6dzYxm5/OdQ27Ou3hbMiDhC/6mjzFCU6DExyrgi7d5BQPA==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
+<publisherIdentity name="CN=Pierre-Alain Etique, O=Etique &amp; CO, C=CH" issuerKeyHash="91fd2cd66e91bd84d9767dba181373b091b05e65" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>kYoAr6sc/SgdklBwpaOnGiccFuE=</DigestValue></Reference></SignedInfo><SignatureValue>wUoKYgB5Jsdd8XMSIhsFb+H6ySgECD5wSmI5PZg+i0ZrIYqK+Rcvxa/qB9y+vAcxW4c7hZb6SKGNAnPaEgwkKUdgk7waNHDRVDOT13bW/PlALC/w0mOM4etK8uoQZQvE6QfVx2ge3QnRWpZcDVyEh0jUO9Hoq1+gOC4tUsZagzHdEn+z2dVVIdDagXqdaH1/86/b2PcjYX18nLLDjpAc0ObjHCVkAlTkiNw1v0XtEraFxOumICl2dzc8AHq7CLCvyY3S9cQPJc2bf1k+lN8pV6dBl/q9swu80IBn2kMmg0xBnU0+PeCLJV01wpqISCuUK/FrRe99FE0kGwU2nLQMqA==</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>01DDCf0yz5p7yrW5gpJDjS9DM5TGF0vF/MhISgc++hL3rXIyiePJPA8BSM/Vo7qPn0COOV8WeQfcVmsD/JAAGlW9/zo6gRlkaeeCdPl3hRzto3U3cz6cyRvtWN52i0AZz8fW6V4QJCjkVIYbh/DaybFaBTBgrzE7JUB5ISxnkvF/ZnoTWNGSxFA3+cWtefYWg1JoxDvXEqmlMFEu42F8cRleVP2LSSZceOXqsODARiROSSpCf0W3+q5DqYVLIEnB8gAUWSZtmEMuiwIQ5rFmkjyIx6Uy8on8mjaE4nr6lgb81emI/vTLwgmvGlxBySHJhlbbcYzOgqkI4wZJrYFL8Q==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="e1161c271aa7a3a57050921d28fd1cabaf008a91" Description="" Url=""><as:assemblyIdentity name="ColorizationWord.dll" version="0.9.1.0" publicKeyToken="39aaa72ec171435d" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=Pierre-Alain Etique, O=Etique &amp; CO, C=CH</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>NUbRJZKKrKjyS7hmqyT3N5ZIcHQ=</DigestValue></Reference></SignedInfo><SignatureValue>YRDCsGBD2Chip+YaT7H0hRWY/re34lJ46vBkI9Kp+Lw/PhiHAIJgPxz+0XOFGZIaZuAgWNmcndFIaiaxVROAlfyztf2mZvJV8UAmp/s2jMpxNXj/N+ihw3zWtHN/0bPS/CehZHMCVRdsxUtqLrnKFqXOEjqTRzoxsWsTuE1wTD6/DmvcF2JZOWNJzSHIi5XtuDhWj8QuEaz9RYjrHOFAGruLO9GPDxtx1EejATGY9ICJF8ddUAXKz+HS0azt/l0z7hbYeSeYP8dRs0dh39FutxoLrFZxsgrmNPs3ZdPwsmcedeVVQhZxqbDZ5UIXJhFt/muOTfq+lwi6EtF9ckMoqw==</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>01DDCf0yz5p7yrW5gpJDjS9DM5TGF0vF/MhISgc++hL3rXIyiePJPA8BSM/Vo7qPn0COOV8WeQfcVmsD/JAAGlW9/zo6gRlkaeeCdPl3hRzto3U3cz6cyRvtWN52i0AZz8fW6V4QJCjkVIYbh/DaybFaBTBgrzE7JUB5ISxnkvF/ZnoTWNGSxFA3+cWtefYWg1JoxDvXEqmlMFEu42F8cRleVP2LSSZceOXqsODARiROSSpCf0W3+q5DqYVLIEnB8gAUWSZtmEMuiwIQ5rFmkjyIx6Uy8on8mjaE4nr6lgb81emI/vTLwgmvGlxBySHJhlbbcYzOgqkI4wZJrYFL8Q==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIDYDCCAkigAwIBAgIQSEb5zlzoYY5Fillp2/HrgjANBgkqhkiG9w0BAQUFADBBMQswCQYDVQQGEwJDSDEUMBIGA1UECgwLRXRpcXVlICYgQ08xHDAaBgNVBAMME1BpZXJyZS1BbGFpbiBFdGlxdWUwHhcNMjAwNDA5MjI0MTE0WhcNMzAwNDA5MjI1MTE0WjBBMQswCQYDVQQGEwJDSDEUMBIGA1UECgwLRXRpcXVlICYgQ08xHDAaBgNVBAMME1BpZXJyZS1BbGFpbiBFdGlxdWUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDTUMMJ/TLPmnvKtbmCkkONL0MzlMYXS8X8yEhKBz76EvetcjKJ48k8DwFIz9Wjuo+fQI45XxZ5B9xWawP8kAAaVb3/OjqBGWRp54J0+XeFHO2jdTdzPpzJG+1Y3naLQBnPx9bpXhAkKORUhhuH8NrJsVoFMGCvMTslQHkhLGeS8X9mehNY0ZLEUDf5xa159haDUmjEO9cSqaUwUS7jYXxxGV5U/YtJJlx45eqw4MBGJE5JKkJ/Rbf6rkOphUsgScHyABRZJm2YQy6LAhDmsWaSPIjHpTLyifyaNoTievqWBvzV6Yj+9MvCCa8aXEHJIcmGVttxjM6CqQjjBkmtgUvxAgMBAAGjVDBSMA4GA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAzAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSR/SzWbpG9hNl2fboYE3OwkbBeZTANBgkqhkiG9w0BAQUFAAOCAQEATth6urZ3DruTIFLLDDPGajLXyqTFbluQ2R2KU2Mkiu9wVc6YaPKxVMlNAyPZsXntkvqOTiHE2I+UPo+p1h7DSEQC4T4onKckkJ2gmQA0hbFqANeyEaAYwUrCiVY9cDzHSyN2ZxEUg86p8ztF8pegEFBvIvm+ZWr/x15xvZudkqxYa1seltlPlX19shbRejy+uCgWnYjh+sZHFWfP1CLD1Enpqqc/fTujGjWwb0cNYjaPG6V1QUQJ2eVRylMQ7UBmZnQcugk1TamX2Coans1lstn5h9iSWDPufaolzYBT6dzYxm5/OdQ27Ou3hbMiDhC/6mjzFCU6DExyrgi7d5BQPA==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

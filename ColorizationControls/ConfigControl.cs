@@ -924,7 +924,7 @@ namespace ColorizationControls
         // cms => context menu strip
         private void cmsEffacerCopier_Opening(object sender, CancelEventArgs e)
         {
-            string cName = cmsEffacerCopier.SourceControl.Name;
+            string cName = cmsEffacerCopier.SourceControl.Name; 
             logger.ConditionalTrace("cmsEffacerCopier_Opening {0}", cName);
             tsmiCouper.Enabled = false;
             tsmiCopier.Enabled = false;
