@@ -197,6 +197,7 @@
     <Compile Include="WordRibbon.Designer.cs">
       <DependentUpon>WordRibbon.cs</DependentUpon>
     </Compile>
+    <None Include="ColorizationWord_TemporaryKey.pfx" />
     <None Include="Resources\phon-carré 30.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -283,11 +284,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>ColorizationWord_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4ED1205C30F0E730E05027546590059D7CF82128</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>80DFB5DF616381D3F3E4DD84E2A9C700EEFC3AB1</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>

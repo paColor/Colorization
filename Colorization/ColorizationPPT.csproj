@@ -212,6 +212,7 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="ColorizationPPT_TemporaryKey.pfx" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -342,11 +343,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>ColorizationPPT_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4ED1205C30F0E730E05027546590059D7CF82128</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>57A0E6A280F79B0C6FAB85F19A17F269197F9335</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
