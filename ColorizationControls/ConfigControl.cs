@@ -62,6 +62,11 @@ namespace ColorizationControls
             // public SonInfo() {}
         }
 
+        /// <summary>
+        /// Facteur avec lequel il faut multiplier les grandeurs en pixels pour s'adapter à l'écran de l'utilisateur.
+        /// </summary>
+        public double ScaleFactor { get; private set; }
+
         private Object theWin; // La fenêtre dans laquelle le contrôle est placé.
         private Object theDoc; // le document ouvert dans la fenêtre.
         private Config theConf; // la configuration dont le contrôle est le GUI
@@ -91,6 +96,25 @@ namespace ColorizationControls
         public ConfigControl(Object inWin, Object inDoc, string version)
         {
             InitializeComponent(); // calls the setup of the whole component
+
+            // Compute ScaleFacor
+            double dimWidth;
+            if (AutoScaleMode == AutoScaleMode.Dpi)
+                dimWidth = 96; // value observed on the development machine
+            else if (AutoScaleMode == AutoScaleMode.Font)
+                dimWidth = 6; // value observed on the development machine
+            else
+            {
+                dimWidth = AutoScaleDimensions.Width;
+                logger.Warn("Unexpected AutoScaleMode encountered. Scaling may not work properly.");
+            }
+            ScaleFactor = CurrentAutoScaleDimensions.Width / dimWidth;
+            logger.Info("CurrentAutoScaleDimensions.Width == {0}", CurrentAutoScaleDimensions.Width);
+            logger.Info("AutoScaleDimensions.Width == {0}", AutoScaleDimensions.Width);
+            logger.Info("factor == {0}", ScaleFactor);
+            logger.Info("AutoScaleMode is {0}", AutoScaleMode.ToString());
+
+            // theConf
             theWin = inWin;
             theDoc = inDoc;
             theConf = Config.GetConfigFor(theWin, theDoc);
@@ -875,6 +899,7 @@ namespace ColorizationControls
                 tsmiSurlignage.Enabled = true;
                 tsmiSurlignage.Visible = true;
                 tsmiSurlignage.BackColor = cf.hilightColor;
+                tsmiSurlignage.Checked = cf.changeHilight;
                 if (cf.hilightColor.Dark())
                     tsmiSurlignage.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.white];
                 else
@@ -1071,6 +1096,7 @@ namespace ColorizationControls
         {
             logger.ConditionalTrace("tsmiCouleur_Click");
             Point p = cmsEffacerCopier.PointToScreen(tsmiCouleur.Bounds.Location); // position relative à l'écran
+            p.Offset((int)(-450 * ScaleFactor), (int)(-100 * ScaleFactor));
             var mcd = new MyColorDialog();
             mcd.CustomColors = StaticColorizControls.customColors;
             mcd.AnyColor = true;
@@ -1082,13 +1108,22 @@ namespace ColorizationControls
                 APplyCFToClickedButton(new CharFormatting(cmsCF, mcd.Color));
                 StaticColorizControls.customColors = mcd.CustomColors;
             }
+            mcd.Dispose();
         }
 
         private void tsmiSurlignage_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("tsmiSurlignage_Click");
-            var mea = (MouseEventArgs)e;
-            logger.ConditionalTrace("Position de la souris: Location: {0}, X: {1}, Y: {2}", mea.Location, mea.X, mea.Y);
+            Point p = cmsEffacerCopier.PointToScreen(tsmiCouleur.Bounds.Location); // position relative à l'écran
+            HilightForm hiForm = new HilightForm(cmsCF.hilightColor);
+            p.Offset((int)(ScaleFactor * (-hiForm.Width)), (int)(ScaleFactor * (-(hiForm.Height / 2))));
+            hiForm.Location = p;
+            if (hiForm.ShowDialog() == DialogResult.OK)
+            {
+                APplyCFToClickedButton(new CharFormatting(cmsCF.bold, cmsCF.italic, cmsCF.underline, cmsCF.caps, cmsCF.changeColor, cmsCF.color,
+                           true, hiForm.GetSelectedColor()));
+            }
+            hiForm.Dispose();
         }
 
         //--------------------------------------------------------------------------------------------
@@ -1116,6 +1151,5 @@ namespace ColorizationControls
             }
             UpdateAllSoundCbxAndButtons();
         }
-
     }
 }

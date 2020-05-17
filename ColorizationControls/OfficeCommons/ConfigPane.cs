@@ -126,25 +126,7 @@ namespace ColorizationControls
             customTaskPanes = inCustomTaskPanes;
             confContr = new ConfigControl(inWin, inDoc, version);
             configTaskPane = customTaskPanes.Add(confContr, BaseConfig.ColorizationName, theWin);
-
-            double dimWidth;
-            if (confContr.AutoScaleMode == AutoScaleMode.Dpi)
-                dimWidth = 96; // value observed on the development machine
-            else if (confContr.AutoScaleMode == AutoScaleMode.Font)
-                dimWidth = 6; // value observed on the development machine
-            else
-            {
-                dimWidth = confContr.AutoScaleDimensions.Width;
-                logger.Warn("Unexpected AutoScaleMode encountered. Scaling may not work properly.");
-            }
-
-            double factor = confContr.CurrentAutoScaleDimensions.Width / dimWidth;
-            configTaskPane.Width = ((int)(OrigWidth * factor)) + 3;
-            
-            logger.Info("confContr.CurrentAutoScaleDimensions.Width == {0}", confContr.CurrentAutoScaleDimensions.Width);
-            logger.Info("confContr.AutoScaleDimensions.Width == {0}", confContr.AutoScaleDimensions.Width);
-            logger.Info("factor == {0}", factor);
-            logger.Info("AutoScaleMode is {0}", confContr.AutoScaleMode.ToString());
+            configTaskPane.Width = ((int)(OrigWidth * confContr.ScaleFactor)) + 2;
         }
 
         internal void Close()
