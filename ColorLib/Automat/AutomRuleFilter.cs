@@ -504,7 +504,7 @@ namespace ColorLib
         static string[] noms_ai =
         {
             "balai", "brai", "chai", "déblai", "délai", "essai", "frai", "geai", "lai", "mai",
-            "minerai", "papegai", "quai", "rai", "remblai"
+            "minerai", "papegai", "quai", "rai", "remblai", "vrai"
         };
 
         private static StringDictionary noms_ai_hashed = new StringDictionary();
