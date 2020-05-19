@@ -1,5 +1,5 @@
-- name: Intorduction
-  href: intro.md
-- name: Api Documentation
+- name: Discussions
+  href: articles/
+- name: Documentation des interfaces
   href: api/
   homepage: api/index.md
