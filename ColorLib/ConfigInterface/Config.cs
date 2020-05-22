@@ -30,9 +30,43 @@ using System.Windows.Forms;
 
 namespace ColorLib
 {
+    /// <summary>
+    /// Sert à différentier les <see cref="ColConfWin"/>.
+    /// </summary>
     [Serializable]
-    public enum PhonConfType { phonemes, muettes }
+    public enum PhonConfType { 
+        /// <summary>
+        /// identifie le <see cref="ColConfWin"/> dédié à la colorisation de phonèmes.
+        /// </summary>
+        phonemes,
 
+        /// <summary>
+        /// identifie le <see cref="ColConfWin"/> dédié à la colorisation des muettes.
+        /// </summary>
+        muettes
+    }
+
+    /// <summary>
+    /// Stocke la configuration nécessaire au comportement des outils de fomatage de <see cref="TheText"/>.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// La partie statique de la classe gère l'attribution d'une <c>Config</c> à chaque fenêtre de l'interface
+    /// utilisateur. L'idée est que chaque fenêtre dispose de sa propre <c>Config</c> que l'utilisateur peut
+    /// modifier à sa guise.
+    /// </para>
+    /// <para>
+    /// Comme il n'est pas possible de recevoir un événement quand une fenêtre est fermée (en tout cas je n'ai
+    /// pas trouvé comment faire), les fenêtre sont rattachées à un document (il peut y avoir plusieurs fenêtres
+    /// pour le même document). L'évènement de fermeture de document peut appeler <see cref="DocClosed(object)"/>
+    /// qui libérera les ressources nécessaires.
+    /// </para>
+    /// <para>
+    /// La méthode de base de la partie statique est <see cref="GetConfigFor(object, object)"/> qui retourne une 
+    /// <c>Config</c> pour la fenêtre donnée. Un certain nombre d'autres méthodes permettent d'obtenir une 
+    /// <c>Config</c> par défaut ou de charger une config sauvegardée.
+    /// </para>
+    /// </remarks>
     [Serializable]
     public class Config : ConfigBase
     {
@@ -106,9 +140,12 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Charge la configuration portant le nom <c>name</c>.
+        /// Charge la configuration portant le nom <paramref name="name"/>.
         /// </summary>
         /// <param name="name">Le nom de la configuration à charger.</param>
+        /// <param name="win">La fenêtre pour laquelle la config est chargée.</param>
+        /// <param name="doc">Le document ouvert dans la fenêtre.</param>
+        /// <param name="errMsg">Retourne le message d'erreur si le chargement échoue.</param>
         /// <returns>La configuration chargée ou null si le chargement échoue.</returns>
         public static Config LoadConfig(string name, Object win, Object doc, out string errMsg)
         {
@@ -133,7 +170,8 @@ namespace ColorLib
 
         /// <summary>
         /// Donne la confiuration qui correspond à la fenêtre <c>win</c>. Mémorise les infos pour
-        /// que l'évènement de fermeture du document <c>doc</c> soit traité correctement
+        /// que l'évènement de fermeture du document <c>doc</c> soit traité correctement. Voir
+        /// <see cref="DocClosed(object)"/>.
         /// </summary>
         /// <param name="win">La fenêtre pour la quelle on veut un objet <c>Config</c>.</param>
         /// <param name="doc">Le document attaché à la fenêtre. </param>
@@ -182,7 +220,7 @@ namespace ColorLib
         /// </summary>
         /// <param name="win">La fenêtre pour la quelle on veut un objet <c>Config</c>.</param>
         /// <param name="doc">Le document attaché à la fenêtre.</param>
-        /// <returns></returns>
+        /// <returns>Une nouvelle <c>Config</c> qui est initialisée aux valeurs par défaut.</returns>
         public static Config GetDefaultConfigFor(Object win, Object doc)
         {
             logger.ConditionalTrace("GetDefaultConfigFor");
@@ -195,7 +233,7 @@ namespace ColorLib
 
         /// <summary>
         /// Informe la gestion de configurations, que le document <c>doc</c> a été fermé par l'utilisateur.
-        /// </summary
+        /// </summary>
         /// <remarks>
         /// S'assure que tous les configs, liées au document soient sauvegardées, et oubliées et met à jour la 
         /// gestion de fenêtres et de documents.
@@ -235,6 +273,9 @@ namespace ColorLib
         /// Efface la configuration portant le nom <c>confName</c>.
         /// </summary>
         /// <param name="confName">Le nom de la configuration à effacer des configurations enregistrées.</param>
+        /// <param name="msgTxt">Le texte du message d'erreur au cas où la <c>Config</c> ne peut pas être effacée.</param>
+        /// <returns><c>true</c> si <c>confName</c> a pu être effacé, <c>false</c> en cas de problème. Dans ce dernier cas,
+        /// <paramref name="msgTxt"/> contient un message d'erreur.</returns>
         public static bool DeleteSavedConfig(string confName, out string msgTxt)
         {
             bool toReturn = false;
@@ -259,7 +300,7 @@ namespace ColorLib
         }
 
 
-        // -------------------------------------- Public Static Methods -------------------------------------------------------
+        // -------------------------------------- Private Static Methods -------------------------------------------------------
 
         private static Config LoadConfigFile(string fileName, out string errMsg)
         {
@@ -314,19 +355,54 @@ namespace ColorLib
 
         // *************************************************** Instantiated ****************************************************
 
+        /// <summary>
+        /// Upcall pour informer le GUI que le nom de la <c>Config</c> a changé.
+        /// </summary>
         [NonSerialized]
         public ExecuteTask updateConfigName;
+
+        /// <summary>
+        /// Upcall pour informer le GUI que la liste des <c>Config</c>s sauvegardées a changé.
+        /// </summary>
         [NonSerialized]
         public ExecuteTask updateListeConfigs;
 
+        /// <value>
+        /// La configuration pour le formatage de lettres.
+        /// </value>
         public PBDQConfig pBDQ { get; private set; }
+
+        /// <value>
+        /// Contient les configurations pour le formatage des phonèmes pour les différents types de phonèmes
+        /// prévus dans <see cref="PhonConfType"/>.
+        /// </value>
+        /// <example>
+        /// Pour effacer toutes les sélections de phonèmes dans la configuration pour le lettres muettes:
+        /// <code>
+        ///     Config conf = Config.GetDefaultConfigFor(theWin, theDoc);
+        ///     conf.colors[PhonConfType.muettes].ClearAllCbxSons();
+        /// </code>
+        /// </example>
         public Dictionary<PhonConfType, ColConfWin> colors { get; private set; }
+
+        /// <value>
+        /// La configuration pour le formatage des syllabes, des mots, ... EN fait pour les commandes qui ont
+        /// besoin d'un formatage alterné.
+        /// </value>
         public SylConfig sylConf { get; private set; }
+
+        /// <value>
+        /// La configuration pour les options avancées, c'est-à-dire le comportement à adopter quand
+        /// les flags de <c>CharFormatting</c> comme <c>bold</c> sont sur <c>false</c> (Unset Behaviour).
+        /// </value>
         public UnsetBehConf unsetBeh { get; private set; }
 
         [OptionalField(VersionAdded = 2)]
         private string configName;
 
+        /// <summary>
+        /// Crée une <c>Config</c> par défaut.
+        /// </summary>
         public Config()
         {
             logger.ConditionalTrace("Config");
@@ -350,7 +426,9 @@ namespace ColorLib
         /// Sauve la configuration sous le nom indiqué.
         /// </summary>
         /// <param name="name">Le nom sous lequel la configuration doit être enregistrée.</param>
-        /// <returns>true si la sauvegarde a pu avoir lieu, sinon false. </returns>
+        /// <param name="msgTxt">Retourne un message d'erreur dans le cas où la <c>Config</c> n'a pas pu être 
+        /// sauvegardée.</param>
+        /// <returns><c>true</c> si la sauvegarde a pu avoir lieu, sinon <c>false</c>. </returns>
         public bool SaveConfig(string name, out string msgTxt)
         {
             logger.ConditionalTrace("SaveConfig \'{0}\'", name);

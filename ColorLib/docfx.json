@@ -6,7 +6,7 @@
           "files": [
             "**.csproj"
           ],
-          "src": "F:\\Utilisateurs\\Papa\\Prog\\VisStud\\repos\\Colorization\\ColorLib"
+          "src": "F:\\Utilisateurs\\Papa\\Prog\\VisStud\\repos\\Colorization\\"
         }
       ],
       "dest": "api",

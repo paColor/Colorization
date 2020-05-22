@@ -14,6 +14,7 @@ Le programme est composé de quatre parties principales :
 4.	`ColorizationPPT` contient la partie spécifique à PowerPoint. 
 
 ![Aperçu des classes](images/Les_classes.png)
+Pour voir l'image en grand, faites un clic droit dessus puis sélectionnez "Afficher l'image" ou ouvrez-la dans un nouvel onglet.
 
 On remarquera sur le dessin ci-dessus, que `ColorLib` est lui-même partagé en trois parties relativement indépendantes :
 1.	`Automat` contient les règles nécessaires à la reconnaissance de phonèmes. La logique qui s’y trouve est empruntée à LireCouleur (http://lirecouleur.arkaline.fr/ ou https://framagit.org/arkaline/lirecouleur). 

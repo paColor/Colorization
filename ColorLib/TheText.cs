@@ -26,6 +26,18 @@ using System.Text.RegularExpressions;
 
 namespace ColorLib
 {
+    /// <summary>
+    /// <para>
+    /// <c>CharFormatting</c> contient un certain nombre de méthodes qui permettent de savoir comment se comporter avec
+    /// une valeur <c>false</c> pour les différents membres de type <c>bool</c>. Faut-il ne rien faire ou forcer
+    /// la caractéristique "gras" à "non gras" par exemple? 
+    /// </para>
+    /// <para>
+    /// Une instance de <c>CFForceBlack</c> se comporte comme un <c>CharFormatting</c> mais retourne toutjours <c>true</c>
+    /// pour les méthodes évoquées ci-dessus. Cela permet par exemple de créer un <c>CharFormatting</c> qui forcera
+    /// la mise en noir et l'élimination des caractéristique <c>bold</c>, <c>italic</c>, <c>underline</c> et autres.
+    /// </para>
+    /// </summary>
     public class CFForceBlack : CharFormatting
     {
         public override bool ForceNonBold(Config conf) => true;
@@ -38,30 +50,52 @@ namespace ColorLib
         public override bool ForceNonSerif(Config conf) => true;
     }
 
-    public class TheText
-        /*
-         * The class TheText represents the text that is analysed and whose formatting is adapted by the 
-         * analysis algorithm.
-         * 
-         * It is not supposed to be intiantiated directly. However, for test reasons, we do not declare it as abstract.
-         * 
-         * Memebers:
-         *      string S --> containing the text.
-         *      CharFormatting[] Formats --> an array of Charformats for each character in S.
-         *      
-         *      static ColorConfig Colors --> the color and formatting definition to use when coloring the text.
-         */
-    
 
+    /// <summary>
+    /// <para>
+    /// The class TheText represents the text that is analysed and whose formatting is adapted by the
+    /// analysis algorithm.
+    /// </para>
+    /// <para>
+    /// 
+    /// </para>
+    /// <para>
+    /// The idea is that the inheriting class is created with a <c>string</c> and a <c>Config</c> (see the constructor
+    /// <see cref="TheText(string, Config)"/>). Once this is done, 
+    /// different methods make it possible to apply some kind of formatting to the text. This formatting is applied
+    /// to the inheriting class by calling the method <c>SetChars</c> see <see cref="SetChars(FormattedTextEl)"/>.
+    /// </para>
+    /// </summary>
+    /// <remarks>
+    /// <para><c>Init</c> must be called before any usage of the class. This is especially important for testing,
+    /// where this could easily be forgotten. </para>
+    /// <para>
+    /// The class is not supposed to be intiantiated directly. However, for test reasons, we do not declare it as abstract.
+    /// Some members and methods of this class are public to simplify testing, although from a logical point of view, this
+    /// would not be necessary.
+    /// </para>
+    /// </remarks>
+    public class TheText
     {
-        public string S { get; private set; } //the text to colorize
+        /// <summary>
+        /// The text that was entered when the object was constructed. Cannot be null.
+        /// </summary>
+        public string S { get; private set; }
+
+        /// <summary>
+        /// List of the elements whose formatting must be changed
+        /// </summary>
         public List<FormattedTextEl> Formats { get; private set; }
-        // list of the elemnts whose formatting must changed
+
 
         private List<Word> words;
         private List<PhonWord> phonWords;
         private Config theConf;
 
+        /// <summary>
+        /// Initializes the static elements of the whole <c>ColorLib</c> library. Must be called befor any
+        /// usage of the library.
+        /// </summary>
         public static void Init()
         {
             AutomAutomat.InitAutomat();
@@ -70,6 +104,11 @@ namespace ColorLib
             Config.Init();
         }
 
+        /// <summary>
+        /// For test purposes: creates a <c>TheText</c> with the passed <c>string</c> and a default <c>Config</c>.
+        /// </summary>
+        /// <param name="s">The text that must be handled.</param>
+        /// <returns>A new <c>TheText</c>.</returns>
         public static TheText NewTestTheText(string s)
             // retourne un nouvel objet "TheText" avec une config par défaut
         {
@@ -77,6 +116,12 @@ namespace ColorLib
             return new TheText(s, c);
         }
 
+        /// <summary>
+        /// Creates a <c>TheText</c> with the passed <c>string</c> and the passed <c>Config</c>. The <c>Config</c>
+        /// will be used when applying formattings. 
+        /// </summary>
+        /// <param name="s">The text that will be worked on. Cannot be null.</param>
+        /// <param name="inConf">The <c>Config</c> that will be used when applying formats to the text.</param>
         public TheText(string s, Config inConf)
         {
             Debug.Assert(s != null);
@@ -87,11 +132,20 @@ namespace ColorLib
             words = null;
         }
 
+        /// <summary>
+        /// Returns the text.
+        /// </summary>
+        /// <returns>The text.</returns>
         public override string ToString()
         {
             return S;
         }
 
+        /// <summary>
+        /// Retrurns the list of <c>Words</c> contained in the text.
+        /// </summary>
+        /// <remarks>Is not needed by a normal consumer of the class.</remarks>
+        /// <returns>List of <c>Words</c> contained in the text</returns>
         public List<Word> GetWords()
             // public for test reasons
         {
@@ -119,6 +173,11 @@ namespace ColorLib
             return words;
         }
 
+        /// <summary>
+        /// Returns the list of <c>PhonWords</c> contained in the text.
+        /// </summary>
+        /// /// <remarks>Is not needed by a normal consumer of the class.</remarks>
+        /// <returns>List of <c>PhonWords</c> contained in the text.</returns>
         public List<PhonWord> GetPhonWords()
             // public for test reasons
         {
@@ -132,8 +191,19 @@ namespace ColorLib
             return phonWords;
         }
 
+        /// <summary>
+        /// Returns the <c>Config</c> used to format the given text.
+        /// </summary>
+        /// <returns>The <c>Config</c> used to format the text.</returns>
         public Config GetConfig() => theConf;
 
+        /// <summary>
+        /// Applies the formattings defined in the <c>ColConfWin</c> identified by <paramref name="pct"/> to the 
+        /// "phonèmes" in the text. I.e. fills <c>Formats</c> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
+        /// <param name="pct">Identifies the <c>ColConfWin</c> (see <see cref="ColorLib.ColConfWin"/>) that msut
+        /// be used when coloring the "phonèmes".</param>
         public void ColorizePhons(PhonConfType pct)
         {
             List<PhonWord> pws = GetPhonWords();
@@ -142,6 +212,11 @@ namespace ColorLib
             ApplyFormatting();
         }
 
+        /// <summary>
+        /// Colors the letters in the text, according to the <see cref="PBDQConfig"/> attached to the <see cref="Config"/>
+        /// passed at creation time. I.e. fills <see cref="Formats"/>and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
         public void MarkLetters()
         {
             for (int i = 0; i < S.Length; i++)
@@ -153,6 +228,11 @@ namespace ColorLib
             ApplyFormatting();
         }
 
+        /// <summary>
+        /// Colors the "syllabes" in the text, according to the <see cref="SylConfig"/> attached to the <see cref="Config"/>
+        /// passed at creation time. I.e. fills <see cref="Formats"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
         public void MarkSyls()
         {
             theConf.sylConf.ResetCounter();
@@ -162,6 +242,11 @@ namespace ColorLib
             ApplyFormatting();
         }
 
+        /// <summary>
+        /// Colors the "words" in the text, according to the <see cref="SylConfig"/> attached to the <see cref="Config"/>
+        /// passed at creation time. I.e. fills <see cref="Formats"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
         public void MarkWords()
         {
             theConf.sylConf.ResetCounter();
@@ -171,12 +256,23 @@ namespace ColorLib
             ApplyFormatting();
         }
 
+        /// <summary>
+        /// Colors the "unspoken letters" (muettes :-)) in the text, according to the <see cref="ColConfWin"/> 
+        /// corresponding to <c>pct == PhonConfType.muettes</c> attached to the <see cref="Config"/> 
+        /// passed at creation time. I.e. fills <see cref="Formats"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
         public void MarkMuettes()
         {
             ColorizePhons(PhonConfType.muettes);
             ApplyFormatting();
         }
 
+        /// <summary>
+        /// Colors the "voyelles" and "consonnes" in the text, according to the alternate colors defined in the <see cref="SylConfig"/>
+        /// attached to the <see cref="Config"/> passed at creation time. I.e. fills <see cref="Formats"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
         public void MarkVoyCons()
         {
             theConf.sylConf.ResetCounter();
@@ -211,17 +307,32 @@ namespace ColorLib
             ApplyFormatting();
         }
 
+        /// <summary>
+        /// Forces the text to black color and no bold, italic, underline, ... formatting.
+        /// </summary>
         public void MarkNoir() 
         {
             CFForceBlack cfFB = new CFForceBlack();
             Formats.Add(new FormattedTextEl(this, 0, S.Length-1, cfFB));
             ApplyFormatting();
-        } 
+        }
 
+        /// <summary>
+        /// <para>
+        /// This is to be considered as an abstract method that must be implemented by the inheriting class.
+        /// The method is called for each <see cref="FormattedTextEl"/> that results from the operation applied to
+        /// <c>TheText</c>.
+        /// </para>
+        /// <para>
+        /// The intent is that the inheriting class can then apply the requested formatting to the text in the user interface.
+        /// </para>
+        /// <remarks>
+        /// Is not abstract in order to make it possible to instantiate <c>TheText</c> and hence simplify testing.
+        /// </remarks>
+        /// </summary>
+        /// <param name="fte">The <see cref="FormattedTextEl"/> that should be formatted on the output device.</param>
         protected virtual void SetChars(FormattedTextEl fte) { }
-        // Formatte les caractères identifiés par cte au format voulu
-        // N'est pas "abstract" pour simplifier le test.
-
+        
         protected void ApplyFormatting() {
             foreach (FormattedTextEl fte in Formats)
                 SetChars(fte);
