@@ -230,8 +230,13 @@ namespace ColorizationControls
             SuspendLayout();
             for (int i = 0; i < SylConfig.nrButtons; i++)
                 UpdateSylButton(i);
-            cbSStd.Checked = theConf.sylConf.DoubCons();
-            cbSEcrit.Checked = theConf.sylConf.ModeEcrit();
+
+            rbnAv2Cons.Checked = !theConf.sylConf.DoubCons();
+            rbnStandard.Checked = theConf.sylConf.DoubCons();
+
+            rbnEcrit.Checked = theConf.sylConf.ModeEcrit();
+            rbnOral.Checked = !theConf.sylConf.ModeEcrit();
+
             ResumeLayout();
         }
 
@@ -544,18 +549,16 @@ namespace ColorizationControls
         // ---------------------------------- Checkboxes Syllabes ------------------------------------
         //--------------------------------------------------------------------------------------------
 
-        private void cbSStd_CheckedChanged(object sender, EventArgs e)
+        private void rbnEcrit_CheckedChanged(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("cbSStd_CheckedChanged");
-            CheckBox cbSStd = (CheckBox)sender;
-            theConf.sylConf.DoubleConsModified(cbSStd.Checked);
+            logger.ConditionalTrace("rbnEcrit_CheckedChanged");
+            theConf.sylConf.ModeEcritModified(rbnEcrit.Checked);
         }
 
-        private void cbSEcrit_CheckedChanged(object sender, EventArgs e)
+        private void rbnStandard_CheckedChanged(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("cbSEcrit_CheckedChanged");
-            CheckBox cbSEcrit = (CheckBox)sender;
-            theConf.sylConf.ModeEcritModified(cbSEcrit.Checked);
+            logger.ConditionalTrace("rbnStandard_CheckedChanged");
+            theConf.sylConf.DoubleConsModified(rbnStandard.Checked);
         }
 
         //--------------------------------------------------------------------------------------------
@@ -1151,5 +1154,6 @@ namespace ColorizationControls
             }
             UpdateAllSoundCbxAndButtons();
         }
+
     }
 }
