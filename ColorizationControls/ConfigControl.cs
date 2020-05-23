@@ -51,7 +51,35 @@ namespace ColorizationControls
 
         private static CharFormatting clipboard = null;
 
-        private Dictionary <string, CheckBox> formattingCheckBoxes;
+        private enum FontFormat {
+            standard = 0,
+            bold = 1,
+            italic = 2,
+            boldItalic = 3,
+            underline = 4,
+            boldUnderline = 5,
+            italicUnderline = 6,
+            boldItalicUnderline = 7,
+
+            last = 8
+        }
+
+        private static Font[] fonts = new Font[(int)FontFormat.last]
+        {
+            new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))), // standard = 0
+            new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0))),    // bold = 1
+            new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(0))),  // italic = 2
+            new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, ((byte)(0))), // boldItalic = 3,
+            new Font("Microsoft Sans Serif", 8.25F, FontStyle.Underline, GraphicsUnit.Point, ((byte)(0))), // underline = 4
+            new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, ((byte)(0))), // boldUnderline = 5
+            new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point, ((byte)(0))), // italicUnderline = 6
+            new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point, ((byte)(0))) // boldItalicUnderline = 7
+        };
+
+        public static void Init()
+        {
+            StaticColorizControls.Init();
+        }
 
         private class SonInfo
         {
@@ -71,6 +99,7 @@ namespace ColorizationControls
         private Object theDoc; // le document ouvert dans la fenêtre.
         private Config theConf; // la configuration dont le contrôle est le GUI
 
+        private Dictionary<string, CheckBox> formattingCheckBoxes; // les checkboxes pour 'unsetbehaviour' de l'onglet avancé.
         private Dictionary<int, Button> letterButtons;
         private RGB defaultLetterButtonCol;
         private Button[] sylButtons;
@@ -87,11 +116,6 @@ namespace ColorizationControls
         private int countPasteLetters; // pour itérer à traver lettersToPaste quand on colle sur une lettre vide.
         private const string lettersToPaste = @"ƨ$@#<>*%()?![]{},.;:/\-_§°~¦|";
 
-        
-        public static void Init ()
-        {
-            StaticColorizControls.Init();
-        }
 
         public ConfigControl(Object inWin, Object inDoc, string version)
         {
@@ -168,8 +192,13 @@ namespace ColorizationControls
             if (si.cbx.Checked)
             {
                 cf = theConf.colors[pct].Get(son);
+                SetButtonFont(si.btn, cf);
                 if (cf.changeColor)
                     btnColor = cf.color;
+            }
+            else
+            {
+                SetButtonFontStandard(si.btn);
             }
             SetButtonColor(si.btn, btnColor);
         }
@@ -216,11 +245,13 @@ namespace ColorizationControls
             StringBuilder sb = new StringBuilder(1);
             sb.Append(c);
             letterButtons[buttonNr].Text = sb.ToString();
-            RGB theButtonCol;
-            if ((cf != null) && (cf.changeColor))
-                theButtonCol = cf.color;
-            else
-                theButtonCol = defaultLetterButtonCol;
+            RGB theButtonCol = defaultLetterButtonCol;
+            if (cf != null)
+            {
+                SetButtonFont(letterButtons[buttonNr], cf);
+                if (cf.changeColor)
+                    theButtonCol = cf.color;
+            }
             SetButtonColor(letterButtons[buttonNr], theButtonCol);
         }
 
@@ -255,6 +286,7 @@ namespace ColorizationControls
                     thePbxCol = sbC.cf.hilightColor;
                 else
                     thePbxCol = theButtonCol;
+                SetButtonFont(theButton, sbC.cf);
             }
             SetButtonColor(theButton, theButtonCol);
             sylPictureBoxes[butNr].BackColor = thePbxCol;
@@ -394,6 +426,28 @@ namespace ColorizationControls
                 b.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.black];
         }
 
+        /// <summary>
+        /// Assigne le font défini par <c>cf</c> au bouton <c>b</c>.
+        /// </summary>
+        /// <param name="b">Le bouton dont le font doit être adapté.</param>
+        /// <param name="cf">Le <c>CharFormatting</c> définissant le font à utiliser.</param>
+        private void SetButtonFont (Button b, CharFormatting cf)
+        {
+            int fontIndex = 0;
+            if (cf.bold)
+                fontIndex += 1;
+            if (cf.italic)
+                fontIndex += 2;
+            if (cf.underline)
+                fontIndex += 4;
+            b.Font = fonts[fontIndex];
+        }
+
+        /// <summary>
+        /// Met le font standard pour le bouton <c>b</c>.
+        /// </summary>
+        /// <param name="b">Le bouton dont il faut modifier le font. </param>
+        private void SetButtonFontStandard(Button b) => b.Font = fonts[(int)FontFormat.standard];
 
         //--------------------------------------------------------------------------------------------
         // -------------------------- Boutons généraux phonèmes---------------------------------------
