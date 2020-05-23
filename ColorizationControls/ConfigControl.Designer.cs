@@ -217,6 +217,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbnStandard = new System.Windows.Forms.RadioButton();
             this.rbnAv2Cons = new System.Windows.Forms.RadioButton();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -1650,6 +1651,7 @@
             // tabAutres
             // 
             this.tabAutres.BackColor = System.Drawing.SystemColors.Control;
+            this.tabAutres.Controls.Add(this.button1);
             this.tabAutres.Controls.Add(this.groupBox1);
             this.tabAutres.Controls.Add(this.grpBEcritOral);
             this.tabAutres.Controls.Add(this.btcLNoir);
@@ -2472,6 +2474,16 @@
             this.ttipLettreEnNoir.SetToolTip(this.rbnAv2Cons, "Les syllabes sont coupées avant\r\ndeux consonnes répétées.\r\n");
             this.rbnAv2Cons.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(116, 332);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 169;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // ConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2703,5 +2715,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton rbnStandard;
         private System.Windows.Forms.RadioButton rbnAv2Cons;
+        private System.Windows.Forms.Button button1;
     }
 }

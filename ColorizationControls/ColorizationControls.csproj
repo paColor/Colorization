@@ -65,6 +65,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DuoConfForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DuoConfForm.Designer.cs">
+      <DependentUpon>DuoConfForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DuoConfFormDummy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DuoConfFormDummy.Designer.cs">
+      <DependentUpon>DuoConfFormDummy.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormatButtonHandler2.cs" />
     <Compile Include="OfficeCommons\ConfigPane.cs" />
     <Compile Include="DConsoleTarget.cs" />
@@ -115,6 +127,12 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DuoConfForm.resx">
+      <DependentUpon>DuoConfForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DuoConfFormDummy.resx">
+      <DependentUpon>DuoConfFormDummy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HilightForm.resx">
       <DependentUpon>HilightForm.cs</DependentUpon>
     </EmbeddedResource>

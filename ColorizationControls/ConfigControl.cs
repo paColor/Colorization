@@ -1209,5 +1209,10 @@ namespace ColorizationControls
             UpdateAllSoundCbxAndButtons();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DuoConfForm dcf = new DuoConfForm();
+            dcf.Visible = true;
+        }
     }
 }
