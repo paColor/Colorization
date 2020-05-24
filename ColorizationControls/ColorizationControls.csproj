@@ -286,5 +286,35 @@
   <ItemGroup>
     <None Include="Resources\Défaut-161.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\syll_dys_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mots_26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bdpq_26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\phon-carré 30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\phon-carré 26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OK-b_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Défaut-bleu_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2-350.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2-35.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2_78.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

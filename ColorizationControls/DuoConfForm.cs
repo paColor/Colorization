@@ -19,7 +19,7 @@ namespace ColorizationControls
             InitializeComponent();
             this.SuspendLayout();
             confContr1 = new ConfigControl(this, this, "test");
-            this.Controls.Add(confContr1);
+            panelConfig1.Controls.Add(confContr1);
             this.ResumeLayout();
         }
     }
