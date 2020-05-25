@@ -58,6 +58,8 @@ namespace ColorLib
             doubleConsStd = true; // mode std de LireCouleur
             modeEcrit = true; // mode écrit de LireCouleur
             sylButtons = new SylButtonConf[nrButtons];
+            updateSylButton = DummyExecTaskOnSylButton;
+            updateSylButtons = DummyExecuteTask;
             ResetCounter();
             InitStandardColors();
         }
@@ -75,6 +77,14 @@ namespace ColorLib
 
         public SylButtonConf GetSylButtonConfFor(int butNr) => sylButtons[butNr];
 
+        /// <summary>
+        /// Indique que le le boouton <paramref name="butNr"/> (commence à 0) doit être formatté avec 
+        /// <paramref name="inCf"/>.
+        /// La fonction <c>updateSylButton</c> est appelée pour le bouton <paramref name="butNr"/> (l'événement
+        /// correspondant est généré...)
+        /// </summary>
+        /// <param name="butNr">Le numéro du bouton dont il faut changer le formatage.</param>
+        /// <param name="inCf">Le nouveau formatage.</param>
         public void SylButtonModified(int butNr, CharFormatting inCf)
         {
             logger.ConditionalTrace("SylButtonModified butNr: {0}", butNr);
@@ -102,6 +112,12 @@ namespace ColorLib
             SylButtonModified(int.Parse(butNrTxt), inCf);
         }
 
+        /// <summary>
+        /// Le bouton <paramref name="butNr"/> est effacé. N'est possible que pour le dernier bouton
+        /// formaté de la série.
+        /// </summary>
+        /// <exception cref="ArgumentException"> est levée si le bouton ne peut pas être effacé.</exception>
+        /// <param name="butNr">Le numéro du bouton à effacer.</param>
         public void ClearButton(int butNr)
         {
             logger.ConditionalTrace("ClearButton butNr: {0}", butNr);
@@ -155,6 +171,16 @@ namespace ColorLib
                 sylButtons[i].cf = ColConfWin.predefCF[(int)PredefCols.neutral];
             }
             nrSetButtons = 2;
+        }
+
+        private void DummyExecTaskOnSylButton (int butNr)
+        {
+            // do nothing
+        }
+
+        private void DummyExecuteTask()
+        {
+            // do nothing
         }
 
     }

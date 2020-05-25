@@ -32,26 +32,26 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DuoConfForm));
             this.lblConfig1 = new System.Windows.Forms.Label();
             this.panelConfig1 = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelConfig2 = new System.Windows.Forms.Panel();
             this.lblConfig2 = new System.Windows.Forms.Label();
             this.rbtnMots = new System.Windows.Forms.RadioButton();
             this.lblAlternance = new System.Windows.Forms.Label();
             this.rbtnLignes = new System.Windows.Forms.RadioButton();
             this.lblColoriser = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnAnnuler = new System.Windows.Forms.Button();
-            this.btnDeux = new System.Windows.Forms.Button();
-            this.btnDéfaut = new System.Windows.Forms.Button();
-            this.btnValider = new System.Windows.Forms.Button();
             this.rbtnMuettes = new System.Windows.Forms.RadioButton();
             this.rbtnPhonemes = new System.Windows.Forms.RadioButton();
             this.rbtnVoyCons = new System.Windows.Forms.RadioButton();
             this.rbtnLettres = new System.Windows.Forms.RadioButton();
             this.rbtnSyylabes = new System.Windows.Forms.RadioButton();
             this.rbtnColorMots = new System.Windows.Forms.RadioButton();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnDeux = new System.Windows.Forms.Button();
+            this.btnDéfaut = new System.Windows.Forms.Button();
+            this.btnAnnuler = new System.Windows.Forms.Button();
+            this.btnValider = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -73,12 +73,12 @@
             this.panelConfig1.Size = new System.Drawing.Size(348, 533);
             this.panelConfig1.TabIndex = 2;
             // 
-            // panel1
+            // panelConfig2
             // 
-            this.panel1.Location = new System.Drawing.Point(520, 45);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(348, 533);
-            this.panel1.TabIndex = 3;
+            this.panelConfig2.Location = new System.Drawing.Point(520, 45);
+            this.panelConfig2.Name = "panelConfig2";
+            this.panelConfig2.Size = new System.Drawing.Size(348, 533);
+            this.panelConfig2.TabIndex = 3;
             // 
             // lblConfig2
             // 
@@ -150,75 +150,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(112, 259);
             this.panel3.TabIndex = 11;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.rbtnLignes);
-            this.panel2.Controls.Add(this.rbtnMots);
-            this.panel2.Location = new System.Drawing.Point(408, 82);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(68, 52);
-            this.panel2.TabIndex = 7;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(279, 601);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(326, 79);
-            this.richTextBox1.TabIndex = 12;
-            this.richTextBox1.TabStop = false;
-            this.richTextBox1.Text = "Heureux qui, comme Ulysse, a fait un beau voyage,\nOu comme cestui-là qui conquit " +
-    "la toison,\nEt puis est retourné, plein d\'usage et raison,\nVivre entre ses parent" +
-    "s le reste de son âge!";
-            // 
-            // btnAnnuler
-            // 
-            this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnAnnuler.Image = global::ColorizationControls.Properties.Resources.Effacer15;
-            this.btnAnnuler.Location = new System.Drawing.Point(706, 643);
-            this.btnAnnuler.Name = "btnAnnuler";
-            this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
-            this.btnAnnuler.TabIndex = 14;
-            this.btnAnnuler.Text = "Annuler";
-            this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnAnnuler.UseVisualStyleBackColor = true;
-            // 
-            // btnDeux
-            // 
-            this.btnDeux.AutoSize = true;
-            this.btnDeux.Image = global::ColorizationControls.Properties.Resources._2_78;
-            this.btnDeux.Location = new System.Drawing.Point(399, 454);
-            this.btnDeux.Name = "btnDeux";
-            this.btnDeux.Size = new System.Drawing.Size(88, 88);
-            this.btnDeux.TabIndex = 16;
-            this.toolTip1.SetToolTip(this.btnDeux, "Applique le formatage alterné\r\nau texte sélectionné.");
-            this.btnDeux.UseVisualStyleBackColor = true;
-            // 
-            // btnDéfaut
-            // 
-            this.btnDéfaut.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
-            this.btnDéfaut.Location = new System.Drawing.Point(111, 627);
-            this.btnDéfaut.Name = "btnDéfaut";
-            this.btnDéfaut.Size = new System.Drawing.Size(75, 23);
-            this.btnDéfaut.TabIndex = 15;
-            this.btnDéfaut.Text = "Défaut";
-            this.btnDéfaut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.btnDéfaut, "Réinitialise les deux configurations\r\nà leur valeur par défaut.");
-            this.btnDéfaut.UseVisualStyleBackColor = true;
-            // 
-            // btnValider
-            // 
-            this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnValider.Image = global::ColorizationControls.Properties.Resources.OK_b_16;
-            this.btnValider.Location = new System.Drawing.Point(706, 614);
-            this.btnValider.Name = "btnValider";
-            this.btnValider.Size = new System.Drawing.Size(75, 23);
-            this.btnValider.TabIndex = 13;
-            this.btnValider.Text = "Valider";
-            this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnValider.UseVisualStyleBackColor = true;
             // 
             // rbtnMuettes
             // 
@@ -337,6 +268,75 @@
         "ternance.\r\n");
             this.rbtnColorMots.UseVisualStyleBackColor = true;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.rbtnLignes);
+            this.panel2.Controls.Add(this.rbtnMots);
+            this.panel2.Location = new System.Drawing.Point(408, 82);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(68, 52);
+            this.panel2.TabIndex = 7;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.Location = new System.Drawing.Point(279, 601);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(326, 79);
+            this.richTextBox1.TabIndex = 12;
+            this.richTextBox1.TabStop = false;
+            this.richTextBox1.Text = "Heureux qui, comme Ulysse, a fait un beau voyage,\nOu comme cestui-là qui conquit " +
+    "la toison,\nEt puis est retourné, plein d\'usage et raison,\nVivre entre ses parent" +
+    "s le reste de son âge!";
+            // 
+            // btnDeux
+            // 
+            this.btnDeux.AutoSize = true;
+            this.btnDeux.Image = global::ColorizationControls.Properties.Resources._2_78;
+            this.btnDeux.Location = new System.Drawing.Point(399, 454);
+            this.btnDeux.Name = "btnDeux";
+            this.btnDeux.Size = new System.Drawing.Size(88, 88);
+            this.btnDeux.TabIndex = 16;
+            this.toolTip1.SetToolTip(this.btnDeux, "Applique le formatage alterné\r\nau texte sélectionné.");
+            this.btnDeux.UseVisualStyleBackColor = true;
+            // 
+            // btnDéfaut
+            // 
+            this.btnDéfaut.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
+            this.btnDéfaut.Location = new System.Drawing.Point(111, 627);
+            this.btnDéfaut.Name = "btnDéfaut";
+            this.btnDéfaut.Size = new System.Drawing.Size(75, 23);
+            this.btnDéfaut.TabIndex = 15;
+            this.btnDéfaut.Text = "Défaut";
+            this.btnDéfaut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.btnDéfaut, "Réinitialise les deux configurations\r\nà leur valeur par défaut.");
+            this.btnDéfaut.UseVisualStyleBackColor = true;
+            // 
+            // btnAnnuler
+            // 
+            this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnAnnuler.Image = global::ColorizationControls.Properties.Resources.Effacer15;
+            this.btnAnnuler.Location = new System.Drawing.Point(706, 643);
+            this.btnAnnuler.Name = "btnAnnuler";
+            this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
+            this.btnAnnuler.TabIndex = 14;
+            this.btnAnnuler.Text = "Annuler";
+            this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnAnnuler.UseVisualStyleBackColor = true;
+            // 
+            // btnValider
+            // 
+            this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnValider.Image = global::ColorizationControls.Properties.Resources.OK_b_16;
+            this.btnValider.Location = new System.Drawing.Point(706, 614);
+            this.btnValider.Name = "btnValider";
+            this.btnValider.Size = new System.Drawing.Size(75, 23);
+            this.btnValider.TabIndex = 13;
+            this.btnValider.Text = "Valider";
+            this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnValider.UseVisualStyleBackColor = true;
+            // 
             // DuoConfForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -353,7 +353,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.lblAlternance);
             this.Controls.Add(this.lblConfig2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelConfig2);
             this.Controls.Add(this.panelConfig1);
             this.Controls.Add(this.lblConfig1);
             this.HelpButton = true;
@@ -372,7 +372,7 @@
         #endregion
         private System.Windows.Forms.Label lblConfig1;
         private System.Windows.Forms.Panel panelConfig1;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelConfig2;
         private System.Windows.Forms.Label lblConfig2;
         private System.Windows.Forms.RadioButton rbtnMots;
         private System.Windows.Forms.Label lblAlternance;

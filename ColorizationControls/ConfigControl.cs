@@ -116,68 +116,34 @@ namespace ColorizationControls
         private int countPasteLetters; // pour itérer à traver lettersToPaste quand on colle sur une lettre vide.
         private const string lettersToPaste = @"ƨ$@#<>*%()?![]{},.;:/\-_§°~¦|";
 
+        /// <summary>
+        /// Crée un <c>ConfiControl</c> pour <c>subConf</c>. Il s'agit d'une "sub Config" qui n'est pas attachée
+        /// à une fenêtre mais à une autre <c>Config</c> "mère".
+        /// </summary>
+        /// <param name="subConf">La <c>Config</c> pour laquelle le <c>ConfigControl</c> est créé. </param>
+        public ConfigControl(Config subConf)
+        {
+            theWin = null;
+            theDoc = null;
+            theConf = subConf;
+            InitCtor("");
+            // Ne pas afficher l'onglet "A propos"
+            tabControl1.Controls.Remove(tabAPropos);
+
+            // Ne pas afficher le bouton "button 1"
+            button1.Visible = false;
+            button1.Enabled = false;
+
+            tabControl1.SelectTab(tabAutres);
+        }
 
         public ConfigControl(Object inWin, Object inDoc, string version)
         {
-            InitializeComponent(); // calls the setup of the whole component
-
-            // Compute ScaleFacor
-            double dimWidth;
-            if (AutoScaleMode == AutoScaleMode.Dpi)
-                dimWidth = 96; // value observed on the development machine
-            else if (AutoScaleMode == AutoScaleMode.Font)
-                dimWidth = 6; // value observed on the development machine
-            else
-            {
-                dimWidth = AutoScaleDimensions.Width;
-                logger.Warn("Unexpected AutoScaleMode encountered. Scaling may not work properly.");
-            }
-            ScaleFactor = CurrentAutoScaleDimensions.Width / dimWidth;
-            logger.Info("CurrentAutoScaleDimensions.Width == {0}", CurrentAutoScaleDimensions.Width);
-            logger.Info("AutoScaleDimensions.Width == {0}", AutoScaleDimensions.Width);
-            logger.Info("factor == {0}", ScaleFactor);
-            logger.Info("AutoScaleMode is {0}", AutoScaleMode.ToString());
-
             // theConf
             theWin = inWin;
             theDoc = inDoc;
             theConf = Config.GetConfigFor(theWin, theDoc);
-            InitializeTheConf();
-
-            // letterButtons
-            letterButtons = new Dictionary<int, Button>(8);
-            defaultLetterButtonCol = btL0.BackColor;
-
-            // son
-            sonInfos = new Dictionary<string, SonInfo>(ColConfWin.nrSons);
-            foreach (string theSon in ColConfWin.GetListOfSons())
-                sonInfos.Add(theSon, new SonInfo());
-
-            // UCheckBoxes
-            formattingCheckBoxes = new Dictionary<string, CheckBox>(6); // 6 is just an estimation. Currently the correct number is 5
-
-            // Syllabes
-            sylButtons = new Button[SylConfig.nrButtons];
-            sylPictureBoxes = new PictureBox[SylConfig.nrButtons];
-            defaultSylButtonCol = btSC0.BackColor;
-            mcd4Syls = new MyColorDialog();
-            mcd4Syls.CustomColors = StaticColorizControls.customColors;
-            mcd4Syls.AnyColor = true;
-            mcd4Syls.FullOpen = true;
-
-            // pct
-            pct = PhonConfType.phonemes; //  par défaut on édite la configration des phonèmes
-
-            countPasteLetters = 0;
-
-            SetLocalTablesForControl(this);
-            
-            if (ApplicationDeployment.IsNetworkDeployed)
-                version = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
-                // we try to use the deployment version... Should work for distributed versions. Else we use the version
-                // set by the higher level, which corresponds to the assembly version.
-
-            lblVersion.Text = "Version: " + version;
+            InitCtor(version);
         }
 
         public void UpdateSonButton(string son)
@@ -330,6 +296,7 @@ namespace ColorizationControls
             UpdateIllRadioB();
         }
 
+
         private void InitializeTheConf()
         // établit le lien entre le contrôle et la config en définissant les upcalls.
         {
@@ -348,6 +315,71 @@ namespace ColorizationControls
             theConf.sylConf.updateSylButtons = this.UpdateSylButtons;
             theConf.sylConf.updateSylButton = this.UpdateSylButton;
             theConf.unsetBeh.updateUCheckBoxes = this.UpdateUcheckBoxes;
+        }
+
+        /// <summary>
+        /// Appelé par les constructeurs pour les initialisations communes aux différents cas. Attention, <c>theCOnf</c>
+        /// doit être défini avant l'appel de cette méthode.
+        /// </summary>
+        /// <param name="version">Le numéro de version à utiliser pour l'affichage si la version ne peutm pas
+        /// être récupérée du déployement.</param>
+        private void InitCtor(string version)
+        {
+            logger.ConditionalTrace("InitCtor");
+            InitializeComponent(); // calls the setup of the whole component
+            InitializeTheConf();
+
+            // Compute ScaleFacor
+            double dimWidth;
+            if (AutoScaleMode == AutoScaleMode.Dpi)
+                dimWidth = 96; // value observed on the development machine
+            else if (AutoScaleMode == AutoScaleMode.Font)
+                dimWidth = 6; // value observed on the development machine
+            else
+            {
+                dimWidth = AutoScaleDimensions.Width;
+                logger.Warn("Unexpected AutoScaleMode encountered. Scaling may not work properly.");
+            }
+            ScaleFactor = CurrentAutoScaleDimensions.Width / dimWidth;
+            logger.Info("CurrentAutoScaleDimensions.Width == {0}", CurrentAutoScaleDimensions.Width);
+            logger.Info("AutoScaleDimensions.Width == {0}", AutoScaleDimensions.Width);
+            logger.Info("factor == {0}", ScaleFactor);
+            logger.Info("AutoScaleMode is {0}", AutoScaleMode.ToString());
+
+            // letterButtons
+            letterButtons = new Dictionary<int, Button>(8);
+            defaultLetterButtonCol = btL0.BackColor;
+
+            // son
+            sonInfos = new Dictionary<string, SonInfo>(ColConfWin.nrSons);
+            foreach (string theSon in ColConfWin.GetListOfSons())
+                sonInfos.Add(theSon, new SonInfo());
+
+            // UCheckBoxes
+            formattingCheckBoxes = new Dictionary<string, CheckBox>(6); // 6 is just an estimation. Currently the correct number is 5
+
+            // Syllabes
+            sylButtons = new Button[SylConfig.nrButtons];
+            sylPictureBoxes = new PictureBox[SylConfig.nrButtons];
+            defaultSylButtonCol = btSC0.BackColor;
+            mcd4Syls = new MyColorDialog();
+            mcd4Syls.CustomColors = StaticColorizControls.customColors;
+            mcd4Syls.AnyColor = true;
+            mcd4Syls.FullOpen = true;
+
+            // pct
+            pct = PhonConfType.phonemes; //  par défaut on édite la configration des phonèmes
+
+            countPasteLetters = 0;
+
+            SetLocalTablesForControl(this);
+
+            if (ApplicationDeployment.IsNetworkDeployed)
+                version = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+            // we try to use the deployment version... Should work for distributed versions. Else we use the version
+            // set by the higher level, which corresponds to the assembly version.
+
+            lblVersion.Text = "Version: " + version;
         }
 
         private void ConfigControl_Load(object sender, EventArgs e)
@@ -1211,7 +1243,7 @@ namespace ColorizationControls
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DuoConfForm dcf = new DuoConfForm();
+            DuoConfForm dcf = new DuoConfForm(theConf);
             dcf.ShowDialog();
         }
     }

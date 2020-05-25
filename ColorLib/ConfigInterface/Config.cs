@@ -352,8 +352,14 @@ namespace ColorLib
         }
 
 
+        // *********************************************************************************************************************
+        // * ------------------------------------------------- INSTANTIATED -------------------------------------------------- *
+        // *********************************************************************************************************************
 
-        // *************************************************** Instantiated ****************************************************
+        // ---------------------------------  Members ---------------------------------------
+        
+        // L'ordre est imposé par la date de création des membres... C'est une contrainte pour assurer que
+        // le "serializing" (la sauvegarde) fonctionne d'une version à l'autre.
 
         /// <summary>
         /// Upcall pour informer le GUI que le nom de la <c>Config</c> a changé.
@@ -366,6 +372,18 @@ namespace ColorLib
         /// </summary>
         [NonSerialized]
         public ExecuteTask updateListeConfigs;
+
+        /// <summary>
+        /// Upcall pour informer le GUI que l'alternance a changé.
+        /// </summary>
+        [NonSerialized]
+        public ExecuteTask updateAlternance;
+
+        /// <summary>
+        /// Upcall pour informer le GUI que l'la fonction de colorisation a changé.
+        /// </summary>
+        [NonSerialized]
+        public ExecuteTask updateColorisFunction;
 
         /// <value>
         /// La configuration pour le formatage de lettres.
@@ -401,18 +419,81 @@ namespace ColorLib
         private string configName;
 
         /// <summary>
-        /// Crée une <c>Config</c> par défaut.
+        /// La <c>Congig</c> no 1 pour la commande "2"
         /// </summary>
-        public Config()
+        [OptionalField(VersionAdded = 3)]
+        public Config subConfig1; // { get; private set; }
+
+        /// <summary>
+        /// La <c>Congig</c> no 2 pour la commande "2"
+        /// </summary>
+        [OptionalField(VersionAdded = 3)]
+        public Config subConfig2; // { get; private set; }
+
+        public enum Alternance { mots, lignes, undefined }
+
+        [OptionalField(VersionAdded = 3)]
+        public Alternance alternance; // { get; private set; }
+
+        public enum ColorisFunction { syllabes, mots, lettres, voyCons, phonemes, muettes, undefined }
+
+        [OptionalField(VersionAdded = 3)]
+        public ColorisFunction colorisFunction;
+
+        // ---------------------------------------------- Methods ----------------------------------
+        private void InitCtor()
         {
-            logger.ConditionalTrace("Config");
             pBDQ = new PBDQConfig();
             sylConf = new SylConfig();
             unsetBeh = new UnsetBehConf();
             colors = new Dictionary<PhonConfType, ColConfWin>(2);
             colors[PhonConfType.muettes] = new ColConfWin(PhonConfType.muettes);
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
+            updateConfigName = DummyExecuteTask;
+            updateListeConfigs = DummyExecuteTask;
+            updateAlternance = DummyExecuteTask;
+            updateColorisFunction = DummyExecuteTask;
+        }
+
+        /// <summary>
+        /// Crée une <c>Config</c> par défaut.
+        /// </summary>
+        public Config()
+        {
+            logger.ConditionalTrace("Config()");
+            InitCtor();
             configName = "Hippocampéléphantocamélos";
+            subConfig1 = new Config(this, 1);
+            subConfig2 = new Config(this, 2);
+            alternance = Alternance.mots;
+            colorisFunction = ColorisFunction.syllabes;
+        }
+
+        /// <summary>
+        /// Créée une "subconfig" pour la <c>Config</c> <paramref name="mother"/>.
+        /// </summary>
+        /// <param name="mother">La <c>Config</c> pour laquelle une "subconfig" doit être créée.</param>
+        /// <param name="daughterNr">Le numéro de la config. Valeurs possibles, 1 ou 2. </param>
+        public Config(Config mother, int daughterNr)
+        {
+            logger.ConditionalTrace("Config(Config), daughterNr: {0}", daughterNr);
+            InitCtor();
+            subConfig1 = null;
+            subConfig2 = null;
+            alternance = Alternance.undefined;
+            colorisFunction = ColorisFunction.undefined;
+            if (daughterNr == 1)
+            {
+                configName = "Castor";
+                sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
+                sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.darkGreen]);
+            }
+            else if (daughterNr == 2)
+            {
+                configName = "Pollux";
+                sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.red]);
+                sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.violet]);
+            } 
         }
 
         /// <summary>
@@ -436,6 +517,18 @@ namespace ColorLib
             bool toReturn = SaveConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension, out msgTxt);
             updateListeConfigs();
             return toReturn;
+        }
+
+        public void SetAlternance(Alternance newAlt)
+        {
+            alternance = newAlt;
+            updateAlternance();
+        }
+
+        public void SetColorisFunction(ColorisFunction colorF)
+        {
+            colorisFunction = colorF;
+            updateColorisFunction();
         }
 
         private bool SaveConfigFile(string fileName, out string msgTxt)
@@ -465,12 +558,16 @@ namespace ColorLib
             }
             return toReturn;
         }
-
+        
         [OnDeserializing()]
         private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
         {
             logger.ConditionalTrace("SetOptionalFieldsToDefaultVal");
             configName = "";
+            subConfig1 = new Config(this, 1);
+            subConfig2 = new Config(this, 2);
+            alternance = Alternance.mots;
+            colorisFunction = ColorisFunction.syllabes;
         }
 
         internal override void PostLoadInitOptionalFields()
@@ -483,6 +580,11 @@ namespace ColorLib
             }
             sylConf.PostLoadInitOptionalFields();
             unsetBeh.PostLoadInitOptionalFields();
+        }
+
+        private void DummyExecuteTask()
+        {
+            // do nothing
         }
 
     }
