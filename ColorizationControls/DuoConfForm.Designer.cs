@@ -336,6 +336,7 @@
             this.btnValider.Text = "Valider";
             this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnValider.UseVisualStyleBackColor = true;
+            this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
             // 
             // DuoConfForm
             // 

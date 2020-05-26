@@ -18,6 +18,7 @@
  *                                                                              *
  ********************************************************************************/
 
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -373,18 +374,6 @@ namespace ColorLib
         [NonSerialized]
         public ExecuteTask updateListeConfigs;
 
-        /// <summary>
-        /// Upcall pour informer le GUI que l'alternance a changé.
-        /// </summary>
-        [NonSerialized]
-        public ExecuteTask updateAlternance;
-
-        /// <summary>
-        /// Upcall pour informer le GUI que l'la fonction de colorisation a changé.
-        /// </summary>
-        [NonSerialized]
-        public ExecuteTask updateColorisFunction;
-
         /// <value>
         /// La configuration pour le formatage de lettres.
         /// </value>
@@ -415,30 +404,30 @@ namespace ColorLib
         /// </value>
         public UnsetBehConf unsetBeh { get; private set; }
 
+        /// <summary>
+        /// La configuration pour la commande "duo" ou "2"
+        /// </summary>
+        public DuoConfig duoConf
+        {
+            get
+            {
+                return _duoConf;
+            }
+            private set
+            {
+                _duoConf = value;
+            }
+        }
+
+
         [OptionalField(VersionAdded = 2)]
         private string configName;
 
-        /// <summary>
-        /// La <c>Congig</c> no 1 pour la commande "2"
-        /// </summary>
         [OptionalField(VersionAdded = 3)]
-        public Config subConfig1; // { get; private set; }
+        private DuoConfig _duoConf;
 
-        /// <summary>
-        /// La <c>Congig</c> no 2 pour la commande "2"
-        /// </summary>
-        [OptionalField(VersionAdded = 3)]
-        public Config subConfig2; // { get; private set; }
+        
 
-        public enum Alternance { mots, lignes, undefined }
-
-        [OptionalField(VersionAdded = 3)]
-        public Alternance alternance; // { get; private set; }
-
-        public enum ColorisFunction { syllabes, mots, lettres, voyCons, phonemes, muettes, undefined }
-
-        [OptionalField(VersionAdded = 3)]
-        public ColorisFunction colorisFunction;
 
         // ---------------------------------------------- Methods ----------------------------------
         private void InitCtor()
@@ -451,8 +440,6 @@ namespace ColorLib
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
             updateConfigName = DummyExecuteTask;
             updateListeConfigs = DummyExecuteTask;
-            updateAlternance = DummyExecuteTask;
-            updateColorisFunction = DummyExecuteTask;
         }
 
         /// <summary>
@@ -463,10 +450,7 @@ namespace ColorLib
             logger.ConditionalTrace("Config()");
             InitCtor();
             configName = "Hippocampéléphantocamélos";
-            subConfig1 = new Config(this, 1);
-            subConfig2 = new Config(this, 2);
-            alternance = Alternance.mots;
-            colorisFunction = ColorisFunction.syllabes;
+            duoConf = new DuoConfig();
         }
 
         /// <summary>
@@ -474,14 +458,11 @@ namespace ColorLib
         /// </summary>
         /// <param name="mother">La <c>Config</c> pour laquelle une "subconfig" doit être créée.</param>
         /// <param name="daughterNr">Le numéro de la config. Valeurs possibles, 1 ou 2. </param>
-        public Config(Config mother, int daughterNr)
+        public Config(int daughterNr)
         {
             logger.ConditionalTrace("Config(Config), daughterNr: {0}", daughterNr);
             InitCtor();
-            subConfig1 = null;
-            subConfig2 = null;
-            alternance = Alternance.undefined;
-            colorisFunction = ColorisFunction.undefined;
+            duoConf = null;
             if (daughterNr == 1)
             {
                 configName = "Castor";
@@ -519,18 +500,6 @@ namespace ColorLib
             return toReturn;
         }
 
-        public void SetAlternance(Alternance newAlt)
-        {
-            alternance = newAlt;
-            updateAlternance();
-        }
-
-        public void SetColorisFunction(ColorisFunction colorF)
-        {
-            colorisFunction = colorF;
-            updateColorisFunction();
-        }
-
         private bool SaveConfigFile(string fileName, out string msgTxt)
         {
             bool toReturn = false;
@@ -564,10 +533,7 @@ namespace ColorLib
         {
             logger.ConditionalTrace("SetOptionalFieldsToDefaultVal");
             configName = "";
-            subConfig1 = new Config(this, 1);
-            subConfig2 = new Config(this, 2);
-            alternance = Alternance.mots;
-            colorisFunction = ColorisFunction.syllabes;
+            duoConf = new DuoConfig();
         }
 
         internal override void PostLoadInitOptionalFields()
