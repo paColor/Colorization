@@ -49,9 +49,11 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnDeux = new System.Windows.Forms.Button();
-            this.btnDéfaut = new System.Windows.Forms.Button();
+            this.btnDefaut = new System.Windows.Forms.Button();
             this.btnAnnuler = new System.Windows.Forms.Button();
             this.btnValider = new System.Windows.Forms.Button();
+            this.btnDefConf1 = new System.Windows.Forms.Button();
+            this.btnDefConf2 = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -60,7 +62,7 @@
             // 
             this.lblConfig1.AutoSize = true;
             this.lblConfig1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblConfig1.Location = new System.Drawing.Point(124, 13);
+            this.lblConfig1.Location = new System.Drawing.Point(89, 13);
             this.lblConfig1.Name = "lblConfig1";
             this.lblConfig1.Size = new System.Drawing.Size(111, 16);
             this.lblConfig1.TabIndex = 1;
@@ -84,7 +86,7 @@
             // 
             this.lblConfig2.AutoSize = true;
             this.lblConfig2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblConfig2.Location = new System.Drawing.Point(641, 13);
+            this.lblConfig2.Location = new System.Drawing.Point(590, 13);
             this.lblConfig2.Name = "lblConfig2";
             this.lblConfig2.Size = new System.Drawing.Size(111, 16);
             this.lblConfig2.TabIndex = 4;
@@ -301,17 +303,18 @@
             this.toolTip1.SetToolTip(this.btnDeux, "Applique le formatage alterné\r\nau texte sélectionné.");
             this.btnDeux.UseVisualStyleBackColor = true;
             // 
-            // btnDéfaut
+            // btnDefaut
             // 
-            this.btnDéfaut.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
-            this.btnDéfaut.Location = new System.Drawing.Point(111, 627);
-            this.btnDéfaut.Name = "btnDéfaut";
-            this.btnDéfaut.Size = new System.Drawing.Size(75, 23);
-            this.btnDéfaut.TabIndex = 15;
-            this.btnDéfaut.Text = "Défaut";
-            this.btnDéfaut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.btnDéfaut, "Réinitialise les deux configurations\r\nà leur valeur par défaut.");
-            this.btnDéfaut.UseVisualStyleBackColor = true;
+            this.btnDefaut.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
+            this.btnDefaut.Location = new System.Drawing.Point(111, 627);
+            this.btnDefaut.Name = "btnDefaut";
+            this.btnDefaut.Size = new System.Drawing.Size(75, 23);
+            this.btnDefaut.TabIndex = 15;
+            this.btnDefaut.Text = "Défaut";
+            this.btnDefaut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.btnDefaut, "Réinitialise les deux configurations\r\nà leur valeur par défaut.");
+            this.btnDefaut.UseVisualStyleBackColor = true;
+            this.btnDefaut.Click += new System.EventHandler(this.btnDefaut_Click);
             // 
             // btnAnnuler
             // 
@@ -324,6 +327,7 @@
             this.btnAnnuler.Text = "Annuler";
             this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAnnuler.UseVisualStyleBackColor = true;
+            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
             // 
             // btnValider
             // 
@@ -338,14 +342,42 @@
             this.btnValider.UseVisualStyleBackColor = true;
             this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
             // 
+            // btnDefConf1
+            // 
+            this.btnDefConf1.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
+            this.btnDefConf1.Location = new System.Drawing.Point(214, 10);
+            this.btnDefConf1.Name = "btnDefConf1";
+            this.btnDefConf1.Size = new System.Drawing.Size(75, 23);
+            this.btnDefConf1.TabIndex = 17;
+            this.btnDefConf1.Text = "Défaut 1";
+            this.btnDefConf1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.btnDefConf1, "Réinitialise la \'configuration 1\'\r\nà sa valeur par défaut.");
+            this.btnDefConf1.UseVisualStyleBackColor = true;
+            this.btnDefConf1.Click += new System.EventHandler(this.btnDefConf1_Click);
+            // 
+            // btnDefConf2
+            // 
+            this.btnDefConf2.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
+            this.btnDefConf2.Location = new System.Drawing.Point(726, 10);
+            this.btnDefConf2.Name = "btnDefConf2";
+            this.btnDefConf2.Size = new System.Drawing.Size(75, 23);
+            this.btnDefConf2.TabIndex = 18;
+            this.btnDefConf2.Text = "Défaut 2";
+            this.btnDefConf2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.btnDefConf2, "Réinitialise la \'configuration 2\'\r\nà sa valeur par défaut.");
+            this.btnDefConf2.UseVisualStyleBackColor = true;
+            this.btnDefConf2.Click += new System.EventHandler(this.btnDefConf2_Click);
+            // 
             // DuoConfForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnAnnuler;
             this.ClientSize = new System.Drawing.Size(880, 694);
+            this.Controls.Add(this.btnDefConf2);
+            this.Controls.Add(this.btnDefConf1);
             this.Controls.Add(this.btnDeux);
-            this.Controls.Add(this.btnDéfaut);
+            this.Controls.Add(this.btnDefaut);
             this.Controls.Add(this.btnAnnuler);
             this.Controls.Add(this.btnValider);
             this.Controls.Add(this.richTextBox1);
@@ -390,8 +422,10 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button btnValider;
         private System.Windows.Forms.Button btnAnnuler;
-        private System.Windows.Forms.Button btnDéfaut;
+        private System.Windows.Forms.Button btnDefaut;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnDeux;
+        private System.Windows.Forms.Button btnDefConf1;
+        private System.Windows.Forms.Button btnDefConf2;
     }
 }

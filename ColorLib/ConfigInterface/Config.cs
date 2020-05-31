@@ -18,7 +18,6 @@
  *                                                                              *
  ********************************************************************************/
 
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,6 +30,19 @@ using System.Windows.Forms;
 
 namespace ColorLib
 {
+    /// <summary>
+    /// Argument passé lors de l'évènement <c>ConfigResetttedEvent</c>.
+    /// </summary>
+    public class ConfigReplacedEventArgs : EventArgs
+    {
+        public Config newConfig { get; private set; } // La nouvelle configuration qui remplace l'ancienne
+
+        public ConfigReplacedEventArgs(Config theNewConf)
+        {
+            newConfig = theNewConf;
+        }
+    }
+
     /// <summary>
     /// Sert à différentier les <see cref="ColConfWin"/>.
     /// </summary>
@@ -73,6 +85,15 @@ namespace ColorLib
     {
         // *************************************************** Static **********************************************************
 
+        // --------------------------------------------------- Events ----------------------------------------------------------
+
+        /// <summary>
+        /// Evènement déclenché quand la la liste des <c>Config</c>(s) sauvegardées est modifiée.
+        /// </summary>
+        [field: NonSerialized]
+        public static event EventHandler ListSavedConfigsModified;
+
+
         // -------------------------------------- Private Static Members -------------------------------------------------------
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -92,6 +113,7 @@ namespace ColorLib
 
         /// <summary>
         /// Initialise la partie statique de la classe (la gestion du  mapping entre documents, fenêtres et configurations).
+        /// Appelle les <c>Init()</c> statiques des autres classes de configuration.
         /// </summary>
         /// <remarks> Est responsable de la création du répertoire où seront sauvegardées les configs.</remarks>
         public static void Init()
@@ -114,6 +136,8 @@ namespace ColorLib
             }
             theConfs = new Dictionary<object, Config>();
             doc2Win = new Dictionary<object, List<object>>();
+
+            UnsetBehConf.Init();
         }
 
         /// <summary>
@@ -123,6 +147,7 @@ namespace ColorLib
         /// <returns>Liste des noms de configuration.</returns>
         public static List<string> GetSavedConfigNames()
         {
+            logger.ConditionalTrace("GetSavedConfigNames");
             List<string> toReturn = new List<string>();
             try
             {
@@ -288,6 +313,7 @@ namespace ColorLib
                 File.Delete(fileName);
                 toReturn = true;
                 logger.ConditionalTrace("Fichier \'{0}\' effacé", fileName);
+                OnListSavedConfigsModified(null, EventArgs.Empty);
             }
             catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
             {
@@ -339,6 +365,7 @@ namespace ColorLib
         /// <param name="theNewConf">La configuration qui doit être mémorisée.</param>
         private static void UpdateWindowsLists(Object win, Object doc, Config theNewConf)
         {
+            logger.ConditionalTrace("UpdateWindowsLists");
             theConfs.Add(win, theNewConf);
 
             // is it a new document?
@@ -352,27 +379,32 @@ namespace ColorLib
             theWindows.Add(win);
         }
 
+        private static void OnListSavedConfigsModified(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("OnListSavedConfigsModified");
+            EventHandler eventHandler = ListSavedConfigsModified;
+            eventHandler?.Invoke(sender, e);
+        }
 
         // *********************************************************************************************************************
         // * ------------------------------------------------- INSTANTIATED -------------------------------------------------- *
         // *********************************************************************************************************************
 
+
+        // --------------------------------- EventHandlers ----------------------------------
+
+        /// <summary>
+        /// Evènement déclenché quand la <c>Config</c> est remplacée par une nouvelle <c>Config</c>. Le paramètre
+        /// de l'évènement contient la nouvelle <c>Config</c>.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<ConfigReplacedEventArgs> ConfigReplacedEvent;
+
+
         // ---------------------------------  Members ---------------------------------------
-        
+
         // L'ordre est imposé par la date de création des membres... C'est une contrainte pour assurer que
         // le "serializing" (la sauvegarde) fonctionne d'une version à l'autre.
-
-        /// <summary>
-        /// Upcall pour informer le GUI que le nom de la <c>Config</c> a changé.
-        /// </summary>
-        [NonSerialized]
-        public ExecuteTask updateConfigName;
-
-        /// <summary>
-        /// Upcall pour informer le GUI que la liste des <c>Config</c>s sauvegardées a changé.
-        /// </summary>
-        [NonSerialized]
-        public ExecuteTask updateListeConfigs;
 
         /// <value>
         /// La configuration pour le formatage de lettres.
@@ -405,7 +437,8 @@ namespace ColorLib
         public UnsetBehConf unsetBeh { get; private set; }
 
         /// <summary>
-        /// La configuration pour la commande "duo" ou "2"
+        /// La configuration pour la commande "duo" ou "2". Attention, est <c>null</c> pour les <c>Config</c>(s)
+        /// qui sont des "subConfigs".
         /// </summary>
         public DuoConfig duoConf
         {
@@ -413,12 +446,11 @@ namespace ColorLib
             {
                 return _duoConf;
             }
-            private set
+            set
             {
                 _duoConf = value;
             }
         }
-
 
         [OptionalField(VersionAdded = 2)]
         private string configName;
@@ -426,20 +458,17 @@ namespace ColorLib
         [OptionalField(VersionAdded = 3)]
         private DuoConfig _duoConf;
 
-        
-
-
         // ---------------------------------------------- Methods ----------------------------------
+
         private void InitCtor()
         {
+            logger.ConditionalTrace("InitCtor");
             pBDQ = new PBDQConfig();
             sylConf = new SylConfig();
             unsetBeh = new UnsetBehConf();
             colors = new Dictionary<PhonConfType, ColConfWin>(2);
             colors[PhonConfType.muettes] = new ColConfWin(PhonConfType.muettes);
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
-            updateConfigName = DummyExecuteTask;
-            updateListeConfigs = DummyExecuteTask;
         }
 
         /// <summary>
@@ -477,6 +506,20 @@ namespace ColorLib
             } 
         }
 
+        public override void Reset()
+        {
+            logger.ConditionalTrace("Reset");
+
+            pBDQ.Reset();
+            foreach (ColConfWin ccf in colors.Values)
+            {
+                ccf.Reset();
+            }
+            sylConf.Reset();
+            unsetBeh.Reset();
+            duoConf?.Reset();
+        }
+
         /// <summary>
         /// Donne le nom de la configuration tel qu'enregistré dans le fichier de suavegarde.
         /// </summary>
@@ -496,33 +539,32 @@ namespace ColorLib
             logger.ConditionalTrace("SaveConfig \'{0}\'", name);
             configName = name;
             bool toReturn = SaveConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension, out msgTxt);
-            updateListeConfigs();
+            if (toReturn)
+            {
+                OnListSavedConfigsModified(this, EventArgs.Empty);
+            }
             return toReturn;
         }
 
         private bool SaveConfigFile(string fileName, out string msgTxt)
         {
             bool toReturn = false;
-            Stream stream = null;
             msgTxt = "";
             try
             {
-                IFormatter formatter = new BinaryFormatter();
-                stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
-                formatter.Serialize(stream, this);
-                stream.Close();
-                toReturn = true;
-                logger.Info("Fichier de config \'{0}\' enregistré", fileName);
+                using (Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    IFormatter formatter = new BinaryFormatter();
+                    formatter.Serialize(stream, this);
+                    toReturn = true;
+                    logger.Info("Fichier de config \'{0}\' enregistré", fileName);
+                }
             }
             catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
             {
                 logger.Error("Impossible d'écrire le fichier de config \'{0}\'. Erreur: {1}. StackTrace {2}",
                     fileName, e.Message, e.StackTrace);
                 msgTxt = e.Message;
-                if (stream != null)
-                {
-                    stream.Dispose();
-                }
                 toReturn = false;
             }
             return toReturn;
@@ -546,12 +588,25 @@ namespace ColorLib
             }
             sylConf.PostLoadInitOptionalFields();
             unsetBeh.PostLoadInitOptionalFields();
+            duoConf?.PostLoadInitOptionalFields();
         }
 
-        private void DummyExecuteTask()
+        // ------------------------------------------------- Events --------------------------------------------
+
+        protected virtual void OnConfigReplaced (ConfigReplacedEventArgs e)
         {
-            // do nothing
+            logger.ConditionalTrace("OnConfigReplaced");
+            EventHandler<ConfigReplacedEventArgs> eventHandler = ConfigReplacedEvent;
+            // il est conseillé de faire ceci pour le cas tordu où le dernier "handler" se désabonnerait entre
+            // le test sur null et l'évèenement. Je ne suis pas sûr que ça puisse jamais arriver ici. 
+            // Make a temporary copy of the event to avoid possibility of
+            // a race condition if the last subscriber unsubscribes
+            // immediately after the null check and before the event is raised.
+
+            eventHandler?.Invoke(this, e);
         }
+
+
 
     }
 }

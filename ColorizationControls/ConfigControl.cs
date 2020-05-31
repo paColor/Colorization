@@ -117,6 +117,17 @@ namespace ColorizationControls
         private const string lettersToPaste = @"ƨ$@#<>*%()?![]{},.;:/\-_§°~¦|";
 
         /// <summary>
+        /// Ordonne au <c>ConfigControl</c> d'éditer une autre <c>Config</c>. Ajuste les affichages aux nouvelles valeurs.
+        /// </summary>
+        /// <param name="newConfig">La nouvelle <c>Config</c> qu'il s'agit d'éditer.</param>
+        public void ResetConfig(Config newConfig)
+        {
+            InitializeTheConf(newConfig);
+            UpdateAll();
+            UpdateSauvTab();
+        }
+        
+        /// <summary>
         /// Crée un <c>ConfiControl</c> pour <c>subConf</c>. Il s'agit d'une "sub Config" qui n'est pas attachée
         /// à une fenêtre mais à une autre <c>Config</c> "mère".
         /// </summary>
@@ -125,8 +136,7 @@ namespace ColorizationControls
         {
             theWin = null;
             theDoc = null;
-            theConf = subConf;
-            InitCtor("");
+            InitCtor("", subConf);
             // Ne pas afficher l'onglet "A propos"
             tabControl1.Controls.Remove(tabAPropos);
 
@@ -142,22 +152,18 @@ namespace ColorizationControls
             // theConf
             theWin = inWin;
             theDoc = inDoc;
-            theConf = Config.GetConfigFor(theWin, theDoc);
-            InitCtor(version);
+            InitCtor(version, Config.GetConfigFor(theWin, theDoc));
         }
 
         public void UpdateSonButton(string son)
         {
             logger.ConditionalTrace("UpdateSonButton son: {0}", son);
-            RGB btnColor;
-            CharFormatting cf;
-            SonInfo si;
 
-            si = sonInfos[son];
-            btnColor = si.btnOrigColor;
+            SonInfo si = sonInfos[son];
+            RGB btnColor = si.btnOrigColor;
             if (si.cbx.Checked)
             {
-                cf = theConf.colors[pct].Get(son);
+                CharFormatting cf = theConf.colors[pct].GetCF(son);
                 SetButtonFont(si.btn, cf);
                 if (cf.changeColor)
                     btnColor = cf.color;
@@ -173,12 +179,12 @@ namespace ColorizationControls
         {
             logger.ConditionalTrace("UpdateCbxSon son: {0}", son);
             sonInfos[son].cbx.Checked = theConf.colors[pct].GetCheck(son);
+            UpdateSonButton(son);
         }
 
         public void UpdateAllSoundCbxAndButtons()
         {
             logger.ConditionalTrace("UpdateAllSoundCbxAndButtons");
-            theConf.colors[pct].DisableCbxSonsEventHandling();
             SuspendLayout();
 
             foreach (string son in sonInfos.Keys)
@@ -190,7 +196,6 @@ namespace ColorizationControls
             }
             cbSBlackPhons.Checked = (theConf.colors[pct].defBeh == ColConfWin.DefBeh.noir);
             ResumeLayout();
-            theConf.colors[pct].EnableCbxSonsEventHandling();
         }
 
         public void UpdateLetterButtons()
@@ -228,11 +233,11 @@ namespace ColorizationControls
             for (int i = 0; i < SylConfig.nrButtons; i++)
                 UpdateSylButton(i);
 
-            rbnAv2Cons.Checked = !theConf.sylConf.DoubCons();
-            rbnStandard.Checked = theConf.sylConf.DoubCons();
+            rbnAv2Cons.Checked = !theConf.sylConf.DoubleConsStd;
+            rbnStandard.Checked = theConf.sylConf.DoubleConsStd;
 
-            rbnEcrit.Checked = theConf.sylConf.ModeEcrit();
-            rbnOral.Checked = !theConf.sylConf.ModeEcrit();
+            rbnEcrit.Checked = theConf.sylConf.ModeEcrit;
+            rbnOral.Checked = !theConf.sylConf.ModeEcrit;
 
             ResumeLayout();
         }
@@ -286,6 +291,16 @@ namespace ColorizationControls
             } 
         }
 
+        private void IllConfigModified(object sender, PhonConfModifiedEventArgs e)
+        {
+            logger.ConditionalTrace("IllConfigModified");
+            if (e.pct == this.pct)
+            {
+                Debug.Assert((ColConfWin)sender == theConf.colors[pct]);
+                UpdateIllRadioB();
+            }
+        }
+
         public void UpdateAll()
         {
             logger.ConditionalTrace("UpdateAll");
@@ -296,38 +311,40 @@ namespace ColorizationControls
             UpdateIllRadioB();
         }
 
-
-        private void InitializeTheConf()
-        // établit le lien entre le contrôle et la config en définissant les upcalls.
+        /// <summary>
+        /// établit le lien entre le contrôle et la config en définissant les upcalls.
+        /// </summary>
+        private void InitializeTheConf(Config inConf)
         {
-            theConf.updateConfigName = this.UpdateConfigName;
-            theConf.updateListeConfigs = this.UpdateListeConfigs;
-            theConf.colors[PhonConfType.phonemes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
-            theConf.colors[PhonConfType.phonemes].updateButton = this.UpdateSonButton;
-            theConf.colors[PhonConfType.phonemes].updateCbx = this.UpdateCbxSon;
-            theConf.colors[PhonConfType.phonemes].updateIllRule = this.UpdateIllRadioB;
-            theConf.colors[PhonConfType.muettes].updateAllSoundCbxAndButtons = this.UpdateAllSoundCbxAndButtons;
-            theConf.colors[PhonConfType.muettes].updateButton = this.UpdateSonButton;
-            theConf.colors[PhonConfType.muettes].updateCbx = this.UpdateCbxSon;
-            theConf.colors[PhonConfType.muettes].updateIllRule = this.UpdateIllRadioB;
-            theConf.pBDQ.updateLetterButtons = this.UpdateLetterButtons;
-            theConf.pBDQ.updateLetterButton = this.UpdateLetterButton;
-            theConf.sylConf.updateSylButtons = this.UpdateSylButtons;
-            theConf.sylConf.updateSylButton = this.UpdateSylButton;
-            theConf.unsetBeh.updateUCheckBoxes = this.UpdateUcheckBoxes;
+            theConf = inConf;
+            theConf.colors[PhonConfType.phonemes].SonCharFormattingModifiedEvent += SonButtonCFModified;
+            theConf.colors[PhonConfType.phonemes].SonCBModifiedEvent += SonCheckBoxModified;
+            theConf.colors[PhonConfType.phonemes].IllModifiedEvent += IllConfigModified;
+            theConf.colors[PhonConfType.phonemes].DefBehModifiedEvent += DefBehModified;
+            theConf.colors[PhonConfType.muettes].SonCharFormattingModifiedEvent += SonButtonCFModified;
+            theConf.colors[PhonConfType.muettes].SonCBModifiedEvent += SonCheckBoxModified;
+            theConf.colors[PhonConfType.muettes].IllModifiedEvent += IllConfigModified;
+            theConf.colors[PhonConfType.muettes].DefBehModifiedEvent += DefBehModified;
+            theConf.pBDQ.LetterButtonModifiedEvent += LetterButtonModified;
+            theConf.pBDQ.MarkAsBlackModifiedEvent += MarkAsBlackModified;
+            theConf.sylConf.SylButtonModifiedEvent += this.SylButtonModified;
+            theConf.sylConf.ModeEcritModifiedEvent += ModeEcritModified;
+            theConf.sylConf.DoubleConsStdModifiedEvent += DoubleConsStdModified;
+            theConf.unsetBeh.CheckboxUnsetModifiedEvent += CheckboxUnsetModified;
         }
 
         /// <summary>
-        /// Appelé par les constructeurs pour les initialisations communes aux différents cas. Attention, <c>theCOnf</c>
+        /// Appelé par les constructeurs pour les initialisations communes aux différents cas. Attention, <c>theConf</c>
         /// doit être défini avant l'appel de cette méthode.
         /// </summary>
         /// <param name="version">Le numéro de version à utiliser pour l'affichage si la version ne peutm pas
         /// être récupérée du déployement.</param>
-        private void InitCtor(string version)
+        private void InitCtor(string version, Config inConf)
         {
             logger.ConditionalTrace("InitCtor");
             InitializeComponent(); // calls the setup of the whole component
-            InitializeTheConf();
+            InitializeTheConf(inConf);
+            Config.ListSavedConfigsModified += ListSavedConfigsModifed;
 
             // Compute ScaleFacor
             double dimWidth;
@@ -522,6 +539,25 @@ namespace ColorizationControls
             }
         }
 
+        private void SonButtonCFModified(object sender, SonConfigModifiedEventArgs e)
+        {
+            logger.ConditionalTrace("SonButtonCFModified");
+            if (e.pct == this.pct)
+            {
+                Debug.Assert((ColConfWin)sender == theConf.colors[pct]);
+                UpdateSonButton(e.son);
+            }
+        }
+
+        private void SonCheckBoxModified(object sender, SonConfigModifiedEventArgs e)
+        {
+            logger.ConditionalTrace("SonCheckBoxModified");
+            if (e.pct == this.pct)
+            {
+                Debug.Assert((ColConfWin)sender == theConf.colors[pct]);
+                UpdateCbxSon(e.son);
+            }
+        }
 
         //--------------------------------------------------------------------------------------------
         // ----------------------------- CheckBoxes sons ---------------------------------------------
@@ -533,7 +569,7 @@ namespace ColorizationControls
             logger.ConditionalTrace("SonCheckBox_CheckedChanged {0}", cbx.Name);
             Debug.Assert(cbx.Name.StartsWith("cbx"));
             string son = cbx.Name.Substring(3, cbx.Name.Length - 3);
-            theConf.colors[pct].SonConfCheckedChanged(son, cbx.Checked);
+            theConf.colors[pct].SetChkSon(son, cbx.Checked);
         }
 
         //--------------------------------------------------------------------------------------------
@@ -547,8 +583,8 @@ namespace ColorizationControls
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
             Debug.Assert(theBtn.Name.StartsWith("btn"));
             string son = theBtn.Name.Substring(3, theBtn.Name.Length - 3);
-            CharFormatForm form = new CharFormatForm(theConf.colors[pct].Get(son), son, 
-                theConf.colors[pct].UpdateCF);
+            CharFormatForm form = new CharFormatForm(theConf.colors[pct].GetCF(son), son, 
+                theConf.colors[pct].SetCFSon);
             p.Offset(-form.Width, -(form.Height / 2));
             form.Location = p;
             _ = form.ShowDialog();
@@ -577,13 +613,18 @@ namespace ColorizationControls
         private void btCPBDQ_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btCPBDQ_Click");
-            theConf.pBDQ.ResetStandardColors();
+            theConf.pBDQ.Reset();
         }
 
         private void btcLbpdq_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btcLbpdq_Click");
             markSelLetters();
+        }
+
+        private void LetterButtonModified(object sender, LetterButtonModifiedEventArgs e)
+        {
+            UpdateLetterButton(e.buttonNr);
         }
 
         //--------------------------------------------------------------------------------------------
@@ -598,12 +639,27 @@ namespace ColorizationControls
             theConf.pBDQ.BlackSettingCheckChangedTo(cbx.Checked);
         }
 
+        private void MarkAsBlackModified(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("MarkAsBlackModified");
+            cbAlettresNoir.Checked = theConf.pBDQ.markAsBlack;
+        }
+
         private void cbSBlackPhons_CheckedChanged(object sender, EventArgs e)
         {
             logger.ConditionalTrace("cbSBlackPhons_CheckedChanged");
             Debug.Assert(sender != null);
             CheckBox cbx = (CheckBox)sender;
             theConf.colors[pct].DefaultBehaviourChangedTo(cbx.Checked);
+        }
+
+        private void DefBehModified(object sender, PhonConfModifiedEventArgs e)
+        {
+            logger.ConditionalTrace("DefBehModified e.pct: \'{0}\'", e.pct);
+            if (e.pct == this.pct)
+            {
+                cbSBlackPhons.Checked = (theConf.colors[pct].defBeh == ColConfWin.DefBeh.noir);
+            }
         }
 
         private void UcheckBoxes_CheckedChanged(object sender, EventArgs e)
@@ -615,12 +671,21 @@ namespace ColorizationControls
             theConf.unsetBeh.CbuChecked(cbuNameEnd, cbu.Checked);
         }
 
+        private void CheckboxUnsetModified (object sender, CheckboxUnsetModifiedEventArgs e)
+        {
+            logger.ConditionalTrace("CheckboxUnsetModified, checkbox \'{0}\'", e.unsetCBName);
+            Debug.Assert(ReferenceEquals(sender, theConf.unsetBeh));
+            CheckBox fcb = formattingCheckBoxes[e.unsetCBName];
+            fcb.Checked = theConf.unsetBeh.CbuVal(e.unsetCBX);
+        }
+
         //--------------------------------------------------------------------------------------------
         // ---------------------------------- RadioButton "ill" --------------------------------------
         //--------------------------------------------------------------------------------------------
 
         private void rbnIll_CheckedChanged(object sender, EventArgs e)
         {
+            logger.ConditionalTrace("rbnIll_CheckedChanged, position \'{0}\'", rbnIllCeras.Checked);
             if (rbnIllCeras.Checked)
             {
                 theConf.colors[pct].IllRuleToUse = ColConfWin.IllRule.ceras;
@@ -638,13 +703,27 @@ namespace ColorizationControls
         private void rbnEcrit_CheckedChanged(object sender, EventArgs e)
         {
             logger.ConditionalTrace("rbnEcrit_CheckedChanged");
-            theConf.sylConf.ModeEcritModified(rbnEcrit.Checked);
+            theConf.sylConf.ModeEcrit = rbnEcrit.Checked;
+        }
+
+        private void ModeEcritModified(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("ModeEcritModified");
+            Debug.Assert(ReferenceEquals(sender, theConf.sylConf));
+            rbnEcrit.Checked = theConf.sylConf.ModeEcrit;
         }
 
         private void rbnStandard_CheckedChanged(object sender, EventArgs e)
         {
             logger.ConditionalTrace("rbnStandard_CheckedChanged");
-            theConf.sylConf.DoubleConsModified(rbnStandard.Checked);
+            theConf.sylConf.DoubleConsStd = rbnStandard.Checked;
+        }
+
+        private void DoubleConsStdModified(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("DoubleConsStdModified");
+            Debug.Assert(ReferenceEquals(sender, theConf.sylConf));
+            rbnStandard.Checked = theConf.sylConf.DoubleConsStd;
         }
 
         //--------------------------------------------------------------------------------------------
@@ -684,12 +763,13 @@ namespace ColorizationControls
         private void btcInitSyls_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btcInitSyls_Click");
-            theConf.sylConf.ResetStandardColors();
+            theConf.sylConf.Reset();
         }
 
         private void SylButton_Click(object sender, EventArgs e)
             // can be called for the Buttons and for the PictureBoxes
         {
+            logger.ConditionalTrace("SylButton_Click");
             Control theControl = (Control)sender;
             logger.ConditionalTrace("SylButton_Click {0}", theControl.Name);
             Point mousePos = theControl.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
@@ -705,6 +785,13 @@ namespace ColorizationControls
                 _ = form.ShowDialog();
                 form.Dispose();
             }
+        }
+
+        private void SylButtonModified(object sender, SylButtonModifiedEventArgs e)
+        {
+            logger.ConditionalTrace("SylButtonModified, bouton \'{0}\'", e.buttonNr);
+            Debug.Assert((SylConfig)sender == theConf.sylConf);
+            UpdateSylButton(e.buttonNr);
         }
 
         //--------------------------------------------------------------------------------------------
@@ -738,6 +825,11 @@ namespace ColorizationControls
                     lbConfigs.SetSelected(pos, true);
                 }
             }
+        }
+
+        private void ListSavedConfigsModifed(object sender, EventArgs e)
+        {
+            UpdateListeConfigs();
         }
 
         public void UpdateSauvTab()
@@ -850,10 +942,8 @@ namespace ColorizationControls
             Config newConfig = Config.LoadConfig(configName, theWin, theDoc, out errMsg);
             if (newConfig != null)
             {
-                theConf = newConfig;
-                InitializeTheConf();
-                UpdateAll();
-                UpdateConfigName();
+                ResetConfig(newConfig);
+
             }
             else
             {
@@ -888,11 +978,7 @@ namespace ColorizationControls
             if (result == DialogResult.Yes)
             {
                 string errTxt;
-                if (Config.DeleteSavedConfig(configName, out errTxt))
-                {
-                    UpdateListeConfigs();
-                }
-                else
+                if (!Config.DeleteSavedConfig(configName, out errTxt))
                 {
                     string errMessages = String.Format("Impossible d'effacer la configuration \'{0}\'. Erreur: {1}", configName, errTxt);
                     MessageBox.Show(errMessages, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -904,10 +990,7 @@ namespace ColorizationControls
 
         private void btSauvDefaut_Click(object sender, EventArgs e)
         {
-            theConf = Config.GetDefaultConfigFor(theWin, theDoc);
-            InitializeTheConf();
-            UpdateAll();
-            UpdateSauvTab();
+            ResetConfig(Config.GetDefaultConfigFor(theWin, theDoc));
             btSauvSauv.Focus();
         }
 
@@ -1072,7 +1155,7 @@ namespace ColorizationControls
                     tsmiCopier.Enabled = true;
                     tsmiEffacer.Enabled = true;
                 }
-                cmsCF = theConf.colors[pct].Get(cmsButSon);
+                cmsCF = theConf.colors[pct].GetCF(cmsButSon);
                 SetTsmiGISforCF(cmsCF,ColConfWin.ExampleText(cmsButSon));
             }
         }
@@ -1098,7 +1181,7 @@ namespace ColorizationControls
                     clipboard = theConf.sylConf.GetSylButtonConfFor(cmsButNr).cf;
                     break;
                 case "btn":
-                    clipboard = theConf.colors[pct].Get(cmsButSon);
+                    clipboard = theConf.colors[pct].GetCF(cmsButSon);
                     break;
             }
         }

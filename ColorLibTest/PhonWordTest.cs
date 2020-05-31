@@ -32,8 +32,8 @@ namespace ColorLibTest
         {
             TheText tt = TheText.NewTestTheText(txt);
             tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            tt.GetConfig().sylConf.DoubleConsModified(std);
-            tt.GetConfig().sylConf.ModeEcritModified(ecrit);
+            tt.GetConfig().sylConf.DoubleConsStd = std;
+            tt.GetConfig().sylConf.ModeEcrit = ecrit;
             List<PhonWord> pws = tt.GetPhonWords();
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls();

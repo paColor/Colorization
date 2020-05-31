@@ -24,39 +24,76 @@ using System.Text;
 
 namespace ColorLib
 {
-    public delegate void ExecTaskOnLetterButton(int buttonNr);
+    public class LetterButtonModifiedEventArgs : EventArgs
+    {
+        public int buttonNr { get; private set; }
+
+        public LetterButtonModifiedEventArgs(int inBNr)
+        {
+            buttonNr = inBNr;
+        }
+    }
 
     [Serializable]
     public class PBDQConfig : ConfigBase
     {
         public const char inactiveLetter = ' '; // letter used to determinde that the button is inactive.
+        public const int nrButtons = 8;
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        [NonSerialized] public ExecuteTask updateLetterButtons; // { set; private get; }
-        [NonSerialized] public ExecTaskOnLetterButton updateLetterButton; // { set; private get; }
-        
+        // -------------------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------  Event Handlers ----------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Evènement déclenché quand un des boutons est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<LetterButtonModifiedEventArgs> LetterButtonModifiedEvent;
+
+        /// <summary>
+        /// Evènement déclenché <c>markAsBlack</c> est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler MarkAsBlackModifiedEvent;
+
+        // -------------------------------------------------------------------------------------------------------------------
+        // ---------------------------------------------- Public Members  ----------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Indique si les lettres qui ne doivent pas être marquées doivent être laissées telles
+        /// quelles <c>false</c> ou mises en noir <c>true</c>.
+        /// </summary>
         public bool markAsBlack { get; private set; }
-        // indicates whether non selected letters should be left as they are (false) or marked black (true)
+
+        // -------------------------------------------------------------------------------------------------------------------
+        // ---------------------------------------------- Private Members  ---------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
 
         private Dictionary<char, CharFormatting> bpdqCF; // the mapping letter - CharFormmating
         private char[] selLetters; // the letters that are associated to each button. inactiveLetter means no letter
         private CharFormatting defaultCF; // the CF that is returned for a non selected letter.
-        
+
+        // -------------------------------------------------------------------------------------------------------------------
+        // --------------------------------------------------  Methods -------------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
 
         public PBDQConfig()
         {
-            bpdqCF = new Dictionary<char, CharFormatting>(8);
-            selLetters = new char[8];
-            defaultCF = ColConfWin.predefCF[(int)PredefCols.neutral];
-                // Ne peut pas être null, sinon les options avancées ne fonctionneraient plus.
-                // On peut se demander si elles sont vraiment nécessaires :-)
-            markAsBlack = false;
-            InitStandardColors();
+            bpdqCF = new Dictionary<char, CharFormatting>(nrButtons);
+            selLetters = new char[nrButtons];
+            Reset();
         }
 
+        /// <summary>
+        /// <c><see cref="CharFormatting"/> pour la lettre <paramref name="c"/>.</c>
+        /// </summary>
+        /// <param name="c">La lettre pour laquelle on cherche le <see cref="CharFormatting"/></param>
+        /// <returns>Le <see cref="CharFormatting"/> recherché ou <c>null</c> si la lettre n'est pas
+        /// trouvée.</returns>
         public CharFormatting GetCfForPBDQLetter(char c)
-            // returns null if no formatting should be applied.
         {
             CharFormatting toReturn = null;
             if (!bpdqCF.TryGetValue(c, out toReturn))
@@ -64,14 +101,27 @@ namespace ColorLib
             return toReturn;
         }
 
+        /// <summary>
+        /// Retourne le <see cref="CharFormatting"/> et la lettre choisie pour le bouton <paramref name="i"/>. 
+        /// </summary>
+        /// <param name="i">Numéro du bouton dont on veut le <see cref="CharFormatting"/> et la lettre.
+        /// 0 &lt= <c>i</c> &lt <c>nrButtons</c></param>
+        /// <param name="c">Retourne la lettre traitée par le bouton <paramref name="i"/>.</param>
+        /// <returns>Le <see cref="CharFormatting"/> attribué au bouton <paramref name="i"/> ou <c>null</c>
+        /// s'il n'existe pas pour le bouton en question.</returns>
         public CharFormatting GetCfForPBDQButton(int i, out char c)
-        // returns null if no formatting is applied to the corresponding button.
         {
             CharFormatting toReturn = null;
             c = selLetters[i];
             return GetCfForPBDQLetter(c);
         }
 
+        /// <summary>
+        /// Retourne la lettre pour le bouton <paramref name="butNr"/>.
+        /// </summary>
+        /// <param name="butNr">Le numéro du bouton dont on veut connaître la lettre.
+        /// 0 &lt= <c>butNr</c> &lt <c>nrButtons</c></param>
+        /// <returns></returns>
         public char GetLetterForButtonNr(int butNr) => selLetters[butNr];
 
         /// <summary>
@@ -80,7 +130,7 @@ namespace ColorLib
         /// <param name="buttonNr">Le nr du bouton pour lequel il y a un nouveau <c>cf</c></param>
         /// <param name="cf">Le nouveau <c>CharFormatting</c> pour le bouton.</param>
         /// <returns><c>false</c> si la lettre du bouton en question est égale à la lettre inactive (' '). A ce 
-        /// momtn-là, rien n'est fait. <c>true</c> si la modification a été effectuée avec succès.</returns>
+        /// moment-là, rien n'est fait. <c>true</c> si la modification a été effectuée avec succès.</returns>
         public bool UpdateLetter(int buttonNr, CharFormatting cf)
         {
             logger.ConditionalTrace("UpdateLetter bouton no {0}", buttonNr);
@@ -90,7 +140,7 @@ namespace ColorLib
             {
                 toReturn = true;
                 bpdqCF[c] = cf;
-                updateLetterButton(buttonNr);
+                OnLetterButtonModifed(new LetterButtonModifiedEventArgs(buttonNr));
             }
             return toReturn;
         }
@@ -103,7 +153,8 @@ namespace ColorLib
         /// <param name="buttonNr">Identifie le bouton à modifier par son numéro.</param>
         /// <param name="c">Le caractère pour le bouton.</param>
         /// <param name="cf">Le nouveau <c>CharFormatting</c> pour le bouton</param>
-        /// <returns></returns>
+        /// <returns><c>false</c> si la lettre n'a pas pu être mise à jour, par exemple parce qu'elle est
+        /// déjà traitée.</returns>
         public bool UpdateLetter (int buttonNr, char c, CharFormatting cf)
             // returns false if the update could not be executed because the letter is already handled.
         {
@@ -142,47 +193,58 @@ namespace ColorLib
                     bpdqCF.Remove(previousC);
             }
             if (toReturn)
-            {
-                updateLetterButton(buttonNr);
-                //markSelLetters();
-            }
+                OnLetterButtonModifed(new LetterButtonModifiedEventArgs(buttonNr));
             logger.ConditionalTrace("END UodateLetter toReturn: {0}", toReturn.ToString());
             return toReturn;
         } // UpdateLetter
 
+        /// <summary>
+        /// Modifie la valeur du flag <c>markAsBlack</c>.
+        /// </summary>
+        /// <param name="val">Nouvelle valeur du flag.</param>
         public void BlackSettingCheckChangedTo(bool val)
         {
-            markAsBlack = val;
-            if (markAsBlack)
-                defaultCF = ColConfWin.predefCF[(int)PredefCols.black];
-            else
-                defaultCF = ColConfWin.predefCF[(int)PredefCols.neutral];
-            //markSelLetters();
+            if (markAsBlack != val) { // on s'assure qu'il ne peut y avoir de boucle pour toujours remettre la même valeur.
+                markAsBlack = val;
+                OnMarkAsBlackModified();
+                if (markAsBlack)
+                    defaultCF = ColConfWin.predefCF[(int)PredefCols.black];
+                else
+                    defaultCF = ColConfWin.predefCF[(int)PredefCols.neutral];
+            }
         }
 
-        public void ResetStandardColors()
+        public override void Reset()
         {
-            InitStandardColors();
-            updateLetterButtons();
-            //markSelLetters();
-        }
-
-        private void InitStandardColors()
-        {
+            BlackSettingCheckChangedTo(false);
             bpdqCF.Clear();
-            bpdqCF.Add('b', ColConfWin.predefCF[(int)PredefCols.red]);
-            bpdqCF.Add('p', ColConfWin.predefCF[(int)PredefCols.darkGreen]);
-            bpdqCF.Add('d', ColConfWin.predefCF[(int)PredefCols.pureBlue]);
-            bpdqCF.Add('q', ColConfWin.predefCF[(int)PredefCols.brown]);
             bpdqCF.Add(inactiveLetter, ColConfWin.predefCF[(int)PredefCols.neutral]);
-            selLetters[0] = 'b';
-            selLetters[1] = 'p';
-            selLetters[2] = 'd';
-            selLetters[3] = 'q';
-            selLetters[4] = inactiveLetter;
-            selLetters[5] = inactiveLetter;
-            selLetters[6] = inactiveLetter;
-            selLetters[7] = inactiveLetter;
+            UpdateLetter(0, 'b', ColConfWin.predefCF[(int)PredefCols.red]);
+            UpdateLetter(1, 'p', ColConfWin.predefCF[(int)PredefCols.darkGreen]);
+            UpdateLetter(2, 'd', ColConfWin.predefCF[(int)PredefCols.pureBlue]);
+            UpdateLetter(3, 'q', ColConfWin.predefCF[(int)PredefCols.brown]);
+            UpdateLetter(4, inactiveLetter, ColConfWin.predefCF[(int)PredefCols.neutral]);
+            UpdateLetter(5, inactiveLetter, ColConfWin.predefCF[(int)PredefCols.neutral]);
+            UpdateLetter(6, inactiveLetter, ColConfWin.predefCF[(int)PredefCols.neutral]);
+            UpdateLetter(7, inactiveLetter, ColConfWin.predefCF[(int)PredefCols.neutral]); ;
+        }
+
+        // -------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------  On Events -------------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
+
+        protected virtual void OnLetterButtonModifed (LetterButtonModifiedEventArgs e)
+        {
+            logger.ConditionalTrace(BaseConfig.cultF, "OnLetterButtonModifed, buttonNr: {0}", e.buttonNr);
+            EventHandler<LetterButtonModifiedEventArgs> eventHandler = LetterButtonModifiedEvent;
+            eventHandler?.Invoke(this, e);
+        }
+
+        protected virtual void OnMarkAsBlackModified()
+        {
+            logger.ConditionalTrace("OnMarkAsBlackModified");
+            EventHandler eventHandler = MarkAsBlackModifiedEvent;
+            eventHandler?.Invoke(this, EventArgs.Empty);
         }
     }
 }

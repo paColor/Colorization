@@ -28,19 +28,36 @@ namespace ColorLib
     /// Classe de base pour les différentes classes de configuration.
     /// </summary>
     [Serializable]
-    public class ConfigBase
+    public abstract class ConfigBase
     {
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Est appelé à la fin de la désérialisation pour permettre d'initilaiser les membres optionnels
         /// qui n'ont pas pu être traités par les mécanismes classiques. Il y a en effet des problèmes avec les 
-        /// collections qui semblent être désérialisées après lappel de la méthode [OnDeserialized]
+        /// collections qui semblent être désérialisées après l'appel de la méthode [OnDeserialized]
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Attention: Tout classe qui "contient" des classses basées sur <c>ConfigBase</c> (des enfants) doit  
+        /// s'assurer que cette méthode est appelée pour tous les enfants.
+        /// </para>
+        /// <para>
+        /// En cas de désérialisation il faut explicitement appeler cette méthode après la désérialisation, 
+        /// puisque [OnDeserialized] ne permet pas de couvrir tous les cas.
+        /// </para>
+        /// <para>
+        /// Les évèenements ne sont pas enregistrés dans la sérialisation. Il faut donc absolument s'abonner
+        /// ici aux évènements des "enfants" qui seraient nécessaires. 
+        /// </para>
+        /// </remarks>
         internal virtual void PostLoadInitOptionalFields()
         {
-            logger.ConditionalTrace("PostLoadInitOptionalFields");
-            // Par défaut: ne rien faire :-)
+            // par défaut on ne fait rien.
         }
+
+        /// <summary>
+        /// Réinitialise l'objet entièrement à ses valeurs par défaut.
+        /// </summary>
+        public abstract void Reset();
     }
 }

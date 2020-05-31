@@ -27,6 +27,30 @@ using System.Runtime.Serialization;
 
 namespace ColorLib
 {
+
+    public class SonConfigModifiedEventArgs : EventArgs
+    {
+        public string son { get; private set; }
+        public PhonConfType pct { get; private set; }
+
+        public SonConfigModifiedEventArgs(string inSon, PhonConfType inPCT)
+        {
+            son = inSon;
+            pct = inPCT;
+        }
+    }
+
+
+    public class PhonConfModifiedEventArgs: EventArgs
+    {
+        public PhonConfType pct;
+        public PhonConfModifiedEventArgs(PhonConfType inPCT)
+        {
+            pct = inPCT;
+        }
+    }
+
+
     [Serializable]
     public enum CERASColors { CERAS_oi, CERAS_o, CERAS_an, CERAS_5, CERAS_E, CERAS_e, CERAS_u, CERAS_on, CERAS_eu,
         CERAS_oin, CERAS_muet, CERAS_rosé, CERAS_ill,
@@ -209,6 +233,7 @@ namespace ColorLib
 
         public static void Init()
         {
+            logger.ConditionalTrace("Init");
             predefCF = new CharFormatting[predefinedColors.Length + 1];  // +1 for the enutral entry
             for (int i = 0; i < predefinedColors.Length; i++)
                 predefCF[i] = new CharFormatting(predefinedColors[i]);
@@ -241,15 +266,37 @@ namespace ColorLib
         // ******************************************************************************************************************
 
         // -------------------------------------------------------------------------------------------------------------------
-        // -----------------------------------------------  public  members --------------------------------------------------
+        // ----------------------------------------------  Event Handlers ----------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Evènement déclenché quand le <c>CharFormatting</c> d'un son est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<SonConfigModifiedEventArgs> SonCharFormattingModifiedEvent;
 
-        [NonSerialized] public ExecuteTask updateAllSoundCbxAndButtons; // { set; private get; }
-        // Method to call in order to update the checkboxes for the sounds (sons)
-        [NonSerialized] public ExecTaskOnSon updateButton; // { set; private get; }
-        [NonSerialized] public ExecTaskOnSon updateCbx; // { set; private get; }
-        [NonSerialized] public ExecuteTask updateIllRule;
+        /// <summary>
+        /// Evènement déclenché quand la checkBox d'un son est modifiée..
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<SonConfigModifiedEventArgs> SonCBModifiedEvent;
+
+        /// <summary>
+        /// Evènement déclenché quand l'option de traitement de "ill" est modifiée
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<PhonConfModifiedEventArgs> IllModifiedEvent;
+
+        /// <summary>
+        /// Evènement déclenché quand le "default behaviour" pour les formatages "false" est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<PhonConfModifiedEventArgs> DefBehModifiedEvent;
+
+
+        // -------------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------  public  members --------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
         /// Permet de déterminer le mode à utiliser pour les "ill". A utiliser en lecture et en écriture.
@@ -266,17 +313,18 @@ namespace ColorLib
 
             set
             {
-                if (value == IllRule.ceras)
+                if ((value == IllRule.ceras) && (flags[(int)RuleFlag.IllCeras] == false))
                 {
                     flags[(int)RuleFlag.IllCeras] = true;
                     flags[(int)RuleFlag.IllLireCouleur] = false;
+                    OnIllModified(pct);
                 }
-                else if (value == IllRule.lirecouleur)
+                else if ((value == IllRule.lirecouleur) && (flags[(int)RuleFlag.IllLireCouleur] == false))
                 {
                     flags[(int)RuleFlag.IllCeras] = false;
                     flags[(int)RuleFlag.IllLireCouleur] = true;
+                    OnIllModified(pct);
                 }
-                updateIllRule();
             }
         }
 
@@ -284,7 +332,6 @@ namespace ColorLib
         // -----------------------------------------------  private  members -------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
-        private bool disableSonsCBXEventsH = false; // avoid handling checkbox events 
         private PhonConfType pct; // définit la configuration par défaut appliquée par le constructeur
 
         // -------------------------------------- CharFormattings per Phonemes ------------------------------------------------
@@ -302,7 +349,7 @@ namespace ColorLib
 
         // ------------------------ Le paramétrage du comportement pour le phonèmes "non formatés"  ---------------------------
         [OptionalField(VersionAdded = 3)]
-        public DefBeh defBeh;
+        public DefBeh defBeh; // {get; private set;}
 
         [OptionalField(VersionAdded = 3)]
         private CharFormatting defChF; // CharFormatting returned for phonemes where the checkbox is not set
@@ -312,15 +359,16 @@ namespace ColorLib
         // ---------------------------------------------------  public  methods ----------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Construit un <c>ColConfWin</c> et l'initialise pour le type de phonèmes défini par
+        /// <paramref name="inPct"/>.
+        /// </summary>
+        /// <param name="inPct">Le type de phonèmes pour lequel le <c>ColConfWin</c> est construit.</param>
         public ColConfWin(PhonConfType inPct)
         {
+            logger.ConditionalTrace("ColConfWin Constructor for {0}", inPct);
             defBeh = DefBeh.transparent;
             defChF = predefCF[(int)PredefCols.neutral];
-
-            updateIllRule = DummyExecuteTask;
-            updateAllSoundCbxAndButtons = DummyExecuteTask;
-            updateButton = DummyExecTaskOnSon;
-            updateCbx = DummyExecTaskOnSon;
 
             cfPhon = new CharFormatting[(int)Phonemes.lastPhon];
             chkPhon = new bool[(int)Phonemes.lastPhon];
@@ -329,15 +377,27 @@ namespace ColorLib
             chkSon = new Dictionary<string, bool>(sonMap.Count);
 
             flags = new List<bool>((int)RuleFlag.last);
+
+            pct = inPct;
+
+            Reset();
+        }
+
+        /// <summary>
+        /// Réinitialise le <c>ColConfWin</c> aux valeurs par défaut propres au <c>PhonConfType</c>
+        /// défini lors de la création de l'objet.
+        /// </summary>
+        public override void Reset()
+        {
+            logger.ConditionalTrace("Reset");
             for (int i = 0; i < (int)RuleFlag.last; i++)
                 flags.Add(true); // par défaut, les règles sont actives.
             flags[(int)RuleFlag.IllLireCouleur] = false; // config par défaut
 
-            pct = inPct;
             switch (pct)
             {
                 case PhonConfType.phonemes:
-                    InitColorCerasRose();
+                    SetCerasRose();
                     break;
                 case PhonConfType.muettes:
                     InitColorMuettes();
@@ -347,8 +407,14 @@ namespace ColorLib
             }
         }
 
+
         // ------------------------------------------------------- Phonemes --------------------------------------------------
 
+        /// <summary>
+        /// Retourne le <c>CharFormatting pour le phonème <paramref name="p"/></c>
+        /// </summary>
+        /// <param name="p">Le phonème pour lequel on veut le <see cref="CharFormatting"/></param>
+        /// <returns></returns>
         public CharFormatting Get(Phonemes p)
         // get the Charformatting for the given Phoneme
         {
@@ -362,94 +428,210 @@ namespace ColorLib
 
         // ---------------------------------------------------------- Son ------------------------------------------------------
 
-        public bool GetCheck(string son) => chkSon[son];  // CheckBox value
+        /// <summary>
+        /// Valeur de la checkbox pour le <paramref name="son"/>
+        /// </summary>
+        /// <param name="son">Le son pour lequel on veut la valeur de la checkbox.</param>
+        /// <returns>La valeur de la checkbox.</returns>
+        public bool GetCheck(string son) => chkSon[son];
 
-        public CharFormatting Get(string son) => cfSon[son];
-        // if son is not known an exception will be thrown...
+        /// <summary>
+        /// <see cref="CharFormatting"/> pour le <paramref name="son"/>
+        /// </summary>
+        /// <param name="son">Le son pour lequel on veut le <see cref=CharFormatting"/></param>
+        /// <returns>Le <see cref="CharFormatting"/> demandé.</returns>
+        public CharFormatting GetCF(string son) => cfSon[son];
 
-        public void UpdateCF(string son, CharFormatting cf)
-            // to be called by the UI when a new CharFormatting has to be set
-        {
-            Set(son, cf);
-            updateButton(son);
-            //colorizeAllSelPhons();
-        }
-
+        /// <summary>
+        /// Définit un nouveau <see cref="CharFormatting"/> pour le son et met la checkbox
+        /// correspondante à true.
+        /// </summary>
+        /// <param name="son">Le son dont on veut modifier le <see cref="CharFormatting"/>"/> et la 
+        /// checkbox.</param>
+        /// <param name="cf">Le nouveau <see cref="CharFormatting"/>.</param>
         public void SetCbxAndCF(string son, CharFormatting cf)
         {
             logger.ConditionalTrace("SetCbxAndCF, son: {0}", son);
             SetChkSon(son, true);
-            updateCbx(son);
-            UpdateCF(son, cf);
+            SetCFSon(son, cf);
         }
 
+        /// <summary>
+        /// Réinitialise la checkbox et le <see cref="CharFormatting"/> pour le son à <c>false</c>
+        /// et noir.
+        /// </summary>
+        /// <param name="son">Le son à réinitialiser.</param>
         public void ClearSon(string son)
         {
-            Set(son, predefCF[(int)PredefCols.black]);
+            logger.ConditionalTrace("ClearSon");
             SetChkSon(son, false);
-            updateCbx(son);
-            updateButton(son);
+            SetCFSon(son, predefCF[(int)PredefCols.black]);
         }
 
-
+        /// <summary>
+        /// Met toutes les checkboxes à <c>true</c>.
+        /// </summary>
         public void SetAllCbxSons()
         {
+            logger.ConditionalTrace("SetAllCbxSons");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
                 SetChkSon(k.Key, true);
-            UpdCBXs();
         }
 
+        /// <summary>
+        /// Met toutes les checkboxes à <c>false</c>.
+        /// </summary>
         public void ClearAllCbxSons()
         {
+            logger.ConditionalTrace("ClearAllCbxSons");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
                 SetChkSon(k.Key, false);
-            UpdCBXs();
         }
 
+        /// <summary>
+        /// Initialise les sons à la configuration dite CERAS.
+        /// </summary>
         public void SetCeras()
         {
-            InitColorCeras();
-            UpdCBXs();
+            logger.ConditionalTrace("SetCeras");
+            CleanAllSons();
+
+            // o
+            SetChkSon("o", true);
+            SetCFSon("o", predefCF[(int)CERASColors.CERAS_o]);
+
+            // a_tilda (son an)
+            SetChkSon("an", true);
+            SetCFSon("an", predefCF[(int)CERASColors.CERAS_an]);
+
+            // e_tilda (son ain)
+            SetChkSon("5", true);
+            SetCFSon("5", predefCF[(int)CERASColors.CERAS_5]);
+
+            // E (son è)
+            SetChkSon("è", true);
+            SetCFSon("è", predefCF[(int)CERASColors.CERAS_E]);
+
+            // e (son é)
+            SetChkSon("é", true);
+            SetCFSon("é", predefCF[(int)CERASColors.CERAS_e]);
+
+            // u (son ou)
+            SetChkSon("u", true);
+            SetCFSon("u", predefCF[(int)CERASColors.CERAS_u]);
+
+            // w (son oi)
+            // bold & black
+            SetChkSon("oi", true);
+            SetCFSon("oi", new CharFormatting(true, false, false, false, true, predefinedColors[(int)CERASColors.CERAS_oi],
+                false, predefinedColors[(int)PredefCols.neutral]));
+
+            // o_tilda (son on)
+            SetChkSon("on", true);
+            SetCFSon("on", predefCF[(int)CERASColors.CERAS_on]);
+
+            // (sons eu et oeu)
+            SetChkSon("2", true);
+            SetCFSon("2", predefCF[(int)CERASColors.CERAS_eu]);
+
+            // (oin)
+            SetChkSon("oin", true);
+            SetCFSon("oin", predefCF[(int)CERASColors.CERAS_oin]);
+
+            // (son un)
+            SetChkSon("1", true);
+            SetCFSon("1", new CharFormatting(false, false, true)); // underline
+
+            // ph_muet
+            SetChkSon("_muet", true);
+            SetCFSon("_muet", predefCF[(int)CERASColors.CERAS_muet]);
         }
 
+        /// <summary>
+        /// Initialise le <c>ColConfWin</c> à la configuration dite "CERAS rosé"
+        /// </summary>
         public void SetCerasRose()
         {
-            InitColorCerasRose();
-            UpdCBXs();
+            logger.ConditionalTrace("SetCerasRose");
+            // est construit en delta par rapport à SetCeras
+            SetCeras();
+            // changer la couleur du é en rosé
+            SetCFSon("é", predefCF[(int)CERASColors.CERAS_rosé]);
+
+            // activer le son ill
+            SetChkSon("ill", true);
+            SetCFSon("ill", new CharFormatting(false, true, false, false, true, predefinedColors[(int)CERASColors.CERAS_ill],
+                false, predefinedColors[(int)PredefCols.neutral]));
+
+            // commenté le 14.05.2020 - J'ai eu un feedback de M. Tissot qui suggérait de le laisser mais avec une autre couleur.
+            // désactiver le (oin)
+            // SetChkSon("oin", false);
+            // Set("oin", predefCF[(int)PredefCols.black]);
+
+            IllRuleToUse = IllRule.ceras;
         }
 
-        public void DisableCbxSonsEventHandling() => disableSonsCBXEventsH = true;
-        public void EnableCbxSonsEventHandling() => disableSonsCBXEventsH = false;
-
-        public void SonConfCheckedChanged(string son, bool chkValue)
-        // is called when a 'son' checkbox was clicked on the configurator TaskPane
+        /// <summary>
+        /// Assigne un nouveau <see cref="CharFormatting"/> au son <paramref name="son"/>.
+        /// </summary>
+        /// <param name="son">Le son dont le <see cref="CharFormatting"/> doit être modifié.</param>
+        /// <param name="cf">Le nouveau <see cref="CharFormatting"/>.</param>
+        public void SetCFSon(string son, CharFormatting cf)
+        // if son is not known an KeyNotFoundException will be thrown...
         {
-            if (!disableSonsCBXEventsH)
-                // the check makes sure that even when several checkboxes are set at once, for example through the CERAS button,
-                // we do not enter into a high number of recomputation of the phonemes to display.
-                // there is a small risk that we get out of sync if an event that is not generated by the data update is generated.
-                // Made more sense when we where Colorizing everything at each update.
-            {
-                SetChkSon(son, chkValue);
-                updateButton(son);
-            }
+            logger.ConditionalTrace("SetCFSon \'{0}\'", son);
+            Debug.Assert(sonMap.ContainsKey(son), String.Format(BaseConfig.cultF, "{0} n'est pas un son connu", son));
+            cfSon[son] = cf;
+            foreach (Phonemes p in sonMap[son])
+                Set(p, cf);
+            OnSonCharFormattingModified(new SonConfigModifiedEventArgs(son, pct));
+        }
+
+        /// <summary>
+        /// Met le flag checkbox à la valeur <paramref name="checkVal"/> pour le son <paramref name="son"/>.
+        /// </summary>
+        /// <param name="son">Le son dont la checkbox est modifiée.</param>
+        /// <param name="checkVal">La nouvelle valeur du flag checkbox.</param>
+        public void SetChkSon(string son, bool checkVal)
+        {
+            logger.ConditionalTrace("SetChkSon \'{0}\' to {1}", son, checkVal);
+            chkSon[son] = checkVal;
+            foreach (Phonemes p in sonMap[son])
+                chkPhon[(int)p] = checkVal;
+            OnSonCBModified(new SonConfigModifiedEventArgs(son, pct));
         }
 
         // ---------------------------------------------------  Default Behaviour  ------------------------------------------------------
 
+        /// <summary>
+        /// <para>
+        /// Met le comportement par défaut pour la façon de traiter la couleur des phonèmes (ou sons)
+        /// sans couleur définie:
+        /// </para>
+        /// <para>
+        /// true --> phonèmes non traités en noir
+        /// </para>
+        /// <para>
+        /// false --> phonèmes non traités sans changement de couleur
+        /// </para>
+        /// </summary>
+        /// <param name="val">La nouvelle valeur pour ce flag.</param>
         public void DefaultBehaviourChangedTo(bool val)
-        // true --> phonèmes non traitées en noir
-        // false --> phonèmes non traitées sans changement de couleur
         {
-            if (val)
+            logger.ConditionalTrace("DefaultBehaviourChangedTo {0}", val);
+            if (val != (defBeh == DefBeh.noir))
             {
-                defBeh = DefBeh.noir;
-                defChF = predefCF[(int)PredefCols.black];
-            }
-            else
-            {
-                defBeh = DefBeh.transparent;
-                defChF = predefCF[(int)PredefCols.neutral];
+                if (val)
+                {
+                    defBeh = DefBeh.noir;
+                    defChF = predefCF[(int)PredefCols.black];
+                }
+                else
+                {
+                    defBeh = DefBeh.transparent;
+                    defChF = predefCF[(int)PredefCols.neutral];
+                }
+                OnDefBehModified(pct);
             }
         }
 
@@ -468,7 +650,7 @@ namespace ColorLib
             }
             if (!cfSon.ContainsKey("ill"))
             {
-                Set("ill", predefCF[(int)PredefCols.black]);
+                SetCFSon("ill", predefCF[(int)PredefCols.black]);
                 SetChkSon("ill", false);
                 logger.ConditionalTrace("Son \"ill\" initialisé.");
             }
@@ -490,30 +672,12 @@ namespace ColorLib
 
         private void Set(Phonemes p, CharFormatting chF) => cfPhon[(int)p] = chF;
 
-        private void Set(string son, CharFormatting cf)
-        // if son is not known an KeyNotFoundException will be thrown...
-        {
-            Debug.Assert(sonMap.ContainsKey(son), String.Format(BaseConfig.cultF, "{0} n'est pas un son connu", son));
-            cfSon[son] = cf;
-            List<Phonemes> lp = sonMap[son];
-            foreach (Phonemes p in lp)
-                Set(p, cf);
-        }
-
-        private void SetChkSon(string son, bool checkVal)
-        {
-            chkSon[son] = checkVal;
-            List<Phonemes> lp = sonMap[son];
-            foreach (Phonemes p in lp)
-                chkPhon[(int)p] = checkVal;
-        }
-
         private void CleanAllSons()
         {
             logger.ConditionalTrace("CleanAllSons");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
             {
-                Set(k.Key, predefCF[(int)PredefCols.black]);
+                SetCFSon(k.Key, predefCF[(int)PredefCols.black]);
             }
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
             {
@@ -521,108 +685,12 @@ namespace ColorLib
             }
         }
 
-        private void InitColorCeras()
-        {
-            logger.ConditionalTrace("InitColorCeras");
-            CleanAllSons();
-
-            // o
-            SetChkSon("o", true);
-            Set("o", predefCF[(int)CERASColors.CERAS_o]);
-
-            // a_tilda (son an)
-            SetChkSon("an", true);
-            Set("an", predefCF[(int)CERASColors.CERAS_an]);
-
-            // e_tilda (son ain)
-            SetChkSon("5", true);
-            Set("5", predefCF[(int)CERASColors.CERAS_5]);
-
-            // E (son è)
-            SetChkSon("è", true);
-            Set("è", predefCF[(int)CERASColors.CERAS_E]);
-
-            // e (son é)
-            SetChkSon("é", true);
-            Set("é", predefCF[(int)CERASColors.CERAS_e]);
-
-            // u (son ou)
-            SetChkSon("u", true);
-            Set("u", predefCF[(int)CERASColors.CERAS_u]);
-
-            // w (son oi)
-            // bold & black
-            SetChkSon("oi", true);
-            Set("oi", new CharFormatting(true, false, false, false, true, predefinedColors[(int)CERASColors.CERAS_oi], 
-                false, predefinedColors[(int)PredefCols.neutral]));
-
-            // o_tilda (son on)
-            SetChkSon("on", true);
-            Set("on", predefCF[(int)CERASColors.CERAS_on]);
-
-            // (sons eu et oeu)
-            SetChkSon("2", true);
-            Set("2", predefCF[(int)CERASColors.CERAS_eu]);
-
-            // (oin)
-            SetChkSon("oin", true);
-            Set("oin", predefCF[(int)CERASColors.CERAS_oin]);
-
-            // (son un)
-            SetChkSon("1", true);
-            Set("1", new CharFormatting(false, false, true)); // underline
-
-            // ph_muet
-            SetChkSon("_muet", true);
-            Set("_muet", predefCF[(int)CERASColors.CERAS_muet]);
-        }
-
-        private void InitColorCerasRose()
-        {
-            logger.ConditionalTrace("InitColorCerasRose");
-            // est construit en delta par rapport à InitColorCeras
-            InitColorCeras();
-            // changer la couleur du é en rosé
-            Set("é", predefCF[(int)CERASColors.CERAS_rosé]);
-
-            // activer le son ill
-            SetChkSon("ill", true);
-            Set("ill", new CharFormatting(false, true, false, false, true, predefinedColors[(int)CERASColors.CERAS_ill],
-                false, predefinedColors[(int)PredefCols.neutral]));
-
-            // commenté le 14.05.2020 - J'ai eu un feedback de M. Tissot qui suggérait de le laisser mais avec une autre couleur.
-            // désactiver le (oin)
-            // SetChkSon("oin", false);
-            // Set("oin", predefCF[(int)PredefCols.black]);
-
-            IllRuleToUse = IllRule.ceras;
-        }
-
         private void InitColorMuettes()
         {
             logger.ConditionalTrace("InitColorMuettes");
             CleanAllSons();
             SetChkSon("_muet", true);
-            Set("_muet", predefCF[(int)CERASColors.CERAS_muet]);
-        }
-
-        private void UpdCBXs ()
-        {
-            logger.ConditionalTrace("UpdCBXs");
-            updateAllSoundCbxAndButtons();
-            //colorizeAllSelPhons();
-        }
-
-        private void DummyExecuteTask()
-        {
-            // do nothing. Is only here to have a viable default value for the upcalls.
-            logger.ConditionalTrace("DummyExecuteTask");
-        }
-
-        private void DummyExecTaskOnSon(string son)
-        {
-            // do nothing. Is only here to have a viable default value for the upcalls.
-            logger.ConditionalTrace("DummyExecTaskOnSon \'{0}\'", son);
+            SetCFSon("_muet", predefCF[(int)CERASColors.CERAS_muet]);
         }
 
         [OnDeserializing()]
@@ -637,5 +705,35 @@ namespace ColorLib
             defChF = predefCF[(int)PredefCols.neutral];
         }
 
+
+        // --------------------------------------- Events --------------------------------
+
+        protected virtual void OnSonCharFormattingModified(SonConfigModifiedEventArgs e)
+        {
+            logger.ConditionalTrace("OnSonCharFormattingModified e.son: \'{0}\', e.pct: {1}", e.son, e.pct);
+            EventHandler<SonConfigModifiedEventArgs> eventHandler = SonCharFormattingModifiedEvent;
+            eventHandler?.Invoke(this, e);
+        }
+
+        protected virtual void OnSonCBModified(SonConfigModifiedEventArgs e)
+        {
+            logger.ConditionalTrace("OnSonCBModified e.son: \'{0}\', e.pct: {1}", e.son, e.pct);
+            EventHandler<SonConfigModifiedEventArgs> eventHandler = SonCBModifiedEvent;
+            eventHandler?.Invoke(this, e);
+        }
+
+        protected virtual void OnIllModified(PhonConfType inPCT)
+        {
+            logger.ConditionalTrace("OnIllModified");
+            EventHandler<PhonConfModifiedEventArgs> eventHandler = IllModifiedEvent;
+            eventHandler?.Invoke(this, new PhonConfModifiedEventArgs(inPCT));
+        }
+
+        protected virtual void OnDefBehModified(PhonConfType inPCT)
+        {
+            logger.ConditionalTrace("OnDefBehModified");
+            EventHandler<PhonConfModifiedEventArgs> eventHandler = DefBehModifiedEvent;
+            eventHandler?.Invoke(this, new PhonConfModifiedEventArgs(inPCT));
+        }
     }
 }

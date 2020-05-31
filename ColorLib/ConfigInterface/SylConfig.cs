@@ -25,8 +25,20 @@ using System.Text;
 
 namespace ColorLib
 {
-    public delegate void ExecTaskOnSylButton(int buttonNr);
+    public class SylButtonModifiedEventArgs : EventArgs
+    {
+        public int buttonNr { get; private set; }
 
+        public SylButtonModifiedEventArgs(int inBNr)
+        {
+            buttonNr = inBNr;
+        }
+    }
+
+    /// <summary>
+    /// Configuration pour les commandes demandant un formatage alterné comme le marquage des syllabes, des mots
+    /// des lignes...
+    /// </summary>
     [Serializable]
     public class SylConfig: ConfigBase
     {
@@ -41,35 +53,86 @@ namespace ColorLib
 
         public const int nrButtons = 6;
 
-        [NonSerialized] public ExecuteTask updateSylButtons; // { set; private get; }
-        [NonSerialized] public ExecTaskOnSylButton updateSylButton; // { set; private get; }
+        // -------------------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------  Event Handlers ----------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Evènement déclenché quand le bouton pour une syllabe est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<SylButtonModifiedEventArgs> SylButtonModifiedEvent;
+
+        /// <summary>
+        /// Evènement déclenché quand le mode doubleConsStd est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler DoubleConsStdModifiedEvent;
+
+        /// <summary>
+        /// Evènement déclenché quand le mode écrit ou oral est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler ModeEcritModifiedEvent;
+
+        // -------------------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------  Public Members ---------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
+
+        public bool DoubleConsStd
+        {
+            get
+            {
+                return _doubleConsStd;
+            }
+            set
+            {
+                if (_doubleConsStd != value) // pour ne déclencher l'évèenement que s'il y a vraiement un changement.
+                {
+                    _doubleConsStd = value;
+                    OnDoubleConsStdModified();
+                }
+            }
+        }
+
+        public bool ModeEcrit
+        {
+            get
+            {
+                return _modeEcrit;
+            }
+            set
+            {
+                if (_modeEcrit != value) // pour ne déclencher l'évèenement que s'il y a vraiement un changement.
+                {
+                    _modeEcrit = value;
+                    OnModeEcritModified();
+                }
+            }
+        }
 
 
-        private bool doubleConsStd; // définit si les syllabes sont coupées entre deux consonnes doublées.
-        private bool modeEcrit; // définit si une syllabe muette en fin de mot doit être considérée comme une syllabe
+        // -------------------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------  Private Members ---------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
+
+        private bool _doubleConsStd; // définit si les syllabes sont coupées entre deux consonnes doublées.
+        private bool _modeEcrit; // définit si une syllabe muette en fin de mot doit être considérée comme une syllabe
                                 // Dans LireCouleur, on parle de mode oral (la syllabe finale est fusionnée avec la précédente) ou écrit.
 
         private SylButtonConf[] sylButtons;
         private int nrSetButtons;
         private int counter;
 
+        // -------------------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------  Public Methods ----------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------------
+
         public SylConfig()
         {
-            doubleConsStd = true; // mode std de LireCouleur
-            modeEcrit = true; // mode écrit de LireCouleur
             sylButtons = new SylButtonConf[nrButtons];
-            updateSylButton = DummyExecTaskOnSylButton;
-            updateSylButtons = DummyExecuteTask;
-            ResetCounter();
-            InitStandardColors();
+            Reset();
         }
-
-        public bool DoubCons() => doubleConsStd;
-        public bool ModeEcrit() => modeEcrit;
-
-        // appelé quand la checkbox correspondante est modifiée. La nouvelle valeur pour "doubleConsStd" est dans val
-        public void DoubleConsModified(bool val) => doubleConsStd = val;
-        public void ModeEcritModified(bool val) => modeEcrit = val;
 
         public bool ButtonIsActivableOne(int butNr) => butNr == nrSetButtons;
 
@@ -95,7 +158,7 @@ namespace ColorLib
                 if (nrSetButtons < nrButtons)
                 {
                     sylButtons[nrSetButtons].buttonClickable = true;
-                    updateSylButton(nrSetButtons);
+                    OnSylButtonModified(nrSetButtons);
                 }
                 if (inCf.changeColor == false)
                 {
@@ -104,7 +167,7 @@ namespace ColorLib
                     sylButtons[butNr].cf = new CharFormatting(inCf, ColConfWin.predefinedColors[(int)PredefCols.black]);
                 }
             }
-            updateSylButton(butNr);
+            OnSylButtonModified(butNr);
         }
 
         public void SylButtonModified(string butNrTxt, CharFormatting inCf)
@@ -124,10 +187,10 @@ namespace ColorLib
             if ((butNr == (nrSetButtons - 1)) && (nrSetButtons > 0))
             {
                 sylButtons[nrSetButtons].buttonClickable = false;
-                updateSylButton(nrSetButtons);
+                OnSylButtonModified(nrSetButtons);
                 nrSetButtons--;
                 sylButtons[nrSetButtons].cf = ColConfWin.predefCF[(int)PredefCols.neutral];
-                updateSylButton(nrSetButtons);
+                OnSylButtonModified(nrSetButtons);
             }
             else
             {
@@ -137,6 +200,14 @@ namespace ColorLib
             }
         }
         
+        /// <summary>
+        /// Retourne le <see cref="CharFormatting"/> à utiliser en alternance suivant la configuration actuelle.
+        /// Assure de passer à travers les différents <c>CharFormatting</c> voulus.
+        /// </summary>
+        /// <remarks>
+        /// Si aucun bouton n'a été défini, retourne le <c>CharFormatting</c> neutre.
+        /// </remarks>
+        /// <returns>Le <see cref="CharFormatting"/> à utiliser pour un formatage alterné.</returns>
         public CharFormatting NextCF()
         {
             CharFormatting toReturn = sylButtons[counter].cf;
@@ -147,40 +218,52 @@ namespace ColorLib
             return toReturn;
         }
 
+        /// <summary>
+        /// Réinitialise le compteur utilisé par <see cref="NextCF"/> pour retourner les formatages aletrnés. 
+        /// Permet de s'assurer que la série retournée commence par le formatage du premier bouton.
+        /// </summary>
         public void ResetCounter() => counter = 0;
 
-        
-        public void ResetStandardColors()
+        /// <summary>
+        /// Réinitialise à la configuration par défaut (rouge et noir)
+        /// </summary>
+        public override void Reset()
         {
-            InitStandardColors();
-            updateSylButtons();
-        }
-
-
-        private void InitStandardColors()
-        {
+            
             sylButtons[0].buttonClickable = true;
-            sylButtons[0].cf = ColConfWin.predefCF[(int)PredefCols.pureBlue];
-            sylButtons[1].buttonClickable = true;
-            sylButtons[1].cf = ColConfWin.predefCF[(int)PredefCols.red];
-            sylButtons[2].buttonClickable = true;
-            sylButtons[2].cf = ColConfWin.predefCF[(int)PredefCols.neutral];
-            for (int i = 3; i < nrButtons; i++)
+            nrSetButtons = 0;
+            SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
+            SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.red]);
+            for (int i = 2; i < nrButtons; i++)
             {
                 sylButtons[i].buttonClickable = false;
                 sylButtons[i].cf = ColConfWin.predefCF[(int)PredefCols.neutral];
+                OnSylButtonModified(i);
             }
-            nrSetButtons = 2;
+            ResetCounter();
+            DoubleConsStd = true; // mode std de LireCouleur
+            ModeEcrit = true; // mode écrit de LireCouleur
         }
 
-        private void DummyExecTaskOnSylButton (int butNr)
+        protected virtual void OnSylButtonModified(int buttonNr)
         {
-            // do nothing
+            logger.ConditionalTrace(BaseConfig.cultF, "OnSylButtonModified bouton: \'{0}\'", buttonNr);
+            EventHandler<SylButtonModifiedEventArgs> eventHandler = SylButtonModifiedEvent;
+            eventHandler?.Invoke(this, new SylButtonModifiedEventArgs(buttonNr));
         }
 
-        private void DummyExecuteTask()
+        protected virtual void OnDoubleConsStdModified()
         {
-            // do nothing
+            logger.ConditionalTrace("OnDoubleConsStdModified");
+            EventHandler eventHandler = DoubleConsStdModifiedEvent;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnModeEcritModified()
+        {
+            logger.ConditionalTrace("OnModeEcritModified");
+            EventHandler eventHandler = ModeEcritModifiedEvent;
+            eventHandler?.Invoke(this, EventArgs.Empty);
         }
 
     }

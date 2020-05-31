@@ -31,26 +31,36 @@ using System.Windows.Forms;
 
 namespace ColorizationControls
 {
+    /// <summary>
+    /// Classe Windows.Forms pour la gestion de la fenêtre de configuration d'une <see cref="DuoConfig"/>.
+    /// </summary>
     public partial class DuoConfForm : Form
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private ConfigControl confContr1;
         private ConfigControl confContr2;
-        Config theConf;
+        private Config theConf; // La Config dont le duoConf doit être édité.
+        private DuoConfig duoConfCopy; // Une copie de theConf.duoConf qui sera éditée et qui remplacera 
+        // theConf.duoConf si l'utilisateeur clique "Valider"
 
         public DuoConfForm(Config inConf)
         {
             InitializeComponent();
             theConf = inConf;
+
+            // Faisons une copie de duoConf qui sera éditée. Si l'utilisateur clique "Valider" on pourra l'utiliser
+            // sinon on pourra la jeter.
+
+            duoConfCopy = theConf.duoConf.DeepCopy();
             this.SuspendLayout();
 
-            confContr1 = new ConfigControl(theConf.duoConf.subConfig1);
+            confContr1 = new ConfigControl(duoConfCopy.subConfig1);
             panelConfig1.Controls.Add(confContr1);
-            confContr2 = new ConfigControl(theConf.duoConf.subConfig2);
+            confContr2 = new ConfigControl(duoConfCopy.subConfig2);
             panelConfig2.Controls.Add(confContr2);
-            theConf.duoConf.AlternanceChanged += UpdateAlternance;
-            theConf.duoConf.ColorisFunctionChanged += UpdateColorisFunction;
+            duoConfCopy.AlternanceModified += UpdateAlternance;
+            duoConfCopy.ColorisFunctionModified += UpdateColorisFunction;
             UpdateAlternance(this, EventArgs.Empty);
             UpdateColorisFunction(this, EventArgs.Empty);
 
@@ -113,7 +123,33 @@ namespace ColorizationControls
 
         private void btnValider_Click(object sender, EventArgs e)
         {
+            logger.ConditionalTrace("btnValider_Click");
+            theConf.duoConf = duoConfCopy;
+            this.Dispose();
+        }
 
+        private void btnAnnuler_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("btnAnnuler_Click");
+            this.Dispose();
+        }
+
+        private void btnDefConf1_Click(object sender, EventArgs e)
+        {
+            duoConfCopy.subConfig1.Reset();
+            confContr1.ResetConfig(duoConfCopy.subConfig1);
+        }
+
+        private void btnDefConf2_Click(object sender, EventArgs e)
+        {
+            duoConfCopy.subConfig2.Reset();
+            confContr2.ResetConfig(duoConfCopy.subConfig2);
+        }
+
+        private void btnDefaut_Click(object sender, EventArgs e)
+        {
+            btnDefConf1_Click(sender, e);
+            btnDefConf2_Click(sender, e);
         }
     }
 }
