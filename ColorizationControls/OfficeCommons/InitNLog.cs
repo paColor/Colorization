@@ -31,7 +31,7 @@ namespace ColorizationControls
             {
                 Layout = "${longdate} ${uppercase:${level}} ${logger} ${message}"
             };
-            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc);  // everything
+            //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc);  // everything
             //nLogConfig.AddRule(LogLevel.Info, LogLevel.Fatal, dc);  // everything equal or higher than Info
 
             //// nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.*");
@@ -48,6 +48,7 @@ namespace ColorizationControls
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.StaticColorizControls");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.SylFormatForm");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorLib.*");
+            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorLib.Config");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationWord.*");
             LogManager.Configuration = nLogConfig;
 #endif

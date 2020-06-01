@@ -170,8 +170,12 @@ namespace ColorLib
         internal override void PostLoadInitOptionalFields()
         {
             logger.ConditionalTrace("PostLoadInitOptionalFields");
+
+            subConfig1.IsSubConfig(1);
             subConfig1.PostLoadInitOptionalFields();
             subConfig1.ConfigReplacedEvent += SubConfig1Replaced;
+
+            subConfig2.IsSubConfig(2);
             subConfig2.PostLoadInitOptionalFields();
             subConfig2.ConfigReplacedEvent += SubConfig2Replaced;
         }
@@ -195,6 +199,7 @@ namespace ColorLib
         {
             subConfig1.ConfigReplacedEvent -= SubConfig1Replaced;
             subConfig1 = e.newConfig;
+            subConfig1.IsSubConfig(1);
             subConfig1.ConfigReplacedEvent += SubConfig1Replaced;
         }
 
@@ -202,6 +207,7 @@ namespace ColorLib
         {
             subConfig2.ConfigReplacedEvent -= SubConfig2Replaced;
             subConfig2 = e.newConfig;
+            subConfig2.IsSubConfig(2);
             subConfig2.ConfigReplacedEvent += SubConfig2Replaced;
         }
 

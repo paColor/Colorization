@@ -137,13 +137,11 @@ namespace ColorizationControls
         private void btnDefConf1_Click(object sender, EventArgs e)
         {
             duoConfCopy.subConfig1.Reset();
-            confContr1.ResetConfig(duoConfCopy.subConfig1);
         }
 
         private void btnDefConf2_Click(object sender, EventArgs e)
         {
             duoConfCopy.subConfig2.Reset();
-            confContr2.ResetConfig(duoConfCopy.subConfig2);
         }
 
         private void btnDefaut_Click(object sender, EventArgs e)

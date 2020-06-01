@@ -180,7 +180,7 @@ namespace ColorLib
                 s.PutColor();
 
             // si on est en mode écrit, marquer par-dessus les phonemes muets.
-            if (sylConfig.ModeEcrit())
+            if (sylConfig.ModeEcrit)
                 foreach(PhonInW piw in phons)
                     if (piw.EstMuet())
                         piw.PutColor(PhonConfType.muettes);

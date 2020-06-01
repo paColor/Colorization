@@ -78,6 +78,7 @@ namespace ColorizationControls
 
         public static void Init()
         {
+            logger.ConditionalTrace("Init");
             StaticColorizControls.Init();
         }
 
@@ -122,9 +123,9 @@ namespace ColorizationControls
         /// <param name="newConfig">La nouvelle <c>Config</c> qu'il s'agit d'éditer.</param>
         public void ResetConfig(Config newConfig)
         {
+            logger.ConditionalTrace("ResetConfig");
             InitializeTheConf(newConfig);
             UpdateAll();
-            UpdateSauvTab();
         }
         
         /// <summary>
@@ -134,6 +135,7 @@ namespace ColorizationControls
         /// <param name="subConf">La <c>Config</c> pour laquelle le <c>ConfigControl</c> est créé. </param>
         public ConfigControl(Config subConf)
         {
+            logger.ConditionalTrace("ConfigControl - constructeur avec subConf");
             theWin = null;
             theDoc = null;
             InitCtor("", subConf);
@@ -149,6 +151,7 @@ namespace ColorizationControls
 
         public ConfigControl(Object inWin, Object inDoc, string version)
         {
+            logger.ConditionalTrace("ConfigControl - constructeur avec win et doc");
             // theConf
             theWin = inWin;
             theDoc = inDoc;
@@ -309,14 +312,20 @@ namespace ColorizationControls
             UpdateUcheckBoxes();
             UpdateSylButtons();
             UpdateIllRadioB();
+            UpdateConfigName();
         }
 
         /// <summary>
-        /// établit le lien entre le contrôle et la config en définissant les upcalls.
+        /// établit le lien entre le contrôle et la config en capturant les évènements nécessaires. Définit
+        /// également <c>theConf</c>.
         /// </summary>
+        /// <param name="inConf">La <c>Config</c> pour laquelle il faut initialiser les évèenements</param>
         private void InitializeTheConf(Config inConf)
         {
+            logger.ConditionalTrace("InitializeTheConf");
             theConf = inConf;
+            theConf.ConfigReplacedEvent += ConfigReplaced;
+            theConf.ConfigNameModifiedEvent += ConfigNameModified;
             theConf.colors[PhonConfType.phonemes].SonCharFormattingModifiedEvent += SonButtonCFModified;
             theConf.colors[PhonConfType.phonemes].SonCBModifiedEvent += SonCheckBoxModified;
             theConf.colors[PhonConfType.phonemes].IllModifiedEvent += IllConfigModified;
@@ -333,12 +342,41 @@ namespace ColorizationControls
             theConf.unsetBeh.CheckboxUnsetModifiedEvent += CheckboxUnsetModified;
         }
 
+        private void ConfigReplaced(object sender, ConfigReplacedEventArgs e)
+        {
+            logger.ConditionalTrace("ConfigReplaced");
+            // Se désabonner des anciens évènements. C'est peut-être inutile, je ne suis pas sûr...
+            theConf.ConfigReplacedEvent -= ConfigReplaced;
+            theConf.ConfigNameModifiedEvent -= ConfigNameModified;
+            theConf.colors[PhonConfType.phonemes].SonCharFormattingModifiedEvent -= SonButtonCFModified;
+            theConf.colors[PhonConfType.phonemes].SonCBModifiedEvent -= SonCheckBoxModified;
+            theConf.colors[PhonConfType.phonemes].IllModifiedEvent -= IllConfigModified;
+            theConf.colors[PhonConfType.phonemes].DefBehModifiedEvent -= DefBehModified;
+            theConf.colors[PhonConfType.muettes].SonCharFormattingModifiedEvent -= SonButtonCFModified;
+            theConf.colors[PhonConfType.muettes].SonCBModifiedEvent -= SonCheckBoxModified;
+            theConf.colors[PhonConfType.muettes].IllModifiedEvent -= IllConfigModified;
+            theConf.colors[PhonConfType.muettes].DefBehModifiedEvent -= DefBehModified;
+            theConf.pBDQ.LetterButtonModifiedEvent -= LetterButtonModified;
+            theConf.pBDQ.MarkAsBlackModifiedEvent -= MarkAsBlackModified;
+            theConf.sylConf.SylButtonModifiedEvent -= this.SylButtonModified;
+            theConf.sylConf.ModeEcritModifiedEvent -= ModeEcritModified;
+            theConf.sylConf.DoubleConsStdModifiedEvent -= DoubleConsStdModified;
+            theConf.unsetBeh.CheckboxUnsetModifiedEvent -= CheckboxUnsetModified;
+
+            // Initialiser les handlers
+            InitializeTheConf(e.newConfig);
+
+            // Resynchroniser l'affichage
+            UpdateAll();
+        }
+
         /// <summary>
         /// Appelé par les constructeurs pour les initialisations communes aux différents cas. Attention, <c>theConf</c>
         /// doit être défini avant l'appel de cette méthode.
         /// </summary>
         /// <param name="version">Le numéro de version à utiliser pour l'affichage si la version ne peutm pas
         /// être récupérée du déployement.</param>
+        /// <param name="inConf">La <c>Config</c> pour laquelle le <c>ConfigControl</c> est créé.</param>
         private void InitCtor(string version, Config inConf)
         {
             logger.ConditionalTrace("InitCtor");
@@ -468,6 +506,7 @@ namespace ColorizationControls
 
         private void SetButtonColor (Button b, RGB color)
         {
+            logger.ConditionalTrace("SetButtonColor, bouton \'{0}\'", b.Name);
             b.BackColor = color;
             if (color.Dark())
                 b.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.white];
@@ -482,6 +521,7 @@ namespace ColorizationControls
         /// <param name="cf">Le <c>CharFormatting</c> définissant le font à utiliser.</param>
         private void SetButtonFont (Button b, CharFormatting cf)
         {
+            logger.ConditionalTrace("SetButtonFont bouton \'{0}\'", b.Name);
             int fontIndex = 0;
             if (cf.bold)
                 fontIndex += 1;
@@ -802,17 +842,23 @@ namespace ColorizationControls
         {
             // Quand l'utilisateur rend l'onglet visible
             logger.ConditionalTrace("tabSauv_Enter");
-            UpdateSauvTab();
+            UpdateListeConfigs();
         }
 
-        public void UpdateConfigName()
+        private void UpdateConfigName()
         {
             logger.ConditionalTrace("UpdateConfigName");
             txtBNomConfig.Text = theConf.GetConfigName();
             btSauvSauv.Enabled = (txtBNomConfig.Text.Length > 0);
         }
 
-        public void UpdateListeConfigs()
+        private void ConfigNameModified(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("ConfigNameModified");
+            UpdateConfigName();
+        }
+
+        private void UpdateListeConfigs()
         {
             logger.ConditionalTrace("UpdateListeConfigs");
             lbConfigs.DataSource = Config.GetSavedConfigNames();
@@ -829,13 +875,7 @@ namespace ColorizationControls
 
         private void ListSavedConfigsModifed(object sender, EventArgs e)
         {
-            UpdateListeConfigs();
-        }
-
-        public void UpdateSauvTab()
-        {
-            logger.ConditionalTrace("UpdateSauvTab");
-            UpdateConfigName();
+            logger.ConditionalTrace("ListSavedConfigsModifed");
             UpdateListeConfigs();
         }
 
@@ -929,6 +969,7 @@ namespace ColorizationControls
 
         private void lbConfigs_DoubleClick(object sender, EventArgs e)
         {
+            logger.ConditionalTrace("lbConfigs_DoubleClick");
             btSauvCharger.PerformClick();
         }
 
@@ -939,15 +980,9 @@ namespace ColorizationControls
             logger.ConditionalTrace("btSauvCharger_Click");
             string configName = lbConfigs.SelectedItem.ToString();
             string errMsg;
-            Config newConfig = Config.LoadConfig(configName, theWin, theDoc, out errMsg);
-            if (newConfig != null)
+            if(!theConf.LoadConfig(configName, out errMsg))
             {
-                ResetConfig(newConfig);
-
-            }
-            else
-            {
-                string message = String.Format("Impossible de charger la configuration \'{0}\'. Erreur: {1}", 
+                string message = String.Format("Impossible de charger la configuration \'{0}\'. Erreur: {1}",
                     configName, errMsg);
                 MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -990,7 +1025,8 @@ namespace ColorizationControls
 
         private void btSauvDefaut_Click(object sender, EventArgs e)
         {
-            ResetConfig(Config.GetDefaultConfigFor(theWin, theDoc));
+            logger.ConditionalTrace("btSauvDefaut_Click");
+            theConf.Reset();
             btSauvSauv.Focus();
         }
 
@@ -1048,6 +1084,7 @@ namespace ColorizationControls
 
         private void butAide_Click(object sender, EventArgs e)
         {
+            logger.ConditionalTrace("butAide_Click");
             System.Diagnostics.Process.Start("https://colorization.ch/docs/Manuel_Utilisateur_Colorization.pdf");
         }
 
@@ -1062,6 +1099,7 @@ namespace ColorizationControls
         /// <param name="txt">Le texte à utiliser pour le menu de la couleur du texte.</param>
         private void SetTsmiGISforCF(CharFormatting cf, string txt = "Texte")
         {
+            logger.ConditionalTrace("SetTsmiGISforCF, txt: \'{0}\'", txt);
             tsmiGras.Enabled = true;
             tsmiItalique.Enabled = true;
             tsmiSouligne.Enabled = true;
@@ -1326,6 +1364,7 @@ namespace ColorizationControls
 
         private void button1_Click(object sender, EventArgs e)
         {
+            logger.ConditionalTrace("button1_Click");
             DuoConfForm dcf = new DuoConfForm(theConf);
             dcf.ShowDialog();
         }

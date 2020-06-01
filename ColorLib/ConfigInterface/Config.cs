@@ -44,6 +44,19 @@ namespace ColorLib
     }
 
     /// <summary>
+    /// Argument passé lors de l'évènement <c>DuoConfReplacedEvent</c>.
+    /// </summary>
+    public class DuoConfReplacedEventArgs : EventArgs
+    {
+        public DuoConfig newDuoConfig { get; private set; } // La nouvelle configuration qui remplace l'ancienne
+
+        public DuoConfReplacedEventArgs(DuoConfig theNewDuoConf)
+        {
+            newDuoConfig = theNewDuoConf;
+        }
+    }
+
+    /// <summary>
     /// Sert à différentier les <see cref="ColConfWin"/>.
     /// </summary>
     [Serializable]
@@ -105,6 +118,7 @@ namespace ColorLib
         private const string DefaultAutomaticExtension = ".clrz"; // for automatic saving
         private const string SavedConfigExtension = ".clrzn"; // for user saved configs
         private static readonly string DefaultConfFile = Path.Combine(ConfigDirPath, DefaultFileName) + DefaultAutomaticExtension;
+        private const string DefaultConfigName = "Hippocampéléphantocamélos";
 
         private static Dictionary<Object, Config> theConfs; // key is a window
         private static Dictionary<Object, List<Object>> doc2Win; // key is document, value is list of windows
@@ -166,40 +180,11 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Charge la configuration portant le nom <paramref name="name"/>.
-        /// </summary>
-        /// <param name="name">Le nom de la configuration à charger.</param>
-        /// <param name="win">La fenêtre pour laquelle la config est chargée.</param>
-        /// <param name="doc">Le document ouvert dans la fenêtre.</param>
-        /// <param name="errMsg">Retourne le message d'erreur si le chargement échoue.</param>
-        /// <returns>La configuration chargée ou null si le chargement échoue.</returns>
-        public static Config LoadConfig(string name, Object win, Object doc, out string errMsg)
-        {
-            logger.ConditionalTrace("LoadConfig \'{0}\'", name);
-            Config toReturn = null;
-            toReturn = LoadConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension, out errMsg);
-            if (toReturn != null)
-            {
-                if (theConfs.ContainsKey(win))
-                {
-                    theConfs.Remove(win);
-                }
-                else
-                {
-                    // le cas où win ne serait pas connu ne devrait pas arriver.
-                    logger.Info("On charge une config dans une fenêtre qui n'en avait pas jusqu'à présent.");
-                }
-                UpdateWindowsLists(win, doc, toReturn);
-            }
-            return toReturn;
-        }
-
-        /// <summary>
         /// Donne la confiuration qui correspond à la fenêtre <c>win</c>. Mémorise les infos pour
         /// que l'évènement de fermeture du document <c>doc</c> soit traité correctement. Voir
         /// <see cref="DocClosed(object)"/>.
         /// </summary>
-        /// <param name="win">La fenêtre pour la quelle on veut un objet <c>Config</c>.</param>
+        /// <param name="win">La fenêtre pour laquelle on veut un objet <c>Config</c>.</param>
         /// <param name="doc">Le document attaché à la fenêtre. </param>
         /// <returns>La <c>Config</c> pour la fenêtre.</returns>
         public static Config GetConfigFor(Object win, Object doc)
@@ -239,23 +224,6 @@ namespace ColorLib
             }
             return toReturn;
         }
-
-        /// <summary>
-        /// Retourne une <c>Config</c> par défaut pour la fenêtre et le document donnés. S'il existait déjà une config pour
-        /// cette fenêtre, cette config est définitivement perdue.
-        /// </summary>
-        /// <param name="win">La fenêtre pour la quelle on veut un objet <c>Config</c>.</param>
-        /// <param name="doc">Le document attaché à la fenêtre.</param>
-        /// <returns>Une nouvelle <c>Config</c> qui est initialisée aux valeurs par défaut.</returns>
-        public static Config GetDefaultConfigFor(Object win, Object doc)
-        {
-            logger.ConditionalTrace("GetDefaultConfigFor");
-            _ = theConfs.Remove(win); // Effaçons une éventuelle config enregistrée pour la fenêtre.
-            Config toReturn = new Config();
-            UpdateWindowsLists(win, doc, toReturn);
-            return toReturn;
-        }
-
 
         /// <summary>
         /// Informe la gestion de configurations, que le document <c>doc</c> a été fermé par l'utilisateur.
@@ -329,6 +297,12 @@ namespace ColorLib
 
         // -------------------------------------- Private Static Methods -------------------------------------------------------
 
+        /// <summary>
+        /// Charge la <c>Config</c> sauvegardée dans le fichier donné par <paramref name="fileName"/>.
+        /// </summary>
+        /// <param name="fileName">Le nom du fichier.</param>
+        /// <param name="errMsg">Le message d'erreur si le fichier n'a pas pu être chargé, sinon "".</param>
+        /// <returns>La <c>Config</c> chargée ou <c>null</c> en cas d'erreur.</returns>
         private static Config LoadConfigFile(string fileName, out string errMsg)
         {
             Config toReturn = null;
@@ -367,6 +341,7 @@ namespace ColorLib
         {
             logger.ConditionalTrace("UpdateWindowsLists");
             theConfs.Add(win, theNewConf);
+            theNewConf.ConfigReplacedEvent += ConfigReplaced;
 
             // is it a new document?
             List<Object> theWindows;
@@ -379,6 +354,34 @@ namespace ColorLib
             theWindows.Add(win);
         }
 
+        private static void ConfigReplaced(object sender, ConfigReplacedEventArgs e)
+        {
+            // Pour chaque fenêtre à laquelle est associée la Config sender, enlevons l'ancienne
+            // Config et insérons la nouvelle.
+
+            // il y a moyen de faire ça avec Linq, mais j'ai la flemme de chercher
+            List<object> foundWins = new List<Object>();
+            foreach (KeyValuePair<Object, Config> kvp in theConfs)
+            {
+                if (object.ReferenceEquals(kvp.Value, sender))
+                {
+                    foundWins.Add(kvp.Key);
+                }
+            }
+
+            foreach (Object win in foundWins)
+            {
+                theConfs.Remove(win);
+                theConfs.Add(win, e.newConfig);
+            }
+
+            // Désinscrivons cette méthode de l'évèenemnt sur l'ancienne Config
+            // et inscrivons-la sur la nouvelle.
+            Config oldConf = (Config)sender;
+            oldConf.ConfigReplacedEvent -= ConfigReplaced;
+            e.newConfig.ConfigReplacedEvent += ConfigReplaced;
+        }
+
         private static void OnListSavedConfigsModified(object sender, EventArgs e)
         {
             logger.ConditionalTrace("OnListSavedConfigsModified");
@@ -386,8 +389,13 @@ namespace ColorLib
             eventHandler?.Invoke(sender, e);
         }
 
+
         // *********************************************************************************************************************
+        // *********************************************************************************************************************
+        // *                                                                                                                   *
         // * ------------------------------------------------- INSTANTIATED -------------------------------------------------- *
+        // *                                                                                                                   *
+        // *********************************************************************************************************************
         // *********************************************************************************************************************
 
 
@@ -400,6 +408,18 @@ namespace ColorLib
         [field: NonSerialized]
         public event EventHandler<ConfigReplacedEventArgs> ConfigReplacedEvent;
 
+        /// <summary>
+        /// Evènement déclenché quand la <see cref="DuoConfig"/> est remplacée. Les arguments de
+        /// de l'évènement contiennent la nouvelle <c>DuoConfig</c>.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<DuoConfReplacedEventArgs> DuoConfReplacedEvent;
+
+        /// <summary>
+        /// Evènement déclenché quand le nom de la <c>Config</c> est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler ConfigNameModifiedEvent;
 
         // ---------------------------------  Members ---------------------------------------
 
@@ -444,11 +464,29 @@ namespace ColorLib
         {
             get
             {
+                if (isSubConfig)
+                {
+                    return null;
+                }
+                else if (_duoConf == null)
+                {
+                    _duoConf = new DuoConfig();
+                }
                 return _duoConf;
             }
             set
             {
-                _duoConf = value;
+                if(!isSubConfig)
+                {
+                    _duoConf = value;
+                    OnDuoConfReplaced(_duoConf);
+                }
+                else
+                {
+                    string msg = "On ne peut pas modifier le \'duoConf\' d'une subConfig.";
+                    logger.Error(msg);
+                    throw new ArgumentException(msg);
+                }
             }
         }
 
@@ -458,8 +496,23 @@ namespace ColorLib
         [OptionalField(VersionAdded = 3)]
         private DuoConfig _duoConf;
 
+        /// <summary>
+        /// indique s'il s'agit d'une 'subConfig? c-à-d attachée à une <c>DuoConfig</c>.
+        /// </summary>
+        [NonSerialized]
+        private bool isSubConfig;
+
+        /// <summary>
+        /// s'il s'agit d'une 'subConfig' (voir le flag précédent) le numéro de la subConfig.
+        /// </summary>
+        [NonSerialized]
+        private int subConfNr;
+
         // ---------------------------------------------- Methods ----------------------------------
 
+        /// <summary>
+        /// Crée une config par défaut pour les différents membres.
+        /// </summary>
         private void InitCtor()
         {
             logger.ConditionalTrace("InitCtor");
@@ -469,6 +522,7 @@ namespace ColorLib
             colors = new Dictionary<PhonConfType, ColConfWin>(2);
             colors[PhonConfType.muettes] = new ColConfWin(PhonConfType.muettes);
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
+            _duoConf = null;
         }
 
         /// <summary>
@@ -477,9 +531,10 @@ namespace ColorLib
         public Config()
         {
             logger.ConditionalTrace("Config()");
+            isSubConfig = false;
+            subConfNr = 0;
             InitCtor();
-            configName = "Hippocampéléphantocamélos";
-            duoConf = new DuoConfig();
+            SetConfigName(DefaultConfigName);
         }
 
         /// <summary>
@@ -490,26 +545,27 @@ namespace ColorLib
         public Config(int daughterNr)
         {
             logger.ConditionalTrace("Config(Config), daughterNr: {0}", daughterNr);
+            isSubConfig = true;
+            subConfNr = daughterNr;
             InitCtor();
-            duoConf = null;
-            if (daughterNr == 1)
-            {
-                configName = "Castor";
-                sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
-                sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.darkGreen]);
-            }
-            else if (daughterNr == 2)
-            {
-                configName = "Pollux";
-                sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.red]);
-                sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.violet]);
-            } 
+            ResetSubConfig(subConfNr);
+        }
+
+        /// <summary>
+        /// Dit à la <c>Config</c> qu'elle est une subConfig de type donné par <paramref name="theNr"/>.
+        /// </summary>
+        /// <param name="theNr">Le type de subConfig</param>
+        public void IsSubConfig(int theNr)
+        {
+            isSubConfig = true;
+            subConfNr = theNr;
+            _duoConf = null; // si par hasard une DuoConf était attachée, on la jette.
         }
 
         public override void Reset()
         {
             logger.ConditionalTrace("Reset");
-
+            SetConfigName(DefaultConfigName);
             pBDQ.Reset();
             foreach (ColConfWin ccf in colors.Values)
             {
@@ -517,7 +573,14 @@ namespace ColorLib
             }
             sylConf.Reset();
             unsetBeh.Reset();
-            duoConf?.Reset();
+            if (isSubConfig)
+            {
+                ResetSubConfig(subConfNr);
+            }
+            else
+            {
+                _duoConf?.Reset(); // on ne fait le reset que si la duoConf existe
+            }
         }
 
         /// <summary>
@@ -526,6 +589,30 @@ namespace ColorLib
         /// <returns>Le nom de la config.</returns>
         public string GetConfigName() => configName;
 
+        /// <summary>
+        /// Charge la <c>Config</c> sauvgardée identifiée par <paramref name="name"/>. Si ça marche,
+        /// un évènement <c>ConfigReplacedEvent</c> est déclenché avec la référence de la nouvelle
+        /// config et <c>true</c> est retourné. Si ça échoue, <c>false</c> est retourné et 
+        /// <paramref name="errMsg"/> contient le message d'erreur.
+        /// </summary>
+        /// <param name="name">Le nom de la <c>Config</c> sauvegardée à charger.</param>
+        /// <param name="errMsg">Le message d'erreur si une erreur s'est produite, sinon "".</param>
+        /// <returns><c>true</c> si la <c>Config</c> a pu être chargée, sinon <c>false</c>.</returns>
+        public bool LoadConfig(string name, out string errMsg)
+        {
+            logger.ConditionalTrace("LoadConfig \'{0}\'", name);
+            Config theConf = LoadConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension, out errMsg);
+            bool toReturn = (theConf != null); 
+            if (toReturn)
+            {
+                if (isSubConfig)
+                {
+                    theConf.IsSubConfig(subConfNr);
+                }
+                OnConfigReplaced(theConf);
+            }
+            return toReturn;
+        }
 
         /// <summary>
         /// Sauve la configuration sous le nom indiqué.
@@ -537,7 +624,7 @@ namespace ColorLib
         public bool SaveConfig(string name, out string msgTxt)
         {
             logger.ConditionalTrace("SaveConfig \'{0}\'", name);
-            configName = name;
+            SetConfigName(name);
             bool toReturn = SaveConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension, out msgTxt);
             if (toReturn)
             {
@@ -569,13 +656,49 @@ namespace ColorLib
             }
             return toReturn;
         }
-        
+
+        /// <summary>
+        /// Effectue les configurations spécifiques à une subConfig de no <paramref name="theSubConfigNr"/>
+        /// </summary>
+        /// <param name="theSubConfigNr">Le numéro de subConfig qui définit les paramètres par défaut.</param>
+        private void ResetSubConfig(int theSubConfigNr)
+        {
+            if (theSubConfigNr == 1)
+            {
+                SetConfigName("Castor");
+                sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
+                sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.darkGreen]);
+            }
+            else if (theSubConfigNr == 2)
+            {
+                SetConfigName("Pollux");
+                sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.red]);
+                sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.violet]);
+            }
+        }
+
         [OnDeserializing()]
         private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
         {
             logger.ConditionalTrace("SetOptionalFieldsToDefaultVal");
-            configName = "";
-            duoConf = new DuoConfig();
+            SetConfigName(DefaultConfigName);
+            _duoConf = null;
+            isSubConfig = false;
+            subConfNr = 0;
+        }
+
+        /// <summary>
+        /// Définit le <c>configName</c>.
+        /// </summary>
+        /// <remarks>Normalement, on devrait avoir un setter et un getter pour <c>configName</c>,
+        /// mais je n'avais pas bien compris comment ça marche avec la sérialisation et 
+        /// je ne veux plus toucher à ça de peur de devenir incompatible avec d'anciens fichiers de 
+        /// sauvegarde. </remarks>
+        /// <param name="theName">Le nouveau nom.</param>
+        private void SetConfigName (string theName)
+        {
+            configName = theName;
+            OnConfigNameModified();
         }
 
         internal override void PostLoadInitOptionalFields()
@@ -588,12 +711,12 @@ namespace ColorLib
             }
             sylConf.PostLoadInitOptionalFields();
             unsetBeh.PostLoadInitOptionalFields();
-            duoConf?.PostLoadInitOptionalFields();
+            _duoConf?.PostLoadInitOptionalFields();
         }
 
         // ------------------------------------------------- Events --------------------------------------------
 
-        protected virtual void OnConfigReplaced (ConfigReplacedEventArgs e)
+        protected virtual void OnConfigReplaced (Config newConfig)
         {
             logger.ConditionalTrace("OnConfigReplaced");
             EventHandler<ConfigReplacedEventArgs> eventHandler = ConfigReplacedEvent;
@@ -603,10 +726,21 @@ namespace ColorLib
             // a race condition if the last subscriber unsubscribes
             // immediately after the null check and before the event is raised.
 
-            eventHandler?.Invoke(this, e);
+            eventHandler?.Invoke(this, new ConfigReplacedEventArgs(newConfig));
         }
 
+        protected virtual void OnDuoConfReplaced(DuoConfig newDuoConf)
+        {
+            logger.ConditionalTrace("OnDuoConfReplaced");
+            EventHandler<DuoConfReplacedEventArgs> eventHandler = DuoConfReplacedEvent;
+            eventHandler?.Invoke(this, new DuoConfReplacedEventArgs(newDuoConf));
+        }
 
-
+        protected virtual void OnConfigNameModified()
+        {
+            logger.ConditionalTrace("OnConfigNameModified");
+            EventHandler eventHandler = ConfigNameModifiedEvent;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

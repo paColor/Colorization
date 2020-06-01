@@ -229,17 +229,16 @@ namespace ColorLib
         /// </summary>
         public override void Reset()
         {
-            
-            sylButtons[0].buttonClickable = true;
-            nrSetButtons = 0;
-            SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
-            SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.red]);
             for (int i = 2; i < nrButtons; i++)
             {
                 sylButtons[i].buttonClickable = false;
                 sylButtons[i].cf = ColConfWin.predefCF[(int)PredefCols.neutral];
                 OnSylButtonModified(i);
             }
+            sylButtons[0].buttonClickable = true;
+            nrSetButtons = 0;
+            SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
+            SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.red]);
             ResetCounter();
             DoubleConsStd = true; // mode std de LireCouleur
             ModeEcrit = true; // mode écrit de LireCouleur
