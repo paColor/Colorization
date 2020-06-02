@@ -36,6 +36,8 @@ namespace ColorizationWord
         private delegate void ActOnMSWText(MSWText t);
         private delegate void ActOnRange(Range range, ActOnMSWText act);
 
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         private static void DummyActOnMSWText(MSWText t) {}
         private static void MarkPhons(MSWText t) => t.ColorizePhons(PhonConfType.phonemes);
         private static void MarkLetters(MSWText t) => t.MarkLetters();
@@ -44,8 +46,6 @@ namespace ColorizationWord
         private static void MarkMuettes(MSWText t) => t.MarkMuettes();
         private static void MarkNoir(MSWText t) => t.MarkNoir();
         private static void MarkVoyCons(MSWText t) => t.MarkVoyCons();
-
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static void Init()
         {
@@ -58,51 +58,67 @@ namespace ColorizationWord
             ConfigControl.colVoyConsSelText = WordRibbon.ColorSelectedVoyCons;
             ConfigControl.colNoirSelText = WordRibbon.ColorSelectedNoir;
             ConfigControl.colMuettesSelText = WordRibbon.ColorSelectedMuettes;
+            ConfigControl.colDuoSelText = WordRibbon.ColorSelectedDuo;
         }
 
         public static void ColorSelectedPhons()
         {
+            logger.Info("ColorSelectedPhons");
             ActOnSelectedText(MarkPhons, "Phonèmes", ActoOnRangeMSWText);
         }
 
         public static void ColorSelectedLetters()
         {
+            logger.Info("ColorSelectedLetters");
             ActOnSelectedText(MarkLetters, "bpdq", ActoOnRangeMSWText);
         }
 
         public static void ColorSelectedSyls()
         {
+            logger.Info("ColorSelectedSyls");
             ActOnSelectedText(MarkSyls, "Syllabes", ActoOnRangeMSWText);
         }
 
         public static void ColorSelectedWords()
         {
+            logger.Info("ColorSelectedWords");
             ActOnSelectedText(MarkWords, "Mots", ActoOnRangeMSWText);
         }
 
         public static void ColorSelectedMuettes()
         {
+            logger.Info("ColorSelectedMuettes");
             ActOnSelectedText(MarkMuettes, "Muettes", ActoOnRangeMSWText);
         }
 
         public static void ColorSelectedNoir()
         {
+            logger.Info("ColorSelectedNoir");
             ActOnSelectedText(MarkNoir, "Noir", ActoOnRangeMSWText);
         }
 
         public static void ColorSelectedLignes()
         {
+            logger.Info("ColorSelectedLignes");
             ActOnSelectedText(null, "Lignes", MarkLignes);
         }
 
         public static void ColorSelectedVoyCons()
         {
+            logger.Info("ColorSelectedVoyCons");
             ActOnSelectedText(MarkVoyCons, "Voy-Cons", ActoOnRangeMSWText);
+        }
+
+        public static void ColorSelectedDuo()
+        {
+            logger.Info("ColorSelectedDuo");
+            ActOnSelectedText(null, "Lignes", MarkLignes);
         }
 
 
         private static void MarkLignes(Range range, ActOnMSWText act)
         {
+            logger.ConditionalTrace("MarkLignes");
             Window activeWin = ColorizationMSW.thisAddIn.Application.ActiveWindow;
             Config theConf = Config.GetConfigFor(activeWin, activeWin.Document);
             theConf.sylConf.ResetCounter();
@@ -131,19 +147,21 @@ namespace ColorizationWord
 
             } else
             {
-                MessageBox.Show("La mise en couleur de lignes ne fonctionne que dans le mode \'Page\'.");
+                MessageBox.Show("La mise en couleur de lignes ne fonctionne que dans le mode \'Page\'.", 
+                    BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-                
         }
 
         private static void ActoOnRangeMSWText (Range range, ActOnMSWText actOn)
         {
+            logger.ConditionalTrace("ActoOnRangeMSWText");
             Window activeWin = ColorizationMSW.thisAddIn.Application.ActiveWindow;
             actOn(new MSWText(range, Config.GetConfigFor(activeWin, activeWin.Document)));
         }
 
         private static void ActOnShape(Shape sh, ActOnMSWText act, ActOnRange aor)
         {
+            logger.ConditionalTrace("ActOnShape");
             if (sh.TextFrame.HasText == (int)Microsoft.Office.Core.MsoTriState.msoTrue)
                 aor(sh.TextFrame.TextRange, act);    
 
@@ -152,8 +170,17 @@ namespace ColorizationWord
                     ActOnShape(descSh, act, aor);
         }
 
+        /// <summary>
+        /// Fais en sorte que l'action <c>aor</c> soit exécutée sur tous les "ranges" sélectionnés.
+        /// </summary>
+        /// <param name="act">L'action à effectuer sur un texte. Par exemple <c>MarkSyls</c> ou <c>MarkNoir</c></param>
+        /// <param name="undoTxt">Le texte qui est inscrit dans le <c>UndoRecord</c> et que l'utilisateur voit s'il va
+        /// sur la lsite des actions qu'il peut annuler.</param>
+        /// <param name="aor">L'action à effectuer sur les <c>ranges identifiés</c>. Typiquement il s'agit soit de 
+        /// l'action standard <c>ActoOnRangeMSWText</c> ou d'une action particulière pour une commande spéciale.</param>
         private static void ActOnSelectedText(ActOnMSWText act, string undoTxt, ActOnRange aor)
         {
+            logger.ConditionalTrace("ActOnSelectedText");
             if (ColorizationMSW.thisAddIn.Application.Documents.Count > 0)
             {
                 UndoRecord objUndo = ColorizationMSW.thisAddIn.Application.UndoRecord;
@@ -212,6 +239,7 @@ namespace ColorizationWord
 
         private void SelChanged_Event(Selection sel)
         {
+            logger.ConditionalTrace("SelChanged_Event");
             bool selected;
             switch (sel.Type)
             {
@@ -229,6 +257,7 @@ namespace ColorizationWord
 
         private void EnableButtons(bool enable)
         {
+            logger.ConditionalTrace("EnableButtons to \'{0}\'", enable);
             if (btnBPDQ.Enabled != enable)
             {
                 btnBPDQ.Enabled = enable;
@@ -239,57 +268,73 @@ namespace ColorizationWord
                 btnPhonemes.Enabled = enable;
                 btnSyls.Enabled = enable;
                 btnVoyCons.Enabled = enable;
+                btnDuo.Enabled = enable;
             }
         }
 
         private void btnPhonemes_Click(object sender, RibbonControlEventArgs e)
         {
+            logger.ConditionalTrace("btnPhonemes_Click");
             ColorSelectedPhons(); ;
         }
 
         private void btnBDPQ_Click(object sender, RibbonControlEventArgs e)
         {
+            logger.ConditionalTrace("btnBDPQ_Click");
             ColorSelectedLetters();
         }
 
         private void btnSyl_Click(object sender, RibbonControlEventArgs e)
         {
+            logger.ConditionalTrace("btnSyl_Click");
             ColorSelectedSyls();
         }
 
         private void btnMots_Click(object sender, RibbonControlEventArgs e)
         {
+            logger.ConditionalTrace("btnMots_Click");
             ColorSelectedWords();
         }
 
         private void btnMuettes_Click(object sender, RibbonControlEventArgs e)
         {
+            logger.ConditionalTrace("btnMuettes_Click");
             ColorSelectedMuettes();
         }
 
         private void btnNoir_Click(object sender, RibbonControlEventArgs e)
         {
+            logger.ConditionalTrace("btnNoir_Click");
             ColorSelectedNoir();
         }
 
         private void btnLignes_Click(object sender, RibbonControlEventArgs e)
         {
+            logger.ConditionalTrace("btnLignes_Click");
             ColorSelectedLignes();
         }
 
         private void btnVoyCons_Click(object sender, RibbonControlEventArgs e)
         {
+            logger.ConditionalTrace("btnVoyCons_Click");
             ColorSelectedVoyCons();
         }
 
         private void grpDialogLauncher_Click(object sender, RibbonControlEventArgs e)
         {
+            logger.Info("grpDialogLauncher_Click");
             if (ColorizationMSW.thisAddIn.Application.Documents.Count > 0)
             {
                 Window activeWin = ColorizationMSW.thisAddIn.Application.ActiveWindow;
                 ConfigPane.MakePaneVisibleInWin(activeWin, activeWin.Document, ColorizationMSW.thisAddIn.CustomTaskPanes,
                     typeof(ColorizationMSW).Assembly.GetName().Version.ToString());
             }
+        }
+
+        private void btnDuo_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalTrace("btnDuo_Click");
+            ColorSelectedDuo();
         }
     }
 }

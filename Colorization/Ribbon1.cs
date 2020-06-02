@@ -57,6 +57,7 @@ namespace Colorization
             ConfigControl.colLignesSelText = Ribbon1.ColorSelectedLignes;
             ConfigControl.colNoirSelText = Ribbon1.ColorSelectedNoir;
             ConfigControl.colMuettesSelText = Ribbon1.ColorSelectedMuettes;
+            ConfigControl.colDuoSelText = Ribbon1.ColorSelectedDuo;
         }
 
         public static void ColorizeSelectedPhons()
@@ -104,6 +105,12 @@ namespace Colorization
         public static void ColorSelectedLignes()
         {
             logger.ConditionalTrace("ColorSelectedLignes");
+            ActOnSelectedText(null, MarkLignes);
+        }
+
+        public static void ColorSelectedDuo()
+        {
+            logger.ConditionalTrace("ColorSelectedDuo");
             ActOnSelectedText(null, MarkLignes);
         }
 
@@ -211,6 +218,7 @@ namespace Colorization
                 btnSyl.Enabled = enable;
                 btnPhon.Enabled = enable;
                 btnVoyCons.Enabled = enable;
+                btnDuo.Enabled = enable;
             }
         }
 
@@ -262,6 +270,11 @@ namespace Colorization
         private void btnLignes_Click(object sender, RibbonControlEventArgs e)
         {
             ColorSelectedLignes();
+        }
+
+        private void btnDuo_Click(object sender, RibbonControlEventArgs e)
+        {
+            ColorSelectedDuo();
         }
     }
 }

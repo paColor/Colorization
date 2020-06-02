@@ -63,6 +63,16 @@ namespace ColorizationControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _2_32 {
+            get {
+                object obj = ResourceManager.GetObject("2_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _2_35 {
             get {
                 object obj = ResourceManager.GetObject("2-35", resourceCulture);
@@ -86,6 +96,16 @@ namespace ColorizationControls.Properties {
         internal static System.Drawing.Bitmap _2_78 {
             get {
                 object obj = ResourceManager.GetObject("2_78", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _2Config_32 {
+            get {
+                object obj = ResourceManager.GetObject("2Config_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

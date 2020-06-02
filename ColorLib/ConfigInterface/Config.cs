@@ -119,6 +119,8 @@ namespace ColorLib
         private const string SavedConfigExtension = ".clrzn"; // for user saved configs
         private static readonly string DefaultConfFile = Path.Combine(ConfigDirPath, DefaultFileName) + DefaultAutomaticExtension;
         private const string DefaultConfigName = "Hippocampéléphantocamélos";
+        private const string DefaultSubConf1Name = "Castor";
+        private const string DefaultSubConf2Name = "Pollux";
 
         private static Dictionary<Object, Config> theConfs; // key is a window
         private static Dictionary<Object, List<Object>> doc2Win; // key is document, value is list of windows
@@ -565,7 +567,6 @@ namespace ColorLib
         public override void Reset()
         {
             logger.ConditionalTrace("Reset");
-            SetConfigName(DefaultConfigName);
             pBDQ.Reset();
             foreach (ColConfWin ccf in colors.Values)
             {
@@ -580,6 +581,7 @@ namespace ColorLib
             else
             {
                 _duoConf?.Reset(); // on ne fait le reset que si la duoConf existe
+                SetConfigName(DefaultConfigName);
             }
         }
 
@@ -658,22 +660,28 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Effectue les configurations spécifiques à une subConfig de no <paramref name="theSubConfigNr"/>
+        /// Effectue les configurations spécifiques à une subConfig de no <paramref name="theSubConfigNr"/>. 
+        /// Précondition: les deux premiers boutons du <c>sylConf</c> sont configurés. 
         /// </summary>
         /// <param name="theSubConfigNr">Le numéro de subConfig qui définit les paramètres par défaut.</param>
         private void ResetSubConfig(int theSubConfigNr)
         {
             if (theSubConfigNr == 1)
             {
-                SetConfigName("Castor");
+                SetConfigName(DefaultSubConf1Name);
                 sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
                 sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.darkGreen]);
             }
             else if (theSubConfigNr == 2)
             {
-                SetConfigName("Pollux");
+                SetConfigName(DefaultSubConf2Name);
                 sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.red]);
                 sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.violet]);
+            }
+            else
+            {
+                logger.Error("Seules des subCOnfigs 1 et 2 peuvent être initialisés.");
+                Debug.Assert(false);
             }
         }
 

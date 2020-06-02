@@ -63,6 +63,16 @@ namespace Colorization.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _2_16 {
+            get {
+                object obj = ResourceManager.GetObject("2-16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bdpq {
             get {
                 object obj = ResourceManager.GetObject("bdpq", resourceCulture);

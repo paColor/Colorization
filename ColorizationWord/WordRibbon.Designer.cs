@@ -49,6 +49,7 @@
             this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.btnVoyCons = this.Factory.CreateRibbonButton();
             this.btnNoir = this.Factory.CreateRibbonButton();
+            this.btnDuo = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.buttonGroup3.SuspendLayout();
@@ -159,6 +160,7 @@
             // buttonGroup2
             // 
             this.buttonGroup2.Items.Add(this.btnVoyCons);
+            this.buttonGroup2.Items.Add(this.btnDuo);
             this.buttonGroup2.Items.Add(this.btnNoir);
             this.buttonGroup2.Name = "buttonGroup2";
             // 
@@ -183,6 +185,17 @@
             this.btnNoir.ShowLabel = false;
             this.btnNoir.SuperTip = "Met le texte sélectionné en noir, sans gras, italique ou souligné.";
             this.btnNoir.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNoir_Click);
+            // 
+            // btnDuo
+            // 
+            this.btnDuo.Image = global::ColorizationWord.Properties.Resources._2_16;
+            this.btnDuo.Label = "Duo";
+            this.btnDuo.Name = "btnDuo";
+            this.btnDuo.ScreenTip = "Duo";
+            this.btnDuo.ShowImage = true;
+            this.btnDuo.ShowLabel = false;
+            this.btnDuo.SuperTip = "Le texte sélectionné est formaté en alternance pour deux lecteurs.";
+            this.btnDuo.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDuo_Click);
             // 
             // WordRibbon
             // 
@@ -219,6 +232,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButtonGroup buttonGroup2;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnVoyCons;
         internal Microsoft.Office.Tools.Ribbon.RibbonButtonGroup buttonGroup3;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDuo;
     }
 
     partial class ThisRibbonCollection

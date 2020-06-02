@@ -38,6 +38,7 @@ namespace ColorizationControls
 
     public partial class ConfigControl : UserControl
     {
+        // on aurait pu régler ça avec des évènements si on aviat maîtrisé le concept à cette époque...
         public static ExecuteTask colSylSelLetters { set; private get; }
         public static ExecuteTask colMotsSelLetters { set; private get; }
         public static ExecuteTask colLignesSelText { set; private get; }
@@ -46,6 +47,7 @@ namespace ColorizationControls
         public static ExecuteTask colorizeAllSelPhons { set; private get; }
         public static ExecuteTask colMuettesSelText { set; private get; }
         public static ExecuteTask markSelLetters { set; private get; }
+        public static ExecuteTask colDuoSelText { set; private get; }
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -143,8 +145,23 @@ namespace ColorizationControls
             tabControl1.Controls.Remove(tabAPropos);
 
             // Ne pas afficher le bouton "button 1"
-            button1.Visible = false;
-            button1.Enabled = false;
+            butConfigDuo.Visible = false;
+            butConfigDuo.Enabled = false;
+            butExecuteDuo.Visible = false;
+            butExecuteDuo.Enabled = false;
+
+            // Les commandes ne doivent pas être appliquées car elles utilisent la Config liée à la fenêtre...
+            // En théorie on pourrait changer ça et passer la Config à utiliser, mais pas sûr que le travail
+            // vaille la chandelle :-)
+
+            btcPhons.Enabled = false;
+            btcLNoir2.Enabled = false;
+            btcLbpdq.Enabled = false;
+            btSAppliquer.Enabled = false;
+            btSMots.Enabled = false;
+            btZeLignes.Enabled = false;
+            btSVoyCons.Enabled = false;
+            btcLNoir.Enabled = false;
 
             tabControl1.SelectTab(tabAutres);
         }
@@ -247,21 +264,28 @@ namespace ColorizationControls
 
         public void UpdateSylButton(int butNr)
         {
+            const string filledBtnTxt = "Txt";
+            const string emptyBtnTxt = "";
             logger.ConditionalTrace("UpdateSylButton buttonNr: {0}", butNr);
             SylConfig.SylButtonConf sbC = theConf.sylConf.GetSylButtonConfFor(butNr);
             Button theButton = sylButtons[butNr];
             RGB theButtonCol = defaultSylButtonCol;
             RGB thePbxCol = defaultSylButtonCol;
+            string theBtnTxt = emptyBtnTxt;
             if ((sbC.cf != null))
             {
                 if (sbC.cf.changeColor)
+                {
                     theButtonCol = sbC.cf.color;
+                    theBtnTxt = filledBtnTxt;
+                }
                 if (sbC.cf.changeHilight)
                     thePbxCol = sbC.cf.hilightColor;
                 else
                     thePbxCol = theButtonCol;
                 SetButtonFont(theButton, sbC.cf);
             }
+            theButton.Text = theBtnTxt;
             SetButtonColor(theButton, theButtonCol);
             sylPictureBoxes[butNr].BackColor = thePbxCol;
             theButton.Enabled = sbC.buttonClickable;
@@ -835,6 +859,23 @@ namespace ColorizationControls
         }
 
         //--------------------------------------------------------------------------------------------
+        // --------------------------------------- Boutons Duo ---------------------------------------
+        //--------------------------------------------------------------------------------------------
+
+        private void butConfigDuo_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("butConfigDuo_Click");
+            DuoConfForm dcf = new DuoConfForm(theConf);
+            dcf.ShowDialog();
+        }
+
+        private void butExecuteDuo_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("butExecuteDuo_Click");
+            colDuoSelText();
+        }
+
+        //--------------------------------------------------------------------------------------------
         // --------------------------------------  Onglet Sauv. --------------------------------------
         //--------------------------------------------------------------------------------------------
 
@@ -1360,13 +1401,6 @@ namespace ColorizationControls
                 ttipLettreEnNoir.SetToolTip(btcPhons, "Coloriser les phonèmes");
             }
             UpdateAllSoundCbxAndButtons();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            logger.ConditionalTrace("button1_Click");
-            DuoConfForm dcf = new DuoConfForm(theConf);
-            dcf.ShowDialog();
         }
     }
 }

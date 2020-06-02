@@ -50,6 +50,7 @@ namespace Colorization
             this.btnBPDQ = this.Factory.CreateRibbonButton();
             this.buttonGroup3 = this.Factory.CreateRibbonButtonGroup();
             this.btnVoyCons = this.Factory.CreateRibbonButton();
+            this.btnDuo = this.Factory.CreateRibbonButton();
             this.btnNoir = this.Factory.CreateRibbonButton();
             this.serviceController1 = new System.ServiceProcess.ServiceController();
             this.tab1.SuspendLayout();
@@ -174,6 +175,7 @@ namespace Colorization
             // buttonGroup3
             // 
             this.buttonGroup3.Items.Add(this.btnVoyCons);
+            this.buttonGroup3.Items.Add(this.btnDuo);
             this.buttonGroup3.Items.Add(this.btnNoir);
             this.buttonGroup3.Name = "buttonGroup3";
             // 
@@ -188,6 +190,19 @@ namespace Colorization
             this.btnVoyCons.ShowLabel = false;
             this.btnVoyCons.SuperTip = "Colorise les voyelles et les consonnes dans le texte sélectionné";
             this.btnVoyCons.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnVoyCons_Click);
+            // 
+            // btnDuo
+            // 
+            this.btnDuo.Enabled = false;
+            this.btnDuo.Image = global::Colorization.Properties.Resources._2_16;
+            this.btnDuo.KeyTip = "D";
+            this.btnDuo.Label = "Noir";
+            this.btnDuo.Name = "btnDuo";
+            this.btnDuo.ScreenTip = "Duo";
+            this.btnDuo.ShowImage = true;
+            this.btnDuo.ShowLabel = false;
+            this.btnDuo.SuperTip = "Le texte sélectionné est formaté en alternance pour deux lecteurs.";
+            this.btnDuo.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDuo_Click);
             // 
             // btnNoir
             // 
@@ -240,6 +255,7 @@ namespace Colorization
         internal RibbonButton btnVoyCons;
         internal RibbonButton btnLignes;
         internal RibbonButtonGroup buttonGroup3;
+        internal RibbonButton btnDuo;
     }
 
     partial class ThisRibbonCollection

@@ -21,13 +21,13 @@ namespace ColorLib
         /// Evènement déclenché quand <c>alteranance</c> est modifié.
         /// </summary>
         [field:NonSerialized]
-        public event EventHandler AlternanceModified;
+        public event EventHandler AlternanceModifiedEvent;
 
         /// <summary>
         /// Evènement déclenché quand <c>colorisFunction</c> est modifié.
         /// </summary>
         [field:NonSerialized]
-        public event EventHandler ColorisFunctionModified;
+        public event EventHandler ColorisFunctionModifiedEvent;
 
         // --------------------------------------  members ----------------------------------
         
@@ -215,12 +215,14 @@ namespace ColorLib
 
         protected virtual void OnAlternanceModified(EventArgs e)
         {
-            AlternanceModified?.Invoke(this, e);
+            EventHandler eventHandler = AlternanceModifiedEvent;
+            eventHandler?.Invoke(this, e);
         }
 
         protected virtual void OnColorisFunctionModified(EventArgs e)
         {
-            ColorisFunctionModified?.Invoke(this, e);
+            EventHandler eventHandler = ColorisFunctionModifiedEvent;
+            eventHandler?.Invoke(this, e);
         }
 
 

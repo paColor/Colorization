@@ -151,6 +151,7 @@ namespace ColorLib
         public void SylButtonModified(int butNr, CharFormatting inCf)
         {
             logger.ConditionalTrace("SylButtonModified butNr: {0}", butNr);
+            Debug.Assert(butNr <= nrSetButtons);
             sylButtons[butNr].cf = inCf;
             if (butNr == nrSetButtons)
             {

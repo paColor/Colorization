@@ -59,8 +59,8 @@ namespace ColorizationControls
             panelConfig1.Controls.Add(confContr1);
             confContr2 = new ConfigControl(duoConfCopy.subConfig2);
             panelConfig2.Controls.Add(confContr2);
-            duoConfCopy.AlternanceModified += UpdateAlternance;
-            duoConfCopy.ColorisFunctionModified += UpdateColorisFunction;
+            duoConfCopy.AlternanceModifiedEvent += UpdateAlternance;
+            duoConfCopy.ColorisFunctionModifiedEvent += UpdateColorisFunction;
             UpdateAlternance(this, EventArgs.Empty);
             UpdateColorisFunction(this, EventArgs.Empty);
 
