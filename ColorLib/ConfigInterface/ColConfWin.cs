@@ -659,7 +659,7 @@ namespace ColorLib
         // ------------------------------------------------------- Rule Flags ---------------------------------------------------
 
         /// <summary>
-        /// Gives the value of the said flag.
+        /// Gives the value of the said rule flag.
         /// </summary>
         /// <param name="rf">identifier of the flag one wants the value of.</param>
         /// <returns>The value of the flag.</returns>

@@ -88,9 +88,9 @@ namespace ColorLib
             Debug.Assert (Last <= pw.Last);
         }
 
-        public override void PutColor()
+        public override void PutColor(Config conf)
         {
-            SetCharFormat(this.T.GetConfig().sylConf.NextCF());
+            SetCharFormat(conf.sylConf.NextCF());
         }
 
         public string AllStringInfo()

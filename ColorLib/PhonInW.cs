@@ -306,9 +306,9 @@ namespace ColorLib
             firedRuleName = copied;
         }
 
-        public override void PutColor() => PutColor(PhonConfType.phonemes);
+        public override void PutColor(Config conf) => PutColor(conf, PhonConfType.phonemes);
 
-        public void PutColor (PhonConfType pct) => base.SetCharFormat(this.T.GetConfig().colors[pct].Get(P));
+        public void PutColor (Config conf, PhonConfType pct) => base.SetCharFormat(conf.colors[pct].Get(P));
 
         public override string AllStringInfo()
         {

@@ -14,8 +14,9 @@ namespace ColorLibTest
             List<PhonWord> pws;
             TheText tt;
 
-            tt = TheText.NewTestTheText("Dans tes yeux les clartés trop brutales s’émoussent.");
-            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+            Config conf = new Config();
+            tt = new TheText("Dans tes yeux les clartés trop brutales s’émoussent.", conf);
+            conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             pws = tt.GetPhonWords();
             Assert.AreEqual("Dans", pws[0].ToString());
             Assert.AreEqual("tes", pws[1].ToString());
@@ -27,7 +28,7 @@ namespace ColorLibTest
             Assert.AreEqual("s’", pws[7].ToString());
             Assert.AreEqual("émoussent", pws[8].ToString());
 
-            tt = TheText.NewTestTheText
+            tt = new TheText
                 (
                 @"
                 France ! ô belle contrée, ô terre généreuse
@@ -42,9 +43,9 @@ namespace ColorLibTest
                 D’abord par les clous froids, puis par l’élan pâmé
                 Des femmes de péché – desquelles ô tant oints,
                 Tant baisés, chrême fol et baiser affamé ! –
-                "
+                ", conf
                 );
-            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+            conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             pws = tt.GetPhonWords();
             Assert.AreEqual("France", pws[0].ToString());
             Assert.AreEqual("ô", pws[1].ToString());

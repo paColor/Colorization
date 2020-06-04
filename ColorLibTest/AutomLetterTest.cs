@@ -214,6 +214,8 @@ namespace ColorLibTest
             ColConfWin.Init();
             TheText.Init();
 
+            Config conf = new Config();
+
             tstAL = @"'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill','tranquille',
 				'ill','@ill','@il','ll','ui','ient_1','ient_2','ie','i_voyelle', '*'],
 				{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng$/i},'i',1],
@@ -237,8 +239,8 @@ namespace ColorLibTest
 				'*':[{},'i',1]}]";
             pos = 0;
             al = new AutomLetter(tstAL, ref pos);
-            tt = TheText.NewTestTheText(@"briefing, berlingot, sapin, imbécile, limbe, afin, prier, ville, paille, triage,
-                               appartient, amplifient, glorifient");
+            tt = new TheText(@"briefing, berlingot, sapin, imbécile, limbe, afin, prier, ville, paille, triage,
+                               appartient, amplifient, glorifient", conf);
             pws = tt.GetPhonWords();
 
             foreach (PhonWord pw in pws)
@@ -247,63 +249,63 @@ namespace ColorLibTest
             // briefing
             wordI = 0;
             pos = 5;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(6, pos);
             Assert.AreEqual("i", pws[wordI].Phonetique());
 
             // berlingot
             wordI = 1;
             pos = 4;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(6, pos);
             Assert.AreEqual("5", pws[wordI].Phonetique());
 
             // sapin
             wordI = 2;
             pos = 3;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(5, pos);
             Assert.AreEqual("5", pws[wordI].Phonetique());
 
             // imbécile
             wordI = 3;
             pos = 0;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(2, pos);
             Assert.AreEqual("5", pws[wordI].Phonetique());
 
             // limbe
             wordI = 4;
             pos = 1;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(3, pos);
             Assert.AreEqual("5", pws[wordI].Phonetique());
 
             // afin
             wordI = 5;
             pos = 2;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(4, pos);
             Assert.AreEqual("5", pws[wordI].Phonetique());
 
             // prier
             wordI = 6;
             pos = 2;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(3, pos);
             Assert.AreEqual("ij", pws[wordI].Phonetique());
 
             // ville
             wordI = 7;
             pos = 1;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(2, pos);
             Assert.AreEqual("i", pws[wordI].Phonetique());
 
             // paille
             wordI = 8;
             pos = 2;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             rTxt = pws[wordI].AllStringInfo();
             StringAssert.Matches(rTxt, new Regex(@"Rule: @ill"));
             Assert.AreEqual(5, pos);
@@ -312,7 +314,7 @@ namespace ColorLibTest
             // triage
             wordI = 9;
             pos = 2;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             rTxt = pws[wordI].AllStringInfo();
             StringAssert.Matches(rTxt, new Regex(@"Rule: prec_2cons"));
             Assert.AreEqual(3, pos);
@@ -321,21 +323,21 @@ namespace ColorLibTest
             // appartient
             wordI = 10;
             pos = 6;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(7, pos);
             Assert.AreEqual("j", pws[wordI].Phonetique());
 
             // amplifient
             wordI = 11;
             pos = 6;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(7, pos);
             Assert.AreEqual("i", pws[wordI].Phonetique());
 
             // glorifient
             wordI = 12;
             pos = 4;
-            al.FireRule(pws[wordI], ref pos);
+            al.FireRule(pws[wordI], ref pos, conf);
             Assert.AreEqual(5, pos);
             Assert.AreEqual("i", pws[wordI].Phonetique());
 

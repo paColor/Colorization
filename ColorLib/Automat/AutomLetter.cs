@@ -150,7 +150,15 @@ namespace ColorLib
             return sb.ToString();
         }
 
-        public void FireRule(PhonWord pw, ref int pos)
+        /// <summary>
+        /// Fires the appropriate rule for the letter in <paramref name="pw"/> at position
+        /// <paramref name="pos"/>. The <see cref="PhonWord"/> <c>pw</c> is expanded with the corresponding
+        /// 'phonème'.
+        /// </summary>
+        /// <param name="pw">The <see cref="PhonWord"/> that must be analysed and where phonèmes must be identified.</param>
+        /// <param name="pos">The position in <c>pw</c> (zero based) of the letter to analyse.</param>
+        /// <param name="conf">The <see cref="Config"/> to use when deciding how the rules should be applied.</param>
+        public void FireRule(PhonWord pw, ref int pos, Config conf)
             // Fires the appropriate rule for the letter in pw at position pos
         {
             Debug.Assert(pw != null);
@@ -170,7 +178,7 @@ namespace ColorLib
                 AutomRule ar;
                 if (rules.TryGetValue(ruleOrder[i], out ar)) 
                 {
-                    found = ar.TryApplyRule(pw, ref pos, firstPart, secondPart);
+                    found = ar.TryApplyRule(pw, ref pos, firstPart, secondPart, conf);
                 }
                 else
                 {

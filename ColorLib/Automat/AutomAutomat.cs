@@ -506,7 +506,12 @@ namespace ColorLib
             return sb.ToString();
         }
 
-		public void FindPhons(PhonWord pw)
+		/// <summary>
+		/// Cherche les phonèmes dans <c>pw</c> et les complète <c>pw</c> pour qu'il contienne l'information.
+		/// </summary>
+		/// <param name="pw">Le <see cref="PhonWord"/> à analyser et à compléter avec ses phonèmes.</param>
+		/// <param name="conf">La <see cref="Config"/> à utiliser au cours de cette analyse.</param>
+		public void FindPhons(PhonWord pw, Config conf)
 		{
 			Debug.Assert(pw != null);
 
@@ -518,12 +523,12 @@ namespace ColorLib
 			{
 				if (automLetters.TryGetValue(w[pos], out al))
 				{
-					al.FireRule(pw, ref pos);
+					al.FireRule(pw, ref pos, conf);
 				}
 				else if (automLetters.TryGetValue('*', out al))
 				{
 					// strange character encountered --> handle it as letter '*'
-					al.FireRule(pw, ref pos);
+					al.FireRule(pw, ref pos, conf);
 				} 
 				else
 				{

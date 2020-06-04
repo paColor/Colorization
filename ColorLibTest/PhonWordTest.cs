@@ -30,15 +30,16 @@ namespace ColorLibTest
 
         private void CheckTextVsSyls(string txt, string[] syls, bool std, bool ecrit)
         {
-            TheText tt = TheText.NewTestTheText(txt);
-            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            tt.GetConfig().sylConf.DoubleConsStd = std;
-            tt.GetConfig().sylConf.ModeEcrit = ecrit;
+            Config conf;
+            TheText tt = TheText.NewTestTheText(txt, out conf);
+            conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+            conf.sylConf.DoubleConsStd = std;
+            conf.sylConf.ModeEcrit = ecrit;
             List<PhonWord> pws = tt.GetPhonWords();
             foreach (PhonWord pw in pws)
-                pw.ComputeAndColorSyls();
+                pw.ComputeAndColorSyls(conf);
 
-            pws[0].ComputeAndColorSyls(); // doit résister à deux appels de la méthode
+            pws[0].ComputeAndColorSyls(conf); // doit résister à deux appels de la méthode
             for (int i = 0; i < syls.Length; i++)
             {
                 Console.WriteLine(pws[i].AllStringInfo());
@@ -52,21 +53,22 @@ namespace ColorLibTest
             TheText.Init();
             string txt = @"audacieux";
             string syllabe = "au-da-cieux";
-            TheText tt = TheText.NewTestTheText(txt);
-            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+            Config conf = new Config();
+            TheText tt = new TheText(txt, conf);
+            conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             List<PhonWord> pws = tt.GetPhonWords();
             foreach (PhonWord pw in pws)
-                pw.ComputeAndColorSyls();
+                pw.ComputeAndColorSyls(conf);
             Console.WriteLine(pws[0].AllStringInfo());
             Assert.AreEqual(syllabe, pws[0].Syllabes());
 
             txt = @"colorƨation";
             syllabe = "co-lo-rƨa-tion";
-            tt = TheText.NewTestTheText(txt);
-            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+            tt = new TheText(txt, conf);
+            conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             pws = tt.GetPhonWords();
             foreach (PhonWord pw in pws)
-                pw.ComputeAndColorSyls();
+                pw.ComputeAndColorSyls(conf);
             Console.WriteLine(pws[0].AllStringInfo());
             Assert.AreEqual(syllabe, pws[0].Syllabes());
         }
@@ -152,8 +154,9 @@ namespace ColorLibTest
 
             StringBuilder sb = new StringBuilder();
             TheText.Init();
-            TheText tt = TheText.NewTestTheText(txt);
-            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+            Config conf = new Config();
+            TheText tt = new TheText(txt, conf);
+            conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             List<PhonWord> pws = tt.GetPhonWords();
             int i = 0;
             int nrLines = pws.Count / wordsPerLine;
@@ -185,8 +188,9 @@ namespace ColorLibTest
 
         private void CheckTextVsPhons(string txt, string[] phons)
         {
-            TheText tt = TheText.NewTestTheText(txt);
-            tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+            Config conf = new Config();
+            TheText tt = new TheText(txt, conf);
+            conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             List<PhonWord> pws = tt.GetPhonWords();
             for (int i = 0; i < phons.Length; i++)
             {

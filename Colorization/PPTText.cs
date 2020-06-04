@@ -77,10 +77,10 @@ namespace Colorization
                 tRange.Font.Color.RGB = ColConfWin.predefinedColors[(int)PredefCols.black];
         }
 
-        protected override void SetChars(FormattedTextEl fte)
+        protected override void SetChars(FormattedTextEl fte, Config conf)
         {
             TextRange theChars = txtRange.Characters(fte.First + 1, fte.Last - fte.First + 1);
-            ApplyCFToRange(fte.cf, theChars, this.GetConfig());
+            ApplyCFToRange(fte.cf, theChars, conf);
         }
 
     } // class PPTText

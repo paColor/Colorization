@@ -30,39 +30,67 @@ namespace ColorLib
         private List<PhonInW> phons;
         private List<SylInW> syls;
         
-        public PhonWord(TheText inT, int inFirst, int inLast)
+        /// <summary>
+        /// Crée un <c>PhonWord</c>.
+        /// </summary>
+        /// <param name="inT">Le <see cref="TheText"/> sur le quel est construit le <c>PhonWord</c>.</param>
+        /// <param name="inFirst">La position de la première lettre (zero based) du mot dans le texte.</param>
+        /// <param name="inLast">La position de la dernière lettre du mot dans le texte.</param>
+        /// <param name="conf">La <see cref="Config"/> à utiliser pour la détection des phonèmes.</param>
+        public PhonWord(TheText inT, int inFirst, int inLast, Config conf)
             : base(inT, inFirst, inLast)
         {
             syls = null;
             phons = new List<PhonInW>((inLast - inFirst) + 1);
-            AutomAutomat.autom.FindPhons(this);
+            AutomAutomat.autom.FindPhons(this, conf);
         }
 
-        public PhonWord(Word w)
+        /// <summary>
+        /// Crée un <c>PhonWord</c> sur la base d'un <c>Word</c>.
+        /// </summary>
+        /// <param name="w">Le <c>Word</c> sur la base duquel le <c>PhonWord</c> doit être créé.</param>
+        /// <param name="conf">La <see cref="Config"/> à utiliser pour la détection des phonèmes.</param>
+        public PhonWord(Word w, Config conf)
             :base(w)
         {
             syls = null;
             phons = new List<PhonInW>((Last - First) + 1);
-            AutomAutomat.autom.FindPhons(this);
+            AutomAutomat.autom.FindPhons(this, conf);
         }
 
+        /// <summary>
+        /// Ajout un phonème (<see cref="PhonInW"/>) au <c>PhonWord</c>.
+        /// </summary>
+        /// <param name="piw">Le <see cref="PhonInW"/> à ajouter.</param>
         public void AddPhon(PhonInW piw)
         {
             phons.Add(piw);
             Debug.Assert(phons.Count <= GetWord().Length);
         }
-            
-        public void ColorPhons(PhonConfType pct)
+          
+        /// <summary>
+        /// Applique le formatage de phonèmes défini dans le <see cref="PhonConfType"/> <c>pct</c> de 
+        /// la <see cref="Config"/> <c>conf</c>. 
+        /// </summary>
+        /// <param name="conf">La <see cref="Config"/> à utiliser pour le formatage des phonèmes.</param>
+        /// <param name="pct">Le <see cref="PhonConfType"/> définissant s'il s'agit de la configuration pour
+        /// les phonèmes, les muettes, ...</param>
+        public void ColorPhons(Config conf, PhonConfType pct)
         {
             foreach (PhonInW piw in phons)
-                piw.PutColor(pct);
+                piw.PutColor(conf, pct);
         }
 
-        public void ComputeAndColorSyls()
+        /// <summary>
+        /// Calcule et formate les syllabes avec la <see cref="Config"/> donnée.
+        /// </summary>
+        /// <param name="conf">La <c>Config</c> à utiliser pour savoir quelles options sont choisies 
+        /// et le formatage à appliquer pour les syllabes.</param>
+        public void ComputeAndColorSyls(Config conf)
         {
             SylInW siw;
             int i, j;
-            SylConfig sylConfig = this.T.GetConfig().sylConf;
+            SylConfig sylConfig = conf.sylConf;
 
             // Algorithme de Marie-Pierre
             if (syls == null)
@@ -177,13 +205,13 @@ namespace ColorLib
 
             // Mettre les syllabes en couleur
             foreach(SylInW s in syls)
-                s.PutColor();
+                s.PutColor(conf);
 
             // si on est en mode écrit, marquer par-dessus les phonemes muets.
             if (sylConfig.ModeEcrit)
                 foreach(PhonInW piw in phons)
                     if (piw.EstMuet())
-                        piw.PutColor(PhonConfType.muettes);
+                        piw.PutColor(conf, PhonConfType.muettes);
         }
 
         // returns the phonetical representation of the PhonWord (notation from lexique.org)

@@ -176,9 +176,23 @@ namespace ColorLib
             return sb.ToString();
         }
 
-        public bool TryApplyRule (PhonWord pw, ref int pos, string firstPart, string secondPart)
+        /// <summary>
+        /// Essaye d'appliquer la règle pour <paramref name="pw"/> à la position <c>pos</c>. Si le filtre de la règle
+        /// le permet, la règle est appliquée et le phonème correspondant est ajouté à <c>pw</c>. Sinon, rien n'est
+        /// fait et <c>false est retourné</c>.
+        /// </summary>
+        /// <param name="pw">Le mot à analyser.</param>
+        /// <param name="pos">La position dans le mot (zeor based) de la lettre examinée.</param>
+        /// <param name="firstPart">La partie du texte qui précède la lettre dans le mot (les positions
+        /// 0 à pos -1.</param>
+        /// <param name="secondPart">La partie du texte qui suit la lettre dans le mot (les positions
+        /// pos + 1 à Length - 1.</param>
+        /// <param name="conf">La <see cref="Config"/> qui contient les paramètres concernant les flags à appliquer
+        /// à la règle.</param>
+        /// <returns><c>true</c> si la règle a été appliquée, <c>false</c> sinon.</returns>
+        public bool TryApplyRule (PhonWord pw, ref int pos, string firstPart, string secondPart, Config conf)
         {
-            bool found = pw.T.GetConfig().colors[PhonConfType.phonemes].GetFlag(flag) && rf.Check(pw, pos, firstPart, secondPart);
+            bool found = conf.colors[PhonConfType.phonemes].GetFlag(flag) && rf.Check(pw, pos, firstPart, secondPart);
             if (found) 
             {
                 PhonInW piw = new PhonInW(pw, pos, pos + incr - 1, p, RuleName);

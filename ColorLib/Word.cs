@@ -46,9 +46,10 @@ namespace ColorLib
         public char GetChar(int pos) => wordToLower[pos - First];
         // Retourne le caractère minuscule à la position pos dans le texte sous-jacent
 
-        public override void PutColor()
+
+        public override void PutColor(Config conf)
         {
-            base.SetCharFormat(this.T.GetConfig().sylConf.NextCF());
+            base.SetCharFormat(conf.sylConf.NextCF()); ;
         }
     }
 }

@@ -33,19 +33,30 @@ namespace ColorizationWord
 {
     public partial class WordRibbon
     {
-        private delegate void ActOnMSWText(MSWText t);
-        private delegate void ActOnRange(Range range, ActOnMSWText act);
+        /// <summary>
+        /// APplique un formatage au texte donné par <c>t</c> en utilisant la <c>Config</c> <c>conf</c>.
+        /// </summary>
+        /// <param name="t">Le texte à formater.</param>
+        /// <param name="conf">La <c>Config</c> à utiliser.</param>
+        private delegate void ActOnMSWText(MSWText t, Config conf);
+
+        /// <summary>
+        /// Applique la fonction <c>act</c> à <c>range</c> en utilisant la <c>Config</c> donnée.
+        /// </summary>
+        /// <param name="range">Le <c>Range</c> que l'on veut formater.</param>
+        /// <param name="act">La fonction que l'on veut appliquer.</param>
+        /// <param name="conf">La <c>Config</c> à utiliser.</param>
+        private delegate void ActOnRange(Range range, ActOnMSWText act, Config conf);
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private static void DummyActOnMSWText(MSWText t) {}
-        private static void MarkPhons(MSWText t) => t.ColorizePhons(PhonConfType.phonemes);
-        private static void MarkLetters(MSWText t) => t.MarkLetters();
-        private static void MarkSyls(MSWText t) => t.MarkSyls();
-        private static void MarkWords(MSWText t) => t.MarkWords();
-        private static void MarkMuettes(MSWText t) => t.MarkMuettes();
-        private static void MarkNoir(MSWText t) => t.MarkNoir();
-        private static void MarkVoyCons(MSWText t) => t.MarkVoyCons();
+        private static void MarkPhons(MSWText t, Config conf) => t.ColorizePhons(conf, PhonConfType.phonemes);
+        private static void MarkLetters(MSWText t, Config conf) => t.MarkLetters(conf);
+        private static void MarkSyls(MSWText t, Config conf) => t.MarkSyls(conf);
+        private static void MarkWords(MSWText t, Config conf) => t.MarkWords(conf);
+        private static void MarkMuettes(MSWText t, Config conf) => t.MarkMuettes(conf);
+        private static void MarkNoir(MSWText t, Config conf) => t.MarkNoir(conf);
+        private static void MarkVoyCons(MSWText t, Config conf) => t.MarkVoyCons(conf);
 
         public static void Init()
         {
@@ -61,67 +72,65 @@ namespace ColorizationWord
             ConfigControl.colDuoSelText = WordRibbon.ColorSelectedDuo;
         }
 
-        public static void ColorSelectedPhons()
+        public static void ColorSelectedPhons(Config conf)
         {
             logger.Info("ColorSelectedPhons");
-            ActOnSelectedText(MarkPhons, "Phonèmes", ActoOnRangeMSWText);
+            ActOnSelectedText(MarkPhons, "Phonèmes", ActoOnRangeMSWText, conf);
         }
 
-        public static void ColorSelectedLetters()
+        public static void ColorSelectedLetters(Config conf)
         {
             logger.Info("ColorSelectedLetters");
-            ActOnSelectedText(MarkLetters, "bpdq", ActoOnRangeMSWText);
+            ActOnSelectedText(MarkLetters, "bpdq", ActoOnRangeMSWText, conf);
         }
 
-        public static void ColorSelectedSyls()
+        public static void ColorSelectedSyls(Config conf)
         {
             logger.Info("ColorSelectedSyls");
-            ActOnSelectedText(MarkSyls, "Syllabes", ActoOnRangeMSWText);
+            ActOnSelectedText(MarkSyls, "Syllabes", ActoOnRangeMSWText, conf);
         }
 
-        public static void ColorSelectedWords()
+        public static void ColorSelectedWords(Config conf)
         {
             logger.Info("ColorSelectedWords");
-            ActOnSelectedText(MarkWords, "Mots", ActoOnRangeMSWText);
+            ActOnSelectedText(MarkWords, "Mots", ActoOnRangeMSWText, conf);
         }
 
-        public static void ColorSelectedMuettes()
+        public static void ColorSelectedMuettes(Config conf)
         {
             logger.Info("ColorSelectedMuettes");
-            ActOnSelectedText(MarkMuettes, "Muettes", ActoOnRangeMSWText);
+            ActOnSelectedText(MarkMuettes, "Muettes", ActoOnRangeMSWText, conf);
         }
 
-        public static void ColorSelectedNoir()
+        public static void ColorSelectedNoir(Config conf)
         {
             logger.Info("ColorSelectedNoir");
-            ActOnSelectedText(MarkNoir, "Noir", ActoOnRangeMSWText);
+            ActOnSelectedText(MarkNoir, "Noir", ActoOnRangeMSWText, conf);
         }
 
-        public static void ColorSelectedLignes()
+        public static void ColorSelectedLignes(Config conf)
         {
             logger.Info("ColorSelectedLignes");
-            ActOnSelectedText(null, "Lignes", MarkLignes);
+            ActOnSelectedText(null, "Lignes", MarkLignes, conf);
         }
 
-        public static void ColorSelectedVoyCons()
+        public static void ColorSelectedVoyCons(Config conf)
         {
             logger.Info("ColorSelectedVoyCons");
-            ActOnSelectedText(MarkVoyCons, "Voy-Cons", ActoOnRangeMSWText);
+            ActOnSelectedText(MarkVoyCons, "Voy-Cons", ActoOnRangeMSWText, conf);
         }
 
-        public static void ColorSelectedDuo()
+        public static void ColorSelectedDuo(Config conf)
         {
             logger.Info("ColorSelectedDuo");
-            ActOnSelectedText(null, "Lignes", MarkLignes);
+            ActOnSelectedText(null, "Lignes", MarkLignes, conf);
         }
 
 
-        private static void MarkLignes(Range range, ActOnMSWText act)
+        private static void MarkLignes(Range range, ActOnMSWText act, Config conf)
         {
             logger.ConditionalTrace("MarkLignes");
-            Window activeWin = ColorizationMSW.thisAddIn.Application.ActiveWindow;
-            Config theConf = Config.GetConfigFor(activeWin, activeWin.Document);
-            theConf.sylConf.ResetCounter();
+            conf.sylConf.ResetCounter();
             if (ColorizationMSW.thisAddIn.Application.ActiveWindow.View.Type == WdViewType.wdPrintView)
             {
                 // Cherchons tous les Rectangles de la feneêtre active et travaillons sur toutes les lignes
@@ -138,7 +147,7 @@ namespace ColorizationWord
                                 if (lineRange.InRange(range))
                                 {
                                     // the line is in the selected region
-                                    MSWText.ApplyCFToRange(theConf.sylConf.NextCF(), lineRange, theConf);
+                                    MSWText.ApplyCFToRange(conf.sylConf.NextCF(), lineRange, conf);
                                 }
                             }
                         }
@@ -152,22 +161,21 @@ namespace ColorizationWord
             }
         }
 
-        private static void ActoOnRangeMSWText (Range range, ActOnMSWText actOn)
+        private static void ActoOnRangeMSWText (Range range, ActOnMSWText actOn, Config conf)
         {
             logger.ConditionalTrace("ActoOnRangeMSWText");
-            Window activeWin = ColorizationMSW.thisAddIn.Application.ActiveWindow;
-            actOn(new MSWText(range, Config.GetConfigFor(activeWin, activeWin.Document)));
+            actOn(new MSWText(range, conf), conf);
         }
 
-        private static void ActOnShape(Shape sh, ActOnMSWText act, ActOnRange aor)
+        private static void ActOnShape(Shape sh, ActOnMSWText act, ActOnRange aor, Config conf)
         {
             logger.ConditionalTrace("ActOnShape");
             if (sh.TextFrame.HasText == (int)Microsoft.Office.Core.MsoTriState.msoTrue)
-                aor(sh.TextFrame.TextRange, act);    
+                aor(sh.TextFrame.TextRange, act, conf);    
 
             if (sh.Type == Microsoft.Office.Core.MsoShapeType.msoGroup)
                 foreach (Shape descSh in sh.GroupItems)
-                    ActOnShape(descSh, act, aor);
+                    ActOnShape(descSh, act, aor, conf);
         }
 
         /// <summary>
@@ -178,7 +186,7 @@ namespace ColorizationWord
         /// sur la lsite des actions qu'il peut annuler.</param>
         /// <param name="aor">L'action à effectuer sur les <c>ranges identifiés</c>. Typiquement il s'agit soit de 
         /// l'action standard <c>ActoOnRangeMSWText</c> ou d'une action particulière pour une commande spéciale.</param>
-        private static void ActOnSelectedText(ActOnMSWText act, string undoTxt, ActOnRange aor)
+        private static void ActOnSelectedText(ActOnMSWText act, string undoTxt, ActOnRange aor, Config conf)
         {
             logger.ConditionalTrace("ActOnSelectedText");
             if (ColorizationMSW.thisAddIn.Application.Documents.Count > 0)
@@ -198,19 +206,19 @@ namespace ColorizationWord
                         break;
                     case WdSelectionType.wdSelectionFrame:
                         foreach (Frame f in sel.Frames)
-                            aor(f.Range, act);
+                            aor(f.Range, act, conf);
                         break;
                     case WdSelectionType.wdSelectionShape:
                         foreach (Shape sh in sel.ShapeRange)
-                            ActOnShape(sh, act, aor);
+                            ActOnShape(sh, act, aor, conf);
                         break;
                     case WdSelectionType.wdSelectionColumn:
                     case WdSelectionType.wdSelectionRow:
                     case WdSelectionType.wdSelectionBlock:
                     case WdSelectionType.wdSelectionNormal:
-                        aor(sel.Range, act);
+                        aor(sel.Range, act, conf);
                         foreach (Shape sh in sel.Range.ShapeRange)
-                            ActOnShape(sh, act, aor);
+                            ActOnShape(sh, act, aor, conf);
                         break;
                     default:
                         throw new ArgumentException(String.Format("Type de sélection non traitée: {0}", sel.Type.ToString()));
@@ -272,52 +280,64 @@ namespace ColorizationWord
             }
         }
 
+        private Config GetConfigForActiveWindow()
+        {
+            Window activeWin = ColorizationMSW.thisAddIn.Application.ActiveWindow;
+            return Config.GetConfigFor(activeWin, activeWin.Document);
+        }
+
         private void btnPhonemes_Click(object sender, RibbonControlEventArgs e)
         {
             logger.ConditionalTrace("btnPhonemes_Click");
-            ColorSelectedPhons(); ;
+            ColorSelectedPhons(GetConfigForActiveWindow()); ;
         }
 
         private void btnBDPQ_Click(object sender, RibbonControlEventArgs e)
         {
             logger.ConditionalTrace("btnBDPQ_Click");
-            ColorSelectedLetters();
+            ColorSelectedLetters(GetConfigForActiveWindow());
         }
 
         private void btnSyl_Click(object sender, RibbonControlEventArgs e)
         {
             logger.ConditionalTrace("btnSyl_Click");
-            ColorSelectedSyls();
+            ColorSelectedSyls(GetConfigForActiveWindow());
         }
 
         private void btnMots_Click(object sender, RibbonControlEventArgs e)
         {
             logger.ConditionalTrace("btnMots_Click");
-            ColorSelectedWords();
+            ColorSelectedWords(GetConfigForActiveWindow());
         }
 
         private void btnMuettes_Click(object sender, RibbonControlEventArgs e)
         {
             logger.ConditionalTrace("btnMuettes_Click");
-            ColorSelectedMuettes();
+            ColorSelectedMuettes(GetConfigForActiveWindow());
         }
 
         private void btnNoir_Click(object sender, RibbonControlEventArgs e)
         {
             logger.ConditionalTrace("btnNoir_Click");
-            ColorSelectedNoir();
+            ColorSelectedNoir(GetConfigForActiveWindow());
         }
 
         private void btnLignes_Click(object sender, RibbonControlEventArgs e)
         {
             logger.ConditionalTrace("btnLignes_Click");
-            ColorSelectedLignes();
+            ColorSelectedLignes(GetConfigForActiveWindow());
         }
 
         private void btnVoyCons_Click(object sender, RibbonControlEventArgs e)
         {
             logger.ConditionalTrace("btnVoyCons_Click");
-            ColorSelectedVoyCons();
+            ColorSelectedVoyCons(GetConfigForActiveWindow());
+        }
+
+        private void btnDuo_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalTrace("btnDuo_Click");
+            ColorSelectedDuo(GetConfigForActiveWindow());
         }
 
         private void grpDialogLauncher_Click(object sender, RibbonControlEventArgs e)
@@ -329,12 +349,6 @@ namespace ColorizationWord
                 ConfigPane.MakePaneVisibleInWin(activeWin, activeWin.Document, ColorizationMSW.thisAddIn.CustomTaskPanes,
                     typeof(ColorizationMSW).Assembly.GetName().Version.ToString());
             }
-        }
-
-        private void btnDuo_Click(object sender, RibbonControlEventArgs e)
-        {
-            logger.ConditionalTrace("btnDuo_Click");
-            ColorSelectedDuo();
         }
     }
 }

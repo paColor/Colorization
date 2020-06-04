@@ -63,15 +63,26 @@ namespace ColorLib
             return T.S.Substring(First, (Last - First) + 1);
         }
 
+        /// <summary>
+        /// Crée le <see cref="FormattedTextEl"/> correspondant au <c>TextEl</c> <c>this</c> et
+        /// au <see cref="CharFormatting"/> <paramref name="cf"/>.
+        /// </summary>
+        /// <param name="cf">Le <see cref="CharFormatting"/> à utiliser pour ce <c>TextEl</c></param>
         protected void SetCharFormat(CharFormatting cf)
         {
             FormattedTextEl cte = new FormattedTextEl(this, cf);
             T.Formats.Add(cte);
         }
 
-        public virtual void PutColor()
-            // Colorize les caractères 
+        /// <summary>
+        /// Applique le formatage voulu par <paramref name="conf"/> à l'élément de texte.
+        /// Par défaut le formatage est neutre, mais les héritiers sont invités à changer
+        /// ce comportement.
+        /// </summary>
+        /// <param name="conf">La <see cref="Config"/> à utiliser pour le formatage.</param>
+        public virtual void PutColor(Config conf)
         {
+
             SetCharFormat(new CharFormatting());
         }
 

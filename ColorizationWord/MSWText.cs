@@ -136,10 +136,10 @@ namespace ColorizationWord
             //MessageBox.Show(sb.ToString());
         }
 
-        protected override void SetChars(FormattedTextEl fte)
+        protected override void SetChars(FormattedTextEl fte, Config conf)
         {
             rgeWork.SetRange(rgStart + fte.First, rgStart + fte.Last + 1); // End pointe sur le caractère qui suit le range...
-            ApplyCFToRange(fte.cf, rgeWork, this.GetConfig());
+            ApplyCFToRange(fte.cf, rgeWork, conf);
         } 
 
         private static string GetStringFor(Range rge)

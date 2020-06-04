@@ -57,9 +57,6 @@ namespace ColorLib
     /// analysis algorithm.
     /// </para>
     /// <para>
-    /// 
-    /// </para>
-    /// <para>
     /// The idea is that the inheriting class is created with a <c>string</c> and a <c>Config</c> (see the constructor
     /// <see cref="TheText(string, Config)"/>). Once this is done, 
     /// different methods make it possible to apply some kind of formatting to the text. This formatting is applied
@@ -83,14 +80,14 @@ namespace ColorLib
         public string S { get; private set; }
 
         /// <summary>
-        /// List of the elements whose formatting must be changed
+        /// List of the elements whose formatting must be changed. The result of the operation. 
         /// </summary>
         public List<FormattedTextEl> Formats { get; private set; }
 
 
-        private List<Word> words;
-        private List<PhonWord> phonWords;
-        private Config theConf;
+        private List<Word> words; // List of the words in TheText (computed when needed)
+        private List<PhonWord> phonWords; // The corresponding PhonWords (computed when needed).
+        private Config theConf; // the Config to apply to TheText. Defined at creation time.
 
         /// <summary>
         /// Initializes the static elements of the whole <c>ColorLib</c> library. Must be called befor any
@@ -108,12 +105,25 @@ namespace ColorLib
         /// For test purposes: creates a <c>TheText</c> with the passed <c>string</c> and a default <c>Config</c>.
         /// </summary>
         /// <param name="s">The text that must be handled.</param>
+        /// <param name="conf">The <c>Config</c> that will be applied for <c>TheText</c>.</param>
         /// <returns>A new <c>TheText</c>.</returns>
-        public static TheText NewTestTheText(string s)
+        public static TheText NewTestTheText(string s, out Config conf)
             // retourne un nouvel objet "TheText" avec une config par défaut
         {
-            Config c = new Config();
-            return new TheText(s, c);
+            conf = new Config();
+            return new TheText(s, conf);
+        }
+
+        /// <summary>
+        /// For test purposes: creates a <c>TheText</c> with the passed <c>string</c> and a default <c>Config</c>.
+        /// </summary>
+        /// <param name="s">The text that must be handled.</param>
+        /// <returns>A new <c>TheText</c>.</returns>
+        public static TheText NewTestTheText(string s)
+        // retourne un nouvel objet "TheText" avec une config par défaut
+        {
+            Config conf = new Config();
+            return new TheText(s, conf);
         }
 
         /// <summary>
@@ -146,7 +156,7 @@ namespace ColorLib
         /// </summary>
         /// <remarks>Is not needed by a normal consumer of the class.</remarks>
         /// <returns>List of <c>Words</c> contained in the text</returns>
-        public List<Word> GetWords()
+        private List<Word> GetWords()
             // public for test reasons
         {
             if (words == null)
@@ -159,13 +169,20 @@ namespace ColorLib
                     int beg = match.Index;
                     int end = beg + match.Length - 1;
 
-                    // Apostrophes: On considère comm apostrophes, les caractères ' ou ’ placé après une ou deux lettres.
+                    // Apostrophes: On considère comme apostrophes, les caractères ' ou ’ placé après une ou deux lettres.
                     // Cela couvre les formes élidées de le, que, ce, te... Y en  a-t-il d'autres?
-                    // Il peut y avaoir confusion avec le guillemet simple. Tant pis!
+                    // Il peut y avoir confusion avec le guillemet simple. Tant pis!
+                    // Le mot est allongé pour contenir l'apostrophe comme dernière lettre.
                     if ((match.Length <= 2) && (end + 1 < S.Length) && ((S[end + 1] == '\'') || (S[end + 1] == '’')))
                     {
                         end++;
                     }
+
+                    // Pour le traitement des syllabes, il peut y avoir un sens à fusionner le mot avec apostrophe
+                    // avec son successeur. ("l'" ne forme pas vraiment une syllabe indépendante...). Si on décide 
+                    // de le faire, ça pourrait assez facilement être ici, avant la création du nouveau mot pour
+                    // le successeur.
+
                     Word w = new Word(this, beg, end);
                     words.Add(w);
                 }
@@ -176,9 +193,20 @@ namespace ColorLib
         /// <summary>
         /// Returns the list of <c>PhonWords</c> contained in the text.
         /// </summary>
-        /// /// <remarks>Is not needed by a normal consumer of the class.</remarks>
+        /// <remarks>Is not needed by a normal consumer of the class and should only be used fror testing.</remarks>
         /// <returns>List of <c>PhonWords</c> contained in the text.</returns>
         public List<PhonWord> GetPhonWords()
+        // public for test reasons
+        {
+            return GetPhonWords(theConf);
+        }
+
+        /// <summary>
+        /// Returns the list of <c>PhonWords</c> contained in the text.
+        /// </summary>
+        /// <param name="conf">The <see cref="Config"/> to use for the detection of the "phonèmes".</param>
+        /// <returns>List of <c>PhonWords</c> contained in the text.</returns>
+        private List<PhonWord> GetPhonWords(Config conf)
             // public for test reasons
         {
             if (phonWords == null)
@@ -186,16 +214,10 @@ namespace ColorLib
                 List<Word> theWords = GetWords();
                 phonWords = new List<PhonWord>(theWords.Count);
                 foreach (Word w in theWords)
-                    phonWords.Add(new PhonWord(w));
+                    phonWords.Add(new PhonWord(w, conf));
             }
             return phonWords;
         }
-
-        /// <summary>
-        /// Returns the <c>Config</c> used to format the given text.
-        /// </summary>
-        /// <returns>The <c>Config</c> used to format the text.</returns>
-        public Config GetConfig() => theConf;
 
         /// <summary>
         /// Applies the formattings defined in the <c>ColConfWin</c> identified by <paramref name="pct"/> to the 
@@ -206,10 +228,23 @@ namespace ColorLib
         /// be used when coloring the "phonèmes".</param>
         public void ColorizePhons(PhonConfType pct)
         {
-            List<PhonWord> pws = GetPhonWords();
+            ColorizePhons(theConf, pct);
+        }
+
+        /// <summary>
+        /// Applies the formattings defined in the <c>ColConfWin</c> identified by <paramref name="conf"/> and 
+        /// <paramref name="pct"/> to the 
+        /// "phonèmes" in the text. I.e. fills <c>Formats</c> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
+        /// <param name="pct">Identifies the <c>ColConfWin</c> (see <see cref="ColorLib.ColConfWin"/>) that msut
+        /// be used when coloring the "phonèmes".</param>
+        public void ColorizePhons(Config conf, PhonConfType pct)
+        {
+            List<PhonWord> pws = GetPhonWords(conf);
             foreach (PhonWord pw in pws)
-                pw.ColorPhons(pct);
-            ApplyFormatting();
+                pw.ColorPhons(conf, pct);
+            ApplyFormatting(conf);
         }
 
         /// <summary>
@@ -219,13 +254,24 @@ namespace ColorLib
         /// </summary>
         public void MarkLetters()
         {
+            MarkLetters(theConf);
+        }
+
+        /// <summary>
+        /// Colors the letters in the text, according to the <see cref="PBDQConfig"/> <c>conf</c>,
+        ///i.e. fills <see cref="Formats"/>and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
+        /// <param name="conf">The <see cref="Config"/> that must be used for marking the letters.</param>
+        public void MarkLetters(Config conf)
+        {
             for (int i = 0; i < S.Length; i++)
             {
-                CharFormatting cf = theConf.pBDQ.GetCfForPBDQLetter(S[i]);
+                CharFormatting cf = conf.pBDQ.GetCfForPBDQLetter(S[i]);
                 if (cf != null)
                     Formats.Add(new FormattedTextEl(this, i, i, cf));
             }
-            ApplyFormatting();
+            ApplyFormatting(conf);
         }
 
         /// <summary>
@@ -235,11 +281,22 @@ namespace ColorLib
         /// </summary>
         public void MarkSyls()
         {
-            theConf.sylConf.ResetCounter();
-            List<PhonWord> pws = GetPhonWords();
+            MarkSyls(theConf);
+        }
+
+        /// <summary>
+        /// Colors the "syllabes" in the text, according to the <see cref="SylConfig"/> attached to <c>conf</c>,
+        /// i.e. fills <see cref="Formats"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
+        /// <param name="conf">The <see cref="Config"/> to be used for marking the "syllabes".</param>
+        public void MarkSyls(Config conf)
+        {
+            conf.sylConf.ResetCounter();
+            List<PhonWord> pws = GetPhonWords(conf);
             foreach (PhonWord pw in pws)
-                pw.ComputeAndColorSyls();
-            ApplyFormatting();
+                pw.ComputeAndColorSyls(conf);
+            ApplyFormatting(conf);
         }
 
         /// <summary>
@@ -249,11 +306,22 @@ namespace ColorLib
         /// </summary>
         public void MarkWords()
         {
-            theConf.sylConf.ResetCounter();
+            MarkWords(theConf);
+        }
+
+        /// <summary>
+        /// Colors the "words" in the text, according to the <see cref="SylConfig"/> attached to <c>conf</c>, 
+        /// i.e. fills <see cref="Formats"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
+        /// <param name="conf">The <see cref="Config"/> to be used for marking the words.</param>
+        public void MarkWords(Config conf)
+        {
+            conf.sylConf.ResetCounter();
             List<Word> theWords = GetWords();
             foreach (Word w in theWords)
-                w.PutColor();
-            ApplyFormatting();
+                w.PutColor(conf);
+            ApplyFormatting(conf);
         }
 
         /// <summary>
@@ -264,8 +332,20 @@ namespace ColorLib
         /// </summary>
         public void MarkMuettes()
         {
-            ColorizePhons(PhonConfType.muettes);
-            ApplyFormatting();
+            MarkMuettes(theConf);
+        }
+
+        /// <summary>
+        /// Colors the "unspoken letters" (muettes :-)) in the text, according to the <see cref="ColConfWin"/> 
+        /// corresponding to <c>pct == PhonConfType.muettes</c> attached to <c>conf</c>, i.e. fills
+        /// <see cref="Formats"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
+        /// <param name="conf"></param>
+        public void MarkMuettes(Config conf)
+        {
+            ColorizePhons(conf, PhonConfType.muettes);
+            ApplyFormatting(conf);
         }
 
         /// <summary>
@@ -275,9 +355,20 @@ namespace ColorLib
         /// </summary>
         public void MarkVoyCons()
         {
-            theConf.sylConf.ResetCounter();
-            CharFormatting voyCF = theConf.sylConf.NextCF();
-            CharFormatting consCF = theConf.sylConf.NextCF();
+            MarkVoyCons(theConf);
+        }
+
+
+        /// <summary>
+        /// Colors the "voyelles" and "consonnes" in the text, according to the alternate colors defined in the <see cref="SylConfig"/>
+        /// attached to <c>conf</c>, i.e. fills <see cref="Formats"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
+        public void MarkVoyCons(Config conf)
+        {
+            conf.sylConf.ResetCounter();
+            CharFormatting voyCF = conf.sylConf.NextCF();
+            CharFormatting consCF = conf.sylConf.NextCF();
             int start, end; 
             int i = 0;
             string smallCapsS = S.ToLower(BaseConfig.cultF);
@@ -304,7 +395,7 @@ namespace ColorLib
                 else
                     i++;
             }
-            ApplyFormatting();
+            ApplyFormatting(conf);
         }
 
         /// <summary>
@@ -312,9 +403,18 @@ namespace ColorLib
         /// </summary>
         public void MarkNoir() 
         {
+            MarkNoir(theConf);
+        }
+
+        /// <summary>
+        /// Forces the text to black color and no bold, italic, underline, ... formatting.
+        /// </summary>
+        /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
+        public void MarkNoir(Config conf)
+        {
             CFForceBlack cfFB = new CFForceBlack();
-            Formats.Add(new FormattedTextEl(this, 0, S.Length-1, cfFB));
-            ApplyFormatting();
+            Formats.Add(new FormattedTextEl(this, 0, S.Length - 1, cfFB));
+            ApplyFormatting(conf);
         }
 
         /// <summary>
@@ -331,11 +431,15 @@ namespace ColorLib
         /// </remarks>
         /// </summary>
         /// <param name="fte">The <see cref="FormattedTextEl"/> that should be formatted on the output device.</param>
-        protected virtual void SetChars(FormattedTextEl fte) { }
+        /// <param name="conf">The <see cref="Config"/> that must be used for the formating.</param>
+        protected virtual void SetChars(FormattedTextEl fte, Config conf) 
+        {
+            Debug.Assert(false);
+        }
         
-        protected void ApplyFormatting() {
+        protected void ApplyFormatting(Config conf) {
             foreach (FormattedTextEl fte in Formats)
-                SetChars(fte);
+                SetChars(fte, conf);
         }
     }
 }

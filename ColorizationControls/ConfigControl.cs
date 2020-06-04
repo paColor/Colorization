@@ -35,19 +35,20 @@ namespace ColorizationControls
 {
     public delegate bool ReturnCheckBoxValue(string cbuName);
     public delegate void CheckBoxChecked(string cbuName, bool val);
+    public delegate void ExecuteCommand(Config conf);
 
     public partial class ConfigControl : UserControl
     {
         // on aurait pu régler ça avec des évènements si on aviat maîtrisé le concept à cette époque...
-        public static ExecuteTask colSylSelLetters { set; private get; }
-        public static ExecuteTask colMotsSelLetters { set; private get; }
-        public static ExecuteTask colLignesSelText { set; private get; }
-        public static ExecuteTask colVoyConsSelText { set; private get; }
-        public static ExecuteTask colNoirSelText { set; private get; }
-        public static ExecuteTask colorizeAllSelPhons { set; private get; }
-        public static ExecuteTask colMuettesSelText { set; private get; }
-        public static ExecuteTask markSelLetters { set; private get; }
-        public static ExecuteTask colDuoSelText { set; private get; }
+        public static ExecuteCommand colSylSelLetters { set; private get; }
+        public static ExecuteCommand colMotsSelLetters { set; private get; }
+        public static ExecuteCommand colLignesSelText { set; private get; }
+        public static ExecuteCommand colVoyConsSelText { set; private get; }
+        public static ExecuteCommand colNoirSelText { set; private get; }
+        public static ExecuteCommand colorizeAllSelPhons { set; private get; }
+        public static ExecuteCommand colMuettesSelText { set; private get; }
+        public static ExecuteCommand markSelLetters { set; private get; }
+        public static ExecuteCommand colDuoSelText { set; private get; }
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -595,11 +596,11 @@ namespace ColorizationControls
             logger.ConditionalTrace("btcPhons_Click");
             if (pct == PhonConfType.phonemes)
             {
-                colorizeAllSelPhons();
+                colorizeAllSelPhons(theConf);
             }
             else
             {
-                colMuettesSelText();
+                colMuettesSelText(theConf);
             }
         }
 
@@ -683,7 +684,7 @@ namespace ColorizationControls
         private void btcLbpdq_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btcLbpdq_Click");
-            markSelLetters();
+            markSelLetters(theConf);
         }
 
         private void LetterButtonModified(object sender, LetterButtonModifiedEventArgs e)
@@ -797,31 +798,31 @@ namespace ColorizationControls
         private void btSAppliquer_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btSAppliquer_Click");
-            colSylSelLetters();
+            colSylSelLetters(theConf);
         }
 
         private void btSMots_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btSMots_Click");
-            colMotsSelLetters();
+            colMotsSelLetters(theConf);
         }
 
         private void btZeLignes_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btZeLignes_Click");
-            colLignesSelText();
+            colLignesSelText(theConf);
         }
 
         private void btSVoyCons_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btSVoyCons_Click");
-            colVoyConsSelText();
+            colVoyConsSelText(theConf);
         }
 
         private void btcLNoir_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("btcLNoir_Click");
-            colNoirSelText();
+            colNoirSelText(theConf);
         }
 
         private void btcInitSyls_Click(object sender, EventArgs e)
@@ -872,7 +873,7 @@ namespace ColorizationControls
         private void butExecuteDuo_Click(object sender, EventArgs e)
         {
             logger.ConditionalTrace("butExecuteDuo_Click");
-            colDuoSelText();
+            colDuoSelText(theConf);
         }
 
         //--------------------------------------------------------------------------------------------

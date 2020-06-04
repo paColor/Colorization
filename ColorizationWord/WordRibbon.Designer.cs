@@ -48,8 +48,8 @@
             this.btnBPDQ = this.Factory.CreateRibbonButton();
             this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.btnVoyCons = this.Factory.CreateRibbonButton();
-            this.btnNoir = this.Factory.CreateRibbonButton();
             this.btnDuo = this.Factory.CreateRibbonButton();
+            this.btnNoir = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.buttonGroup3.SuspendLayout();
@@ -175,17 +175,6 @@
             this.btnVoyCons.SuperTip = "Colorise les voyelles et les consonnes dans le texte sélectionné";
             this.btnVoyCons.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnVoyCons_Click);
             // 
-            // btnNoir
-            // 
-            this.btnNoir.Image = global::ColorizationWord.Properties.Resources.black_26;
-            this.btnNoir.Label = "Noir";
-            this.btnNoir.Name = "btnNoir";
-            this.btnNoir.ScreenTip = "Noir";
-            this.btnNoir.ShowImage = true;
-            this.btnNoir.ShowLabel = false;
-            this.btnNoir.SuperTip = "Met le texte sélectionné en noir, sans gras, italique ou souligné.";
-            this.btnNoir.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNoir_Click);
-            // 
             // btnDuo
             // 
             this.btnDuo.Image = global::ColorizationWord.Properties.Resources._2_16;
@@ -196,6 +185,17 @@
             this.btnDuo.ShowLabel = false;
             this.btnDuo.SuperTip = "Le texte sélectionné est formaté en alternance pour deux lecteurs.";
             this.btnDuo.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDuo_Click);
+            // 
+            // btnNoir
+            // 
+            this.btnNoir.Image = global::ColorizationWord.Properties.Resources.black_26;
+            this.btnNoir.Label = "Noir";
+            this.btnNoir.Name = "btnNoir";
+            this.btnNoir.ScreenTip = "Noir";
+            this.btnNoir.ShowImage = true;
+            this.btnNoir.ShowLabel = false;
+            this.btnNoir.SuperTip = "Met le texte sélectionné en noir, sans gras, italique ou souligné.";
+            this.btnNoir.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNoir_Click);
             // 
             // WordRibbon
             // 

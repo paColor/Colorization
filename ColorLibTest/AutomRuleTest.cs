@@ -128,11 +128,15 @@ namespace ColorLibTest
 
             AutomRule.InitAutomat();
 
+            TheText.Init();
+            Config conf = new Config();
+
+
             // ****************************** TEST 1 **************************************
             tstAR = @"'chr':[{'+':/hr/i},'k',2] // de chrétien à synchronisé";
             pos = 0;
             ar = new AutomRule(tstAR, ref pos, vRN);
-            tt = TheText.NewTestTheText("chrétien, synchronisé, chien, apache, roch, rocher, cornichon");
+            tt = new TheText("chrétien, synchronisé, chien, apache, roch, rocher, cornichon", conf);
             pws = tt.GetPhonWords();
             foreach (PhonWord pw in pws)
                 pw.ClearPhons();
@@ -140,7 +144,7 @@ namespace ColorLibTest
             // chrétien
             wordI = 0;
             pos = 0;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsTrue(result);
             Assert.AreEqual(2, pos);
             Assert.AreEqual("k", pws[wordI].Phonetique());
@@ -148,7 +152,7 @@ namespace ColorLibTest
             // synchronisé
             wordI = 1;
             pos = 3;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsTrue(result);
             Assert.AreEqual(5, pos);
             Assert.AreEqual("k", pws[wordI].Phonetique());
@@ -156,7 +160,7 @@ namespace ColorLibTest
             // chien
             wordI = 2;
             pos = 0;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(0, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());
@@ -164,7 +168,7 @@ namespace ColorLibTest
             // apache
             wordI = 3;
             pos = 3;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(3, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());
@@ -172,7 +176,7 @@ namespace ColorLibTest
             // roch
             wordI = 4;
             pos = 2;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(2, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());
@@ -180,7 +184,7 @@ namespace ColorLibTest
             // rocher
             wordI = 5;
             pos = 2;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(2, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());
@@ -188,7 +192,7 @@ namespace ColorLibTest
             // cornichon
             wordI = 6;
             pos = 5;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(5, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());
@@ -199,7 +203,7 @@ namespace ColorLibTest
             tstAR = @"'in':[{'+':/i[nm]([bcçdfghjklnmpqrstvwxz]|$)/i},'e_tilda',3] // toute succession 'ein' 'eim' suivie d'une consonne ou d'une fin de mot";
             pos = 0;
             ar = new AutomRule(tstAR, ref pos, vRN);
-            tt = TheText.NewTestTheText("plein, geindre, weimarienne, astreignant, atteint, autoneige, palme");
+            tt = new TheText("plein, geindre, weimarienne, astreignant, atteint, autoneige, palme", conf);
             pws = tt.GetPhonWords();
             foreach (PhonWord pw in pws)
                 pw.ClearPhons();
@@ -207,7 +211,7 @@ namespace ColorLibTest
             // plein
             wordI = 0;
             pos = 2;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsTrue(result);
             Assert.AreEqual(5, pos);
             Assert.AreEqual("5", pws[wordI].Phonetique());
@@ -215,7 +219,7 @@ namespace ColorLibTest
             // geindre
             wordI = 1;
             pos = 1;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsTrue(result);
             Assert.AreEqual(4, pos);
             Assert.AreEqual("5", pws[wordI].Phonetique());
@@ -223,7 +227,7 @@ namespace ColorLibTest
             // weimarienne
             wordI = 2;
             pos = 1;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(1, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());
@@ -231,7 +235,7 @@ namespace ColorLibTest
             // astreignant
             wordI = 3;
             pos = 4;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(4, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());
@@ -239,7 +243,7 @@ namespace ColorLibTest
             // atteint
             wordI = 4;
             pos = 3;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsTrue(result);
             Assert.AreEqual(6, pos);
             Assert.AreEqual("5", pws[wordI].Phonetique());
@@ -247,7 +251,7 @@ namespace ColorLibTest
             // autoneige
             wordI = 5;
             pos = 5;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(5, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());
@@ -255,7 +259,7 @@ namespace ColorLibTest
             // palme
             wordI = 6;
             pos = 4;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(4, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());
@@ -264,7 +268,7 @@ namespace ColorLibTest
             tstAR = @"'_ent':[this.Regle_mots_ent,'a_tilda',2] // quelques mots (adverbes ou noms) terminés par ent";
             pos = 0;
             ar = new AutomRule(tstAR, ref pos, vRN);
-            tt = TheText.NewTestTheText("indécent, triment, palme");
+            tt = new TheText("indécent, triment, palme", conf);
             pws = tt.GetPhonWords();
             foreach (PhonWord pw in pws)
                 pw.ClearPhons();
@@ -272,7 +276,7 @@ namespace ColorLibTest
             // indécent
             wordI = 0;
             pos = 5;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsTrue(result);
             Assert.AreEqual(7, pos);
             Assert.AreEqual("@", pws[wordI].Phonetique());
@@ -280,7 +284,7 @@ namespace ColorLibTest
             // indécent
             wordI = 0;
             pos = 3;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(3, pos);
             Assert.AreEqual("@", pws[wordI].Phonetique()); // @ reste du test précédent. Rien ne lui est ajouté...
@@ -288,7 +292,7 @@ namespace ColorLibTest
             // triment
             wordI = 1;
             pos = 4;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(4, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());
@@ -296,7 +300,7 @@ namespace ColorLibTest
             // palme
             wordI = 2;
             pos = 4;
-            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos));
+            result = ar.TryApplyRule(pws[wordI], ref pos, FP(pws[wordI], pos), SP(pws[wordI], pos), conf);
             Assert.IsFalse(result);
             Assert.AreEqual(4, pos);
             Assert.AreEqual("", pws[wordI].Phonetique());

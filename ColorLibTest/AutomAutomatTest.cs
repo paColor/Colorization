@@ -103,10 +103,11 @@ namespace ColorLibTest
 
 			TheText.Init();
 
+			Config conf;
 			tt = TheText.NewTestTheText(@"briefing, berlingot, sapin, imbécile, limbe, afin, prier, ville, paille, triage,
-                               appartient, amplifient, glorifient, avec, franc, spray, abbaye");
+                               appartient, amplifient, glorifient, avec, franc, spray, abbaye", out conf);
 
-			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+			conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
 
 			pws = tt.GetPhonWords();
 
@@ -137,11 +138,11 @@ namespace ColorLibTest
 			List<PhonWord> pws;
 
 			TheText.Init();
-
+			Config conf;
 			tt = TheText.NewTestTheText(@"bredouilla, ouest, bled, blé, caïd, vieux. oeuf, wapiti, kiwi, weimar, wurst, noix, royal,
-							   poissons, australopithèque");
+							   poissons, australopithèque", out conf);
 
-			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+			conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
 
 			pws = tt.GetPhonWords();
 
@@ -164,8 +165,9 @@ namespace ColorLibTest
 
 		private void CheckTextVsPhonetique(string txt, string[] phons, ColConfWin.IllRule ill)
 		{
-			TheText tt = TheText.NewTestTheText(txt);
-			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ill;
+			Config conf;
+			TheText tt = TheText.NewTestTheText(txt, out conf);
+			conf.colors[PhonConfType.phonemes].IllRuleToUse = ill;
 			List<PhonWord> pws = tt.GetPhonWords();
 			for (int i = 0; i < phons.Length; i++)
 			{
@@ -207,7 +209,7 @@ namespace ColorLibTest
 
 			TheText.Init();
 
-
+			Config conf;
 			tt = TheText.NewTestTheText(
 				@"ayons, balaya, ayatollah, kayac, tokay, mayonnaise, fayot, maya, himalaya, crayeux, paresse, abesses,
 				  dilemme, impeccable, chevrier, caramels, bedonnant, faisons, affaisseraient, refaisaient, tranquille,
@@ -215,10 +217,11 @@ namespace ColorLibTest
 				  tranquillos, désillusionné, distiller, illogisme, illustraient, illégalement, illumineront, imbécillité,
 				  instillassiez, millésime, millionnaire, multimilliardaires, multimillionnaire, villégiature, villageoises,
 				  villa,
-				  examen, minoen, gastroentérologue, électroencéphalographie"
+				  examen, minoen, gastroentérologue, électroencéphalographie",
+				out conf
 			);
 
-			tt.GetConfig().colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.ceras;
+			conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.ceras;
 
 			string[] phonetique = new string[]
 			{
