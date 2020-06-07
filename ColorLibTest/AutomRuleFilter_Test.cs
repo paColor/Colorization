@@ -345,8 +345,8 @@ namespace ColorLibTest
             tstRFS = @"{'+':/(ur|ag|isi|estp|ei)/i}";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("l'automne et les Violons", conf);
-            pws = tt.GetPhonWords();
+            tt = new TheText("l'automne et les Violons");
+            pws = tt.GetPhonWords(conf);
             for (int i=0; i<limit; i++)
             {
                 pos = 3;
@@ -383,8 +383,8 @@ namespace ColorLibTest
             pos = 0;
             arf5 = new AutomRuleFilter(tstRFS5, ref pos);
 
-            tt = new TheText("l'automne et les Violons", conf);
-            pws = tt.GetPhonWords();
+            tt = new TheText("l'automne et les Violons");
+            pws = tt.GetPhonWords(conf);
 
             for (int i = 0; i < limit; i++)
             {
@@ -447,7 +447,7 @@ namespace ColorLibTest
             tstRFS = @"{ '+':/$/ i, '-':/ ^/ i }";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("l'automne et les Violons", conf);
+            tt = new TheText("l'automne et les Violons");
             pw = new PhonWord(tt, 0, 0, conf); // "l"
             Assert.IsTrue(arf.Check(pw, 0, "", ""));
             pw = new PhonWord(tt, 17, 23, conf); // Violons
@@ -458,7 +458,7 @@ namespace ColorLibTest
             tstRFS = @"{ '-':/ ^/ i, '+':/st$/ i }";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("le chst est bleu", conf);
+            tt = new TheText("le chst est bleu");
             pw = new PhonWord(tt, 8, 10, conf); // "est"
             Assert.AreEqual("est", pw.GetWord());
             Assert.IsTrue(arf.Check(pw, 0, "", "st"));
@@ -476,7 +476,7 @@ namespace ColorLibTest
             tstRFS = @"this.Regle_nc_ai_final,";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("Je mangeai chantais plaisir balai essai", conf);
+            tt = new TheText("Je mangeai chantais plaisir balai essai");
             pw = new PhonWord(tt, 0, 1, conf); // "je"
             Assert.AreEqual("je", pw.GetWord());
             Assert.IsFalse(arf.Check(pw, 1, "j", ""));
@@ -509,7 +509,7 @@ namespace ColorLibTest
             tstRFS = @"{'+':/('|’)/i}";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("j'aimé l'arbre d'abord t'es c'est", conf);
+            tt = new TheText("j'aimé l'arbre d'abord t'es c'est");
             pw = new PhonWord(tt, 0, 1, conf); // "j'"
             Assert.AreEqual("j\'", pw.GetWord());
             Assert.IsTrue(arf.Check(pw, 0, "", "\'"));
@@ -539,8 +539,8 @@ namespace ColorLibTest
             tstRFS = @"{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i}";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("briefing, berlingot, bille, imbécile, limbe, afin, paille, triage, guilleret", conf);
-            pws = tt.GetPhonWords();
+            tt = new TheText("briefing, berlingot, bille, imbécile, limbe, afin, paille, triage, guilleret");
+            pws = tt.GetPhonWords(conf);
 
             // briefing
             wordI = 0;
@@ -608,7 +608,7 @@ namespace ColorLibTest
             tstRFS = @"this.Regle_ient,";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("glorifient quotient rififi mortifient qui i", conf);
+            tt = new TheText("glorifient quotient rififi mortifient qui i");
             pw = new PhonWord(tt, 0, 9, conf); // "glorifient'"
             Assert.AreEqual("glorifient", pw.GetWord());
             Assert.IsTrue(arf.Check(pw, 6, "glorif", "ent"));
@@ -634,61 +634,61 @@ namespace ColorLibTest
             tstRFS = @"this.Regle_mots_ent,";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("interférent", conf);
-            pw = new PhonWord(tt, 0, tt.S.Length-1, conf);
+            tt = new TheText("interférent");
+            pw = new PhonWord(tt, 0, tt.ToString().Length-1, conf);
             Assert.IsTrue(arf.Check(pw, 8, "interfér", "nt"));
 
             tstRFS = @"this.Regle_ment,";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("assurément", conf);
-            pw = new PhonWord(tt, 0, tt.S.Length - 1, conf);
+            tt = new TheText("assurément");
+            pw = new PhonWord(tt, 0, tt.ToString().Length-1, conf);
             Assert.IsTrue(arf.Check(pw, 7, "assurém", "nt"));
-            tt = new TheText("amplement", conf);
-            pw = new PhonWord(tt, 0, tt.S.Length - 1, conf);
+            tt = new TheText("amplement");
+            pw = new PhonWord(tt, 0, tt.ToString().Length-1, conf);
             Assert.IsTrue(arf.Check(pw, 6, "amplem", "nt"));
 
 
             tstRFS = @"this.Regle_verbe_mer,";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("clament", conf);
-            pw = new PhonWord(tt, 0, tt.S.Length - 1, conf);
+            tt = new TheText("clament");
+            pw = new PhonWord(tt, 0, tt.ToString().Length-1, conf);
             Assert.IsTrue(arf.Check(pw, 4, "clam", "nt"));
 
             tstRFS = @"this.Regle_er,";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("amer", conf);
-            pw = new PhonWord(tt, 0, tt.S.Length - 1, conf);
+            tt = new TheText("amer");
+            pw = new PhonWord(tt, 0, tt.ToString().Length-1, conf);
             Assert.IsTrue(arf.Check(pw, 2, "am", "r"));
 
             tstRFS = @"this.Regle_avoir,";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("eûmes", conf);
-            pw = new PhonWord(tt, 0, tt.S.Length - 1, conf);
+            tt = new TheText("eûmes");
+            pw = new PhonWord(tt, 0, tt.ToString().Length-1, conf);
             Assert.IsTrue(arf.Check(pw, 0, "", "ûmes"));
 
             tstRFS = @"this.Regle_s_final,";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("versus", conf);
-            pw = new PhonWord(tt, 0, tt.S.Length - 1, conf);
+            tt = new TheText("versus");
+            pw = new PhonWord(tt, 0, tt.ToString().Length-1, conf);
             Assert.IsTrue(arf.Check(pw, 5, "versu", ""));
 
             tstRFS = @"this.Regle_t_final,";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("comput", conf);
-            pw = new PhonWord(tt, 0, tt.S.Length - 1, conf);
+            tt = new TheText("comput");
+            pw = new PhonWord(tt, 0, tt.ToString().Length-1, conf);
             Assert.IsTrue(arf.Check(pw, 5, "compu", ""));
 
             tstRFS = @"this.Regle_tien,";
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
-            tt = new TheText("tienne", conf);
-            pw = new PhonWord(tt, 0, tt.S.Length - 1, conf);
+            tt = new TheText("tienne");
+            pw = new PhonWord(tt, 0, tt.ToString().Length-1, conf);
             Assert.IsTrue(arf.Check(pw, 0, "", "ienne"));
 
         }

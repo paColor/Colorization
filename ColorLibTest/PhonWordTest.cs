@@ -30,12 +30,12 @@ namespace ColorLibTest
 
         private void CheckTextVsSyls(string txt, string[] syls, bool std, bool ecrit)
         {
-            Config conf;
-            TheText tt = TheText.NewTestTheText(txt, out conf);
+            Config conf = new Config();
+            TheText tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             conf.sylConf.DoubleConsStd = std;
             conf.sylConf.ModeEcrit = ecrit;
-            List<PhonWord> pws = tt.GetPhonWords();
+            List<PhonWord> pws = tt.GetPhonWords(conf);
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls(conf);
 
@@ -54,9 +54,9 @@ namespace ColorLibTest
             string txt = @"audacieux";
             string syllabe = "au-da-cieux";
             Config conf = new Config();
-            TheText tt = new TheText(txt, conf);
+            TheText tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            List<PhonWord> pws = tt.GetPhonWords();
+            List<PhonWord> pws = tt.GetPhonWords(conf);
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls(conf);
             Console.WriteLine(pws[0].AllStringInfo());
@@ -64,9 +64,9 @@ namespace ColorLibTest
 
             txt = @"colorƨation";
             syllabe = "co-lo-rƨa-tion";
-            tt = new TheText(txt, conf);
+            tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            pws = tt.GetPhonWords();
+            pws = tt.GetPhonWords(conf);
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls(conf);
             Console.WriteLine(pws[0].AllStringInfo());
@@ -155,9 +155,9 @@ namespace ColorLibTest
             StringBuilder sb = new StringBuilder();
             TheText.Init();
             Config conf = new Config();
-            TheText tt = new TheText(txt, conf);
+            TheText tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            List<PhonWord> pws = tt.GetPhonWords();
+            List<PhonWord> pws = tt.GetPhonWords(conf);
             int i = 0;
             int nrLines = pws.Count / wordsPerLine;
             for (int line = 0; line < nrLines; line++)
@@ -189,9 +189,9 @@ namespace ColorLibTest
         private void CheckTextVsPhons(string txt, string[] phons)
         {
             Config conf = new Config();
-            TheText tt = new TheText(txt, conf);
+            TheText tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            List<PhonWord> pws = tt.GetPhonWords();
+            List<PhonWord> pws = tt.GetPhonWords(conf);
             for (int i = 0; i < phons.Length; i++)
             {
                 Console.WriteLine(pws[i].AllStringInfo());
@@ -324,7 +324,7 @@ namespace ColorLibTest
                 "k@", "l", "astR", "inat@dy", "dy", "mOdERn", "ideal", "E", "v°ny", "tu",
                 "a", "ku", "d@", "l°", "sjEl", "ki", "s", "@bRaz", "lyiR", "e",
                 "k@", "l", "ipOgRif", "a", "R°lEje", "pegaz", "Z°", "t°", "saly", "o",
-                "s2j", "sevER", "dy", "t§bo", "va", "SERSe", "l°", "vRe", "twa", "ki",
+                "s2j", "sevER", "dy", "t§bo", "va", "SERSe", "l°", "vRE", "twa", "ki",
                 "sy", "tRuve", "l°", "bo", "m§t", "l", "apR", "Eskalje", "dy", "o",
                 "de", "s§bR", "maRS", "dy", "nwaR", "p§", "d°", "l", "abim", "§",
                 "@tR°vwa", "le", "aRS", "va", "m2R", "la", "dERnjER", "2R", "E", "l°",
@@ -333,7 +333,7 @@ namespace ColorLibTest
                 "syblim", "ty", "va", "s@tiR", "l°", "v@", "sinistR", "d°", "la", "sim",
                 "e", "l", "ebluis°m@", "dy", "pROdiZ", "etERnEl", "t§", "Ol5p", "ty", "va",
                 "l°", "vwaR", "dy", "o", "dy", "sjEl", "ty", "va", "dy", "o",
-                "dy", "vRe", "vwaR", "l", "ymEn", "SimER", "mEm", "sEl", "d°", "ZOb",
+                "dy", "vRE", "vwaR", "l", "ymEn", "SimER", "mEm", "sEl", "d°", "ZOb",
                 "mEm", "sEl", "d", "OmER", "am", "e", "dy", "o", "d°", "dj2",
                 "ty", "va", "vwaR", "ZeOva", "m§t", "EspRi", "gR@di", "plan", "uvR", "te",
                 "El", "va", "lORsk", "1", "viv@", "nu", "kit", "emy", "Z°", "l°",

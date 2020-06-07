@@ -60,18 +60,19 @@ namespace ColorLib
 
         public override string ToString()
         {
-            return T.S.Substring(First, (Last - First) + 1);
+            return T.ToString().Substring(First, (Last - First) + 1);
         }
 
         /// <summary>
         /// Crée le <see cref="FormattedTextEl"/> correspondant au <c>TextEl</c> <c>this</c> et
-        /// au <see cref="CharFormatting"/> <paramref name="cf"/>.
+        /// au <see cref="CharFormatting"/> <paramref name="cf"/>. Ajoute le <c>FormattedTextEl</c>
+        /// à la liste des <c>FormattedTextEl</c> du texte.
         /// </summary>
         /// <param name="cf">Le <see cref="CharFormatting"/> à utiliser pour ce <c>TextEl</c></param>
         protected void SetCharFormat(CharFormatting cf)
         {
-            FormattedTextEl cte = new FormattedTextEl(this, cf);
-            T.Formats.Add(cte);
+            FormattedTextEl fte = new FormattedTextEl(this, cf);
+            T.AddFTE(fte);
         }
 
         /// <summary>

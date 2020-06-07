@@ -57,6 +57,8 @@ namespace ColorizationWord
         private static void MarkMuettes(MSWText t, Config conf) => t.MarkMuettes(conf);
         private static void MarkNoir(MSWText t, Config conf) => t.MarkNoir(conf);
         private static void MarkVoyCons(MSWText t, Config conf) => t.MarkVoyCons(conf);
+        private static void MarkDuo(MSWText t, Config conf) => t.MarkDuo(conf);
+
 
         public static void Init()
         {
@@ -123,7 +125,7 @@ namespace ColorizationWord
         public static void ColorSelectedDuo(Config conf)
         {
             logger.Info("ColorSelectedDuo");
-            ActOnSelectedText(null, "Lignes", MarkLignes, conf);
+            ActOnSelectedText(MarkDuo, "Duo", ActoOnRangeMSWText, conf);
         }
 
 
@@ -164,7 +166,7 @@ namespace ColorizationWord
         private static void ActoOnRangeMSWText (Range range, ActOnMSWText actOn, Config conf)
         {
             logger.ConditionalTrace("ActoOnRangeMSWText");
-            actOn(new MSWText(range, conf), conf);
+            actOn(new MSWText(range), conf);
         }
 
         private static void ActOnShape(Shape sh, ActOnMSWText act, ActOnRange aor, Config conf)

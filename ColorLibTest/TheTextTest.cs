@@ -15,9 +15,9 @@ namespace ColorLibTest
             TheText tt;
 
             Config conf = new Config();
-            tt = new TheText("Dans tes yeux les clartés trop brutales s’émoussent.", conf);
+            tt = new TheText("Dans tes yeux les clartés trop brutales s’émoussent.");
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            pws = tt.GetPhonWords();
+            pws = tt.GetPhonWords(conf);
             Assert.AreEqual("Dans", pws[0].ToString());
             Assert.AreEqual("tes", pws[1].ToString());
             Assert.AreEqual("yeux", pws[2].ToString());
@@ -43,10 +43,10 @@ namespace ColorLibTest
                 D’abord par les clous froids, puis par l’élan pâmé
                 Des femmes de péché – desquelles ô tant oints,
                 Tant baisés, chrême fol et baiser affamé ! –
-                ", conf
+                "
                 );
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            pws = tt.GetPhonWords();
+            pws = tt.GetPhonWords(conf);
             Assert.AreEqual("France", pws[0].ToString());
             Assert.AreEqual("ô", pws[1].ToString());
             Assert.AreEqual("belle", pws[2].ToString());

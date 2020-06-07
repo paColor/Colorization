@@ -33,16 +33,16 @@ namespace Colorization
 {
     public partial class Ribbon1
     {
-        private delegate void ActOnPPTText(PPTText t);
-        private delegate void ActOnRange(TextRange range, ActOnPPTText act);
+        private delegate void ActOnPPTText(PPTText t, Config conf);
+        private delegate void ActOnRange(TextRange range, ActOnPPTText act, Config conf);
 
-        private static void ColorizePhons(PPTText t) => t.ColorizePhons(PhonConfType.phonemes);
-        private static void MarkLetters(PPTText t) => t.MarkLetters();
-        private static void MarkSyls(PPTText t) => t.MarkSyls();
-        private static void MarkWords(PPTText t) => t.MarkWords();
-        private static void MarkMuettes(PPTText t) => t.MarkMuettes();
-        private static void MarkNoir(PPTText t) => t.MarkNoir();
-        private static void MarkVoyCons(PPTText t) => t.MarkVoyCons();
+        private static void ColorizePhons(PPTText t, Config conf) => t.ColorizePhons(conf, PhonConfType.phonemes);
+        private static void MarkLetters(PPTText t, Config conf) => t.MarkLetters(conf);
+        private static void MarkSyls(PPTText t, Config conf) => t.MarkSyls(conf);
+        private static void MarkWords(PPTText t, Config conf) => t.MarkWords(conf);
+        private static void MarkMuettes(PPTText t, Config conf) => t.MarkMuettes(conf);
+        private static void MarkNoir(PPTText t, Config conf) => t.MarkNoir(conf);
+        private static void MarkVoyCons(PPTText t, Config conf) => t.MarkVoyCons(conf);
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -60,61 +60,61 @@ namespace Colorization
             ConfigControl.colDuoSelText = Ribbon1.ColorSelectedDuo;
         }
 
-        public static void ColorizeSelectedPhons()
+        public static void ColorizeSelectedPhons(Config conf)
         {
             logger.ConditionalTrace("ColorizeSelectedPhons");
-            ActOnSelectedText(ColorizePhons, ActoOnRangePPTText);
+            ActOnSelectedText(ColorizePhons, ActoOnRangePPTText, conf);
         }
 
-        public static void ColorSelectedLetters()
+        public static void ColorSelectedLetters(Config conf)
         {
             logger.ConditionalTrace("ColorSelectedLetters");
-            ActOnSelectedText(MarkLetters, ActoOnRangePPTText);
+            ActOnSelectedText(MarkLetters, ActoOnRangePPTText, conf);
         }
 
-        public static void ColorSelectedSyls()
+        public static void ColorSelectedSyls(Config conf)
         {
             logger.ConditionalTrace("ColorSelectedSyls");
-            ActOnSelectedText(MarkSyls, ActoOnRangePPTText);
+            ActOnSelectedText(MarkSyls, ActoOnRangePPTText, conf);
         }
 
-        public static void ColorSelectedWords()
+        public static void ColorSelectedWords(Config conf)
         {
             logger.ConditionalTrace("ColorSelectedWords");
-            ActOnSelectedText(MarkWords, ActoOnRangePPTText);
+            ActOnSelectedText(MarkWords, ActoOnRangePPTText, conf);
         }
 
-        public static void ColorSelectedMuettes()
+        public static void ColorSelectedMuettes(Config conf)
         {
             logger.ConditionalTrace("ColorSelectedMuettes");
-            ActOnSelectedText(MarkMuettes, ActoOnRangePPTText);
+            ActOnSelectedText(MarkMuettes, ActoOnRangePPTText, conf);
         }
 
-        public static void ColorSelectedNoir()
+        public static void ColorSelectedNoir(Config conf)
         {
             logger.ConditionalTrace("ColorSelectedNoir");
-            ActOnSelectedText(MarkNoir, ActoOnRangePPTText);
+            ActOnSelectedText(MarkNoir, ActoOnRangePPTText, conf);
         }
 
-        public static void ColorSelectedVoyCons()
+        public static void ColorSelectedVoyCons(Config conf)
         {
             logger.ConditionalTrace("ColorSelectedVoyCons");
-            ActOnSelectedText(MarkVoyCons, ActoOnRangePPTText);
+            ActOnSelectedText(MarkVoyCons, ActoOnRangePPTText, conf);
         }
 
-        public static void ColorSelectedLignes()
+        public static void ColorSelectedLignes(Config conf)
         {
             logger.ConditionalTrace("ColorSelectedLignes");
-            ActOnSelectedText(null, MarkLignes);
+            ActOnSelectedText(null, MarkLignes, conf);
         }
 
-        public static void ColorSelectedDuo()
+        public static void ColorSelectedDuo(Config conf)
         {
             logger.ConditionalTrace("ColorSelectedDuo");
-            ActOnSelectedText(null, MarkLignes);
+            ActOnSelectedText(null, MarkLignes, conf);
         }
 
-        private static void MarkLignes(TextRange tRange, ActOnPPTText act)
+        private static void MarkLignes(TextRange tRange, ActOnPPTText act, Config conf)
         {
             DocumentWindow activeWin = ColorizationPPT.thisAddIn.Application.ActiveWindow;
             Config theConf = Config.GetConfigFor(activeWin, activeWin.Presentation);
@@ -132,26 +132,26 @@ namespace Colorization
             }
         }
 
-        private static void ActoOnRangePPTText (TextRange tRange, ActOnPPTText actOn)
+        private static void ActoOnRangePPTText (TextRange tRange, ActOnPPTText actOn, Config conf)
         {
             DocumentWindow activeWin = ColorizationPPT.thisAddIn.Application.ActiveWindow;
-            actOn (new PPTText(tRange, Config.GetConfigFor(activeWin, activeWin.Presentation)));
+            actOn (new PPTText(tRange), conf);
         }
 
-        private static void ActOnShape(Shape sh, ActOnPPTText act, ActOnRange aor, int nrObjSelected)
+        private static void ActOnShape(Shape sh, ActOnPPTText act, ActOnRange aor, int nrObjSelected, Config conf)
         {
             Debug.Assert(sh != null);
             if(sh.HasTextFrame == Microsoft.Office.Core.MsoTriState.msoTrue){
                 if (sh.TextFrame.HasText == Microsoft.Office.Core.MsoTriState.msoTrue)
-                    aor(sh.TextFrame.TextRange, act);
+                    aor(sh.TextFrame.TextRange, act, conf);
             } else if (sh.Type == Microsoft.Office.Core.MsoShapeType.msoGroup)
                 foreach (Shape descSh in sh.GroupItems)
-                    ActOnShape(descSh, act, aor, nrObjSelected);
+                    ActOnShape(descSh, act, aor, nrObjSelected, conf);
             if (sh.HasTable == Microsoft.Office.Core.MsoTriState.msoTrue)
                 foreach (Row r in sh.Table.Rows)
                     foreach (Cell c in r.Cells)
                         if ((nrObjSelected > 1) || (c.Selected))
-                            ActOnShape(c.Shape, act, aor, nrObjSelected);
+                            ActOnShape(c.Shape, act, aor, nrObjSelected, conf);
             // il y a visiblement un problème avec la sélection de tableaux. Les cellules ne sont pas sélectionnées
             // si plusieurs objects sont sélectionnés dont le tableau...
             // rendons donc le comportement dépendant du nombre d'objets dans la sélection... Y a-t-il un piège?
@@ -160,7 +160,7 @@ namespace Colorization
             // à se comporter correctement.
         } // private void ActOnShape
    
-        private static void ActOnSelectedText(ActOnPPTText act, ActOnRange aor)
+        private static void ActOnSelectedText(ActOnPPTText act, ActOnRange aor, Config conf)
         {
             if (ColorizationPPT.thisAddIn.Application.Presentations.Count > 0)
             {
@@ -168,14 +168,14 @@ namespace Colorization
                 var sel = ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection;
                 if (sel.Type == PpSelectionType.ppSelectionText)
                 {
-                    aor(ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection.TextRange, act);
+                    aor(ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection.TextRange, act, conf);
                 }
                 else if (sel.Type == PpSelectionType.ppSelectionShapes)
                 {
                     // bool textFound = false;
                     foreach (Shape sh in sel.ShapeRange)
                     {
-                        ActOnShape(sh, act, aor, sel.ShapeRange.Count);
+                        ActOnShape(sh, act, aor, sel.ShapeRange.Count, conf);
                     } // foreach
                 } // else no text selected
                 else if (sel.Type == PpSelectionType.ppSelectionSlides)
@@ -184,7 +184,7 @@ namespace Colorization
                     {
                         foreach (Shape sh in s.Shapes)
                         {
-                            ActOnShape(sh, act, aor, s.Shapes.Count);
+                            ActOnShape(sh, act, aor, s.Shapes.Count, conf);
                         }
                     }
                 }
@@ -232,49 +232,64 @@ namespace Colorization
             }
         }
 
+        private Config GetConfigForActiveWindow()
+        {
+            DocumentWindow activeWin = ColorizationPPT.thisAddIn.Application.ActiveWindow;
+            return Config.GetConfigFor(activeWin, activeWin.Presentation);
+        }
+
         private void btnColoriser_Click(object sender, RibbonControlEventArgs e)
         {
-            ColorizeSelectedPhons();
+            logger.ConditionalTrace("btnColoriser_Click");
+            ColorizeSelectedPhons(GetConfigForActiveWindow());
         } // private void btnColoriser_Click
 
         private void btnBDPQ_Click(object sender, RibbonControlEventArgs e)
         {
-            ColorSelectedLetters();
+            logger.ConditionalTrace("btnBDPQ_Click");
+            ColorSelectedLetters(GetConfigForActiveWindow());
         }
 
         private void btnSyl_Click(object sender, RibbonControlEventArgs e)
         {
-            ColorSelectedSyls();
+            logger.ConditionalTrace("btnSyl_Click");
+            ColorSelectedSyls(GetConfigForActiveWindow());
         }
 
         private void btnMots_Click(object sender, RibbonControlEventArgs e)
         {
-            ColorSelectedWords();
+            logger.ConditionalTrace("btnMots_Click");
+            ColorSelectedWords(GetConfigForActiveWindow());
         }
 
         private void btnMuettes_Click(object sender, RibbonControlEventArgs e)
         {
-            ColorSelectedMuettes();
+            logger.ConditionalTrace("btnMuettes_Click");
+            ColorSelectedMuettes(GetConfigForActiveWindow());
         }
 
         private void btnNoir_Click(object sender, RibbonControlEventArgs e)
         {
-            ColorSelectedNoir();
+            logger.ConditionalTrace("btnNoir_Click");
+            ColorSelectedNoir(GetConfigForActiveWindow());
         }
 
         private void btnVoyCons_Click(object sender, RibbonControlEventArgs e)
         {
-            ColorSelectedVoyCons();
+            logger.ConditionalTrace("btnVoyCons_Click");
+            ColorSelectedVoyCons(GetConfigForActiveWindow());
         }
 
         private void btnLignes_Click(object sender, RibbonControlEventArgs e)
         {
-            ColorSelectedLignes();
+            logger.ConditionalTrace("btnLignes_Click");
+            ColorSelectedLignes(GetConfigForActiveWindow());
         }
 
         private void btnDuo_Click(object sender, RibbonControlEventArgs e)
         {
-            ColorSelectedDuo();
+            logger.ConditionalTrace("btnDuo_Click");
+            ColorSelectedDuo(GetConfigForActiveWindow());
         }
     }
 }

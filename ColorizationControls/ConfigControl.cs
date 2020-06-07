@@ -151,9 +151,11 @@ namespace ColorizationControls
             butExecuteDuo.Visible = false;
             butExecuteDuo.Enabled = false;
 
-            // Les commandes ne doivent pas être appliquées car elles utilisent la Config liée à la fenêtre...
-            // En théorie on pourrait changer ça et passer la Config à utiliser, mais pas sûr que le travail
-            // vaille la chandelle :-)
+            // Les commandes fonctionnent depuis un ConfiControl qui correspond à une "subConfig".
+            // Mais... Comme nous ouvrons la fenêtre "DuoConfForm" dans un "dialogue modal" le résultat 
+            // n'est appliqué au texte qu'un fois la fenêtre "DuoConfForm" fermée. C'est trop perturbant
+            // pour un utilisateur lambda. Il faut donc soit ouvrir "DuoConfForm" dans un dialogue non
+            // modal, ce qui serait également très perturbant ou renoncer à ces commandes ici...
 
             btcPhons.Enabled = false;
             btcLNoir2.Enabled = false;

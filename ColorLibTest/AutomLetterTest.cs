@@ -240,8 +240,8 @@ namespace ColorLibTest
             pos = 0;
             al = new AutomLetter(tstAL, ref pos);
             tt = new TheText(@"briefing, berlingot, sapin, imbécile, limbe, afin, prier, ville, paille, triage,
-                               appartient, amplifient, glorifient", conf);
-            pws = tt.GetPhonWords();
+                               appartient, amplifient, glorifient");
+            pws = tt.GetPhonWords(conf);
 
             foreach (PhonWord pw in pws)
                 pw.ClearPhons();

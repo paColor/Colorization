@@ -136,8 +136,8 @@ namespace ColorLibTest
             tstAR = @"'chr':[{'+':/hr/i},'k',2] // de chrétien à synchronisé";
             pos = 0;
             ar = new AutomRule(tstAR, ref pos, vRN);
-            tt = new TheText("chrétien, synchronisé, chien, apache, roch, rocher, cornichon", conf);
-            pws = tt.GetPhonWords();
+            tt = new TheText("chrétien, synchronisé, chien, apache, roch, rocher, cornichon");
+            pws = tt.GetPhonWords(conf);
             foreach (PhonWord pw in pws)
                 pw.ClearPhons();
 
@@ -203,8 +203,8 @@ namespace ColorLibTest
             tstAR = @"'in':[{'+':/i[nm]([bcçdfghjklnmpqrstvwxz]|$)/i},'e_tilda',3] // toute succession 'ein' 'eim' suivie d'une consonne ou d'une fin de mot";
             pos = 0;
             ar = new AutomRule(tstAR, ref pos, vRN);
-            tt = new TheText("plein, geindre, weimarienne, astreignant, atteint, autoneige, palme", conf);
-            pws = tt.GetPhonWords();
+            tt = new TheText("plein, geindre, weimarienne, astreignant, atteint, autoneige, palme");
+            pws = tt.GetPhonWords(conf);
             foreach (PhonWord pw in pws)
                 pw.ClearPhons();
 
@@ -268,8 +268,8 @@ namespace ColorLibTest
             tstAR = @"'_ent':[this.Regle_mots_ent,'a_tilda',2] // quelques mots (adverbes ou noms) terminés par ent";
             pos = 0;
             ar = new AutomRule(tstAR, ref pos, vRN);
-            tt = new TheText("indécent, triment, palme", conf);
-            pws = tt.GetPhonWords();
+            tt = new TheText("indécent, triment, palme");
+            pws = tt.GetPhonWords(conf);
             foreach (PhonWord pw in pws)
                 pw.ClearPhons();
 

@@ -103,13 +103,13 @@ namespace ColorLibTest
 
 			TheText.Init();
 
-			Config conf;
-			tt = TheText.NewTestTheText(@"briefing, berlingot, sapin, imbécile, limbe, afin, prier, ville, paille, triage,
-                               appartient, amplifient, glorifient, avec, franc, spray, abbaye", out conf);
+			Config conf = new Config();
+			tt = new TheText(@"briefing, berlingot, sapin, imbécile, limbe, afin, prier, ville, paille, triage,
+                               appartient, amplifient, glorifient, avec, franc, spray, abbaye");
 
 			conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
 
-			pws = tt.GetPhonWords();
+			pws = tt.GetPhonWords(conf);
 
 			CheckPhons(pws, 0, "briefing", "bRij°fiG");
 			CheckPhons(pws, 1, "berlingot", "bERl5gO");
@@ -138,13 +138,13 @@ namespace ColorLibTest
 			List<PhonWord> pws;
 
 			TheText.Init();
-			Config conf;
-			tt = TheText.NewTestTheText(@"bredouilla, ouest, bled, blé, caïd, vieux. oeuf, wapiti, kiwi, weimar, wurst, noix, royal,
-							   poissons, australopithèque", out conf);
+			Config conf = new Config();
+			tt = new TheText(@"bredouilla, ouest, bled, blé, caïd, vieux. oeuf, wapiti, kiwi, weimar, wurst, noix, royal,
+							   poissons, australopithèque");
 
 			conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
 
-			pws = tt.GetPhonWords();
+			pws = tt.GetPhonWords(conf);
 
 			CheckPhons(pws, 0, "bredouilla", "bR°duja");
 			CheckPhons(pws, 1, "ouest", "uEst");
@@ -165,10 +165,10 @@ namespace ColorLibTest
 
 		private void CheckTextVsPhonetique(string txt, string[] phons, ColConfWin.IllRule ill)
 		{
-			Config conf;
-			TheText tt = TheText.NewTestTheText(txt, out conf);
+			Config conf = new Config();
+			TheText tt = new TheText(txt);
 			conf.colors[PhonConfType.phonemes].IllRuleToUse = ill;
-			List<PhonWord> pws = tt.GetPhonWords();
+			List<PhonWord> pws = tt.GetPhonWords(conf);
 			for (int i = 0; i < phons.Length; i++)
 			{
 				Console.WriteLine(pws[i].AllStringInfo());
@@ -209,16 +209,15 @@ namespace ColorLibTest
 
 			TheText.Init();
 
-			Config conf;
-			tt = TheText.NewTestTheText(
+			Config conf = new Config();
+			tt = new TheText(
 				@"ayons, balaya, ayatollah, kayac, tokay, mayonnaise, fayot, maya, himalaya, crayeux, paresse, abesses,
 				  dilemme, impeccable, chevrier, caramels, bedonnant, faisons, affaisseraient, refaisaient, tranquille,
 				  illégalement, lilliputien, millimétré, distillerait, tranquillises, tranquillités, tranquillisantes,
 				  tranquillos, désillusionné, distiller, illogisme, illustraient, illégalement, illumineront, imbécillité,
 				  instillassiez, millésime, millionnaire, multimilliardaires, multimillionnaire, villégiature, villageoises,
 				  villa,
-				  examen, minoen, gastroentérologue, électroencéphalographie",
-				out conf
+				  examen, minoen, gastroentérologue, électroencéphalographie"
 			);
 
 			conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.ceras;
@@ -233,7 +232,7 @@ namespace ColorLibTest
 				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi"
 			};
 
-			pws = tt.GetPhonWords();
+			pws = tt.GetPhonWords(conf);
 			for (int i = 0; i < phonetique.Length; i++)
 			{
 				Console.WriteLine(pws[i].AllStringInfo());

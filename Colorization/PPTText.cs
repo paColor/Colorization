@@ -43,8 +43,8 @@ namespace Colorization
 
 
 
-        public PPTText(TextRange txtRange, Config conf)
-            :base(txtRange.Text, conf)
+        public PPTText(TextRange txtRange)
+            :base(txtRange.Text)
         {
             this.txtRange = txtRange;
         }

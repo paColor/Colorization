@@ -18,23 +18,6 @@ namespace ColorLibTest
             : base(inT, inFirst, inLast)
         {}
 
-        public void TstSetCharFormat(TheText tt)
-        {
-            CharFormatting cf = new CharFormatting();
-            SetCharFormat(cf);
-            List<FormattedTextEl> query =
-                (from cte in tt.Formats
-                where cte.First == this.First
-                select cte).ToList();
-            foreach (FormattedTextEl cte in query)
-            {
-                Assert.AreEqual(cte.Last, this.Last);
-                Assert.AreSame(cf, cte.cf);
-            }
-            Assert.AreEqual(1, query.Count);
-        }
-
-
         [TestMethod]
         public void TestEstConsonne()
         {
@@ -57,9 +40,9 @@ namespace ColorLibTest
                         Ou comme cestuy la qui conquit la toison,
                         Et puis est retourné, plein d'usage et raison,
                         Vivre entre ses parents le reste de son age!";
-            TheText tt = TheText.NewTestTheText(s);
+            TheText tt = new TheText(s);
             TextElTest tet = new TextElTest(tt, 19, 24); // Ulysse
-            tet.TstSetCharFormat(tt);
+            Assert.AreEqual("Ulysse", tet.ToString());
         }
     }
 }

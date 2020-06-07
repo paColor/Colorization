@@ -120,8 +120,8 @@ namespace ColorizationWord
                 toR.HighlightColorIndex = WdColorIndex.wdNoHighlight;
         }
 
-        public MSWText(Range rge, Config inConf)
-            : base(GetStringFor(rge), inConf)
+        public MSWText(Range rge)
+            : base(GetStringFor(rge))
         {
             this.range = rge;
             rgStart = rge.Start;
