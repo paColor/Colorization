@@ -37,7 +37,7 @@ namespace ColorizationControls
 
         public static void Init()
         {
-            logger.ConditionalTrace("Init");
+            logger.ConditionalDebug("Init");
             for (int i = 0; i < ColConfWin.predefinedColors.Length; i++)
                 customColors[i] = ColConfWin.predefinedColors[i];
             for (int i = ColConfWin.predefinedColors.Length; i < 16; i++)

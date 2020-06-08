@@ -88,7 +88,7 @@ namespace ColorizationControls
                                     ExecuteTask inUnsetAct,
                                     bool startState )
         {
-            logger.ConditionalTrace("Contructor FormatButtonHandler");
+            logger.ConditionalDebug("Contructor FormatButtonHandler");
             picts = new Image[(int)Pict.nrPict];
             theBox = inPictBox;
             picts[(int)Pict.pressedPict] = inPressedPict;
@@ -113,19 +113,19 @@ namespace ColorizationControls
 
         private void ActivatePict(State s)
         {
-            logger.ConditionalTrace("ActivatePict for state {0}", s.ToString());
+            logger.ConditionalDebug("ActivatePict for state {0}", s.ToString());
             Pict p = pictForState[(int)s];
             if (p != activePict)
             {
                 theBox.Image = picts[(int)p];
                 activePict = p;
             }
-            logger.ConditionalTrace("EXIT ActivatePict. Picture {0} is active", activePict.ToString()) ;
+            logger.ConditionalDebug("EXIT ActivatePict. Picture {0} is active", activePict.ToString()) ;
         }
 
         private void HandleEvent(Trigger t)
         {
-            logger.ConditionalTrace("HandleEvent {0} in state {1}", t.ToString(), state.ToString());
+            logger.ConditionalDebug("HandleEvent {0} in state {1}", t.ToString(), state.ToString());
             Transition transition = stateMachine[(int)state, (int)t];
             state = transition.targetState;
             ActivatePict(state);
@@ -144,7 +144,7 @@ namespace ColorizationControls
                 default:
                     break;
             }
-            logger.ConditionalTrace("EXIT HandleEvent in state {0}", state.ToString());
+            logger.ConditionalDebug("EXIT HandleEvent in state {0}", state.ToString());
         }   
 
         private void pbx_MouseEnter(object sender, EventArgs e) => HandleEvent(Trigger.enter);

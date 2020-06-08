@@ -42,6 +42,7 @@ namespace ColorLib
             }
             private set
             {
+                logger.ConditionalDebug("Set subConfig1");
                 _subConfig1 = value;
             }
         }
@@ -57,6 +58,7 @@ namespace ColorLib
             }
             private set
             {
+                logger.ConditionalDebug("Set subConfig2");
                 _subConfig2 = value;
             }
         }
@@ -78,6 +80,7 @@ namespace ColorLib
             {
                 if (value != _alternance)
                 {
+                    logger.ConditionalDebug("Set alternance to {0}", value);
                     _alternance = value;
                     OnAlternanceModified(EventArgs.Empty);
                 }
@@ -100,6 +103,7 @@ namespace ColorLib
             }
             set
             {
+                logger.ConditionalDebug("Set colorisFunction to {0}", value);
                 if (value != _colorisFunction)
                 {
                     _colorisFunction = value;
@@ -120,7 +124,7 @@ namespace ColorLib
         /// </summary>
         public DuoConfig()
         {
-            logger.ConditionalTrace("DuoConfig");
+            logger.ConditionalDebug("DuoConfig");
             subConfig1 = new Config(1);
             subConfig1.ConfigReplacedEvent += SubConfig1Replaced;
 
@@ -132,7 +136,7 @@ namespace ColorLib
 
         public override void Reset()
         {
-            logger.ConditionalTrace("DuoConfig");
+            logger.ConditionalDebug("DuoConfig");
             subConfig1.Reset();
             subConfig2.Reset();
             InitFields();
@@ -146,7 +150,7 @@ namespace ColorLib
         /// en cas d'erreur.</returns>
         public DuoConfig DeepCopy()
         {
-            logger.ConditionalTrace("DeepCopy");
+            logger.ConditionalDebug("DeepCopy");
             DuoConfig toReturn = null;
             try
             {
@@ -169,7 +173,7 @@ namespace ColorLib
 
         internal override void PostLoadInitOptionalFields()
         {
-            logger.ConditionalTrace("PostLoadInitOptionalFields");
+            logger.ConditionalDebug("PostLoadInitOptionalFields");
 
             subConfig1.IsSubConfig(1);
             subConfig1.PostLoadInitOptionalFields();
@@ -188,6 +192,7 @@ namespace ColorLib
         /// par défaut sont définies.</remarks>
         private void InitFields()
         {
+            logger.ConditionalDebug("InitFields");
             alternance = Alternance.mots;
             colorisFunction = ColorisFunction.syllabes;
         }
@@ -197,6 +202,7 @@ namespace ColorLib
 
         private void SubConfig1Replaced (object sender, ConfigReplacedEventArgs e)
         {
+            logger.ConditionalDebug("SubConfig1Replaced");
             subConfig1.ConfigReplacedEvent -= SubConfig1Replaced;
             subConfig1 = e.newConfig;
             subConfig1.IsSubConfig(1);
@@ -205,6 +211,7 @@ namespace ColorLib
 
         private void SubConfig2Replaced(object sender, ConfigReplacedEventArgs e)
         {
+            logger.ConditionalDebug("SubConfig2Replaced");
             subConfig2.ConfigReplacedEvent -= SubConfig2Replaced;
             subConfig2 = e.newConfig;
             subConfig2.IsSubConfig(2);
@@ -215,12 +222,14 @@ namespace ColorLib
 
         protected virtual void OnAlternanceModified(EventArgs e)
         {
+            logger.ConditionalDebug("OnAlternanceModified");
             EventHandler eventHandler = AlternanceModifiedEvent;
             eventHandler?.Invoke(this, e);
         }
 
         protected virtual void OnColorisFunctionModified(EventArgs e)
         {
+            logger.ConditionalDebug("OnColorisFunctionModified");
             EventHandler eventHandler = ColorisFunctionModifiedEvent;
             eventHandler?.Invoke(this, e);
         }

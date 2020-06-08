@@ -49,6 +49,14 @@ namespace ColorLib
      * ************************************************************************************************/
     public class AutomRule : AutomElement
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public static void InitAutomat()
+        {
+            logger.ConditionalDebug("InitAutomat");
+            AutomRuleFilter.InitAutomat();
+        }
+
         public string RuleName { get; }
         private AutomRuleFilter rf;
         private Phonemes p;
@@ -68,6 +76,7 @@ namespace ColorLib
         public AutomRule(string s, ref int pos, List<string> SortedRuleNames)
             : base(s, pos)
         {
+            logger.ConditionalTrace("AutomRule");
             /* A Rule has the Syntax
              * 'ruleName' : [{list of DirectionRegex separated by ','}, 'phoneme', pas]
              * where 
@@ -159,11 +168,6 @@ namespace ColorLib
 
         } // constructor AutomRule
 
-        public static void InitAutomat()
-        {
-            AutomRuleFilter.InitAutomat();
-        }
-
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -192,6 +196,7 @@ namespace ColorLib
         /// <returns><c>true</c> si la règle a été appliquée, <c>false</c> sinon.</returns>
         public bool TryApplyRule (PhonWord pw, ref int pos, string firstPart, string secondPart, Config conf)
         {
+            logger.ConditionalTrace("TryApplyRule");
             bool found = conf.colors[PhonConfType.phonemes].GetFlag(flag) && rf.Check(pw, pos, firstPart, secondPart);
             if (found) 
             {

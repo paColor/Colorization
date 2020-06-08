@@ -56,7 +56,7 @@ namespace ColorizationControls
 
         public CharFormatForm(CharFormatting cf, string theSon, SetCharFormResult inCharFormResult)
         {
-            logger.ConditionalTrace("CTOR CharFormatting");
+            logger.ConditionalDebug("CTOR CharFormatting");
 
             InitializeComponent();
             if (!HilightForm.CanOperate())
@@ -95,7 +95,7 @@ namespace ColorizationControls
 
         protected virtual string FormName(string son)
         {
-            logger.ConditionalTrace("FormName {0}", son);
+            logger.ConditionalDebug("FormName {0}", son);
             StringBuilder sb = new StringBuilder();
             sb.Append(this.Text);
             sb.Append(" ");
@@ -107,7 +107,7 @@ namespace ColorizationControls
 
         private void CharFormatForm_Load(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("CharFormatForm_Load");
+            logger.ConditionalDebug("CharFormatForm_Load");
         }
 
         //-----------------------------------------------------------------------------

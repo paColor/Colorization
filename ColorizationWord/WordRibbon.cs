@@ -62,7 +62,7 @@ namespace ColorizationWord
 
         public static void Init()
         {
-            logger.ConditionalTrace("Init");
+            logger.ConditionalDebug("Init");
             ConfigControl.markSelLetters = WordRibbon.ColorSelectedLetters;
             ConfigControl.colorizeAllSelPhons = WordRibbon.ColorSelectedPhons;
             ConfigControl.colSylSelLetters = WordRibbon.ColorSelectedSyls;
@@ -131,7 +131,7 @@ namespace ColorizationWord
 
         private static void MarkLignes(Range range, ActOnMSWText act, Config conf)
         {
-            logger.ConditionalTrace("MarkLignes");
+            logger.ConditionalDebug("MarkLignes");
             conf.sylConf.ResetCounter();
             if (ColorizationMSW.thisAddIn.Application.ActiveWindow.View.Type == WdViewType.wdPrintView)
             {
@@ -165,13 +165,13 @@ namespace ColorizationWord
 
         private static void ActoOnRangeMSWText (Range range, ActOnMSWText actOn, Config conf)
         {
-            logger.ConditionalTrace("ActoOnRangeMSWText");
+            logger.ConditionalDebug("ActoOnRangeMSWText");
             actOn(new MSWText(range), conf);
         }
 
         private static void ActOnShape(Shape sh, ActOnMSWText act, ActOnRange aor, Config conf)
         {
-            logger.ConditionalTrace("ActOnShape");
+            logger.ConditionalDebug("ActOnShape");
             if (sh.TextFrame.HasText == (int)Microsoft.Office.Core.MsoTriState.msoTrue)
                 aor(sh.TextFrame.TextRange, act, conf);    
 
@@ -190,7 +190,7 @@ namespace ColorizationWord
         /// l'action standard <c>ActoOnRangeMSWText</c> ou d'une action particulière pour une commande spéciale.</param>
         private static void ActOnSelectedText(ActOnMSWText act, string undoTxt, ActOnRange aor, Config conf)
         {
-            logger.ConditionalTrace("ActOnSelectedText");
+            logger.ConditionalDebug("ActOnSelectedText");
             if (ColorizationMSW.thisAddIn.Application.Documents.Count > 0)
             {
                 UndoRecord objUndo = ColorizationMSW.thisAddIn.Application.UndoRecord;
@@ -234,13 +234,13 @@ namespace ColorizationWord
 
         private static void DocClosed(Document inDoc, ref bool cancel)
         {
-            logger.ConditionalTrace("DocClosed");
+            logger.ConditionalDebug("DocClosed");
             ConfigPane.DocClosed(inDoc);
         }
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
-            logger.ConditionalTrace("Ribbon1_Load");
+            logger.ConditionalDebug("Ribbon1_Load");
             ColorizationMSW.thisAddIn.Application.DocumentBeforeClose 
                 += new ApplicationEvents4_DocumentBeforeCloseEventHandler(DocClosed);
             ColorizationMSW.thisAddIn.Application.WindowSelectionChange
@@ -249,7 +249,7 @@ namespace ColorizationWord
 
         private void SelChanged_Event(Selection sel)
         {
-            logger.ConditionalTrace("SelChanged_Event");
+            logger.ConditionalDebug("SelChanged_Event");
             bool selected;
             switch (sel.Type)
             {
@@ -267,7 +267,7 @@ namespace ColorizationWord
 
         private void EnableButtons(bool enable)
         {
-            logger.ConditionalTrace("EnableButtons to \'{0}\'", enable);
+            logger.ConditionalDebug("EnableButtons to \'{0}\'", enable);
             if (btnBPDQ.Enabled != enable)
             {
                 btnBPDQ.Enabled = enable;
@@ -290,55 +290,55 @@ namespace ColorizationWord
 
         private void btnPhonemes_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnPhonemes_Click");
+            logger.ConditionalDebug("btnPhonemes_Click");
             ColorSelectedPhons(GetConfigForActiveWindow()); ;
         }
 
         private void btnBDPQ_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnBDPQ_Click");
+            logger.ConditionalDebug("btnBDPQ_Click");
             ColorSelectedLetters(GetConfigForActiveWindow());
         }
 
         private void btnSyl_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnSyl_Click");
+            logger.ConditionalDebug("btnSyl_Click");
             ColorSelectedSyls(GetConfigForActiveWindow());
         }
 
         private void btnMots_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnMots_Click");
+            logger.ConditionalDebug("btnMots_Click");
             ColorSelectedWords(GetConfigForActiveWindow());
         }
 
         private void btnMuettes_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnMuettes_Click");
+            logger.ConditionalDebug("btnMuettes_Click");
             ColorSelectedMuettes(GetConfigForActiveWindow());
         }
 
         private void btnNoir_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnNoir_Click");
+            logger.ConditionalDebug("btnNoir_Click");
             ColorSelectedNoir(GetConfigForActiveWindow());
         }
 
         private void btnLignes_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnLignes_Click");
+            logger.ConditionalDebug("btnLignes_Click");
             ColorSelectedLignes(GetConfigForActiveWindow());
         }
 
         private void btnVoyCons_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnVoyCons_Click");
+            logger.ConditionalDebug("btnVoyCons_Click");
             ColorSelectedVoyCons(GetConfigForActiveWindow());
         }
 
         private void btnDuo_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnDuo_Click");
+            logger.ConditionalDebug("btnDuo_Click");
             ColorSelectedDuo(GetConfigForActiveWindow());
         }
 

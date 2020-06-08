@@ -39,7 +39,7 @@ namespace ColorLib
 
         public static void Init()
         {
-            logger.ConditionalTrace("Init");
+            logger.ConditionalDebug("Init");
             // Ensure that colorizationDirPath folder does exist
             if (!System.IO.Directory.Exists(colorizationDirPath))
             {

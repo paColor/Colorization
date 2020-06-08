@@ -147,7 +147,7 @@ namespace ColorLib
         /// </summary>
         public override void Reset()
         {
-            logger.ConditionalTrace("Reset");
+            logger.ConditionalDebug("Reset");
             for (int i = 0; i < (int)Ucbx.last; i++)
             {
                 CbuChecked(cbuNames[i], false);
@@ -156,7 +156,7 @@ namespace ColorLib
 
         protected virtual void OnCheckboxUnsetModified(Ucbx u)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "OnCheckboxUnsetModified, checkbox \'{0}\'", cbuNames[(int)u]);
+            logger.ConditionalDebug(BaseConfig.cultF, "OnCheckboxUnsetModified, checkbox \'{0}\'", cbuNames[(int)u]);
             EventHandler<CheckboxUnsetModifiedEventArgs> eventHandler = CheckboxUnsetModifiedEvent;
             eventHandler?.Invoke(this, new CheckboxUnsetModifiedEventArgs(u));
         }

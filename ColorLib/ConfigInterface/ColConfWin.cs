@@ -233,7 +233,7 @@ namespace ColorLib
 
         public static void Init()
         {
-            logger.ConditionalTrace("Init");
+            logger.ConditionalDebug("Init");
             predefCF = new CharFormatting[predefinedColors.Length + 1];  // +1 for the enutral entry
             for (int i = 0; i < predefinedColors.Length; i++)
                 predefCF[i] = new CharFormatting(predefinedColors[i]);
@@ -366,7 +366,7 @@ namespace ColorLib
         /// <param name="inPct">Le type de phonèmes pour lequel le <c>ColConfWin</c> est construit.</param>
         public ColConfWin(PhonConfType inPct)
         {
-            logger.ConditionalTrace("ColConfWin Constructor for {0}", inPct);
+            logger.ConditionalDebug("ColConfWin Constructor for {0}", inPct);
             defBeh = DefBeh.transparent;
             defChF = predefCF[(int)PredefCols.neutral];
 
@@ -389,7 +389,7 @@ namespace ColorLib
         /// </summary>
         public override void Reset()
         {
-            logger.ConditionalTrace("Reset");
+            logger.ConditionalDebug("Reset");
             for (int i = 0; i < (int)RuleFlag.last; i++)
                 flags.Add(true); // par défaut, les règles sont actives.
             flags[(int)RuleFlag.IllLireCouleur] = false; // config par défaut
@@ -451,7 +451,7 @@ namespace ColorLib
         /// <param name="cf">Le nouveau <see cref="CharFormatting"/>.</param>
         public void SetCbxAndCF(string son, CharFormatting cf)
         {
-            logger.ConditionalTrace("SetCbxAndCF, son: {0}", son);
+            logger.ConditionalDebug("SetCbxAndCF, son: {0}", son);
             SetChkSon(son, true);
             SetCFSon(son, cf);
         }
@@ -463,7 +463,7 @@ namespace ColorLib
         /// <param name="son">Le son à réinitialiser.</param>
         public void ClearSon(string son)
         {
-            logger.ConditionalTrace("ClearSon");
+            logger.ConditionalDebug("ClearSon");
             SetChkSon(son, false);
             SetCFSon(son, predefCF[(int)PredefCols.black]);
         }
@@ -473,7 +473,7 @@ namespace ColorLib
         /// </summary>
         public void SetAllCbxSons()
         {
-            logger.ConditionalTrace("SetAllCbxSons");
+            logger.ConditionalDebug("SetAllCbxSons");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
                 SetChkSon(k.Key, true);
         }
@@ -483,7 +483,7 @@ namespace ColorLib
         /// </summary>
         public void ClearAllCbxSons()
         {
-            logger.ConditionalTrace("ClearAllCbxSons");
+            logger.ConditionalDebug("ClearAllCbxSons");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
                 SetChkSon(k.Key, false);
         }
@@ -493,7 +493,7 @@ namespace ColorLib
         /// </summary>
         public void SetCeras()
         {
-            logger.ConditionalTrace("SetCeras");
+            logger.ConditionalDebug("SetCeras");
             CleanAllSons();
 
             // o
@@ -552,7 +552,7 @@ namespace ColorLib
         /// </summary>
         public void SetCerasRose()
         {
-            logger.ConditionalTrace("SetCerasRose");
+            logger.ConditionalDebug("SetCerasRose");
             // est construit en delta par rapport à SetCeras
             SetCeras();
             // changer la couleur du é en rosé
@@ -579,7 +579,7 @@ namespace ColorLib
         public void SetCFSon(string son, CharFormatting cf)
         // if son is not known an KeyNotFoundException will be thrown...
         {
-            logger.ConditionalTrace("SetCFSon \'{0}\'", son);
+            logger.ConditionalDebug("SetCFSon \'{0}\'", son);
             Debug.Assert(sonMap.ContainsKey(son), String.Format(BaseConfig.cultF, "{0} n'est pas un son connu", son));
             cfSon[son] = cf;
             foreach (Phonemes p in sonMap[son])
@@ -594,11 +594,14 @@ namespace ColorLib
         /// <param name="checkVal">La nouvelle valeur du flag checkbox.</param>
         public void SetChkSon(string son, bool checkVal)
         {
-            logger.ConditionalTrace("SetChkSon \'{0}\' to {1}", son, checkVal);
-            chkSon[son] = checkVal;
-            foreach (Phonemes p in sonMap[son])
-                chkPhon[(int)p] = checkVal;
-            OnSonCBModified(new SonConfigModifiedEventArgs(son, pct));
+            logger.ConditionalDebug("SetChkSon \'{0}\' to {1}", son, checkVal);
+            if(chkSon[son] != checkVal)
+            {
+                chkSon[son] = checkVal;
+                foreach (Phonemes p in sonMap[son])
+                    chkPhon[(int)p] = checkVal;
+                OnSonCBModified(new SonConfigModifiedEventArgs(son, pct));
+            }
         }
 
         // ---------------------------------------------------  Default Behaviour  ------------------------------------------------------
@@ -618,7 +621,7 @@ namespace ColorLib
         /// <param name="val">La nouvelle valeur pour ce flag.</param>
         public void DefaultBehaviourChangedTo(bool val)
         {
-            logger.ConditionalTrace("DefaultBehaviourChangedTo {0}", val);
+            logger.ConditionalDebug("DefaultBehaviourChangedTo {0}", val);
             if (val != (defBeh == DefBeh.noir))
             {
                 if (val)
@@ -641,18 +644,18 @@ namespace ColorLib
 
         internal override void PostLoadInitOptionalFields()
         {
-            logger.ConditionalTrace("PostLoadInitOptionalFields");
+            logger.ConditionalDebug("PostLoadInitOptionalFields");
             if (cfPhon.Length < (int)Phonemes.lastPhon)
             {
                 Array.Resize(ref cfPhon, (int)Phonemes.lastPhon);
                 Array.Resize(ref chkPhon, (int)Phonemes.lastPhon);
-                logger.ConditionalTrace("cfPhon & chkPhon resized.");
+                logger.ConditionalDebug("cfPhon & chkPhon resized.");
             }
             if (!cfSon.ContainsKey("ill"))
             {
                 SetCFSon("ill", predefCF[(int)PredefCols.black]);
                 SetChkSon("ill", false);
-                logger.ConditionalTrace("Son \"ill\" initialisé.");
+                logger.ConditionalDebug("Son \"ill\" initialisé.");
             }
         }
 
@@ -674,7 +677,7 @@ namespace ColorLib
 
         private void CleanAllSons()
         {
-            logger.ConditionalTrace("CleanAllSons");
+            logger.ConditionalDebug("CleanAllSons");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
             {
                 SetCFSon(k.Key, predefCF[(int)PredefCols.black]);
@@ -687,7 +690,7 @@ namespace ColorLib
 
         private void InitColorMuettes()
         {
-            logger.ConditionalTrace("InitColorMuettes");
+            logger.ConditionalDebug("InitColorMuettes");
             CleanAllSons();
             SetChkSon("_muet", true);
             SetCFSon("_muet", predefCF[(int)CERASColors.CERAS_muet]);
@@ -696,7 +699,7 @@ namespace ColorLib
         [OnDeserializing()]
         private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
         {
-            logger.ConditionalTrace("SetOptionalFieldsToDefaultVal");
+            logger.ConditionalDebug("SetOptionalFieldsToDefaultVal");
             flags = new List<bool>((int)RuleFlag.last);
             for (int i = 0; i < (int)RuleFlag.last; i++)
                 flags.Add(true); // par défaut, les règles sont actives.
@@ -710,28 +713,28 @@ namespace ColorLib
 
         protected virtual void OnSonCharFormattingModified(SonConfigModifiedEventArgs e)
         {
-            logger.ConditionalTrace("OnSonCharFormattingModified e.son: \'{0}\', e.pct: {1}", e.son, e.pct);
+            logger.ConditionalDebug("OnSonCharFormattingModified e.son: \'{0}\', e.pct: {1}", e.son, e.pct);
             EventHandler<SonConfigModifiedEventArgs> eventHandler = SonCharFormattingModifiedEvent;
             eventHandler?.Invoke(this, e);
         }
 
         protected virtual void OnSonCBModified(SonConfigModifiedEventArgs e)
         {
-            logger.ConditionalTrace("OnSonCBModified e.son: \'{0}\', e.pct: {1}", e.son, e.pct);
+            logger.ConditionalDebug("OnSonCBModified e.son: \'{0}\', e.pct: {1}", e.son, e.pct);
             EventHandler<SonConfigModifiedEventArgs> eventHandler = SonCBModifiedEvent;
             eventHandler?.Invoke(this, e);
         }
 
         protected virtual void OnIllModified(PhonConfType inPCT)
         {
-            logger.ConditionalTrace("OnIllModified");
+            logger.ConditionalDebug("OnIllModified");
             EventHandler<PhonConfModifiedEventArgs> eventHandler = IllModifiedEvent;
             eventHandler?.Invoke(this, new PhonConfModifiedEventArgs(inPCT));
         }
 
         protected virtual void OnDefBehModified(PhonConfType inPCT)
         {
-            logger.ConditionalTrace("OnDefBehModified");
+            logger.ConditionalDebug("OnDefBehModified");
             EventHandler<PhonConfModifiedEventArgs> eventHandler = DefBehModifiedEvent;
             eventHandler?.Invoke(this, new PhonConfModifiedEventArgs(inPCT));
         }

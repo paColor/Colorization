@@ -59,7 +59,7 @@ namespace ColorizationControls
         public static void MakePaneVisibleInWin(Object theWin, Object theDoc, CustomTaskPaneCollection inCustomTaskPanes,
             string version)
         {
-            logger.ConditionalTrace("MakePaneVisibleInWin");
+            logger.ConditionalDebug("MakePaneVisibleInWin");
             ConfigPane theCP;
             if (!confTaskPanes.TryGetValue(theWin, out theCP))
             {
@@ -91,7 +91,7 @@ namespace ColorizationControls
         /// </remarks>
         public static void DocClosed(Object inDoc)
         {
-            logger.ConditionalTrace("DocClosed");
+            logger.ConditionalDebug("DocClosed");
             List<Object> winToRemove = new List<Object>(1); // pas sûr qu'on puisse enlever des élément à une liste qu'on traverse...
             foreach (ConfigPane theCP in confTaskPanes.Values)
             {
@@ -120,7 +120,7 @@ namespace ColorizationControls
         private ConfigPane(Object inWin, Object inDoc, CustomTaskPaneCollection inCustomTaskPanes, string version)
         {
             const int OrigWidth = 363;
-            logger.ConditionalTrace("ConfigPane");
+            logger.ConditionalDebug("ConfigPane");
             theWin = inWin;
             theDoc = inDoc;
             customTaskPanes = inCustomTaskPanes;
@@ -131,7 +131,7 @@ namespace ColorizationControls
 
         internal void Close()
         {
-            logger.ConditionalTrace("Close");
+            logger.ConditionalDebug("Close");
             // since we handle the doc closing events, it is possible to close a window without having the 
             // corresponding entry removed here (if the document is opened in multiple windows). In this case 
             // I was once able to produce a situation where the corresponding configTaskPane was removed from 

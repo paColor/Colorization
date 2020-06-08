@@ -81,7 +81,7 @@ namespace ColorizationControls
 
         public static void Init()
         {
-            logger.ConditionalTrace("Init");
+            logger.ConditionalDebug("Init");
             StaticColorizControls.Init();
         }
 
@@ -126,7 +126,7 @@ namespace ColorizationControls
         /// <param name="newConfig">La nouvelle <c>Config</c> qu'il s'agit d'éditer.</param>
         public void ResetConfig(Config newConfig)
         {
-            logger.ConditionalTrace("ResetConfig");
+            logger.ConditionalDebug("ResetConfig");
             InitializeTheConf(newConfig);
             UpdateAll();
         }
@@ -138,7 +138,7 @@ namespace ColorizationControls
         /// <param name="subConf">La <c>Config</c> pour laquelle le <c>ConfigControl</c> est créé. </param>
         public ConfigControl(Config subConf)
         {
-            logger.ConditionalTrace("ConfigControl - constructeur avec subConf");
+            logger.ConditionalDebug("ConfigControl - constructeur avec subConf");
             theWin = null;
             theDoc = null;
             InitCtor("", subConf);
@@ -167,15 +167,17 @@ namespace ColorizationControls
             btcLNoir.Enabled = false;
 
             tabControl1.SelectTab(tabAutres);
+            logger.ConditionalDebug("ConfigControl - EXIT constructeur avec subConf");
         }
 
         public ConfigControl(Object inWin, Object inDoc, string version)
         {
-            logger.ConditionalTrace("ConfigControl - constructeur avec win et doc");
+            logger.ConditionalDebug("ConfigControl - constructeur avec win et doc");
             // theConf
             theWin = inWin;
             theDoc = inDoc;
             InitCtor(version, Config.GetConfigFor(theWin, theDoc));
+            logger.ConditionalDebug("ConfigControl - EXIT constructeur avec win et doc");
         }
 
         public void UpdateSonButton(string son)
@@ -207,7 +209,7 @@ namespace ColorizationControls
 
         public void UpdateAllSoundCbxAndButtons()
         {
-            logger.ConditionalTrace("UpdateAllSoundCbxAndButtons");
+            logger.ConditionalDebug("UpdateAllSoundCbxAndButtons");
             SuspendLayout();
 
             foreach (string son in sonInfos.Keys)
@@ -223,7 +225,7 @@ namespace ColorizationControls
 
         public void UpdateLetterButtons()
         {
-            logger.ConditionalTrace("UpdateLetterButtons");
+            logger.ConditionalDebug("UpdateLetterButtons");
             SuspendLayout();
             for (int i = 0; i < letterButtons.Count; i++)
                 UpdateLetterButton(i);
@@ -251,7 +253,7 @@ namespace ColorizationControls
 
         public void UpdateSylButtons ()
         {
-            logger.ConditionalTrace("UpdateLetterButtons");
+            logger.ConditionalDebug("UpdateLetterButtons");
             SuspendLayout();
             for (int i = 0; i < SylConfig.nrButtons; i++)
                 UpdateSylButton(i);
@@ -267,9 +269,9 @@ namespace ColorizationControls
 
         public void UpdateSylButton(int butNr)
         {
+            logger.ConditionalTrace("UpdateSylButton buttonNr: {0}", butNr);
             const string filledBtnTxt = "Txt";
             const string emptyBtnTxt = "";
-            logger.ConditionalTrace("UpdateSylButton buttonNr: {0}", butNr);
             SylConfig.SylButtonConf sbC = theConf.sylConf.GetSylButtonConfFor(butNr);
             Button theButton = sylButtons[butNr];
             RGB theButtonCol = defaultSylButtonCol;
@@ -298,7 +300,7 @@ namespace ColorizationControls
 
         public void UpdateUcheckBoxes()
         {
-            logger.ConditionalTrace("UpdateUcheckBoxes");
+            logger.ConditionalDebug("UpdateUcheckBoxes");
             foreach (string cbUname in formattingCheckBoxes.Keys)
             {
                 CheckBox fcb = formattingCheckBoxes[cbUname];
@@ -308,7 +310,7 @@ namespace ColorizationControls
 
         internal void UpdateIllRadioB()
         {
-            logger.ConditionalTrace("UpdateUcheckBoxes");
+            logger.ConditionalDebug("UpdateUcheckBoxes");
             if (theConf.colors[pct].IllRuleToUse == ColConfWin.IllRule.ceras)
             {
                 rbnIllCeras.Checked = true;
@@ -323,7 +325,7 @@ namespace ColorizationControls
 
         private void IllConfigModified(object sender, PhonConfModifiedEventArgs e)
         {
-            logger.ConditionalTrace("IllConfigModified");
+            logger.ConditionalDebug("IllConfigModified");
             if (e.pct == this.pct)
             {
                 Debug.Assert((ColConfWin)sender == theConf.colors[pct]);
@@ -333,7 +335,7 @@ namespace ColorizationControls
 
         public void UpdateAll()
         {
-            logger.ConditionalTrace("UpdateAll");
+            logger.ConditionalDebug("UpdateAll");
             UpdateAllSoundCbxAndButtons();
             UpdateLetterButtons();
             UpdateUcheckBoxes();
@@ -349,7 +351,7 @@ namespace ColorizationControls
         /// <param name="inConf">La <c>Config</c> pour laquelle il faut initialiser les évèenements</param>
         private void InitializeTheConf(Config inConf)
         {
-            logger.ConditionalTrace("InitializeTheConf");
+            logger.ConditionalDebug("InitializeTheConf");
             theConf = inConf;
             theConf.ConfigReplacedEvent += ConfigReplaced;
             theConf.ConfigNameModifiedEvent += ConfigNameModified;
@@ -371,7 +373,7 @@ namespace ColorizationControls
 
         private void ConfigReplaced(object sender, ConfigReplacedEventArgs e)
         {
-            logger.ConditionalTrace("ConfigReplaced");
+            logger.ConditionalDebug("ConfigReplaced");
             // Se désabonner des anciens évènements. C'est peut-être inutile, je ne suis pas sûr...
             theConf.ConfigReplacedEvent -= ConfigReplaced;
             theConf.ConfigNameModifiedEvent -= ConfigNameModified;
@@ -406,7 +408,7 @@ namespace ColorizationControls
         /// <param name="inConf">La <c>Config</c> pour laquelle le <c>ConfigControl</c> est créé.</param>
         private void InitCtor(string version, Config inConf)
         {
-            logger.ConditionalTrace("InitCtor");
+            logger.ConditionalDebug("InitCtor");
             InitializeComponent(); // calls the setup of the whole component
             InitializeTheConf(inConf);
             Config.ListSavedConfigsModified += ListSavedConfigsModifed;
@@ -571,31 +573,31 @@ namespace ColorizationControls
 
         private void btnCERAS_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btnCERAS_Click");
+            logger.ConditionalDebug("btnCERAS_Click");
             theConf.colors[pct].SetCeras();
         }
 
         private void btGCerasRose_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btnCERAS_Click");
+            logger.ConditionalDebug("btnCERAS_Click");
             theConf.colors[pct].SetCerasRose();
         }
 
         private void btnTout_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btnTout_Click");
+            logger.ConditionalDebug("btnTout_Click");
             theConf.colors[pct].SetAllCbxSons();
         }
 
         private void btnRien_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btnRien_Click");
+            logger.ConditionalDebug("btnRien_Click");
             theConf.colors[pct].ClearAllCbxSons();
         }
 
         private void btcPhons_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btcPhons_Click");
+            logger.ConditionalDebug("btcPhons_Click");
             if (pct == PhonConfType.phonemes)
             {
                 colorizeAllSelPhons(theConf);
@@ -608,7 +610,7 @@ namespace ColorizationControls
 
         private void SonButtonCFModified(object sender, SonConfigModifiedEventArgs e)
         {
-            logger.ConditionalTrace("SonButtonCFModified");
+            logger.ConditionalDebug("SonButtonCFModified");
             if (e.pct == this.pct)
             {
                 Debug.Assert((ColConfWin)sender == theConf.colors[pct]);
@@ -618,7 +620,7 @@ namespace ColorizationControls
 
         private void SonCheckBoxModified(object sender, SonConfigModifiedEventArgs e)
         {
-            logger.ConditionalTrace("SonCheckBoxModified");
+            logger.ConditionalDebug("SonCheckBoxModified");
             if (e.pct == this.pct)
             {
                 Debug.Assert((ColConfWin)sender == theConf.colors[pct]);
@@ -633,7 +635,7 @@ namespace ColorizationControls
         private void SonCheckBox_CheckedChanged(Object sender, EventArgs e)
         {
             CheckBox cbx = (CheckBox)sender;
-            logger.ConditionalTrace("SonCheckBox_CheckedChanged {0}", cbx.Name);
+            logger.ConditionalDebug("SonCheckBox_CheckedChanged {0}", cbx.Name);
             Debug.Assert(cbx.Name.StartsWith("cbx"));
             string son = cbx.Name.Substring(3, cbx.Name.Length - 3);
             theConf.colors[pct].SetChkSon(son, cbx.Checked);
@@ -646,7 +648,7 @@ namespace ColorizationControls
         private void SonButton_Click(object sender, EventArgs e)
         {
             Button theBtn = (Button)sender;
-            logger.ConditionalTrace("SonButton_Click {0}", theBtn.Name);
+            logger.ConditionalDebug("SonButton_Click {0}", theBtn.Name);
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
             Debug.Assert(theBtn.Name.StartsWith("btn"));
             string son = theBtn.Name.Substring(3, theBtn.Name.Length - 3);
@@ -665,7 +667,7 @@ namespace ColorizationControls
         private void LetterButton_Click(object sender, EventArgs e)
         {
             Button theBtn = (Button)sender;
-            logger.ConditionalTrace("SonCheckBox_CheckedChanged {0}", theBtn.Name);
+            logger.ConditionalDebug("SonCheckBox_CheckedChanged {0}", theBtn.Name);
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
             Debug.Assert(theBtn.Name.StartsWith("btL"));
             string butNrTxt = theBtn.Name.Substring(3, theBtn.Name.Length - 3);
@@ -679,13 +681,13 @@ namespace ColorizationControls
 
         private void btCPBDQ_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btCPBDQ_Click");
+            logger.ConditionalDebug("btCPBDQ_Click");
             theConf.pBDQ.Reset();
         }
 
         private void btcLbpdq_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btcLbpdq_Click");
+            logger.ConditionalDebug("btcLbpdq_Click");
             markSelLetters(theConf);
         }
 
@@ -700,7 +702,7 @@ namespace ColorizationControls
 
         private void cbAlettresNoir_CheckedChanged(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("cbAlettresNoir_CheckedChanged");
+            logger.ConditionalDebug("cbAlettresNoir_CheckedChanged");
             Debug.Assert(sender != null);
             CheckBox cbx = (CheckBox)sender;
             theConf.pBDQ.BlackSettingCheckChangedTo(cbx.Checked);
@@ -708,13 +710,13 @@ namespace ColorizationControls
 
         private void MarkAsBlackModified(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("MarkAsBlackModified");
+            logger.ConditionalDebug("MarkAsBlackModified");
             cbAlettresNoir.Checked = theConf.pBDQ.markAsBlack;
         }
 
         private void cbSBlackPhons_CheckedChanged(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("cbSBlackPhons_CheckedChanged");
+            logger.ConditionalDebug("cbSBlackPhons_CheckedChanged");
             Debug.Assert(sender != null);
             CheckBox cbx = (CheckBox)sender;
             theConf.colors[pct].DefaultBehaviourChangedTo(cbx.Checked);
@@ -722,7 +724,7 @@ namespace ColorizationControls
 
         private void DefBehModified(object sender, PhonConfModifiedEventArgs e)
         {
-            logger.ConditionalTrace("DefBehModified e.pct: \'{0}\'", e.pct);
+            logger.ConditionalDebug("DefBehModified e.pct: \'{0}\'", e.pct);
             if (e.pct == this.pct)
             {
                 cbSBlackPhons.Checked = (theConf.colors[pct].defBeh == ColConfWin.DefBeh.noir);
@@ -732,7 +734,7 @@ namespace ColorizationControls
         private void UcheckBoxes_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cbu = (CheckBox)sender;
-            logger.ConditionalTrace("UcheckBoxes_CheckedChanged {0}", cbu.Name);
+            logger.ConditionalDebug("UcheckBoxes_CheckedChanged {0}", cbu.Name);
             Debug.Assert(cbu.Name.StartsWith("cbu"));
             string cbuNameEnd = cbu.Name.Substring(3, cbu.Name.Length - 3);
             theConf.unsetBeh.CbuChecked(cbuNameEnd, cbu.Checked);
@@ -740,7 +742,7 @@ namespace ColorizationControls
 
         private void CheckboxUnsetModified (object sender, CheckboxUnsetModifiedEventArgs e)
         {
-            logger.ConditionalTrace("CheckboxUnsetModified, checkbox \'{0}\'", e.unsetCBName);
+            logger.ConditionalDebug("CheckboxUnsetModified, checkbox \'{0}\'", e.unsetCBName);
             Debug.Assert(ReferenceEquals(sender, theConf.unsetBeh));
             CheckBox fcb = formattingCheckBoxes[e.unsetCBName];
             fcb.Checked = theConf.unsetBeh.CbuVal(e.unsetCBX);
@@ -752,7 +754,7 @@ namespace ColorizationControls
 
         private void rbnIll_CheckedChanged(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("rbnIll_CheckedChanged, position \'{0}\'", rbnIllCeras.Checked);
+            logger.ConditionalDebug("rbnIll_CheckedChanged, position \'{0}\'", rbnIllCeras.Checked);
             if (rbnIllCeras.Checked)
             {
                 theConf.colors[pct].IllRuleToUse = ColConfWin.IllRule.ceras;
@@ -769,26 +771,26 @@ namespace ColorizationControls
 
         private void rbnEcrit_CheckedChanged(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("rbnEcrit_CheckedChanged");
+            logger.ConditionalDebug("rbnEcrit_CheckedChanged");
             theConf.sylConf.ModeEcrit = rbnEcrit.Checked;
         }
 
         private void ModeEcritModified(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("ModeEcritModified");
+            logger.ConditionalDebug("ModeEcritModified");
             Debug.Assert(ReferenceEquals(sender, theConf.sylConf));
             rbnEcrit.Checked = theConf.sylConf.ModeEcrit;
         }
 
         private void rbnStandard_CheckedChanged(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("rbnStandard_CheckedChanged");
+            logger.ConditionalDebug("rbnStandard_CheckedChanged");
             theConf.sylConf.DoubleConsStd = rbnStandard.Checked;
         }
 
         private void DoubleConsStdModified(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("DoubleConsStdModified");
+            logger.ConditionalDebug("DoubleConsStdModified");
             Debug.Assert(ReferenceEquals(sender, theConf.sylConf));
             rbnStandard.Checked = theConf.sylConf.DoubleConsStd;
         }
@@ -799,46 +801,46 @@ namespace ColorizationControls
 
         private void btSAppliquer_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btSAppliquer_Click");
+            logger.ConditionalDebug("btSAppliquer_Click");
             colSylSelLetters(theConf);
         }
 
         private void btSMots_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btSMots_Click");
+            logger.ConditionalDebug("btSMots_Click");
             colMotsSelLetters(theConf);
         }
 
         private void btZeLignes_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btZeLignes_Click");
+            logger.ConditionalDebug("btZeLignes_Click");
             colLignesSelText(theConf);
         }
 
         private void btSVoyCons_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btSVoyCons_Click");
+            logger.ConditionalDebug("btSVoyCons_Click");
             colVoyConsSelText(theConf);
         }
 
         private void btcLNoir_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btcLNoir_Click");
+            logger.ConditionalDebug("btcLNoir_Click");
             colNoirSelText(theConf);
         }
 
         private void btcInitSyls_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btcInitSyls_Click");
+            logger.ConditionalDebug("btcInitSyls_Click");
             theConf.sylConf.Reset();
         }
 
         private void SylButton_Click(object sender, EventArgs e)
             // can be called for the Buttons and for the PictureBoxes
         {
-            logger.ConditionalTrace("SylButton_Click");
+            logger.ConditionalDebug("SylButton_Click");
             Control theControl = (Control)sender;
-            logger.ConditionalTrace("SylButton_Click {0}", theControl.Name);
+            logger.ConditionalDebug("SylButton_Click {0}", theControl.Name);
             Point mousePos = theControl.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
             Debug.Assert(theControl.Name.StartsWith("btSC") || theControl.Name.StartsWith("pbHL"));
             string cNrTxt = theControl.Name.Substring(4, theControl.Name.Length - 4);
@@ -856,7 +858,7 @@ namespace ColorizationControls
 
         private void SylButtonModified(object sender, SylButtonModifiedEventArgs e)
         {
-            logger.ConditionalTrace("SylButtonModified, bouton \'{0}\'", e.buttonNr);
+            logger.ConditionalDebug("SylButtonModified, bouton \'{0}\'", e.buttonNr);
             Debug.Assert((SylConfig)sender == theConf.sylConf);
             UpdateSylButton(e.buttonNr);
         }
@@ -867,14 +869,14 @@ namespace ColorizationControls
 
         private void butConfigDuo_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("butConfigDuo_Click");
+            logger.ConditionalDebug("butConfigDuo_Click");
             DuoConfForm dcf = new DuoConfForm(theConf);
             dcf.ShowDialog();
         }
 
         private void butExecuteDuo_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("butExecuteDuo_Click");
+            logger.ConditionalDebug("butExecuteDuo_Click");
             colDuoSelText(theConf);
         }
 
@@ -885,26 +887,26 @@ namespace ColorizationControls
         private void tabSauv_Enter(object sender, EventArgs e)
         {
             // Quand l'utilisateur rend l'onglet visible
-            logger.ConditionalTrace("tabSauv_Enter");
+            logger.ConditionalDebug("tabSauv_Enter");
             UpdateListeConfigs();
         }
 
         private void UpdateConfigName()
         {
-            logger.ConditionalTrace("UpdateConfigName");
+            logger.ConditionalDebug("UpdateConfigName");
             txtBNomConfig.Text = theConf.GetConfigName();
             btSauvSauv.Enabled = (txtBNomConfig.Text.Length > 0);
         }
 
         private void ConfigNameModified(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("ConfigNameModified");
+            logger.ConditionalDebug("ConfigNameModified");
             UpdateConfigName();
         }
 
         private void UpdateListeConfigs()
         {
-            logger.ConditionalTrace("UpdateListeConfigs");
+            logger.ConditionalDebug("UpdateListeConfigs");
             lbConfigs.DataSource = Config.GetSavedConfigNames();
             btSauvCharger.Enabled = (lbConfigs.Items.Count > 0);
             if (!String.IsNullOrEmpty(txtBNomConfig.Text))
@@ -919,7 +921,7 @@ namespace ColorizationControls
 
         private void ListSavedConfigsModifed(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("ListSavedConfigsModifed");
+            logger.ConditionalDebug("ListSavedConfigsModifed");
             UpdateListeConfigs();
         }
 
@@ -927,7 +929,7 @@ namespace ColorizationControls
         
         private void txtBNomConfig_KeyPress(object sender, KeyPressEventArgs e)
         {
-            logger.ConditionalTrace("txtBNomConfig_KeyPress: \'{0}\'", e.KeyChar);
+            logger.ConditionalDebug("txtBNomConfig_KeyPress: \'{0}\'", e.KeyChar);
             const string forbiddenChars = @"<>:/\|?*" + "\"";
             if (forbiddenChars.Contains(e.KeyChar))
             {
@@ -947,7 +949,7 @@ namespace ColorizationControls
 
         private void txtBNomConfig_KeyUp(object sender, KeyEventArgs e)
         {
-            logger.ConditionalTrace("txtBNomConfig_KeyUp - nbre caractères: {0}", txtBNomConfig.Text.Length);
+            logger.ConditionalDebug("txtBNomConfig_KeyUp - nbre caractères: {0}", txtBNomConfig.Text.Length);
             // En fonction du nombre de caractères que contient le nom de la config, on peut activer ou désactiver 
             // le bouton de sauvegarde.
             btSauvSauv.Enabled = (txtBNomConfig.Text.Length > 0);
@@ -958,7 +960,7 @@ namespace ColorizationControls
 
         private void btSauvSauv_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btSauvSauv_Click");
+            logger.ConditionalDebug("btSauvSauv_Click");
             if (txtBNomConfig.Text.Length > 0)
             {
                 bool doIt = true;
@@ -990,7 +992,7 @@ namespace ColorizationControls
 
         private void btSauvSauv_KeyPress(object sender, KeyPressEventArgs e)
         {
-            logger.ConditionalTrace("btSauvSauv_KeyPress: \'{0}\'", e.KeyChar);
+            logger.ConditionalDebug("btSauvSauv_KeyPress: \'{0}\'", e.KeyChar);
             if (e.KeyChar == '\r')
             {
                 btSauvSauv.PerformClick();
@@ -1003,7 +1005,7 @@ namespace ColorizationControls
 
         private void lbConfigs_KeyPress(object sender, KeyPressEventArgs e)
         {
-            logger.ConditionalTrace("lbConfigs_KeyPress: \'{0}\'", e.KeyChar);
+            logger.ConditionalDebug("lbConfigs_KeyPress: \'{0}\'", e.KeyChar);
             if (e.KeyChar == '\r')
             {
                 btSauvCharger.PerformClick();
@@ -1013,7 +1015,7 @@ namespace ColorizationControls
 
         private void lbConfigs_DoubleClick(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("lbConfigs_DoubleClick");
+            logger.ConditionalDebug("lbConfigs_DoubleClick");
             btSauvCharger.PerformClick();
         }
 
@@ -1021,7 +1023,7 @@ namespace ColorizationControls
 
         private void btSauvCharger_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btSauvCharger_Click");
+            logger.ConditionalDebug("btSauvCharger_Click");
             string configName = lbConfigs.SelectedItem.ToString();
             string errMsg;
             if(!theConf.LoadConfig(configName, out errMsg))
@@ -1034,7 +1036,7 @@ namespace ColorizationControls
 
         private void btSauvCharger_KeyPress(object sender, KeyPressEventArgs e)
         {
-            logger.ConditionalTrace("btSauvCharger_KeyPress: \'{0}\'", e.KeyChar);
+            logger.ConditionalDebug("btSauvCharger_KeyPress: \'{0}\'", e.KeyChar);
             if (e.KeyChar == '\r')
             {
                 btSauvCharger.PerformClick();
@@ -1046,7 +1048,7 @@ namespace ColorizationControls
 
         private void btSauvEffacer_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btSauvCharger_Click");
+            logger.ConditionalDebug("btSauvCharger_Click");
             string configName = lbConfigs.SelectedItem.ToString();
             string message = String.Format(
                         "Voulez-vous vraiment effacer la configuration \'{0}\' ? Cette opération est " +
@@ -1069,7 +1071,7 @@ namespace ColorizationControls
 
         private void btSauvDefaut_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btSauvDefaut_Click");
+            logger.ConditionalDebug("btSauvDefaut_Click");
             theConf.Reset();
             btSauvSauv.Focus();
         }
@@ -1080,35 +1082,35 @@ namespace ColorizationControls
 
         private void linkLireCouleur_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            logger.ConditionalTrace("linkLireCouleur_LinkClicked");
+            logger.ConditionalDebug("linkLireCouleur_LinkClicked");
             this.linkLireCouleur.LinkVisited = true;
             System.Diagnostics.Process.Start(this.linkLireCouleur.Text);
         }
 
         private void linkCERAS_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            logger.ConditionalTrace("linkCERAS_LinkClicked");
+            logger.ConditionalDebug("linkCERAS_LinkClicked");
             this.linkCERAS.LinkVisited = true;
             System.Diagnostics.Process.Start(this.linkCERAS.Text);
         }
 
         private void linkInfoAtColorization_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            logger.ConditionalTrace("linkInfoAtColorization_LinkClicked");
+            logger.ConditionalDebug("linkInfoAtColorization_LinkClicked");
             this.linkInfoAtColorization.LinkVisited = true;
             System.Diagnostics.Process.Start("mailto:info@colorization.ch");
         }
 
         private void linkCodeCouleurAPI_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            logger.ConditionalTrace("linkCodeCouleurAPI_LinkClicked");
+            logger.ConditionalDebug("linkCodeCouleurAPI_LinkClicked");
             this.linkCodeCouleurAPI.LinkVisited = true;
             System.Diagnostics.Process.Start("https://colorization.ch/docs/Sons-couleurs-symboles-et-coloriseur-API.pdf");
         }
 
         private void linkCodeCouleurAPIRose_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            logger.ConditionalTrace("linkCodeCouleurAPIRose_LinkClicked");
+            logger.ConditionalDebug("linkCodeCouleurAPIRose_LinkClicked");
             this.linkCodeCouleurAPIRose.LinkVisited = true;
             System.Diagnostics.Process.Start("https://colorization.ch/docs/Sons_couleurs_COLORISEUR_API_rose_2020.pdf");
         }
@@ -1116,7 +1118,7 @@ namespace ColorizationControls
 
         private void butLicense_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("butLicense_Click");
+            logger.ConditionalDebug("butLicense_Click");
             Button theBtn = (Button)sender;
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location);
             LicenseForm lf = new LicenseForm();
@@ -1128,7 +1130,7 @@ namespace ColorizationControls
 
         private void butAide_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("butAide_Click");
+            logger.ConditionalDebug("butAide_Click");
             System.Diagnostics.Process.Start("https://colorization.ch/docs/Manuel_Utilisateur_Colorization.pdf");
         }
 
@@ -1143,7 +1145,7 @@ namespace ColorizationControls
         /// <param name="txt">Le texte à utiliser pour le menu de la couleur du texte.</param>
         private void SetTsmiGISforCF(CharFormatting cf, string txt = "Texte")
         {
-            logger.ConditionalTrace("SetTsmiGISforCF, txt: \'{0}\'", txt);
+            logger.ConditionalDebug("SetTsmiGISforCF, txt: \'{0}\'", txt);
             tsmiGras.Enabled = true;
             tsmiItalique.Enabled = true;
             tsmiSouligne.Enabled = true;
@@ -1179,7 +1181,7 @@ namespace ColorizationControls
         private void cmsEffacerCopier_Opening(object sender, CancelEventArgs e)
         {
             string cName = cmsEffacerCopier.SourceControl.Name; 
-            logger.ConditionalTrace("cmsEffacerCopier_Opening {0}", cName);
+            logger.ConditionalDebug("cmsEffacerCopier_Opening {0}", cName);
             tsmiCouper.Enabled = false;
             tsmiCopier.Enabled = false;
             tsmiEffacer.Enabled = false;
@@ -1246,14 +1248,14 @@ namespace ColorizationControls
 
         private void tsmiCouper_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("tsmiCouper_Click cmsButType == {0}, cmsButNr == {1}, cmsButSon == {2}", cmsButType, cmsButNr, cmsButSon);
+            logger.ConditionalDebug("tsmiCouper_Click cmsButType == {0}, cmsButNr == {1}, cmsButSon == {2}", cmsButType, cmsButNr, cmsButSon);
             tsmiCopier_Click(sender, e);
             tsmiEffacer_Click(sender, e);
         }
 
         private void tsmiCopier_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("tsmiCopier_Click cmsButType == {0}, cmsButNr == {1}, cmsButSon == {2}", cmsButType, cmsButNr, cmsButSon);
+            logger.ConditionalDebug("tsmiCopier_Click cmsButType == {0}, cmsButNr == {1}, cmsButSon == {2}", cmsButType, cmsButNr, cmsButSon);
             switch (cmsButType)
             {
                 case "btL":
@@ -1270,7 +1272,7 @@ namespace ColorizationControls
 
         private void tsmiColler_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("tsmiColler_Click cmsButType == {0}, cmsButNr == {1}, cmsButSon == {2}", cmsButType, cmsButNr, cmsButSon);
+            logger.ConditionalDebug("tsmiColler_Click cmsButType == {0}, cmsButNr == {1}, cmsButSon == {2}", cmsButType, cmsButNr, cmsButSon);
             switch (cmsButType)
             {
                 case "btL":
@@ -1294,7 +1296,7 @@ namespace ColorizationControls
 
         private void tsmiEffacer_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("tsmiEffacer_Click cmsButType == {0}, cmsButNr == {1}, cmsButSon == {2}", cmsButType, cmsButNr, cmsButSon);
+            logger.ConditionalDebug("tsmiEffacer_Click cmsButType == {0}, cmsButNr == {1}, cmsButSon == {2}", cmsButType, cmsButNr, cmsButSon);
             switch (cmsButType)
             {
                 case "btL":
@@ -1313,7 +1315,7 @@ namespace ColorizationControls
 
         private void APplyCFToClickedButton(CharFormatting cf)
         {
-            logger.ConditionalTrace("APplyCFToClickedButton");
+            logger.ConditionalDebug("APplyCFToClickedButton");
             switch (cmsButType)
             {
                 case "btL":
@@ -1330,25 +1332,25 @@ namespace ColorizationControls
 
         private void tsmiGras_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("APplyCFToClickedButton");
+            logger.ConditionalDebug("APplyCFToClickedButton");
             APplyCFToClickedButton(new CharFormatting(cmsCF, !cmsCF.bold, cmsCF.italic, cmsCF.underline));
         }
 
         private void tsmiItalique_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("APplyCFToClickedButton");
+            logger.ConditionalDebug("APplyCFToClickedButton");
             APplyCFToClickedButton(new CharFormatting(cmsCF, cmsCF.bold, !cmsCF.italic, cmsCF.underline));
         }
 
         private void tsmiSouligne_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("APplyCFToClickedButton");
+            logger.ConditionalDebug("APplyCFToClickedButton");
             APplyCFToClickedButton(new CharFormatting(cmsCF, cmsCF.bold, cmsCF.italic, !cmsCF.underline));
         }
 
         private void tsmiCouleur_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("tsmiCouleur_Click");
+            logger.ConditionalDebug("tsmiCouleur_Click");
             Point p = cmsEffacerCopier.PointToScreen(tsmiCouleur.Bounds.Location); // position relative à l'écran
             p.Offset((int)(-450 * ScaleFactor), (int)(-100 * ScaleFactor));
             var mcd = new MyColorDialog();
@@ -1367,7 +1369,7 @@ namespace ColorizationControls
 
         private void tsmiSurlignage_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("tsmiSurlignage_Click");
+            logger.ConditionalDebug("tsmiSurlignage_Click");
             Point p = cmsEffacerCopier.PointToScreen(tsmiCouleur.Bounds.Location); // position relative à l'écran
             HilightForm hiForm = new HilightForm(cmsCF.hilightColor);
             p.Offset((int)(ScaleFactor * (-hiForm.Width)), (int)(ScaleFactor * (-(hiForm.Height / 2))));
@@ -1386,7 +1388,7 @@ namespace ColorizationControls
 
         private void configMuettesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("configMuettesToolStripMenuItem_Click pct == {0}", pct.ToString());
+            logger.ConditionalDebug("configMuettesToolStripMenuItem_Click pct == {0}", pct.ToString());
             if (pct == PhonConfType.phonemes)
             {
                 pct = PhonConfType.muettes;

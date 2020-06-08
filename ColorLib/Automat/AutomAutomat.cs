@@ -31,6 +31,9 @@ namespace ColorLib
 {
     public class AutomAutomat : AutomElement
     {
+
+		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
 		/*****************************************************************************************************************
 		
 		La syntaxe de l'automate est plagiée de LireCouleur. Le contenu est à 95% le même.. 
@@ -460,6 +463,7 @@ namespace ColorLib
 
 		static public void InitAutomat()
 		{
+			logger.ConditionalDebug("InitAutomat");
 			AutomLetter.InitAutomat();
 			autom = new AutomAutomat(theAutomat);
 		}
@@ -469,13 +473,14 @@ namespace ColorLib
         public AutomAutomat(string s)
             :base(s, 0)
         {
-            /*
+			logger.ConditionalDebug("AutomAutomat");
+			/*
              * An AutomAutomat has the syntax
              * {List of AutomLetter separated by ','}
              */
 
-		// Let's skip possible leading spaces
-		int pos = 0;
+			// Let's skip possible leading spaces
+			int pos = 0;
             pos = GetNextChar(pos);
             // The char at pos must be an {
             Debug.Assert(s[pos] == '{', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomAutomat, on attend un \'{{\' en début d'automate.",
@@ -513,6 +518,7 @@ namespace ColorLib
 		/// <param name="conf">La <see cref="Config"/> à utiliser au cours de cette analyse.</param>
 		public void FindPhons(PhonWord pw, Config conf)
 		{
+			logger.ConditionalTrace("FindPhons");
 			Debug.Assert(pw != null);
 
 			int pos = 0;

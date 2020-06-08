@@ -45,7 +45,7 @@ namespace ColorizationWord
         {
             InitNLog.StartNLog();
 
-            logger.ConditionalTrace("ThisAddIn_Startup");
+            logger.ConditionalDebug("ThisAddIn_Startup");
             MSWText.Initialize();
             WordRibbon.Init();
 
@@ -55,7 +55,7 @@ namespace ColorizationWord
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
-            logger.ConditionalTrace("ThisAddIn_Shutdown");
+            logger.ConditionalDebug("ThisAddIn_Shutdown");
             InitNLog.CloseNLog();
         }
 

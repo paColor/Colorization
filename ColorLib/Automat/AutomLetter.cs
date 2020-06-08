@@ -28,6 +28,14 @@ namespace ColorLib
 {
     public class AutomLetter : AutomElement
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public static void InitAutomat()
+        {
+            logger.ConditionalDebug("InitAutomat");
+            AutomRule.InitAutomat();
+        }
+
         public char Letter { get; private set; }
         private List<string> ruleOrder;
         private Dictionary<string, AutomRule> rules;
@@ -35,6 +43,7 @@ namespace ColorLib
         protected AutomLetter()
             :base(" ", 0)
         {
+            logger.ConditionalTrace("AutomLetter");
             Letter = '$';
             ruleOrder = null;
             rules = null;
@@ -43,6 +52,7 @@ namespace ColorLib
         public AutomLetter(string s, ref int pos)
             : base(s, pos)
         {
+            logger.ConditionalTrace("AutomLetter(string s, ref int pos)");
             /*
              * An AutomLetter has the Syntax:
              * 'letter' : [[list of rulenames], {List of AutomRules}]
@@ -131,11 +141,6 @@ namespace ColorLib
 
         } // Constructor
 
-        public static void InitAutomat()
-        {
-            AutomRule.InitAutomat();
-        }
-
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -161,6 +166,7 @@ namespace ColorLib
         public void FireRule(PhonWord pw, ref int pos, Config conf)
             // Fires the appropriate rule for the letter in pw at position pos
         {
+            logger.ConditionalTrace("FireRule");
             Debug.Assert(pw != null);
             bool found = false;
             int i = 0;

@@ -48,12 +48,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnDeux = new System.Windows.Forms.Button();
             this.btnDefaut = new System.Windows.Forms.Button();
-            this.btnAnnuler = new System.Windows.Forms.Button();
-            this.btnValider = new System.Windows.Forms.Button();
             this.btnDefConf1 = new System.Windows.Forms.Button();
             this.btnDefConf2 = new System.Windows.Forms.Button();
+            this.btnAnnuler = new System.Windows.Forms.Button();
+            this.btnValider = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -104,6 +103,7 @@
             this.toolTip1.SetToolTip(this.rbtnMots, "Le formatage de la configuration 1 sera\r\nappliqué aux mots impairs et le formatag" +
         "e\r\nde la configuration 2 aux mots pairs.");
             this.rbtnMots.UseVisualStyleBackColor = true;
+            this.rbtnMots.CheckedChanged += new System.EventHandler(this.rbtnMots_CheckedChanged);
             // 
             // lblAlternance
             // 
@@ -128,6 +128,7 @@
         "... )\r\net le formatagede la configuration 2 \r\naux lignes paires (2, 4, 6, ...).\r" +
         "\n");
             this.rbtnLignes.UseVisualStyleBackColor = true;
+            this.rbtnLignes.CheckedChanged += new System.EventHandler(this.rbtnLignes_CheckedChanged);
             // 
             // lblColoriser
             // 
@@ -171,6 +172,7 @@
             this.toolTip1.SetToolTip(this.rbtnMuettes, "La commande \"2\" colorisera les muettes\r\navec les formatages choisis appliqués en\r" +
         "\nalternance.\r\n");
             this.rbtnMuettes.UseVisualStyleBackColor = true;
+            this.rbtnMuettes.CheckedChanged += new System.EventHandler(this.rbtnMuettes_CheckedChanged);
             // 
             // rbtnPhonemes
             // 
@@ -190,6 +192,7 @@
             this.toolTip1.SetToolTip(this.rbtnPhonemes, "La commande \"2\" colorisera les phonèmes\r\navec les formatages choisis appliqués en" +
         "\r\nalternance.");
             this.rbtnPhonemes.UseVisualStyleBackColor = true;
+            this.rbtnPhonemes.CheckedChanged += new System.EventHandler(this.rbtnPhonemes_CheckedChanged);
             // 
             // rbtnVoyCons
             // 
@@ -209,6 +212,7 @@
             this.toolTip1.SetToolTip(this.rbtnVoyCons, "La commande \"2\" colorisera les voyelles\r\net le consonnes avec les formatages\r\ncho" +
         "isis appliqués en alternance.\r\n");
             this.rbtnVoyCons.UseVisualStyleBackColor = true;
+            this.rbtnVoyCons.CheckedChanged += new System.EventHandler(this.rbtnVoyCons_CheckedChanged);
             // 
             // rbtnLettres
             // 
@@ -229,6 +233,7 @@
             this.toolTip1.SetToolTip(this.rbtnLettres, "La commande \"2\" colorisera les lettres\r\navec les formatages choisis appliqués en\r" +
         "\nalternance.\r\n");
             this.rbtnLettres.UseVisualStyleBackColor = true;
+            this.rbtnLettres.CheckedChanged += new System.EventHandler(this.rbtnLettres_CheckedChanged);
             // 
             // rbtnSyylabes
             // 
@@ -249,6 +254,7 @@
             this.toolTip1.SetToolTip(this.rbtnSyylabes, "La commande \"2\" colorisera les syllabes\r\navec les formatages choisis appliqués en" +
         "\r\nalternance.");
             this.rbtnSyylabes.UseVisualStyleBackColor = true;
+            this.rbtnSyylabes.CheckedChanged += new System.EventHandler(this.rbtnSyylabes_CheckedChanged);
             // 
             // rbtnColorMots
             // 
@@ -269,6 +275,7 @@
             this.toolTip1.SetToolTip(this.rbtnColorMots, "La commande \"2\" colorisera les mots\r\navec les formatages choisis appliqués en\r\nal" +
         "ternance.\r\n");
             this.rbtnColorMots.UseVisualStyleBackColor = true;
+            this.rbtnColorMots.CheckedChanged += new System.EventHandler(this.rbtnColorMots_CheckedChanged);
             // 
             // panel2
             // 
@@ -292,17 +299,6 @@
     "la toison,\nEt puis est retourné, plein d\'usage et raison,\nVivre entre ses parent" +
     "s le reste de son âge!";
             // 
-            // btnDeux
-            // 
-            this.btnDeux.AutoSize = true;
-            this.btnDeux.Image = global::ColorizationControls.Properties.Resources._2_78;
-            this.btnDeux.Location = new System.Drawing.Point(399, 454);
-            this.btnDeux.Name = "btnDeux";
-            this.btnDeux.Size = new System.Drawing.Size(88, 88);
-            this.btnDeux.TabIndex = 16;
-            this.toolTip1.SetToolTip(this.btnDeux, "Applique le formatage alterné\r\nau texte sélectionné.");
-            this.btnDeux.UseVisualStyleBackColor = true;
-            // 
             // btnDefaut
             // 
             this.btnDefaut.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
@@ -315,32 +311,6 @@
             this.toolTip1.SetToolTip(this.btnDefaut, "Réinitialise les deux configurations\r\nà leur valeur par défaut.");
             this.btnDefaut.UseVisualStyleBackColor = true;
             this.btnDefaut.Click += new System.EventHandler(this.btnDefaut_Click);
-            // 
-            // btnAnnuler
-            // 
-            this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnAnnuler.Image = global::ColorizationControls.Properties.Resources.Effacer15;
-            this.btnAnnuler.Location = new System.Drawing.Point(706, 643);
-            this.btnAnnuler.Name = "btnAnnuler";
-            this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
-            this.btnAnnuler.TabIndex = 14;
-            this.btnAnnuler.Text = "Annuler";
-            this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnAnnuler.UseVisualStyleBackColor = true;
-            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
-            // 
-            // btnValider
-            // 
-            this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnValider.Image = global::ColorizationControls.Properties.Resources.OK_b_16;
-            this.btnValider.Location = new System.Drawing.Point(706, 614);
-            this.btnValider.Name = "btnValider";
-            this.btnValider.Size = new System.Drawing.Size(75, 23);
-            this.btnValider.TabIndex = 13;
-            this.btnValider.Text = "Valider";
-            this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnValider.UseVisualStyleBackColor = true;
-            this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
             // 
             // btnDefConf1
             // 
@@ -368,6 +338,32 @@
             this.btnDefConf2.UseVisualStyleBackColor = true;
             this.btnDefConf2.Click += new System.EventHandler(this.btnDefConf2_Click);
             // 
+            // btnAnnuler
+            // 
+            this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnAnnuler.Image = global::ColorizationControls.Properties.Resources.Effacer15;
+            this.btnAnnuler.Location = new System.Drawing.Point(706, 643);
+            this.btnAnnuler.Name = "btnAnnuler";
+            this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
+            this.btnAnnuler.TabIndex = 14;
+            this.btnAnnuler.Text = "Annuler";
+            this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnAnnuler.UseVisualStyleBackColor = true;
+            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
+            // 
+            // btnValider
+            // 
+            this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnValider.Image = global::ColorizationControls.Properties.Resources.OK_b_16;
+            this.btnValider.Location = new System.Drawing.Point(706, 614);
+            this.btnValider.Name = "btnValider";
+            this.btnValider.Size = new System.Drawing.Size(75, 23);
+            this.btnValider.TabIndex = 13;
+            this.btnValider.Text = "Valider";
+            this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnValider.UseVisualStyleBackColor = true;
+            this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
+            // 
             // DuoConfForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -376,7 +372,6 @@
             this.ClientSize = new System.Drawing.Size(880, 694);
             this.Controls.Add(this.btnDefConf2);
             this.Controls.Add(this.btnDefConf1);
-            this.Controls.Add(this.btnDeux);
             this.Controls.Add(this.btnDefaut);
             this.Controls.Add(this.btnAnnuler);
             this.Controls.Add(this.btnValider);
@@ -424,7 +419,6 @@
         private System.Windows.Forms.Button btnAnnuler;
         private System.Windows.Forms.Button btnDefaut;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button btnDeux;
         private System.Windows.Forms.Button btnDefConf1;
         private System.Windows.Forms.Button btnDefConf2;
     }

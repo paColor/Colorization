@@ -52,7 +52,7 @@ namespace ColorizationControls
 
         public LetterFormatForm(char letter, int buttonNr, PBDQConfig inPbdqConf)
         {
-            logger.ConditionalTrace("CTOR LetterFormatForm");
+            logger.ConditionalDebug("CTOR LetterFormatForm");
 
             InitializeComponent();
             pbdqConf = inPbdqConf;
@@ -96,7 +96,7 @@ namespace ColorizationControls
 
         private void CharFormatForm_Load(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("LetterFormatForm_Load");
+            logger.ConditionalDebug("LetterFormatForm_Load");
         }
 
         //-----------------------------------------------------------------------------
@@ -126,7 +126,7 @@ namespace ColorizationControls
 
         private void btnCouleur_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btnCouleur_Click");
+            logger.ConditionalDebug("btnCouleur_Click");
             Button theBtn = (Button)sender;
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
             p.Offset(-450, -100);
@@ -147,7 +147,7 @@ namespace ColorizationControls
 
         private void btnSurl_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btnSurl_Click");
+            logger.ConditionalDebug("btnSurl_Click");
             Button theBtn = (Button)sender;
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
             HilightForm hiForm = new HilightForm(theHilightColor);
@@ -169,7 +169,7 @@ namespace ColorizationControls
 
         private void btnValider_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btnValider_Click");
+            logger.ConditionalDebug("btnValider_Click");
             char c = PBDQConfig.inactiveLetter;
             if (txbLetter.Text.Length > 0)
                 c = txbLetter.Text[0];

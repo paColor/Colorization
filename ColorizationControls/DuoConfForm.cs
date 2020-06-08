@@ -69,8 +69,8 @@ namespace ColorizationControls
 
         private void UpdateAlternance(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("UpdateAlternance");
-            if (theConf.duoConf.alternance == DuoConfig.Alternance.lignes)
+            logger.ConditionalDebug("UpdateAlternance");
+            if (duoConfCopy.alternance == DuoConfig.Alternance.lignes)
             {
                 rbtnLignes.Checked = true;
                 rbtnMots.Checked = false;
@@ -91,8 +91,8 @@ namespace ColorizationControls
 
         private void UpdateColorisFunction(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("UpdateColorisFunction");
-            switch (theConf.duoConf.colorisFunction)
+            logger.ConditionalDebug("UpdateColorisFunction");
+            switch (duoConfCopy.colorisFunction)
             {
                 case DuoConfig.ColorisFunction.syllabes:
                     rbtnSyylabes.Checked = true;
@@ -123,31 +123,105 @@ namespace ColorizationControls
 
         private void btnValider_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btnValider_Click");
+            logger.ConditionalDebug("btnValider_Click");
             theConf.duoConf = duoConfCopy;
             this.Dispose();
         }
 
         private void btnAnnuler_Click(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("btnAnnuler_Click");
+            logger.ConditionalDebug("btnAnnuler_Click");
             this.Dispose();
         }
 
         private void btnDefConf1_Click(object sender, EventArgs e)
         {
+            logger.ConditionalDebug("btnDefConf1_Click");
             duoConfCopy.subConfig1.Reset();
         }
 
         private void btnDefConf2_Click(object sender, EventArgs e)
         {
+            logger.ConditionalDebug("btnDefConf2_Click");
             duoConfCopy.subConfig2.Reset();
         }
 
         private void btnDefaut_Click(object sender, EventArgs e)
         {
-            btnDefConf1_Click(sender, e);
-            btnDefConf2_Click(sender, e);
+            logger.ConditionalDebug("btnDefaut_Click");
+            duoConfCopy.Reset();
+        }
+
+        private void rbtnSyylabes_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("rbtnSyylabes_CheckedChanged, chk: \'{0}\'", rbtnSyylabes.Checked);
+            if (rbtnSyylabes.Checked)
+            {
+                duoConfCopy.colorisFunction = DuoConfig.ColorisFunction.syllabes;
+            }
+        }
+
+        private void rbtnColorMots_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("rbtnColorMots_CheckedChanged, chk: \'{0}\'", rbtnColorMots.Checked);
+            if (rbtnColorMots.Checked)
+            {
+                duoConfCopy.colorisFunction = DuoConfig.ColorisFunction.mots;
+            }
+        }
+
+        private void rbtnLettres_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("rbtnLettres_CheckedChanged, chk: \'{0}\'", rbtnLettres.Checked);
+            if (rbtnLettres.Checked)
+            {
+                duoConfCopy.colorisFunction = DuoConfig.ColorisFunction.lettres;
+            }
+        }
+
+        private void rbtnVoyCons_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("rbtnVoyCons_CheckedChanged, chk: \'{0}\'", rbtnVoyCons.Checked);
+            if (rbtnVoyCons.Checked)
+            {
+                duoConfCopy.colorisFunction = DuoConfig.ColorisFunction.voyCons;
+            }
+        }
+
+        private void rbtnPhonemes_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("rbtnPhonemes_CheckedChanged, chk: \'{0}\'", rbtnPhonemes.Checked);
+            if (rbtnPhonemes.Checked)
+            {
+                duoConfCopy.colorisFunction = DuoConfig.ColorisFunction.phonemes;
+            }
+        }
+
+        private void rbtnMuettes_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("rbtnMuettes_CheckedChanged, chk: \'{0}\'", rbtnMuettes.Checked);
+            if (rbtnMuettes.Checked)
+            {
+                duoConfCopy.colorisFunction = DuoConfig.ColorisFunction.muettes;
+            }
+        }
+
+        private void rbtnMots_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("rbtnMots_CheckedChanged, chk: \'{0}\'", rbtnMots.Checked);
+            if (rbtnMots.Checked)
+            {
+                duoConfCopy.alternance = DuoConfig.Alternance.mots;
+            }
+        }
+
+        private void rbtnLignes_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("rbtnLignes_CheckedChanged, chk: \'{0}\'", rbtnLignes.Checked);
+            if (rbtnLignes.Checked)
+            {
+                duoConfCopy.alternance = DuoConfig.Alternance.lignes;
+            }
         }
     }
 }

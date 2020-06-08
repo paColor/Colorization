@@ -150,7 +150,7 @@ namespace ColorLib
         /// <param name="inCf">Le nouveau formatage.</param>
         public void SylButtonModified(int butNr, CharFormatting inCf)
         {
-            logger.ConditionalTrace("SylButtonModified butNr: {0}", butNr);
+            logger.ConditionalDebug("SylButtonModified butNr: {0}", butNr);
             Debug.Assert(butNr <= nrSetButtons);
             sylButtons[butNr].cf = inCf;
             if (butNr == nrSetButtons)
@@ -184,7 +184,7 @@ namespace ColorLib
         /// <param name="butNr">Le numéro du bouton à effacer.</param>
         public void ClearButton(int butNr)
         {
-            logger.ConditionalTrace("ClearButton butNr: {0}", butNr);
+            logger.ConditionalDebug("ClearButton butNr: {0}", butNr);
             if ((butNr == (nrSetButtons - 1)) && (nrSetButtons > 0))
             {
                 sylButtons[nrSetButtons].buttonClickable = false;
@@ -247,21 +247,21 @@ namespace ColorLib
 
         protected virtual void OnSylButtonModified(int buttonNr)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "OnSylButtonModified bouton: \'{0}\'", buttonNr);
+            logger.ConditionalDebug(BaseConfig.cultF, "OnSylButtonModified bouton: \'{0}\'", buttonNr);
             EventHandler<SylButtonModifiedEventArgs> eventHandler = SylButtonModifiedEvent;
             eventHandler?.Invoke(this, new SylButtonModifiedEventArgs(buttonNr));
         }
 
         protected virtual void OnDoubleConsStdModified()
         {
-            logger.ConditionalTrace("OnDoubleConsStdModified");
+            logger.ConditionalDebug("OnDoubleConsStdModified");
             EventHandler eventHandler = DoubleConsStdModifiedEvent;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnModeEcritModified()
         {
-            logger.ConditionalTrace("OnModeEcritModified");
+            logger.ConditionalDebug("OnModeEcritModified");
             EventHandler eventHandler = ModeEcritModifiedEvent;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }

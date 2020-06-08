@@ -100,6 +100,8 @@ namespace ColorLib
         /// </summary>
         private class DuoCache
         {
+            private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
             private List<Word> wordList1;
             private List<Word> wordList2;
             private List<PhonWord> phonWordList1;
@@ -109,6 +111,7 @@ namespace ColorLib
 
             public DuoCache()
             {
+                logger.ConditionalDebug("DuoCache");
                 wordList1 = null;
                 wordList2 = null;
                 phonWordList1 = null;
@@ -130,6 +133,7 @@ namespace ColorLib
             public void GetWordLists(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos, 
                 out List<Word> wL1, out List<Word> wL2)
             {
+                logger.ConditionalDebug("GetWordLists");
                 if ((wordList1 == null) || (alt != dConf.alternance)) 
                 {
                     wordList1 = new List<Word>((wL.Count / 2) + 1);
@@ -190,7 +194,31 @@ namespace ColorLib
                 wL2 = wordList2;
             }
 
-            
+            /// <summary>
+            /// Returns the two lists of <see cref="PhonWord"/>(s) that correspond to the passed List of
+            /// <c>Word</c> and the passed <see cref="DuoConfig"/>.
+            /// </summary>
+            /// <param name="wL">List of <see cref="Word"/>(s) to split between the two lists of 
+            /// <see cref="PhonWord"/>(s).</param>
+            /// <param name="dConf">The <see cref="DuoConfig"/> to apply.</param>
+            /// <param name="getEolPos">The method giving the positions of the last characters on each line.</param>
+            /// <param name="pwL1">Out: the first list of <see cref="PhonWord"/></param>
+            /// <param name="pwL2">Out: the second list of <see cref="PhonWord"/></param>
+            public void GetPhonWordLists(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos,
+                out List<PhonWord> pwL1, out List<PhonWord> pwL2)
+            {
+                logger.ConditionalDebug("GetPhonWordLists");
+                if ((phonWordList1 == null) || (alt != dConf.alternance))
+                {
+                    List<Word> wL1;
+                    List<Word> wL2;
+                    GetWordLists(wL, dConf, getEolPos, out wL1, out wL2);
+                    phonWordList1 = GetPhonWords(wL1, dConf.subConfig1);
+                    phonWordList2 = GetPhonWords(wL2, dConf.subConfig2);
+                }
+                pwL1 = phonWordList1;
+                pwL2 = phonWordList2;
+            }
         }
 
         // ****************************************************************************************
@@ -209,6 +237,7 @@ namespace ColorLib
         /// </summary>
         public static void Init()
         {
+            logger.ConditionalDebug("Init");
             AutomAutomat.InitAutomat();
             PhonInW.Init();
             SylInW.Init();
@@ -244,6 +273,7 @@ namespace ColorLib
         /// <param name="inConf">The <c>Config</c> that will be used when applying formats to the text.</param>
         public TheText(string txt)
         {
+            logger.ConditionalDebug(BaseConfig.cultF, "TheText, txt: \'{0}\'.", txt);
             Debug.Assert(txt != null);
             this.S = txt;
             formats = null;
@@ -270,6 +300,7 @@ namespace ColorLib
         private List<Word> GetWords()
             // public for test reasons
         {
+            logger.ConditionalDebug("GetWords");
             if (words == null)
             {
                 words = new List<Word>(S.Length / 5); // longueur moyenne d'un mot avec l'espace : 5 charactères...
@@ -310,6 +341,7 @@ namespace ColorLib
         public List<PhonWord> GetPhonWords(Config conf)
             // public for test reasons
         {
+            logger.ConditionalDebug("GetPhonWords");
             if (phonWords == null)
             {
                 List<Word> theWords = GetWords();
@@ -328,6 +360,7 @@ namespace ColorLib
         /// be used when coloring the "phonèmes".</param>
         public void ColorizePhons(Config conf, PhonConfType pct)
         {
+            logger.ConditionalDebug("ColorizePhons");
             if (conf != null)
             { 
                 ClearFormats();
@@ -350,6 +383,7 @@ namespace ColorLib
         /// <param name="conf">The <see cref="Config"/> that must be used for marking the letters.</param>
         public void MarkLetters(Config conf)
         {
+            logger.ConditionalDebug("MarkLetters");
             if (conf != null)
             {
                 ClearFormats();
@@ -371,6 +405,7 @@ namespace ColorLib
         /// <param name="conf">The <see cref="Config"/> to be used for marking the "syllabes".</param>
         public void MarkSyls(Config conf)
         {
+            logger.ConditionalDebug("MarkSyls");
             if (conf != null)
             {
                 ClearFormats();
@@ -393,6 +428,7 @@ namespace ColorLib
         /// <param name="conf">The <see cref="Config"/> to be used for marking the words.</param>
         public void MarkWords(Config conf)
         {
+            logger.ConditionalDebug("MarkWords");
             if (conf != null)
             {
                 ClearFormats();
@@ -415,6 +451,7 @@ namespace ColorLib
         /// <param name="conf"></param>
         public void MarkMuettes(Config conf)
         {
+            logger.ConditionalDebug("MarkMuettes");
             ClearFormats();
             ColorizePhons(conf, PhonConfType.muettes);
             ApplyFormatting(conf);
@@ -427,6 +464,7 @@ namespace ColorLib
         /// </summary>
         public void MarkVoyCons(Config conf)
         {
+            logger.ConditionalDebug("MarkVoyCons");
             if (conf != null)
             {
                 ClearFormats();
@@ -447,6 +485,7 @@ namespace ColorLib
         /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
         public void MarkNoir(Config conf)
         {
+            logger.ConditionalDebug("MarkNoir");
             if (conf != null)
             {
                 ClearFormats();
@@ -468,6 +507,7 @@ namespace ColorLib
         /// be applied.</param>
         public void MarkDuo(Config conf)
         {
+            logger.ConditionalDebug("MarkDuo");
             if (conf != null)
             {
                 ClearFormats();
@@ -500,9 +540,20 @@ namespace ColorLib
                         FormatVoyCons(wL1, dConf.subConfig1);
                         FormatVoyCons(wL2, dConf.subConfig2);
                         break;
-                    case DuoConfig.ColorisFunction.muettes:
-                    case DuoConfig.ColorisFunction.phonemes:
                     case DuoConfig.ColorisFunction.syllabes:
+                        dc.GetPhonWordLists(GetWords(), dConf, GetLastLinesPos, out pws1, out pws2);
+                        FormatSyls(pws1, dConf.subConfig1);
+                        FormatSyls(pws2, dConf.subConfig2);
+                        break;
+                    case DuoConfig.ColorisFunction.muettes:
+                        dc.GetPhonWordLists(GetWords(), dConf, GetLastLinesPos, out pws1, out pws2);
+                        FormatPhons(pws1, dConf.subConfig1, PhonConfType.muettes);
+                        FormatPhons(pws2, dConf.subConfig2, PhonConfType.muettes);
+                        break;
+                    case DuoConfig.ColorisFunction.phonemes:
+                        dc.GetPhonWordLists(GetWords(), dConf, GetLastLinesPos, out pws1, out pws2);
+                        FormatPhons(pws1, dConf.subConfig1, PhonConfType.phonemes);
+                        FormatPhons(pws2, dConf.subConfig2, PhonConfType.phonemes);
                         break;
 
                     default:
@@ -516,6 +567,7 @@ namespace ColorLib
                 logger.Error("conf == null. Impossible de coloriser en \'Duo\' sans une configuration vallable.");
                 throw new ArgumentException("conf == null. Impossible de coloriser en \'Duo\' sans une configuration valable.");
             }
+            logger.ConditionalTrace("MarkDuo EXIT");
         }
 
         public void AddFTE(FormattedTextEl fte) => formats.Add(fte);
@@ -553,6 +605,7 @@ namespace ColorLib
         /// list if the text is empty.</returns>
         protected virtual List<int> GetLastLinesPos()
         {
+            logger.ConditionalDebug("GetLastLinesPos");
             List<int> toReturn = new List<int>(1);
             if (S.Length > 0)
                 toReturn.Add(S.Length - 1);
@@ -565,12 +618,14 @@ namespace ColorLib
 
         private void ApplyFormatting(Config conf)
         {
+            logger.ConditionalDebug("ApplyFormatting");
             foreach (FormattedTextEl fte in formats)
                 SetChars(fte, conf);
         }
 
         private void ClearFormats()
         {
+            logger.ConditionalDebug("ClearFormats");
             if (formats == null)
             {
                 formats = new List<FormattedTextEl>((S.Length * 3) / 4);
@@ -589,8 +644,9 @@ namespace ColorLib
         /// must be computed.</param>
         /// <param name="conf">The <c>Config</c> that must be used for the computation.</param>
         /// <returns></returns>
-        private List<PhonWord> GetPhonWords(List<Word> wordList, Config conf)
+        private static List<PhonWord> GetPhonWords(List<Word> wordList, Config conf)
         {
+            logger.ConditionalDebug("GetPhonWords");
             List<PhonWord> toReturn = new List<PhonWord>(wordList.Count);
             foreach (Word w in wordList)
                 toReturn.Add(new PhonWord(w, conf));
@@ -607,6 +663,7 @@ namespace ColorLib
         /// <param name="pct">The <c>ColConfWin</c> within <c>conf</c> to use for the fromatting.</param>
         private void FormatPhons(List<PhonWord> pws, Config conf, PhonConfType pct)
         {
+            logger.ConditionalDebug("FormatPhons");
             foreach (PhonWord pw in pws)
                 pw.ColorPhons(conf, pct);
         }
@@ -621,6 +678,7 @@ namespace ColorLib
         /// <param name="conf">The <c>Config</c> to apply.</param>
         private void FormatLetters(int first, int last, Config conf)
         {
+            logger.ConditionalDebug("FormatLetters(int first, int last, Config conf)");
             Debug.Assert(last < S.Length);
             for (int i = first; i <= last; i++)
             {
@@ -638,6 +696,7 @@ namespace ColorLib
         /// <param name="conf"><see cref="Config"/>to use for the formatting.</param>
         private void FormatLetters(List<Word> wL, Config conf)
         {
+            logger.ConditionalDebug("FormatLetters(List<Word> wL, Config conf)");
             foreach (Word w in wL)
             {
                 FormatLetters(w.First, w.Last, conf);
@@ -653,6 +712,7 @@ namespace ColorLib
         /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
         private void FormatSyls(List<PhonWord> pws, Config conf)
         {
+            logger.ConditionalDebug("FormatSyls");
             conf.sylConf.ResetCounter();
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls(conf);
@@ -666,6 +726,7 @@ namespace ColorLib
         /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
         private void FormatWords(List<Word> wL, Config conf)
         {
+            logger.ConditionalDebug("FormatWords");
             conf.sylConf.ResetCounter();
             foreach (Word w in wL)
                 w.PutColor(conf);
@@ -681,6 +742,7 @@ namespace ColorLib
         /// <param name="conf">The <c>Config</c> to apply.</param>
         private void FormatVoyCons(int first, int last, Config conf)
         {
+            logger.ConditionalDebug("FormatVoyCons(int first, int last, Config conf)");
             CharFormatting voyCF = conf.sylConf.NextCF();
             CharFormatting consCF = conf.sylConf.NextCF();
             int start, end;
@@ -722,6 +784,7 @@ namespace ColorLib
         /// <param name="conf"><see cref="Config"/>to use for the formatting.</param>
         private void FormatVoyCons(List<Word> wL, Config conf)
         {
+            logger.ConditionalDebug("FormatVoyCons(List<Word> wL, Config conf)");
             foreach (Word w in wL)
             {
                 FormatVoyCons(w.First, w.Last, conf);

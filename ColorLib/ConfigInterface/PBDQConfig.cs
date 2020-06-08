@@ -133,7 +133,7 @@ namespace ColorLib
         /// moment-là, rien n'est fait. <c>true</c> si la modification a été effectuée avec succès.</returns>
         public bool UpdateLetter(int buttonNr, CharFormatting cf)
         {
-            logger.ConditionalTrace("UpdateLetter bouton no {0}", buttonNr);
+            logger.ConditionalDebug("UpdateLetter bouton no {0}", buttonNr);
             bool toReturn = false;
             char c = selLetters[buttonNr];
             if (c != inactiveLetter)
@@ -158,7 +158,7 @@ namespace ColorLib
         public bool UpdateLetter (int buttonNr, char c, CharFormatting cf)
             // returns false if the update could not be executed because the letter is already handled.
         {
-            logger.ConditionalTrace("UpdateLetter buttonNr: {0}, c: \'{1}\'", buttonNr, c);
+            logger.ConditionalDebug("UpdateLetter buttonNr: {0}, c: \'{1}\'", buttonNr, c);
             bool toReturn = true;
             char previousC = selLetters[buttonNr];
 
@@ -194,7 +194,7 @@ namespace ColorLib
             }
             if (toReturn)
                 OnLetterButtonModifed(new LetterButtonModifiedEventArgs(buttonNr));
-            logger.ConditionalTrace("END UodateLetter toReturn: {0}", toReturn.ToString());
+            logger.ConditionalDebug("END UodateLetter toReturn: {0}", toReturn.ToString());
             return toReturn;
         } // UpdateLetter
 
@@ -235,14 +235,14 @@ namespace ColorLib
 
         protected virtual void OnLetterButtonModifed (LetterButtonModifiedEventArgs e)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "OnLetterButtonModifed, buttonNr: {0}", e.buttonNr);
+            logger.ConditionalDebug(BaseConfig.cultF, "OnLetterButtonModifed, buttonNr: {0}", e.buttonNr);
             EventHandler<LetterButtonModifiedEventArgs> eventHandler = LetterButtonModifiedEvent;
             eventHandler?.Invoke(this, e);
         }
 
         protected virtual void OnMarkAsBlackModified()
         {
-            logger.ConditionalTrace("OnMarkAsBlackModified");
+            logger.ConditionalDebug("OnMarkAsBlackModified");
             EventHandler eventHandler = MarkAsBlackModifiedEvent;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }

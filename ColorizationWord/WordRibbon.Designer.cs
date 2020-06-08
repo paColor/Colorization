@@ -10,7 +10,7 @@
         public WordRibbon()
             : base(Globals.Factory.GetRibbonFactory())
         {
-            logger.ConditionalTrace("WordRibbon - Constructor");
+            logger.ConditionalDebug("WordRibbon - Constructor");
             InitializeComponent();
         }
 

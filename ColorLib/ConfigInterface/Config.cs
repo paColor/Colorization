@@ -134,7 +134,7 @@ namespace ColorLib
         /// <remarks> Est responsable de la création du répertoire où seront sauvegardées les configs.</remarks>
         public static void Init()
         {
-            logger.ConditionalTrace("Init");
+            logger.ConditionalDebug("Init");
             ColConfWin.Init();
             // Ensure that ConfigDirPath folder does exist
             if (!System.IO.Directory.Exists(ConfigDirPath))
@@ -163,7 +163,7 @@ namespace ColorLib
         /// <returns>Liste des noms de configuration.</returns>
         public static List<string> GetSavedConfigNames()
         {
-            logger.ConditionalTrace("GetSavedConfigNames");
+            logger.ConditionalDebug("GetSavedConfigNames");
             List<string> toReturn = new List<string>();
             try
             {
@@ -193,7 +193,7 @@ namespace ColorLib
         // returns the Config associated with the Object win, normally the active window. 
         // if there is none, a new one with the defauilt config is created.
         {
-            logger.ConditionalTrace("GetConfigFor");
+            logger.ConditionalDebug("GetConfigFor");
             Config toReturn;
             if (!theConfs.TryGetValue(win, out toReturn))
             {
@@ -213,14 +213,14 @@ namespace ColorLib
                         MessageBox.Show(sb.ToString(), BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         logger.Info("Error MessageBox displayed.");
                         toReturn = new Config(); // essayons de sauver les meubles.
-                        logger.ConditionalTrace("New Config created.");
+                        logger.ConditionalDebug("New Config created.");
                     }
                 }
                 else
                 {
                     // create a new config
                     toReturn = new Config();
-                    logger.ConditionalTrace("New Config created.");
+                    logger.ConditionalDebug("New Config created.");
                 }
                 UpdateWindowsLists(win, doc, toReturn);
             }
@@ -237,11 +237,11 @@ namespace ColorLib
         /// <param name="doc">Le document qui se ferme.</param>
         public static void DocClosed(Object doc)
         {
-            logger.ConditionalTrace("DocClosed");
+            logger.ConditionalDebug("DocClosed");
             List<Object> theWindows;
             if (doc2Win.TryGetValue(doc, out theWindows))
             {
-                logger.ConditionalTrace("DocClosed. {0} corresponding window(s) to remove.", theWindows.Count);
+                logger.ConditionalDebug("DocClosed. {0} corresponding window(s) to remove.", theWindows.Count);
                 foreach (Object win in theWindows)
                 {
                     Config conf;
@@ -252,7 +252,7 @@ namespace ColorLib
                     }
                     else
                     {
-                        logger.ConditionalTrace("No config is found for closing window.");
+                        logger.ConditionalDebug("No config is found for closing window.");
                     }
                     _ = theConfs.Remove(win);
                 }
@@ -260,7 +260,7 @@ namespace ColorLib
             }
             else
             {
-                logger.ConditionalTrace("DocClosed. The document was not found.");
+                logger.ConditionalDebug("DocClosed. The document was not found.");
                 // there was never a Config for this document. This can happen if no colorization took place.
             }
         }
@@ -282,7 +282,7 @@ namespace ColorLib
                 fileName = Path.Combine(ConfigDirPath, confName) + SavedConfigExtension;
                 File.Delete(fileName);
                 toReturn = true;
-                logger.ConditionalTrace("Fichier \'{0}\' effacé", fileName);
+                logger.ConditionalDebug("Fichier \'{0}\' effacé", fileName);
                 OnListSavedConfigsModified(null, EventArgs.Empty);
             }
             catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
@@ -341,7 +341,7 @@ namespace ColorLib
         /// <param name="theNewConf">La configuration qui doit être mémorisée.</param>
         private static void UpdateWindowsLists(Object win, Object doc, Config theNewConf)
         {
-            logger.ConditionalTrace("UpdateWindowsLists");
+            logger.ConditionalDebug("UpdateWindowsLists");
             theConfs.Add(win, theNewConf);
             theNewConf.ConfigReplacedEvent += ConfigReplaced;
 
@@ -386,7 +386,7 @@ namespace ColorLib
 
         private static void OnListSavedConfigsModified(object sender, EventArgs e)
         {
-            logger.ConditionalTrace("OnListSavedConfigsModified");
+            logger.ConditionalDebug("OnListSavedConfigsModified");
             EventHandler eventHandler = ListSavedConfigsModified;
             eventHandler?.Invoke(sender, e);
         }
@@ -517,7 +517,7 @@ namespace ColorLib
         /// </summary>
         private void InitCtor()
         {
-            logger.ConditionalTrace("InitCtor");
+            logger.ConditionalDebug("InitCtor");
             pBDQ = new PBDQConfig();
             sylConf = new SylConfig();
             unsetBeh = new UnsetBehConf();
@@ -532,7 +532,7 @@ namespace ColorLib
         /// </summary>
         public Config()
         {
-            logger.ConditionalTrace("Config()");
+            logger.ConditionalDebug("Config()");
             isSubConfig = false;
             subConfNr = 0;
             InitCtor();
@@ -546,7 +546,7 @@ namespace ColorLib
         /// <param name="daughterNr">Le numéro de la config. Valeurs possibles, 1 ou 2. </param>
         public Config(int daughterNr)
         {
-            logger.ConditionalTrace("Config(Config), daughterNr: {0}", daughterNr);
+            logger.ConditionalDebug("Config(Config), daughterNr: {0}", daughterNr);
             isSubConfig = true;
             subConfNr = daughterNr;
             InitCtor();
@@ -566,7 +566,7 @@ namespace ColorLib
 
         public override void Reset()
         {
-            logger.ConditionalTrace("Reset");
+            logger.ConditionalDebug("Reset");
             pBDQ.Reset();
             foreach (ColConfWin ccf in colors.Values)
             {
@@ -602,7 +602,7 @@ namespace ColorLib
         /// <returns><c>true</c> si la <c>Config</c> a pu être chargée, sinon <c>false</c>.</returns>
         public bool LoadConfig(string name, out string errMsg)
         {
-            logger.ConditionalTrace("LoadConfig \'{0}\'", name);
+            logger.ConditionalDebug("LoadConfig \'{0}\'", name);
             Config theConf = LoadConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension, out errMsg);
             bool toReturn = (theConf != null); 
             if (toReturn)
@@ -625,7 +625,7 @@ namespace ColorLib
         /// <returns><c>true</c> si la sauvegarde a pu avoir lieu, sinon <c>false</c>. </returns>
         public bool SaveConfig(string name, out string msgTxt)
         {
-            logger.ConditionalTrace("SaveConfig \'{0}\'", name);
+            logger.ConditionalDebug("SaveConfig \'{0}\'", name);
             SetConfigName(name);
             bool toReturn = SaveConfigFile(Path.Combine(ConfigDirPath, name) + SavedConfigExtension, out msgTxt);
             if (toReturn)
@@ -688,7 +688,7 @@ namespace ColorLib
         [OnDeserializing()]
         private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
         {
-            logger.ConditionalTrace("SetOptionalFieldsToDefaultVal");
+            logger.ConditionalDebug("SetOptionalFieldsToDefaultVal");
             SetConfigName(DefaultConfigName);
             _duoConf = null;
             isSubConfig = false;
@@ -711,7 +711,7 @@ namespace ColorLib
 
         internal override void PostLoadInitOptionalFields()
         {
-            logger.ConditionalTrace("PostLoadInitOptionalFields");
+            logger.ConditionalDebug("PostLoadInitOptionalFields");
             pBDQ.PostLoadInitOptionalFields();
             foreach (ColConfWin ccf in colors.Values)
             {
@@ -726,7 +726,7 @@ namespace ColorLib
 
         protected virtual void OnConfigReplaced (Config newConfig)
         {
-            logger.ConditionalTrace("OnConfigReplaced");
+            logger.ConditionalDebug("OnConfigReplaced");
             EventHandler<ConfigReplacedEventArgs> eventHandler = ConfigReplacedEvent;
             // il est conseillé de faire ceci pour le cas tordu où le dernier "handler" se désabonnerait entre
             // le test sur null et l'évèenement. Je ne suis pas sûr que ça puisse jamais arriver ici. 
@@ -739,14 +739,14 @@ namespace ColorLib
 
         protected virtual void OnDuoConfReplaced(DuoConfig newDuoConf)
         {
-            logger.ConditionalTrace("OnDuoConfReplaced");
+            logger.ConditionalDebug("OnDuoConfReplaced");
             EventHandler<DuoConfReplacedEventArgs> eventHandler = DuoConfReplacedEvent;
             eventHandler?.Invoke(this, new DuoConfReplacedEventArgs(newDuoConf));
         }
 
         protected virtual void OnConfigNameModified()
         {
-            logger.ConditionalTrace("OnConfigNameModified");
+            logger.ConditionalDebug("OnConfigNameModified");
             EventHandler eventHandler = ConfigNameModifiedEvent;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }

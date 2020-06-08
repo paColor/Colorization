@@ -48,7 +48,7 @@ namespace Colorization
 
         public static void Init()
         {
-            logger.ConditionalTrace("Init");
+            logger.ConditionalDebug("Init");
             ConfigControl.markSelLetters = Ribbon1.ColorSelectedLetters;
             ConfigControl.colorizeAllSelPhons = Ribbon1.ColorizeSelectedPhons;
             ConfigControl.colSylSelLetters = Ribbon1.ColorSelectedSyls;
@@ -62,55 +62,55 @@ namespace Colorization
 
         public static void ColorizeSelectedPhons(Config conf)
         {
-            logger.ConditionalTrace("ColorizeSelectedPhons");
+            logger.ConditionalDebug("ColorizeSelectedPhons");
             ActOnSelectedText(ColorizePhons, ActoOnRangePPTText, conf);
         }
 
         public static void ColorSelectedLetters(Config conf)
         {
-            logger.ConditionalTrace("ColorSelectedLetters");
+            logger.ConditionalDebug("ColorSelectedLetters");
             ActOnSelectedText(MarkLetters, ActoOnRangePPTText, conf);
         }
 
         public static void ColorSelectedSyls(Config conf)
         {
-            logger.ConditionalTrace("ColorSelectedSyls");
+            logger.ConditionalDebug("ColorSelectedSyls");
             ActOnSelectedText(MarkSyls, ActoOnRangePPTText, conf);
         }
 
         public static void ColorSelectedWords(Config conf)
         {
-            logger.ConditionalTrace("ColorSelectedWords");
+            logger.ConditionalDebug("ColorSelectedWords");
             ActOnSelectedText(MarkWords, ActoOnRangePPTText, conf);
         }
 
         public static void ColorSelectedMuettes(Config conf)
         {
-            logger.ConditionalTrace("ColorSelectedMuettes");
+            logger.ConditionalDebug("ColorSelectedMuettes");
             ActOnSelectedText(MarkMuettes, ActoOnRangePPTText, conf);
         }
 
         public static void ColorSelectedNoir(Config conf)
         {
-            logger.ConditionalTrace("ColorSelectedNoir");
+            logger.ConditionalDebug("ColorSelectedNoir");
             ActOnSelectedText(MarkNoir, ActoOnRangePPTText, conf);
         }
 
         public static void ColorSelectedVoyCons(Config conf)
         {
-            logger.ConditionalTrace("ColorSelectedVoyCons");
+            logger.ConditionalDebug("ColorSelectedVoyCons");
             ActOnSelectedText(MarkVoyCons, ActoOnRangePPTText, conf);
         }
 
         public static void ColorSelectedLignes(Config conf)
         {
-            logger.ConditionalTrace("ColorSelectedLignes");
+            logger.ConditionalDebug("ColorSelectedLignes");
             ActOnSelectedText(null, MarkLignes, conf);
         }
 
         public static void ColorSelectedDuo(Config conf)
         {
-            logger.ConditionalTrace("ColorSelectedDuo");
+            logger.ConditionalDebug("ColorSelectedDuo");
             ActOnSelectedText(null, MarkLignes, conf);
         }
 
@@ -240,55 +240,55 @@ namespace Colorization
 
         private void btnColoriser_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnColoriser_Click");
+            logger.ConditionalDebug("btnColoriser_Click");
             ColorizeSelectedPhons(GetConfigForActiveWindow());
         } // private void btnColoriser_Click
 
         private void btnBDPQ_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnBDPQ_Click");
+            logger.ConditionalDebug("btnBDPQ_Click");
             ColorSelectedLetters(GetConfigForActiveWindow());
         }
 
         private void btnSyl_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnSyl_Click");
+            logger.ConditionalDebug("btnSyl_Click");
             ColorSelectedSyls(GetConfigForActiveWindow());
         }
 
         private void btnMots_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnMots_Click");
+            logger.ConditionalDebug("btnMots_Click");
             ColorSelectedWords(GetConfigForActiveWindow());
         }
 
         private void btnMuettes_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnMuettes_Click");
+            logger.ConditionalDebug("btnMuettes_Click");
             ColorSelectedMuettes(GetConfigForActiveWindow());
         }
 
         private void btnNoir_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnNoir_Click");
+            logger.ConditionalDebug("btnNoir_Click");
             ColorSelectedNoir(GetConfigForActiveWindow());
         }
 
         private void btnVoyCons_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnVoyCons_Click");
+            logger.ConditionalDebug("btnVoyCons_Click");
             ColorSelectedVoyCons(GetConfigForActiveWindow());
         }
 
         private void btnLignes_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnLignes_Click");
+            logger.ConditionalDebug("btnLignes_Click");
             ColorSelectedLignes(GetConfigForActiveWindow());
         }
 
         private void btnDuo_Click(object sender, RibbonControlEventArgs e)
         {
-            logger.ConditionalTrace("btnDuo_Click");
+            logger.ConditionalDebug("btnDuo_Click");
             ColorSelectedDuo(GetConfigForActiveWindow());
         }
     }
