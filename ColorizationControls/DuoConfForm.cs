@@ -61,6 +61,7 @@ namespace ColorizationControls
             panelConfig2.Controls.Add(confContr2);
             duoConfCopy.AlternanceModifiedEvent += UpdateAlternance;
             duoConfCopy.ColorisFunctionModifiedEvent += UpdateColorisFunction;
+            duoConfCopy.NbreAltModifiedEvent += UpdateNbreAlt;
             UpdateAlternance(this, EventArgs.Empty);
             UpdateColorisFunction(this, EventArgs.Empty);
 
@@ -119,6 +120,12 @@ namespace ColorizationControls
                     theConf.duoConf.colorisFunction = DuoConfig.ColorisFunction.syllabes;
                     break;
             }
+        }
+
+        private void UpdateNbreAlt(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("UpdateNbreAlt");
+            nudNbreAlt.Value = duoConfCopy.nbreAlt;
         }
 
         private void btnValider_Click(object sender, EventArgs e)
@@ -222,6 +229,12 @@ namespace ColorizationControls
             {
                 duoConfCopy.alternance = DuoConfig.Alternance.lignes;
             }
+        }
+
+        private void nudNbreAlt_ValueChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("nudNbreAlt_ValueChanged, val: \'{0}\'", nudNbreAlt.Value);
+            duoConfCopy.nbreAlt = (int)nudNbreAlt.Value;
         }
     }
 }

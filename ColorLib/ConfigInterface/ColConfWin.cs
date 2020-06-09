@@ -59,7 +59,8 @@ namespace ColorLib
     [Serializable]
     public enum PredefCols { black, darkYellow, orange, darkGreen, violet, darkBlue, red, brown, blue, turquoise, grey, pink, 
         frogGreen,
-        pureBlue, white, neutral}
+        pureBlue, neutral, lightBlue, white
+    }
 
     public delegate void ExecuteTask();
 
@@ -110,8 +111,9 @@ namespace ColorLib
             new RGB(127, 241, 0),   // CERAS_ill    --> vert grenouille
 
             new RGB(0, 0, 255),     // bleuPur      --> bleu
-            new RGB(255, 255, 255), // blanc        --> blanc
             new RGB(221, 221, 221), // neutre       --> gris // il est important qu'il ne s'agisse pas d'une couleur de WdColorIndex
+            new RGB(91,  215, 255), // bleu clair   --> bleu clair
+            new RGB(255, 255, 255), // blanc        --> blanc
         };
 
         public static CharFormatting[] predefCF;
@@ -580,11 +582,14 @@ namespace ColorLib
         // if son is not known an KeyNotFoundException will be thrown...
         {
             logger.ConditionalDebug("SetCFSon \'{0}\'", son);
-            Debug.Assert(sonMap.ContainsKey(son), String.Format(BaseConfig.cultF, "{0} n'est pas un son connu", son));
-            cfSon[son] = cf;
-            foreach (Phonemes p in sonMap[son])
-                Set(p, cf);
-            OnSonCharFormattingModified(new SonConfigModifiedEventArgs(son, pct));
+            if (cfSon[son] != cf)
+            {
+                Debug.Assert(sonMap.ContainsKey(son), String.Format(BaseConfig.cultF, "{0} n'est pas un son connu", son));
+                cfSon[son] = cf;
+                foreach (Phonemes p in sonMap[son])
+                    Set(p, cf);
+                OnSonCharFormattingModified(new SonConfigModifiedEventArgs(son, pct));
+            }
         }
 
         /// <summary>

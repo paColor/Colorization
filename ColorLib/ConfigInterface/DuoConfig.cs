@@ -29,8 +29,14 @@ namespace ColorLib
         [field:NonSerialized]
         public event EventHandler ColorisFunctionModifiedEvent;
 
+        /// <summary>
+        /// Evènement déclenché quand <c>nbreAlt</c> est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler NbreAltModifiedEvent;
+
         // --------------------------------------  members ----------------------------------
-        
+
         /// <summary>
         /// La <c>Congig</c> no 1 pour la commande "duo"
         /// </summary>
@@ -112,10 +118,32 @@ namespace ColorLib
             }
         }
 
+        /// <summary>
+        /// Nombre de mots ou de lignes à regrouper dans le traitement alterné.
+        /// </summary>
+        public int nbreAlt
+        {
+            get
+            {
+                return _nbreAlt;
+            }
+            set
+            {
+                if (_nbreAlt != value)
+                {
+                    _nbreAlt = value;
+                    OnNbreAltModifed(EventArgs.Empty);
+                }
+            }
+        }
+
         private Config _subConfig1;
         private Config _subConfig2;
         private Alternance _alternance;
         private ColorisFunction _colorisFunction;
+
+        [OptionalField(VersionAdded = 4)]
+        private int _nbreAlt;
 
         // ------------------------------------------ Methods -------------------------------------------------
 
@@ -195,6 +223,7 @@ namespace ColorLib
             logger.ConditionalDebug("InitFields");
             alternance = Alternance.mots;
             colorisFunction = ColorisFunction.syllabes;
+            nbreAlt = 1;
         }
 
 
@@ -231,6 +260,13 @@ namespace ColorLib
         {
             logger.ConditionalDebug("OnColorisFunctionModified");
             EventHandler eventHandler = ColorisFunctionModifiedEvent;
+            eventHandler?.Invoke(this, e);
+        }
+
+        protected virtual void OnNbreAltModifed(EventArgs e)
+        {
+            logger.ConditionalDebug("OnNbreAltModifed");
+            EventHandler eventHandler = NbreAltModifiedEvent;
             eventHandler?.Invoke(this, e);
         }
 

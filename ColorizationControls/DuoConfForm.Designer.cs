@@ -53,8 +53,11 @@
             this.btnDefConf2 = new System.Windows.Forms.Button();
             this.btnAnnuler = new System.Windows.Forms.Button();
             this.btnValider = new System.Windows.Forms.Button();
+            this.nudNbreAlt = new System.Windows.Forms.NumericUpDown();
+            this.lblNombre = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudNbreAlt)).BeginInit();
             this.SuspendLayout();
             // 
             // lblConfig1
@@ -134,7 +137,7 @@
             // 
             this.lblColoriser.AutoSize = true;
             this.lblColoriser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColoriser.Location = new System.Drawing.Point(405, 154);
+            this.lblColoriser.Location = new System.Drawing.Point(405, 213);
             this.lblColoriser.Name = "lblColoriser";
             this.lblColoriser.Size = new System.Drawing.Size(71, 16);
             this.lblColoriser.TabIndex = 8;
@@ -149,7 +152,7 @@
             this.panel3.Controls.Add(this.rbtnLettres);
             this.panel3.Controls.Add(this.rbtnSyylabes);
             this.panel3.Controls.Add(this.rbtnColorMots);
-            this.panel3.Location = new System.Drawing.Point(387, 173);
+            this.panel3.Location = new System.Drawing.Point(387, 232);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(112, 259);
             this.panel3.TabIndex = 11;
@@ -281,7 +284,7 @@
             // 
             this.panel2.Controls.Add(this.rbtnLignes);
             this.panel2.Controls.Add(this.rbtnMots);
-            this.panel2.Location = new System.Drawing.Point(408, 82);
+            this.panel2.Location = new System.Drawing.Point(408, 83);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(68, 52);
             this.panel2.TabIndex = 7;
@@ -364,12 +367,51 @@
             this.btnValider.UseVisualStyleBackColor = true;
             this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
             // 
+            // nudNbreAlt
+            // 
+            this.nudNbreAlt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudNbreAlt.Location = new System.Drawing.Point(408, 175);
+            this.nudNbreAlt.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.nudNbreAlt.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudNbreAlt.Name = "nudNbreAlt";
+            this.nudNbreAlt.Size = new System.Drawing.Size(68, 20);
+            this.nudNbreAlt.TabIndex = 19;
+            this.nudNbreAlt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip1.SetToolTip(this.nudNbreAlt, "Nombre de mots ou de lignes à formater\r\navec la configuration 1 avant de passer à" +
+        "\r\nla configuration 2.");
+            this.nudNbreAlt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudNbreAlt.ValueChanged += new System.EventHandler(this.nudNbreAlt_ValueChanged);
+            // 
+            // lblNombre
+            // 
+            this.lblNombre.AutoSize = true;
+            this.lblNombre.Location = new System.Drawing.Point(393, 142);
+            this.lblNombre.Name = "lblNombre";
+            this.lblNombre.Size = new System.Drawing.Size(99, 26);
+            this.lblNombre.TabIndex = 20;
+            this.lblNombre.Text = "Nombre de mots ou\r\nlignes à regrouper";
+            this.lblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // DuoConfForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnAnnuler;
             this.ClientSize = new System.Drawing.Size(880, 694);
+            this.Controls.Add(this.lblNombre);
+            this.Controls.Add(this.nudNbreAlt);
             this.Controls.Add(this.btnDefConf2);
             this.Controls.Add(this.btnDefConf1);
             this.Controls.Add(this.btnDefaut);
@@ -392,6 +434,7 @@
             this.panel3.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudNbreAlt)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -421,5 +464,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnDefConf1;
         private System.Windows.Forms.Button btnDefConf2;
+        private System.Windows.Forms.NumericUpDown nudNbreAlt;
+        private System.Windows.Forms.Label lblNombre;
     }
 }

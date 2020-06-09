@@ -30,17 +30,17 @@ namespace ColorizationControls
 {
     public static class StaticColorizControls
     {
-        
-        public static int[] customColors = new int[16];
+        public const int NrCustomColors = 16;
+        public static int[] customColors = new int[NrCustomColors];
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public static void Init()
         {
             logger.ConditionalDebug("Init");
-            for (int i = 0; i < ColConfWin.predefinedColors.Length; i++)
+            for (int i = 0; i < Math.Min(ColConfWin.predefinedColors.Length, NrCustomColors); i++)
                 customColors[i] = ColConfWin.predefinedColors[i];
-            for (int i = ColConfWin.predefinedColors.Length; i < 16; i++)
+            for (int i = ColConfWin.predefinedColors.Length; i < NrCustomColors; i++)
                 customColors[i] = 255 + (255 * 256) + (255 * 65536); // white
         }
     }

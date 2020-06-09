@@ -107,7 +107,7 @@ namespace ColorLib
             private List<PhonWord> phonWordList1;
             private List<PhonWord> phonWordList2;
             private DuoConfig.Alternance alt;
-            private DuoConfig.ColorisFunction colF;
+            private int nbreAlternance;
 
             public DuoCache()
             {
@@ -117,7 +117,7 @@ namespace ColorLib
                 phonWordList1 = null;
                 phonWordList2 = null;
                 alt = DuoConfig.Alternance.undefined;
-                colF = DuoConfig.ColorisFunction.undefined;
+                nbreAlternance = 999;
             }
 
             /// <summary>
@@ -134,25 +134,26 @@ namespace ColorLib
                 out List<Word> wL1, out List<Word> wL2)
             {
                 logger.ConditionalDebug("GetWordLists");
-                if ((wordList1 == null) || (alt != dConf.alternance)) 
+                if ((wordList1 == null) || (alt != dConf.alternance) || (nbreAlternance != dConf.nbreAlt)) 
                 {
                     wordList1 = new List<Word>((wL.Count / 2) + 1);
                     wordList2 = new List<Word>((wL.Count / 2) + 1);
                     alt = dConf.alternance;
+                    nbreAlternance = dConf.nbreAlt;
                     switch (alt)
                     {
                         case DuoConfig.Alternance.mots:
                             for (int i = 0; i < wL.Count; i++)
                             {
-                                if (i % 2 == 1)
+                                if ((i / nbreAlternance) % 2 == 1)
                                 {
                                     // odd
-                                    wordList1.Add(wL[i]);
+                                    wordList2.Add(wL[i]);
                                 }
                                 else
                                 {
                                     // even
-                                    wordList2.Add(wL[i]);
+                                    wordList1.Add(wL[i]);
                                 }
                             }
                             break;
@@ -165,19 +166,19 @@ namespace ColorLib
                             {
                                 while ((wordIndex < wL.Count) && (wL[wordIndex].Last <= eolPos[lineIndex]))
                                 {
-                                    wordList1.Add(wL[wordIndex]);
+                                    if ((lineIndex / nbreAlternance) % 2 == 1)
+                                    {
+                                        // odd
+                                        wordList2.Add(wL[wordIndex]);
+                                    }
+                                    else
+                                    {
+                                        // even
+                                        wordList1.Add(wL[wordIndex]);
+                                    }
                                     wordIndex++;
                                 }
                                 lineIndex++;
-                                if (lineIndex < eolPos.Count)
-                                {
-                                    while ((wordIndex < wL.Count) && (wL[wordIndex].Last <= eolPos[lineIndex]))
-                                    {
-                                        wordList2.Add(wL[wordIndex]);
-                                        wordIndex++;
-                                    }
-                                    lineIndex++;
-                                }
                             }
                             break;
 
