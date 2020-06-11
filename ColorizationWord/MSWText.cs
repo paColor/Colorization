@@ -27,11 +27,14 @@ using Microsoft.Office.Interop.Word;
 using ColorLib;
 using ColorizationControls;
 using System.Windows.Forms;
+using NLog;
+using System.Diagnostics;
 
 namespace ColorizationWord
 {
     public class MSWText : TheText
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private static RGB[] hilightColors = new RGB[HilightForm.nrColors]
         {
@@ -73,13 +76,37 @@ namespace ColorizationWord
             { hilightColors[15] , WdColorIndex.wdBlack },
         };
 
+        private struct MultipleCharInfo
+        {
+            public int pos; // position dans le texte traité par TheText, cad dans S.
+            public int nrChars; // nombre de caractères du caractère spécial.
+        }
+
         private Range range;
         private int rgStart;
         private Range rgeWork; // je ne sais pas quel est le coût en terme de performance de l'accès 
-        // à range.Duplicate et range.Start. Dans le doute ne le faisons qu'une fois...
+                               // à range.Duplicate et range.Start. Dans le doute ne le faisons qu'une fois...
+        /// <summary>
+        /// Liste des positions de fin de ligne (dans S) à retourner dans <see cref="GetLastLinesPos"/>.
+        /// </summary>
+        private List<int> finDeLignes;
+
+        /// <summary>
+        /// La liste des charactères spéciaux dans <c>range</c> qui peuvent perturber le comptage
+        /// des charactères...
+        /// </summary>
+        private List<MultipleCharInfo> multipleChars;
+
+        /// <summary>
+        /// pour le stockage intermédiaire de la liste, 
+        /// lors de la construction du MSWText. Assez bizarre. Je me demande s'il y a une façon plus
+        /// élégante de faire ça.
+        /// </summary>
+        private static List<MultipleCharInfo> tmpMultipleChars;
 
         public static void Initialize()
         {
+            logger.ConditionalDebug("Initialize");
             TheText.Init();
             ConfigControl.Init();
             HilightForm.hiliColors = hilightColors;
@@ -121,33 +148,94 @@ namespace ColorizationWord
         }
 
         public MSWText(Range rge)
-            : base(GetStringFor(rge))
+            : base(GetStringFor(rge, out tmpMultipleChars))
         {
+            multipleChars = tmpMultipleChars;
             this.range = rge;
             rgStart = rge.Start;
             rgeWork = range.Duplicate;
+            finDeLignes = null;
 
+#if DEBUG
             // Debugging help
-            //StringBuilder sb = new StringBuilder();
-            //sb.AppendLine(String.Format("this.ToString(): {0}", this.ToString()));
-            //sb.AppendLine(String.Format("rgeSize (end - start): {0}", rge.End - rge.Start));
-            //sb.AppendLine(String.Format("range.Text.Length: {0}", rge.Text.Length));
-            //sb.AppendLine(String.Format("this.S.Length: {0}", this.S.Length));
-            //MessageBox.Show(sb.ToString());
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(String.Format("this.ToString(): {0}", this.ToString()));
+            sb.AppendLine(String.Format("rgeSize (end - start): {0}", rge.End - rge.Start));
+            sb.AppendLine(String.Format("range.Text.Length: {0}", rge.Text.Length));
+            sb.AppendLine(String.Format("this.S.Length: {0}", this.ToString().Length));
+            logger.ConditionalTrace(sb.ToString());
+#endif
         }
 
+        /// <summary>
+        /// Applique le formatage voulu au <see cref="FormattedTextEl"/> sur l'affichage.
+        /// </summary>
+        /// <param name="fte">Le <see cref="FormattedTextEl"/> qui doit être formaté.</param>
+        /// <param name="conf">La <see cref=">Config"/> à prendre en compte pour l'application du formatage.</param>
         protected override void SetChars(FormattedTextEl fte, Config conf)
         {
             rgeWork.SetRange(rgStart + fte.First, rgStart + fte.Last + 1); // End pointe sur le caractère qui suit le range...
             ApplyCFToRange(fte.cf, rgeWork, conf);
-        } 
+        }
 
-        private static string GetStringFor(Range rge)
+        /// <summary>
+        /// Retourne la liste des positions des derniers caractères de chaque ligne (dans S).
+        /// </summary>
+        /// <remarks>Utilise <c>finDeLignes</c> comme cache.</remarks>
+        /// <returns>La liste des positions des derniers caractères de chaque ligne (dans S)</returns>
+        protected override List<int> GetLastLinesPos()
+        {
+            logger.ConditionalDebug("GetLastLinesPos");
+            if (finDeLignes == null)
+            {
+                finDeLignes = new List<int>(5); // imaginons 5 lignes. Aucun moyen de savoir ce qu'il en est vraiment...
+                if (ColorizationMSW.thisAddIn.Application.ActiveWindow.View.Type == WdViewType.wdPrintView)
+                {
+                    // Cherchons tous les Rectangles de la feneêtre active et travaillons sur toutes les lignes
+                    // qui se trouvent dans la sélection
+                    foreach (Page p in ColorizationMSW.thisAddIn.Application.ActiveWindow.ActivePane.Pages)
+                    {
+                        foreach (Rectangle r in p.Rectangles)
+                        {
+                            if (r.RectangleType == WdRectangleType.wdTextRectangle)
+                            {
+                                foreach (Line l in r.Lines)
+                                {
+                                    Range lineRange = l.Range;
+                                    if (lineRange.InRange(range))
+                                    {
+                                        // linerange est dans la région sélectionnée.
+                                        // linerange.End est toujours sur le caractère qui suit le range
+                                        finDeLignes.Add(GetSPosForRangePos(lineRange.End - 1));
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("La mise en couleur de lignes ne fonctionne que dans le mode \'Page\'.",
+                        BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            return finDeLignes;
+        }
+
+        /// <summary>
+        /// Retourne le string correspondant au texte dans le range.
+        /// </summary>
+        /// <param name="rge">Le <c>Range</c> à transformer en <c>string</c>.</param>
+        /// <param name="mChL">Out: La liste des cas spéciaux rencontrés.</param>
+        /// <returns></returns>
+        private static string GetStringFor(Range rge, out List<MultipleCharInfo> mChL)
             // dans le cas où il a un objet attaché au texte, il y a un caractère pour marquer l'ancrage.
             // ce caractère n'est pas dans "Text". On le construit donc ici avec un caractère "vide" à la 
             // place du caractère spécial.
-        {           
+        {         
             const string empty = " ";
+            mChL = new List<MultipleCharInfo>(5); // pourquoi pas 5? ça doit suffire pour la plupart des cas...
             string chText;
             Range itR = rge.Duplicate;
             int length = rge.End - rge.Start;
@@ -157,11 +245,46 @@ namespace ColorizationWord
                 int start = rge.Start + i;
                 itR.SetRange(start, start + 1);
                 chText = itR.Text;
-                if ((String.IsNullOrEmpty(chText)) || (chText.Length > 1))
+                if (String.IsNullOrEmpty(chText))
+                {
                     chText = empty;
+                }
+                else if (chText.Length > 1)
+                {
+                    chText = empty;
+                    MultipleCharInfo mci;
+                    mci.pos = i;
+                    mci.nrChars = chText.Length;
+                    mChL.Add(mci);
+                }
                 sb.Append(chText);
             }
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Calcule la position dasn <c>S</c> de la position <paramref name="rangePos"/> dans <c>range</c>.
+        /// Condition: <c>rangePos</c> se situe dans <c>range</c>.
+        /// </summary>
+        /// <param name="rangePos">La position dans <c>range</c>.</param>
+        /// <returns>La position </returns>
+        private int GetSPosForRangePos(int rangePos)
+        {
+            logger.ConditionalDebug("GetSPosForRangePos \'{0}\'", rangePos);
+            int toReturn = rangePos - range.Start;
+            Debug.Assert(toReturn >= 0);
+            int i = 0; // itérateur sur les caractères spéciaux.
+            int thePos = 0; // La position dans S où se trouve le caractère spécial.
+            while ((i < multipleChars.Count) && (thePos < toReturn))
+            {
+                thePos = multipleChars[i].pos;
+                if (thePos < toReturn)
+                {
+                    toReturn -= (multipleChars[i].nrChars - 1);
+                }
+                i++;
+            }
+            return toReturn;
+        } 
     }
 }

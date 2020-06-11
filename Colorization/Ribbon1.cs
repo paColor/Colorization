@@ -36,6 +36,8 @@ namespace Colorization
         private delegate void ActOnPPTText(PPTText t, Config conf);
         private delegate void ActOnRange(TextRange range, ActOnPPTText act, Config conf);
 
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         private static void ColorizePhons(PPTText t, Config conf) => t.ColorizePhons(conf, PhonConfType.phonemes);
         private static void MarkLetters(PPTText t, Config conf) => t.MarkLetters(conf);
         private static void MarkSyls(PPTText t, Config conf) => t.MarkSyls(conf);
@@ -43,8 +45,8 @@ namespace Colorization
         private static void MarkMuettes(PPTText t, Config conf) => t.MarkMuettes(conf);
         private static void MarkNoir(PPTText t, Config conf) => t.MarkNoir(conf);
         private static void MarkVoyCons(PPTText t, Config conf) => t.MarkVoyCons(conf);
-
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static void MarkDuo(PPTText t, Config conf) => t.MarkDuo(conf);
+        
 
         public static void Init()
         {
@@ -111,7 +113,7 @@ namespace Colorization
         public static void ColorSelectedDuo(Config conf)
         {
             logger.ConditionalDebug("ColorSelectedDuo");
-            ActOnSelectedText(null, MarkLignes, conf);
+            ActOnSelectedText(MarkDuo, ActoOnRangePPTText, conf);
         }
 
         private static void MarkLignes(TextRange tRange, ActOnPPTText act, Config conf)

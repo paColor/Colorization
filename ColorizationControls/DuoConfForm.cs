@@ -42,7 +42,7 @@ namespace ColorizationControls
         private ConfigControl confContr2;
         private Config theConf; // La Config dont le duoConf doit être édité.
         private DuoConfig duoConfCopy; // Une copie de theConf.duoConf qui sera éditée et qui remplacera 
-        // theConf.duoConf si l'utilisateeur clique "Valider"
+        // theConf.duoConf si l'utilisateur clique "Valider"
 
         public DuoConfForm(Config inConf)
         {
@@ -64,6 +64,7 @@ namespace ColorizationControls
             duoConfCopy.NbreAltModifiedEvent += UpdateNbreAlt;
             UpdateAlternance(this, EventArgs.Empty);
             UpdateColorisFunction(this, EventArgs.Empty);
+            UpdateNbreAlt(this, EventArgs.Empty);
 
             this.ResumeLayout();
         }
@@ -76,17 +77,17 @@ namespace ColorizationControls
                 rbtnLignes.Checked = true;
                 rbtnMots.Checked = false;
             }
-            else if (theConf.duoConf.alternance == DuoConfig.Alternance.mots)
+            else if (duoConfCopy.alternance == DuoConfig.Alternance.mots)
             {
                 rbtnLignes.Checked = false;
                 rbtnMots.Checked = true;
             }
             else
             {
-                logger.Error("Valeur d'alternance inattendue: {0}", theConf.duoConf.alternance);
+                logger.Error("Valeur d'alternance inattendue: {0}", duoConfCopy.alternance);
                 // Essayons de sauver les meubles et mettons-nous dans une situation claire.
                 // Même si on a un peu de récusion dans cette affaire.
-                theConf.duoConf.alternance = DuoConfig.Alternance.mots;
+                duoConfCopy.alternance = DuoConfig.Alternance.mots;
             }
         }
 
@@ -115,9 +116,9 @@ namespace ColorizationControls
                     break;
                 case DuoConfig.ColorisFunction.undefined:
                 default:
-                    logger.Error("Valeur de \"colorisFunction\" inattendue: {0}", theConf.duoConf.colorisFunction);
+                    logger.Error("Valeur de \"colorisFunction\" inattendue: {0}", duoConfCopy.colorisFunction);
                     // Essayons de sauver les meubles et mettons-nous dans une situation claire.
-                    theConf.duoConf.colorisFunction = DuoConfig.ColorisFunction.syllabes;
+                    duoConfCopy.colorisFunction = DuoConfig.ColorisFunction.syllabes;
                     break;
             }
         }

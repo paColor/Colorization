@@ -502,6 +502,36 @@ namespace ColorLib
         }
 
         /// <summary>
+        /// Formats the lines of the text, according to the given <see cref="Config"/>. It fills 
+        /// <see cref="formats"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
+        /// <param name="conf">The <see cref="Config"/> to use.</param>
+        public void MarkLignes(Config conf)
+        {
+            logger.ConditionalDebug("MarkLignes");
+            if (conf != null)
+            {
+                ClearFormats();
+                List<int> eolPos = GetLastLinesPos();
+                conf.sylConf.ResetCounter();
+                int beg = 0;
+                for (int i = 0; i < eolPos.Count; i++)
+                {
+                    formats.Add(new FormattedTextEl(this, beg, eolPos[i], conf.sylConf.NextCF()));
+                    beg = eolPos[i] + 1;
+                }
+                ApplyFormatting(conf);
+            }
+            else
+            {
+                logger.Error("conf == null. Impossible de marquer les lignes sans une configuration vallable.");
+                throw new ArgumentException("conf == null. Impossible de marquer les lignes sans une configuration vallable.");
+            }
+        }
+
+
+        /// <summary>
         /// Formats the text to the duo formatting defined in <c>conf</c>.
         /// </summary>
         /// <param name="conf">The <see cref="Config"/> defining how the "duo" formatting should

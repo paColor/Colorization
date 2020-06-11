@@ -52,6 +52,7 @@ namespace ColorizationControls
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorLib.*");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorLib.Config");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationWord.*");
+
             LogManager.Configuration = nLogConfig;
 #endif
         }

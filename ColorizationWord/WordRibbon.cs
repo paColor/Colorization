@@ -40,14 +40,6 @@ namespace ColorizationWord
         /// <param name="conf">La <c>Config</c> à utiliser.</param>
         private delegate void ActOnMSWText(MSWText t, Config conf);
 
-        /// <summary>
-        /// Applique la fonction <c>act</c> à <c>range</c> en utilisant la <c>Config</c> donnée.
-        /// </summary>
-        /// <param name="range">Le <c>Range</c> que l'on veut formater.</param>
-        /// <param name="act">La fonction que l'on veut appliquer.</param>
-        /// <param name="conf">La <c>Config</c> à utiliser.</param>
-        private delegate void ActOnRange(Range range, ActOnMSWText act, Config conf);
-
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private static void MarkPhons(MSWText t, Config conf) => t.ColorizePhons(conf, PhonConfType.phonemes);
@@ -57,6 +49,7 @@ namespace ColorizationWord
         private static void MarkMuettes(MSWText t, Config conf) => t.MarkMuettes(conf);
         private static void MarkNoir(MSWText t, Config conf) => t.MarkNoir(conf);
         private static void MarkVoyCons(MSWText t, Config conf) => t.MarkVoyCons(conf);
+        private static void MarkLignes(MSWText t, Config conf) => t.MarkLignes(conf);
         private static void MarkDuo(MSWText t, Config conf) => t.MarkDuo(conf);
 
 
@@ -77,107 +70,66 @@ namespace ColorizationWord
         public static void ColorSelectedPhons(Config conf)
         {
             logger.Info("ColorSelectedPhons");
-            ActOnSelectedText(MarkPhons, "Phonèmes", ActoOnRangeMSWText, conf);
+            ActOnSelectedText(MarkPhons, "Phonèmes", conf);
         }
 
         public static void ColorSelectedLetters(Config conf)
         {
             logger.Info("ColorSelectedLetters");
-            ActOnSelectedText(MarkLetters, "bpdq", ActoOnRangeMSWText, conf);
+            ActOnSelectedText(MarkLetters, "bpdq", conf);
         }
 
         public static void ColorSelectedSyls(Config conf)
         {
             logger.Info("ColorSelectedSyls");
-            ActOnSelectedText(MarkSyls, "Syllabes", ActoOnRangeMSWText, conf);
+            ActOnSelectedText(MarkSyls, "Syllabes", conf);
         }
 
         public static void ColorSelectedWords(Config conf)
         {
             logger.Info("ColorSelectedWords");
-            ActOnSelectedText(MarkWords, "Mots", ActoOnRangeMSWText, conf);
+            ActOnSelectedText(MarkWords, "Mots", conf);
         }
 
         public static void ColorSelectedMuettes(Config conf)
         {
             logger.Info("ColorSelectedMuettes");
-            ActOnSelectedText(MarkMuettes, "Muettes", ActoOnRangeMSWText, conf);
+            ActOnSelectedText(MarkMuettes, "Muettes", conf);
         }
 
         public static void ColorSelectedNoir(Config conf)
         {
             logger.Info("ColorSelectedNoir");
-            ActOnSelectedText(MarkNoir, "Noir", ActoOnRangeMSWText, conf);
+            ActOnSelectedText(MarkNoir, "Noir", conf);
         }
 
         public static void ColorSelectedLignes(Config conf)
         {
             logger.Info("ColorSelectedLignes");
-            ActOnSelectedText(null, "Lignes", MarkLignes, conf);
+            ActOnSelectedText(MarkLignes, "Lignes", conf);
         }
 
         public static void ColorSelectedVoyCons(Config conf)
         {
             logger.Info("ColorSelectedVoyCons");
-            ActOnSelectedText(MarkVoyCons, "Voy-Cons", ActoOnRangeMSWText, conf);
+            ActOnSelectedText(MarkVoyCons, "Voy-Cons", conf);
         }
 
         public static void ColorSelectedDuo(Config conf)
         {
             logger.Info("ColorSelectedDuo");
-            ActOnSelectedText(MarkDuo, "Duo", ActoOnRangeMSWText, conf);
+            ActOnSelectedText(MarkDuo, "Duo", conf);
         }
 
-
-        private static void MarkLignes(Range range, ActOnMSWText act, Config conf)
-        {
-            logger.ConditionalDebug("MarkLignes");
-            conf.sylConf.ResetCounter();
-            if (ColorizationMSW.thisAddIn.Application.ActiveWindow.View.Type == WdViewType.wdPrintView)
-            {
-                // Cherchons tous les Rectangles de la feneêtre active et travaillons sur toutes les lignes
-                // qui se trouvent dans la sélection
-                foreach (Page p in ColorizationMSW.thisAddIn.Application.ActiveWindow.ActivePane.Pages)
-                {
-                    foreach (Rectangle r in p.Rectangles)
-                    {
-                        if (r.RectangleType == WdRectangleType.wdTextRectangle)
-                        {
-                            foreach (Line l in r.Lines)
-                            {
-                                Range lineRange = l.Range;
-                                if (lineRange.InRange(range))
-                                {
-                                    // the line is in the selected region
-                                    MSWText.ApplyCFToRange(conf.sylConf.NextCF(), lineRange, conf);
-                                }
-                            }
-                        }
-                    }
-                }
-
-            } else
-            {
-                MessageBox.Show("La mise en couleur de lignes ne fonctionne que dans le mode \'Page\'.", 
-                    BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private static void ActoOnRangeMSWText (Range range, ActOnMSWText actOn, Config conf)
-        {
-            logger.ConditionalDebug("ActoOnRangeMSWText");
-            actOn(new MSWText(range), conf);
-        }
-
-        private static void ActOnShape(Shape sh, ActOnMSWText act, ActOnRange aor, Config conf)
+        private static void ActOnShape(Shape sh, ActOnMSWText act, Config conf)
         {
             logger.ConditionalDebug("ActOnShape");
             if (sh.TextFrame.HasText == (int)Microsoft.Office.Core.MsoTriState.msoTrue)
-                aor(sh.TextFrame.TextRange, act, conf);    
+                act(new MSWText(sh.TextFrame.TextRange), conf); 
 
             if (sh.Type == Microsoft.Office.Core.MsoShapeType.msoGroup)
                 foreach (Shape descSh in sh.GroupItems)
-                    ActOnShape(descSh, act, aor, conf);
+                    ActOnShape(descSh, act, conf);
         }
 
         /// <summary>
@@ -186,9 +138,7 @@ namespace ColorizationWord
         /// <param name="act">L'action à effectuer sur un texte. Par exemple <c>MarkSyls</c> ou <c>MarkNoir</c></param>
         /// <param name="undoTxt">Le texte qui est inscrit dans le <c>UndoRecord</c> et que l'utilisateur voit s'il va
         /// sur la lsite des actions qu'il peut annuler.</param>
-        /// <param name="aor">L'action à effectuer sur les <c>ranges identifiés</c>. Typiquement il s'agit soit de 
-        /// l'action standard <c>ActoOnRangeMSWText</c> ou d'une action particulière pour une commande spéciale.</param>
-        private static void ActOnSelectedText(ActOnMSWText act, string undoTxt, ActOnRange aor, Config conf)
+        private static void ActOnSelectedText(ActOnMSWText act, string undoTxt, Config conf)
         {
             logger.ConditionalDebug("ActOnSelectedText");
             if (ColorizationMSW.thisAddIn.Application.Documents.Count > 0)
@@ -208,19 +158,19 @@ namespace ColorizationWord
                         break;
                     case WdSelectionType.wdSelectionFrame:
                         foreach (Frame f in sel.Frames)
-                            aor(f.Range, act, conf);
+                            act(new MSWText(f.Range), conf);
                         break;
                     case WdSelectionType.wdSelectionShape:
                         foreach (Shape sh in sel.ShapeRange)
-                            ActOnShape(sh, act, aor, conf);
+                            ActOnShape(sh, act, conf);
                         break;
                     case WdSelectionType.wdSelectionColumn:
                     case WdSelectionType.wdSelectionRow:
                     case WdSelectionType.wdSelectionBlock:
                     case WdSelectionType.wdSelectionNormal:
-                        aor(sel.Range, act, conf);
+                        act(new MSWText(sel.Range), conf);
                         foreach (Shape sh in sel.Range.ShapeRange)
-                            ActOnShape(sh, act, aor, conf);
+                            ActOnShape(sh, act, conf);
                         break;
                     default:
                         throw new ArgumentException(String.Format("Type de sélection non traitée: {0}", sel.Type.ToString()));
