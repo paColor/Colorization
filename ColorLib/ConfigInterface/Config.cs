@@ -635,6 +635,35 @@ namespace ColorLib
             return toReturn;
         }
 
+        /// <summary>
+        /// Execute une "deep copy" de l'objet, c'est à dire que tous les éléments attachés à <c>this</c> sont copiés
+        /// dans une nouvelle instance
+        /// </summary>
+        /// <returns>Une copie exacte de <c>this</c> qui n'a rien en commun avec ce dernier. Retourne <c>null</c> 
+        /// en cas d'erreur.</returns>
+        public Config DeepCopy()
+        {
+            logger.ConditionalDebug("DeepCopy");
+            Config toReturn = null;
+            try
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    formatter.Serialize(stream, this);
+                    stream.Position = 0;
+                    toReturn = (Config)formatter.Deserialize(stream);
+                    toReturn.PostLoadInitOptionalFields();
+                }
+            }
+            catch (Exception e) when (e is IOException || e is SerializationException)
+            {
+                logger.Error("Impossible d'effectuer une copie de la \'Config\'. Erreur: {0}, Stack: {2}",
+                    e.Message, e.StackTrace);
+            }
+            return toReturn;
+        }
+
         private bool SaveConfigFile(string fileName, out string msgTxt)
         {
             bool toReturn = false;
@@ -675,7 +704,7 @@ namespace ColorLib
             else if (theSubConfigNr == 2)
             {
                 SetConfigName(DefaultSubConf2Name);
-                sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.red]);
+                sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.darkRed]);
                 sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.pink]);
             }
             else

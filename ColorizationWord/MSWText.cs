@@ -188,7 +188,7 @@ namespace ColorizationWord
             logger.ConditionalDebug("GetLastLinesPos");
             if (finDeLignes == null)
             {
-                finDeLignes = new List<int>(5); // imaginons 5 lignes. Aucun moyen de savoir ce qu'il en est vraiment...
+                finDeLignes = new List<int>(7); // imaginons 7 lignes. Aucun moyen de savoir ce qu'il en est vraiment...
                 if (ColorizationMSW.thisAddIn.Application.ActiveWindow.View.Type == WdViewType.wdPrintView)
                 {
                     // Cherchons tous les Rectangles de la feneêtre active et travaillons sur toutes les lignes

@@ -180,6 +180,7 @@ namespace ColorizationWord
                 ColorizationMSW.thisAddIn.Application.ScreenUpdating = true;
                 objUndo.EndCustomRecord();
             }
+            logger.ConditionalDebug("EXIT ActOnSelectedText");
         }
 
         private static void DocClosed(Document inDoc, ref bool cancel)

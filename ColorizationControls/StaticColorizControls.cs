@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,18 @@ namespace ColorizationControls
 {
     public static class StaticColorizControls
     {
+        private static FontStyle[] fontStyles = new FontStyle[8]
+        {
+            FontStyle.Regular,                                          // standard = 0
+            FontStyle.Bold,                                             // bold = 1
+            FontStyle.Italic,                                           // italic = 2
+            FontStyle.Bold | FontStyle.Italic,                          // boldItalic = 3,
+            FontStyle.Underline,                                        // underline = 4
+            FontStyle.Bold | FontStyle.Underline,                       // boldUnderline = 5
+            FontStyle.Italic | FontStyle.Underline,                     // italicUnderline = 6
+            FontStyle.Bold | FontStyle.Italic | FontStyle.Underline     // boldItalicUnderline = 7
+        };
+
         public const int NrCustomColors = 16;
         public static int[] customColors = new int[NrCustomColors];
 
@@ -42,6 +55,30 @@ namespace ColorizationControls
                 customColors[i] = ColConfWin.predefinedColors[i];
             for (int i = ColConfWin.predefinedColors.Length; i < NrCustomColors; i++)
                 customColors[i] = 255 + (255 * 256) + (255 * 65536); // white
+        }
+
+        public static FontStyle GetFontStyle(CharFormatting cf)
+        {
+            int fontIndex = 0;
+            if (cf.bold)
+                fontIndex += 1;
+            if (cf.italic)
+                fontIndex += 2;
+            if (cf.underline)
+                fontIndex += 4;
+            return fontStyles[fontIndex];
+        }
+
+        public static FontStyle GetFontStyle(bool bold, bool italic, bool underline)
+        {
+            int fontIndex = 0;
+            if (bold)
+                fontIndex += 1;
+            if (italic)
+                fontIndex += 2;
+            if (underline)
+                fontIndex += 4;
+            return fontStyles[fontIndex];
         }
     }
 }

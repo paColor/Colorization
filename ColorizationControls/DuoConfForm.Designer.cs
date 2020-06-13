@@ -46,14 +46,14 @@
             this.rbtnSyylabes = new System.Windows.Forms.RadioButton();
             this.rbtnColorMots = new System.Windows.Forms.RadioButton();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.rtbUlysse = new System.Windows.Forms.RichTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnDefaut = new System.Windows.Forms.Button();
             this.btnDefConf1 = new System.Windows.Forms.Button();
             this.btnDefConf2 = new System.Windows.Forms.Button();
+            this.nudNbreAlt = new System.Windows.Forms.NumericUpDown();
             this.btnAnnuler = new System.Windows.Forms.Button();
             this.btnValider = new System.Windows.Forms.Button();
-            this.nudNbreAlt = new System.Windows.Forms.NumericUpDown();
             this.lblNombre = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -289,16 +289,17 @@
             this.panel2.Size = new System.Drawing.Size(68, 52);
             this.panel2.TabIndex = 7;
             // 
-            // richTextBox1
+            // rtbUlysse
             // 
-            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(279, 601);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(326, 79);
-            this.richTextBox1.TabIndex = 12;
-            this.richTextBox1.TabStop = false;
-            this.richTextBox1.Text = "Heureux qui, comme Ulysse, a fait un beau voyage,\nOu comme cestui-là qui conquit " +
+            this.rtbUlysse.BackColor = System.Drawing.SystemColors.Window;
+            this.rtbUlysse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbUlysse.Location = new System.Drawing.Point(279, 601);
+            this.rtbUlysse.Name = "rtbUlysse";
+            this.rtbUlysse.ReadOnly = true;
+            this.rtbUlysse.Size = new System.Drawing.Size(326, 79);
+            this.rtbUlysse.TabIndex = 12;
+            this.rtbUlysse.TabStop = false;
+            this.rtbUlysse.Text = "Heureux qui, comme Ulysse, a fait un beau voyage,\nOu comme cestui-là qui conquit " +
     "la toison,\nEt puis est retourné, plein d\'usage et raison,\nVivre entre ses parent" +
     "s le reste de son âge!";
             // 
@@ -341,32 +342,6 @@
             this.btnDefConf2.UseVisualStyleBackColor = true;
             this.btnDefConf2.Click += new System.EventHandler(this.btnDefConf2_Click);
             // 
-            // btnAnnuler
-            // 
-            this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnAnnuler.Image = global::ColorizationControls.Properties.Resources.Effacer15;
-            this.btnAnnuler.Location = new System.Drawing.Point(706, 643);
-            this.btnAnnuler.Name = "btnAnnuler";
-            this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
-            this.btnAnnuler.TabIndex = 14;
-            this.btnAnnuler.Text = "Annuler";
-            this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnAnnuler.UseVisualStyleBackColor = true;
-            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
-            // 
-            // btnValider
-            // 
-            this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnValider.Image = global::ColorizationControls.Properties.Resources.OK_b_16;
-            this.btnValider.Location = new System.Drawing.Point(706, 614);
-            this.btnValider.Name = "btnValider";
-            this.btnValider.Size = new System.Drawing.Size(75, 23);
-            this.btnValider.TabIndex = 13;
-            this.btnValider.Text = "Valider";
-            this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnValider.UseVisualStyleBackColor = true;
-            this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
-            // 
             // nudNbreAlt
             // 
             this.nudNbreAlt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -394,6 +369,32 @@
             0});
             this.nudNbreAlt.ValueChanged += new System.EventHandler(this.nudNbreAlt_ValueChanged);
             // 
+            // btnAnnuler
+            // 
+            this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnAnnuler.Image = global::ColorizationControls.Properties.Resources.Effacer15;
+            this.btnAnnuler.Location = new System.Drawing.Point(706, 643);
+            this.btnAnnuler.Name = "btnAnnuler";
+            this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
+            this.btnAnnuler.TabIndex = 14;
+            this.btnAnnuler.Text = "Annuler";
+            this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnAnnuler.UseVisualStyleBackColor = true;
+            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
+            // 
+            // btnValider
+            // 
+            this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnValider.Image = global::ColorizationControls.Properties.Resources.OK_b_16;
+            this.btnValider.Location = new System.Drawing.Point(706, 614);
+            this.btnValider.Name = "btnValider";
+            this.btnValider.Size = new System.Drawing.Size(75, 23);
+            this.btnValider.TabIndex = 13;
+            this.btnValider.Text = "Valider";
+            this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnValider.UseVisualStyleBackColor = true;
+            this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
+            // 
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
@@ -417,7 +418,7 @@
             this.Controls.Add(this.btnDefaut);
             this.Controls.Add(this.btnAnnuler);
             this.Controls.Add(this.btnValider);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.rtbUlysse);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.lblColoriser);
             this.Controls.Add(this.panel2);
@@ -457,7 +458,7 @@
         private System.Windows.Forms.RadioButton rbtnPhonemes;
         private System.Windows.Forms.RadioButton rbtnVoyCons;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox rtbUlysse;
         private System.Windows.Forms.Button btnValider;
         private System.Windows.Forms.Button btnAnnuler;
         private System.Windows.Forms.Button btnDefaut;

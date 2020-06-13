@@ -102,20 +102,20 @@ namespace ColorLib
         {
             private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-            private List<Word> wordList1;
-            private List<Word> wordList2;
-            private List<PhonWord> phonWordList1;
-            private List<PhonWord> phonWordList2;
+            private List<Word> cachedWordList1;
+            private List<Word> cachedWordList2;
+            private List<PhonWord> cachedPWL1;
+            private List<PhonWord> cachedPWL2;
             private DuoConfig.Alternance alt;
             private int nbreAlternance;
 
             public DuoCache()
             {
                 logger.ConditionalDebug("DuoCache");
-                wordList1 = null;
-                wordList2 = null;
-                phonWordList1 = null;
-                phonWordList2 = null;
+                cachedWordList1 = null;
+                cachedWordList2 = null;
+                cachedPWL1 = null;
+                cachedPWL2 = null;
                 alt = DuoConfig.Alternance.undefined;
                 nbreAlternance = 999;
             }
@@ -134,10 +134,11 @@ namespace ColorLib
                 out List<Word> wL1, out List<Word> wL2)
             {
                 logger.ConditionalDebug("GetWordLists");
-                if ((wordList1 == null) || (alt != dConf.alternance) || (nbreAlternance != dConf.nbreAlt)) 
+                CheckCacheInvalidation(dConf);
+                if (cachedWordList1 == null)
                 {
-                    wordList1 = new List<Word>((wL.Count / 2) + 1);
-                    wordList2 = new List<Word>((wL.Count / 2) + 1);
+                    cachedWordList1 = new List<Word>((wL.Count / 2) + 1);
+                    cachedWordList2 = new List<Word>((wL.Count / 2) + 1);
                     alt = dConf.alternance;
                     nbreAlternance = dConf.nbreAlt;
                     switch (alt)
@@ -148,12 +149,12 @@ namespace ColorLib
                                 if ((i / nbreAlternance) % 2 == 1)
                                 {
                                     // odd
-                                    wordList2.Add(wL[i]);
+                                    cachedWordList2.Add(wL[i]);
                                 }
                                 else
                                 {
                                     // even
-                                    wordList1.Add(wL[i]);
+                                    cachedWordList1.Add(wL[i]);
                                 }
                             }
                             break;
@@ -169,12 +170,12 @@ namespace ColorLib
                                     if ((lineIndex / nbreAlternance) % 2 == 1)
                                     {
                                         // odd
-                                        wordList2.Add(wL[wordIndex]);
+                                        cachedWordList2.Add(wL[wordIndex]);
                                     }
                                     else
                                     {
                                         // even
-                                        wordList1.Add(wL[wordIndex]);
+                                        cachedWordList1.Add(wL[wordIndex]);
                                     }
                                     wordIndex++;
                                 }
@@ -191,8 +192,8 @@ namespace ColorLib
                             break;
                     }
                 }
-                wL1 = wordList1;
-                wL2 = wordList2;
+                wL1 = cachedWordList1;
+                wL2 = cachedWordList2;
             }
 
             /// <summary>
@@ -209,16 +210,29 @@ namespace ColorLib
                 out List<PhonWord> pwL1, out List<PhonWord> pwL2)
             {
                 logger.ConditionalDebug("GetPhonWordLists");
-                if ((phonWordList1 == null) || (alt != dConf.alternance))
+                CheckCacheInvalidation(dConf);
+                if (cachedPWL1 == null)
                 {
                     List<Word> wL1;
                     List<Word> wL2;
                     GetWordLists(wL, dConf, getEolPos, out wL1, out wL2);
-                    phonWordList1 = GetPhonWords(wL1, dConf.subConfig1);
-                    phonWordList2 = GetPhonWords(wL2, dConf.subConfig2);
+                    cachedPWL1 = GetPhonWords(wL1, dConf.subConfig1);
+                    cachedPWL2 = GetPhonWords(wL2, dConf.subConfig2);
                 }
-                pwL1 = phonWordList1;
-                pwL2 = phonWordList2;
+                pwL1 = cachedPWL1;
+                pwL2 = cachedPWL2;
+            }
+
+            private void CheckCacheInvalidation(DuoConfig dConf)
+            {
+                logger.ConditionalDebug("InvalidateCache");
+                if ((alt != dConf.alternance) || (nbreAlternance != dConf.nbreAlt))
+                {
+                    cachedWordList1 = null;
+                    cachedWordList2 = null;
+                    cachedPWL1 = null;
+                    cachedPWL2 = null;
+                }
             }
         }
 

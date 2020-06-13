@@ -38,40 +38,83 @@ namespace ColorizationControls
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
+        // les deux ConfigControl à afficher.
         private ConfigControl confContr1;
         private ConfigControl confContr2;
+
+        // La config sur laquelle on travaille
         private Config theConf; // La Config dont le duoConf doit être édité.
-        private DuoConfig duoConfCopy; // Une copie de theConf.duoConf qui sera éditée et qui remplacera 
-        // theConf.duoConf si l'utilisateur clique "Valider"
+        private Config theConfCopy; // une copie de theConf.
+        // theConfCopy.duoConf qui sera éditée et qui remplacera theConf.duoConf si l'utilisateur
+        // clique "Valider"
+        private DuoConfig duoConfCopy; 
+
+        // Le RTBText correspondant à la RichTextBox affichée dans le contrôle.
+        private RTBText rTBText;
+
+        // Un flag indiquant qu'un reset d'au moins une des deux configs affichées
+        // est en cours. Permet d'éviter de remettre à jour rTBText pour chaque paramètre des
+        // Configs qui sont réinitialisés.
+        private bool _resetting;
+        private bool resetting
+        {
+            get
+            {
+                return _resetting;
+            }
+            set
+            {
+                if (value != _resetting)
+                {
+                    _resetting = value;
+                    if (_resetting == false)
+                    {
+                        UpdateRichTextBox(this, EventArgs.Empty);
+                    }
+                }
+            }
+        }
 
         public DuoConfForm(Config inConf)
         {
             InitializeComponent();
             theConf = inConf;
 
-            // Faisons une copie de duoConf qui sera éditée. Si l'utilisateur clique "Valider" on pourra l'utiliser
-            // sinon on pourra la jeter.
+            // Faisons une copie de duoConf qui sera éditée. Si l'utilisateur clique "Valider" on 
+            // pourra l'utiliser sinon on pourra la jeter.
 
-            duoConfCopy = theConf.duoConf.DeepCopy();
+            theConfCopy = theConf.DeepCopy();
+            duoConfCopy = theConfCopy.duoConf;
             this.SuspendLayout();
 
             confContr1 = new ConfigControl(duoConfCopy.subConfig1);
             panelConfig1.Controls.Add(confContr1);
             confContr2 = new ConfigControl(duoConfCopy.subConfig2);
             panelConfig2.Controls.Add(confContr2);
+            rTBText = new RTBText(rtbUlysse);
+            resetting = false;
+
             duoConfCopy.AlternanceModifiedEvent += UpdateAlternance;
+            duoConfCopy.AlternanceModifiedEvent += UpdateRichTextBox; 
             duoConfCopy.ColorisFunctionModifiedEvent += UpdateColorisFunction;
+            duoConfCopy.ColorisFunctionModifiedEvent += UpdateRichTextBox;
             duoConfCopy.NbreAltModifiedEvent += UpdateNbreAlt;
+            duoConfCopy.NbreAltModifiedEvent += UpdateRichTextBox;
+
+            RegisterConfigEvents(duoConfCopy.subConfig1);
+            RegisterConfigEvents(duoConfCopy.subConfig2);
+            
             UpdateAlternance(this, EventArgs.Empty);
             UpdateColorisFunction(this, EventArgs.Empty);
             UpdateNbreAlt(this, EventArgs.Empty);
+            UpdateRichTextBox(this, EventArgs.Empty);
 
             this.ResumeLayout();
         }
 
         private void UpdateAlternance(object sender, EventArgs e)
         {
-            logger.ConditionalDebug("UpdateAlternance");
+            logger.ConditionalDebug("UpdateAlternance val: ´\'{0}\'", duoConfCopy.alternance);
             if (duoConfCopy.alternance == DuoConfig.Alternance.lignes)
             {
                 rbtnLignes.Checked = true;
@@ -89,11 +132,12 @@ namespace ColorizationControls
                 // Même si on a un peu de récusion dans cette affaire.
                 duoConfCopy.alternance = DuoConfig.Alternance.mots;
             }
+
         }
 
         private void UpdateColorisFunction(object sender, EventArgs e)
         {
-            logger.ConditionalDebug("UpdateColorisFunction");
+            logger.ConditionalDebug("UpdateColorisFunction val: ´\'{0}\'", duoConfCopy.colorisFunction);
             switch (duoConfCopy.colorisFunction)
             {
                 case DuoConfig.ColorisFunction.syllabes:
@@ -125,8 +169,72 @@ namespace ColorizationControls
 
         private void UpdateNbreAlt(object sender, EventArgs e)
         {
-            logger.ConditionalDebug("UpdateNbreAlt");
+            logger.ConditionalDebug("UpdateNbreAlt new:´\'{0}\'", duoConfCopy.nbreAlt);
             nudNbreAlt.Value = duoConfCopy.nbreAlt;
+        }
+
+        private void UpdateRichTextBox(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("UpdateRichTextBox");
+            if (!resetting)
+            {
+                rTBText.MarkNoir(theConfCopy);
+                rTBText.MarkDuo(theConfCopy);
+            }
+                
+        }
+
+        private void RegisterConfigEvents(Config c)
+        {
+            logger.ConditionalDebug("RegisterConfigEvents config: \'{0}\'", c.GetConfigName());
+            c.ConfigReplacedEvent += UpdateRichTextBox;
+            c.colors[PhonConfType.phonemes].DefBehModifiedEvent += UpdateRichTextBox;
+            c.colors[PhonConfType.phonemes].IllModifiedEvent += UpdateRichTextBox;
+            c.colors[PhonConfType.phonemes].SonCBModifiedEvent += UpdateRichTextBox;
+            c.colors[PhonConfType.phonemes].SonCharFormattingModifiedEvent += UpdateRichTextBox;
+            c.colors[PhonConfType.muettes].DefBehModifiedEvent += UpdateRichTextBox;
+            c.colors[PhonConfType.muettes].IllModifiedEvent += UpdateRichTextBox;
+            c.colors[PhonConfType.muettes].SonCBModifiedEvent += UpdateRichTextBox;
+            c.colors[PhonConfType.muettes].SonCharFormattingModifiedEvent += UpdateRichTextBox;
+            c.pBDQ.LetterButtonModifiedEvent += UpdateRichTextBox;
+            c.pBDQ.MarkAsBlackModifiedEvent += UpdateRichTextBox;
+            c.sylConf.DoubleConsStdModifiedEvent += UpdateRichTextBox;
+            c.sylConf.ModeEcritModifiedEvent += UpdateRichTextBox;
+            c.sylConf.SylButtonModifiedEvent += UpdateRichTextBox;
+            c.sylConf.SylButtonModifiedEvent += UpdateRichTextBox;
+            c.unsetBeh.CheckboxUnsetModifiedEvent += UpdateRichTextBox;
+            c.ConfigReplacedEvent += HandleConfigReplaced;
+        }
+
+        private void UnregisterConfigEvents(Config c)
+        {
+            logger.ConditionalDebug("UnregisterConfigEvents config: \'{0}\'", c.GetConfigName());
+            c.ConfigReplacedEvent -= UpdateRichTextBox;
+            c.colors[PhonConfType.phonemes].DefBehModifiedEvent -= UpdateRichTextBox;
+            c.colors[PhonConfType.phonemes].IllModifiedEvent -= UpdateRichTextBox;
+            c.colors[PhonConfType.phonemes].SonCBModifiedEvent -= UpdateRichTextBox;
+            c.colors[PhonConfType.phonemes].SonCharFormattingModifiedEvent -= UpdateRichTextBox;
+            c.colors[PhonConfType.muettes].DefBehModifiedEvent -= UpdateRichTextBox;
+            c.colors[PhonConfType.muettes].IllModifiedEvent -= UpdateRichTextBox;
+            c.colors[PhonConfType.muettes].SonCBModifiedEvent -= UpdateRichTextBox;
+            c.colors[PhonConfType.muettes].SonCharFormattingModifiedEvent -= UpdateRichTextBox;
+            c.pBDQ.LetterButtonModifiedEvent -= UpdateRichTextBox;
+            c.pBDQ.MarkAsBlackModifiedEvent -= UpdateRichTextBox;
+            c.sylConf.DoubleConsStdModifiedEvent -= UpdateRichTextBox;
+            c.sylConf.ModeEcritModifiedEvent -= UpdateRichTextBox;
+            c.sylConf.SylButtonModifiedEvent -= UpdateRichTextBox;
+            c.sylConf.SylButtonModifiedEvent -= UpdateRichTextBox;
+            c.unsetBeh.CheckboxUnsetModifiedEvent -= UpdateRichTextBox;
+            c.ConfigReplacedEvent -= HandleConfigReplaced;
+        }
+
+        private void HandleConfigReplaced(object sender, ConfigReplacedEventArgs e)
+        {
+            Config oldConf = (Config)sender;
+            logger.ConditionalDebug("HandleConfigReplaced old: \'{0}\', new: \'{1}\'", 
+                oldConf.GetConfigName(), e.newConfig.GetConfigName());
+            UnregisterConfigEvents(oldConf);
+            RegisterConfigEvents(e.newConfig);
         }
 
         private void btnValider_Click(object sender, EventArgs e)
@@ -145,19 +253,25 @@ namespace ColorizationControls
         private void btnDefConf1_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btnDefConf1_Click");
+            resetting = true;
             duoConfCopy.subConfig1.Reset();
+            resetting = false;
         }
 
         private void btnDefConf2_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btnDefConf2_Click");
+            resetting = true;
             duoConfCopy.subConfig2.Reset();
+            resetting = false;
         }
 
         private void btnDefaut_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btnDefaut_Click");
+            resetting = true;
             duoConfCopy.Reset();
+            resetting = false;
         }
 
         private void rbtnSyylabes_CheckedChanged(object sender, EventArgs e)

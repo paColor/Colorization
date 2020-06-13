@@ -34,7 +34,6 @@ namespace Colorization
     public partial class Ribbon1
     {
         private delegate void ActOnPPTText(PPTText t, Config conf);
-        private delegate void ActOnRange(TextRange range, ActOnPPTText act, Config conf);
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -45,6 +44,7 @@ namespace Colorization
         private static void MarkMuettes(PPTText t, Config conf) => t.MarkMuettes(conf);
         private static void MarkNoir(PPTText t, Config conf) => t.MarkNoir(conf);
         private static void MarkVoyCons(PPTText t, Config conf) => t.MarkVoyCons(conf);
+        private static void MarkLignes(PPTText t, Config conf) => t.MarkLignes(conf);
         private static void MarkDuo(PPTText t, Config conf) => t.MarkDuo(conf);
         
 
@@ -65,95 +65,72 @@ namespace Colorization
         public static void ColorizeSelectedPhons(Config conf)
         {
             logger.ConditionalDebug("ColorizeSelectedPhons");
-            ActOnSelectedText(ColorizePhons, ActoOnRangePPTText, conf);
+            ActOnSelectedText(ColorizePhons, conf);
         }
 
         public static void ColorSelectedLetters(Config conf)
         {
             logger.ConditionalDebug("ColorSelectedLetters");
-            ActOnSelectedText(MarkLetters, ActoOnRangePPTText, conf);
+            ActOnSelectedText(MarkLetters, conf);
         }
 
         public static void ColorSelectedSyls(Config conf)
         {
             logger.ConditionalDebug("ColorSelectedSyls");
-            ActOnSelectedText(MarkSyls, ActoOnRangePPTText, conf);
+            ActOnSelectedText(MarkSyls, conf);
         }
 
         public static void ColorSelectedWords(Config conf)
         {
             logger.ConditionalDebug("ColorSelectedWords");
-            ActOnSelectedText(MarkWords, ActoOnRangePPTText, conf);
+            ActOnSelectedText(MarkWords, conf);
         }
 
         public static void ColorSelectedMuettes(Config conf)
         {
             logger.ConditionalDebug("ColorSelectedMuettes");
-            ActOnSelectedText(MarkMuettes, ActoOnRangePPTText, conf);
+            ActOnSelectedText(MarkMuettes, conf);
         }
 
         public static void ColorSelectedNoir(Config conf)
         {
             logger.ConditionalDebug("ColorSelectedNoir");
-            ActOnSelectedText(MarkNoir, ActoOnRangePPTText, conf);
+            ActOnSelectedText(MarkNoir, conf);
         }
 
         public static void ColorSelectedVoyCons(Config conf)
         {
             logger.ConditionalDebug("ColorSelectedVoyCons");
-            ActOnSelectedText(MarkVoyCons, ActoOnRangePPTText, conf);
+            ActOnSelectedText(MarkVoyCons, conf);
         }
 
         public static void ColorSelectedLignes(Config conf)
         {
             logger.ConditionalDebug("ColorSelectedLignes");
-            ActOnSelectedText(null, MarkLignes, conf);
+            ActOnSelectedText(MarkLignes, conf);
         }
 
         public static void ColorSelectedDuo(Config conf)
         {
             logger.ConditionalDebug("ColorSelectedDuo");
-            ActOnSelectedText(MarkDuo, ActoOnRangePPTText, conf);
+            ActOnSelectedText(MarkDuo, conf);
         }
 
-        private static void MarkLignes(TextRange tRange, ActOnPPTText act, Config conf)
+        private static void ActOnShape(Shape sh, ActOnPPTText act, int nrObjSelected, Config conf)
         {
-            DocumentWindow activeWin = ColorizationPPT.thisAddIn.Application.ActiveWindow;
-            Config theConf = Config.GetConfigFor(activeWin, activeWin.Presentation);
-            theConf.sylConf.ResetCounter();
-            int i = 1;
-            int startColoredLine = 0;
-            TextRange theLine = tRange.Lines(i);
-            while ((theLine.Start > startColoredLine) && (theLine.Start + theLine.Length) <= (tRange.Start + tRange.Length))
-            {
-                // color line
-                PPTText.ApplyCFToRange(theConf.sylConf.NextCF(), theLine, theConf);
-                startColoredLine = theLine.Start;
-                i++;
-                theLine = tRange.Lines(i);
-            }
-        }
-
-        private static void ActoOnRangePPTText (TextRange tRange, ActOnPPTText actOn, Config conf)
-        {
-            DocumentWindow activeWin = ColorizationPPT.thisAddIn.Application.ActiveWindow;
-            actOn (new PPTText(tRange), conf);
-        }
-
-        private static void ActOnShape(Shape sh, ActOnPPTText act, ActOnRange aor, int nrObjSelected, Config conf)
-        {
+            logger.ConditionalDebug("ActOnShape");
             Debug.Assert(sh != null);
             if(sh.HasTextFrame == Microsoft.Office.Core.MsoTriState.msoTrue){
                 if (sh.TextFrame.HasText == Microsoft.Office.Core.MsoTriState.msoTrue)
-                    aor(sh.TextFrame.TextRange, act, conf);
+                    act(new PPTText(sh.TextFrame.TextRange), conf);
             } else if (sh.Type == Microsoft.Office.Core.MsoShapeType.msoGroup)
                 foreach (Shape descSh in sh.GroupItems)
-                    ActOnShape(descSh, act, aor, nrObjSelected, conf);
+                    ActOnShape(descSh, act, nrObjSelected, conf);
             if (sh.HasTable == Microsoft.Office.Core.MsoTriState.msoTrue)
                 foreach (Row r in sh.Table.Rows)
                     foreach (Cell c in r.Cells)
                         if ((nrObjSelected > 1) || (c.Selected))
-                            ActOnShape(c.Shape, act, aor, nrObjSelected, conf);
+                            ActOnShape(c.Shape, act, nrObjSelected, conf);
             // il y a visiblement un problème avec la sélection de tableaux. Les cellules ne sont pas sélectionnées
             // si plusieurs objects sont sélectionnés dont le tableau...
             // rendons donc le comportement dépendant du nombre d'objets dans la sélection... Y a-t-il un piège?
@@ -162,22 +139,23 @@ namespace Colorization
             // à se comporter correctement.
         } // private void ActOnShape
    
-        private static void ActOnSelectedText(ActOnPPTText act, ActOnRange aor, Config conf)
+        private static void ActOnSelectedText(ActOnPPTText act, Config conf)
         {
+            logger.ConditionalDebug("ActOnSelectedText");
             if (ColorizationPPT.thisAddIn.Application.Presentations.Count > 0)
             {
                 ColorizationPPT.thisAddIn.Application.StartNewUndoEntry();
                 var sel = ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection;
                 if (sel.Type == PpSelectionType.ppSelectionText)
                 {
-                    aor(ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection.TextRange, act, conf);
+                    act(new PPTText(ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection.TextRange), conf);
                 }
                 else if (sel.Type == PpSelectionType.ppSelectionShapes)
                 {
                     // bool textFound = false;
                     foreach (Shape sh in sel.ShapeRange)
                     {
-                        ActOnShape(sh, act, aor, sel.ShapeRange.Count, conf);
+                        ActOnShape(sh, act, sel.ShapeRange.Count, conf);
                     } // foreach
                 } // else no text selected
                 else if (sel.Type == PpSelectionType.ppSelectionSlides)
@@ -186,17 +164,19 @@ namespace Colorization
                     {
                         foreach (Shape sh in s.Shapes)
                         {
-                            ActOnShape(sh, act, aor, s.Shapes.Count, conf);
+                            ActOnShape(sh, act, s.Shapes.Count, conf);
                         }
                     }
                 }
             }
+            logger.ConditionalDebug("EXIT ActOnSelectedText");
         } // void ColorizeSelectedPhons()
 
         private static void PresentationClosed(Presentation inPres) => ConfigPane.DocClosed(inPres);
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
+            logger.ConditionalDebug("Ribbon1_Load");
             ColorizationPPT.thisAddIn.Application.PresentationClose
                 += new EApplication_PresentationCloseEventHandler(PresentationClosed);
             ColorizationPPT.thisAddIn.Application.WindowSelectionChange
@@ -226,6 +206,7 @@ namespace Colorization
 
         private void grpDialogLauncher_Click(object sender, RibbonControlEventArgs e)
         {
+            logger.ConditionalDebug("grpDialogLauncher_Click");
             if (ColorizationPPT.thisAddIn.Application.Presentations.Count > 0)
             {
                 DocumentWindow activeWin = ColorizationPPT.thisAddIn.Application.ActiveWindow;

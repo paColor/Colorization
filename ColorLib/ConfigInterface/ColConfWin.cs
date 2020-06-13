@@ -59,7 +59,7 @@ namespace ColorLib
     [Serializable]
     public enum PredefCols { black, darkYellow, orange, darkGreen, violet, darkBlue, red, brown, blue, turquoise, grey, pink, 
         frogGreen,
-        pureBlue, neutral, lightBlue, white
+        pureBlue, neutral, lightBlue, darkRed, white
     }
 
     public delegate void ExecuteTask();
@@ -108,11 +108,12 @@ namespace ColorLib
             new RGB(015, 201, 221), // CERAS_oin    --> turquoise
             new RGB(166, 166, 166), // CERAS_muet   --> gris
             new RGB(255, 100, 177), // CERAS_rosé   --> rose
-            new RGB(127, 241, 0),   // CERAS_ill    --> vert grenouille
+            new RGB(127, 241, 000), // CERAS_ill    --> vert grenouille
 
-            new RGB(0, 0, 255),     // bleuPur      --> bleu
+            new RGB(000, 000, 255), // bleuPur      --> bleu
             new RGB(221, 221, 221), // neutre       --> gris // il est important qu'il ne s'agisse pas d'une couleur de WdColorIndex
-            new RGB(91,  215, 255), // bleu clair   --> bleu clair
+            new RGB(091, 215, 255), // bleu clair   --> bleu clair
+            new RGB(175, 000, 000), // rouge foncé  --> rouge foncé
             new RGB(255, 255, 255), // blanc        --> blanc
         };
 

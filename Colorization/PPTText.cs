@@ -33,7 +33,7 @@ namespace Colorization
 {
     public class PPTText : TheText
     {
-        private TextRange txtRange;
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static void Initialize()
         {
@@ -41,15 +41,21 @@ namespace Colorization
             ConfigControl.Init();
         }
 
+        private TextRange txtRange;
 
+        /// <summary>
+        /// Liste des positions de fin de ligne (dans S) à retourner dans <see cref="GetLastLinesPos"/>.
+        /// </summary>
+        private List<int> finDeLignes;
 
         public PPTText(TextRange txtRange)
             :base(txtRange.Text)
         {
             this.txtRange = txtRange;
+            finDeLignes = null;
         }
 
-        public static void ApplyCFToRange(CharFormatting cf, TextRange tRange, Config inConf)
+        private static void ApplyCFToRange(CharFormatting cf, TextRange tRange, Config inConf)
         {
             if (cf.bold)
                 tRange.Font.Bold = Microsoft.Office.Core.MsoTriState.msoTrue;
@@ -77,10 +83,47 @@ namespace Colorization
                 tRange.Font.Color.RGB = ColConfWin.predefinedColors[(int)PredefCols.black];
         }
 
+        /// <summary>
+        /// Applique le formatage voulu au <see cref="FormattedTextEl"/> sur l'affichage.
+        /// </summary>
+        /// <param name="fte">Le <see cref="FormattedTextEl"/> qui doit être formaté.</param>
+        /// <param name="conf">La <see cref=">Config"/> à prendre en compte pour l'application du formatage.</param>
         protected override void SetChars(FormattedTextEl fte, Config conf)
         {
             TextRange theChars = txtRange.Characters(fte.First + 1, fte.Last - fte.First + 1);
             ApplyCFToRange(fte.cf, theChars, conf);
+        }
+
+        /// <summary>
+        /// Retourne la liste des positions des derniers caractères de chaque ligne (dans S).
+        /// </summary>
+        /// <remarks>Utilise <c>finDeLignes</c> comme cache.</remarks>
+        /// <returns>La liste des positions des derniers caractères de chaque ligne (dans S)</returns>
+        protected override List<int> GetLastLinesPos()
+        {
+            logger.ConditionalDebug("GetLastLinesPos");
+            if (finDeLignes == null)
+            {
+                logger.ConditionalTrace("txtRange.Start: {0}, txtRange.Length: {1}", txtRange.Start, txtRange.Length);
+                finDeLignes = new List<int>(7);
+                int i = 1;
+                int startColoredLine = 0;
+                TextRange theLine = txtRange.Lines(i);
+                while ((theLine.Start > startColoredLine) && (theLine.Start + theLine.Length) <= (txtRange.Start + txtRange.Length))
+                {
+                    logger.ConditionalTrace("i: {0}, theLine - Start: {1}, Length: {2}", i, theLine.Start, theLine.Length);
+                    if (theLine.Length > 0)
+                    {
+                        int endFormattedLine = theLine.Start + theLine.Length - 1;
+                        finDeLignes.Add(endFormattedLine - txtRange.Start);
+                    }
+                    startColoredLine = theLine.Start;
+                    i++;
+                    theLine = txtRange.Lines(i);
+                }
+            }
+            logger.ConditionalTrace("EXIT GetLastLinesPos");
+            return finDeLignes;
         }
 
     } // class PPTText
