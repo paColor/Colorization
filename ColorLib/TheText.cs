@@ -106,8 +106,30 @@ namespace ColorLib
             private List<Word> cachedWordList2;
             private List<PhonWord> cachedPWL1;
             private List<PhonWord> cachedPWL2;
+
+            // Si une de ces données change, le cache est invalidé.
+            // Les deux champs suivants ont une influence sur la façon de distribuer les mots
+            // dans les deux listes. 
             private DuoConfig.Alternance alt;
             private int nbreAlternance;
+
+            // Les paramètres suivants ont une influence sur le calcul des PhonWord(s). J'ai 
+            // hésité à en tenir compte ici, car je n'aime pas l'idée d'expliciter cette
+            // connaissance ici. ça nuit à l'indépendance des classes et donc à la robustesse
+            // du programme! D'un autre côté, c'est le prix à payer pour l'utilisation d'un 
+            // cache... Le risque est que le cache ne soit pas invalidé quand il le devrait.
+            // :-( Saleté de caches :-(
+            // Attention, les PhonWord(s) contiennent également les syllabes...
+            private ColConfWin.IllRule illRule1Muettes;
+            private ColConfWin.IllRule illRule2Muettes;
+            private ColConfWin.IllRule illRule1Phon;
+            private ColConfWin.IllRule illRule2Phon;
+            bool doubleConsStd1;
+            bool doubleConsStd2;
+            bool modeEcrit1;
+            bool modeEcrit2;
+
+
 
             public DuoCache()
             {
@@ -116,8 +138,16 @@ namespace ColorLib
                 cachedWordList2 = null;
                 cachedPWL1 = null;
                 cachedPWL2 = null;
+
+                // Il n'est pas nécessaire d'initialiser les champs de gestion de l'actualité
+                // du cache. Pour avoir un état clair, initialisons quand mêm ceux où on peut 
+                // marquer clairement qu'il s'agit d'un état indéfini.
                 alt = DuoConfig.Alternance.undefined;
                 nbreAlternance = 999;
+                illRule1Muettes = ColConfWin.IllRule.undefined;
+                illRule2Muettes = ColConfWin.IllRule.undefined;
+                illRule1Phon = ColConfWin.IllRule.undefined;
+                illRule2Phon = ColConfWin.IllRule.undefined;
             }
 
             /// <summary>
@@ -134,19 +164,17 @@ namespace ColorLib
                 out List<Word> wL1, out List<Word> wL2)
             {
                 logger.ConditionalDebug("GetWordLists");
-                CheckCacheInvalidation(dConf);
+                CheckCacheValidity(dConf);
                 if (cachedWordList1 == null)
                 {
                     cachedWordList1 = new List<Word>((wL.Count / 2) + 1);
                     cachedWordList2 = new List<Word>((wL.Count / 2) + 1);
-                    alt = dConf.alternance;
-                    nbreAlternance = dConf.nbreAlt;
-                    switch (alt)
+                    switch (dConf.alternance)
                     {
                         case DuoConfig.Alternance.mots:
                             for (int i = 0; i < wL.Count; i++)
                             {
-                                if ((i / nbreAlternance) % 2 == 1)
+                                if ((i / dConf.nbreAlt) % 2 == 1)
                                 {
                                     // odd
                                     cachedWordList2.Add(wL[i]);
@@ -167,7 +195,7 @@ namespace ColorLib
                             {
                                 while ((wordIndex < wL.Count) && (wL[wordIndex].Last <= eolPos[lineIndex]))
                                 {
-                                    if ((lineIndex / nbreAlternance) % 2 == 1)
+                                    if ((lineIndex / dConf.nbreAlt) % 2 == 1)
                                     {
                                         // odd
                                         cachedWordList2.Add(wL[wordIndex]);
@@ -210,7 +238,7 @@ namespace ColorLib
                 out List<PhonWord> pwL1, out List<PhonWord> pwL2)
             {
                 logger.ConditionalDebug("GetPhonWordLists");
-                CheckCacheInvalidation(dConf);
+                CheckCacheValidity(dConf);
                 if (cachedPWL1 == null)
                 {
                     List<Word> wL1;
@@ -223,15 +251,36 @@ namespace ColorLib
                 pwL2 = cachedPWL2;
             }
 
-            private void CheckCacheInvalidation(DuoConfig dConf)
+            private void CheckCacheValidity(DuoConfig dConf)
             {
-                logger.ConditionalDebug("InvalidateCache");
-                if ((alt != dConf.alternance) || (nbreAlternance != dConf.nbreAlt))
+                logger.ConditionalDebug("CheckCacheValidity");
+                if ((alt != dConf.alternance)
+                    || (nbreAlternance != dConf.nbreAlt)
+                    || (doubleConsStd1 != dConf.subConfig1.sylConf.DoubleConsStd)
+                    || (doubleConsStd2 != dConf.subConfig2.sylConf.DoubleConsStd)
+                    || (modeEcrit1 != dConf.subConfig1.sylConf.ModeEcrit)
+                    || (modeEcrit2 != dConf.subConfig2.sylConf.ModeEcrit)
+                    || (illRule1Muettes != dConf.subConfig1.colors[PhonConfType.muettes].IllRuleToUse)
+                    || (illRule2Muettes != dConf.subConfig2.colors[PhonConfType.muettes].IllRuleToUse) 
+                    || (illRule1Phon != dConf.subConfig1.colors[PhonConfType.phonemes].IllRuleToUse)
+                    || (illRule2Phon != dConf.subConfig2.colors[PhonConfType.phonemes].IllRuleToUse)
+                   )
                 {
+                    logger.ConditionalTrace("Invalidate cache");
                     cachedWordList1 = null;
                     cachedWordList2 = null;
                     cachedPWL1 = null;
                     cachedPWL2 = null;
+                    alt = dConf.alternance;
+                    nbreAlternance = dConf.nbreAlt;
+                    doubleConsStd1 = dConf.subConfig1.sylConf.DoubleConsStd;
+                    doubleConsStd2 = dConf.subConfig2.sylConf.DoubleConsStd;
+                    modeEcrit1 = dConf.subConfig1.sylConf.ModeEcrit;
+                    modeEcrit2 = dConf.subConfig2.sylConf.ModeEcrit;
+                    illRule1Muettes = dConf.subConfig1.colors[PhonConfType.muettes].IllRuleToUse;
+                    illRule2Muettes = dConf.subConfig2.colors[PhonConfType.muettes].IllRuleToUse;
+                    illRule1Phon = dConf.subConfig1.colors[PhonConfType.phonemes].IllRuleToUse;
+                    illRule2Phon = dConf.subConfig2.colors[PhonConfType.phonemes].IllRuleToUse;
                 }
             }
         }

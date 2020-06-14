@@ -77,14 +77,14 @@ namespace ColorLib
         /// mode à utiliser pour les "ill"
         /// </summary>
         [Serializable]
-        public enum IllRule { ceras, lirecouleur }
+        public enum IllRule { ceras, lirecouleur, undefined }
 
         /// <summary>
         /// posibilités de valeur pour le flag <c>defBeh</c> qui indique comment doit se comporter la
         /// mise en couleur des phonèmes qui n'ont pas d'instructions de fomratage.
         /// </summary>
         [Serializable]
-        public enum DefBeh { transparent, noir }
+        public enum DefBeh { transparent, noir, undefined }
 
         // -------------------------------------------------------------------------------------------------------------------
         // --------------------------------------------  public static members -----------------------------------------------
@@ -302,7 +302,7 @@ namespace ColorLib
         // -------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Permet de déterminer le mode à utiliser pour les "ill". A utiliser en lecture et en écriture.
+        /// Permet de déterminer le mode à utiliser pour les "ill". À utiliser en lecture et en écriture.
         /// </summary>
         public IllRule IllRuleToUse
         {

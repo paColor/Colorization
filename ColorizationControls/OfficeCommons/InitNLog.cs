@@ -36,24 +36,30 @@ namespace ColorizationControls
             nLogConfig.AddRule(LogLevel.Debug, LogLevel.Fatal, dc);  // everything equal or higher than Debug
             //nLogConfig.AddRule(LogLevel.Info, LogLevel.Fatal, dc);  // everything equal or higher than Info
 
-            //// nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.*");
+            //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.*");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.ConfigPane");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.InitNLog");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.CharFormatForm");
-            ////nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.ConfigControl");
+            //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.ConfigControl");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.DConsoleTarget");
-            //// nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.FormatButtonHandler2");
+            //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.FormatButtonHandler2");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.HilightForm");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.LetterFormatForm");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.LicenseForm");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.MyColorDialog");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.StaticColorizControls");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.SylFormatForm");
+            //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorizationControls.RTBText");
+
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorLib.*");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorLib.Config");
+            //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorLib.TheText*");
+            
+
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationWord.*");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "Colorization.*");
-            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorizationControls.RTBText");
+
+
 
             LogManager.Configuration = nLogConfig;
 #endif
