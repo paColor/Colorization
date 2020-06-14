@@ -285,6 +285,54 @@ namespace ColorLib
             }
         }
 
+
+        // ****************************************************************************************
+        // *                                  class FormatsMgmt                                   *
+        // ****************************************************************************************
+
+        /// <summary>
+        /// Gestion de la liste des <see cref="FormattedTextEl"/> qui sont découverts au cous de 
+        /// l'exécution des fonctions et qui sont ajoutés à la liste.
+        /// </summary>
+        private class FormatsMgmt
+        {
+            int sLength;
+            public Dictionary<CharFormatting, List<FormattedTextEl>> formatsPerCF { get; private set; }
+
+            /// <summary>
+            /// Crée un manager de formats
+            /// </summary>
+            /// <param name="sLength">Longueur du texte dont il faut s^'occuper des formats.</param>
+            public FormatsMgmt(int inSLength)
+            {
+                logger.ConditionalDebug("FormatsMgmt sLength: {0}", inSLength);
+                sLength = inSLength;
+                formatsPerCF = new Dictionary<CharFormatting, List<FormattedTextEl>>(16); 
+                // 16 au pif. Il semble peu fréquent d'avoir plus de 16 formatages différents 
+                // dans un texte. Il y en a 13 dans la config CERAS.
+            }
+
+            /// <summary>
+            /// Réinitialise la gestion des formats. Efface tout ce qui pourrait être présent.
+            /// </summary>
+            public void ClearFormats()
+            {
+                logger.ConditionalDebug("ClearFormats");
+                formatsPerCF.Clear();
+            }
+
+            public void Add(FormattedTextEl fte)
+            {
+                List<FormattedTextEl> ftes;
+                if (!formatsPerCF.TryGetValue(fte.cf, out ftes))
+                {
+                    ftes = new List<FormattedTextEl>(sLength/10);
+                    formatsPerCF.Add(fte.cf, ftes);
+                }
+                ftes.Add(fte);
+            }
+        }
+
         // ****************************************************************************************
         // *                               private static members                                 *
         // ****************************************************************************************
@@ -317,13 +365,10 @@ namespace ColorLib
         /// </summary>
         private string S;
         private string smallCapsS;
-        /// <summary>
-        /// List of the elements whose formatting must be changed. The result of the operation. 
-        /// </summary>
-        private List<FormattedTextEl> formats;
         private List<Word> words; // List of the words in TheText (computed when needed)
         private List<PhonWord> phonWords; // The corresponding PhonWords (computed when needed).
         private DuoCache dc;
+        private FormatsMgmt formatsMgmt;
 
         // ****************************************************************************************
         // *                                     public methods                                   *
@@ -340,7 +385,7 @@ namespace ColorLib
             logger.ConditionalDebug(BaseConfig.cultF, "TheText, txt: \'{0}\'.", txt);
             Debug.Assert(txt != null);
             this.S = txt;
-            formats = null;
+            formatsMgmt = new FormatsMgmt(S.Length);
             phonWords = null;
             words = null;
             dc = null;
@@ -427,7 +472,7 @@ namespace ColorLib
             logger.ConditionalDebug("ColorizePhons");
             if (conf != null)
             { 
-                ClearFormats();
+                formatsMgmt.ClearFormats();
                 List<PhonWord> pws = GetPhonWords(conf);
                 FormatPhons(pws, conf, pct);
                 ApplyFormatting(conf);
@@ -450,7 +495,7 @@ namespace ColorLib
             logger.ConditionalDebug("MarkLetters");
             if (conf != null)
             {
-                ClearFormats();
+                formatsMgmt.ClearFormats();
                 FormatLetters(0, S.Length - 1, conf);
                 ApplyFormatting(conf);
             }
@@ -472,7 +517,7 @@ namespace ColorLib
             logger.ConditionalDebug("MarkSyls");
             if (conf != null)
             {
-                ClearFormats();
+                formatsMgmt.ClearFormats();
                 List<PhonWord> pws = GetPhonWords(conf);
                 FormatSyls(pws, conf);
                 ApplyFormatting(conf);
@@ -495,7 +540,7 @@ namespace ColorLib
             logger.ConditionalDebug("MarkWords");
             if (conf != null)
             {
-                ClearFormats();
+                formatsMgmt.ClearFormats();
                 FormatWords(GetWords(), conf);
                 ApplyFormatting(conf);
             }
@@ -516,7 +561,7 @@ namespace ColorLib
         public void MarkMuettes(Config conf)
         {
             logger.ConditionalDebug("MarkMuettes");
-            ClearFormats();
+            formatsMgmt.ClearFormats();
             ColorizePhons(conf, PhonConfType.muettes);
             ApplyFormatting(conf);
         }
@@ -531,7 +576,7 @@ namespace ColorLib
             logger.ConditionalDebug("MarkVoyCons");
             if (conf != null)
             {
-                ClearFormats();
+                formatsMgmt.ClearFormats();
                 conf.sylConf.ResetCounter();
                 FormatVoyCons(0, S.Length - 1, conf);
                 ApplyFormatting(conf);
@@ -552,9 +597,9 @@ namespace ColorLib
             logger.ConditionalDebug("MarkNoir");
             if (conf != null)
             {
-                ClearFormats();
+                formatsMgmt.ClearFormats();
                 CFForceBlack cfFB = new CFForceBlack();
-                formats.Add(new FormattedTextEl(this, 0, S.Length - 1, cfFB));
+                formatsMgmt.Add(new FormattedTextEl(this, 0, S.Length - 1, cfFB));
                 ApplyFormatting(conf);
             }
             else
@@ -575,13 +620,13 @@ namespace ColorLib
             logger.ConditionalDebug("MarkLignes");
             if (conf != null)
             {
-                ClearFormats();
+                formatsMgmt.ClearFormats();
                 List<int> eolPos = GetLastLinesPos();
                 conf.sylConf.ResetCounter();
                 int beg = 0;
                 for (int i = 0; i < eolPos.Count; i++)
                 {
-                    formats.Add(new FormattedTextEl(this, beg, eolPos[i], conf.sylConf.NextCF()));
+                    formatsMgmt.Add(new FormattedTextEl(this, beg, eolPos[i], conf.sylConf.NextCF()));
                     beg = eolPos[i] + 1;
                 }
                 ApplyFormatting(conf);
@@ -604,7 +649,7 @@ namespace ColorLib
             logger.ConditionalDebug("MarkDuo");
             if (conf != null)
             {
-                ClearFormats();
+                formatsMgmt.ClearFormats();
                 // Let us create two collections of words that contain the words to be formatted with 
                 // subConf1, respectively subConf2.
 
@@ -664,7 +709,7 @@ namespace ColorLib
             logger.ConditionalTrace("MarkDuo EXIT");
         }
 
-        public void AddFTE(FormattedTextEl fte) => formats.Add(fte);
+        public void AddFTE(FormattedTextEl fte) => formatsMgmt.Add(fte);
 
         // ****************************************************************************************
         // *                                   protected methods                                  *
@@ -687,8 +732,39 @@ namespace ColorLib
         /// <param name="conf">The <see cref="Config"/> that must be used for the formating.</param>
         protected virtual void SetChars(FormattedTextEl fte, Config conf) 
         {
-            logger.Error("SetChars doit être implémentée par une classe descendante de TheText.");
-            throw new NotImplementedException("SetChars doit être implémenté par une classe descendante de TheText.");
+            logger.Error("SetChars ou DisplayFormat doit être implémentée par une classe descendante de TheText.");
+            throw new NotImplementedException(
+                "SetChars ou DisplayFormat doit être implémenté par une classe descendante de TheText.");
+        }
+
+        /// <summary>
+        /// Applique le formatage <paramref name="cf"/> à tous les <see cref="FormattedTextEl"/> de
+        /// la liste.
+        /// </summary>
+        /// <param name="cf">Le formatage à appliquer.</param>
+        /// <param name="ftes">La liste des <see cref="FormattedTextEl"/> qui doivent être affichés.
+        /// Notez que tous les membres de <c>ftes</c> ont le <see cref="CharFormatting"/> <c>cf</c>.
+        /// </param>
+        /// <param name="conf">La <see cref="Config"/> à utiliser.</param>
+        /// <remarks>
+        /// <para>
+        /// Cette méthode est appelée au moment ou le résultat d'une commande doit être affiché.
+        /// Elle est exécutée pour chaque <see cref="CharFormatting"/> utilisé par la commande.
+        /// Par défaut elle utilise <c>SetChars</c> pour chaque élément de <c>ftes</c>. 
+        /// </para>
+        /// <para>
+        /// l'hypothèse est que certains héritiers seront plus performants s'ils peuvent créer un
+        /// ensemble d'éléments de texte disjoints devant recevoir le même formatage que s'ils 
+        /// reformatent chaque élément de texte l'un après l'autre. Chaque héritier peut donc choisir
+        /// de réaliser soit <see cref="SetChars(FormattedTextEl, Config)"/>, soit 
+        /// <c>DisplayFormat</c> en fonction du gain de performance que leui donnerait 
+        /// <c>DisplayFormat</c>. Inutile de réaliser les deux méthodes.
+        /// </para>
+        /// </remarks>
+        protected virtual void DisplayFormat(CharFormatting cf, List<FormattedTextEl> ftes, Config conf)
+        {
+            foreach (FormattedTextEl fte in ftes)
+                SetChars(fte, conf);
         }
 
         /// <summary>
@@ -713,20 +789,11 @@ namespace ColorLib
         private void ApplyFormatting(Config conf)
         {
             logger.ConditionalDebug("ApplyFormatting");
-            foreach (FormattedTextEl fte in formats)
-                SetChars(fte, conf);
-        }
-
-        private void ClearFormats()
-        {
-            logger.ConditionalDebug("ClearFormats");
-            if (formats == null)
+            //foreach (FormattedTextEl fte in formats)
+            //    SetChars(fte, conf);
+            foreach(KeyValuePair<CharFormatting, List<FormattedTextEl>> kvp in formatsMgmt.formatsPerCF)
             {
-                formats = new List<FormattedTextEl>((S.Length * 3) / 4);
-            }
-            else
-            {
-                formats.Clear();
+                DisplayFormat(kvp.Key, kvp.Value, conf);
             }
         }
 
@@ -778,7 +845,7 @@ namespace ColorLib
             {
                 CharFormatting cf = conf.pBDQ.GetCfForPBDQLetter(S[i]);
                 if (cf != null)
-                    formats.Add(new FormattedTextEl(this, i, i, cf));
+                    formatsMgmt.Add(new FormattedTextEl(this, i, i, cf));
             }
         }
 
@@ -854,7 +921,7 @@ namespace ColorLib
                     while ((i < smallCapsS.Length) && (TextEl.EstVoyelle(smallCapsS[i])))
                         i++;
                     end = i - 1;
-                    formats.Add(new FormattedTextEl(this, start, end, voyCF));
+                    formatsMgmt.Add(new FormattedTextEl(this, start, end, voyCF));
                 }
                 else if (TextEl.EstConsonne(smallCapsS[i]))
                 {
@@ -863,7 +930,7 @@ namespace ColorLib
                     while ((i < smallCapsS.Length) && (TextEl.EstConsonne(smallCapsS[i])))
                         i++;
                     end = i - 1;
-                    formats.Add(new FormattedTextEl(this, start, end, consCF));
+                    formatsMgmt.Add(new FormattedTextEl(this, start, end, consCF));
                 }
                 else
                     i++;
