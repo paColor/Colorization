@@ -171,7 +171,7 @@ namespace ColorizationWord
         /// Applique le formatage voulu au <see cref="FormattedTextEl"/> sur l'affichage.
         /// </summary>
         /// <param name="fte">Le <see cref="FormattedTextEl"/> qui doit être formaté.</param>
-        /// <param name="conf">La <see cref=">Config"/> à prendre en compte pour l'application du formatage.</param>
+        /// <param name="conf">La <see cref="Config"/> à prendre en compte pour l'application du formatage.</param>
         protected override void SetChars(FormattedTextEl fte, Config conf)
         {
             rgeWork.SetRange(rgStart + fte.First, rgStart + fte.Last + 1); // End pointe sur le caractère qui suit le range...

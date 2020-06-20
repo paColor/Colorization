@@ -87,7 +87,7 @@ namespace Colorization
         /// Applique le formatage voulu au <see cref="FormattedTextEl"/> sur l'affichage.
         /// </summary>
         /// <param name="fte">Le <see cref="FormattedTextEl"/> qui doit être formaté.</param>
-        /// <param name="conf">La <see cref=">Config"/> à prendre en compte pour l'application du formatage.</param>
+        /// <param name="conf">La <see cref="Config"/> à prendre en compte pour l'application du formatage.</param>
         protected override void SetChars(FormattedTextEl fte, Config conf)
         {
             TextRange theChars = txtRange.Characters(fte.First + 1, fte.Last - fte.First + 1);

@@ -379,7 +379,7 @@ namespace ColorLib
         /// will be used when applying formattings. 
         /// </summary>
         /// <param name="txt">The text that will be worked on. Cannot be null.</param>
-        /// <param name="inConf">The <c>Config</c> that will be used when applying formats to the text.</param>
+        /// <param name="inConf">The <c>Config</c> that will be used when applying formatsMgmt to the text.</param>
         public TheText(string txt)
         {
             logger.ConditionalDebug(BaseConfig.cultF, "TheText, txt: \'{0}\'.", txt);
@@ -463,7 +463,7 @@ namespace ColorLib
         /// Applies the formattings defined in the <c>ColConfWin</c> identified by <paramref name="conf"/> and 
         /// <paramref name="pct"/> to the 
         /// "phonèmes" in the text. I.e. fills <c>Formats</c> and makes sure that 
-        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <param name="pct">Identifies the <c>ColConfWin</c> (see <see cref="ColorLib.ColConfWin"/>) that msut
         /// be used when coloring the "phonèmes".</param>
@@ -486,8 +486,8 @@ namespace ColorLib
 
         /// <summary>
         /// Colors the letters in the text, according to the <see cref="PBDQConfig"/> <c>conf</c>,
-        ///i.e. fills <see cref="formats"/>and makes sure that 
-        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        ///i.e. fills <see cref="formatsMgmt"/>and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <param name="conf">The <see cref="Config"/> that must be used for marking the letters.</param>
         public void MarkLetters(Config conf)
@@ -508,8 +508,8 @@ namespace ColorLib
 
         /// <summary>
         /// Colors the "syllabes" in the text, according to the <see cref="SylConfig"/> attached to <c>conf</c>,
-        /// i.e. fills <see cref="formats"/> and makes sure that 
-        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// i.e. fills <see cref="formatsMgmt"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <param name="conf">The <see cref="Config"/> to be used for marking the "syllabes".</param>
         public void MarkSyls(Config conf)
@@ -531,8 +531,8 @@ namespace ColorLib
 
         /// <summary>
         /// Colors the "words" in the text, according to the <see cref="SylConfig"/> attached to <c>conf</c>, 
-        /// i.e. fills <see cref="formats"/> and makes sure that 
-        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// i.e. fills <see cref="formatsMgmt"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <param name="conf">The <see cref="Config"/> to be used for marking the words.</param>
         public void MarkWords(Config conf)
@@ -554,8 +554,8 @@ namespace ColorLib
         /// <summary>
         /// Colors the "unspoken letters" (muettes :-)) in the text, according to the <see cref="ColConfWin"/> 
         /// corresponding to <c>pct == PhonConfType.muettes</c> attached to <c>conf</c>, i.e. fills
-        /// <see cref="formats"/> and makes sure that 
-        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// <see cref="formatsMgmt"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <param name="conf"></param>
         public void MarkMuettes(Config conf)
@@ -568,8 +568,8 @@ namespace ColorLib
 
         /// <summary>
         /// Colors the "voyelles" and "consonnes" in the text, according to the alternate colors defined in the <see cref="SylConfig"/>
-        /// attached to <c>conf</c>, i.e. fills <see cref="formats"/> and makes sure that 
-        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// attached to <c>conf</c>, i.e. fills <see cref="formatsMgmt"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         public void MarkVoyCons(Config conf)
         {
@@ -611,8 +611,8 @@ namespace ColorLib
 
         /// <summary>
         /// Formats the lines of the text, according to the given <see cref="Config"/>. It fills 
-        /// <see cref="formats"/> and makes sure that 
-        /// <see cref="SetChars(FormattedTextEl)"/> is called for each <c>FormattedTextEl</c>.
+        /// <see cref="formatsMgmt"/> and makes sure that 
+        /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <param name="conf">The <see cref="Config"/> to use.</param>
         public void MarkLignes(Config conf)
@@ -867,7 +867,7 @@ namespace ColorLib
         /// <summary>
         /// Formats the list of <see cref="PhonWord"/>(s) in order to highlight the syllabes,
         /// according to <paramref name="conf"/>. I.e. Adds the corresponding 
-        /// <see cref="FormattedTextEl"/>(s) to <see cref="formats"/>.
+        /// <see cref="FormattedTextEl"/>(s) to <see cref="formatsMgmt"/>.
         /// </summary>
         /// <param name="pws">The list of <see cref="PhonWord"/>(s) to format.</param>
         /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>

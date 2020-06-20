@@ -439,9 +439,9 @@ namespace ColorLib
         public bool GetCheck(string son) => chkSon[son];
 
         /// <summary>
-        /// <see cref="CharFormatting"/> pour le <paramref name="son"/>
+        /// <see cref="CharFormatting"/> pour le <paramref name="son"/>.
         /// </summary>
-        /// <param name="son">Le son pour lequel on veut le <see cref=CharFormatting"/></param>
+        /// <param name="son">Le son pour lequel on veut le <see cref=CharFormatting"/>.</param>
         /// <returns>Le <see cref="CharFormatting"/> demandé.</returns>
         public CharFormatting GetCF(string son) => cfSon[son];
 
