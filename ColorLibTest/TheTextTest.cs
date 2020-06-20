@@ -17,7 +17,7 @@ namespace ColorLibTest
             Config conf = new Config();
             tt = new TheText("Dans tes yeux les clartés trop brutales s’émoussent.");
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            pws = tt.GetPhonWords(conf);
+            pws = tt.GetPhonWordList(conf);
             Assert.AreEqual("Dans", pws[0].ToString());
             Assert.AreEqual("tes", pws[1].ToString());
             Assert.AreEqual("yeux", pws[2].ToString());
@@ -46,7 +46,7 @@ namespace ColorLibTest
                 "
                 );
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            pws = tt.GetPhonWords(conf);
+            pws = tt.GetPhonWordList(conf);
             Assert.AreEqual("France", pws[0].ToString());
             Assert.AreEqual("ô", pws[1].ToString());
             Assert.AreEqual("belle", pws[2].ToString());

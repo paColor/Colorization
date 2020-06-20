@@ -106,8 +106,8 @@ namespace ColorLib
 
             private List<Word> cachedWordList1;
             private List<Word> cachedWordList2;
-            private List<PhonWord> cachedPWL1;
-            private List<PhonWord> cachedPWL2;
+            private ConcurrentBag<PhonWord> cachedPWL1;
+            private ConcurrentBag<PhonWord> cachedPWL2;
 
             // Si une de ces données change, le cache est invalidé.
             // Les deux champs suivants ont une influence sur la façon de distribuer les mots
@@ -239,7 +239,7 @@ namespace ColorLib
             /// <param name="pwL1">Out: the first list of <see cref="PhonWord"/></param>
             /// <param name="pwL2">Out: the second list of <see cref="PhonWord"/></param>
             public void GetPhonWordLists(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos,
-                out List<PhonWord> pwL1, out List<PhonWord> pwL2)
+                out ConcurrentBag<PhonWord> pwL1, out ConcurrentBag<PhonWord> pwL2)
             {
                 logger.ConditionalDebug("GetPhonWordLists");
                 CheckCacheValidity(dConf);
@@ -267,7 +267,7 @@ namespace ColorLib
 
             private void ComputePW(List<Word> wL, Config subConf, ref ConcurrentBag<PhonWord> pwL)
             {
-                pwL = GetPhonWordsParallel(wL, subConf);
+                pwL = GetPhonWords(wL, subConf);
             }
 
             private void CheckCacheValidity(DuoConfig dConf)
@@ -392,7 +392,7 @@ namespace ColorLib
         private string S;
         private string smallCapsS;
         private List<Word> words; // List of the words in TheText (computed when needed)
-        private List<PhonWord> phonWords; // The corresponding PhonWords (computed when needed).
+        private ConcurrentBag<PhonWord> phonWords; // The corresponding PhonWords (computed when needed).
         private DuoCache dc;
         private FormatsMgmt formatsMgmt;
 
@@ -474,16 +474,14 @@ namespace ColorLib
         /// <remarks>Is not needed by a normal consumer of the class and should only be used for testing.</remarks>
         /// <param name="conf">The <see cref="Config"/> to use for the detection of the "phonèmes".</param>
         /// <returns>List of <c>PhonWords</c> contained in the text.</returns>
-        public List<PhonWord> GetPhonWords(Config conf)
+        public List<PhonWord> GetPhonWordList(Config conf)
             // public for test reasons
         {
-            logger.ConditionalDebug("GetPhonWords");
-            if (phonWords == null)
-            {
-                List<Word> theWords = GetWords();
-                phonWords = GetPhonWords(theWords, conf);
-            }
-            return phonWords;
+            logger.ConditionalDebug("GetPhonWordList");
+            ConcurrentBag<PhonWord> pws = GetPhonWords(conf);
+            List<PhonWord> toReturn = new List<PhonWord>(pws);
+            toReturn.Sort(TextEl.CompareTextElByPosition);
+            return toReturn;
         }
 
         /// <summary>
@@ -500,7 +498,7 @@ namespace ColorLib
             if (conf != null)
             { 
                 formatsMgmt.ClearFormats();
-                List<PhonWord> pws = GetPhonWords(conf);
+                ConcurrentBag<PhonWord> pws = GetPhonWords(conf);
                 FormatPhons(pws, conf, pct);
                 ApplyFormatting(conf);
             }
@@ -545,7 +543,7 @@ namespace ColorLib
             if (conf != null)
             {
                 formatsMgmt.ClearFormats();
-                List<PhonWord> pws = GetPhonWords(conf);
+                ConcurrentBag<PhonWord> pws = GetPhonWords(conf);
                 FormatSyls(pws, conf);
                 ApplyFormatting(conf);
             }
@@ -686,7 +684,7 @@ namespace ColorLib
                 }
 
                 List<Word> wL1, wL2;
-                List<PhonWord> pws1, pws2;
+                ConcurrentBag<PhonWord> pws1, pws2;
 
                 DuoConfig dConf = conf.duoConf;
                 switch (dConf.colorisFunction)
@@ -795,43 +793,41 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Returns a list of <c>PhonWord</c> corresponding to <paramref name="wordList"/> and
-        /// computet according to <paramref name="conf"/>;
+        /// Returns a ConcurrentBag of <c>PhonWord</c> corresponding to <paramref name="wordList"/> and
+        /// computed according to <paramref name="conf"/>;
         /// </summary>
         /// <param name="wordList">The <c>Word</c>(s) whose corresponding <c>PhonWord</c>(s) 
         /// must be computed.</param>
         /// <param name="conf">The <c>Config</c> that must be used for the computation.</param>
         /// <returns></returns>
-        private static List<PhonWord> GetPhonWords(List<Word> wordList, Config conf)
+        private static ConcurrentBag<PhonWord> GetPhonWords(List<Word> wordList, Config conf)
         {
-            logger.ConditionalDebug("GetPhonWords");
-            List<PhonWord> toReturn = new List<PhonWord>(wordList.Count);
-            foreach (Word w in wordList)
-                toReturn.Add(new PhonWord(w, conf));
-            return toReturn;
-        }
-
-        private static ConcurrentBag<PhonWord> GetPhonWordsParallel(List<Word> wordList, Config conf)
-        {
-            logger.ConditionalDebug("GetPhonWordsParallel (wordList, conf)");
+            // Limite du nombre de mots au-dessus de laquelle on travaille en parallèle.
+            const int ParallelLimit = 100; 
+            logger.ConditionalDebug("GetPhonWords (wordList, conf), nr mots: {0}", wordList.Count);
             ConcurrentBag<PhonWord> toReturn = new ConcurrentBag<PhonWord>();
-            Parallel.ForEach(wordList, (w) => { toReturn.Add(new PhonWord(w, conf)); });
-            //foreach (Word w in wordList)
-            //    toReturn.Add(new PhonWord(w, conf));
+            if (wordList.Count > ParallelLimit)
+            {
+                Parallel.ForEach(wordList, (w) => { toReturn.Add(new PhonWord(w, conf)); });
+            }
+            else
+            {
+                foreach (Word w in wordList)
+                    toReturn.Add(new PhonWord(w, conf));
+            }
             return toReturn;
         }
 
-        private ConcurrentBag<PhonWord> GetPhonWordsParallel(Config conf)
+        private ConcurrentBag<PhonWord> GetPhonWords(Config conf)
         {
-            logger.ConditionalDebug("GetPhonWordsParallel(conf)");
-            //if (phonWords == null)
-            //{
+            logger.ConditionalDebug("GetPhonWords(conf)");
+            if (phonWords == null)
+            {
                 List<Word> theWords = GetWords();
-                return GetPhonWordsParallel(theWords, conf);
-            //}
-            //return phonWords;
+                phonWords = GetPhonWords(theWords, conf);
+            }
+            return phonWords;
         }
-
 
         /// <summary>
         /// Fills <c>formats</c> in order to format the phonèmes for the <see cref="PhonWord"/>(s) in
@@ -841,7 +837,7 @@ namespace ColorLib
         /// <param name="pws">The list of words to format.</param>
         /// <param name="conf">The <c>Config</c> to use for the fromatting.</param>
         /// <param name="pct">The <c>ColConfWin</c> within <c>conf</c> to use for the fromatting.</param>
-        private void FormatPhons(List<PhonWord> pws, Config conf, PhonConfType pct)
+        private void FormatPhons(ConcurrentBag<PhonWord> pws, Config conf, PhonConfType pct)
         {
             logger.ConditionalDebug("FormatPhons");
             foreach (PhonWord pw in pws)
@@ -890,7 +886,7 @@ namespace ColorLib
         /// </summary>
         /// <param name="pws">The list of <see cref="PhonWord"/>(s) to format.</param>
         /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
-        private void FormatSyls(List<PhonWord> pws, Config conf)
+        private void FormatSyls(ConcurrentBag<PhonWord> pws, Config conf)
         {
             logger.ConditionalDebug("FormatSyls");
             conf.sylConf.ResetCounter();

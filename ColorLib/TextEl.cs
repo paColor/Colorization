@@ -27,6 +27,37 @@ namespace ColorLib
 {
     public class TextEl
     {
+        // ****************************************************************************************
+        // *                                       STATIC                                         *
+        // ****************************************************************************************
+
+        /// <summary>
+        /// Permet de comparer des <c>textEl</c> pour, le cas échéant, les remettre dans l'ordre.
+        /// N'a un sens que pour des éléments se rapportant au même <see cref="TheText"/> 
+        /// </summary>
+        /// <param name="te1"></param>
+        /// <param name="te2"></param>
+        /// <returns></returns>
+        public static int CompareTextElByPosition(TextEl te1, TextEl te2)
+        {
+            Debug.Assert(te1.T == te2.T); // sinon ça n'a pas de sens.
+            int toReturn = 0;
+            if (te1.First < te2.First)
+            {
+                toReturn = -1;
+            }
+            else if (te1.First > te2.First)
+            {
+                toReturn = 1;
+            }
+            return toReturn;
+        }
+
+
+        // ****************************************************************************************
+        // *                                    INSTANTIATED                                      *
+        // ****************************************************************************************
+
         public TheText T { get; private set; }
         public int First { get; protected set; } // start index of the word in T
         public int Last { get; protected set; }

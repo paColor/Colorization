@@ -112,8 +112,9 @@ namespace ColorLib
         /// <param name="val">La nouvelle valeur.</param>
         public void CbuChecked(string cbuName, bool val)
         {
+            logger.ConditionalDebug("CbuChecked cbuName: \'{0}\', val: {1}", cbuName, val);
             int btuIndex = cbuMap[cbuName];
-            if (act[btuIndex] = val) // Pour éviter un évènement si rien ne change
+            if (act[btuIndex] != val) // Pour éviter un évènement si rien ne change
             {
                 act[btuIndex] = val;
                 OnCheckboxUnsetModified((Ucbx)btuIndex);

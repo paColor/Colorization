@@ -109,7 +109,7 @@ namespace ColorLibTest
 
 			conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
 
-			pws = tt.GetPhonWords(conf);
+			pws = tt.GetPhonWordList(conf);
 
 			CheckPhons(pws, 0, "briefing", "bRij°fiG");
 			CheckPhons(pws, 1, "berlingot", "bERl5gO");
@@ -144,7 +144,7 @@ namespace ColorLibTest
 
 			conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
 
-			pws = tt.GetPhonWords(conf);
+			pws = tt.GetPhonWordList(conf);
 
 			CheckPhons(pws, 0, "bredouilla", "bR°duja");
 			CheckPhons(pws, 1, "ouest", "uEst");
@@ -168,7 +168,7 @@ namespace ColorLibTest
 			Config conf = new Config();
 			TheText tt = new TheText(txt);
 			conf.colors[PhonConfType.phonemes].IllRuleToUse = ill;
-			List<PhonWord> pws = tt.GetPhonWords(conf);
+			List<PhonWord> pws = tt.GetPhonWordList(conf);
 			for (int i = 0; i < phons.Length; i++)
 			{
 				Console.WriteLine(pws[i].AllStringInfo());
@@ -232,7 +232,7 @@ namespace ColorLibTest
 				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi"
 			};
 
-			pws = tt.GetPhonWords(conf);
+			pws = tt.GetPhonWordList(conf);
 			for (int i = 0; i < phonetique.Length; i++)
 			{
 				Console.WriteLine(pws[i].AllStringInfo());

@@ -346,7 +346,7 @@ namespace ColorLibTest
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
             tt = new TheText("l'automne et les Violons");
-            pws = tt.GetPhonWords(conf);
+            pws = tt.GetPhonWordList(conf);
             for (int i=0; i<limit; i++)
             {
                 pos = 3;
@@ -384,7 +384,7 @@ namespace ColorLibTest
             arf5 = new AutomRuleFilter(tstRFS5, ref pos);
 
             tt = new TheText("l'automne et les Violons");
-            pws = tt.GetPhonWords(conf);
+            pws = tt.GetPhonWordList(conf);
 
             for (int i = 0; i < limit; i++)
             {
@@ -540,7 +540,7 @@ namespace ColorLibTest
             pos = 0;
             arf = new AutomRuleFilter(tstRFS, ref pos);
             tt = new TheText("briefing, berlingot, bille, imbécile, limbe, afin, paille, triage, guilleret");
-            pws = tt.GetPhonWords(conf);
+            pws = tt.GetPhonWordList(conf);
 
             // briefing
             wordI = 0;

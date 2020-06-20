@@ -137,7 +137,7 @@ namespace ColorLibTest
             pos = 0;
             ar = new AutomRule(tstAR, ref pos, vRN);
             tt = new TheText("chrétien, synchronisé, chien, apache, roch, rocher, cornichon");
-            pws = tt.GetPhonWords(conf);
+            pws = tt.GetPhonWordList(conf);
             foreach (PhonWord pw in pws)
                 pw.ClearPhons();
 
@@ -204,7 +204,7 @@ namespace ColorLibTest
             pos = 0;
             ar = new AutomRule(tstAR, ref pos, vRN);
             tt = new TheText("plein, geindre, weimarienne, astreignant, atteint, autoneige, palme");
-            pws = tt.GetPhonWords(conf);
+            pws = tt.GetPhonWordList(conf);
             foreach (PhonWord pw in pws)
                 pw.ClearPhons();
 
@@ -269,7 +269,7 @@ namespace ColorLibTest
             pos = 0;
             ar = new AutomRule(tstAR, ref pos, vRN);
             tt = new TheText("indécent, triment, palme");
-            pws = tt.GetPhonWords(conf);
+            pws = tt.GetPhonWordList(conf);
             foreach (PhonWord pw in pws)
                 pw.ClearPhons();
 

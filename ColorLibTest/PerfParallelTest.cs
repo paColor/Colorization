@@ -81,7 +81,13 @@ namespace ColorLibTest
 
         private MyText GetLongText()
         {
-            const int nrTxt = 100;
+            // ************************************************************************************
+            //                             MODIFIER POUR TESTER LES PERFS
+            // ************************************************************************************
+            // const int nrTxt = 100;
+            const int nrTxt = 1;
+            // ************************************************************************************
+
             StringBuilder sb = new StringBuilder(nrTxt * rougeEtNoir23.Length);
             for (int i = 0; i < nrTxt; i++)
             {
@@ -106,6 +112,7 @@ namespace ColorLibTest
         /// résultats:
         /// tout séquentiel: 10.8 secondes
         /// Avec le parallélismde dans GetPhonWordList: 7.3 secondes
+        /// Avec le parallélisme dans GetPhonWords: 5.4 - 5.6 secondes
         /// </remarks>
         [TestMethod]
         public void MeasureDuo()
@@ -123,6 +130,7 @@ namespace ColorLibTest
         /// <remarks>
         /// résultats:
         /// tout séquentiel: 10.3 secondes
+        /// Parallélisme dans GetPhonWords: 4.1 - 4.8 secondes
         /// 
         /// </remarks>
         [TestMethod]

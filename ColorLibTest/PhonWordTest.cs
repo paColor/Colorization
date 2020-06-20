@@ -35,7 +35,7 @@ namespace ColorLibTest
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             conf.sylConf.DoubleConsStd = std;
             conf.sylConf.ModeEcrit = ecrit;
-            List<PhonWord> pws = tt.GetPhonWords(conf);
+            List<PhonWord> pws = tt.GetPhonWordList(conf);
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls(conf);
 
@@ -56,7 +56,7 @@ namespace ColorLibTest
             Config conf = new Config();
             TheText tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            List<PhonWord> pws = tt.GetPhonWords(conf);
+            List<PhonWord> pws = tt.GetPhonWordList(conf);
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls(conf);
             Console.WriteLine(pws[0].AllStringInfo());
@@ -66,7 +66,7 @@ namespace ColorLibTest
             syllabe = "co-lo-rƨa-tion";
             tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            pws = tt.GetPhonWords(conf);
+            pws = tt.GetPhonWordList(conf);
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls(conf);
             Console.WriteLine(pws[0].AllStringInfo());
@@ -157,7 +157,7 @@ namespace ColorLibTest
             Config conf = new Config();
             TheText tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            List<PhonWord> pws = tt.GetPhonWords(conf);
+            List<PhonWord> pws = tt.GetPhonWordList(conf);
             int i = 0;
             int nrLines = pws.Count / wordsPerLine;
             for (int line = 0; line < nrLines; line++)
@@ -191,7 +191,7 @@ namespace ColorLibTest
             Config conf = new Config();
             TheText tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            List<PhonWord> pws = tt.GetPhonWords(conf);
+            List<PhonWord> pws = tt.GetPhonWordList(conf);
             for (int i = 0; i < phons.Length; i++)
             {
                 Console.WriteLine(pws[i].AllStringInfo());
