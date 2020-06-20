@@ -580,10 +580,10 @@ namespace ColorLib
         /// <param name="son">Le son dont le <see cref="CharFormatting"/> doit être modifié.</param>
         /// <param name="cf">Le nouveau <see cref="CharFormatting"/>.</param>
         public void SetCFSon(string son, CharFormatting cf)
-        // if son is not known an KeyNotFoundException will be thrown...
         {
             logger.ConditionalDebug("SetCFSon \'{0}\'", son);
-            if (cfSon[son] != cf)
+            CharFormatting valCF;
+            if(!(cfSon.TryGetValue(son, out valCF) && valCF == cf))
             {
                 Debug.Assert(sonMap.ContainsKey(son), String.Format(BaseConfig.cultF, "{0} n'est pas un son connu", son));
                 cfSon[son] = cf;
@@ -601,7 +601,8 @@ namespace ColorLib
         public void SetChkSon(string son, bool checkVal)
         {
             logger.ConditionalDebug("SetChkSon \'{0}\' to {1}", son, checkVal);
-            if(chkSon[son] != checkVal)
+            bool valCK;
+            if (!(chkSon.TryGetValue(son, out valCK) && valCK == checkVal)) 
             {
                 chkSon[son] = checkVal;
                 foreach (Phonemes p in sonMap[son])

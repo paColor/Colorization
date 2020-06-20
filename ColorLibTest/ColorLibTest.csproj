@@ -69,6 +69,7 @@
     <Compile Include="SpeedTest.cs" />
     <Compile Include="TextElTest.cs" />
     <Compile Include="PhonWordTest.cs" />
+    <Compile Include="PerfParallelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">

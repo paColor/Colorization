@@ -24,6 +24,8 @@ using System.Text;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using NLog;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace ColorLib
 {
@@ -163,6 +165,8 @@ namespace ColorLib
             public void GetWordLists(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos, 
                 out List<Word> wL1, out List<Word> wL2)
             {
+                // We measured 9 ms duration for a very long text (a fat book). So this is not the place to
+                // put more sophisticated parallelism.
                 logger.ConditionalDebug("GetWordLists");
                 CheckCacheValidity(dConf);
                 if (cachedWordList1 == null)
@@ -244,11 +248,26 @@ namespace ColorLib
                     List<Word> wL1;
                     List<Word> wL2;
                     GetWordLists(wL, dConf, getEolPos, out wL1, out wL2);
-                    cachedPWL1 = GetPhonWords(wL1, dConf.subConfig1);
-                    cachedPWL2 = GetPhonWords(wL2, dConf.subConfig2);
+
+                    // Parallel way
+                    ComputePhonWords cpw = ComputePW;
+                    IAsyncResult asr = cpw.BeginInvoke(wL1, dConf.subConfig1, ref cachedPWL1, null, null);
+                    ComputePW(wL2, dConf.subConfig2, ref cachedPWL2);
+                    cpw.EndInvoke(ref cachedPWL1, asr);
+
+                    // Sequential way
+                    //cachedPWL1 = GetPhonWords(wL1, dConf.subConfig1);
+                    //cachedPWL2 = GetPhonWords(wL2, dConf.subConfig2);
                 }
                 pwL1 = cachedPWL1;
                 pwL2 = cachedPWL2;
+            }
+
+            delegate void ComputePhonWords(List<Word> wL, Config subConf, ref ConcurrentBag<PhonWord> pwL);
+
+            private void ComputePW(List<Word> wL, Config subConf, ref ConcurrentBag<PhonWord> pwL)
+            {
+                pwL = GetPhonWordsParallel(wL, subConf);
             }
 
             private void CheckCacheValidity(DuoConfig dConf)
@@ -297,17 +316,22 @@ namespace ColorLib
         private class FormatsMgmt
         {
             int sLength;
-            public Dictionary<CharFormatting, List<FormattedTextEl>> formatsPerCF { get; private set; }
+            public List<FormattedTextEl> formats;
+
+            // Deprecated
+            // public Dictionary<CharFormatting, List<FormattedTextEl>> formatsPerCF { get; private set; }
 
             /// <summary>
             /// Crée un manager de formats
             /// </summary>
-            /// <param name="sLength">Longueur du texte dont il faut s^'occuper des formats.</param>
+            /// <param name="sLength">Longueur du texte dont il faut s'occuper des formats.</param>
             public FormatsMgmt(int inSLength)
             {
                 logger.ConditionalDebug("FormatsMgmt sLength: {0}", inSLength);
                 sLength = inSLength;
-                formatsPerCF = new Dictionary<CharFormatting, List<FormattedTextEl>>(16); 
+                formats = new List<FormattedTextEl>((inSLength / 3) * 2);
+
+                // formatsPerCF = new Dictionary<CharFormatting, List<FormattedTextEl>>(16); 
                 // 16 au pif. Il semble peu fréquent d'avoir plus de 16 formatages différents 
                 // dans un texte. Il y en a 13 dans la config CERAS.
             }
@@ -318,18 +342,20 @@ namespace ColorLib
             public void ClearFormats()
             {
                 logger.ConditionalDebug("ClearFormats");
-                formatsPerCF.Clear();
+                formats.Clear();
+                // formatsPerCF.Clear();
             }
 
             public void Add(FormattedTextEl fte)
             {
-                List<FormattedTextEl> ftes;
-                if (!formatsPerCF.TryGetValue(fte.cf, out ftes))
-                {
-                    ftes = new List<FormattedTextEl>(sLength/10);
-                    formatsPerCF.Add(fte.cf, ftes);
-                }
-                ftes.Add(fte);
+                formats.Add(fte);
+                //List<FormattedTextEl> ftes;
+                //if (!formatsPerCF.TryGetValue(fte.cf, out ftes))
+                //{
+                //    ftes = new List<FormattedTextEl>(sLength/10);
+                //    formatsPerCF.Add(fte.cf, ftes);
+                //}
+                //ftes.Add(fte);
             }
         }
 
@@ -344,7 +370,7 @@ namespace ColorLib
         // ****************************************************************************************
 
         /// <summary>
-        /// Initializes the static elements of the whole <c>ColorLib</c> library. Must be called befor any
+        /// Initializes the static elements of the whole <c>ColorLib</c> library. Must be called before any
         /// usage of the library.
         /// </summary>
         public static void Init()
@@ -382,7 +408,8 @@ namespace ColorLib
         /// <param name="inConf">The <c>Config</c> that will be used when applying formatsMgmt to the text.</param>
         public TheText(string txt)
         {
-            logger.ConditionalDebug(BaseConfig.cultF, "TheText, txt: \'{0}\'.", txt);
+            logger.ConditionalDebug(BaseConfig.cultF, "TheText");
+            logger.ConditionalTrace(BaseConfig.cultF, "TheText Constructor, txt: \'{0}\'.", txt);
             Debug.Assert(txt != null);
             this.S = txt;
             formatsMgmt = new FormatsMgmt(S.Length);
@@ -732,39 +759,9 @@ namespace ColorLib
         /// <param name="conf">The <see cref="Config"/> that must be used for the formating.</param>
         protected virtual void SetChars(FormattedTextEl fte, Config conf) 
         {
-            logger.Error("SetChars ou DisplayFormat doit être implémentée par une classe descendante de TheText.");
+            logger.Error("SetChars doit être implémentée par une classe descendante de TheText.");
             throw new NotImplementedException(
-                "SetChars ou DisplayFormat doit être implémenté par une classe descendante de TheText.");
-        }
-
-        /// <summary>
-        /// Applique le formatage <paramref name="cf"/> à tous les <see cref="FormattedTextEl"/> de
-        /// la liste.
-        /// </summary>
-        /// <param name="cf">Le formatage à appliquer.</param>
-        /// <param name="ftes">La liste des <see cref="FormattedTextEl"/> qui doivent être affichés.
-        /// Notez que tous les membres de <c>ftes</c> ont le <see cref="CharFormatting"/> <c>cf</c>.
-        /// </param>
-        /// <param name="conf">La <see cref="Config"/> à utiliser.</param>
-        /// <remarks>
-        /// <para>
-        /// Cette méthode est appelée au moment ou le résultat d'une commande doit être affiché.
-        /// Elle est exécutée pour chaque <see cref="CharFormatting"/> utilisé par la commande.
-        /// Par défaut elle utilise <c>SetChars</c> pour chaque élément de <c>ftes</c>. 
-        /// </para>
-        /// <para>
-        /// l'hypothèse est que certains héritiers seront plus performants s'ils peuvent créer un
-        /// ensemble d'éléments de texte disjoints devant recevoir le même formatage que s'ils 
-        /// reformatent chaque élément de texte l'un après l'autre. Chaque héritier peut donc choisir
-        /// de réaliser soit <see cref="SetChars(FormattedTextEl, Config)"/>, soit 
-        /// <c>DisplayFormat</c> en fonction du gain de performance que leui donnerait 
-        /// <c>DisplayFormat</c>. Inutile de réaliser les deux méthodes.
-        /// </para>
-        /// </remarks>
-        protected virtual void DisplayFormat(CharFormatting cf, List<FormattedTextEl> ftes, Config conf)
-        {
-            foreach (FormattedTextEl fte in ftes)
-                SetChars(fte, conf);
+                "SetChars doit être implémenté par une classe descendante de TheText.");
         }
 
         /// <summary>
@@ -789,12 +786,12 @@ namespace ColorLib
         private void ApplyFormatting(Config conf)
         {
             logger.ConditionalDebug("ApplyFormatting");
-            //foreach (FormattedTextEl fte in formats)
-            //    SetChars(fte, conf);
-            foreach(KeyValuePair<CharFormatting, List<FormattedTextEl>> kvp in formatsMgmt.formatsPerCF)
-            {
-                DisplayFormat(kvp.Key, kvp.Value, conf);
-            }
+            foreach (FormattedTextEl fte in formatsMgmt.formats)
+                SetChars(fte, conf);
+            //foreach(KeyValuePair<CharFormatting, List<FormattedTextEl>> kvp in formatsMgmt.formatsPerCF)
+            //{
+            //    DisplayFormat(kvp.Key, kvp.Value, conf);
+            //}
         }
 
         /// <summary>
@@ -813,6 +810,28 @@ namespace ColorLib
                 toReturn.Add(new PhonWord(w, conf));
             return toReturn;
         }
+
+        private static ConcurrentBag<PhonWord> GetPhonWordsParallel(List<Word> wordList, Config conf)
+        {
+            logger.ConditionalDebug("GetPhonWordsParallel (wordList, conf)");
+            ConcurrentBag<PhonWord> toReturn = new ConcurrentBag<PhonWord>();
+            Parallel.ForEach(wordList, (w) => { toReturn.Add(new PhonWord(w, conf)); });
+            //foreach (Word w in wordList)
+            //    toReturn.Add(new PhonWord(w, conf));
+            return toReturn;
+        }
+
+        private ConcurrentBag<PhonWord> GetPhonWordsParallel(Config conf)
+        {
+            logger.ConditionalDebug("GetPhonWordsParallel(conf)");
+            //if (phonWords == null)
+            //{
+                List<Word> theWords = GetWords();
+                return GetPhonWordsParallel(theWords, conf);
+            //}
+            //return phonWords;
+        }
+
 
         /// <summary>
         /// Fills <c>formats</c> in order to format the phonèmes for the <see cref="PhonWord"/>(s) in
