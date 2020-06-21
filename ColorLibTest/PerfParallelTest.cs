@@ -142,6 +142,37 @@ namespace ColorLibTest
             ReportStopWatchDuration("MeasurePhons");
         }
 
+        [TestMethod]
+        public void MeasureMultiplePhons()
+        {
+            int NrLoops = 1;
+            MeasurePhons(Victor48, NrLoops, "Victor48");
+            MeasurePhons(Victor52, NrLoops, "Victor52");
+        }
+
+        private void MeasurePhons(string s, int nrLoops, string reportText)
+        {
+            Config conf = new Config();
+            stopWatch.Restart();
+            for (int i = 0; i < nrLoops; i++)
+            {
+                MyText mt = new MyText(s);
+                mt.ColorizePhons(conf, PhonConfType.phonemes);
+            }
+            stopWatch.Stop();
+            ReportStopWatchDuration("MeasurePhons " + reportText);
+        }
+
+        private string Victor48 = @"Waterloo ! Waterloo ! Waterloo ! morne plaine ! 
+            Comme une onde qui bout dans une urne trop pleine, Dans ton cirque de bois, 
+            de coteaux, de vallons, La pâle mort mêlait les sombres bataillons. D'un côté 
+            c'est l'Europe et de l'autre la France. Choc sanglant ! des héros";
+
+        private string Victor52 = @"Waterloo ! Waterloo ! Waterloo ! morne plaine ! 
+            Comme une onde qui bout dans une urne trop pleine, Dans ton cirque de bois, 
+            de coteaux, de vallons, La pâle mort mêlait les sombres bataillons. D'un côté 
+            c'est l'Europe et de l'autre la France. Choc sanglant ! des héros Dieu trompait
+            l'espérance;";
 
         private string rougeEtNoir23 = @"
             Heureusement pour la réputation de M. de Rênal comme
