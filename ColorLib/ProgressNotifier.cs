@@ -10,29 +10,42 @@ namespace ColorLib
     /// Argument passé lors de l'évènement <c>ConfigResetttedEvent</c>.
     /// </summary>
     public class ProgressEventArgs : EventArgs
-    {
-        public enum ProgressType { start, inProgress, finished, undefined};
-        
+    {   
         /// <value>L'état en % de la progression</value>
         public int progress { get; private set; }
 
         /// <value>Le temps écoulé depuis le début de l'exécution de la tâche.</value>
         public long elapsedMilliseconds { get; private set; }
 
-        /// <value>Le type d'évènement. Il est à noter que la valeur de <c>progress</c> n'est
-        /// intéressante que dans le cas où <c>progressType</c> == <c>inProgress</c>.</value>
-        public ProgressType progressType { get; private set; }
+        public long remainingMilliseconds { get; private set; }
 
         /// <summary>
         /// Crée une instance d'arguments pour l'évènement.
         /// </summary>
         /// <param name="p">L'état en % de la progression</param>
-        /// <param name="e">Le temps écoulé depuis le début de l'exécution de la tâche.</param>
-        public ProgressEventArgs(ProgressType pt, int p, long e)
+        /// <param name="e">Le temps écoulé depuis le début de l'exécution de la tâche (en 
+        /// millisecondes).</param>
+        /// <param name="r">Estimation du temps restant (en millisecondes).</param>
+        public ProgressEventArgs(int p, long e, long r)
         {
             progress = p;
             elapsedMilliseconds = e;
-            progressType = pt;
+            remainingMilliseconds = r;
+        }
+    }
+
+    /// <summary>
+    /// Crée une instance d'arguments pour l'évènement.
+    /// </summary>
+    /// <param name="e">Le temps écoulé depuis le début de l'exécution de la tâche.</param>
+    public class CompletedEventArgs : EventArgs
+    {
+        /// <value>Le temps écoulé depuis le début de l'exécution de la tâche.</value>
+        public long elapsedMilliseconds { get; private set; }
+
+        public CompletedEventArgs(long e)
+        {
+            elapsedMilliseconds = e;
         }
     }
 
@@ -96,13 +109,26 @@ namespace ColorLib
         // --------------------------------- EventHandlers ----------------------------------
 
         /// <summary>
+        /// Evènement déclenché quand la tâche commence.
+        /// </summary>
+        public event EventHandler<EventArgs> StartEvent;
+        
+        /// <summary>
         /// Evènement déclenché quand une évolution de la progression est connue.
         /// </summary>
         public event EventHandler<ProgressEventArgs> ProgressEvent;
 
+        /// <summary>
+        /// /// Evènement déclenché quand la tâche est terminée.                                                        /// </summary>
+        public event EventHandler<CompletedEventArgs> CompletedEvent;
+
+
         // ----------------------------------- Members -------------------------------------
 
         private Stopwatch stopwatch;
+        private long invSpeed; // miliseconds per percent
+        private int previousProgress;
+        private long previousTime;
 
         // ----------------------------------- Methods -------------------------------------
 
@@ -121,7 +147,10 @@ namespace ColorLib
         {
             logger.ConditionalDebug("Start");
             stopwatch.Restart();
-            OnProgressEvent(ProgressEventArgs.ProgressType.start, 0);
+            invSpeed = 10; // ça nous met la tâche standard à une seconde...
+            previousProgress = 0;
+            previousTime = 0;
+            OnStartEvent();
         }
 
         /// <summary>
@@ -132,23 +161,47 @@ namespace ColorLib
         public void InProgress(int progression)
         {
             logger.ConditionalTrace(BaseConfig.cultF, "InProgress {0}%", progression);
-            OnProgressEvent(ProgressEventArgs.ProgressType.inProgress, progression);
+            OnProgressEvent(progression);
         }
 
         /// <summary>
         /// Tâche terminée
         /// </summary>
-        public void Finished()
+        public void Completed()
         {
-            logger.ConditionalDebug("Finished");
+            logger.ConditionalDebug("Completed in {0} milliseconds", stopwatch.ElapsedMilliseconds);
             stopwatch.Stop();
-            OnProgressEvent(ProgressEventArgs.ProgressType.finished, 100);
+            OnCompletedEvent();
         }
 
-        protected virtual void OnProgressEvent(ProgressEventArgs.ProgressType pt, int progress)
+        protected virtual void OnStartEvent()
         {
-            EventHandler<ProgressEventArgs> eventHandler = ProgressEvent;
-            eventHandler?.Invoke(this, new ProgressEventArgs(pt, progress, stopwatch.ElapsedMilliseconds));
+            EventHandler<EventArgs> eventHandler = StartEvent;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnProgressEvent(int progress)
+        {
+            long instantInvSpeed;
+            int effectiveProgress = progress - previousProgress;
+            long e = stopwatch.ElapsedMilliseconds;
+            if (effectiveProgress > 0)
+            {
+                instantInvSpeed = (e - previousTime) / effectiveProgress;
+                invSpeed = (invSpeed + instantInvSpeed + instantInvSpeed) / 3;
+            }
+            previousTime = e;
+            previousProgress = progress;
+            long estRemainingT = invSpeed * (100 - progress);
+            logger.ConditionalTrace("OnProgressEvent)
+            EventHandler <ProgressEventArgs> eventHandler = ProgressEvent;
+            eventHandler?.Invoke(this, new ProgressEventArgs(progress, e, estRemainingT));
+        }
+
+        protected virtual void OnCompletedEvent()
+        {
+            EventHandler<CompletedEventArgs> eventHandler = CompletedEvent;
+            eventHandler?.Invoke(this, new CompletedEventArgs(stopwatch.ElapsedMilliseconds));
         }
     }
 }
