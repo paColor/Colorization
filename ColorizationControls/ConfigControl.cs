@@ -83,6 +83,7 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("Init");
             StaticColorizControls.Init();
+            WaitingForm.Init();
         }
 
         private class SonInfo

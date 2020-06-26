@@ -50,6 +50,7 @@ namespace ColorizationControls
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.StaticColorizControls");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.SylFormatForm");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorizationControls.RTBText");
+            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorizationControls.WaitingForm*");
 
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorLib.*");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorLib.Config");

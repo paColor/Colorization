@@ -433,6 +433,16 @@ namespace ColorizationControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LogoColorization_64 {
+            get {
+                object obj = ResourceManager.GetObject("LogoColorization_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap main_dessinant_64 {
             get {
                 object obj = ResourceManager.GetObject("main dessinant_64", resourceCulture);

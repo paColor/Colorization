@@ -142,6 +142,7 @@ namespace Colorization
         private static void ActOnSelectedText(ActOnPPTText act, Config conf)
         {
             logger.ConditionalDebug("ActOnSelectedText");
+            ProgressNotifier.thePN.Start();
             if (ColorizationPPT.thisAddIn.Application.Presentations.Count > 0)
             {
                 ColorizationPPT.thisAddIn.Application.StartNewUndoEntry();
@@ -169,6 +170,7 @@ namespace Colorization
                     }
                 }
             }
+            ProgressNotifier.thePN.Completed();
             logger.ConditionalDebug("EXIT ActOnSelectedText");
         } // void ColorizeSelectedPhons()
 

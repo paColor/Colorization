@@ -38,19 +38,19 @@ namespace ColorizationWord
         /// </summary>
         /// <param name="t">Le texte à formater.</param>
         /// <param name="conf">La <c>Config</c> à utiliser.</param>
-        private delegate void ActOnMSWText(MSWText t, Config conf, ProgressNotifier pn);
+        private delegate void ActOnMSWText(MSWText t, Config conf);
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private static void MarkPhons(MSWText t, Config conf, ProgressNotifier pn) => t.ColorizePhons(conf, PhonConfType.phonemes, pn);
-        private static void MarkLetters(MSWText t, Config conf, ProgressNotifier pn) => t.MarkLetters(conf, pn);
-        private static void MarkSyls(MSWText t, Config conf, ProgressNotifier pn) => t.MarkSyls(conf, pn);
-        private static void MarkWords(MSWText t, Config conf, ProgressNotifier pn) => t.MarkWords(conf, pn);
-        private static void MarkMuettes(MSWText t, Config conf, ProgressNotifier pn) => t.MarkMuettes(conf, pn);
-        private static void MarkNoir(MSWText t, Config conf, ProgressNotifier pn) => t.MarkNoir(conf, pn);
-        private static void MarkVoyCons(MSWText t, Config conf, ProgressNotifier pn) => t.MarkVoyCons(conf, pn);
-        private static void MarkLignes(MSWText t, Config conf, ProgressNotifier pn) => t.MarkLignes(conf, pn);
-        private static void MarkDuo(MSWText t, Config conf, ProgressNotifier pn) => t.MarkDuo(conf, pn);
+        private static void MarkPhons(MSWText t, Config conf) => t.ColorizePhons(conf, PhonConfType.phonemes);
+        private static void MarkLetters(MSWText t, Config conf) => t.MarkLetters(conf);
+        private static void MarkSyls(MSWText t, Config conf) => t.MarkSyls(conf);
+        private static void MarkWords(MSWText t, Config conf) => t.MarkWords(conf);
+        private static void MarkMuettes(MSWText t, Config conf) => t.MarkMuettes(conf);
+        private static void MarkNoir(MSWText t, Config conf) => t.MarkNoir(conf);
+        private static void MarkVoyCons(MSWText t, Config conf) => t.MarkVoyCons(conf);
+        private static void MarkLignes(MSWText t, Config conf) => t.MarkLignes(conf);
+        private static void MarkDuo(MSWText t, Config conf) => t.MarkDuo(conf);
 
 
         public static void Init()
@@ -70,84 +70,66 @@ namespace ColorizationWord
         public static void ColorSelectedPhons(Config conf)
         {
             logger.Info("ColorSelectedPhons");
-            ProgressNotifier pn = GetPNForActiveWindow();
-            ActOnSelectedText(MarkPhons, "Phonèmes", conf, pn);
-            pn.Completed();
+            ActOnSelectedText(MarkPhons, "Phonèmes", conf);
         }
 
         public static void ColorSelectedLetters(Config conf)
         {
             logger.Info("ColorSelectedLetters");
-            ProgressNotifier pn = GetPNForActiveWindow();
-            ActOnSelectedText(MarkLetters, "bpdq", conf, pn);
-            pn.Completed();
+            ActOnSelectedText(MarkLetters, "bpdq", conf);
         }
 
         public static void ColorSelectedSyls(Config conf)
         {
             logger.Info("ColorSelectedSyls");
-            ProgressNotifier pn = GetPNForActiveWindow();
-            ActOnSelectedText(MarkSyls, "Syllabes", conf, pn);
-            pn.Completed();
+            ActOnSelectedText(MarkSyls, "Syllabes", conf);
         }
 
         public static void ColorSelectedWords(Config conf)
         {
             logger.Info("ColorSelectedWords");
-            ProgressNotifier pn = GetPNForActiveWindow();
-            ActOnSelectedText(MarkWords, "Mots", conf, pn);
-            pn.Completed();
+            ActOnSelectedText(MarkWords, "Mots", conf);
         }
 
         public static void ColorSelectedMuettes(Config conf)
         {
             logger.Info("ColorSelectedMuettes");
-            ProgressNotifier pn = GetPNForActiveWindow();
-            ActOnSelectedText(MarkMuettes, "Muettes", conf, pn);
-            pn.Completed();
+            ActOnSelectedText(MarkMuettes, "Muettes", conf);
         }
 
         public static void ColorSelectedNoir(Config conf)
         {
             logger.Info("ColorSelectedNoir");
-            ProgressNotifier pn = GetPNForActiveWindow();
-            ActOnSelectedText(MarkNoir, "Noir", conf, pn);
-            pn.Completed();
+            ActOnSelectedText(MarkNoir, "Noir", conf);
         }
 
         public static void ColorSelectedLignes(Config conf)
         {
             logger.Info("ColorSelectedLignes");
-            ProgressNotifier pn = GetPNForActiveWindow();
-            ActOnSelectedText(MarkLignes, "Lignes", conf, pn);
-            pn.Completed();
+            ActOnSelectedText(MarkLignes, "Lignes", conf);
         }
 
         public static void ColorSelectedVoyCons(Config conf)
         {
             logger.Info("ColorSelectedVoyCons");
-            ProgressNotifier pn = GetPNForActiveWindow();
-            ActOnSelectedText(MarkVoyCons, "Voy-Cons", conf, pn);
-            pn.Completed();
+            ActOnSelectedText(MarkVoyCons, "Voy-Cons", conf);
         }
 
         public static void ColorSelectedDuo(Config conf)
         {
             logger.Info("ColorSelectedDuo");
-            ProgressNotifier pn = GetPNForActiveWindow();
-            ActOnSelectedText(MarkDuo, "Duo", conf, pn);
-            pn.Completed();
+            ActOnSelectedText(MarkDuo, "Duo", conf);
         }
 
-        private static void ActOnShape(Shape sh, ActOnMSWText act, Config conf, ProgressNotifier pn)
+        private static void ActOnShape(Shape sh, ActOnMSWText act, Config conf)
         {
             logger.ConditionalDebug("ActOnShape");
             if (sh.TextFrame.HasText == (int)Microsoft.Office.Core.MsoTriState.msoTrue)
-                act(new MSWText(sh.TextFrame.TextRange), conf, pn); 
+                act(new MSWText(sh.TextFrame.TextRange), conf); 
 
             if (sh.Type == Microsoft.Office.Core.MsoShapeType.msoGroup)
                 foreach (Shape descSh in sh.GroupItems)
-                    ActOnShape(descSh, act, conf, pn);
+                    ActOnShape(descSh, act, conf);
         }
 
         /// <summary>
@@ -156,9 +138,10 @@ namespace ColorizationWord
         /// <param name="act">L'action à effectuer sur un texte. Par exemple <c>MarkSyls</c> ou <c>MarkNoir</c></param>
         /// <param name="undoTxt">Le texte qui est inscrit dans le <c>UndoRecord</c> et que l'utilisateur voit s'il va
         /// sur la lsite des actions qu'il peut annuler.</param>
-        private static void ActOnSelectedText(ActOnMSWText act, string undoTxt, Config conf, ProgressNotifier pn)
+        private static void ActOnSelectedText(ActOnMSWText act, string undoTxt, Config conf)
         {
             logger.ConditionalDebug("ActOnSelectedText");
+            ProgressNotifier.thePN.Start();
             if (ColorizationMSW.thisAddIn.Application.Documents.Count > 0)
             {
                 UndoRecord objUndo = ColorizationMSW.thisAddIn.Application.UndoRecord;
@@ -176,19 +159,19 @@ namespace ColorizationWord
                         break;
                     case WdSelectionType.wdSelectionFrame:
                         foreach (Frame f in sel.Frames)
-                            act(new MSWText(f.Range), conf, pn);
+                            act(new MSWText(f.Range), conf);
                         break;
                     case WdSelectionType.wdSelectionShape:
                         foreach (Shape sh in sel.ShapeRange)
-                            ActOnShape(sh, act, conf, pn);
+                            ActOnShape(sh, act, conf);
                         break;
                     case WdSelectionType.wdSelectionColumn:
                     case WdSelectionType.wdSelectionRow:
                     case WdSelectionType.wdSelectionBlock:
                     case WdSelectionType.wdSelectionNormal:
-                        act(new MSWText(sel.Range), conf, pn);
+                        act(new MSWText(sel.Range), conf);
                         foreach (Shape sh in sel.Range.ShapeRange)
-                            ActOnShape(sh, act, conf, pn);
+                            ActOnShape(sh, act, conf);
                         break;
                     default:
                         throw new ArgumentException(String.Format("Type de sélection non traitée: {0}", sel.Type.ToString()));
@@ -198,6 +181,7 @@ namespace ColorizationWord
                 ColorizationMSW.thisAddIn.Application.ScreenUpdating = true;
                 objUndo.EndCustomRecord();
             }
+            ProgressNotifier.thePN.Completed();
             logger.ConditionalDebug("EXIT ActOnSelectedText");
         }
 
@@ -251,23 +235,16 @@ namespace ColorizationWord
             }
         }
 
-        private static Config GetConfigForActiveWindow()
+        private Config GetConfigForActiveWindow()
         {
             Window activeWin = ColorizationMSW.thisAddIn.Application.ActiveWindow;
             return Config.GetConfigFor(activeWin, activeWin.Document);
         }
 
-        private static ProgressNotifier GetPNForActiveWindow()
-        {
-            ProgressNotifier pn = new ProgressNotifier();
-            pn.Start();
-            return pn;
-        }
-
         private void btnPhonemes_Click(object sender, RibbonControlEventArgs e)
         {
             logger.ConditionalDebug("btnPhonemes_Click");
-            ColorSelectedPhons(GetConfigForActiveWindow());
+            ColorSelectedPhons(GetConfigForActiveWindow()); ;
         }
 
         private void btnBDPQ_Click(object sender, RibbonControlEventArgs e)

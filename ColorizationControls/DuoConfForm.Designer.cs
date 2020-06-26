@@ -39,22 +39,22 @@
             this.rbtnLignes = new System.Windows.Forms.RadioButton();
             this.lblColoriser = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.rtbUlysse = new System.Windows.Forms.RichTextBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.nudNbreAlt = new System.Windows.Forms.NumericUpDown();
-            this.lblNombre = new System.Windows.Forms.Label();
-            this.btnAnnuler = new System.Windows.Forms.Button();
-            this.btnDefConf2 = new System.Windows.Forms.Button();
-            this.btnDefConf1 = new System.Windows.Forms.Button();
-            this.btnDefaut = new System.Windows.Forms.Button();
-            this.btnValider = new System.Windows.Forms.Button();
             this.rbtnMuettes = new System.Windows.Forms.RadioButton();
             this.rbtnPhonemes = new System.Windows.Forms.RadioButton();
             this.rbtnVoyCons = new System.Windows.Forms.RadioButton();
             this.rbtnLettres = new System.Windows.Forms.RadioButton();
             this.rbtnSyylabes = new System.Windows.Forms.RadioButton();
             this.rbtnColorMots = new System.Windows.Forms.RadioButton();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.rtbUlysse = new System.Windows.Forms.RichTextBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.nudNbreAlt = new System.Windows.Forms.NumericUpDown();
+            this.btnDefConf2 = new System.Windows.Forms.Button();
+            this.btnDefConf1 = new System.Windows.Forms.Button();
+            this.btnDefaut = new System.Windows.Forms.Button();
+            this.lblNombre = new System.Windows.Forms.Label();
+            this.btnAnnuler = new System.Windows.Forms.Button();
+            this.btnValider = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudNbreAlt)).BeginInit();
@@ -156,131 +156,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(112, 259);
             this.panel3.TabIndex = 11;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.rbtnLignes);
-            this.panel2.Controls.Add(this.rbtnMots);
-            this.panel2.Location = new System.Drawing.Point(408, 83);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(68, 52);
-            this.panel2.TabIndex = 7;
-            // 
-            // rtbUlysse
-            // 
-            this.rtbUlysse.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbUlysse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbUlysse.Location = new System.Drawing.Point(279, 601);
-            this.rtbUlysse.Name = "rtbUlysse";
-            this.rtbUlysse.ReadOnly = true;
-            this.rtbUlysse.Size = new System.Drawing.Size(326, 79);
-            this.rtbUlysse.TabIndex = 12;
-            this.rtbUlysse.TabStop = false;
-            this.rtbUlysse.Text = "Heureux qui, comme Ulysse, a fait un beau voyage,\nOu comme cestui-là qui conquit " +
-    "la toison,\nEt puis est retourné, plein d\'usage et raison,\nVivre entre ses parent" +
-    "s le reste de son âge!";
-            // 
-            // nudNbreAlt
-            // 
-            this.nudNbreAlt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nudNbreAlt.Location = new System.Drawing.Point(408, 175);
-            this.nudNbreAlt.Maximum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.nudNbreAlt.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudNbreAlt.Name = "nudNbreAlt";
-            this.nudNbreAlt.Size = new System.Drawing.Size(68, 20);
-            this.nudNbreAlt.TabIndex = 19;
-            this.nudNbreAlt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTip1.SetToolTip(this.nudNbreAlt, "Nombre de mots ou de lignes à formater\r\navec la configuration 1 avant de passer à" +
-        "\r\nla configuration 2.");
-            this.nudNbreAlt.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudNbreAlt.ValueChanged += new System.EventHandler(this.nudNbreAlt_ValueChanged);
-            // 
-            // lblNombre
-            // 
-            this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(393, 142);
-            this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(99, 26);
-            this.lblNombre.TabIndex = 20;
-            this.lblNombre.Text = "Nombre de mots ou\r\nlignes à regrouper";
-            this.lblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnAnnuler
-            // 
-            this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnAnnuler.Image = global::ColorizationControls.Properties.Resources.Effacer15;
-            this.btnAnnuler.Location = new System.Drawing.Point(706, 643);
-            this.btnAnnuler.Name = "btnAnnuler";
-            this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
-            this.btnAnnuler.TabIndex = 14;
-            this.btnAnnuler.Text = "Annuler";
-            this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnAnnuler.UseVisualStyleBackColor = true;
-            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
-            // 
-            // btnDefConf2
-            // 
-            this.btnDefConf2.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
-            this.btnDefConf2.Location = new System.Drawing.Point(726, 10);
-            this.btnDefConf2.Name = "btnDefConf2";
-            this.btnDefConf2.Size = new System.Drawing.Size(75, 23);
-            this.btnDefConf2.TabIndex = 18;
-            this.btnDefConf2.Text = "Défaut 2";
-            this.btnDefConf2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.btnDefConf2, "Réinitialise la \'configuration 2\'\r\nà sa valeur par défaut.");
-            this.btnDefConf2.UseVisualStyleBackColor = true;
-            this.btnDefConf2.Click += new System.EventHandler(this.btnDefConf2_Click);
-            // 
-            // btnDefConf1
-            // 
-            this.btnDefConf1.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
-            this.btnDefConf1.Location = new System.Drawing.Point(214, 10);
-            this.btnDefConf1.Name = "btnDefConf1";
-            this.btnDefConf1.Size = new System.Drawing.Size(75, 23);
-            this.btnDefConf1.TabIndex = 17;
-            this.btnDefConf1.Text = "Défaut 1";
-            this.btnDefConf1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.btnDefConf1, "Réinitialise la \'configuration 1\'\r\nà sa valeur par défaut.");
-            this.btnDefConf1.UseVisualStyleBackColor = true;
-            this.btnDefConf1.Click += new System.EventHandler(this.btnDefConf1_Click);
-            // 
-            // btnDefaut
-            // 
-            this.btnDefaut.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
-            this.btnDefaut.Location = new System.Drawing.Point(111, 627);
-            this.btnDefaut.Name = "btnDefaut";
-            this.btnDefaut.Size = new System.Drawing.Size(75, 23);
-            this.btnDefaut.TabIndex = 15;
-            this.btnDefaut.Text = "Défaut";
-            this.btnDefaut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.btnDefaut, "Réinitialise les deux configurations\r\nà leur valeur par défaut.");
-            this.btnDefaut.UseVisualStyleBackColor = true;
-            this.btnDefaut.Click += new System.EventHandler(this.btnDefaut_Click);
-            // 
-            // btnValider
-            // 
-            this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnValider.Image = global::ColorizationControls.Properties.Resources.OK_b_16;
-            this.btnValider.Location = new System.Drawing.Point(706, 614);
-            this.btnValider.Name = "btnValider";
-            this.btnValider.Size = new System.Drawing.Size(75, 23);
-            this.btnValider.TabIndex = 13;
-            this.btnValider.Text = "Valider";
-            this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnValider.UseVisualStyleBackColor = true;
-            this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
             // 
             // rbtnMuettes
             // 
@@ -405,6 +280,131 @@
             this.rbtnColorMots.UseVisualStyleBackColor = true;
             this.rbtnColorMots.CheckedChanged += new System.EventHandler(this.rbtnColorMots_CheckedChanged);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.rbtnLignes);
+            this.panel2.Controls.Add(this.rbtnMots);
+            this.panel2.Location = new System.Drawing.Point(408, 83);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(68, 52);
+            this.panel2.TabIndex = 7;
+            // 
+            // rtbUlysse
+            // 
+            this.rtbUlysse.BackColor = System.Drawing.SystemColors.Window;
+            this.rtbUlysse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbUlysse.Location = new System.Drawing.Point(279, 601);
+            this.rtbUlysse.Name = "rtbUlysse";
+            this.rtbUlysse.ReadOnly = true;
+            this.rtbUlysse.Size = new System.Drawing.Size(326, 79);
+            this.rtbUlysse.TabIndex = 12;
+            this.rtbUlysse.TabStop = false;
+            this.rtbUlysse.Text = "Heureux qui, comme Ulysse, a fait un beau voyage,\nOu comme cestui-là qui conquit " +
+    "la toison,\nEt puis est retourné, plein d\'usage et raison,\nVivre entre ses parent" +
+    "s le reste de son âge!";
+            // 
+            // nudNbreAlt
+            // 
+            this.nudNbreAlt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudNbreAlt.Location = new System.Drawing.Point(408, 175);
+            this.nudNbreAlt.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.nudNbreAlt.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudNbreAlt.Name = "nudNbreAlt";
+            this.nudNbreAlt.Size = new System.Drawing.Size(68, 20);
+            this.nudNbreAlt.TabIndex = 19;
+            this.nudNbreAlt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip1.SetToolTip(this.nudNbreAlt, "Nombre de mots ou de lignes à formater\r\navec la configuration 1 avant de passer à" +
+        "\r\nla configuration 2.");
+            this.nudNbreAlt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudNbreAlt.ValueChanged += new System.EventHandler(this.nudNbreAlt_ValueChanged);
+            // 
+            // btnDefConf2
+            // 
+            this.btnDefConf2.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
+            this.btnDefConf2.Location = new System.Drawing.Point(726, 10);
+            this.btnDefConf2.Name = "btnDefConf2";
+            this.btnDefConf2.Size = new System.Drawing.Size(75, 23);
+            this.btnDefConf2.TabIndex = 18;
+            this.btnDefConf2.Text = "Défaut 2";
+            this.btnDefConf2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.btnDefConf2, "Réinitialise la \'configuration 2\'\r\nà sa valeur par défaut.");
+            this.btnDefConf2.UseVisualStyleBackColor = true;
+            this.btnDefConf2.Click += new System.EventHandler(this.btnDefConf2_Click);
+            // 
+            // btnDefConf1
+            // 
+            this.btnDefConf1.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
+            this.btnDefConf1.Location = new System.Drawing.Point(214, 10);
+            this.btnDefConf1.Name = "btnDefConf1";
+            this.btnDefConf1.Size = new System.Drawing.Size(75, 23);
+            this.btnDefConf1.TabIndex = 17;
+            this.btnDefConf1.Text = "Défaut 1";
+            this.btnDefConf1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.btnDefConf1, "Réinitialise la \'configuration 1\'\r\nà sa valeur par défaut.");
+            this.btnDefConf1.UseVisualStyleBackColor = true;
+            this.btnDefConf1.Click += new System.EventHandler(this.btnDefConf1_Click);
+            // 
+            // btnDefaut
+            // 
+            this.btnDefaut.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
+            this.btnDefaut.Location = new System.Drawing.Point(111, 627);
+            this.btnDefaut.Name = "btnDefaut";
+            this.btnDefaut.Size = new System.Drawing.Size(75, 23);
+            this.btnDefaut.TabIndex = 15;
+            this.btnDefaut.Text = "Défaut";
+            this.btnDefaut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.btnDefaut, "Réinitialise les deux configurations\r\nà leur valeur par défaut.");
+            this.btnDefaut.UseVisualStyleBackColor = true;
+            this.btnDefaut.Click += new System.EventHandler(this.btnDefaut_Click);
+            // 
+            // lblNombre
+            // 
+            this.lblNombre.AutoSize = true;
+            this.lblNombre.Location = new System.Drawing.Point(393, 142);
+            this.lblNombre.Name = "lblNombre";
+            this.lblNombre.Size = new System.Drawing.Size(99, 26);
+            this.lblNombre.TabIndex = 20;
+            this.lblNombre.Text = "Nombre de mots ou\r\nlignes à regrouper";
+            this.lblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnAnnuler
+            // 
+            this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnAnnuler.Image = global::ColorizationControls.Properties.Resources.Effacer15;
+            this.btnAnnuler.Location = new System.Drawing.Point(706, 643);
+            this.btnAnnuler.Name = "btnAnnuler";
+            this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
+            this.btnAnnuler.TabIndex = 14;
+            this.btnAnnuler.Text = "Annuler";
+            this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnAnnuler.UseVisualStyleBackColor = true;
+            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
+            // 
+            // btnValider
+            // 
+            this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnValider.Image = global::ColorizationControls.Properties.Resources.OK_b_16;
+            this.btnValider.Location = new System.Drawing.Point(706, 614);
+            this.btnValider.Name = "btnValider";
+            this.btnValider.Size = new System.Drawing.Size(75, 23);
+            this.btnValider.TabIndex = 13;
+            this.btnValider.Text = "Valider";
+            this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnValider.UseVisualStyleBackColor = true;
+            this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
+            // 
             // DuoConfForm
             // 
             this.AcceptButton = this.btnValider;
@@ -432,7 +432,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DuoConfForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Double action";
+            this.Text = "Duo - lecture à deux";
             this.panel3.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

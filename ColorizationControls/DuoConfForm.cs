@@ -178,8 +178,10 @@ namespace ColorizationControls
             logger.ConditionalTrace("UpdateRichTextBox");
             if (!resetting)
             {
+                ProgressNotifier.thePN.Start();
                 rTBText.MarkNoir(theConfCopy);
                 rTBText.MarkDuo(theConfCopy);
+                ProgressNotifier.thePN.Completed();
             }
                 
         }

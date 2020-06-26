@@ -490,14 +490,13 @@ namespace ColorLib
         /// "phonèmes" in the text. I.e. fills <c>Formats</c> and makes sure that 
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
+        /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="pct">Identifies the <c>ColConfWin</c> (see <see cref="ColorLib.ColConfWin"/>) that msut
         /// be used when coloring the "phonèmes".</param>
         /// <param name="conf">The <c>Config</c> to use for the colorization.</param>
-        /// <param name="pn">Optional: The <see cref="ProgressNotifier"/> that should be used to
-        /// notify progress of the colorization. If present, the <c>pn</c> is already started. 
-        /// It will not be finished here either. Progress will be incremented from 1 to 99. 
         /// </param>
-        public void ColorizePhons(Config conf, PhonConfType pct, ProgressNotifier pn = null)
+        public void ColorizePhons(Config conf, PhonConfType pct)
         {
             logger.ConditionalDebug("ColorizePhons");
             if (conf != null)
@@ -505,7 +504,7 @@ namespace ColorLib
                 formatsMgmt.ClearFormats();
                 ConcurrentBag<PhonWord> pws = GetPhonWords(conf);
                 FormatPhons(pws, conf, pct);
-                ApplyFormatting(conf, pn);
+                ApplyFormatting(conf);
             }
             else
             {
@@ -519,19 +518,18 @@ namespace ColorLib
         ///i.e. fills <see cref="formatsMgmt"/>and makes sure that 
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
+        /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> that must be used for marking the letters.</param>
-        /// <param name="pn">Optional: The <see cref="ProgressNotifier"/> that should be used to
-        /// notify progress of the colorization. If present, the <c>pn</c> is already started. 
-        /// It will not be finished here either. Progress will be incremented from 1 to 99. 
         /// </param>
-        public void MarkLetters(Config conf, ProgressNotifier pn = null)
+        public void MarkLetters(Config conf)
         {
             logger.ConditionalDebug("MarkLetters");
             if (conf != null)
             {
                 formatsMgmt.ClearFormats();
                 FormatLetters(0, S.Length - 1, conf);
-                ApplyFormatting(conf, pn);
+                ApplyFormatting(conf);
             }
             else
             {
@@ -545,12 +543,11 @@ namespace ColorLib
         /// i.e. fills <see cref="formatsMgmt"/> and makes sure that 
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
+        /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> to be used for marking the "syllabes".</param>
-        /// <param name="pn">Optional: The <see cref="ProgressNotifier"/> that should be used to
-        /// notify progress of the colorization. If present, the <c>pn</c> is already started. 
-        /// It will not be finished here either. Progress will be incremented from 1 to 99. 
         /// </param>
-        public void MarkSyls(Config conf, ProgressNotifier pn = null)
+        public void MarkSyls(Config conf)
         {
             logger.ConditionalDebug("MarkSyls");
             if (conf != null)
@@ -558,7 +555,7 @@ namespace ColorLib
                 formatsMgmt.ClearFormats();
                 ConcurrentBag<PhonWord> pws = GetPhonWords(conf);
                 FormatSyls(pws, conf);
-                ApplyFormatting(conf, pn);
+                ApplyFormatting(conf);
             }
             else
             {
@@ -572,19 +569,18 @@ namespace ColorLib
         /// i.e. fills <see cref="formatsMgmt"/> and makes sure that 
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
+        /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> to be used for marking the words.</param>
-        /// <param name="pn">Optional: The <see cref="ProgressNotifier"/> that should be used to
-        /// notify progress of the colorization. If present, the <c>pn</c> is already started. 
-        /// It will not be finished here either. Progress will be incremented from 1 to 99. 
         /// </param>
-        public void MarkWords(Config conf, ProgressNotifier pn = null)
+        public void MarkWords(Config conf)
         {
             logger.ConditionalDebug("MarkWords");
             if (conf != null)
             {
                 formatsMgmt.ClearFormats();
                 FormatWords(GetWords(), conf);
-                ApplyFormatting(conf, pn);
+                ApplyFormatting(conf);
             }
             else
             {
@@ -599,29 +595,27 @@ namespace ColorLib
         /// <see cref="formatsMgmt"/> and makes sure that 
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
+        /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf"></param>
-        /// <param name="pn">Optional: The <see cref="ProgressNotifier"/> that should be used to
-        /// notify progress of the colorization. If present, the <c>pn</c> is already started. 
-        /// It will not be finished here either. Progress will be incremented from 1 to 99. 
         /// </param>
-        public void MarkMuettes(Config conf, ProgressNotifier pn = null)
+        public void MarkMuettes(Config conf)
         {
             logger.ConditionalDebug("MarkMuettes");
             formatsMgmt.ClearFormats();
-            ColorizePhons(conf, PhonConfType.muettes, pn);
-            ApplyFormatting(conf, pn);
+            ColorizePhons(conf, PhonConfType.muettes);
+            ApplyFormatting(conf);
         }
 
         /// <summary>
         /// Colors the "voyelles" and "consonnes" in the text, according to the alternate colors defined in the <see cref="SylConfig"/>
         /// attached to <c>conf</c>, i.e. fills <see cref="formatsMgmt"/> and makes sure that 
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
+        /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// </summary>
-        /// <param name="pn">Optional: The <see cref="ProgressNotifier"/> that should be used to
-        /// notify progress of the colorization. If present, the <c>pn</c> is already started. 
-        /// It will not be finished here either. Progress will be incremented from 1 to 99. 
         /// </param>
-        public void MarkVoyCons(Config conf, ProgressNotifier pn = null)
+        public void MarkVoyCons(Config conf)
         {
             logger.ConditionalDebug("MarkVoyCons");
             if (conf != null)
@@ -629,7 +623,7 @@ namespace ColorLib
                 formatsMgmt.ClearFormats();
                 conf.sylConf.ResetCounter();
                 FormatVoyCons(0, S.Length - 1, conf);
-                ApplyFormatting(conf, pn);
+                ApplyFormatting(conf);
             }
             else
             {
@@ -641,12 +635,11 @@ namespace ColorLib
         /// <summary>
         /// Forces the text to black color and no bold, italic, underline, ... formatting.
         /// </summary>
+        /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
-        /// <param name="pn">Optional: The <see cref="ProgressNotifier"/> that should be used to
-        /// notify progress of the colorization. If present, the <c>pn</c> is already started. 
-        /// It will not be finished here either. Progress will be incremented from 1 to 99. 
         /// </param>
-        public void MarkNoir(Config conf, ProgressNotifier pn = null)
+        public void MarkNoir(Config conf)
         {
             logger.ConditionalDebug("MarkNoir");
             if (conf != null)
@@ -654,7 +647,7 @@ namespace ColorLib
                 formatsMgmt.ClearFormats();
                 CFForceBlack cfFB = new CFForceBlack();
                 formatsMgmt.Add(new FormattedTextEl(this, 0, S.Length - 1, cfFB));
-                ApplyFormatting(conf, pn);
+                ApplyFormatting(conf);
             }
             else
             {
@@ -668,12 +661,11 @@ namespace ColorLib
         /// <see cref="formatsMgmt"/> and makes sure that 
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
+        /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> to use.</param>
-        /// <param name="pn">Optional: The <see cref="ProgressNotifier"/> that should be used to
-        /// notify progress of the colorization. If present, the <c>pn</c> is already started. 
-        /// It will not be finished here either. Progress will be incremented from 1 to 99. 
         /// </param>
-        public void MarkLignes(Config conf, ProgressNotifier pn = null)
+        public void MarkLignes(Config conf)
         {
             logger.ConditionalDebug("MarkLignes");
             if (conf != null)
@@ -687,7 +679,7 @@ namespace ColorLib
                     formatsMgmt.Add(new FormattedTextEl(this, beg, eolPos[i], conf.sylConf.NextCF()));
                     beg = eolPos[i] + 1;
                 }
-                ApplyFormatting(conf, pn);
+                ApplyFormatting(conf);
             }
             else
             {
@@ -700,13 +692,12 @@ namespace ColorLib
         /// <summary>
         /// Formats the text to the duo formatting defined in <c>conf</c>.
         /// </summary>
+        /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> defining how the "duo" formatting should
         /// be applied.</param>
-        /// <param name="pn">Optional: The <see cref="ProgressNotifier"/> that should be used to
-        /// notify progress of the colorization. If present, the <c>pn</c> is already started. 
-        /// It will not be finished here either. Progress will be incremented from 1 to 99. 
         /// </param>
-        public void MarkDuo(Config conf, ProgressNotifier pn = null)
+        public void MarkDuo(Config conf)
         {
             logger.ConditionalDebug("MarkDuo");
             if (conf != null)
@@ -761,7 +752,7 @@ namespace ColorLib
                         logger.Error("Fonction à exécuter inconnue: \'{0}\'.", dConf.colorisFunction);
                         break;
                 }
-                ApplyFormatting(conf, pn);
+                ApplyFormatting(conf);
             }
             else
             {
@@ -818,36 +809,28 @@ namespace ColorLib
         // *                                     private methods                                  *
         // ****************************************************************************************
 
-        private void ApplyFormatting(Config conf, ProgressNotifier pn = null)
+        private void ApplyFormatting(Config conf)
         {
             logger.ConditionalDebug("ApplyFormatting");
-            if (pn is null)
-            {
-                foreach (FormattedTextEl fte in formatsMgmt.formats)
-                    SetChars(fte, conf);
-            } 
-            else
-            {
-                // Progress notification principles: We consider that BeginPercent of the work was done
-                // before we start here. The job here represents 100% - BeginPercent. We inform about
-                // progress every ProgressIncrement.
-                const float BeginPercent = 2.0f; 
-                const float ProgressIncrement = 3.0f;
+            // Progress notification principles: We consider that BeginPercent of the work was done
+            // before we start here. The job here represents 100% - BeginPercent. We inform about
+            // progress every ProgressIncrement.
+            const float BeginPercent = 5.0f; 
+            const float ProgressIncrement = 2.0f;
 
-                float stepIncr = ((100 - BeginPercent) / formatsMgmt.formats.Count) - 0.001f;
-                float progression = BeginPercent;
-                float lastNotif = progression;
-                pn.InProgress((int)lastNotif);
+            float stepIncr = ((100 - BeginPercent) / formatsMgmt.formats.Count) - 0.001f;
+            float progression = BeginPercent;
+            float lastNotif = progression;
+            ProgressNotifier.thePN.InProgress((int)lastNotif);
 
-                foreach (FormattedTextEl fte in formatsMgmt.formats)
+            foreach (FormattedTextEl fte in formatsMgmt.formats)
+            {
+                SetChars(fte, conf);
+                progression += stepIncr;
+                if ((progression - lastNotif) > ProgressIncrement)
                 {
-                    SetChars(fte, conf);
-                    progression += stepIncr;
-                    if ((progression - lastNotif) > ProgressIncrement)
-                    {
-                        lastNotif = progression;
-                        pn.InProgress((int)lastNotif);
-                    }
+                    lastNotif = progression;
+                    ProgressNotifier.thePN.InProgress((int)lastNotif);
                 }
             }
         }

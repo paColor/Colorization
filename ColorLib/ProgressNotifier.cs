@@ -32,6 +32,19 @@ namespace ColorLib
             elapsedMilliseconds = e;
             remainingMilliseconds = r;
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("progress: ");
+            sb.Append(progress.ToString(BaseConfig.cultF));
+            sb.Append(", elapsedMilliseconds: ");
+            sb.Append(elapsedMilliseconds.ToString(BaseConfig.cultF));
+            sb.Append(", remainingMilliseconds: ");
+            sb.Append(remainingMilliseconds.ToString(BaseConfig.cultF));
+            return sb.ToString();
+        }
+
     }
 
     /// <summary>
@@ -47,6 +60,14 @@ namespace ColorLib
         {
             elapsedMilliseconds = e;
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("elapsedMilliseconds: ");
+            sb.Append(elapsedMilliseconds.ToString(BaseConfig.cultF));
+            return sb.ToString();
+        }
     }
 
     /// <summary>
@@ -54,34 +75,19 @@ namespace ColorLib
     /// progrès fait par l'exécution d'une opération.
     /// </summary>
     /// <remarks>
-    /// Le flux logique est le suivant:
-    /// <list type="number">
-    /// <item>
-    /// <description> La partie responsable du UI, définit une classe qui s'occupe de traîter l'affichage de 
-    /// la progression. Par exemple une fenêtre avec une barre de progression.</description>
-    /// </item>
-    /// <item>
-    /// <description>
-    /// Cette entité crée un <c>ProgressNotifier</c> et elle se connecte à ses évènements.
-    /// </description>
-    /// </item>
-    /// <item>
-    /// <description>
-    /// Le <c>ProgressNotifier</c> est passé à la méthode qui exécute la tâche.
-    /// </description>
-    /// </item>
-    /// <item>
-    /// <description>
-    /// La méthode appelle <see cref="Start"/>, <see cref="InProgress(int)"/> et <see cref="Finished"/>
-    /// sur le <c>ProgressNotifier</c> qu ilui a été passé.
-    /// </description>
-    /// </item>
-    /// <item>
-    /// <description>
-    /// Le UI traite les évènements et informe l'utilsateur du progrès.
-    /// </description>
-    /// </item>
-    /// </list>
+    /// <para>
+    /// J'avais conçu ceci à l'origine avec l'idée qu'il pourrait y avoir plusieurs fenêtres dans
+    /// lesquelles on pourrait exécuter une colorisation en parallèle. Cependant ce n'est pas
+    /// possible dans Office et pas vraiment non plus sous Windows.Forms.
+    /// </para>
+    /// <para>
+    /// On peut donc partir sur une vision simple avec un seul <c>ProgressNotifier</c> qu'on
+    /// trouve sous la variable statique <c>ProgressNotifier.thePN</c>.
+    /// </para>
+    /// <para>
+    /// La classe n'est pas statique car il y a des événements et qu'ils ont besoin d'un objet
+    /// émetteur.
+    /// </para>
     /// </remarks>
     public class ProgressNotifier
     {
@@ -94,6 +100,7 @@ namespace ColorLib
         // ****************************************************************************************
         // ****************************************************************************************
 
+        public static ProgressNotifier thePN { get; private set; } = new ProgressNotifier();
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -188,12 +195,13 @@ namespace ColorLib
             if (effectiveProgress > 0)
             {
                 instantInvSpeed = (e - previousTime) / effectiveProgress;
-                invSpeed = (invSpeed + instantInvSpeed + instantInvSpeed) / 3;
+                invSpeed = (invSpeed + instantInvSpeed + instantInvSpeed + instantInvSpeed) / 4;
             }
             previousTime = e;
             previousProgress = progress;
             long estRemainingT = invSpeed * (100 - progress);
-            logger.ConditionalTrace("OnProgressEvent)
+            logger.ConditionalTrace("OnProgressEvent, progress: {0}, elapsed: {1}, remaining: {2}",
+                progress, e, estRemainingT);
             EventHandler <ProgressEventArgs> eventHandler = ProgressEvent;
             eventHandler?.Invoke(this, new ProgressEventArgs(progress, e, estRemainingT));
         }
