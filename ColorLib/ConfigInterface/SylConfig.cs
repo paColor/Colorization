@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace ColorLib
@@ -42,6 +43,8 @@ namespace ColorLib
     [Serializable]
     public class SylConfig: ConfigBase
     {
+        public enum Mode { ecrit, oral, poesie, undefined }
+
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         [Serializable]
@@ -70,15 +73,16 @@ namespace ColorLib
         public event EventHandler DoubleConsStdModifiedEvent;
 
         /// <summary>
-        /// Evènement déclenché quand le mode écrit ou oral est modifié.
+        /// Evènement déclenché quand le mode écrit, oral ou poesie est modifié.
         /// </summary>
         [field: NonSerialized]
-        public event EventHandler ModeEcritModifiedEvent;
+        public event EventHandler ModeModifiedEvent;
 
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  Public Members ---------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
+        /// <value>Indique si les </value>
         public bool DoubleConsStd
         {
             get
@@ -92,6 +96,53 @@ namespace ColorLib
                     _doubleConsStd = value;
                     OnDoubleConsStdModified();
                 }
+            }
+        }
+
+        /// <value>Le mode à utiliser pour le marquage des syllabes.</value>
+        public Mode mode
+        {
+            get
+            {
+                if (_modeEcrit)
+                    return Mode.ecrit;
+                else if (modeOral)
+                    return Mode.oral;
+                else if (modePoesie)
+                    return Mode.poesie;
+                else
+                    return Mode.undefined;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case Mode.ecrit:
+                        _modeEcrit = true;
+                        modeOral   = false;
+                        modePoesie = false;
+                        break;
+                    case Mode.oral:
+                        _modeEcrit = false;
+                        modeOral = true;
+                        modePoesie = false;
+                        break;
+                    case Mode.poesie:
+                        _modeEcrit = false;
+                        modeOral = false;
+                        modePoesie = true;
+                        break;
+                    case Mode.undefined:
+                        _modeEcrit = false;
+                        modeOral = false;
+                        modePoesie = false;
+                        break;
+                    default:
+                        logger.Error("Mode de traitement des syllabes impossible.");
+                        throw new ArgumentException("Mode de traitement des syllabes impossible.");
+                        break;
+                }
+                OnModeModified();
             }
         }
 
@@ -123,6 +174,27 @@ namespace ColorLib
         private SylButtonConf[] sylButtons;
         private int nrSetButtons;
         private int counter;
+
+        /// <summary>
+        /// indique si le mode oral est activé. Ne peut pas être vrai en même temps que _modeEcrit
+        /// ou modePoesie.
+        /// </summary>
+        [OptionalField(VersionAdded = 4)]
+        private bool modeOral;
+
+        /// <summary>
+        /// indique si le mode poésie est activé. Ne peut pas être vrai en même temps que _modeEcrit
+        /// ou modePoesie.
+        /// </summary>
+        [OptionalField(VersionAdded = 4)]
+        private bool modePoesie;
+
+        /// <summary>
+        /// indique si les muettes doivent être marquées.
+        /// </summary>
+        [OptionalField(VersionAdded = 4)]
+        private bool marquerMuettes;
+
 
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  Public Methods ----------------------------------------------------
@@ -259,10 +331,10 @@ namespace ColorLib
             eventHandler?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual void OnModeEcritModified()
+        protected virtual void OnModeModified()
         {
-            logger.ConditionalDebug("OnModeEcritModified");
-            EventHandler eventHandler = ModeEcritModifiedEvent;
+            logger.ConditionalDebug("OnModeModified");
+            EventHandler eventHandler = ModeModifiedEvent;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }
 

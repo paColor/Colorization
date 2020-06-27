@@ -1408,5 +1408,20 @@ namespace ColorizationControls
             }
             UpdateAllSoundCbxAndButtons();
         }
+
+        private void cbMuettesSyl_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rbPoésie_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rbnOral_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -56,6 +56,11 @@ namespace ColorizationControls
             logger.ConditionalDebug("WaitingForm");
             InitializeComponent();
 
+            // il y a un comportement que je ne comprends pas sur un ordi avec un petit écran. Peut-être
+            // lié à l'utilisation de la barre de progression... 
+            // J'en suis réduit à court-circuiter le scaling automatique... :-(
+            // Il y a peut-être un des paramètres de la fenêtre (Form) que j'ai mal défini. (????)
+
             // Compute ScaleFacor
             const int OrigHeight = 131;
             double dimWidth;
