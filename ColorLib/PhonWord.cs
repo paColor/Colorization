@@ -195,7 +195,7 @@ namespace ColorLib
                     }
 
                     // si nous sommes en mode oral, les e caducs des dernières syllabes doivent être concaténés avec la syllabe précédente
-                    if ((!sylConfig.ModeEcrit) && (syls.Count > 1) && (phons[phons.Count-1].P == Phonemes.q_caduc)) // s'il y a plus d'une syllabe, il y a aussi plus d'un phonème
+                    if ((sylConfig.mode == SylConfig.Mode.oral) && (syls.Count > 1) && (phons[phons.Count-1].P == Phonemes.q_caduc)) // s'il y a plus d'une syllabe, il y a aussi plus d'un phonème
                     {
                         syls[syls.Count - 2].AbsorbeSuivant(syls[syls.Count - 1]);
                         syls.RemoveAt(syls.Count - 1);
@@ -207,8 +207,8 @@ namespace ColorLib
             foreach(SylInW s in syls)
                 s.PutColor(conf);
 
-            // si on est en mode écrit, marquer par-dessus les phonemes muets.
-            if (sylConfig.ModeEcrit)
+            // s'il le faut, marquer par-dessus les phonemes muets.
+            if (sylConfig.marquerMuettes)
                 foreach(PhonInW piw in phons)
                     if (piw.EstMuet())
                         piw.PutColor(conf, PhonConfType.muettes);

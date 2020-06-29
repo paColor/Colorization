@@ -201,7 +201,7 @@ namespace ColorizationControls
             c.pBDQ.LetterButtonModifiedEvent += UpdateRichTextBox;
             c.pBDQ.MarkAsBlackModifiedEvent += UpdateRichTextBox;
             c.sylConf.DoubleConsStdModifiedEvent += UpdateRichTextBox;
-            c.sylConf.ModeEcritModifiedEvent += UpdateRichTextBox;
+            c.sylConf.ModeModifiedEvent += UpdateRichTextBox;
             c.sylConf.SylButtonModifiedEvent += UpdateRichTextBox;
             c.sylConf.SylButtonModifiedEvent += UpdateRichTextBox;
             c.unsetBeh.CheckboxUnsetModifiedEvent += UpdateRichTextBox;
@@ -223,7 +223,7 @@ namespace ColorizationControls
             c.pBDQ.LetterButtonModifiedEvent -= UpdateRichTextBox;
             c.pBDQ.MarkAsBlackModifiedEvent -= UpdateRichTextBox;
             c.sylConf.DoubleConsStdModifiedEvent -= UpdateRichTextBox;
-            c.sylConf.ModeEcritModifiedEvent -= UpdateRichTextBox;
+            c.sylConf.ModeModifiedEvent -= UpdateRichTextBox;
             c.sylConf.SylButtonModifiedEvent -= UpdateRichTextBox;
             c.sylConf.SylButtonModifiedEvent -= UpdateRichTextBox;
             c.unsetBeh.CheckboxUnsetModifiedEvent -= UpdateRichTextBox;

@@ -106,8 +106,10 @@ namespace ColorLib
 
             private List<Word> cachedWordList1;
             private List<Word> cachedWordList2;
-            private ConcurrentBag<PhonWord> cachedPWL1;
-            private ConcurrentBag<PhonWord> cachedPWL2;
+            private ConcurrentBag<PhonWord> cachedPWBag1;
+            private ConcurrentBag<PhonWord> cachedPWBag2;
+            private List<PhonWord> cachedPWL1;
+            private List<PhonWord> cachedPWL2;
 
             // Si une de ces données change, le cache est invalidé.
             // Les deux champs suivants ont une influence sur la façon de distribuer les mots
@@ -128,8 +130,10 @@ namespace ColorLib
             private ColConfWin.IllRule illRule2Phon;
             bool doubleConsStd1;
             bool doubleConsStd2;
-            bool modeEcrit1;
-            bool modeEcrit2;
+            SylConfig.Mode sylMode1;
+            SylConfig.Mode sylMode2;
+            bool marquerMuettes1;
+            bool marquerMuettes2;
 
 
 
@@ -138,11 +142,13 @@ namespace ColorLib
                 logger.ConditionalDebug("DuoCache");
                 cachedWordList1 = null;
                 cachedWordList2 = null;
+                cachedPWBag1 = null;
+                cachedPWBag2 = null;
                 cachedPWL1 = null;
                 cachedPWL2 = null;
 
                 // Il n'est pas nécessaire d'initialiser les champs de gestion de l'actualité
-                // du cache. Pour avoir un état clair, initialisons quand mêm ceux où on peut 
+                // du cache. Pour avoir un état clair, initialisons quand même ceux où on peut 
                 // marquer clairement qu'il s'agit d'un état indéfini.
                 alt = DuoConfig.Alternance.undefined;
                 nbreAlternance = 999;
@@ -150,6 +156,8 @@ namespace ColorLib
                 illRule2Muettes = ColConfWin.IllRule.undefined;
                 illRule1Phon = ColConfWin.IllRule.undefined;
                 illRule2Phon = ColConfWin.IllRule.undefined;
+                sylMode1 = SylConfig.Mode.undefined;
+                sylMode2 = SylConfig.Mode.undefined;
             }
 
             /// <summary>
@@ -229,21 +237,22 @@ namespace ColorLib
             }
 
             /// <summary>
-            /// Returns the two lists of <see cref="PhonWord"/>(s) that correspond to the passed List of
+            /// Returns the two bags of <see cref="PhonWord"/>(s) that correspond to the passed List of
             /// <c>Word</c> and the passed <see cref="DuoConfig"/>.
             /// </summary>
             /// <param name="wL">List of <see cref="Word"/>(s) to split between the two lists of 
             /// <see cref="PhonWord"/>(s).</param>
             /// <param name="dConf">The <see cref="DuoConfig"/> to apply.</param>
-            /// <param name="getEolPos">The method giving the positions of the last characters on each line.</param>
-            /// <param name="pwL1">Out: the first list of <see cref="PhonWord"/></param>
-            /// <param name="pwL2">Out: the second list of <see cref="PhonWord"/></param>
-            public void GetPhonWordLists(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos,
-                out ConcurrentBag<PhonWord> pwL1, out ConcurrentBag<PhonWord> pwL2)
+            /// <param name="getEolPos">The method giving the positions of the last characters on
+            /// each line.</param>
+            /// <param name="pwB1">Out: the first bag of <see cref="PhonWord"/></param>
+            /// <param name="pwB2">Out: the second bag of <see cref="PhonWord"/></param>
+            public void GetPhonWordBags(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos,
+                out ConcurrentBag<PhonWord> pwB1, out ConcurrentBag<PhonWord> pwB2)
             {
-                logger.ConditionalDebug("GetPhonWordLists");
+                logger.ConditionalDebug("GetPhonWordBags");
                 CheckCacheValidity(dConf);
-                if (cachedPWL1 == null)
+                if (cachedPWBag1 == null)
                 {
                     List<Word> wL1;
                     List<Word> wL2;
@@ -251,13 +260,43 @@ namespace ColorLib
 
                     // Parallel way
                     ComputePhonWords cpw = ComputePW;
-                    IAsyncResult asr = cpw.BeginInvoke(wL1, dConf.subConfig1, ref cachedPWL1, null, null);
-                    ComputePW(wL2, dConf.subConfig2, ref cachedPWL2);
-                    cpw.EndInvoke(ref cachedPWL1, asr);
+                    IAsyncResult asr = cpw.BeginInvoke(wL1, dConf.subConfig1, ref cachedPWBag1, null, null);
+                    ComputePW(wL2, dConf.subConfig2, ref cachedPWBag2);
+                    cpw.EndInvoke(ref cachedPWBag1, asr);
 
                     // Sequential way
                     //cachedPWL1 = GetPhonWords(wL1, dConf.subConfig1);
                     //cachedPWL2 = GetPhonWords(wL2, dConf.subConfig2);
+                }
+                pwB1 = cachedPWBag1;
+                pwB2 = cachedPWBag2;
+            }
+
+            /// <summary>
+            /// Returns the two sorted lists of <see cref="PhonWord"/> that correspond to the 
+            /// passed list of <see cref="Word"/> and <c>dConf</c>.
+            /// </summary>
+            /// <param name="wL">List of <see cref="Word"/>(s) to split between the two lists of 
+            /// <see cref="PhonWord"/>(s).</param>
+            /// <param name="dConf">The <see cref="DuoConfig"/> to apply.</param>
+            /// <param name="getEolPos">The method giving the positions of the last characters on
+            /// each line.</param>
+            /// <param name="pwL1">Out: the first list of <see cref="PhonWord"/></param>
+            /// <param name="pwL2">Out: the second list of <see cref="PhonWord"/></param>
+            public void GetPhonWordLists(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos,
+                out List<PhonWord> pwL1, out List<PhonWord> pwL2)
+            {
+                logger.ConditionalDebug("GetPhonWordLists");
+                CheckCacheValidity(dConf);
+                if (cachedPWL1 == null)
+                {
+                    ConcurrentBag<PhonWord> pwB1;
+                    ConcurrentBag<PhonWord> pwB2;
+                    GetPhonWordBags(wL, dConf, getEolPos, out pwB1, out pwB2);
+                    cachedPWL1 = new List<PhonWord>(pwB1);
+                    cachedPWL2 = new List<PhonWord>(pwB2);
+                    cachedPWL1.Sort(TextEl.CompareTextElByPosition);
+                    cachedPWL2.Sort(TextEl.CompareTextElByPosition);
                 }
                 pwL1 = cachedPWL1;
                 pwL2 = cachedPWL2;
@@ -277,8 +316,10 @@ namespace ColorLib
                     || (nbreAlternance != dConf.nbreAlt)
                     || (doubleConsStd1 != dConf.subConfig1.sylConf.DoubleConsStd)
                     || (doubleConsStd2 != dConf.subConfig2.sylConf.DoubleConsStd)
-                    || (modeEcrit1 != dConf.subConfig1.sylConf.ModeEcrit)
-                    || (modeEcrit2 != dConf.subConfig2.sylConf.ModeEcrit)
+                    || (sylMode1 != dConf.subConfig1.sylConf.mode)
+                    || (sylMode2 != dConf.subConfig2.sylConf.mode)
+                    || (marquerMuettes1 != dConf.subConfig1.sylConf.marquerMuettes)
+                    || (marquerMuettes2 != dConf.subConfig2.sylConf.marquerMuettes)
                     || (illRule1Muettes != dConf.subConfig1.colors[PhonConfType.muettes].IllRuleToUse)
                     || (illRule2Muettes != dConf.subConfig2.colors[PhonConfType.muettes].IllRuleToUse) 
                     || (illRule1Phon != dConf.subConfig1.colors[PhonConfType.phonemes].IllRuleToUse)
@@ -288,14 +329,18 @@ namespace ColorLib
                     logger.ConditionalTrace("Invalidate cache");
                     cachedWordList1 = null;
                     cachedWordList2 = null;
+                    cachedPWBag1 = null;
+                    cachedPWBag2 = null;
                     cachedPWL1 = null;
                     cachedPWL2 = null;
                     alt = dConf.alternance;
                     nbreAlternance = dConf.nbreAlt;
                     doubleConsStd1 = dConf.subConfig1.sylConf.DoubleConsStd;
                     doubleConsStd2 = dConf.subConfig2.sylConf.DoubleConsStd;
-                    modeEcrit1 = dConf.subConfig1.sylConf.ModeEcrit;
-                    modeEcrit2 = dConf.subConfig2.sylConf.ModeEcrit;
+                    sylMode1 = dConf.subConfig1.sylConf.mode;
+                    sylMode2 = dConf.subConfig2.sylConf.mode;
+                    marquerMuettes1 = dConf.subConfig1.sylConf.marquerMuettes;
+                    marquerMuettes2 = dConf.subConfig2.sylConf.marquerMuettes;
                     illRule1Muettes = dConf.subConfig1.colors[PhonConfType.muettes].IllRuleToUse;
                     illRule2Muettes = dConf.subConfig2.colors[PhonConfType.muettes].IllRuleToUse;
                     illRule1Phon = dConf.subConfig1.colors[PhonConfType.phonemes].IllRuleToUse;
@@ -553,7 +598,9 @@ namespace ColorLib
             if (conf != null)
             {
                 formatsMgmt.ClearFormats();
-                ConcurrentBag<PhonWord> pws = GetPhonWords(conf);
+                // on prend une liste ordonnée, car l'alternance de couleur pour les syllabes s'étend
+                // au-delà de la frontière du mot.
+                List<PhonWord> pws = GetPhonWordList(conf);
                 FormatSyls(pws, conf);
                 ApplyFormatting(conf);
             }
@@ -712,7 +759,7 @@ namespace ColorLib
                 }
 
                 List<Word> wL1, wL2;
-                ConcurrentBag<PhonWord> pws1, pws2;
+                ConcurrentBag<PhonWord> pwBag1, pwBag2;
 
                 DuoConfig dConf = conf.duoConf;
                 switch (dConf.colorisFunction)
@@ -733,19 +780,20 @@ namespace ColorLib
                         FormatVoyCons(wL2, dConf.subConfig2);
                         break;
                     case DuoConfig.ColorisFunction.syllabes:
-                        dc.GetPhonWordLists(GetWords(), dConf, GetLastLinesPos, out pws1, out pws2);
-                        FormatSyls(pws1, dConf.subConfig1);
-                        FormatSyls(pws2, dConf.subConfig2);
+                        List<PhonWord> pwList1, pwList2;
+                        dc.GetPhonWordLists(GetWords(), dConf, GetLastLinesPos, out pwList1, out pwList2);
+                        FormatSyls(pwList1, dConf.subConfig1);
+                        FormatSyls(pwList2, dConf.subConfig2);
                         break;
                     case DuoConfig.ColorisFunction.muettes:
-                        dc.GetPhonWordLists(GetWords(), dConf, GetLastLinesPos, out pws1, out pws2);
-                        FormatPhons(pws1, dConf.subConfig1, PhonConfType.muettes);
-                        FormatPhons(pws2, dConf.subConfig2, PhonConfType.muettes);
+                        dc.GetPhonWordBags(GetWords(), dConf, GetLastLinesPos, out pwBag1, out pwBag2);
+                        FormatPhons(pwBag1, dConf.subConfig1, PhonConfType.muettes);
+                        FormatPhons(pwBag2, dConf.subConfig2, PhonConfType.muettes);
                         break;
                     case DuoConfig.ColorisFunction.phonemes:
-                        dc.GetPhonWordLists(GetWords(), dConf, GetLastLinesPos, out pws1, out pws2);
-                        FormatPhons(pws1, dConf.subConfig1, PhonConfType.phonemes);
-                        FormatPhons(pws2, dConf.subConfig2, PhonConfType.phonemes);
+                        dc.GetPhonWordBags(GetWords(), dConf, GetLastLinesPos, out pwBag1, out pwBag2);
+                        FormatPhons(pwBag1, dConf.subConfig1, PhonConfType.phonemes);
+                        FormatPhons(pwBag2, dConf.subConfig2, PhonConfType.phonemes);
                         break;
 
                     default:
@@ -929,7 +977,7 @@ namespace ColorLib
         /// </summary>
         /// <param name="pws">The list of <see cref="PhonWord"/>(s) to format.</param>
         /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
-        private void FormatSyls(ConcurrentBag<PhonWord> pws, Config conf)
+        private void FormatSyls(List<PhonWord> pws, Config conf)
         {
             logger.ConditionalDebug("FormatSyls");
             conf.sylConf.ResetCounter();

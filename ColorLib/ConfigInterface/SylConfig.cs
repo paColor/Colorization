@@ -78,6 +78,12 @@ namespace ColorLib
         [field: NonSerialized]
         public event EventHandler ModeModifiedEvent;
 
+        /// <summary>
+        /// Evènement déclenché quand le marquage des muettes est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler MarquerMuettesModified;
+
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  Public Members ---------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
@@ -106,9 +112,9 @@ namespace ColorLib
             {
                 if (_modeEcrit)
                     return Mode.ecrit;
-                else if (modeOral)
+                else if (_modeOral)
                     return Mode.oral;
-                else if (modePoesie)
+                else if (_modePoesie)
                     return Mode.poesie;
                 else
                     return Mode.undefined;
@@ -119,23 +125,23 @@ namespace ColorLib
                 {
                     case Mode.ecrit:
                         _modeEcrit = true;
-                        modeOral   = false;
-                        modePoesie = false;
+                        _modeOral   = false;
+                        _modePoesie = false;
                         break;
                     case Mode.oral:
                         _modeEcrit = false;
-                        modeOral = true;
-                        modePoesie = false;
+                        _modeOral = true;
+                        _modePoesie = false;
                         break;
                     case Mode.poesie:
                         _modeEcrit = false;
-                        modeOral = false;
-                        modePoesie = true;
+                        _modeOral = false;
+                        _modePoesie = true;
                         break;
                     case Mode.undefined:
                         _modeEcrit = false;
-                        modeOral = false;
-                        modePoesie = false;
+                        _modeOral = false;
+                        _modePoesie = false;
                         break;
                     default:
                         logger.Error("Mode de traitement des syllabes impossible.");
@@ -146,18 +152,18 @@ namespace ColorLib
             }
         }
 
-        public bool ModeEcrit
+        public bool marquerMuettes
         {
             get
             {
-                return _modeEcrit;
+                return _marquerMuettes;
             }
             set
             {
-                if (_modeEcrit != value) // pour ne déclencher l'évèenement que s'il y a vraiement un changement.
+                if (value != _marquerMuettes)
                 {
-                    _modeEcrit = value;
-                    OnModeEcritModified();
+                    _marquerMuettes = value;
+                    OnMarquerMuettesModified();
                 }
             }
         }
@@ -180,20 +186,20 @@ namespace ColorLib
         /// ou modePoesie.
         /// </summary>
         [OptionalField(VersionAdded = 4)]
-        private bool modeOral;
+        private bool _modeOral;
 
         /// <summary>
         /// indique si le mode poésie est activé. Ne peut pas être vrai en même temps que _modeEcrit
         /// ou modePoesie.
         /// </summary>
         [OptionalField(VersionAdded = 4)]
-        private bool modePoesie;
+        private bool _modePoesie;
 
         /// <summary>
         /// indique si les muettes doivent être marquées.
         /// </summary>
         [OptionalField(VersionAdded = 4)]
-        private bool marquerMuettes;
+        private bool _marquerMuettes;
 
 
         // -------------------------------------------------------------------------------------------------------------------
@@ -314,8 +320,31 @@ namespace ColorLib
             SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.red]);
             ResetCounter();
             DoubleConsStd = true; // mode std de LireCouleur
-            ModeEcrit = true; // mode écrit de LireCouleur
+            mode = Mode.ecrit;
+            marquerMuettes = true;
         }
+
+        // --------------------------------------- Serialization ----------------------------------
+
+        [OnDeserializing()]
+        private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
+        {
+            logger.ConditionalDebug("SetOptionalFieldsToDefaultVal");
+            mode = Mode.ecrit;
+            marquerMuettes = true;
+        }
+
+        internal override void PostLoadInitOptionalFields()
+        {
+            logger.ConditionalDebug("PostLoadInitOptionalFields");
+            if (mode == Mode.undefined) // legacy: _modeEcrit == false
+            {
+                mode = Mode.oral;
+                marquerMuettes = false;
+            }
+        }
+
+        // ------------------------------------------ Events --------------------------------------
 
         protected virtual void OnSylButtonModified(int buttonNr)
         {
@@ -335,6 +364,13 @@ namespace ColorLib
         {
             logger.ConditionalDebug("OnModeModified");
             EventHandler eventHandler = ModeModifiedEvent;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnMarquerMuettesModified()
+        {
+            logger.ConditionalDebug("OnMarqueMuettesModified");
+            EventHandler eventHandler = MarquerMuettesModified;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }
 

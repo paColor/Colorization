@@ -28,13 +28,13 @@ namespace ColorLibTest
                         Et plus que l'air marin la doulceur Angevine.";
 
 
-        private void CheckTextVsSyls(string txt, string[] syls, bool std, bool ecrit)
+        private void CheckTextVsSyls(string txt, string[] syls, bool std, SylConfig.Mode inMode)
         {
             Config conf = new Config();
             TheText tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             conf.sylConf.DoubleConsStd = std;
-            conf.sylConf.ModeEcrit = ecrit;
+            conf.sylConf.mode = inMode;
             List<PhonWord> pws = tt.GetPhonWordList(conf);
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls(conf);
@@ -143,9 +143,9 @@ namespace ColorLibTest
                 "Et", "plus", "que", "l'", "air", "ma-rin", "la", "doul-ceur", "An-ge-vine"
             };
 
-            CheckTextVsSyls(s, sylsEcritStd, true, true);
-            CheckTextVsSyls(s, sylsEcritNonDouble, false, true);
-            CheckTextVsSyls(s, sylsOralStd, true, false);
+            CheckTextVsSyls(s, sylsEcritStd, true, SylConfig.Mode.ecrit);
+            CheckTextVsSyls(s, sylsEcritNonDouble, false, SylConfig.Mode.ecrit);
+            CheckTextVsSyls(s, sylsOralStd, true, SylConfig.Mode.oral);
         }
 
         public string TransformTextToPhons(string txt)

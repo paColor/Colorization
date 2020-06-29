@@ -145,6 +145,7 @@
             this.cmsPhonVSMuettes = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.configMuettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabAutres = new System.Windows.Forms.TabPage();
+            this.cbMuettesSyl = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.butExecuteDuo = new System.Windows.Forms.Button();
             this.butConfigDuo = new System.Windows.Forms.Button();
@@ -152,6 +153,7 @@
             this.rbnStandard = new System.Windows.Forms.RadioButton();
             this.rbnAv2Cons = new System.Windows.Forms.RadioButton();
             this.grpBEcritOral = new System.Windows.Forms.GroupBox();
+            this.rbnPoesie = new System.Windows.Forms.RadioButton();
             this.rbnEcrit = new System.Windows.Forms.RadioButton();
             this.rbnOral = new System.Windows.Forms.RadioButton();
             this.btcLNoir = new System.Windows.Forms.Button();
@@ -218,8 +220,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
-            this.rbPoésie = new System.Windows.Forms.RadioButton();
-            this.cbMuettesSyl = new System.Windows.Forms.CheckBox();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -1697,6 +1697,18 @@
             this.tabAutres.Text = "Autres";
             this.ttipLettreEnNoir.SetToolTip(this.tabAutres, "Configuration pour la colorisation de lettres, syllabes, mots, lignes");
             // 
+            // cbMuettesSyl
+            // 
+            this.cbMuettesSyl.AutoSize = true;
+            this.cbMuettesSyl.Location = new System.Drawing.Point(9, 242);
+            this.cbMuettesSyl.Name = "cbMuettesSyl";
+            this.cbMuettesSyl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbMuettesSyl.Size = new System.Drawing.Size(105, 17);
+            this.cbMuettesSyl.TabIndex = 172;
+            this.cbMuettesSyl.Text = "Marquer muettes";
+            this.cbMuettesSyl.UseVisualStyleBackColor = true;
+            this.cbMuettesSyl.CheckedChanged += new System.EventHandler(this.cbMuettesSyl_CheckedChanged);
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -1776,7 +1788,7 @@
             // 
             // grpBEcritOral
             // 
-            this.grpBEcritOral.Controls.Add(this.rbPoésie);
+            this.grpBEcritOral.Controls.Add(this.rbnPoesie);
             this.grpBEcritOral.Controls.Add(this.rbnEcrit);
             this.grpBEcritOral.Controls.Add(this.rbnOral);
             this.grpBEcritOral.Location = new System.Drawing.Point(261, 189);
@@ -1784,6 +1796,18 @@
             this.grpBEcritOral.Size = new System.Drawing.Size(63, 70);
             this.grpBEcritOral.TabIndex = 167;
             this.grpBEcritOral.TabStop = false;
+            // 
+            // rbnPoesie
+            // 
+            this.rbnPoesie.AutoSize = true;
+            this.rbnPoesie.Location = new System.Drawing.Point(6, 47);
+            this.rbnPoesie.Name = "rbnPoesie";
+            this.rbnPoesie.Size = new System.Drawing.Size(57, 17);
+            this.rbnPoesie.TabIndex = 167;
+            this.rbnPoesie.TabStop = true;
+            this.rbnPoesie.Text = "Poésie";
+            this.rbnPoesie.UseVisualStyleBackColor = true;
+            this.rbnPoesie.CheckedChanged += new System.EventHandler(this.rbnPoesie_CheckedChanged);
             // 
             // rbnEcrit
             // 
@@ -2517,30 +2541,6 @@
             this.ttipLettreEnNoir.InitialDelay = 500;
             this.ttipLettreEnNoir.ReshowDelay = 100;
             // 
-            // rbPoésie
-            // 
-            this.rbPoésie.AutoSize = true;
-            this.rbPoésie.Location = new System.Drawing.Point(6, 47);
-            this.rbPoésie.Name = "rbPoésie";
-            this.rbPoésie.Size = new System.Drawing.Size(57, 17);
-            this.rbPoésie.TabIndex = 167;
-            this.rbPoésie.TabStop = true;
-            this.rbPoésie.Text = "Poésie";
-            this.rbPoésie.UseVisualStyleBackColor = true;
-            this.rbPoésie.CheckedChanged += new System.EventHandler(this.rbPoésie_CheckedChanged);
-            // 
-            // cbMuettesSyl
-            // 
-            this.cbMuettesSyl.AutoSize = true;
-            this.cbMuettesSyl.Location = new System.Drawing.Point(9, 242);
-            this.cbMuettesSyl.Name = "cbMuettesSyl";
-            this.cbMuettesSyl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.cbMuettesSyl.Size = new System.Drawing.Size(105, 17);
-            this.cbMuettesSyl.TabIndex = 172;
-            this.cbMuettesSyl.Text = "Marquer muettes";
-            this.cbMuettesSyl.UseVisualStyleBackColor = true;
-            this.cbMuettesSyl.CheckedChanged += new System.EventHandler(this.cbMuettesSyl_CheckedChanged);
-            // 
             // ConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2774,6 +2774,6 @@
         private System.Windows.Forms.Button butExecuteDuo;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox cbMuettesSyl;
-        private System.Windows.Forms.RadioButton rbPoésie;
+        private System.Windows.Forms.RadioButton rbnPoesie;
     }
 }

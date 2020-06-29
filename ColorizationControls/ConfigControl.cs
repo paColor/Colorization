@@ -181,7 +181,7 @@ namespace ColorizationControls
             logger.ConditionalDebug("ConfigControl - EXIT constructeur avec win et doc");
         }
 
-        public void UpdateSonButton(string son)
+        private void UpdateSonButton(string son)
         {
             logger.ConditionalTrace("UpdateSonButton son: {0}", son);
 
@@ -201,14 +201,14 @@ namespace ColorizationControls
             SetButtonColor(si.btn, btnColor);
         }
 
-        public void UpdateCbxSon(string son)
+        private void UpdateCbxSon(string son)
         {
             logger.ConditionalTrace("UpdateCbxSon son: {0}", son);
             sonInfos[son].cbx.Checked = theConf.colors[pct].GetCheck(son);
             UpdateSonButton(son);
         }
 
-        public void UpdateAllSoundCbxAndButtons()
+        private void UpdateAllSoundCbxAndButtons()
         {
             logger.ConditionalDebug("UpdateAllSoundCbxAndButtons");
             SuspendLayout();
@@ -224,7 +224,7 @@ namespace ColorizationControls
             ResumeLayout();
         }
 
-        public void UpdateLetterButtons()
+        private void UpdateLetterButtons()
         {
             logger.ConditionalDebug("UpdateLetterButtons");
             SuspendLayout();
@@ -234,7 +234,7 @@ namespace ColorizationControls
             ResumeLayout();
         }
 
-        public void UpdateLetterButton(int buttonNr)
+        private void UpdateLetterButton(int buttonNr)
         {
             logger.ConditionalTrace("UpdateLetterButton buttonNr: {0}", buttonNr);
             char c;
@@ -252,7 +252,19 @@ namespace ColorizationControls
             SetButtonColor(letterButtons[buttonNr], theButtonCol);
         }
 
-        public void UpdateSylButtons ()
+        private void UpdateSylModeButtons()
+        {
+            rbnEcrit.Checked = theConf.sylConf.mode == SylConfig.Mode.ecrit;
+            rbnOral.Checked = theConf.sylConf.mode == SylConfig.Mode.oral;
+            rbnPoesie.Checked = theConf.sylConf.mode == SylConfig.Mode.poesie;
+        }
+
+        private void UpdateMarquerMuettesButton()
+        {
+            cbMuettesSyl.Checked = theConf.sylConf.marquerMuettes;
+        }
+
+        private void UpdateSylButtons ()
         {
             logger.ConditionalDebug("UpdateLetterButtons");
             SuspendLayout();
@@ -261,14 +273,12 @@ namespace ColorizationControls
 
             rbnAv2Cons.Checked = !theConf.sylConf.DoubleConsStd;
             rbnStandard.Checked = theConf.sylConf.DoubleConsStd;
-
-            rbnEcrit.Checked = theConf.sylConf.ModeEcrit;
-            rbnOral.Checked = !theConf.sylConf.ModeEcrit;
-
+            UpdateSylModeButtons();
+            UpdateMarquerMuettesButton();
             ResumeLayout();
         }
 
-        public void UpdateSylButton(int butNr)
+        private void UpdateSylButton(int butNr)
         {
             logger.ConditionalTrace("UpdateSylButton buttonNr: {0}", butNr);
             const string filledBtnTxt = "Txt";
@@ -299,7 +309,7 @@ namespace ColorizationControls
         }
 
 
-        public void UpdateUcheckBoxes()
+        private void UpdateUcheckBoxes()
         {
             logger.ConditionalDebug("UpdateUcheckBoxes");
             foreach (string cbUname in formattingCheckBoxes.Keys)
@@ -309,7 +319,7 @@ namespace ColorizationControls
             }
         }
 
-        internal void UpdateIllRadioB()
+        private void UpdateIllRadioB()
         {
             logger.ConditionalDebug("UpdateUcheckBoxes");
             if (theConf.colors[pct].IllRuleToUse == ColConfWin.IllRule.ceras)
@@ -367,8 +377,9 @@ namespace ColorizationControls
             theConf.pBDQ.LetterButtonModifiedEvent += LetterButtonModified;
             theConf.pBDQ.MarkAsBlackModifiedEvent += MarkAsBlackModified;
             theConf.sylConf.SylButtonModifiedEvent += this.SylButtonModified;
-            theConf.sylConf.ModeEcritModifiedEvent += ModeEcritModified;
+            theConf.sylConf.ModeModifiedEvent += SylModeModified;
             theConf.sylConf.DoubleConsStdModifiedEvent += DoubleConsStdModified;
+            theConf.sylConf.MarquerMuettesModified += MarquerMuettesModified;
             theConf.unsetBeh.CheckboxUnsetModifiedEvent += CheckboxUnsetModified;
         }
 
@@ -388,9 +399,10 @@ namespace ColorizationControls
             theConf.colors[PhonConfType.muettes].DefBehModifiedEvent -= DefBehModified;
             theConf.pBDQ.LetterButtonModifiedEvent -= LetterButtonModified;
             theConf.pBDQ.MarkAsBlackModifiedEvent -= MarkAsBlackModified;
-            theConf.sylConf.SylButtonModifiedEvent -= this.SylButtonModified;
-            theConf.sylConf.ModeEcritModifiedEvent -= ModeEcritModified;
+            theConf.sylConf.SylButtonModifiedEvent -= SylButtonModified;
+            theConf.sylConf.ModeModifiedEvent -= SylModeModified;
             theConf.sylConf.DoubleConsStdModifiedEvent -= DoubleConsStdModified;
+            theConf.sylConf.MarquerMuettesModified -= MarquerMuettesModified;
             theConf.unsetBeh.CheckboxUnsetModifiedEvent -= CheckboxUnsetModified;
 
             // Initialiser les handlers
@@ -773,14 +785,35 @@ namespace ColorizationControls
         private void rbnEcrit_CheckedChanged(object sender, EventArgs e)
         {
             logger.ConditionalDebug("rbnEcrit_CheckedChanged");
-            theConf.sylConf.ModeEcrit = rbnEcrit.Checked;
+            if(rbnEcrit.Checked)
+            {
+                theConf.sylConf.mode = SylConfig.Mode.ecrit;
+            }
         }
 
-        private void ModeEcritModified(object sender, EventArgs e)
+        private void rbnOral_CheckedChanged(object sender, EventArgs e)
         {
-            logger.ConditionalDebug("ModeEcritModified");
+            logger.ConditionalDebug("rbnOral_CheckedChanged");
+            if (rbnOral.Checked)
+            {
+                theConf.sylConf.mode = SylConfig.Mode.oral;
+            }
+        }
+
+        private void rbnPoesie_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("rbnPoesie_CheckedChanged");
+            if (rbnPoesie.Checked)
+            {
+                theConf.sylConf.mode = SylConfig.Mode.poesie;
+            }
+        }
+
+        private void SylModeModified(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("SylModeModified");
             Debug.Assert(ReferenceEquals(sender, theConf.sylConf));
-            rbnEcrit.Checked = theConf.sylConf.ModeEcrit;
+            UpdateSylModeButtons();
         }
 
         private void rbnStandard_CheckedChanged(object sender, EventArgs e)
@@ -795,6 +828,19 @@ namespace ColorizationControls
             Debug.Assert(ReferenceEquals(sender, theConf.sylConf));
             rbnStandard.Checked = theConf.sylConf.DoubleConsStd;
         }
+
+        private void cbMuettesSyl_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("DoubleConsStdModified");
+            theConf.sylConf.marquerMuettes = cbMuettesSyl.Checked;
+        }
+
+        private void MarquerMuettesModified(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("MarquerMuettesModified");
+            UpdateMarquerMuettesButton();
+        }
+
 
         //--------------------------------------------------------------------------------------------
         // ------------------------------------ Boutons Syllabes -------------------------------------
@@ -1409,19 +1455,5 @@ namespace ColorizationControls
             UpdateAllSoundCbxAndButtons();
         }
 
-        private void cbMuettesSyl_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void rbPoésie_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void rbnOral_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
