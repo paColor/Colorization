@@ -199,6 +199,16 @@ namespace ColorLib
             return toReturn;
         }
 
+        // --------------------------------------- Serialization ----------------------------------
+
+        [OnDeserializing()]
+        private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
+        {
+            logger.ConditionalDebug("SetOptionalFieldsToDefaultVal");
+            nbreAlt = 1;
+        }
+
+
         internal override void PostLoadInitOptionalFields()
         {
             logger.ConditionalDebug("PostLoadInitOptionalFields");

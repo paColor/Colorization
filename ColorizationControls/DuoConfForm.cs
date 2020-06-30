@@ -203,7 +203,7 @@ namespace ColorizationControls
             c.sylConf.DoubleConsStdModifiedEvent += UpdateRichTextBox;
             c.sylConf.ModeModifiedEvent += UpdateRichTextBox;
             c.sylConf.SylButtonModifiedEvent += UpdateRichTextBox;
-            c.sylConf.SylButtonModifiedEvent += UpdateRichTextBox;
+            c.sylConf.MarquerMuettesModified += UpdateRichTextBox;
             c.unsetBeh.CheckboxUnsetModifiedEvent += UpdateRichTextBox;
             c.ConfigReplacedEvent += HandleConfigReplaced;
         }
@@ -225,7 +225,7 @@ namespace ColorizationControls
             c.sylConf.DoubleConsStdModifiedEvent -= UpdateRichTextBox;
             c.sylConf.ModeModifiedEvent -= UpdateRichTextBox;
             c.sylConf.SylButtonModifiedEvent -= UpdateRichTextBox;
-            c.sylConf.SylButtonModifiedEvent -= UpdateRichTextBox;
+            c.sylConf.MarquerMuettesModified -= UpdateRichTextBox;
             c.unsetBeh.CheckboxUnsetModifiedEvent -= UpdateRichTextBox;
             c.ConfigReplacedEvent -= HandleConfigReplaced;
         }

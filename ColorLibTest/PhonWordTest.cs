@@ -28,14 +28,14 @@ namespace ColorLibTest
                         Et plus que l'air marin la doulceur Angevine.";
 
 
-        private void CheckTextVsSyls(string txt, string[] syls, bool std, SylConfig.Mode inMode)
+        private void CheckTextVsSyls(string txt, string[] syls, bool std, SylConfig.Mode inMode, bool mergApostrophe = false)
         {
             Config conf = new Config();
             TheText tt = new TheText(txt);
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             conf.sylConf.DoubleConsStd = std;
             conf.sylConf.mode = inMode;
-            List<PhonWord> pws = tt.GetPhonWordList(conf);
+            List<PhonWord> pws = tt.GetPhonWordList(conf, mergApostrophe);
             foreach (PhonWord pw in pws)
                 pw.ComputeAndColorSyls(conf);
 
@@ -143,9 +143,31 @@ namespace ColorLibTest
                 "Et", "plus", "que", "l'", "air", "ma-rin", "la", "doul-ceur", "An-ge-vine"
             };
 
+            string[] sylsEcritNonDoubleApostrophe = new string[]
+            {
+                "Heu-reux", "qui", "co-mme", "U-ly-sse", "a", "fait", "un", "beau", "voy-a-ge",
+                "Ou", "co-mme", "ces-tuy", "la", "qui", "con-quit", "la", "toi-son",
+                "Et", "puis", "est", "re-tour-né", "plein", "d'u-sa-ge", "et", "rai-son",
+                "Vi-vre", "en-tre", "ses", "pa-rents", "le", "res-te", "de", "son", "a-ge",
+
+                "Quand", "re-voi-ray", "je", "he-las", "de", "mon", "pe-tit", "vi-lla-ge",
+                "Fu-mer", "la", "che-mi-nee", "et", "en", "que-lle", "sai-son",
+                "Re-voi-ray", "je", "le", "clos", "de", "ma", "pau-vre", "mai-son",
+                "Qui", "m'est", "u-ne", "pro-vin-ce", "et", "beau-coup", "d'a-van-ta-ge",
+
+                "Plus", "me", "plaist", "le", "se-jour", "qu'on", "bas-ty", "mes", "a-yeux",
+                "Que", "des", "pa-lais", "Ro-mains", "le", "front", "au-da-cieux",
+                "Plus", "que", "le", "mar-bre", "dur", "me", "plaist", "l'ar-doi-se", "fi-ne",
+
+                "Plus", "mon", "Loy-re", "Gau-lois", "que", "le", "Ty-bre", "La-tin",
+                "Plus", "mon", "pe-tit", "Ly-ré", "que", "le", "mont", "Pa-la-tin",
+                "Et", "plus", "que", "l'air", "ma-rin", "la", "doul-ceur", "An-ge-vi-ne"
+            };
+
             CheckTextVsSyls(s, sylsEcritStd, true, SylConfig.Mode.ecrit);
             CheckTextVsSyls(s, sylsEcritNonDouble, false, SylConfig.Mode.ecrit);
             CheckTextVsSyls(s, sylsOralStd, true, SylConfig.Mode.oral);
+            CheckTextVsSyls(s, sylsEcritNonDoubleApostrophe, false, SylConfig.Mode.ecrit, true);
         }
 
         public string TransformTextToPhons(string txt)

@@ -134,6 +134,7 @@ namespace ColorLib
             SylConfig.Mode sylMode2;
             bool marquerMuettes1;
             bool marquerMuettes2;
+            bool cachedMergeApostrophe;
 
 
 
@@ -171,12 +172,12 @@ namespace ColorLib
             /// <param name="wL1">Out: listo of <see cref="Word"/>(s) nr 1</param>
             /// <param name="wL2">Out: listo of <see cref="Word"/>(s) nr 2</param>
             public void GetWordLists(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos, 
-                out List<Word> wL1, out List<Word> wL2)
+                out List<Word> wL1, out List<Word> wL2, bool mergeApostrophe)
             {
                 // We measured 9 ms duration for a very long text (a fat book). So this is not the place to
                 // put more sophisticated parallelism.
                 logger.ConditionalDebug("GetWordLists");
-                CheckCacheValidity(dConf);
+                CheckCacheValidity(dConf, mergeApostrophe);
                 if (cachedWordList1 == null)
                 {
                     cachedWordList1 = new List<Word>((wL.Count / 2) + 1);
@@ -248,15 +249,15 @@ namespace ColorLib
             /// <param name="pwB1">Out: the first bag of <see cref="PhonWord"/></param>
             /// <param name="pwB2">Out: the second bag of <see cref="PhonWord"/></param>
             public void GetPhonWordBags(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos,
-                out ConcurrentBag<PhonWord> pwB1, out ConcurrentBag<PhonWord> pwB2)
+                out ConcurrentBag<PhonWord> pwB1, out ConcurrentBag<PhonWord> pwB2, bool mergeApostrophe)
             {
                 logger.ConditionalDebug("GetPhonWordBags");
-                CheckCacheValidity(dConf);
+                CheckCacheValidity(dConf, mergeApostrophe);
                 if (cachedPWBag1 == null)
                 {
                     List<Word> wL1;
                     List<Word> wL2;
-                    GetWordLists(wL, dConf, getEolPos, out wL1, out wL2);
+                    GetWordLists(wL, dConf, getEolPos, out wL1, out wL2, mergeApostrophe);
 
                     // Parallel way
                     ComputePhonWords cpw = ComputePW;
@@ -284,15 +285,15 @@ namespace ColorLib
             /// <param name="pwL1">Out: the first list of <see cref="PhonWord"/></param>
             /// <param name="pwL2">Out: the second list of <see cref="PhonWord"/></param>
             public void GetPhonWordLists(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos,
-                out List<PhonWord> pwL1, out List<PhonWord> pwL2)
+                out List<PhonWord> pwL1, out List<PhonWord> pwL2, bool mergeApostrophe)
             {
                 logger.ConditionalDebug("GetPhonWordLists");
-                CheckCacheValidity(dConf);
+                CheckCacheValidity(dConf, mergeApostrophe);
                 if (cachedPWL1 == null)
                 {
                     ConcurrentBag<PhonWord> pwB1;
                     ConcurrentBag<PhonWord> pwB2;
-                    GetPhonWordBags(wL, dConf, getEolPos, out pwB1, out pwB2);
+                    GetPhonWordBags(wL, dConf, getEolPos, out pwB1, out pwB2, mergeApostrophe);
                     cachedPWL1 = new List<PhonWord>(pwB1);
                     cachedPWL2 = new List<PhonWord>(pwB2);
                     cachedPWL1.Sort(TextEl.CompareTextElByPosition);
@@ -309,7 +310,7 @@ namespace ColorLib
                 pwL = GetPhonWords(wL, subConf);
             }
 
-            private void CheckCacheValidity(DuoConfig dConf)
+            private void CheckCacheValidity(DuoConfig dConf, bool mergeApostrophe)
             {
                 logger.ConditionalDebug("CheckCacheValidity");
                 if ((alt != dConf.alternance)
@@ -324,6 +325,7 @@ namespace ColorLib
                     || (illRule2Muettes != dConf.subConfig2.colors[PhonConfType.muettes].IllRuleToUse) 
                     || (illRule1Phon != dConf.subConfig1.colors[PhonConfType.phonemes].IllRuleToUse)
                     || (illRule2Phon != dConf.subConfig2.colors[PhonConfType.phonemes].IllRuleToUse)
+                    || (cachedMergeApostrophe != mergeApostrophe)
                    )
                 {
                     logger.ConditionalTrace("Invalidate cache");
@@ -345,6 +347,7 @@ namespace ColorLib
                     illRule2Muettes = dConf.subConfig2.colors[PhonConfType.muettes].IllRuleToUse;
                     illRule1Phon = dConf.subConfig1.colors[PhonConfType.phonemes].IllRuleToUse;
                     illRule2Phon = dConf.subConfig2.colors[PhonConfType.phonemes].IllRuleToUse;
+                    cachedMergeApostrophe = mergeApostrophe;
                 }
             }
         }
@@ -436,8 +439,6 @@ namespace ColorLib
         /// </summary>
         private string S;
         private string smallCapsS;
-        private List<Word> words; // List of the words in TheText (computed when needed)
-        private ConcurrentBag<PhonWord> phonWords; // The corresponding PhonWords (computed when needed).
         private DuoCache dc;
         private FormatsMgmt formatsMgmt;
 
@@ -458,8 +459,6 @@ namespace ColorLib
             Debug.Assert(txt != null);
             this.S = txt;
             formatsMgmt = new FormatsMgmt(S.Length);
-            phonWords = null;
-            words = null;
             dc = null;
             smallCapsS = null;
         }
@@ -477,38 +476,44 @@ namespace ColorLib
         /// Retrurns the list of <c>Words</c> contained in the text.
         /// </summary>
         /// <remarks>Is not needed by a normal consumer of the class.</remarks>
+        /// <param name="mergeApostrophe">If <c>true</c>, words ending with an apostrophe are merged
+        /// with their successor</param>
         /// <returns>List of <c>Words</c> contained in the text</returns>
-        private List<Word> GetWords()
+        private List<Word> GetWords(bool mergeApostrophe = false)
             // public for test reasons
         {
             logger.ConditionalDebug("GetWords");
-            if (words == null)
+            List<Word> words = new List<Word>(S.Length / 5); // longueur moyenne d'un mot avec l'espace : 5 charactères...
+            Regex rx = new Regex(@"\b\w+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase); // matches words
+            MatchCollection matches = rx.Matches(S);
+            int i = 0;
+            while (i < matches.Count)
             {
-                words = new List<Word>(S.Length / 5); // longueur moyenne d'un mot avec l'espace : 5 charactères...
-                Regex rx = new Regex(@"\b\w+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase); // matches words
-                MatchCollection matches = rx.Matches(S);
-                foreach (Match match in matches)
-                {
-                    int beg = match.Index;
-                    int end = beg + match.Length - 1;
+                Match match = matches[i];
+                int beg = match.Index;
+                int end = beg + match.Length - 1;
 
-                    // Apostrophes: On considère comme apostrophes, les caractères ' ou ’ placé après une ou deux lettres.
-                    // Cela couvre les formes élidées de le, que, ce, te... Y en  a-t-il d'autres?
-                    // Il peut y avoir confusion avec le guillemet simple. Tant pis!
-                    // Le mot est allongé pour contenir l'apostrophe comme dernière lettre.
-                    if ((match.Length <= 2) && (end + 1 < S.Length) && ((S[end + 1] == '\'') || (S[end + 1] == '’')))
+                // Apostrophes: On considère comme apostrophes, les caractères ' ou ’ placé après une ou deux lettres.
+                // Cela couvre les formes élidées de le, que, ce, te... Y en  a-t-il d'autres?
+                // Il peut y avoir confusion avec le guillemet simple. Tant pis!
+                // Le mot est allongé pour contenir l'apostrophe comme dernière lettre.
+                if ((match.Length <= 2) && (end + 1 < S.Length) && ((S[end + 1] == '\'') || (S[end + 1] == '’')))
+                {
+                    if (mergeApostrophe && i < matches.Count - 1)
+                    {
+                        Match nextMatch = matches[i + 1];
+                        end = nextMatch.Index + nextMatch.Length - 1;
+                        i++;
+                    }
+                    else
                     {
                         end++;
                     }
-
-                    // Pour le traitement des syllabes, il peut y avoir un sens à fusionner le mot avec apostrophe
-                    // avec son successeur. ("l'" ne forme pas vraiment une syllabe indépendante...). Si on décide 
-                    // de le faire, ça pourrait assez facilement être ici, avant la création du nouveau mot pour
-                    // le successeur.
-
-                    Word w = new Word(this, beg, end);
-                    words.Add(w);
                 }
+
+                Word w = new Word(this, beg, end);
+                words.Add(w);
+                i++;
             }
             return words;
         }
@@ -519,11 +524,11 @@ namespace ColorLib
         /// <remarks>Is not needed by a normal consumer of the class and should only be used for testing.</remarks>
         /// <param name="conf">The <see cref="Config"/> to use for the detection of the "phonèmes".</param>
         /// <returns>List of <c>PhonWords</c> contained in the text.</returns>
-        public List<PhonWord> GetPhonWordList(Config conf)
+        public List<PhonWord> GetPhonWordList(Config conf, bool mergeApostrophe = false)
             // public for test reasons
         {
             logger.ConditionalDebug("GetPhonWordList");
-            ConcurrentBag<PhonWord> pws = GetPhonWords(conf);
+            ConcurrentBag<PhonWord> pws = GetPhonWords(conf, mergeApostrophe);
             List<PhonWord> toReturn = new List<PhonWord>(pws);
             toReturn.Sort(TextEl.CompareTextElByPosition);
             return toReturn;
@@ -600,7 +605,7 @@ namespace ColorLib
                 formatsMgmt.ClearFormats();
                 // on prend une liste ordonnée, car l'alternance de couleur pour les syllabes s'étend
                 // au-delà de la frontière du mot.
-                List<PhonWord> pws = GetPhonWordList(conf);
+                List<PhonWord> pws = GetPhonWordList(conf, true);
                 FormatSyls(pws, conf);
                 ApplyFormatting(conf);
             }
@@ -765,33 +770,33 @@ namespace ColorLib
                 switch (dConf.colorisFunction)
                 {
                     case DuoConfig.ColorisFunction.lettres:
-                        dc.GetWordLists(GetWords(), dConf, GetLastLinesPos, out wL1, out wL2);
+                        dc.GetWordLists(GetWords(false), dConf, GetLastLinesPos, out wL1, out wL2, false);
                         FormatLetters(wL1, dConf.subConfig1);
                         FormatLetters(wL2, dConf.subConfig2);
                         break;
                     case DuoConfig.ColorisFunction.mots:
-                        dc.GetWordLists(GetWords(), dConf, GetLastLinesPos, out wL1, out wL2);
+                        dc.GetWordLists(GetWords(false), dConf, GetLastLinesPos, out wL1, out wL2, false);
                         FormatWords(wL1, dConf.subConfig1);
                         FormatWords(wL2, dConf.subConfig2);
                         break;
                     case DuoConfig.ColorisFunction.voyCons:
-                        dc.GetWordLists(GetWords(), dConf, GetLastLinesPos, out wL1, out wL2);
+                        dc.GetWordLists(GetWords(false), dConf, GetLastLinesPos, out wL1, out wL2, false);
                         FormatVoyCons(wL1, dConf.subConfig1);
                         FormatVoyCons(wL2, dConf.subConfig2);
                         break;
                     case DuoConfig.ColorisFunction.syllabes:
                         List<PhonWord> pwList1, pwList2;
-                        dc.GetPhonWordLists(GetWords(), dConf, GetLastLinesPos, out pwList1, out pwList2);
+                        dc.GetPhonWordLists(GetWords(true), dConf, GetLastLinesPos, out pwList1, out pwList2, true);
                         FormatSyls(pwList1, dConf.subConfig1);
                         FormatSyls(pwList2, dConf.subConfig2);
                         break;
                     case DuoConfig.ColorisFunction.muettes:
-                        dc.GetPhonWordBags(GetWords(), dConf, GetLastLinesPos, out pwBag1, out pwBag2);
+                        dc.GetPhonWordBags(GetWords(false), dConf, GetLastLinesPos, out pwBag1, out pwBag2, false);
                         FormatPhons(pwBag1, dConf.subConfig1, PhonConfType.muettes);
                         FormatPhons(pwBag2, dConf.subConfig2, PhonConfType.muettes);
                         break;
                     case DuoConfig.ColorisFunction.phonemes:
-                        dc.GetPhonWordBags(GetWords(), dConf, GetLastLinesPos, out pwBag1, out pwBag2);
+                        dc.GetPhonWordBags(GetWords(false), dConf, GetLastLinesPos, out pwBag1, out pwBag2, false);
                         FormatPhons(pwBag1, dConf.subConfig1, PhonConfType.phonemes);
                         FormatPhons(pwBag2, dConf.subConfig2, PhonConfType.phonemes);
                         break;
@@ -909,15 +914,11 @@ namespace ColorLib
             return toReturn;
         }
 
-        private ConcurrentBag<PhonWord> GetPhonWords(Config conf)
+        private ConcurrentBag<PhonWord> GetPhonWords(Config conf, bool mergeApostrophe = false)
         {
             logger.ConditionalDebug("GetPhonWords(conf)");
-            if (phonWords == null)
-            {
-                List<Word> theWords = GetWords();
-                phonWords = GetPhonWords(theWords, conf);
-            }
-            return phonWords;
+            List<Word> theWords = GetWords(mergeApostrophe);
+            return GetPhonWords(theWords, conf);
         }
 
         /// <summary>
