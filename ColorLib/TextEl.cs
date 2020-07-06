@@ -94,6 +94,11 @@ namespace ColorLib
             return T.ToString().Substring(First, (Last - First) + 1);
         }
 
+        public string ToLower()
+        {
+            return ToString().ToLower(BaseConfig.cultF);
+        }
+
         /// <summary>
         /// Crée le <see cref="FormattedTextEl"/> correspondant au <c>TextEl</c> <c>this</c> et
         /// au <see cref="CharFormatting"/> <paramref name="cf"/>. Ajoute le <c>FormattedTextEl</c>

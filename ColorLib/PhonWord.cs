@@ -194,12 +194,111 @@ namespace ColorLib
                         }
                     }
 
-                    // si nous sommes en mode oral, les e caducs des dernières syllabes doivent être concaténés avec la syllabe précédente
-                    if ((sylConfig.mode == SylConfig.Mode.oral) && (syls.Count > 1) && (phons[phons.Count-1].P == Phonemes.q_caduc)) // s'il y a plus d'une syllabe, il y a aussi plus d'un phonème
+                    
+                    if ((syls.Count > 1) && (phons[phons.Count - 1].P == Phonemes.q_caduc)) 
                     {
-                        syls[syls.Count - 2].AbsorbeSuivant(syls[syls.Count - 1]);
-                        syls.RemoveAt(syls.Count - 1);
+                        // s'il y a plus d'une syllabe, il y a aussi plus d'un phonème
+                        if (sylConfig.mode == SylConfig.Mode.oral)
+                        {
+                            // si nous sommes en mode oral, les e caducs des dernières syllabes
+                            // doivent être concaténés avec la syllabe précédente
+                            syls[syls.Count - 2].AbsorbeSuivant(syls[syls.Count - 1]);
+                            syls.RemoveAt(syls.Count - 1);
+                        }
+                        else if (sylConfig.mode == SylConfig.Mode.poesie)
+                        {
+                            // voir http://mamiehiou.over-blog.com/article-versification-comment-compter-les-pieds-syllabes-d-un-vers-97149081.html
+                            // dont nous nous inspirons ici. Il faut toutefois noter que quand le 
+                            // "e" ne compte pas pour un pied, nous le relions simplement avec la
+                            // syllabe précédente, ce qui n'est pas tout à fait correct au niveau
+                            // de la prononciation.
+
+                            const string blancs = " /t";  
+                            // Si le mot suivant commence par une voyelle, --> une seule syllabe
+                            string txt = T.GetSmallCapsText();
+                            int k = Last + 1;
+                            while (k < txt.Length && blancs.IndexOf(txt[k]) > -1)
+                            {
+                                k++;
+                            }
+
+                            int l = k;
+                            while (l < txt.Length && (TextEl.EstConsonne(txt[l]) || TextEl.EstVoyelle(txt[l])))
+                            {
+                                l++;
+                            }
+                            // k est l'index du début du mot suivant, l celui de la lettre qui suit.
+                            string nextWord = null;
+                            if (l > k)
+                            {
+                                nextWord = txt.Substring(k, l - k);
+                            }
+
+                            if (k < txt.Length)
+                            {
+                                // il peut y avaoir un mot suivant.
+                                if (Disjonction(nextWord))
+                                {
+                                    // La syllabe se prononce
+                                }
+                                else if (PasDisjonction(nextWord))
+                                {
+                                    // La syllabe ne se prononce pas
+                                    syls[syls.Count - 2].AbsorbeSuivant(syls[syls.Count - 1]);
+                                    syls.RemoveAt(syls.Count - 1);
+                                }
+
+                                // k est l'index du caractère suivant.
+                                else if (txt[k] == 'y')
+                                {
+                                    // il y a des exceptions avec le y :-)
+                                    // Le cas normal est que le y se comporte comme une consonne
+                                    // le e-caduc forme une syllabe). Mais
+                                    if (nextWord == "yeux" || nextWord == "yeuse" || true)
+                                    {
+
+                                    }
+                                }
+                                else if (TextEl.EstVoyelle(txt[k])) 
+                                {
+                                    // si on termine par un 's' il y a liaison et donc syllabe, 
+                                    // sinon, pas de syllabe
+                                    string wrd = ToLower();
+                                    if (wrd[wrd.Length - 1] != 's')
+                                    {
+                                        // pas de liaison donc pas de syllabe.
+                                        syls[syls.Count - 2].AbsorbeSuivant(syls[syls.Count - 1]);
+                                        syls.RemoveAt(syls.Count - 1);
+                                    }
+                                }
+                                else if (txt[k] == 'h')
+                                {
+                                    // Le 'h' semble mériter un dictionnaire à lui tout seul
+                                }
+                                else if (TextEl.EstConsonne(txt[k])) 
+                                {
+                                    // le e-caduc forme un syllabe. On laisse donc la syllabe pour
+                                    // le phonème.
+                                }
+                                else
+                                {
+                                    // Il ne s'agit pas d'un lettre. Donc soit de la ponctuation,
+                                    // une fin de ligne ou autre chose... On traite ce cas comme
+                                    // une fin de vers --> pas de syllabe pour le e-caduc
+                                    syls[syls.Count - 2].AbsorbeSuivant(syls[syls.Count - 1]);
+                                    syls.RemoveAt(syls.Count - 1);
+                                }
+                            }
+                            else
+                            {
+                                // C'est la fin du texte. Le e caduc ne forme pas une syllabe.
+                                syls[syls.Count - 2].AbsorbeSuivant(syls[syls.Count - 1]);
+                                syls.RemoveAt(syls.Count - 1);
+                            }
+                        }
+
                     }
+                    
                 } // if (syls.Count > 1)
             } // if (syls == null)
 
@@ -266,6 +365,490 @@ namespace ColorLib
 
         // For test purpose, clear all phons
         public void ClearPhons() => phons.Clear();
+
+        static string[] disjonctions =
+        {
+            // 'h' aspiré --> 
+            "hâblerie", "hâbleur", "hableuse", "hachage", "hache", "haché", "hachée", "hache-viande",
+            "hache-légumes", "hache-paille", "hachement", "hacher", "hachette", "hacheur",
+            "hachis", "hachisch", "hachoir", "hachure", "hachurer", "hackle", "hadal",
+            "hadale", "hadaux", "haddock",
+"haflinger",
+"hafnium",
+"hagard",
+"haggis",
+"haie",
+"haillon",
+"haillonneux",
+"haillonneuse",
+"haine",
+"haineusement",
+"haineux",
+"haineuse",
+"haïr",
+"haire",
+"haïssable",
+"haïtien",
+"haïtienne",
+"halage",
+"hâlage",
+"halal",
+"halbi",
+"halbran",
+"halbrené",
+"halbrenée",
+"halbrenée",
+"halde",
+"hâle",
+"hâlé",
+"hâlée",
+"hale",
+"halefis",
+"hâle-haut",
+"haler",
+"hâler",
+"haletant",
+"halètement",
+"haleter",
+"haleur",
+"haleuse",
+"half",
+"hall",
+"halle",
+"hallebarde",
+"halo",
+"hallux",
+"halte",
+"hamac",
+"hamada",
+"hamburger",
+"hameau",
+"hamman",
+"hampe",
+"hamster",
+"hanche",
+"hanchement",
+"hancher",
+"hand-ball",
+"handballeur",
+"handballeuse",
+"handicap",
+"handicapant",
+"handicapante",
+"handicapé",
+"handicapée",
+"handicaper",
+"handicapeur",
+"handisport",
+"hangar",
+"hanneton",
+"hanon",
+"hanse",
+"hanter",
+"hantise",
+"happement",
+"happening",
+"happer",
+"happy",
+"haque",
+"haquenée",
+"haquet",
+"hara-kiri",
+"harangue",
+"haranguer",
+"harangueur",
+"harangueuse",
+"haras",
+"harassant",
+"harassante",
+"harassé",
+"harassée",
+"harassement",
+"harasser",
+"harcelant",
+"harcelante",
+"harcèlement",
+"harceler",
+"hard",
+"hard-bop",
+"hard-core",
+"harde",
+"hardé",
+"hard-edge",
+"harder",
+"hardes",
+"hard ground",
+"hardi",
+"hardie",
+"hardiesse",
+"hardiment",
+"hard",
+"hard",
+"hardware",
+"harem",
+"hareng",
+"harengade",
+"harengaison",
+"harengère",
+"harenguet",
+"harengueux",
+"harenguier",
+"harenguière",
+"haret",
+"harfang",
+"hargne",
+"hargneusement",
+"hargneux",
+"hargneuse",
+"haricot",
+"haridelle",
+"harissa",
+"harka",
+"harki",
+"harnachement",
+"harnacher",
+"harnais",
+"harnat",
+"harnois",
+"haro",
+"harouelle",
+"harpail",
+"harpaye",
+"harpe",
+"harpe-cithare",
+"harpette",
+"harpie",
+"harpiste",
+"harpe-luth",
+"harpocéras",
+"harpodon",
+"harpoise",
+"harpon",
+"harponnage",
+"harponnement",
+"harponner",
+"harponneur",
+"harpye",
+"harrier",
+"hart",
+"hasard",
+"hasarder",
+"hasardeusement",
+"hasardeux",
+"hasardeuse",
+"has",
+"hasch",
+"haschisch",
+"hase",
+"hâte",
+"hâter",
+"hatha",
+"hâtier",
+"hâtif",
+"hâtive",
+"hattéria",
+"hauban",
+"haubanage",
+"haubaner",
+"haubert",
+"hausse",
+"haussement",
+"hausser",
+"haussier",
+"haussière",
+"haut",
+"haute",
+"hautain",
+"hautain",
+"hautaine",
+"haut-bar",
+"hautbois",
+"hautboïste",
+"hautement",
+"hauteur",
+"hautin",
+"hauturier",
+"hauturière",
+"havage",
+"havane",
+"hâve",
+"havée",
+"haveneau",
+"havenet",
+"haver",
+"haveur",
+"haveuse",
+"havre",
+"havresac",
+"havrit",
+"haylage",
+"hayon",
+"hé",
+"heat",
+"heaume",
+"hein",
+"héler",
+"hem",
+"henné",
+"hennin",
+"hennir",
+"hennissant",
+"hennissante",
+"hennissement",
+"hennuyer",
+"hep",
+"héraut",
+"hère",
+"hérissé",
+"hérissée",
+"hérissement",
+"hérisser",
+"hérisson",
+"hérissonne",
+"herniaire",
+"hernie",
+"hernié",
+"herniée",
+"hernieux",
+"hernieuse",
+"héron",
+"héronneau",
+"héronnier",
+"héronnière",
+"héros",
+"héros",
+"héroïne",
+"hersage",
+"herse",
+"herser",
+"hersillon",
+"hêtraie",
+"hêtre",
+"heu !",
+"heurt",
+"heurter",
+"heurtoir",
+"hibou",
+"hic",
+"hickory",
+"hideur",
+"hideusement",
+"hideux",
+"hideuse",
+"hiement",
+"hiérarchie",
+"hiérarchique",
+"hiérarchiquement",
+"hiérarchisation",
+"hiérarchiser",
+"hiérarque",
+"hi",
+"high",
+"hilaire",
+"hile",
+"hindi",
+"hip",
+"hippie",
+"hippy",
+"hidjab",
+"hissage",
+"hit",
+"ho",
+"hobby",
+"hobbyste",
+"hobereau",
+"hochement",
+"hochepot",
+"hochequeue",
+"hocher",
+"hochet",
+"hockey",
+"hockeyeur",
+"hockeyeuse",
+"holding",
+"ho! hisse!",
+"holà",
+"holding",
+"hold-up",
+"hollandite",
+"hollywoodien",
+"hollywoodienne",
+"homard",
+"homarderie",
+"homardier",
+"home",
+"home-trainer",
+"hongre",
+"hongrer",
+"hongreur",
+"hongreuse",
+"hongroierie",
+"hongroyage",
+"hongroyer",
+"hongroyeur",
+"honning",
+"honnir",
+"honoris causa",
+"honte",
+"honteusement",
+"honteux",
+"honteuse",
+"hooligan",
+"hooliganisme",
+"hop !",
+"hop-je",
+"hoquet",
+"hoqueter",
+"hoqueton",
+"horde",
+"horion",
+"hormis",
+"hornblende",
+"hors",
+"horsain",
+"horsin",
+"horse",
+"horst",
+"hot",
+"hotinus",
+"hotte",
+"hottée",
+"hotu",
+"hou",
+"houache",
+"houaiche",
+"houage",
+"houblon",
+"houe",
+"houer",
+"houille",
+"houiller",
+"houillère",
+"houillère",
+"houle",
+"houlette",
+"houleux",
+"houleuse",
+"houligan",
+"hooligan",
+"houliganisme",
+"hooliganisme",
+"houlque",
+"houp",
+"houppe",
+"houppelande",
+"houppette",
+"houppier",
+"hourd",
+"hourdage",
+"hourder",
+"hourdir",
+"hourdis",
+"houri",
+"hourque",
+"hourra !",
+"hourri",
+"hourrite",
+"hourvari",
+"housche",
+"houseau",
+"house-boat",
+"houspiller",
+"houssage",
+"housse",
+"housser",
+"housset",
+"houssière",
+"houst !",
+"houx",
+"hovéa",
+"hoyau",
+"hoyé",
+"hoyée",
+"huard",
+"huart",
+"hublot",
+"huche",
+"hucher",
+"huchier",
+"hue",
+"huée",
+"huer",
+"huerta",
+"huguenot",
+"huipil",
+"huir",
+"huis",
+"huit",
+"huitain",
+"huitaine",
+"huitante",
+"huitième",
+"huitièmement",
+"hulotte",
+"hululation",
+"hululement",
+"hululer",
+"hum",
+"humantin",
+"humer",
+"hune",
+"hunier",
+"hunter",
+"huppe",
+"huppé",
+"huppée",
+"huque",
+"hurdler",
+"hure",
+"hurlant",
+"hurlement",
+"hurler",
+"hurleur",
+"hurleuse",
+"huron",
+"huronne",
+"hurrah !",
+"hurricane",
+"husky",
+"hussard",
+"hussarde",
+"hutinet",
+"hutte",
+"hutteau",
+        };
+
+        /// <summary>
+        /// Analyse si le mot est une exception et se comporte comme s'il commençait pas une
+        /// consonne en ce qui concerne les liaisons et le pronnonciation des syllabes
+        /// qui précèdent. Typiquement on aura un 'le' ou un 'la' devant.
+        /// </summary>
+        /// <param name="wrd">Le mot à analyser en minuscules. Peut-être <c>null</c>.</param>
+        /// <returns>Le mot fait partie de la liste des exceptions.</returns>
+        private bool Disjonction(string wrd)
+        {
+            bool toReturn = false;
+            return toReturn;
+        }
+
+        static string[] pasDisjonctions =
+        {
+            "",
+        };
+
+        /// <summary>
+        /// Analyse si le mot est une exception et se comporte comme s'il commençait pas une
+        /// voyelle en ce qui concerne les liaisons et le pronnonciation des syllabes
+        /// qui précèdent. Typiquement on aura un "l'" devant.
+        /// </summary>
+        /// <param name="wrd">Le mot à analyser en minuscules. Peut-être <c>null</c>.</param>
+        /// <returns>Le mot fait partie de la liste des exceptions.</returns>
+        private bool PasDisjonction(string wrd)
+        {
+            bool toReturn = false;
+            return toReturn;
+        }
+
 
     }
 }

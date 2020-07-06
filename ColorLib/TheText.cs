@@ -472,6 +472,15 @@ namespace ColorLib
             return S;
         }
 
+        public string GetSmallCapsText()
+        {
+            if (smallCapsS == null)
+            {
+                smallCapsS = S.ToLower(BaseConfig.cultF);
+            }
+            return smallCapsS;
+        }
+
         /// <summary>
         /// Retrurns the list of <c>Words</c> contained in the text.
         /// </summary>
