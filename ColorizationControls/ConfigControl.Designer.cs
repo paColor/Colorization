@@ -1800,7 +1800,6 @@
             // rbnPoesie
             // 
             this.rbnPoesie.AutoSize = true;
-            this.rbnPoesie.Enabled = false;
             this.rbnPoesie.Location = new System.Drawing.Point(6, 47);
             this.rbnPoesie.Name = "rbnPoesie";
             this.rbnPoesie.Size = new System.Drawing.Size(57, 17);

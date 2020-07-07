@@ -58,9 +58,21 @@ namespace ColorLib
         // *                                    INSTANTIATED                                      *
         // ****************************************************************************************
 
+        /// <summary>
+        /// Le <see cref="TheText"/> auquel se rapporte le <c>TextEl</c>.
+        /// </summary>
         public TheText T { get; private set; }
+        
+        /// <summary>
+        /// La position (zero-based) dans <c>T</c> du premier caractère du <c>TextEl</c>.
+        /// </summary>
         public int First { get; protected set; } // start index of the word in T
+
+        /// <summary>
+        /// La position (zero-based) dans <c>T</c> du dernier caractère du <c>TextEl</c>.
+        /// </summary>
         public int Last { get; protected set; }
+
         private const string consonnes = "bcdfghjklmnpqrstvwxzç";
         private const string voyelles = "aeiouyœéàèùäëïöüâêîôûœ";
 
