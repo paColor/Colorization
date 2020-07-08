@@ -135,7 +135,10 @@ namespace ColorLib
             SetCharFormat(new CharFormatting());
         }
 
-        // Returns a dump of all members of the object
+        /// <summary>
+        /// Returns a dump of all members of the object
+        /// </summary>
+        /// <returns>A string containing a text representation of all members.</returns>
         public virtual string AllStringInfo()
         {
             StringBuilder sb = new StringBuilder();

@@ -32,10 +32,12 @@ namespace ColorizationControls
                 Layout = "${longdate} ${uppercase:${level}} ${logger} ${message}"
             };
 
+            // ---------------------------------- EVERYTHING --------------------------------------
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc);  // everything
             nLogConfig.AddRule(LogLevel.Debug, LogLevel.Fatal, dc);  // everything equal or higher than Debug
             //nLogConfig.AddRule(LogLevel.Info, LogLevel.Fatal, dc);  // everything equal or higher than Info
 
+            // ----------------------------- ColorizationControls ---------------------------------
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.*");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.ConfigPane");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.InitNLog");
@@ -50,13 +52,16 @@ namespace ColorizationControls
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.StaticColorizControls");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationControls.SylFormatForm");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorizationControls.RTBText");
-            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorizationControls.WaitingForm*");
+            //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorizationControls.WaitingForm*");
 
+            // ---------------------------------- ColorLib -----------------------------------------
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorLib.*");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorLib.Config");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorLib.TheText*");
-            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorLib.ProgressNotifier*");
+            //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorLib.ProgressNotifier*");
+            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorLib.PhonWord*");
 
+            // ------------------------------------ Office ------------------------------------------
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationWord.*");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "Colorization.*");
 

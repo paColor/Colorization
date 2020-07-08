@@ -71,6 +71,10 @@ namespace ColorLib
         {
             Debug.Assert(suivant.First == Last + 1);
             Last = suivant.Last;
+            if (!EstVoyelle() && suivant.EstVoyelle())
+            {
+                P = suivant.P;
+            }
         }
 
         // enlève les n premières lettres à la syllabe
@@ -93,7 +97,7 @@ namespace ColorLib
             SetCharFormat(conf.sylConf.NextCF());
         }
 
-        public string AllStringInfo()
+        public override string AllStringInfo()
         {
             return base.AllStringInfo();
         }

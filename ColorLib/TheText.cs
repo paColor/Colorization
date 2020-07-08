@@ -506,7 +506,13 @@ namespace ColorLib
                 // Cela couvre les formes élidées de le, que, ce, te... Y en  a-t-il d'autres?
                 // Il peut y avoir confusion avec le guillemet simple. Tant pis!
                 // Le mot est allongé pour contenir l'apostrophe comme dernière lettre.
-                if ((match.Length <= 2) && (end + 1 < S.Length) && ((S[end + 1] == '\'') || (S[end + 1] == '’')))
+                // [09.07.2020] On considère le trait d'union comme une apostrophe dans cette situation
+                // le but est de couvrir des cas comme "cria-t-il" dans le traitement des syllabes.
+                // je me demande aussi si on ne va pas tomber sur un cas tordu où il faudrait agir
+                // autrement... On verra :-)
+                if ((match.Length <= 2) 
+                    && (end + 1 < S.Length) 
+                    && ((S[end + 1] == '\'') || (S[end + 1] == '’') || (S[end + 1] == '-')))
                 {
                     if (mergeApostrophe && i < matches.Count - 1)
                     {

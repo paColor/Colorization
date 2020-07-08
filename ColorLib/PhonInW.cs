@@ -24,71 +24,124 @@ using System.Text;
 
 namespace ColorLib
 {
-
+    /// <summary>
+    /// Les phonèmes qui sont reconus par l'automate.
+    /// </summary>
     public enum Phonemes
     {
         firstPhon,
 
         // Voyelles
-        a,       // --> 'a'  bat, plat -> A | A de X-Sampa
-        q,       // le e de je, te, me, le , se... --> schwa '°', le e de abordera, schwa élidable | @ de X-Sampa
-        q_caduc, // e final p. ex de correctes --> schwa '°', le e de abordera, schwa élidable | @ de X-Sampa
-        i,       // --> 'i'  lit, émis -> I
-        o,       // sot, coefficient, automne --> 'O' éloge, fort --> o ouvert
-        o_comp,  // eau, au, --> 'o' peau --> o fermé
-        u,       // ou --> 'u' roue --> Ou
-        y,       // u --> 'y' lu --> U
-        e,       // é --> 'e' été --> e-fermé
-        E,       // è --> 'E' paire, treize --> e-ouvert
-        E_comp,  // è --> 'E' paire, treize --> e-ouvert
-        e_comp,  // é --> 'e' été --> e-fermé
-        e_tilda, // in --> cinq  '5', cinq, linge --> in (voy. nasale) | e~ de X-Sampa
-        a_tilda, // an --> an '@', ange --> an (voy. nasale) | a~ de X-Sampa
-        o_tilda, // on --> on '§', on, savon --> on (voy. nasale) | o~ de X-Sampa
-        x_tilda, // un --> un '1', un, parfum --> un (voy. nasale) | 9~ de X-Sampa
-        x2,      // eu --> deux '2', deux, oeuf nous renonçons à distinguer x2 et x9
-        // x9,      // oeil, oeuf --> neuf  '9', oeuf, peur --> e-ouvert Nous renonçons à distinguer x2 et x9
-        oi,      // Spécialement introduit pour identifier des deux lettres qui donnent --> 'wa'
-        w_e_tilda,  // oin de poing, oint --> 'w5'
-        // w_E_comp,   // oue de ouest, oued --> 'wE' Le cas particulier crée plus de confusion qu'il n'aide
-        // w_i,        // oui, kiwi --> 'wi' Nous renonçons à ce cas particulier. kiwi donnera 'kiwi' en phonétique :-)
+        /// <summary>--> 'a'  bat, plat -> A | A de X-Sampa</summary>
+        a,
+        /// <summary>le e de je, te, me, le , se... --> schwa '°', le e de abordera, schwa élidable | @ de X-Sampa</summary>
+        q,
+        /// <summary>e final p. ex de correctes --> schwa '°', le e de abordera, schwa élidable | @ de X-Sampa</summary>
+        q_caduc,
+        /// <summary>--> --> 'i'  lit, émis -> I</summary>
+        i,
+        /// <summary>sot, coefficient, automne --> 'O' éloge, fort --> o ouvert</summary>
+        o,
+        /// <summary>eau, au, --> 'o' peau --> o fermé</summary>
+        o_comp,
+        /// <summary>ou --> 'u' roue --> Ou</summary>
+        u,
+        /// <summary>u --> 'y' lu --> U</summary>
+        y,
+        /// <summary>é --> 'e' été --> e-fermé</summary>
+        e,
+        /// <summary>è --> 'E' paire, treize --> e-ouvert</summary>
+        E,
+        /// <summary>è --> 'E' paire, treize --> e-ouvert</summary>
+        E_comp,
+        /// <summary>é --> 'e' clef, nez --> e-fermé</summary>
+        e_comp,
+        /// <summary>in --> cinq  '5', cinq, linge --> in (voy. nasale) | e~ de X-Sampa</summary>
+        e_tilda,
+        /// <summary>an --> an '@', ange --> an (voy. nasale) | a~ de X-Sampa</summary>
+        a_tilda,
+        /// <summary>on --> on '§', on, savon --> on (voy. nasale) | o~ de X-Sampa</summary>
+        o_tilda,
+        /// <summary>un --> un '1', un, parfum --> un (voy. nasale) | 9~ de X-Sampa</summary>
+        x_tilda,
+        /// <summary>eu --> deux '2', deux, oeuf nous renonçons à distinguer x2 et x9</summary>
+        x2,
+                     // x9,      // oeil, oeuf --> neuf  '9', oeuf, peur --> e-ouvert Nous renonçons à distinguer x2 et x9
+        /// <summary>Spécialement introduit pour identifier des deux lettres qui donnent --> 'wa'</summary>
+        oi,
+        /// <summary>oin de poing, oint --> 'w5'</summary>
+        w_e_tilda,  
+                     // w_E_comp,   // oue de ouest, oued --> 'wE' Le cas particulier crée plus de confusion qu'il n'aide
+                     // w_i,        // oui, kiwi --> 'wi' Nous renonçons à ce cas particulier. kiwi donnera 'kiwi' en phonétique :-)
 
         // Semi-voyelles
-        w,       // kiwi, sanwich, steward  --> 'w' pour le lexique.
-        j,       // paille, ail, thaï, païen --> 'j' yeux, paille --> y (semi-voyelle)
-        J,       // ing en fin de mot, prononcé à l'anglaise --> 'iG'
-        i_j,     // le son [ij] de affrioler -->´'ij'
-        N,          // gn --> 'N' agneau, vigne --> gn (c. nasale palatine)  | J de X-Sampa
+        /// <summary>kiwi, sanwich, steward  --> 'w' pour le lexique.</summary>
+        w,
+        /// <summary>paille, ail, thaï, païen --> 'j' yeux, paille --> y (semi-voyelle)</summary>
+        j,
+        /// <summary>ng en fin de mot, prononcé à l'anglaise (string) --> 'iG'</summary>
+        J,
+        /// <summary>le son [ij] de affrioler -->´'ij'</summary>
+        i_j,
+        /// <summary>gn --> 'N' agneau, vigne --> gn (c. nasale palatine)  | J de X-Sampa</summary>
+        N,
 
         // Consonnes
-        p,          // p --> 'p' père, soupe --> p (occlusive)
-        b,          // b --> 'b' bon, robe --> b (occlusive)
-        t,          // t --> 't' terre, vite --> t (occlusive)
-        d,          // d --> 'd' dans aide --> d (occlusive)
-        k,          // k --> 'k' carré, laque --> k (occlusive)
-        g,          // g --> 'g' gare, bague --> g (occlusive)
-        f,          // f --> 'f' feu, neuf --> f (fricative)
-        v,          // v --> 'v' vous, rêve --> v (fricative)
-        s,          // s --> 's' sale, dessous --> s (fricative)
-        z,          // z --> 'z' zéro, maison --> z (fricative)
-        S,          // ch --> 'S' chat, tâche --> ch (fricative)
-        Z,          // j --> 'Z' gilet, mijoter --> ge (fricative)
-        m,          // m --> 'm' main, ferme --> m (cons. nasale)
-        n,          // n --> 'n' nous, tonne --> n (cons. nasale
-        l,          // l --> 'l' lent, sol --> l (liquide)
-        R,          // R --> 'R' rue, venir --> R
-        f_ph,       // ph de philosophie --> 'f'
-        k_qu,       // qu de quel --> 'k'
-        g_u,        // g de gueule --> 'g'
-        s_c,        // son s dans ceci --> 's'
-        s_t,        // son s dans partition --> 's'
-        s_x,        // sons s dans six, dix --> 's'
-        z_s,        // s se prononce z --> 'z'
-        ks,         // son x de rixe --> 'ks'
-        gz,         // son x de examiner, exact --> 'gz'
+        /// <summary>p --> 'p' père, soupe --> p (occlusive)</summary>
+        p,
+        /// <summary>b --> 'b' bon, robe --> b (occlusive)</summary>
+        b,
+        /// <summary>t --> 't' terre, vite --> t (occlusive)</summary>
+        t,
+        /// <summary>d --> 'd' dans aide --> d (occlusive)</summary>
+        d,
+        /// <summary>k --> 'k' carré, laque --> k (occlusive)</summary>
+        k,
+        /// <summary>g --> 'g' gare, bague --> g (occlusive)</summary>
+        g,
+        /// <summary>f --> 'f' feu, neuf --> f (fricative)</summary>
+        f,
+        /// <summary>v --> 'v' vous, rêve --> v (fricative)</summary>
+        v,
+        /// <summary>s --> 's' sale, dessous --> s (fricative)</summary>
+        s,
+        /// <summary>z --> 'z' zéro, maison --> z (fricative)</summary>
+        z,
+        /// <summary>ch --> 'S' chat, tâche --> ch (fricative)</summary>
+        S,
+        /// <summary>j --> 'Z' gilet, mijoter --> ge (fricative)</summary>
+        Z,
+        /// <summary>m --> 'm' main, ferme --> m (cons. nasale)</summary>
+        m,
+        /// <summary>n --> 'n' nous, tonne --> n (cons. nasale</summary>
+        n,
+        /// <summary>l --> 'l' lent, sol --> l (liquide)</summary>
+        l,
+        /// <summary>R --> 'R' rue, venir --> R</summary>
+        R,
+        /// <summary>ph de philosophie --> 'f'</summary>
+        f_ph,
+        /// <summary>qu de quel --> 'k'</summary>
+        k_qu,
+        /// <summary>g de gueule ou de guignol --> 'g'</summary>
+        g_u,
+        /// <summary>son s dans ceci --> 's'</summary>
+        s_c,
+        /// <summary>son s dans partition --> 's'</summary>
+        s_t,
+        /// <summary>sons s dans six, dix --> 's'</summary>
+        s_x,
+        /// <summary>s se prononce z raser --> 'z'</summary>
+        z_s,
+        /// <summary>son x de rixe --> 'ks'</summary>
+        ks,
+        /// <summary>son x de examiner, exact --> 'gz'</summary>
+        gz,
 
-        verb_3p,    // nt ou ent des verbes conjugués --> muet ""
-        _muet,      // --> muet ""
+        /// <summary>nt ou ent des verbes conjugués --> muet ""</summary>
+        verb_3p,
+        /// <summary>--> muet ""</summary>
+        _muet,
 
         // o_ouvert,
         // O,       // Marie-Pierre a renoncé à l'analyse o ouvert / fermé. Nous nous contentons de son travail.
@@ -101,14 +154,20 @@ namespace ColorLib
         // Les tests semblent prouver que la taille de cet enum n'a pas d'impact sur la compatibilité des sauvegardes...
         // comme ça ne mange presque pas de pain, gardons-les quand même.
 
-        j_ill,      // utilisé dans la version CERAS des règles pour "ill" et "il" correspond au son 'j'
-        i_j_ill,    // utilisé dans la version CERAS des règles pour "ill" (et "il") correspond au son 'ij'
+        /// <summary>utilisé dans la version CERAS des règles pour "ill" et "il" correspond au son 'j'</summary>
+        j_ill,
+        /// <summary>utilisé dans la version CERAS des règles pour "ill" (et "il") correspond au son 'ij'</summary>
+        i_j_ill,
+        /// <summary>réserve, comme le nom l'indique :-)</summary>
         reserve3,
+        /// <summary>réserve, comme le nom l'indique :-)</summary>
         reserve4,
+        /// <summary>réserve, comme le nom l'indique :-)</summary>
         reserve5,
-        
 
-        lastPhon // used to iterate through all values. We could avoid this by using a Dictionary, but the advantage seems limited...
+        /// <summary>used to iterate through all values. We could avoid this by using a Dictionary, 
+        /// but the advantage seems limited...</summary>
+        lastPhon
     }
 
     public enum PhonLexique
@@ -173,7 +232,7 @@ namespace ColorLib
     {
         private const string copied = "Copied"; 
 
-        public Phonemes P { get; }
+        public Phonemes P { get; protected set; }
         protected PhonWord pw; // the PhonWord the PhonInW is part of
         private string firedRuleName { get; set; } // name of the rule that was used to define the phoneme
 
@@ -240,16 +299,20 @@ namespace ColorLib
             { Phonemes.lastPhon,    "LASTPHON" }
         };
 
-        private static List<Phonemes> voyelles = new List<Phonemes> { Phonemes.a, Phonemes.q, Phonemes.q_caduc, Phonemes.i,
-        Phonemes.o, Phonemes.o_comp, Phonemes.u, Phonemes.y, Phonemes.e, Phonemes.E, Phonemes.E_comp, Phonemes.e_comp,
-        Phonemes.e_tilda, Phonemes.a_tilda, Phonemes.o_tilda, Phonemes.x_tilda, Phonemes.x2, Phonemes.oi, Phonemes.w_e_tilda};
+        private static List<Phonemes> voyelles = new List<Phonemes> { Phonemes.a, Phonemes.q, 
+            Phonemes.q_caduc, Phonemes.i, Phonemes.o, Phonemes.o_comp, Phonemes.u, Phonemes.y, 
+            Phonemes.e, Phonemes.E, Phonemes.E_comp, Phonemes.e_comp, Phonemes.e_tilda,
+            Phonemes.a_tilda, Phonemes.o_tilda, Phonemes.x_tilda, Phonemes.x2, Phonemes.oi, 
+            Phonemes.w_e_tilda, Phonemes.i_j, Phonemes.i_j_ill};
 
-        private static List<Phonemes> consonnes = new List<Phonemes> { Phonemes.p, Phonemes.b, Phonemes.t, Phonemes.d, Phonemes.k,
-        Phonemes.g, Phonemes.f, Phonemes.v, Phonemes.s, Phonemes.z, Phonemes.S, Phonemes.Z, Phonemes.m, Phonemes.n, Phonemes.l,
-        Phonemes.R, Phonemes.f_ph, Phonemes.k_qu, Phonemes.g_u, Phonemes.s_c, Phonemes.s_t, Phonemes.s_x, Phonemes.z_s,
-        Phonemes.ks, Phonemes.gz};
+        private static List<Phonemes> consonnes = new List<Phonemes> { Phonemes.p, Phonemes.b, 
+            Phonemes.t, Phonemes.d, Phonemes.k, Phonemes.g, Phonemes.f, Phonemes.v, Phonemes.s,
+            Phonemes.z, Phonemes.S, Phonemes.Z, Phonemes.m, Phonemes.n, Phonemes.l, Phonemes.R, 
+            Phonemes.f_ph, Phonemes.k_qu, Phonemes.g_u, Phonemes.s_c, Phonemes.s_t, Phonemes.s_x,
+            Phonemes.z_s,Phonemes.ks, Phonemes.gz};
 
-        private static List<Phonemes> semiVoyelles = new List<Phonemes> { Phonemes.w, Phonemes.j, Phonemes.J, Phonemes.i_j, Phonemes.N };
+        private static List<Phonemes> semiVoyelles = new List<Phonemes> { Phonemes.w,
+            Phonemes.J, Phonemes.N, Phonemes.j, Phonemes.j_ill };
 
         private static List<Phonemes> muet = new List<Phonemes> { Phonemes.verb_3p, Phonemes._muet };
 

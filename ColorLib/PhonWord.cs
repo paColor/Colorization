@@ -95,6 +95,7 @@ namespace ColorLib
         /// et le formatage à appliquer pour les syllabes.</param>
         public void ComputeAndColorSyls(Config conf)
         {
+            logger.ConditionalTrace(BaseConfig.cultF, "ComputeAndColorSyls {0}", GetWord());
             SylInW siw;
             int i, j;
             SylConfig sylConfig = conf.sylConf;
@@ -107,6 +108,8 @@ namespace ColorLib
                 // créons une syllabe pour chaque phonème
                 for (i = 0; i < phons.Count; i++)
                     syls.Add(new SylInW(phons[i]));
+
+                logger.ConditionalTrace("Etape 1 {0} --> {1}", GetWord(), Syllabes());
 
                 if (syls.Count > 1)
                 {
@@ -124,6 +127,7 @@ namespace ColorLib
                             }
                         }
                     }
+                    logger.ConditionalTrace("Etape 2 {0} --> {1}", GetWord(), Syllabes());
 
                     // mixer les doubles phonèmes de consonnes qui incluent [l] et [r] ; ex. : bl, tr, cr, chr, pl
                     // mixer les doubles phonèmes [y] et [i], [u] et [i,e_tilda,o_tilda]
@@ -143,18 +147,23 @@ namespace ColorLib
                             // mixer les deux phonèmes puis raccourcir la chaîne
                             syls[i].AbsorbeSuivant(syls[i + 1]);
                             syls.RemoveAt(i + 1);
+                            logger.ConditionalTrace("Etape 3-{0} {1} --> {2}", i, GetWord(), Syllabes());
                             i--; // faire en sorte que la prochaine itération considère le nouveau phonème fusionné et son successeur
                         } 
                     }
 
                     // construire les syllabes par association de phonèmes consonnes et voyelles
-                    // Les syllabes sont constituées de tout ce qui précède un phonème voyelle jusqu'à la syllabe précédente ou le début du mot.
-                    // De plus si le phonème voyelle est suivi de deux consonnes, la première fait partie de la première syllabe.
+                    // Les syllabes sont constituées de tout ce qui précède un phonème voyelle 
+                    // jusqu'à la syllabe précédente ou le début du mot.
+                    // De plus si le phonème voyelle est suivi de deux consonnes, la première fait
+                    // partie de la première syllabe.
 
                     i = 0;
                     j = 0; // début de la syllabe
                     while (i < syls.Count)
                     {
+                        logger.ConditionalTrace("Etape fusion consonnes et voyelles i:{0}, j:{1} {2} --> {3}, {4}"
+                            , i, j, GetWord(), Syllabes(), GetPhonSyllabes());
                         if(syls[i].EstVoyelle())
                         {
                             // fusionner les syllabes de j à i
@@ -165,6 +174,8 @@ namespace ColorLib
                             }
                             i = j;
                             j++;
+                            logger.ConditionalTrace("Etape 4A i:{0}, j:{1} {2} --> {3}, {4}", 
+                                i, j, GetWord(), Syllabes(), GetPhonSyllabes());
 
                             // si les deux lettres qui suivent sont des consonnes, la première fait partie de la syllabe que nous venons de créer
                             // A condition qu'elles ne soient pas toutes les deux dans la même syllabe.
@@ -178,9 +189,14 @@ namespace ColorLib
                                         syls.RemoveAt(j);
                                 }
                             }
+                            logger.ConditionalTrace("Etape 4B i:{0}, j:{1} {2} --> {3}, {4}",
+                                i, j, GetWord(), Syllabes(), GetPhonSyllabes());
                         }
                         i++;
                     } // while
+
+                    logger.ConditionalTrace("Etape 5 i:{0}, j:{1} {2} --> {3}, {4}",
+                        i, j, GetWord(), Syllabes(), GetPhonSyllabes());
 
                     // précaution de base : si pas de syllabes reconnues, on concatène simplement les phonèmes
                     if (j == 0)
@@ -189,6 +205,8 @@ namespace ColorLib
                         syls.Clear();
                         siw = new SylInW(this, this.First, this.Last, Phonemes.firstPhon);
                         syls.Add(siw);
+                        logger.ConditionalTrace("Etape 6A i:{0}, j:{1} {2} --> {3}, {4}",
+                            i, j, GetWord(), Syllabes(), GetPhonSyllabes());
                     } 
                     else 
                     {
@@ -199,10 +217,14 @@ namespace ColorLib
                             syls.RemoveAt(j);
                             j++;
                         }
+                        logger.ConditionalTrace("Etape 6B i:{0}, j:{1} {2} --> {3}, {4}",
+                            i, j, GetWord(), Syllabes(), GetPhonSyllabes());
                     }
+                    // ###############################################################################
+                    // # Traitement spécial de de la dernière syllabe dans les modes oral et poésie. #
+                    // ###############################################################################
 
-                    
-                    if ((syls.Count > 1) && (phons[phons.Count - 1].P == Phonemes.q_caduc)) 
+                    if ((syls.Count > 1) && (syls[syls.Count - 1].P == Phonemes.q_caduc)) 
                     {
                         // s'il y a plus d'une syllabe, il y a aussi plus d'un phonème
                         if (sylConfig.mode == SylConfig.Mode.oral)
@@ -211,9 +233,13 @@ namespace ColorLib
                             // doivent être concaténés avec la syllabe précédente
                             syls[syls.Count - 2].AbsorbeSuivant(syls[syls.Count - 1]);
                             syls.RemoveAt(syls.Count - 1);
+                            logger.ConditionalTrace("Etape 7A {0} --> {1}, {2}", 
+                                GetWord(), Syllabes(), GetPhonSyllabes());
                         }
                         else if (sylConfig.mode == SylConfig.Mode.poesie)
                         {
+                            logger.ConditionalTrace("Mode poésie. Syllabes avant le traitement: {0}",
+                                Syllabes());
                             // voir http://mamiehiou.over-blog.com/article-versification-comment-compter-les-pieds-syllabes-d-un-vers-97149081.html
                             // dont nous nous inspirons ici. Il faut toutefois noter que quand le 
                             // "e" ne compte pas pour un pied, nous le relions simplement avec la
@@ -251,6 +277,7 @@ namespace ColorLib
                             if (endNextWord > startNextWord)
                             {
                                 nextWord = txt.Substring(startNextWord, endNextWord - startNextWord);
+                                logger.ConditionalTrace("nextWord: {0}", nextWord);
                             }
 
                             if (startNextWord < txt.Length)
@@ -305,13 +332,14 @@ namespace ColorLib
                                 // C'est la fin du texte.
                                 cms = ComportementMotSuivant.fin;
                             }
+                            logger.ConditionalTrace("cms: {0}", cms.ToString());
                             switch (cms)
                             {
                                 case ComportementMotSuivant.consonne:
                                     // la syllabe est prononcée, on la laisse.
                                     break;
                                 case ComportementMotSuivant.voyelle:
-                                    if (wrd[wrd.Length - 1] != 's' || wrd[wrd.Length - 1] != 't')
+                                    if (wrd[wrd.Length - 1] == 's' || wrd[wrd.Length - 1] == 't')
                                     {
                                         // il y a une liaison, la syllabe se prononce.
                                         // L'existence d'un eliaison est probablement plus compliquée
@@ -334,10 +362,10 @@ namespace ColorLib
                                     logger.Error("ComportementMotSuivant {0} non traité", cms);
                                     break;
                             }
+                            logger.ConditionalTrace("Etape 7A {0} --> {1}, {2}",
+                                GetWord(), Syllabes(), GetPhonSyllabes());
                         }
-
                     }
-                    
                 } // if (syls.Count > 1)
             } // if (syls == null)
 
@@ -350,6 +378,9 @@ namespace ColorLib
                 foreach(PhonInW piw in phons)
                     if (piw.EstMuet())
                         piw.PutColor(conf, PhonConfType.muettes);
+
+            logger.ConditionalTrace("Résultat {0} --> {1}, {2}",
+                GetWord(), Syllabes(), GetPhonSyllabes());
         }
 
         // returns the phonetical representation of the PhonWord (notation from lexique.org)
@@ -389,7 +420,10 @@ namespace ColorLib
             return sb.ToString();
         }
 
-        // for debugging returns the word with hyphens '-' betheen the syllabes
+        /// <summary>
+        /// Retourne le mot avec des tirets '-' entre les syllabes
+        /// </summary>
+        /// <returns>Le <c>string</c> contenant le mot découpé en syllabes.</returns>
         public string Syllabes()
         {
             StringBuilder sb = new StringBuilder(GetWord().Length+4);
@@ -402,8 +436,30 @@ namespace ColorLib
             return sb.ToString();
         }
 
-        // For test purpose, clear all phons
+        /// <summary>
+        /// Retourne pour chaque syllabe, le phonème rattaché. Ils sont séparés par des tirets.
+        /// </summary>
+        /// <returns>Les phonèmes pour chaque syllabe.</returns>
+        private string GetPhonSyllabes()
+        {
+            StringBuilder sb = new StringBuilder(GetWord().Length + 4);
+            for (int i = 0; i < syls.Count; i++)
+            {
+                sb.Append(syls[i].P.ToString());
+                if (i < syls.Count - 1)
+                    sb.Append("-");
+            }
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// For test purpose, clear all phons
+        /// </summary>
         public void ClearPhons() => phons.Clear();
+
+        // ****************************************************************************************
+        // ***                           Liaisons et disjonctions                               ***
+        // ****************************************************************************************
 
         // Les mots avec trait d'union ont été enlevés de la liste car on considère que le proogramme 
         // copue les mots au trait d'union... En tenir compte si cela devait changer...
@@ -506,7 +562,10 @@ namespace ColorLib
         private static string[] disjonctions =
         {
             "onze", "oui", "uhlan", "ululement", "iodler", "jodler", "ionesco", "ouagadougou",
-            "jahvé", "un"
+            "jahvé"
+             //, "un" on dit le un quand il s'agit du chiffre, mais l'un et l'autre... Impossible
+             // de distinguer sans connaître le sens. Donc on choisit l'article et le pronom qui 
+             // sont quand même plus fréquents...
         };
 
         private static StringDictionary disjonctions_hashed = null;
