@@ -438,7 +438,7 @@ namespace ColorLib
         /// The text that was entered when the object was constructed. Cannot be null.
         /// </summary>
         private string S;
-        private string smallCapsS;
+        private string lowerCaseS;
         private DuoCache dc;
         private FormatsMgmt formatsMgmt;
 
@@ -460,7 +460,7 @@ namespace ColorLib
             this.S = txt;
             formatsMgmt = new FormatsMgmt(S.Length);
             dc = null;
-            smallCapsS = null;
+            lowerCaseS = null;
         }
 
         /// <summary>
@@ -472,13 +472,17 @@ namespace ColorLib
             return S;
         }
 
-        public string GetSmallCapsText()
+        /// <summary>
+        /// Returns the lower case version of the text.
+        /// </summary>
+        /// <returns><c>string</c> conatining the lower case version of the text.</returns>
+        public string ToLowerString()
         {
-            if (smallCapsS == null)
+            if (lowerCaseS == null)
             {
-                smallCapsS = S.ToLower(BaseConfig.cultF);
+                lowerCaseS = S.ToLower(BaseConfig.cultF);
             }
-            return smallCapsS;
+            return lowerCaseS;
         }
 
         /// <summary>
@@ -506,13 +510,13 @@ namespace ColorLib
                 // Cela couvre les formes élidées de le, que, ce, te... Y en  a-t-il d'autres?
                 // Il peut y avoir confusion avec le guillemet simple. Tant pis!
                 // Le mot est allongé pour contenir l'apostrophe comme dernière lettre.
-                // [09.07.2020] On considère le trait d'union comme une apostrophe dans cette situation
-                // le but est de couvrir des cas comme "cria-t-il" dans le traitement des syllabes.
-                // je me demande aussi si on ne va pas tomber sur un cas tordu où il faudrait agir
-                // autrement... On verra :-)
+                // [09.07.2020] On considère le trait d'union comme une apostrophe s'il suit 
+                // un 't' seul, comme dans arriva-t-il.
                 if ((match.Length <= 2) 
                     && (end + 1 < S.Length) 
-                    && ((S[end + 1] == '\'') || (S[end + 1] == '’') || (S[end + 1] == '-')))
+                    && ((S[end + 1] == '\'') 
+                        || (S[end + 1] == '’') 
+                        || (match.Value == "t" && S[end + 1] == '-')))
                 {
                     if (mergeApostrophe && i < matches.Count - 1)
                     {
@@ -1030,26 +1034,26 @@ namespace ColorLib
             CharFormatting consCF = conf.sylConf.NextCF();
             int start, end;
             int i = first;
-            if (smallCapsS == null)
+            if (lowerCaseS == null)
             {
-                smallCapsS = S.ToLower(BaseConfig.cultF);
+                lowerCaseS = S.ToLower(BaseConfig.cultF);
             }
             while (i <= last)
             {
-                if (TextEl.EstVoyelle(smallCapsS[i]))
+                if (TextEl.EstVoyelle(lowerCaseS[i]))
                 {
                     start = i;
                     i++;
-                    while ((i < smallCapsS.Length) && (TextEl.EstVoyelle(smallCapsS[i])))
+                    while ((i < lowerCaseS.Length) && (TextEl.EstVoyelle(lowerCaseS[i])))
                         i++;
                     end = i - 1;
                     formatsMgmt.Add(new FormattedTextEl(this, start, end, voyCF));
                 }
-                else if (TextEl.EstConsonne(smallCapsS[i]))
+                else if (TextEl.EstConsonne(lowerCaseS[i]))
                 {
                     start = i;
                     i++;
-                    while ((i < smallCapsS.Length) && (TextEl.EstConsonne(smallCapsS[i])))
+                    while ((i < lowerCaseS.Length) && (TextEl.EstConsonne(lowerCaseS[i])))
                         i++;
                     end = i - 1;
                     formatsMgmt.Add(new FormattedTextEl(this, start, end, consCF));

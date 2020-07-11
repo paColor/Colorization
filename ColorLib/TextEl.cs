@@ -101,14 +101,22 @@ namespace ColorLib
             Last = te.Last;
         }
 
+        /// <summary>
+        /// returns a string that contains the characters of the <c>TextEl</c>
+        /// </summary>
+        /// <returns>The characters of the <c>TextEl</c></returns>
         public override string ToString()
         {
             return T.ToString().Substring(First, (Last - First) + 1);
         }
 
-        public string ToLower()
+        /// <summary>
+        /// Returns the characters of the <c>TextEl</c> in lower case.
+        /// </summary>
+        /// <returns>lower case string of the <c>TextEl</c>.</returns>
+        public string ToLowerString()
         {
-            return ToString().ToLower(BaseConfig.cultF);
+            return T.ToLowerString().Substring(First, (Last - First) + 1);
         }
 
         /// <summary>

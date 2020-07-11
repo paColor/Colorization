@@ -272,7 +272,7 @@ namespace ColorLib
 							'ient_1':[this.Regle_ient,'i',1], // règle spécifique pour différencier les verbes du premier groupe 3ème pers pluriel
 							'ient_2':[{'+':/ent(s)?$/i},'j',1], // si la règle précédente ne fonctionne pas
 							'ie':[{'+':/e(s|nt)?$/i},'i',1], // mots terminés par -ie(s|nt)
-							'i_voyelle':[{'+':/[aäâeéèêëoôöuù]/i},'j',1], // i suivi d'une voyelle donne [j]
+							'i_voyelle':[{'+':/[aäâeéèêëoôöuù]/i},'ji',1], // i suivi d'une voyelle donne [j]
 							'*':[{},'i',1]}],
 					'ï' : [['thai', 'aie', '*'],
 							{'thai':[{'-':/t(h?)a/i},'j',1], // taï, thaï et dérivés
@@ -421,6 +421,8 @@ namespace ColorLib
 							{'*':[{},'y',1]}],
 					'ù' : [['*'],
 							{'*':[{},'y',1]}],
+					'ü' : [['*'],
+							{'*':[{},'y',1]}], // pour les mots allemands [PAE 11.07.2020]
 					'v' : [['*'],
 							{'*':[{},'v',1]}],
 					'w' : [['wurst', '*'],

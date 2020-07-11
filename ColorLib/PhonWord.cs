@@ -25,6 +25,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 
 namespace ColorLib
 {
@@ -109,7 +110,7 @@ namespace ColorLib
                 for (i = 0; i < phons.Count; i++)
                     syls.Add(new SylInW(phons[i]));
 
-                logger.ConditionalTrace("Etape 1 {0} --> {1}", GetWord(), Syllabes());
+                logger.ConditionalTrace("Etape 1 {0} --> {1}, {2}", GetWord(), Syllabes(), GetPhonSyllabes());
 
                 if (syls.Count > 1)
                 {
@@ -127,29 +128,22 @@ namespace ColorLib
                             }
                         }
                     }
-                    logger.ConditionalTrace("Etape 2 {0} --> {1}", GetWord(), Syllabes());
+                    logger.ConditionalTrace("Etape 2 {0} --> {1}, {2}", GetWord(), Syllabes(), GetPhonSyllabes());
 
-                    // mixer les doubles phonèmes de consonnes qui incluent [l] et [r] ; ex. : bl, tr, cr, chr, pl
-                    // mixer les doubles phonèmes [y] et [i], [u] et [i,e_tilda,o_tilda]
-                    // accrocher les lettres muettes aux lettres qui précèdent
+                    // Il y a une série de cas spéciaux où deux sons ne forment qu'une syllabe
+                    // par exemple [bkptgdfv][lR] ou [y][i] ou [u]([i]|[e_tilda]|[o_tilda])
+                    // (la notation est un peu libre :-)
                     for (i = 0; i < syls.Count - 1; i++)
                     {
-                        if ((syls[i].EstBkptgdfv() && ((syls[i+1].P == Phonemes.l) || (syls[i + 1].P == Phonemes.R)))  // [bkptgdfv][lR]
-                            ||
-                            (((syls[i].P == Phonemes.y) && (syls[i + 1].P == Phonemes.i))  // ui
-                             ||
-                             ((syls[i].P == Phonemes.u) && ((syls[i+1].P == Phonemes.i) || (syls[i+1].P == Phonemes.e_tilda) || (syls[i+1].P == Phonemes.o_tilda))) // u(i|e_tilda|o_tilda)
-                            )
-                            ||
-                            syls[i + 1].EstMuet()
-                            )
+                        if (FusionnerSyllabes(syls[i], syls[i + 1]))
                         {
                             // mixer les deux phonèmes puis raccourcir la chaîne
                             syls[i].AbsorbeSuivant(syls[i + 1]);
                             syls.RemoveAt(i + 1);
-                            logger.ConditionalTrace("Etape 3-{0} {1} --> {2}", i, GetWord(), Syllabes());
-                            i--; // faire en sorte que la prochaine itération considère le nouveau phonème fusionné et son successeur
-                        } 
+                            logger.ConditionalTrace("Etape 3-{0} {1} --> {2}, {3}", i, GetWord(), Syllabes(), GetPhonSyllabes());
+                            i--; // faire en sorte que la prochaine itération considère le nouveau
+                                 // phonème fusionné et son successeur
+                        }
                     }
 
                     // construire les syllabes par association de phonèmes consonnes et voyelles
@@ -251,14 +245,26 @@ namespace ColorLib
                             // Si le mot suivant commence par une consonne (ou équivalent) le e-caduc
                             // se prononce.
                             
-                            string txt = T.GetSmallCapsText();
-                            string wrd = ToLower();
+                            string txt = T.ToLowerString();
+                            string wrd = ToLowerString();
                             ComportementMotSuivant cms = ComportementMotSuivant.undef;
 
                             int startNextWord = Last + 1;
                             // cherchons le début du prochain mot (ou la ponctuation ou la fin de ligne...)
                             while (startNextWord < txt.Length 
-                                && (txt[startNextWord] == ' ' || txt[startNextWord] == '\t'))
+                                && (txt[startNextWord] == ' ' 
+                                || txt[startNextWord] == '\t'
+                                || txt[startNextWord] == ',' // la virgule n'empêche pas l'influence du mot suivant.
+                                || txt[startNextWord] == '!' // ça pourrait dépendre des situations...
+                                || txt[startNextWord] == '"'
+                                || txt[startNextWord] == '«'
+                                || txt[startNextWord] == '»'
+                                || txt[startNextWord] == '“'
+                                || txt[startNextWord] == '”'
+                                || txt[startNextWord] == '‘'
+                                || txt[startNextWord] == '’'
+                                || txt[startNextWord] == ':' // ça pourrait dépendre des situations...
+                                ))
                             {
                                 startNextWord++;
                             }
@@ -305,7 +311,7 @@ namespace ColorLib
                                 else if (txt[startNextWord] == 'h')
                                 {
                                     // Le 'h' mérite un dictionnaire à lui tout seul
-                                    if (HAspire(wrd))
+                                    if (HAspire(nextWord))
                                     {
                                         cms = ComportementMotSuivant.consonne;
                                     }
@@ -457,6 +463,88 @@ namespace ColorLib
         /// </summary>
         public void ClearPhons() => phons.Clear();
 
+        /// <summary>
+        /// Vérifie si une syllabe et son successeur (voir http://www.academie-francaise.fr/la-successeur)
+        /// doivent être fusionnées.
+        /// <remarks>
+        /// Marie-Pierre parle de "mixer" et documente les cas suivants:
+        /// <para>
+        /// mixer les doubles phonèmes de consonnes qui incluent [l] et [r] ; ex. : bl, tr, cr, chr, pl
+        /// </para>
+        /// <para>
+        /// mixer les doubles phonèmes [y] et [i], [u] et [i,e_tilda,o_tilda]
+        /// </para>
+        /// <para>
+        /// accrocher les lettres muettes aux lettres qui précèdent
+        /// </para>
+        /// <para>
+        /// j'ai rajouté des cas comme le ¨[u] suivi de [a] dans certaines situations...
+        /// </para>
+        /// <para>
+        /// D'une manière générale, on peut dire que
+        /// la langue n'aime pas tellement le voyelles qui se suivent. On appelle
+        /// ça l'hiatus. Pour l'éviter, deux voyelles qui se suivent sont parfois
+        /// prononcées ensemble. La diérèse en poésie consiste justement à quand
+        /// même prononcer ces deux sons.
+        /// On essaye ici de traîter les cas évidents. Il existe certainement plein
+        /// d'exceptions...
+        /// </para>
+        /// </remarks>
+        /// <remarks>
+        /// Ces tests sont regroupés dans une méthode séparée pour faciliter la lecture du code.
+        /// </remarks>
+        /// </summary>
+        /// <param name="syl">La syllabe.</param>
+        /// <param name="succ">Son successeur dans le mot.</param>
+        /// <param name="forceDierese">indique si la diérèse doit être forcée. Dans ce cas, la
+        /// méthode retourne false si on avait pu fusionner deux voyelles.</param>
+        /// <returns></returns>
+        private bool FusionnerSyllabes(SylInW syl, SylInW succ, bool forceDierese = false)
+        {
+            bool dieresePoss = false;
+            bool toReturn = false;
+            if (syl.EstBkptgdfv() && (succ.P == Phonemes.l || succ.P == Phonemes.R))  // [bkptgdfv][lR]
+                toReturn = true;
+            else if (syl.P == Phonemes.y && succ.P == Phonemes.i)  // ui
+                toReturn = true;
+            else if (syl.P == Phonemes.u
+                         &&
+                         (succ.P == Phonemes.i
+                         || succ.P == Phonemes.e_tilda
+                         || succ.P == Phonemes.o_tilda)
+                         &&
+                         !forceDierese) // u(i|e_tilda|o_tilda)
+            {
+                toReturn = true;
+                dieresePoss = true;
+            }
+            else if (syl.P == Phonemes.u && succ.P == Phonemes.a && !forceDierese)
+            {
+                if (succ.Last < this.Last)
+                {
+                    // Pas la fin du mot. Quelle est la lettre suivante?
+                    char nextC = succ.T.ToLowerString()[succ.Last + 1];
+                    switch (nextC)
+                    {
+                        case 'c':
+                        case 'd':
+                        case 'n':
+                        case 'p':
+                        case 'q':
+                        case 't':
+                            toReturn = true;
+                            dieresePoss = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+                toReturn = succ.EstMuet();
+                return toReturn;
+        }
+
         // ****************************************************************************************
         // ***                           Liaisons et disjonctions                               ***
         // ****************************************************************************************
@@ -474,7 +562,7 @@ namespace ColorLib
             "hadale", "hadaux", "haddock", "haflinger", "hafnium", "hagard", "haggis", "haie",
             "haillon", "haillonneux", "haillonneuse", "haine", "haineusement", "haineux", "haineuse",
             "haïr", "haire", "haïssable", "haïtien", "haïtienne", "halage", "hâlage", "halal", 
-            "halbi", "halbran", "halbrené", "halbrenée", "halbrenée", "halde", "hâle", "hâlé", 
+            "halbi", "halbran", "halbrené", "halbrenée", "halde", "hâle", "hâlé", 
             "hâlée", "hale", "halefis", "haler", "hâler", "haletant", "halètement", "haleter", 
             "haleur", "haleuse", "half", "hall", "halle", "hallebarde", "halo", "hallux", "halte", 
             "hamac", "hamada", "hamburger", "hameau", "hamman", "hampe", "hamster", "hanche", 
@@ -484,8 +572,8 @@ namespace ColorLib
             "happer", "happy", "haque", "haquenée", "haquet", "hara", "harangue", "haranguer", 
             "harangueur", "harangueuse", "haras", "harassant", "harassante", "harassé", "harassée",
             "harassement", "harasser", "harcelant", "harcelante", "harcèlement", "harceler",
-            "hard", "harde", "hardé", "harder", "hardes", "hard ground", "hardi", "hardie",
-            "hardiesse", "hardiment", "hard", "hard", "hardware", "harem", "hareng", "harengade",
+            "hard", "harde", "hardé", "harder", "hardes", "hardi", "hardie",
+            "hardiesse", "hardiment", "hardware", "harem", "hareng", "harengade",
             "harengaison", "harengère", "harenguet", "harengueux", "harenguier", "harenguière",
             "haret", "harfang", "hargne", "hargneusement", "hargneux", "hargneuse", "haricot",
             "haridelle", "harissa", "harka", "harki", "harnachement", "harnacher", "harnais",
@@ -495,7 +583,7 @@ namespace ColorLib
             "hasarder", "hasardeusement", "hasardeux", "hasardeuse", "has", "hasch", "haschisch",
             "hase", "hâte", "hâter", "hatha", "hâtier", "hâtif", "hâtive", "hattéria", "hauban",
             "haubanage", "haubaner", "haubert", "hausse", "haussement", "hausser", "haussier",
-            "haussière", "haut", "haute", "hautain", "hautain", "hautaine", "hautbois", "hautboïste",
+            "haussière", "haut", "haute", "hautain", "hautaine", "hautbois", "hautboïste",
             "hautement", "hauteur", "hautin", "hauturier", "hauturière", "havage", "havane", "hâve",
             "havée", "haveneau", "havenet", "haver", "haveur", "haveuse", "havre", "havresac",
             "havrit", "haylage", "hayon", "hé", "heat", "heaume", "hein", "héler", "hem", "henné",
@@ -508,16 +596,16 @@ namespace ColorLib
             "hiérarchie", "hiérarchique", "hiérarchiquement", "hiérarchisation", "hiérarchiser",
             "hiérarque", "hi", "high", "hilaire", "hile", "hindi", "hip", "hippie", "hippy", "hidjab",
             "hissage", "hit", "ho", "hobby", "hobbyste", "hobereau", "hochement", "hochepot", 
-            "hochequeue", "hocher", "hochet", "hockey", "hockeyeur", "hockeyeuse", "holding", "ho",
-            "holà", "holding", "hold", "hollandite", "hollywoodien", "hollywoodienne", "homard", 
+            "hochequeue", "hocher", "hochet", "hockey", "hockeyeur", "hockeyeuse", "holding",
+            "holà", "hold", "hollandite", "hollywoodien", "hollywoodienne", "homard", 
             "homarderie", "homardier", "home", "hongre", "hongrer", "hongreur", "hongreuse", 
             "hongroierie", "hongroyage", "hongroyer", "hongroyeur", "honning", "honnir", "honoris",
             "honte", "honteusement", "honteux", "honteuse", "hooligan", "hooliganisme", "hop",
             "hoquet", "hoqueter", "hoqueton", "horde", "horion", "hormis", "hornblende", "hors",
             "horsain", "horsin", "horse", "horst", "hot", "hotdog", "hotinus", "hotte", "hottée",
             "hotu", "hou", "houache", "houaiche", "houage", "houblon", "houe", "houer", "houille",
-            "houiller", "houillère", "houillère", "houle", "houlette", "houleux", "houleuse",
-            "houligan", "hooligan", "houliganisme", "hooliganisme", "houlque", "houp", "houppe",
+            "houiller", "houillère", "houle", "houlette", "houleux", "houleuse",
+            "houligan", "houliganisme", "houlque", "houp", "houppe",
             "houppelande", "houppette", "houppier", "hourd", "hourdage", "hourder", "hourdir",
             "hourdis", "houri", "hourque", "hourra", "hourri", "hourrite", "hourvari", "housche",
             "houseau", "house", "houspiller", "houssage", "housse", "housser", "housset",
@@ -565,7 +653,7 @@ namespace ColorLib
             "jahvé"
              //, "un" on dit le un quand il s'agit du chiffre, mais l'un et l'autre... Impossible
              // de distinguer sans connaître le sens. Donc on choisit l'article et le pronom qui 
-             // sont quand même plus fréquents...
+             // sont quand même plus fréquents et qui se comportent comme une voyelle.
         };
 
         private static StringDictionary disjonctions_hashed = null;
@@ -589,7 +677,7 @@ namespace ColorLib
                         disjonctions_hashed.Add(disjonctions[i], null);
                 }
                 toReturn = disjonctions_hashed.ContainsKey(wrd);
-                if (!toReturn && wrd[wrd.Length - 1] == 's' && wrd != "uns")
+                if (!toReturn && wrd[wrd.Length - 1] == 's')
                 {
                     string sing = wrd.Substring(0, wrd.Length - 1);
                     toReturn = disjonctions_hashed.ContainsKey(sing);

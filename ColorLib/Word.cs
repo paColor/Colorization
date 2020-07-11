@@ -43,7 +43,7 @@ namespace ColorLib
         public Word(TheText inT, int inFirst, int inLast)
             : base(inT, inFirst, inLast)
         {
-            wordToLower = base.ToString().ToLower(BaseConfig.cultF);
+            wordToLower = base.ToLowerString();
         }
 
         /// <summary>

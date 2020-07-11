@@ -50,7 +50,7 @@ namespace ColorLib
         public bool EstConsonneRedoublee()
         {
             return ((Last - First == 1) // le phoneme contient exactement deux lettres
-                && pw.GetChar(First) == pw.GetChar(Last) // qui sont égales
+                && PW.GetChar(First) == PW.GetChar(Last) // qui sont égales
                 && EstConsonne()); // et il s'agit bien d'une consonne
         }
 
@@ -89,7 +89,7 @@ namespace ColorLib
         public void EtendDroite(int n)
         {
             Last = Last + n;
-            Debug.Assert (Last <= pw.Last);
+            Debug.Assert (Last <= PW.Last);
         }
 
         public override void PutColor(Config conf)

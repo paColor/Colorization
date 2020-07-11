@@ -158,8 +158,9 @@ namespace ColorLib
         j_ill,
         /// <summary>utilisé dans la version CERAS des règles pour "ill" (et "il") correspond au son 'ij'</summary>
         i_j_ill,
-        /// <summary>réserve, comme le nom l'indique :-)</summary>
-        reserve3,
+        /// <summary>le son [j] quand il est produit par la lettre i seule devant une voyelle. 
+        /// --> 'j'</summary>
+        ji,
         /// <summary>réserve, comme le nom l'indique :-)</summary>
         reserve4,
         /// <summary>réserve, comme le nom l'indique :-)</summary>
@@ -230,10 +231,10 @@ namespace ColorLib
 
     public class PhonInW : TextEl
     {
-        private const string copied = "Copied"; 
+        private const string copied = "Copied";
 
         public Phonemes P { get; protected set; }
-        protected PhonWord pw; // the PhonWord the PhonInW is part of
+        protected PhonWord PW {get; private set;} // the PhonWord the PhonInW is part of
         private string firedRuleName { get; set; } // name of the rule that was used to define the phoneme
 
         // Mapping vers la représentation lexique.org des phonèmes.
@@ -295,6 +296,7 @@ namespace ColorLib
             { Phonemes._muet,       "" },
             { Phonemes.j_ill,       "j" },
             { Phonemes.i_j_ill,     "ij" },
+            { Phonemes.ji,          "j" },    
             { Phonemes.firstPhon,   "FIRSTPHON" },
             { Phonemes.lastPhon,    "LASTPHON" }
         };
@@ -312,13 +314,54 @@ namespace ColorLib
             Phonemes.z_s,Phonemes.ks, Phonemes.gz};
 
         private static List<Phonemes> semiVoyelles = new List<Phonemes> { Phonemes.w,
-            Phonemes.J, Phonemes.N, Phonemes.j, Phonemes.j_ill };
+            Phonemes.J, Phonemes.N, Phonemes.j, Phonemes.j_ill, Phonemes.ji };
 
         private static List<Phonemes> muet = new List<Phonemes> { Phonemes.verb_3p, Phonemes._muet };
 
-        public bool EstConsonne() => (consonnes.BinarySearch(P) >= 0);
-        public bool EstVoyelle() => (voyelles.BinarySearch(P) >= 0);
+        /// <summary>
+        /// Indique si le <c>PhonInW</c> correspond à un son "consonne".
+        /// </summary>
+        /// <param name="forceDierese">Indique si la diérèse doit être forcée.</param>
+        /// <returns>Le son est une "consonne".</returns>
+        public bool EstConsonne(bool forceDierese = false)
+        {
+            bool toReturn = false; 
+            if (P == Phonemes.ji)
+            {
+                toReturn = !forceDierese;
+            }
+            else
+            {
+                toReturn = (consonnes.BinarySearch(P) >= 0);
+            }
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Indique si le <c>PhonInW</c> correspond à un son "voyelle".
+        /// </summary>
+        /// <param name="forceDierese">Indique si la diérèse doit être forcée.</param>
+        /// <returns>Le son est une "voyelle".</returns>
+        public bool EstVoyelle(bool forceDierese = false)
+        {
+            bool toReturn = false;
+            if (P == Phonemes.ji)
+            {
+                toReturn = forceDierese;
+            }
+            else
+            {
+                toReturn = (voyelles.BinarySearch(P) >= 0);
+            }
+            return toReturn;
+        }
+            
         public bool EstSemiVoyelle() => (semiVoyelles.BinarySearch(P) >= 0);
+        
+        /// <summary>
+        /// Indique si le phonème corespond à un son muet.
+        /// </summary>
+        /// <returns>Le son est muet</returns>
         public bool EstMuet() => (muet.BinarySearch(P) >= 0);
 
         static public List<Phonemes> String2Phons(string s)
@@ -347,7 +390,7 @@ namespace ColorLib
             // inBeg and inEnd are relative to inW!
             : base(inW.T, inW.First+ inBeg, inW.First + inEnd)
         {
-            pw = inW;
+            PW = inW;
             P = inP;
             firedRuleName = ruleName;
         }
@@ -356,7 +399,7 @@ namespace ColorLib
             // inBeg and inEnd are relative to the original TheText!
             : base(inW.T, inBeg, inEnd)
         {
-            pw = inW;
+            PW = inW;
             P = inP;
             firedRuleName = "NoRule";
         }
@@ -364,7 +407,7 @@ namespace ColorLib
         protected PhonInW(PhonInW piw)
             : base(piw)
         {
-            pw = piw.pw;
+            PW = piw.PW;
             P = piw.P;
             firedRuleName = copied;
         }
