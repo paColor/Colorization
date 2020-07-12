@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 using NLog;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using System.Runtime.ExceptionServices;
 
 namespace ColorLib
 {
@@ -625,7 +626,7 @@ namespace ColorLib
                 // on prend une liste ordonnée, car l'alternance de couleur pour les syllabes s'étend
                 // au-delà de la frontière du mot.
                 List<PhonWord> pws = GetPhonWordList(conf, true);
-                FormatSyls(pws, conf);
+                FormatSyls(pws, conf, conf.sylConf.mode == SylConfig.Mode.poesie && conf.sylConf.chercherDierese);
                 ApplyFormatting(conf);
             }
             else
@@ -997,12 +998,19 @@ namespace ColorLib
         /// </summary>
         /// <param name="pws">The list of <see cref="PhonWord"/>(s) to format.</param>
         /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
-        private void FormatSyls(List<PhonWord> pws, Config conf)
+        /// <param name="dierese">indicates whether possible dérèeses should be looked for.</param>
+        private void FormatSyls(List<PhonWord> pws, Config conf, bool dierese = false)
         {
             logger.ConditionalDebug("FormatSyls");
             conf.sylConf.ResetCounter();
             foreach (PhonWord pw in pws)
-                pw.ComputeAndColorSyls(conf);
+                pw.ComputeSyls(conf);
+            if (dierese)
+            {
+                ChercheDierese(pws, conf);
+            }
+            foreach (PhonWord pw in pws)
+                pw.ColorizeSyls(conf);
         }
 
         /// <summary>
@@ -1076,6 +1084,174 @@ namespace ColorLib
             {
                 FormatVoyCons(w.First, w.Last, conf);
             }
+        }
+
+        private struct Zone
+        {
+            public int premierVers;
+            public int dernierVers;
+            public int nrPiedsCible;
+        }
+
+        private int GetNrPiedsCible(int versNo, List<Zone> zones)
+        {
+            int i = 0;
+            while (versNo < zones[i].premierVers)
+            {
+                i++;
+            }
+            return zones[i].nrPiedsCible;
+        }
+
+        /// <summary>
+        /// Analyse les <c>PhonWord</c> donnés et si le nombre de pieds n'est pas régulier, essaye
+        /// de chercher une diérèse dans les mots du vers en question. Les syllabes du
+        /// <c>PhonWord</c> concerné sont modifiées. S'arrête dès qu'il a
+        /// trouvé assez de diéreèses pour rétablir l'équilibre (ou ce qu'il croit l'être...)
+        /// </summary>
+        /// <param name="pwList">La liste (non null) des <c>PhonWord</c> du texte. Précondition: La liste est
+        /// ordonnée: le premier <c>PhoneWord</c> correspond au premier mot dans le texte.
+        /// </param>
+        /// <param name="conf">La <c>Config</c> à considérer pour le traitement des mots.</param>
+        private void ChercheDierese (List<PhonWord> pwList, Config conf)
+        {
+            logger.ConditionalDebug("ChercheDierese");
+            if (conf.sylConf.mode == SylConfig.Mode.poesie && conf.sylConf.chercherDierese)
+            {
+                // trouvons les fins de ligne.
+                List<int> finsdDeLigne = new List<int>(); // poistions dans S (zero based) des 
+                                                         // caracteères de fin de ligne.
+                for(int i = 0; i < S.Length; i++)
+                {
+                    if (S[i] == '\r' || S[i] == '\v')
+                        finsdDeLigne.Add(i);
+                }
+                // Le dernier caractère du texte est aussi considéré comme une fin de ligne.
+                if (finsdDeLigne[finsdDeLigne.Count - 1] < S.Length - 1)
+                    finsdDeLigne.Add(S.Length - 1);
+
+                int pwIndex = 0;
+                List<List<PhonWord>> vers = new List<List<PhonWord>>();
+                for (int i = 0; i < finsdDeLigne.Count; i++) 
+                {
+                    List<PhonWord> ligne = new List<PhonWord>();
+                    while (pwList[pwIndex].Last <= finsdDeLigne[i])
+                    {
+                        ligne.Add(pwList[pwIndex]);
+                        pwIndex++;
+                    }
+                    if (ligne.Count > 0) // oublions les lignes vides
+                        vers.Add(ligne); 
+                }
+
+                if (vers.Count > 0)
+                {
+                    List<int> pieds = new List<int>(vers.Count);
+                    for (int i = 0; i < vers.Count; i++)
+                    {
+                        pieds[i] = ComptePieds(vers[i]);
+                    }
+
+                    List<Zone> zones = new List<Zone>();
+
+                    if (conf.sylConf.nbrPieds == 0)
+                    {
+                        Zone z = new Zone();
+                        z.premierVers = 0;
+                        z.nrPiedsCible = pieds[0];
+                        int minNrPieds = pieds[0];
+                        int maxNrPieds = pieds[0];
+                        int divergences = 0;
+                        for (int i = 0; i < vers.Count; i++)
+                        {
+                            bool nouvelleZone = false;
+                            if (Math.Abs(pieds[i] - z.nrPiedsCible) <= 2)
+                            {
+                                // on est dans la même zone
+                                if (pieds[i] > z.nrPiedsCible && pieds[i] - minNrPieds <= 2)
+                                {
+                                    z.nrPiedsCible = pieds[i];
+                                    maxNrPieds = pieds[i];
+                                    divergences = 0;
+                                }
+                                else if (maxNrPieds - pieds[i] <= 2)
+                                {
+                                    if (pieds[i] < minNrPieds)
+                                        minNrPieds = pieds[i];
+                                    divergences = 0;
+                                }
+                                else
+                                {
+                                    nouvelleZone = true;
+                                }
+                            }
+                            else
+                            {
+                                nouvelleZone = true;
+                            }
+
+                            if (nouvelleZone)
+                            {
+                                // on est peut-être en train de changer de zone.
+                                divergences++;
+                                if (divergences > 1)
+                                {
+                                    // nouvelle zone
+                                    z.dernierVers = i - divergences;
+                                    // z.nrPiedsCible est en fait le maximum rencontré sur la zone.
+                                    // Noralement il ne devrait pas dépasser le nombre de pieds effectivement
+                                    // voulu, mais... 
+                                    // Assurons au moins le cas des alexandrins.
+                                    if (minNrPieds <= 12 && maxNrPieds >= 12)
+                                    {
+                                        z.nrPiedsCible = 12; 
+                                        // oui, ça pourrait nous faire rater des vers à 13 ou 14 pieds...
+                                    }
+
+                                    zones.Add(z);
+                                    z = new Zone();
+                                    z.premierVers = i - divergences + 1;
+                                    Debug.Assert(z.premierVers == i - 1);
+                                    z.nrPiedsCible = pieds[i];
+                                    // Attention: changer les deux lignes qui suivent si on tolère
+                                    // plus d'une divergence de suite.
+                                    minNrPieds = Math.Min(pieds[i - 1], pieds[i]);
+                                    maxNrPieds = Math.Max(pieds[i - 1], pieds[i]);
+                                    divergences = 0;
+                                }
+                            }
+                        }
+                        z.dernierVers = pieds.Count - 1;
+                        zones.Add(z);
+                    }
+                    else
+                    {
+                        Zone z = new Zone();
+                        z.premierVers = 0;
+                        z.dernierVers = pieds.Count - 1;
+                        z.nrPiedsCible = conf.sylConf.nbrPieds;
+                        zones.Add(z);
+                    }
+                }
+                else
+                {
+                    logger.ConditionalTrace("Pas de vers à traiter pour le diérèse.")
+                }
+            }
+            else
+            {
+                logger.Error("ChercheDierese: on ne cherche pas.");
+            }
+        }
+
+        private int ComptePieds(List<PhonWord> v)
+        {
+            int toReturn = 0;
+            foreach (PhonWord pw in v)
+            {
+                toReturn += pw.GetNbreSyllabes();
+            }
+            return toReturn;
         }
     }
 }

@@ -90,11 +90,11 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Calcule et formate les syllabes avec la <see cref="Config"/> donnée.
+        /// Calcule les syllabes avec la <see cref="Config"/> donnée. La liste 'syls' est remplie.
         /// </summary>
         /// <param name="conf">La <c>Config</c> à utiliser pour savoir quelles options sont choisies 
         /// et le formatage à appliquer pour les syllabes.</param>
-        public void ComputeAndColorSyls(Config conf)
+        public void ComputeSyls(Config conf)
         {
             logger.ConditionalTrace(BaseConfig.cultF, "ComputeAndColorSyls {0}", GetWord());
             SylInW siw;
@@ -375,18 +375,33 @@ namespace ColorLib
                 } // if (syls.Count > 1)
             } // if (syls == null)
 
-            // Mettre les syllabes en couleur
-            foreach(SylInW s in syls)
-                s.PutColor(conf);
-
-            // s'il le faut, marquer par-dessus les phonemes muets.
-            if (sylConfig.marquerMuettes)
-                foreach(PhonInW piw in phons)
-                    if (piw.EstMuet())
-                        piw.PutColor(conf, PhonConfType.muettes);
-
             logger.ConditionalTrace("Résultat {0} --> {1}, {2}",
                 GetWord(), Syllabes(), GetPhonSyllabes());
+        }
+
+        /// <summary>
+        /// Colorizes the syllabes in syls, according to <c>conf</c>. 
+        /// </summary>
+        /// <param name="conf">The <c>Config</c> to apply. Cannot be null.</param>
+        public void ColorizeSyls(Config conf)
+        {
+            logger.ConditionalDebug("ColorizeSyls");
+            if (syls != null)
+            {
+                // Mettre les syllabes en couleur
+                foreach (SylInW s in syls)
+                    s.PutColor(conf);
+
+                // s'il le faut, marquer par-dessus les phonemes muets.
+                if (conf.sylConf.marquerMuettes)
+                    foreach (PhonInW piw in phons)
+                        if (piw.EstMuet())
+                            piw.PutColor(conf, PhonConfType.muettes); 
+            }
+            else
+            {
+                logger.Error("ColorizeSyls called when syls is null.");
+            }
         }
 
         // returns the phonetical representation of the PhonWord (notation from lexique.org)
@@ -441,6 +456,16 @@ namespace ColorLib
             }
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Donne le nombre de syllabes dans le mot.
+        /// </summary>
+        /// <returns>Nombre de syllabes.</returns>
+        public int GetNbreSyllabes()
+        {
+            return syls.Count;
+        }
+
 
         /// <summary>
         /// Retourne pour chaque syllabe, le phonème rattaché. Ils sont séparés par des tirets.

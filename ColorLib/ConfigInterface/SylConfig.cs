@@ -84,6 +84,24 @@ namespace ColorLib
         [field: NonSerialized]
         public event EventHandler MarquerMuettesModified;
 
+        /// <summary>
+        /// Evènement déclenché la recherche de diérèseest modifiée.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler ChercherDiereseModified;
+
+        /// <summary>
+        /// Evènement déclenché quand la façon de détecter les fins de vers est modifiée.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler FinDeVersModified;
+
+        /// <summary>
+        /// Evènement déclenché quand nombre de pieds à considérer est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler NbrPiedsModified;
+
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  Public Members ---------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
@@ -168,6 +186,37 @@ namespace ColorLib
             }
         }
 
+        public bool chercherDierese
+        {
+            get
+            {
+                return _chercherDierese;
+            }
+            set
+            {
+                if (value != _chercherDierese)
+                {
+                    _chercherDierese = value;
+                    OnChercherDiereseModified();
+                }
+            }
+        }
+
+        public int nbrPieds
+        {
+            get
+            {
+                return _nbrPieds;
+            }
+            set
+            {
+                if (value != _nbrPieds)
+                {
+                    _nbrPieds = value;
+                    OnNbrPiedsModified();
+                }
+            }
+        }
 
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  Private Members ---------------------------------------------------
@@ -200,6 +249,22 @@ namespace ColorLib
         /// </summary>
         [OptionalField(VersionAdded = 4)]
         private bool _marquerMuettes;
+
+        // ------------------------------  Traitement de la diérèse -------------------------------
+
+        /// <summary>
+        /// Indique s'il y a lieu de chercher les diérèses en mode poésie
+        /// </summary>
+        [OptionalField(VersionAdded = 4)]
+        private bool _chercherDierese;
+
+        /// <summary>
+        /// Indique le nombre de pieds que devraient contenir les vers. '0' veut dire recherche
+        /// automatique.
+        /// </summary>
+        [OptionalField(VersionAdded = 4)]
+        private int _nbrPieds;
+
 
 
         // -------------------------------------------------------------------------------------------------------------------
@@ -322,6 +387,8 @@ namespace ColorLib
             DoubleConsStd = true; // mode std de LireCouleur
             mode = Mode.ecrit;
             marquerMuettes = true;
+            chercherDierese = true;
+            nbrPieds = 0; // Par défaut, mode automatique.
         }
 
         // --------------------------------------- Serialization ----------------------------------
@@ -332,6 +399,8 @@ namespace ColorLib
             logger.ConditionalDebug("SetOptionalFieldsToDefaultVal");
             mode = Mode.ecrit;
             marquerMuettes = true;
+            chercherDierese = true;
+            nbrPieds = 0;
         }
 
         internal override void PostLoadInitOptionalFields()
@@ -371,6 +440,20 @@ namespace ColorLib
         {
             logger.ConditionalDebug("OnMarqueMuettesModified");
             EventHandler eventHandler = MarquerMuettesModified;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnChercherDiereseModified()
+        {
+            logger.ConditionalDebug("OnChercherDiereseModified");
+            EventHandler eventHandler = ChercherDiereseModified;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnNbrPiedsModified()
+        {
+            logger.ConditionalDebug("OnNbrPiedsModified");
+            EventHandler eventHandler = NbrPiedsModified;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }
 
