@@ -22,9 +22,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using NLog;
 
 namespace ColorLib
 {
+    /// <summary>
+    /// UN élément du texte référencé <c>T</c>. Commence à <c>First</c> et se termine à 
+    /// <c>Last</c>. Si <c>Last</c> = <c>First</c>, l'élément contient exactement 1
+    /// caractère.
+    /// </summary>
     public class TextEl
     {
         // ****************************************************************************************
@@ -53,6 +59,7 @@ namespace ColorLib
             return toReturn;
         }
 
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         // ****************************************************************************************
         // *                                    INSTANTIATED                                      *
@@ -86,10 +93,28 @@ namespace ColorLib
             return voyelles.IndexOf(c) > -1;
         }
 
-        public TextEl(TheText inT, int inFirst, int inLast)
+        /// <summary>
+        /// Crée un <c>TextEl</c> qui correspond à une partie du texte <c>inT</c>. Ne
+        /// peut pas être vide! 
+        /// </summary>
+        /// <param name="tt">Le texte dont le <c>TextEl</c> est une partie. Ne peut pas
+        /// être vide, ni <c>null</c>! </param>
+        /// <param name="inFirst">La position du premier caractère dans <c>inT</c>.</param>
+        /// <param name="inLast">La position du dernier caractère dans <c>inT</c>. Doit être plus 
+        /// grand ou égal à <c>inFirst</c>.</param>
+        public TextEl(TheText tt, int inFirst, int inLast)
         {
-            Debug.Assert(inLast >= inFirst);
-            T = inT;
+            if(tt == null) 
+            {
+                logger.Error("On ne peut créer un TextEl sur un TheText null.");
+                throw new ArgumentNullException(nameof(tt), "On ne peut créer un TextEl sur un TheText null.");
+            }
+            if (inFirst < 0 || inLast < 0 || inLast < inFirst || inLast >= tt.S.Length)
+            {
+                logger.Error("TextEl: Paramètres inFirst et InLast inconsistants.");
+                throw new ArgumentException("TextEl: Paramètres inFirst et InLast inconsistants.", nameof(inLast));
+            }
+            T = tt;
             First = inFirst;
             Last = inLast;
         }

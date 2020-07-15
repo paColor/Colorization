@@ -46,13 +46,13 @@ namespace Colorization
         /// <summary>
         /// Liste des positions de fin de ligne (dans S) à retourner dans <see cref="GetLastLinesPos"/>.
         /// </summary>
-        private List<int> finDeLignes;
+        private List<int> finsDeLigne;
 
         public PPTText(TextRange txtRange)
             :base(txtRange.Text)
         {
             this.txtRange = txtRange;
-            finDeLignes = null;
+            finsDeLigne = null;
         }
 
         private static void ApplyCFToRange(CharFormatting cf, TextRange tRange, Config inConf)
@@ -102,10 +102,10 @@ namespace Colorization
         protected override List<int> GetLastLinesPos()
         {
             logger.ConditionalDebug("GetLastLinesPos");
-            if (finDeLignes == null)
+            if (finsDeLigne == null)
             {
                 logger.ConditionalTrace("txtRange.Start: {0}, txtRange.Length: {1}", txtRange.Start, txtRange.Length);
-                finDeLignes = new List<int>(7);
+                finsDeLigne = new List<int>(7);
                 int i = 1;
                 int startColoredLine = 0;
                 TextRange theLine = txtRange.Lines(i);
@@ -115,7 +115,7 @@ namespace Colorization
                     if (theLine.Length > 0)
                     {
                         int endFormattedLine = theLine.Start + theLine.Length - 1;
-                        finDeLignes.Add(endFormattedLine - txtRange.Start);
+                        finsDeLigne.Add(endFormattedLine - txtRange.Start);
                     }
                     startColoredLine = theLine.Start;
                     i++;
@@ -123,7 +123,7 @@ namespace Colorization
                 }
             }
             logger.ConditionalTrace("EXIT GetLastLinesPos");
-            return finDeLignes;
+            return finsDeLigne;
         }
 
     } // class PPTText

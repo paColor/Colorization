@@ -65,11 +65,13 @@
     <Compile Include="AutomRuleTest.cs" />
     <Compile Include="AutomLetterTest.cs" />
     <Compile Include="AutomAutomatTest.cs" />
+    <Compile Include="TestTheText.cs" />
     <Compile Include="TheTextTest.cs" />
     <Compile Include="SpeedTest.cs" />
     <Compile Include="TextElTest.cs" />
     <Compile Include="PhonWordTest.cs" />
     <Compile Include="PerfParallelTest.cs" />
+    <Compile Include="RGBTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">

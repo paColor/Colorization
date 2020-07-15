@@ -107,5 +107,38 @@ namespace ColorLibTest
             Assert.AreEqual("J'", pws[8].ToString());
 
         }
+
+        [TestMethod]
+        public void TestTexteVide()
+        {
+            TheText.Init();
+
+            // le but principal est qu'il n'y ait pas d'exceptions...
+            TestTheText ttt = new TestTheText("");
+            Config conf = new Config();
+            ttt.ColorizePhons(conf, PhonConfType.phonemes);
+            ttt.ColorizePhons(conf, PhonConfType.muettes);
+            List<PhonWord> list = ttt.GetPhonWordList(conf);
+            Assert.IsNotNull(list);
+            Assert.IsTrue(list.Count == 0);
+            list = ttt.GetPhonWordList(conf, true);
+            Assert.IsNotNull(list);
+            Assert.IsTrue(list.Count == 0);
+            ttt.MarkDuo(conf);
+            ttt.MarkLetters(conf);
+            ttt.MarkLignes(conf);
+            ttt.MarkMuettes(conf);
+            ttt.MarkNoir(conf);
+            conf.sylConf.mode = SylConfig.Mode.ecrit;
+            ttt.MarkSyls(conf);
+            conf.sylConf.mode = SylConfig.Mode.oral;
+            ttt.MarkSyls(conf);
+            conf.sylConf.mode = SylConfig.Mode.poesie;
+            ttt.MarkSyls(conf);
+            ttt.MarkVoyCons(conf);
+            ttt.MarkWords(conf);
+            _ = ttt.ToLowerString();
+            _ = ttt.ToString();
+        }
     }
 }

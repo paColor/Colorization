@@ -35,6 +35,65 @@ namespace ColorLib
         public static implicit operator System.Drawing.Color(RGB r) => System.Drawing.Color.FromArgb(r.R, r.G, r.B);
         public static implicit operator RGB(System.Drawing.Color col) => new RGB(col.R, col.G, col.B);
 
+        public override bool Equals(object obj)
+        {
+            return this.Equals((RGB)obj);
+        }
+
+        public bool Equals(RGB rgb)
+        {
+            // If parameter is null, return false.
+            if (Object.ReferenceEquals(rgb, null))
+            {
+                return false;
+            }
+
+            // Optimization for a common success case.
+            if (Object.ReferenceEquals(this, rgb))
+            {
+                return true;
+            }
+
+            // If run-time types are not exactly the same, return false.
+            if (this.GetType() != rgb.GetType())
+            {
+                return false;
+            }
+
+            // Return true if the fields match.
+            // Note that the base class is not invoked because it is
+            // System.Object, which defines Equals as reference equality.
+            return (color == rgb.color);
+        }
+
+        public override int GetHashCode()
+        {
+            return color;
+        }
+
+        public static bool operator ==(RGB lhs, RGB rhs)
+        {
+            // Check for null on left side.
+            if (Object.ReferenceEquals(lhs, null))
+            {
+                if (Object.ReferenceEquals(rhs, null))
+                {
+                    // null == null = true.
+                    return true;
+                }
+
+                // Only the left side is null.
+                return false;
+            }
+            // Equals handles case of null on right side.
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(RGB lhs, RGB rhs)
+        {
+            return !(lhs == rhs);
+        }
+
         /// <summary>
         /// Crée un objet RGB représentant la couleur définie par les trois paramêtres
         /// </summary>

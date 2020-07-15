@@ -415,7 +415,7 @@ namespace ColorLib
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         // ****************************************************************************************
-        // *                               public static methods                                 *
+        // *                               public static methods                                  *
         // ****************************************************************************************
 
         /// <summary>
@@ -432,13 +432,20 @@ namespace ColorLib
         }
 
         // ****************************************************************************************
-        // *                                    private members                                   *
+        // *                                    public members                                   *
         // ****************************************************************************************
 
         /// <summary>
-        /// The text that was entered when the object was constructed. Cannot be null.
+        /// The text that was entered when the object was constructed. Cannot be null, but can be
+        /// empty.
         /// </summary>
-        private string S;
+        public string S { get; private set; }
+
+
+        // ****************************************************************************************
+        // *                                    private members                                   *
+        // ****************************************************************************************
+
         private string lowerCaseS;
         private DuoCache dc;
         private FormatsMgmt formatsMgmt;
@@ -716,10 +723,13 @@ namespace ColorLib
             logger.ConditionalDebug("MarkNoir");
             if (conf != null)
             {
-                formatsMgmt.ClearFormats();
-                CFForceBlack cfFB = new CFForceBlack();
-                formatsMgmt.Add(new FormattedTextEl(this, 0, S.Length - 1, cfFB));
-                ApplyFormatting(conf);
+                if (S.Length > 0)
+                {
+                    formatsMgmt.ClearFormats();
+                    CFForceBlack cfFB = new CFForceBlack();
+                    formatsMgmt.Add(new FormattedTextEl(this, 0, S.Length - 1, cfFB));
+                    ApplyFormatting(conf);
+                }
             }
             else
             {
@@ -1235,7 +1245,7 @@ namespace ColorLib
                 }
                 else
                 {
-                    logger.ConditionalTrace("Pas de vers à traiter pour le diérèse.")
+                    logger.ConditionalTrace("Pas de vers à traiter pour le diérèse.");
                 }
             }
             else

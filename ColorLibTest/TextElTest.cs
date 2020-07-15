@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ColorLibTest
 {
-    [TestClass]
+
     public class TextElTest : TextEl
     {
 
@@ -18,7 +18,6 @@ namespace ColorLibTest
             : base(inT, inFirst, inLast)
         {}
 
-        [TestMethod]
         public void TestEstConsonne()
         {
             Assert.IsTrue(EstConsonne('c'));
@@ -33,6 +32,13 @@ namespace ColorLibTest
             Assert.IsFalse(EstConsonne('y'));
         }
 
+        
+    }
+
+    [TestClass]
+    public class TextElTestExecution
+    {
+
         [TestMethod]
         public void TestSetCharFormat()
         {
@@ -43,6 +49,23 @@ namespace ColorLibTest
             TheText tt = new TheText(s);
             TextElTest tet = new TextElTest(tt, 19, 24); // Ulysse
             Assert.AreEqual("Ulysse", tet.ToString());
+
+            tet.TestEstConsonne(); // comme ça c'est fait aussi...
+        }
+
+        [TestMethod]
+        public void TestInvalidTextEl()
+        {
+            TestTheText ttt = new TestTheText("Bonjour");
+            Assert.ThrowsException<ArgumentNullException>(() => _ = new TextElTest());
+            Assert.ThrowsException<ArgumentNullException>(() => _ = new TextEl(null, 17, 18));
+            Assert.ThrowsException<ArgumentException>(() => _ = new TextEl(ttt, 17, 18));
+            Assert.ThrowsException<ArgumentException>(() => _ = new TextEl(ttt, -10, 18));
+            Assert.ThrowsException<ArgumentException>(() => _ = new TextEl(ttt, -10, -2));
+            Assert.ThrowsException<ArgumentException>(() => _ = new TextEl(ttt, 2, 1));
+
+            ttt = new TestTheText("");
+            Assert.ThrowsException<ArgumentException>(() => _ = new TextEl(ttt, 0, 0));
         }
     }
 }
