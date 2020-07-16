@@ -54,7 +54,10 @@ namespace ColorLib
             public CharFormatting cf;
         }
 
-        public const int nrButtons = 6;
+        /// <summary>
+        /// Nombre de boutons gérés. 
+        /// </summary>
+        public const int NrButtons = 6;
 
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  Event Handlers ----------------------------------------------------
@@ -273,14 +276,25 @@ namespace ColorLib
 
         public SylConfig()
         {
-            sylButtons = new SylButtonConf[nrButtons];
+            sylButtons = new SylButtonConf[NrButtons];
             Reset();
         }
 
         public bool ButtonIsActivableOne(int butNr) => butNr == nrSetButtons;
 
+        /// <summary>
+        /// Indique si le bouton donné est le dernier bouton actif, c.à.d. si c'est celui qui peut
+        /// être effacé.
+        /// </summary>
+        /// <param name="butNr">Le bouton à analyser.</param>
+        /// <returns><c>true</c>: le bouton est le dernier actif.</returns>
         public bool ButtonIsLastActive(int butNr) => butNr == nrSetButtons - 1;
 
+        /// <summary>
+        /// Donne la <c>SylButtonConf</c> pour <c>butNr</c>.
+        /// </summary>
+        /// <param name="butNr">Le numéro du boutonpour lequel on veut connaître la conf.</param>
+        /// <returns>La <c>SylButtonConf</c> cherchée.</returns>
         public SylButtonConf GetSylButtonConfFor(int butNr) => sylButtons[butNr];
 
         /// <summary>
@@ -299,7 +313,7 @@ namespace ColorLib
             if (butNr == nrSetButtons)
             {
                 nrSetButtons++;
-                if (nrSetButtons < nrButtons)
+                if (nrSetButtons < NrButtons)
                 {
                     sylButtons[nrSetButtons].buttonClickable = true;
                     OnSylButtonModified(nrSetButtons);
@@ -314,6 +328,11 @@ namespace ColorLib
             OnSylButtonModified(butNr);
         }
 
+        /// <summary>
+        /// Définit un nouveau <c>CharFormatting</c> pour le bouton indiqué.
+        /// </summary>
+        /// <param name="butNrTxt">Le numéro du boutton.</param>
+        /// <param name="inCf">Le nouveau <c>CharFormatting</c> pour le bouton.</param>
         public void SylButtonModified(string butNrTxt, CharFormatting inCf)
         {
             SylButtonModified(int.Parse(butNrTxt), inCf);
@@ -373,7 +392,7 @@ namespace ColorLib
         /// </summary>
         public override void Reset()
         {
-            for (int i = 2; i < nrButtons; i++)
+            for (int i = 2; i < NrButtons; i++)
             {
                 sylButtons[i].buttonClickable = false;
                 sylButtons[i].cf = ColConfWin.predefCF[(int)PredefCols.neutral];

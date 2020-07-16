@@ -32,7 +32,7 @@ namespace ColorLib
         public static List<Phonemes> bkptgdfv = new List<Phonemes> { Phonemes.b, Phonemes.k, Phonemes.p, Phonemes.t, Phonemes.g,
         Phonemes.d, Phonemes.f, Phonemes.v, Phonemes.k_qu, Phonemes.g_u };
 
-        public static void Init()
+        public static new void Init()
         {
             bkptgdfv.Sort();
         }

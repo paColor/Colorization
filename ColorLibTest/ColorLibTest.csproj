@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutomRuleFilter_Test.cs" />
+    <Compile Include="Dierese\VersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomRuleTest.cs" />
     <Compile Include="AutomLetterTest.cs" />

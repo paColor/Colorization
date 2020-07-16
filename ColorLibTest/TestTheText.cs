@@ -13,11 +13,20 @@ namespace ColorLibTest
 {
     class TestTheText : TheText
     {
+        private static RGB black = new RGB(0, 0, 0);
+        private static RGB red = new RGB(255, 0, 0);
+        private static RGB green = new RGB(0, 255, 0);
+        private static RGB blue = new RGB(0, 0, 255);
+        private static RGB white = new RGB(255, 255, 255);
+
+        private static CharFormatting redCF = new CharFormatting(red);
+        private static CharFormatting blueCF = new CharFormatting(blue);
+        private static CharFormatting greenCF = new CharFormatting(green);
+        private static CharFormatting whiteCF = new CharFormatting(white);
+
         public class FormattedChar
         {
-            private static RGB black = new RGB(0, 0, 0);
-            private static RGB red = new RGB(255, 0, 0);
-
+            
             public char C { get; private set; }
             public CharFormatting cf { get; private set; }
 
@@ -136,6 +145,49 @@ namespace ColorLibTest
             {
                 AssertColor(i, theCol);
             }
+        }
+
+        public void AssertSyls (Config conf, string[] syllabes)
+        {
+            int i = SylConfig.NrButtons - 1;
+            while (i >= 0)
+            {
+                if (i > 1 && conf.sylConf.ButtonIsLastActive(i))
+                {
+                    conf.sylConf.ClearButton(i);
+                }
+                i--;
+            }
+            conf.sylConf.SylButtonModified(0, blueCF);
+            conf.sylConf.SylButtonModified(0, redCF);
+
+            MarkSyls(conf);
+
+            int j = 0; // compteur de syllabes
+            int k = 0; // compteur de lettres
+            StringBuilder sb = new StringBuilder();
+            RGB theColor = blue;
+            while (k < S.Length)
+            {
+                if (formattedText[k].cf.color != black)
+                {
+                    if (formattedText[k].cf.color == theColor)
+                    {
+                        sb.Append(formattedText[k].C);
+                    }
+                    else
+                    {
+                        // nouvelle syllabe
+                        Assert.AreEqual(sb.ToString(), syllabes[j]);
+                        j++;
+                        theColor = formattedText[k].cf.color;
+                        sb.Clear();
+                        sb.Append(formattedText[k].C);
+                    }
+                    k++;
+                }
+            }
+            Assert.AreEqual(j, syllabes.Length);
         }
 
         /// <summary>

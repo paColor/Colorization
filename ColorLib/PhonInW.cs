@@ -323,18 +323,9 @@ namespace ColorLib
         /// </summary>
         /// <param name="forceDierese">Indique si la diérèse doit être forcée.</param>
         /// <returns>Le son est une "consonne".</returns>
-        public bool EstConsonne(bool forceDierese = false)
-        {
-            bool toReturn = false; 
-            if (P == Phonemes.ji)
-            {
-                toReturn = !forceDierese;
-            }
-            else
-            {
-                toReturn = (consonnes.BinarySearch(P) >= 0);
-            }
-            return toReturn;
+        public bool EstConsonne()
+        {  
+            return (consonnes.BinarySearch(P) >= 0);
         }
 
         /// <summary>

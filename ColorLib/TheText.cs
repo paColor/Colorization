@@ -27,6 +27,7 @@ using NLog;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Runtime.ExceptionServices;
+using ColorLib.Dierese;
 
 namespace ColorLib
 {
@@ -111,6 +112,7 @@ namespace ColorLib
             private ConcurrentBag<PhonWord> cachedPWBag2;
             private List<PhonWord> cachedPWL1;
             private List<PhonWord> cachedPWL2;
+            private List<PhonWord> cachedComplList;
 
             // Si une de ces données change, le cache est invalidé.
             // Les deux champs suivants ont une influence sur la façon de distribuer les mots
@@ -148,6 +150,7 @@ namespace ColorLib
                 cachedPWBag2 = null;
                 cachedPWL1 = null;
                 cachedPWL2 = null;
+                cachedComplList = null;
 
                 // Il n'est pas nécessaire d'initialiser les champs de gestion de l'actualité
                 // du cache. Pour avoir un état clair, initialisons quand même ceux où on peut 
@@ -285,8 +288,13 @@ namespace ColorLib
             /// each line.</param>
             /// <param name="pwL1">Out: the first list of <see cref="PhonWord"/></param>
             /// <param name="pwL2">Out: the second list of <see cref="PhonWord"/></param>
+            /// <param name="compL"> Out: List of all <c>PhonWord</c> in both other lists.</param>
+            /// <param name="mergeApostrophe">Inidcates whether the apostrophy and the shortened
+            /// max 2 letters word should be merged with the following word. Makes sense when
+            /// syllabes are looked for.</param>
             public void GetPhonWordLists(List<Word> wL, DuoConfig dConf, GetTextPos getEolPos,
-                out List<PhonWord> pwL1, out List<PhonWord> pwL2, bool mergeApostrophe)
+                out List<PhonWord> pwL1, out List<PhonWord> pwL2, out List<PhonWord> compL,
+                bool mergeApostrophe)
             {
                 logger.ConditionalDebug("GetPhonWordLists");
                 CheckCacheValidity(dConf, mergeApostrophe);
@@ -299,9 +307,16 @@ namespace ColorLib
                     cachedPWL2 = new List<PhonWord>(pwB2);
                     cachedPWL1.Sort(TextEl.CompareTextElByPosition);
                     cachedPWL2.Sort(TextEl.CompareTextElByPosition);
+                    cachedComplList = new List<PhonWord>(cachedPWL1.Count + cachedPWL2.Count);
+                    foreach (PhonWord pw in cachedPWL1)
+                        cachedComplList.Add(pw);
+                    foreach (PhonWord pw in cachedPWL2)
+                        cachedComplList.Add(pw);
+                    cachedComplList.Sort(TextEl.CompareTextElByPosition);
                 }
                 pwL1 = cachedPWL1;
                 pwL2 = cachedPWL2;
+                compL = cachedComplList;
             }
 
             delegate void ComputePhonWords(List<Word> wL, Config subConf, ref ConcurrentBag<PhonWord> pwL);
@@ -633,7 +648,12 @@ namespace ColorLib
                 // on prend une liste ordonnée, car l'alternance de couleur pour les syllabes s'étend
                 // au-delà de la frontière du mot.
                 List<PhonWord> pws = GetPhonWordList(conf, true);
-                FormatSyls(pws, conf, conf.sylConf.mode == SylConfig.Mode.poesie && conf.sylConf.chercherDierese);
+                ComputeSyls(pws);
+                if (conf.sylConf.mode == SylConfig.Mode.poesie && conf.sylConf.chercherDierese)
+                {
+                    AnalyseDierese.ChercheDierese(this, pws, conf.sylConf.nbrPieds);
+                }
+                ColorizeSyls(pws, conf);
                 ApplyFormatting(conf);
             }
             else
@@ -815,10 +835,24 @@ namespace ColorLib
                         FormatVoyCons(wL2, dConf.subConfig2);
                         break;
                     case DuoConfig.ColorisFunction.syllabes:
-                        List<PhonWord> pwList1, pwList2;
-                        dc.GetPhonWordLists(GetWords(true), dConf, GetLastLinesPos, out pwList1, out pwList2, true);
-                        FormatSyls(pwList1, dConf.subConfig1);
-                        FormatSyls(pwList2, dConf.subConfig2);
+                        List<PhonWord> pwList1, pwList2, completeList;
+                        dc.GetPhonWordLists(GetWords(true), dConf, GetLastLinesPos, out pwList1, 
+                            out pwList2, out completeList, true);
+                        ComputeSyls(completeList);
+                        if (dConf.subConfig1.sylConf.mode == SylConfig.Mode.poesie
+                            && dConf.subConfig2.sylConf.mode == SylConfig.Mode.poesie
+                            && dConf.subConfig1.sylConf.chercherDierese
+                            && dConf.subConfig2.sylConf.chercherDierese)
+                        {
+                            int nbrPieds = 0;
+                            if (dConf.subConfig1.sylConf.nbrPieds == dConf.subConfig2.sylConf.nbrPieds)
+                            {
+                                nbrPieds = dConf.subConfig1.sylConf.nbrPieds;
+                            }
+                            AnalyseDierese.ChercheDierese(this, completeList, nbrPieds);
+                        }
+                        ColorizeSyls(pwList1, dConf.subConfig1);
+                        ColorizeSyls(pwList2, dConf.subConfig2);
                         break;
                     case DuoConfig.ColorisFunction.muettes:
                         dc.GetPhonWordBags(GetWords(false), dConf, GetLastLinesPos, out pwBag1, out pwBag2, false);
@@ -1001,24 +1035,17 @@ namespace ColorLib
             }
         }
 
-        /// <summary>
-        /// Formats the list of <see cref="PhonWord"/>(s) in order to highlight the syllabes,
-        /// according to <paramref name="conf"/>. I.e. Adds the corresponding 
-        /// <see cref="FormattedTextEl"/>(s) to <see cref="formatsMgmt"/>.
-        /// </summary>
-        /// <param name="pws">The list of <see cref="PhonWord"/>(s) to format.</param>
-        /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
-        /// <param name="dierese">indicates whether possible dérèeses should be looked for.</param>
-        private void FormatSyls(List<PhonWord> pws, Config conf, bool dierese = false)
+        private void ComputeSyls(List<PhonWord> pws)
         {
-            logger.ConditionalDebug("FormatSyls");
-            conf.sylConf.ResetCounter();
+            logger.ConditionalDebug("ComputeSyls");
             foreach (PhonWord pw in pws)
-                pw.ComputeSyls(conf);
-            if (dierese)
-            {
-                ChercheDierese(pws, conf);
-            }
+                pw.ComputeSyls();
+        }
+
+        private void ColorizeSyls(List<PhonWord> pws, Config conf)
+        {
+            logger.ConditionalDebug("ColorizeSyls");
+            conf.sylConf.ResetCounter();
             foreach (PhonWord pw in pws)
                 pw.ColorizeSyls(conf);
         }
@@ -1096,172 +1123,5 @@ namespace ColorLib
             }
         }
 
-        private struct Zone
-        {
-            public int premierVers;
-            public int dernierVers;
-            public int nrPiedsCible;
-        }
-
-        private int GetNrPiedsCible(int versNo, List<Zone> zones)
-        {
-            int i = 0;
-            while (versNo < zones[i].premierVers)
-            {
-                i++;
-            }
-            return zones[i].nrPiedsCible;
-        }
-
-        /// <summary>
-        /// Analyse les <c>PhonWord</c> donnés et si le nombre de pieds n'est pas régulier, essaye
-        /// de chercher une diérèse dans les mots du vers en question. Les syllabes du
-        /// <c>PhonWord</c> concerné sont modifiées. S'arrête dès qu'il a
-        /// trouvé assez de diéreèses pour rétablir l'équilibre (ou ce qu'il croit l'être...)
-        /// </summary>
-        /// <param name="pwList">La liste (non null) des <c>PhonWord</c> du texte. Précondition: La liste est
-        /// ordonnée: le premier <c>PhoneWord</c> correspond au premier mot dans le texte.
-        /// </param>
-        /// <param name="conf">La <c>Config</c> à considérer pour le traitement des mots.</param>
-        private void ChercheDierese (List<PhonWord> pwList, Config conf)
-        {
-            logger.ConditionalDebug("ChercheDierese");
-            if (conf.sylConf.mode == SylConfig.Mode.poesie && conf.sylConf.chercherDierese)
-            {
-                // trouvons les fins de ligne.
-                List<int> finsdDeLigne = new List<int>(); // poistions dans S (zero based) des 
-                                                         // caracteères de fin de ligne.
-                for(int i = 0; i < S.Length; i++)
-                {
-                    if (S[i] == '\r' || S[i] == '\v')
-                        finsdDeLigne.Add(i);
-                }
-                // Le dernier caractère du texte est aussi considéré comme une fin de ligne.
-                if (finsdDeLigne[finsdDeLigne.Count - 1] < S.Length - 1)
-                    finsdDeLigne.Add(S.Length - 1);
-
-                int pwIndex = 0;
-                List<List<PhonWord>> vers = new List<List<PhonWord>>();
-                for (int i = 0; i < finsdDeLigne.Count; i++) 
-                {
-                    List<PhonWord> ligne = new List<PhonWord>();
-                    while (pwList[pwIndex].Last <= finsdDeLigne[i])
-                    {
-                        ligne.Add(pwList[pwIndex]);
-                        pwIndex++;
-                    }
-                    if (ligne.Count > 0) // oublions les lignes vides
-                        vers.Add(ligne); 
-                }
-
-                if (vers.Count > 0)
-                {
-                    List<int> pieds = new List<int>(vers.Count);
-                    for (int i = 0; i < vers.Count; i++)
-                    {
-                        pieds[i] = ComptePieds(vers[i]);
-                    }
-
-                    List<Zone> zones = new List<Zone>();
-
-                    if (conf.sylConf.nbrPieds == 0)
-                    {
-                        Zone z = new Zone();
-                        z.premierVers = 0;
-                        z.nrPiedsCible = pieds[0];
-                        int minNrPieds = pieds[0];
-                        int maxNrPieds = pieds[0];
-                        int divergences = 0;
-                        for (int i = 0; i < vers.Count; i++)
-                        {
-                            bool nouvelleZone = false;
-                            if (Math.Abs(pieds[i] - z.nrPiedsCible) <= 2)
-                            {
-                                // on est dans la même zone
-                                if (pieds[i] > z.nrPiedsCible && pieds[i] - minNrPieds <= 2)
-                                {
-                                    z.nrPiedsCible = pieds[i];
-                                    maxNrPieds = pieds[i];
-                                    divergences = 0;
-                                }
-                                else if (maxNrPieds - pieds[i] <= 2)
-                                {
-                                    if (pieds[i] < minNrPieds)
-                                        minNrPieds = pieds[i];
-                                    divergences = 0;
-                                }
-                                else
-                                {
-                                    nouvelleZone = true;
-                                }
-                            }
-                            else
-                            {
-                                nouvelleZone = true;
-                            }
-
-                            if (nouvelleZone)
-                            {
-                                // on est peut-être en train de changer de zone.
-                                divergences++;
-                                if (divergences > 1)
-                                {
-                                    // nouvelle zone
-                                    z.dernierVers = i - divergences;
-                                    // z.nrPiedsCible est en fait le maximum rencontré sur la zone.
-                                    // Noralement il ne devrait pas dépasser le nombre de pieds effectivement
-                                    // voulu, mais... 
-                                    // Assurons au moins le cas des alexandrins.
-                                    if (minNrPieds <= 12 && maxNrPieds >= 12)
-                                    {
-                                        z.nrPiedsCible = 12; 
-                                        // oui, ça pourrait nous faire rater des vers à 13 ou 14 pieds...
-                                    }
-
-                                    zones.Add(z);
-                                    z = new Zone();
-                                    z.premierVers = i - divergences + 1;
-                                    Debug.Assert(z.premierVers == i - 1);
-                                    z.nrPiedsCible = pieds[i];
-                                    // Attention: changer les deux lignes qui suivent si on tolère
-                                    // plus d'une divergence de suite.
-                                    minNrPieds = Math.Min(pieds[i - 1], pieds[i]);
-                                    maxNrPieds = Math.Max(pieds[i - 1], pieds[i]);
-                                    divergences = 0;
-                                }
-                            }
-                        }
-                        z.dernierVers = pieds.Count - 1;
-                        zones.Add(z);
-                    }
-                    else
-                    {
-                        Zone z = new Zone();
-                        z.premierVers = 0;
-                        z.dernierVers = pieds.Count - 1;
-                        z.nrPiedsCible = conf.sylConf.nbrPieds;
-                        zones.Add(z);
-                    }
-                }
-                else
-                {
-                    logger.ConditionalTrace("Pas de vers à traiter pour le diérèse.");
-                }
-            }
-            else
-            {
-                logger.Error("ChercheDierese: on ne cherche pas.");
-            }
-        }
-
-        private int ComptePieds(List<PhonWord> v)
-        {
-            int toReturn = 0;
-            foreach (PhonWord pw in v)
-            {
-                toReturn += pw.GetNbreSyllabes();
-            }
-            return toReturn;
-        }
     }
 }

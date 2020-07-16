@@ -268,7 +268,7 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("UpdateLetterButtons");
             SuspendLayout();
-            for (int i = 0; i < SylConfig.nrButtons; i++)
+            for (int i = 0; i < SylConfig.NrButtons; i++)
                 UpdateSylButton(i);
 
             rbnAv2Cons.Checked = !theConf.sylConf.DoubleConsStd;
@@ -456,8 +456,8 @@ namespace ColorizationControls
             formattingCheckBoxes = new Dictionary<string, CheckBox>(6); // 6 is just an estimation. Currently the correct number is 5
 
             // Syllabes
-            sylButtons = new Button[SylConfig.nrButtons];
-            sylPictureBoxes = new PictureBox[SylConfig.nrButtons];
+            sylButtons = new Button[SylConfig.NrButtons];
+            sylPictureBoxes = new PictureBox[SylConfig.NrButtons];
             defaultSylButtonCol = btSC0.BackColor;
             mcd4Syls = new MyColorDialog();
             mcd4Syls.CustomColors = StaticColorizControls.customColors;

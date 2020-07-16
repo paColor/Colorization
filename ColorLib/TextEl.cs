@@ -27,7 +27,7 @@ using NLog;
 namespace ColorLib
 {
     /// <summary>
-    /// UN élément du texte référencé <c>T</c>. Commence à <c>First</c> et se termine à 
+    /// Un élément du texte référencé <c>T</c>. Commence à <c>First</c> et se termine à 
     /// <c>Last</c>. Si <c>Last</c> = <c>First</c>, l'élément contient exactement 1
     /// caractère.
     /// </summary>

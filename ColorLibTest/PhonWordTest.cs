@@ -37,9 +37,14 @@ namespace ColorLibTest
             conf.sylConf.mode = inMode;
             List<PhonWord> pws = tt.GetPhonWordList(conf, mergApostrophe);
             foreach (PhonWord pw in pws)
-                pw.ComputeSyls(conf);
+            {
+                pw.ComputeSyls();
+                pw.ColorizeSyls(conf);
+            }
+               
 
-            pws[0].ComputeSyls(conf); // doit résister à deux appels de la méthode
+            pws[0].ComputeSyls(); // doit résister à deux appels de la méthode
+            pws[0].ColorizeSyls(conf);
             for (int i = 0; i < syls.Length; i++)
             {
                 Console.WriteLine(pws[i].AllStringInfo());
@@ -58,7 +63,11 @@ namespace ColorLibTest
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             List<PhonWord> pws = tt.GetPhonWordList(conf);
             foreach (PhonWord pw in pws)
-                pw.ComputeSyls(conf);
+            {
+                pw.ComputeSyls();
+                pw.ColorizeSyls(conf);
+            }
+                
             Console.WriteLine(pws[0].AllStringInfo());
             Assert.AreEqual(syllabe, pws[0].Syllabes());
 
@@ -68,7 +77,10 @@ namespace ColorLibTest
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.lirecouleur;
             pws = tt.GetPhonWordList(conf);
             foreach (PhonWord pw in pws)
-                pw.ComputeSyls(conf);
+            {
+                pw.ComputeSyls();
+                pw.ColorizeSyls(conf);
+            }
             Console.WriteLine(pws[0].AllStringInfo());
             Assert.AreEqual(syllabe, pws[0].Syllabes());
         }
