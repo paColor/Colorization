@@ -62,7 +62,6 @@ namespace ColorLibTest
             Assert.ThrowsException<ArgumentException>(() => _ = new TextEl(ttt, 17, 18));
             Assert.ThrowsException<ArgumentException>(() => _ = new TextEl(ttt, -10, 18));
             Assert.ThrowsException<ArgumentException>(() => _ = new TextEl(ttt, -10, -2));
-            Assert.ThrowsException<ArgumentException>(() => _ = new TextEl(ttt, 2, 1));
 
             ttt = new TestTheText("");
             Assert.ThrowsException<ArgumentException>(() => _ = new TextEl(ttt, 0, 0));

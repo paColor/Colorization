@@ -1,4 +1,24 @@
-﻿using NLog;
+﻿/********************************************************************************
+ *  Copyright 2020, Pierre-Alain Etique                                         *
+ *                                                                              *
+ *  This file is part of Coloriƨation.                                          *
+ *                                                                              *
+ *  Coloriƨation is free software: you can redistribute it and/or modify        *
+ *  it under the terms of the GNU General Public License as published by        *
+ *  the Free Software Foundation, either version 3 of the License, or           *
+ *  (at your option) any later version.                                         *
+ *                                                                              *
+ *  Coloriƨation is distributed in the hope that it will be useful,             *
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of              *
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               *
+ *  GNU General Public License for more details.                                *
+ *                                                                              *
+ *  You should have received a copy of the GNU General Public License           *
+ *  along with Coloriƨation.  If not, see <https://www.gnu.org/licenses/>.      *
+ *                                                                              *
+ ********************************************************************************/
+
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,7 +38,9 @@ namespace ColorLib.Dierese
         /// calculées.</param>
         /// <param name="nbrPieds">Le nombre de pieds des vers du poème. 0 si on se contente de la 
         /// détection automatique du nombre de peids voulu.</param>
-        public static void ChercheDierese(TheText tt, List<PhonWord> pwL, int nbrPieds)
+        /// <returns>La liste des <see cref="ZonePoeme"/> du poème. Peut être utile en cas de test.
+        /// </returns>
+        public static List<ZonePoeme> ChercheDierese(TheText tt, List<PhonWord> pwL, int nbrPieds)
         {
             logger.ConditionalDebug("ChercheDierese, nbrPieds: {0}", nbrPieds);
             if (tt == null)
@@ -29,7 +51,7 @@ namespace ColorLib.Dierese
             }
             // créer les zones
             List<ZonePoeme> zL = new List<ZonePoeme>();
-            ZonePoeme zpCourante = new ZonePoeme();
+            ZonePoeme zpCourante = new ZonePoeme(tt);
             zL.Add(zpCourante);
             int pos = 0;
             while (pos < tt.S.Length)
@@ -37,7 +59,7 @@ namespace ColorLib.Dierese
                 Vers v = new Vers(tt, pos, pwL);
                 if (!zpCourante.AddVers(v))
                 {
-                    zpCourante = new ZonePoeme();
+                    zpCourante = new ZonePoeme(tt);
                     zL.Add(zpCourante);
                     if (!zpCourante.AddVers(v))
                     {
@@ -45,12 +67,13 @@ namespace ColorLib.Dierese
                         throw new InvalidOperationException("Une zone ne doit pas refuser le premier vers!");
                     }
                 }
-                pos = v.Last + 1;
+                pos = v.Last + 2; // on saute le caractère de fin de ligne
             }
 
             // chercher d'éventuelles diérèses
             foreach (ZonePoeme zp in zL)
                 zp.ChercheDierese(nbrPieds);
+            return zL;
         }
     }
 }

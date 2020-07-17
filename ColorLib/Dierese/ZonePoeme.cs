@@ -1,4 +1,24 @@
-﻿using System;
+﻿/********************************************************************************
+ *  Copyright 2020, Pierre-Alain Etique                                         *
+ *                                                                              *
+ *  This file is part of Coloriƨation.                                          *
+ *                                                                              *
+ *  Coloriƨation is free software: you can redistribute it and/or modify        *
+ *  it under the terms of the GNU General Public License as published by        *
+ *  the Free Software Foundation, either version 3 of the License, or           *
+ *  (at your option) any later version.                                         *
+ *                                                                              *
+ *  Coloriƨation is distributed in the hope that it will be useful,             *
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of              *
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               *
+ *  GNU General Public License for more details.                                *
+ *                                                                              *
+ *  You should have received a copy of the GNU General Public License           *
+ *  along with Coloriƨation.  If not, see <https://www.gnu.org/licenses/>.      *
+ *                                                                              *
+ ********************************************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,18 +29,20 @@ namespace ColorLib.Dierese
     /// le même nombre de pieds. L'hypothèse est qu'ils devraient tous en compter exactement le
     /// même nombre et que les pieds qui manquent sont des diérèses qu'il reste à trouver...
     /// </summary>
-    public class ZonePoeme
+    public class ZonePoeme : TextEl
     {
+        public int nrPiedsVoulu { get; private set; }
+        public List<Vers> vList { get; private set; }
+
         private const float DeltaMoins = 2.7f;
         private const float DeltaPlus = 2.1f;
-        private int nrPiedsVoulus;
         private float nrPiedsMoyen;
-        private List<Vers> vList;
 
-        public ZonePoeme()
+        public ZonePoeme(TheText tt)
+            : base(tt, 0, -1) // élément vide
         {
             nrPiedsMoyen = 0.0f;
-            nrPiedsVoulus = 0;
+            nrPiedsVoulu = 0;
             vList = new List<Vers>();
         }
 
@@ -38,17 +60,20 @@ namespace ColorLib.Dierese
             {
                 vList.Add(v);
                 nrPiedsMoyen = v.nrPieds;
-                nrPiedsVoulus = v.nrPieds;
+                nrPiedsVoulu = v.nrPieds;
+                First = v.First;
+                Last = v.Last;
                 toReturn = true;
             }
             else if ((nrPiedsMoyen >= v.nrPieds && nrPiedsMoyen - v.nrPieds < DeltaMoins)
                 || (nrPiedsMoyen < v.nrPieds && v.nrPieds - nrPiedsMoyen < DeltaPlus))
             {
                 nrPiedsMoyen =  ((nrPiedsMoyen * vList.Count) + v.nrPieds) / (vList.Count + 1);
-                nrPiedsVoulus = (int)nrPiedsMoyen;
-                if (nrPiedsVoulus < (nrPiedsMoyen - (0.3f)))
-                    nrPiedsVoulus++;
+                nrPiedsVoulu = (int)nrPiedsMoyen;
+                if (nrPiedsVoulu < (nrPiedsMoyen - (0.3f)))
+                    nrPiedsVoulu++;
                 vList.Add(v);
+                Last = v.Last;
                 toReturn = true;
             }
             return toReturn;
@@ -64,14 +89,31 @@ namespace ColorLib.Dierese
         public void ChercheDierese(int nrPieds)
         {
             if (nrPieds != 0)
-                nrPiedsVoulus = nrPieds;
+                nrPiedsVoulu = nrPieds;
             foreach (Vers v in vList)
             {
-                if(v.nrPieds < nrPiedsVoulus)
+                if(v.nrPieds < nrPiedsVoulu)
                 {
-                    v.ChercheDierese(nrPiedsVoulus);
+                    v.ChercheDierese(nrPiedsVoulu);
                 }
             }
+        }
+
+        /// <summary>
+        /// Retourne la zone sous forme de texte où les mots sont écrits en syllabes séparées
+        /// par des tirets.
+        /// </summary>
+        /// <returns>Le texte en syllabes.</returns>
+        public string Syllabes()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < vList.Count; i++)
+            {
+                sb.Append(vList[i].Syllabes());
+                if (i < vList.Count - 1)
+                    sb.AppendLine();
+            }
+            return sb.ToString();
         }
     }
 }

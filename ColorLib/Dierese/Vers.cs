@@ -1,4 +1,24 @@
-﻿using System;
+﻿/********************************************************************************
+ *  Copyright 2020, Pierre-Alain Etique                                         *
+ *                                                                              *
+ *  This file is part of Coloriƨation.                                          *
+ *                                                                              *
+ *  Coloriƨation is free software: you can redistribute it and/or modify        *
+ *  it under the terms of the GNU General Public License as published by        *
+ *  the Free Software Foundation, either version 3 of the License, or           *
+ *  (at your option) any later version.                                         *
+ *                                                                              *
+ *  Coloriƨation is distributed in the hope that it will be useful,             *
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of              *
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               *
+ *  GNU General Public License for more details.                                *
+ *                                                                              *
+ *  You should have received a copy of the GNU General Public License           *
+ *  along with Coloriƨation.  If not, see <https://www.gnu.org/licenses/>.      *
+ *                                                                              *
+ ********************************************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using ColorLib;
@@ -105,7 +125,7 @@ namespace ColorLib.Dierese
                 i++;
             if (i < pws.Count)
             {
-                while (pws[i].Last <= this.Last)
+                while (i < pws.Count && pws[i].Last <= this.Last)
                 {
                     pWordList.Add(pws[i]);
                     i++;
@@ -113,12 +133,9 @@ namespace ColorLib.Dierese
                     
                 nrPieds = ComptePieds(pWordList);
             }
-            else
-            {
-                const string Message = "On cherche un vers qui commence après le dernier mot du texte.";
-                logger.Fatal(Message + "pws.Count: {0}, first: {1}", pws.Count, first);
-                throw new ArgumentException(Message, nameof(first));
-            }
+            // else
+                // On cherche un vers qui commence après le dernier mot du texte. Il s'agit
+                // probablement d'une ligne vide après le texte. --> rien à faire
         }
 
         /// <summary>
@@ -129,14 +146,101 @@ namespace ColorLib.Dierese
         /// <param name="conf">La <c>Config</c> à utiliser pour l'identification des pieds.</param>
         /// <param name="nbrPiedsVoulu">Le nombre de pieds souhaité après la mise en évidence des
         /// diérèses. </param>
+        /// <exception cref="ArgumentOutOfRangeException">Si <c>nbrPiedsVoulu</c> n'est pas 
+        /// plus grand que zéro.</exception>
         public void ChercheDierese (int nbrPiedsVoulu)
         {
-            logger.ConditionalDebug("ChercheDierese, nrPiedsVoulus: {0}", nbrPiedsVoulu);
-            int i = 0;
-            while (i < pWordList.Count && nrPieds < nbrPiedsVoulu)
+            logger.ConditionalDebug("ChercheDierese, nrPiedsVoulus: {0}, vers; {1}", nbrPiedsVoulu, ToString());
+            if (nbrPiedsVoulu <= 0)
             {
-                pWordList[i].ComputeSyls(true);
-                nrPieds = ComptePieds(pWordList);
+                logger.Fatal("nbrPiedsVoulu == {0}", nbrPiedsVoulu);
+                throw new ArgumentOutOfRangeException(nameof(nbrPiedsVoulu), "doit être plus grand que 0");
+            }
+            // traitement spécial pour les nombres de pieds pairs, parcequ'ils le valent bien
+            if (nbrPiedsVoulu % 2 == 0)
+            {
+                // nombre pair de pieds
+                // Y a-t-il un hémistiche à la moitié du vers ou juste avant?
+                int demiVers = nbrPiedsVoulu / 2;
+                List<PhonWord> moitie1 = new List<PhonWord>(5);
+                int i = 0;
+                int piedsM1 = 0;
+                while (i < pWordList.Count && piedsM1 < demiVers)
+                {
+                    moitie1.Add(pWordList[i]);
+                    piedsM1 = ComptePieds(moitie1);
+                    i++;
+                }
+                
+                if (piedsM1 == demiVers)
+                {
+                    // hypothèse: on a trouvé l'hémistiche
+                    List<PhonWord> moitie2 = new List<PhonWord>(5);
+                    while (i < pWordList.Count)
+                    {
+                        moitie2.Add(pWordList[i]);
+                        i++;
+                    }
+                    ChercherDierese(moitie2, demiVers);
+                    if (ComptePieds(pWordList) < nbrPiedsVoulu)
+                        ChercherDierese(moitie1, demiVers);
+                    if (ComptePieds(pWordList) < nbrPiedsVoulu)
+                        ChercherDierese(pWordList, nbrPiedsVoulu);
+                }
+                else if (piedsM1 > demiVers)
+                {
+                    // On est allés trop loin. Que se passerait-il si on enlevait le dernier mot?
+                    moitie1.RemoveAt(moitie1.Count - 1);
+                    if (ComptePieds(moitie1) == demiVers - 1)
+                    {
+                        i--;
+                        List<PhonWord> moitie2 = new List<PhonWord>(5);
+                        while (i < pWordList.Count)
+                        {
+                            moitie2.Add(pWordList[i]);
+                            i++;
+                        }
+                        ChercherDierese(moitie1, demiVers);
+                        if (ComptePieds(pWordList) < nbrPiedsVoulu)
+                            ChercherDierese(moitie2, demiVers);
+                        if (ComptePieds(pWordList) < nbrPiedsVoulu)
+                            ChercherDierese(pWordList, nbrPiedsVoulu);
+                    }
+                    else
+                    {
+                        // on n'a pas réussi à trouver d'hémistiche.
+                        ChercherDierese(pWordList, nbrPiedsVoulu);
+                    }
+                }
+                else
+                {
+                    // Bizarre: le vers entier semble faire moins de la moitié des pieds voulus...
+                    logger.Info("On demande {0} pieds pour le vers {1}.", nbrPiedsVoulu, ToString());
+                    ChercherDierese(pWordList, nbrPiedsVoulu);
+                }
+            }
+            else
+            {
+                // nombre impair de pieds voulu.
+                logger.ConditionalDebug("Nombre impair ({0}) de pieds voulus pour {1}", 
+                    nbrPiedsVoulu, ToString());
+                ChercherDierese(pWordList, nbrPiedsVoulu);
+            }
+            nrPieds = ComptePieds(pWordList);
+            if (nrPieds != nbrPiedsVoulu)
+            {
+                logger.ConditionalTrace(
+                    "!! Diérèse pas trouvée. nbrPiedsVoulu: {0}, nrPieds: {1}, vers: \'{2}\'," +
+                    "syls: \'{3}\'", nbrPiedsVoulu, nrPieds, ToString(), Syllabes());
+            }
+        }
+
+        private void ChercherDierese(List<PhonWord> pws, int nbrPiedsVoulu)
+        {
+            int i = 0;
+            while (i < pws.Count && ComptePieds(pws) < nbrPiedsVoulu)
+            {
+                pws[i].ComputeSyls(true);
                 i++;
             }
         }

@@ -240,7 +240,7 @@ namespace ColorLib
             predefCF = new CharFormatting[predefinedColors.Length + 1];  // +1 for the enutral entry
             for (int i = 0; i < predefinedColors.Length; i++)
                 predefCF[i] = new CharFormatting(predefinedColors[i]);
-            predefCF[(int)PredefCols.neutral] = new CharFormatting();
+            predefCF[(int)PredefCols.neutral] = CharFormatting.NeutralCF;
         }
 
         // -------------------------------------------------- Mapping "sons" to text  ------------------------------------------

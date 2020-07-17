@@ -651,7 +651,7 @@ namespace ColorLib
                 ComputeSyls(pws);
                 if (conf.sylConf.mode == SylConfig.Mode.poesie && conf.sylConf.chercherDierese)
                 {
-                    AnalyseDierese.ChercheDierese(this, pws, conf.sylConf.nbrPieds);
+                    _ = AnalyseDierese.ChercheDierese(this, pws, conf.sylConf.nbrPieds);
                 }
                 ColorizeSyls(pws, conf);
                 ApplyFormatting(conf);
@@ -849,7 +849,7 @@ namespace ColorLib
                             {
                                 nbrPieds = dConf.subConfig1.sylConf.nbrPieds;
                             }
-                            AnalyseDierese.ChercheDierese(this, completeList, nbrPieds);
+                            _ = AnalyseDierese.ChercheDierese(this, completeList, nbrPieds);
                         }
                         ColorizeSyls(pwList1, dConf.subConfig1);
                         ColorizeSyls(pwList2, dConf.subConfig2);

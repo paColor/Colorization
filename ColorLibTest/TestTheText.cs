@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ColorLib;
 using Microsoft.SqlServer.Server;
@@ -23,6 +24,11 @@ namespace ColorLibTest
         private static CharFormatting blueCF = new CharFormatting(blue);
         private static CharFormatting greenCF = new CharFormatting(green);
         private static CharFormatting whiteCF = new CharFormatting(white);
+
+        /// <summary>
+        /// Longuer de ligne pour les strings représentant le texte. Au delà, --> à la ligne
+        /// </summary>
+        private const int LineLength = 100;
 
         public class FormattedChar
         {
@@ -95,6 +101,50 @@ namespace ColorLibTest
             }
         }
 
+        /// <summary>
+        /// Extraits les mots des deux strings et effectue une Assert.AreEqual sur chaque mot
+        /// avec ^la même position dans les deux trings.
+        /// </summary>
+        /// <param name="expected">Mots attendus.</param>
+        /// <param name="real">Mots effectifs.</param>
+        public static void CompareWordByWord(string expected, string real)
+        {
+            Regex rx = new Regex(@"\b[\w-]+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            MatchCollection matchesExpected = rx.Matches(expected);
+            MatchCollection matchesReal = rx.Matches(real);
+            Assert.AreEqual(matchesExpected.Count, matchesReal.Count);
+            for (int i = 0; i < matchesExpected.Count; i++)
+                Assert.AreEqual(matchesExpected[i].Value, matchesReal[i].Value);
+        }
+
+        /// <summary>
+        /// retourne la liste de mots <paramref name="pws"/> sous forme de représentation par
+        /// syllabes: espace entre les mots, tiret entre les syllabes. tous les 120 caractères
+        /// environ, une nouvelle ligne est commencée. 
+        /// </summary>
+        /// <param name="pws">La liste de mots à représenter sous forme de syllabes.</param>
+        /// <returns>Les mots de <paramref name="pws"/> en syllabes.</returns>
+        public static string ToSyllabes(List<PhonWord> pws)
+        {
+            StringBuilder sb = new StringBuilder(pws.Count * 9);
+            int lastNL = 0;
+            for (int i = 0; i < pws.Count; i++)
+            {
+                sb.Append(pws[i].Syllabes());
+                if (i < pws.Count - 1)
+                {
+                    sb.Append(" ");
+                }
+                if (pws[i].Last - lastNL > LineLength)
+                {
+                    lastNL = pws[i].Last;
+                    sb.AppendLine();
+                }
+            }
+            return sb.ToString();
+        }
+
+
         public List<FormattedChar> formattedText { get; private set; }
 
         private List<int> finsDeLigne;
@@ -147,47 +197,58 @@ namespace ColorLibTest
             }
         }
 
-        public void AssertSyls (Config conf, string[] syllabes)
+        /// <summary>
+        /// Excécute <c>MarkSyls</c> sur le texte avec la <c>Config passée</c>. Vérifie que le 
+        /// résultat correspond au texte passé dans <c>syllabes</c>.
+        /// </summary>
+        /// <param name="conf">La config à utiliser.</param>
+        /// <param name="syllabes">Un string correspondant au texte, où la ponctuation a été enlrvée,
+        /// et les mots sont coupés en syllabes avec un tiret comme séparateur.
+        /// Exemple: "Cha-que fois qu'on ti-rait de ce sol sou-ve-rain"</param>
+        public void AssertSyls (Config conf, string syllabes)
         {
-            int i = SylConfig.NrButtons - 1;
-            while (i >= 0)
-            {
+            for (int i = SylConfig.NrButtons - 1; i >= 0; i--)
                 if (i > 1 && conf.sylConf.ButtonIsLastActive(i))
-                {
                     conf.sylConf.ClearButton(i);
-                }
-                i--;
-            }
             conf.sylConf.SylButtonModified(0, blueCF);
             conf.sylConf.SylButtonModified(0, redCF);
 
             MarkSyls(conf);
 
-            int j = 0; // compteur de syllabes
-            int k = 0; // compteur de lettres
-            StringBuilder sb = new StringBuilder();
-            RGB theColor = blue;
-            while (k < S.Length)
+            List<PhonWord> pws = GetPhonWordList(conf, true);
+            StringBuilder sb = new StringBuilder((int)(S.Length * 1.35f));
+            RGB currentColor;
+            RGB nextColor = blue;
+            int lastNL = 0;
+            for (int i = 0; i < pws.Count; i++)
             {
-                if (formattedText[k].cf.color != black)
+                AssertColor(pws[i].First, nextColor);
+                currentColor = nextColor;
+                for (int j = pws[i].First; j <= pws[i].Last; j++)
                 {
-                    if (formattedText[k].cf.color == theColor)
+                    if (formattedText[j].cf.color != currentColor)
                     {
-                        sb.Append(formattedText[k].C);
+                        // switch currrent color
+                        currentColor = currentColor == red ? blue : red;
+                        AssertColor(j, currentColor);
+                        sb.Append("-");
                     }
-                    else
-                    {
-                        // nouvelle syllabe
-                        Assert.AreEqual(sb.ToString(), syllabes[j]);
-                        j++;
-                        theColor = formattedText[k].cf.color;
-                        sb.Clear();
-                        sb.Append(formattedText[k].C);
-                    }
-                    k++;
+                    sb.Append(formattedText[j].C);
                 }
+                if (i < pws.Count - 1)
+                {
+                    sb.Append(" ");
+                }
+
+                if (pws[i].Last - lastNL > LineLength)
+                {
+                    lastNL = pws[i].Last;
+                    sb.AppendLine();
+                }
+
+                nextColor = currentColor == red ? blue : red;
             }
-            Assert.AreEqual(j, syllabes.Length);
+            CompareWordByWord(syllabes, sb.ToString());
         }
 
         /// <summary>

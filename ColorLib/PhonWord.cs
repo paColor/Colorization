@@ -252,12 +252,14 @@ namespace ColorLib
                         ComportementMotSuivant cms = ComportementMotSuivant.undef;
 
                         int startNextWord = Last + 1;
-                        // cherchons le début du prochain mot (ou la ponctuation ou la fin de ligne...)
+                        // cherchons le début du prochain mot (ou la fin de ligne...)
                         while (startNextWord < txt.Length 
                             && (txt[startNextWord] == ' ' 
                             || txt[startNextWord] == '\t'
                             || txt[startNextWord] == ',' // la virgule n'empêche pas l'influence du mot suivant.
                             || txt[startNextWord] == '!' // ça pourrait dépendre des situations...
+                            || txt[startNextWord] == '?' // ça pourrait dépendre des situations...
+                            || txt[startNextWord] == '.' // ça pourrait dépendre des situations...
                             || txt[startNextWord] == '"'
                             || txt[startNextWord] == '«'
                             || txt[startNextWord] == '»'
@@ -265,6 +267,9 @@ namespace ColorLib
                             || txt[startNextWord] == '”'
                             || txt[startNextWord] == '‘'
                             || txt[startNextWord] == '’'
+                            || txt[startNextWord] == '-'
+                            || txt[startNextWord] == '—'
+                            || txt[startNextWord] == ';'
                             || txt[startNextWord] == ':' // ça pourrait dépendre des situations...
                             ))
                         {

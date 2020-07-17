@@ -71,12 +71,14 @@ namespace ColorLib
         public TheText T { get; private set; }
         
         /// <summary>
-        /// La position (zero-based) dans <c>T</c> du premier caractère du <c>TextEl</c>.
+        /// La position (zero-based) dans <c>T</c> du premier caractère du <c>TextEl</c>. Doit
+        /// être plus grand ou égal à zéro.
         /// </summary>
         public int First { get; protected set; } // start index of the word in T
 
         /// <summary>
         /// La position (zero-based) dans <c>T</c> du dernier caractère du <c>TextEl</c>.
+        /// S'il est plus petit que <c>First</c>, l'élément est considéré comme vide.
         /// </summary>
         public int Last { get; protected set; }
 
@@ -99,21 +101,34 @@ namespace ColorLib
         /// </summary>
         /// <param name="tt">Le texte dont le <c>TextEl</c> est une partie. Ne peut pas
         /// être vide, ni <c>null</c>! </param>
-        /// <param name="inFirst">La position du premier caractère dans <c>inT</c>.</param>
-        /// <param name="inLast">La position du dernier caractère dans <c>inT</c>. Doit être plus 
-        /// grand ou égal à <c>inFirst</c>.</param>
+        /// <param name="inFirst">La position du premier caractère dans <c>inT</c>. Doit 
+        /// être plus grand ou égal à 0. </param>
+        /// <param name="inLast">La position du dernier caractère dans <c>inT</c>. S'il est plus 
+        /// petit que <c>inFirst</c>, l'élément est considéré comme vide.</param>
         public TextEl(TheText tt, int inFirst, int inLast)
         {
-            if(tt == null) 
+            if (tt == null)
             {
-                logger.Error("On ne peut créer un TextEl sur un TheText null.");
-                throw new ArgumentNullException(nameof(tt), "On ne peut créer un TextEl sur un TheText null.");
+                const string Message = "On ne peut pas créer un TextEl sur un TheText null.";
+                logger.Error(Message);
+                throw new ArgumentNullException(nameof(tt), Message);
             }
-            if (inFirst < 0 || inLast < 0 || inLast < inFirst || inLast >= tt.S.Length)
+            if (inFirst < 0 || inLast >= tt.S.Length)
             {
-                logger.Error("TextEl: Paramètres inFirst et InLast inconsistants.");
-                throw new ArgumentException("TextEl: Paramètres inFirst et InLast inconsistants.", nameof(inLast));
+                string Message = String.Format
+                    ("TextEl: inFirst: {0} trop petir ou inLast {1} trop grand. tt: {2}",
+                    inFirst, inLast, tt.S);
+                logger.Error("TextEl: inFirst: {0} trop petir ou inLast {1} trop grand. tt: {2}",
+                    inFirst, inLast, tt.S);
+                throw new ArgumentException("TextEl: inFirst trop petit ou inLast trop grand");
             }
+#if DEBUG
+            if (inLast < inFirst)
+            {
+                // L'élément est vide...
+                logger.ConditionalDebug("TextEl vide créé.");
+            }
+#endif
             T = tt;
             First = inFirst;
             Last = inLast;
@@ -132,7 +147,10 @@ namespace ColorLib
         /// <returns>The characters of the <c>TextEl</c></returns>
         public override string ToString()
         {
-            return T.ToString().Substring(First, (Last - First) + 1);
+            if (Last < First)
+                return "";
+            else
+                return T.ToString().Substring(First, (Last - First) + 1);
         }
 
         /// <summary>
@@ -141,7 +159,10 @@ namespace ColorLib
         /// <returns>lower case string of the <c>TextEl</c>.</returns>
         public string ToLowerString()
         {
-            return T.ToLowerString().Substring(First, (Last - First) + 1);
+            if (Last < First)
+                return "";
+            else
+                return T.ToLowerString().Substring(First, (Last - First) + 1);
         }
 
         /// <summary>
@@ -152,8 +173,11 @@ namespace ColorLib
         /// <param name="cf">Le <see cref="CharFormatting"/> à utiliser pour ce <c>TextEl</c></param>
         protected void SetCharFormat(CharFormatting cf)
         {
-            FormattedTextEl fte = new FormattedTextEl(this, cf);
-            T.AddFTE(fte);
+            if (Last >= First)
+            {
+                FormattedTextEl fte = new FormattedTextEl(this, cf);
+                T.AddFTE(fte);
+            }
         }
 
         /// <summary>
@@ -165,7 +189,7 @@ namespace ColorLib
         public virtual void PutColor(Config conf)
         {
 
-            SetCharFormat(new CharFormatting());
+            SetCharFormat(CharFormatting.NeutralCF);
         }
 
         /// <summary>
