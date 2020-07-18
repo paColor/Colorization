@@ -543,13 +543,18 @@ namespace ColorLib
                 toReturn = true;
             else if (syl.P == Phonemes.u
                          &&
-                         (succ.P == Phonemes.i
+                         ((succ.P == Phonemes.i && succ.ToLowerString() != "ï")
                          || succ.P == Phonemes.e_tilda
-                         || succ.P == Phonemes.o_tilda)
-                         &&
-                         !forceDierese) // u(i|e_tilda|o_tilda)
+                         || succ.P == Phonemes.o_tilda)) // u(i|e_tilda|o_tilda)
             {
-                toReturn = true;
+                if (this.ToLowerString() == "oui")
+                {
+                    toReturn = true;
+                }
+                else
+                {
+                    toReturn = !forceDierese;
+                }
             }
             else if (syl.P == Phonemes.u && succ.P == Phonemes.a && !forceDierese)
             {

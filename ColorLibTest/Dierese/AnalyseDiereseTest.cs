@@ -835,7 +835,7 @@ Leva sa face pâle et lut : — DIX-HUIT BRUMAIRE !
     Sire on t'a re-ti-ré de ton Pan-thé-on bleu
     Sire on t'a des-cen-du de ta hau-te co-lonne
     Re-gar-de Des bri-gands dont l'es-saim tour-bill-onne
-    D'af-freux boh-é-miens des vain-queurs de char-ni-er
+    D'af-freux boh-é-mi-ens des vain-queurs de char-nier
     Te tien-nent dans leurs mains et t'ont fait pri-son-nier
     À ton or-teil d'ai-rain leur patte in-fâ-me touche
     Ils t'ont pris Tu mou-rus comme un as-tre se couche

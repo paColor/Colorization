@@ -135,7 +135,7 @@ namespace ColorLib.Dierese
             }
             // else
                 // On cherche un vers qui commence après le dernier mot du texte. Il s'agit
-                // probablement d'une ligne vide après le texte. --> rien à faire
+                // probablement d'une ligne vide après le texte. --> ne rien faire
         }
 
         /// <summary>
@@ -165,14 +165,37 @@ namespace ColorLib.Dierese
                 List<PhonWord> moitie1 = new List<PhonWord>(5);
                 int i = 0;
                 int piedsM1 = 0;
-                while (i < pWordList.Count && piedsM1 < demiVers)
+                while (i < pWordList.Count && piedsM1 < demiVers -1)
                 {
                     moitie1.Add(pWordList[i]);
                     piedsM1 = ComptePieds(moitie1);
                     i++;
                 }
-                
-                if (piedsM1 == demiVers)
+
+                // En prenant les cas dans cet ordre, on favorise légèrement la recherche de la
+                // diérèse dans la première partie du vers. Il y a au moins un exemple dans le
+                // poème de référence où cette approche est justifiée:
+                // "D'affreux bohémiens, des vainqueurs de charnier" 
+                // Faut-il rallonger "bohémines" ou "charnier"? Il y a certainement des cas
+                // qui demanderaient l'approche opposée. Je ne vois pas comment les distinguer
+                // sans tenir compte du sens ou d'éléments que j'ignore jusqu'ici comme la 
+                // virgule dans le vers de V. Hugo.
+
+                if (piedsM1 == demiVers - 1)
+                {
+                    List<PhonWord> moitie2 = new List<PhonWord>(5);
+                    while (i < pWordList.Count)
+                    {
+                        moitie2.Add(pWordList[i]);
+                        i++;
+                    }
+                    ChercherDierese(moitie1, demiVers);
+                    if (ComptePieds(pWordList) < nbrPiedsVoulu)
+                        ChercherDierese(moitie2, demiVers);
+                    if (ComptePieds(pWordList) < nbrPiedsVoulu)
+                        ChercherDierese(pWordList, nbrPiedsVoulu);
+                }
+                else if (piedsM1 == demiVers)
                 {
                     // hypothèse: on a trouvé l'hémistiche
                     List<PhonWord> moitie2 = new List<PhonWord>(5);
@@ -189,34 +212,15 @@ namespace ColorLib.Dierese
                 }
                 else if (piedsM1 > demiVers)
                 {
-                    // On est allés trop loin. Que se passerait-il si on enlevait le dernier mot?
-                    moitie1.RemoveAt(moitie1.Count - 1);
-                    if (ComptePieds(moitie1) == demiVers - 1)
-                    {
-                        i--;
-                        List<PhonWord> moitie2 = new List<PhonWord>(5);
-                        while (i < pWordList.Count)
-                        {
-                            moitie2.Add(pWordList[i]);
-                            i++;
-                        }
-                        ChercherDierese(moitie1, demiVers);
-                        if (ComptePieds(pWordList) < nbrPiedsVoulu)
-                            ChercherDierese(moitie2, demiVers);
-                        if (ComptePieds(pWordList) < nbrPiedsVoulu)
-                            ChercherDierese(pWordList, nbrPiedsVoulu);
-                    }
-                    else
-                    {
-                        // on n'a pas réussi à trouver d'hémistiche.
-                        ChercherDierese(pWordList, nbrPiedsVoulu);
-                    }
+                    // On est allés trop loin. 
+                    // on n'a pas réussi à trouver d'hémistiche.
+                    ChercherDierese(pWordList, nbrPiedsVoulu);
                 }
                 else
                 {
                     // Bizarre: le vers entier semble faire moins de la moitié des pieds voulus...
                     logger.Info("On demande {0} pieds pour le vers {1}.", nbrPiedsVoulu, ToString());
-                    ChercherDierese(pWordList, nbrPiedsVoulu);
+                    ChercherDierese(pWordList, nbrPiedsVoulu); // ça ne devrait pas marcher...
                 }
             }
             else

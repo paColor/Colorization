@@ -205,13 +205,24 @@ namespace ColorLibTest
         /// <param name="syllabes">Un string correspondant au texte, où la ponctuation a été enlrvée,
         /// et les mots sont coupés en syllabes avec un tiret comme séparateur.
         /// Exemple: "Cha-que fois qu'on ti-rait de ce sol sou-ve-rain"</param>
+        /// <remarks>
+        /// <para>
+        /// La configuration de couleurs est réinitialisée. Le marquage des muettes est
+        /// désactivé. La méthode est donc utile pour vérifier que le marquage de couleurs identifie
+        /// les bonnes syllabes. Elle ne permet pas de jouer avec les couleurs.
+        /// </para>
+        /// <para>
+        /// Le mode de traitement des syllabes doit être défini par l'appelant.
+        /// </para>
+        /// </remarks>
         public void AssertSyls (Config conf, string syllabes)
         {
             for (int i = SylConfig.NrButtons - 1; i >= 0; i--)
                 if (i > 1 && conf.sylConf.ButtonIsLastActive(i))
                     conf.sylConf.ClearButton(i);
             conf.sylConf.SylButtonModified(0, blueCF);
-            conf.sylConf.SylButtonModified(0, redCF);
+            conf.sylConf.SylButtonModified(1, redCF);
+            conf.sylConf.marquerMuettes = false;
 
             MarkSyls(conf);
 

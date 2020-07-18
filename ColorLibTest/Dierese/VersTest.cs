@@ -63,7 +63,6 @@ namespace ColorLibTest.Dierese
             Assert.ThrowsException<ArgumentNullException>(() => { v = new Vers(null, 0, pws); });
             Assert.ThrowsException<ArgumentNullException>(() => { v = new Vers(ttt, 0, null); });
             Assert.ThrowsException<ArgumentException>(() => { v = new Vers(ttt, 1000, pws); });
-            Assert.ThrowsException<ArgumentException>(() => { v = new Vers(ttt, 0, emptyPws); });
         }
 
         [TestMethod]
