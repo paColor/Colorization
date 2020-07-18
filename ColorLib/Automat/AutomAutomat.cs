@@ -318,8 +318,7 @@ namespace ColorLib
 							'apostrophe':[{'+':/('|’)/i},'n',2] // apostrophe
 							}],
 					'o' : [['in','oignon','i',
-							//'ouat','oui','oue',
-							'tomn','monsieur','n','m','nm','y1','u','o','oe_0','oe_1','oe_2', 'oe_3','voeux','oeufs','noeud','oeu_defaut','oe_4','oe_defaut', '*'],
+							'tomn','monsieur','n','m','nm','y1','u','o','oeu_defaut','oe_0','oe_1','oe_2', 'oe_3','voeux','oeufs','noeud','oe_4','oe_defaut', '*'],
 							{'in':[{'+':/i[nm]([bcçdfghjklpqrstvwxz]|$)/i},'w_e_tilda',3],
 							'oignon':[{'-':/^/i,'+':/ignon/i},'o',2],
 							'i':[{'+':/(i|î|y)/i},'oi',2], // [PAE 26.02.20] introduction du phonème oi pour pouvoir le marquer dans la convention CERAS

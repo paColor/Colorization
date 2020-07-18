@@ -137,7 +137,7 @@ namespace ColorLib
                 // (la notation est un peu libre :-)
                 for (i = 0; i < syls.Count - 1; i++)
                 {
-                    if (FusionnerSyllabes(syls[i], syls[i + 1], forceDierese))
+                    if (FusionnerSyllabes(syls, i, i + 1, forceDierese))
                     {
                         // mixer les deux phonèmes puis raccourcir la chaîne
                         syls[i].AbsorbeSuivant(syls[i + 1]);
@@ -178,7 +178,10 @@ namespace ColorLib
                         if (j < syls.Count)
                         {
                             int pos = syls[j].First; // position de la lettre suivante dans le texte sous-jacent
-                            if ((syls[j].Last == syls[j].First) & (pos < this.Last) && EstConsonne(GetChar(pos)) && EstConsonne(GetChar(pos+1))) 
+                            if (syls[j].Last == syls[j].First 
+                                && pos < this.Last 
+                                && EstConsonne(GetChar(pos)) 
+                                && EstConsonne(GetChar(pos+1))) 
                             {
                                 syls[j - 1].EtendDroite(1);
                                 if (!syls[j].ReduitGauche(1))
@@ -529,14 +532,19 @@ namespace ColorLib
         /// Ces tests sont regroupés dans une méthode séparée pour faciliter la lecture du code.
         /// </remarks>
         /// </summary>
-        /// <param name="syl">La syllabe.</param>
-        /// <param name="succ">Son successeur dans le mot.</param>
+        /// <param name="syls">Liste des syllabes du mot, comme elles sont comprises au moment
+        /// de l'appel de la méthode.</param>
+        /// <param name="sylIndex">L'index dans <paramref name="syls"/> de la syllabe.</param>
+        /// <param name="succ">L'index dans <paramref name="syls"/> de son successeur dans 
+        /// le mot.</param>
         /// <param name="forceDierese">indique si la diérèse doit être forcée. Dans ce cas, la
         /// méthode retourne false si on avait pu fusionner deux voyelles.</param>
         /// <returns></returns>
-        private bool FusionnerSyllabes(SylInW syl, SylInW succ, bool forceDierese)
+        private bool FusionnerSyllabes(List<SylInW> syls, int sylIndex, int succIndex, bool forceDierese)
         {
             bool toReturn = false;
+            SylInW syl = syls[sylIndex];
+            SylInW succ = syls[succIndex];
             if (syl.EstBkptgdfv() && (succ.P == Phonemes.l || succ.P == Phonemes.R))  // [bkptgdfv][lR]
                 toReturn = true;
             else if (syl.P == Phonemes.y && succ.P == Phonemes.i)  // ui
@@ -577,9 +585,38 @@ namespace ColorLib
                     }
                 }
             }
-            else
-                toReturn = succ.EstMuet();
-                return toReturn;
+            else if (succ.EstMuet())
+            {
+                if (syl.EstConsonne() && succ.ToLowerString() == "h")
+                {
+                    // Il faut parfois faire le césure de syllabes entre la consonne et le h
+                    // (bon-homme, mal-heur) et parfois ile est correct de fusionner la consonne 
+                    // avec le h qui suit (sym-pa-thique).
+                    // Hypothèse: ça dépend de la consonne qui précède. Certaines repoussent le
+                    // h alors que d'autres l'attirent :-). C'est probablement un peu plus compliqué
+                    // mais essayons avec ça...
+
+                    const string AttireH = "bcdgkpqrtvwz";
+                    const string RepousseH = "fjlmnsxç";
+
+                    // remarques: pour le s, on suppose que le son [S] est identifié par l'automate.
+                    // il reste donc des cas où s repousse h.
+
+                    toReturn = true;
+                    if (RepousseH.IndexOf(succ.T.ToLowerString()[syl.Last]) > -1)
+                    {
+                        for (int i = succIndex + 1; i < syls.Count; i++)
+                        {
+                            toReturn = toReturn & syls[i].EstMuet();
+                        }
+                    }
+                }
+                else
+                {
+                    toReturn = true;
+                }
+            }
+            return toReturn;
         }
 
         // ****************************************************************************************

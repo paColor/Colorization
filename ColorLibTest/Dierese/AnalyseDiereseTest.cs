@@ -538,7 +538,7 @@ Leva sa face pâle et lut : — DIX-HUIT BRUMAIRE !
     L'em-pe-reur é-tait là de-bout qui re-gar-dait
     Il é-tait comme un arbre en proie à la co-gnée
     Sur ce gé-ant gran-deur jusqu a-lors é-par-gnée
-    Le ma-lheur bû-che-ron si-nistre é-tait mon-té
+    Le mal-heur bû-che-ron si-nistre é-tait mon-té
     Et lui chê-ne vi-vant par la hache in-sul-té
     Tres-sa-illant sous le spectre aux lu-gu-bres re-vanches
     Il re-gar-dait tom-ber au-tour de lui ses branches
@@ -850,7 +850,7 @@ Leva sa face pâle et lut : — DIX-HUIT BRUMAIRE !
     Le pape est en-ga-gé dans la trou-pe c'est bien
     Nous a-vons mieux le czar en est mais ce n'est rien
     Le czar n'est qu'un ser-gent le pa-pe n'est qu'un bonze
-    Nous a-vons a-vec nous le bo-nhom-me de bronze
+    Nous a-vons a-vec nous le bon-hom-me de bronze
     Nous som-mes les ne-veux du grand Na-po-lé-on
     Et Fould Ma-gnan Rouh-er Pa-rieu ca-mé-lé-on
     Font rage Ils vont mon-trant un sé-nat d'au-to-mates
@@ -880,7 +880,7 @@ Leva sa face pâle et lut : — DIX-HUIT BRUMAIRE !
     Vo-tre ma-jes-té sire et Pié-tri dans son antre
     Vous tu-toie et Mau-pas vous ta-pe sur le ventre
     Faus-sai-res meur-tri-ers es-crocs for-bans vo-leurs
-    Ils sa-vent qu'ils au-ront com-me toi des ma-lheurs
+    Ils sa-vent qu'ils au-ront com-me toi des mal-heurs
     Leur soif en at-ten-dant vi-de la cou-pe pleine
     À ta san-té Pois-sy trinque a-vec Sainte Hé-lène
     

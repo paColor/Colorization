@@ -347,7 +347,7 @@ namespace ColorLibTest
                 "vjEj", "aR", "aj2l", "d°", "l", "aR", "nuvo", "ty", "k§pR°nE", "k",
                 "il", "fo", "lORsk", "yn", "am", "5kOny", "paRl", "o", "p2pl", "@vOle",
                 "@", "eklER", "d@", "la", "ny", "l", "ekute", "l", "aksEpte", "l",
-                "Eme", "uvRiR", "le", "kO2R", "kalm", "ty", "dedENE", "l", "EfOR", "vil",
+                "Eme", "uvRiR", "le", "k2R", "kalm", "ty", "dedENE", "l", "EfOR", "vil",
                 "de", "mOk2R", "ekym@", "syR", "ESil", "e", "bav@", "syR", "SakEsp°aR", "ty",
                 "savE", "k°", "s°", "sjEkl", "a", "s§", "ER", "k", "il", "REspiR",
                 "e", "k°", "l", "aR", "n°", "maRS@", "k", "@", "s°", "tR@sfigyR@",
