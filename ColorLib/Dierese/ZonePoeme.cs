@@ -18,6 +18,7 @@
  *                                                                              *
  ********************************************************************************/
 
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,6 +32,9 @@ namespace ColorLib.Dierese
     /// </summary>
     public class ZonePoeme : TextEl
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+
         public int nrPiedsVoulu { get; private set; }
         public List<Vers> vList { get; private set; }
 
@@ -90,12 +94,20 @@ namespace ColorLib.Dierese
         {
             if (nrPieds != 0)
                 nrPiedsVoulu = nrPieds;
-            foreach (Vers v in vList)
+            if (nrPiedsVoulu <= Vers.MaxNrPieds)
             {
-                if(v.nrPieds < nrPiedsVoulu)
+                foreach (Vers v in vList)
                 {
-                    v.ChercheDierese(nrPiedsVoulu);
+                    if (v.nrPieds < nrPiedsVoulu)
+                    {
+                        v.ChercheDierese(nrPiedsVoulu);
+                    }
                 }
+            }
+            else
+            {
+                logger.Info("Nombre de pieds demandé({0}) trop grand pour chercher les diérèses",
+                    nrPiedsVoulu);
             }
         }
 

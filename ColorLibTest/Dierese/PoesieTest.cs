@@ -286,5 +286,158 @@ De l'a-mour sans scan-da-le et du plai-sir sans peur";
             conf.sylConf.mode = SylConfig.Mode.ecrit;
             ttt.AssertSyls(conf, TartuffeEcrit);
         }
+
+        const string HymneALaBeaute =
+@"Viens-tu du ciel profond ou sors-tu de l'abîme,
+Ô beauté ? Ton regard, infernal et divin,
+Verse confusément le bienfait et le crime,
+Et l'on peut pour cela te comparer au vin.
+
+Tu contiens dans ton œil le couchant et l'aurore ;
+Tu répands des parfums comme un soir orageux;
+Tes baisers sont un philtre et ta bouche une amphore
+Qui font le héros lâche et l'enfant courageux.
+
+Sors-tu du gouffre noir ou descends-tu des astres?
+Le destin charmé suit tes jupons comme un chien;
+Tu sèmes au hasard la joie et les désastres,
+Et tu gouvernes tout et ne réponds de rien.
+
+Tu marches sur des morts, beauté, dont tu te moques;
+De tes bijoux l'horreur n'est pas le moins charmant,
+Et le meurtre, parmi tes plus chères breloques,
+Sur ton ventre orgueilleux danse amoureusement.
+
+L'éphémère ébloui vole vers toi, chandelle,
+Crépite, flambe et dit : bénissons ce flambeau !
+L'amoureux pantelant incliné sur sa belle
+A l'air d'un moribond caressant son tombeau.
+
+Que tu viennes du ciel ou de l'enfer, qu'importe,
+Ô beauté ! Monstre énorme, effrayant, ingénu !
+Si ton œil, ton souris, ton pied, m'ouvrent la porte
+D'un infini que j'aime et n'ai jamais connu ?
+
+De Satan ou de Dieu, qu'importe ? Ange ou sirène,
+Qu'importe, si tu rends, - fée aux yeux de velours,
+Rythme, parfum, lueur, ô mon unique reine ! -
+L'univers moins hideux et les instants moins lourds ?";
+
+        const string HymneALaBeautePoesie =
+@"Viens tu du ciel pro-fond ou sors tu de l'a-bîme
+Ô beau-té Ton re-gard in-fer-nal et di-vin
+Ver-se con-fu-sé-ment le bien-fait et le crime
+Et l'on peut pour ce-la te com-pa-rer au vin
+
+Tu con-tiens dans ton œil le cou-chant et l'au-rore
+Tu ré-pands des par-fums comme un soir o-ra-geux
+Tes bai-sers sont un philtre et ta bouche une am-phore
+Qui font le hé-ros lâche et l'en-fant cou-ra-geux
+
+Sors tu du gouf-fre noir ou des-cends tu des astres
+Le des-tin char-mé suit tes ju-pons comme un chien
+Tu sè-mes au ha-sard la joie et les dé-sastres
+Et tu gou-ver-nes tout et ne ré-ponds de rien
+
+Tu mar-ches sur des morts beau-té dont tu te moques
+De tes bi-joux l'hor-reur n'est pas le moins char-mant
+Et le meur-tre par-mi tes plus chè-res bre-loques
+Sur ton ventre or-gue-illeux danse a-mou-reu-se-ment
+
+L'é-phé-mère é-blou-i vo-le vers toi chan-delle
+Cré-pi-te flambe et dit bé-nis-sons ce flam-beau
+L'a-mou-reux pan-te-lant in-cli-né sur sa belle
+A l'air d'un mo-ri-bond ca-res-sant son tom-beau
+
+Que tu vien-nes du ciel ou de l'en-fer qu'im-porte
+Ô beau-té Monstre é-norme ef-fra-yant in-gé-nu
+Si ton œil ton sou-ris ton pied m'ou-vrent la porte
+D'un in-fi-ni que j'aime et n'ai ja-mais con-nu
+
+De Sa-tan ou de Dieu qu'im-porte Ange ou si-rène
+Qu'im-por-te si tu rends fée aux yeux de ve-lours
+Ry-thme par-fum lu-eur ô mon u-ni-que reine
+L'u-ni-vers moins hi-deux et les ins-tants moins lourds";
+
+        [TestMethod]
+        public void TestHymne()
+        {
+            TestTheText ttt = new TestTheText(HymneALaBeaute);
+            Config conf = new Config();
+            conf.sylConf.mode = SylConfig.Mode.poesie;
+            ttt.AssertSyls(conf, HymneALaBeautePoesie);
+        }
+
+        const string LeRenardEtLaCigogne =
+@"Compère le renard se mit un jour en frais,
+Et retint à dîner commère la cigogne.
+Le régal fut petit et sans beaucoup d'apprêts :
+Le galand, pour toute besogne,
+Avait un brouet clair ; il vivait chichement.
+Ce brouet fut par lui servi sur une assiette :
+La cigogne au long bec n'en put attraper miette,
+Et le drôle eut lapé le tout en un moment.
+Pour se venger de cette tromperie,
+A quelque temps de là, la cigogne le prie.
+'Volontiers, lui dit-il ; car avec mes amis
+Je ne fais point cérémonie.'
+A l'heure dite, il courut au logis
+De la cigogne son hôtesse ;
+Loua très fort la politesse ;
+Trouva le dîner cuit à point :
+Bon appétit surtout ; renards n'en manquent point.
+Il se réjouissait à l'odeur de la viande
+Mise en menus morceaux, et qu'il croyait friande.
+On servit, pour l'embarrasser,
+En un vase à long col et d'étroite embouchure.
+Le bec de la cigogne y pouvait bien passer ;
+Mais le museau du sire était d'autre mesure.
+Il lui fallut à jeun retourner au logis,
+Honteux comme un renard qu'une poule aurait pris,
+Serrant la queue, et portant bas l'oreille.
+
+Trompeurs, c'est pour vous que j'écris :
+Attendez-vous à la pareille.";
+
+        const string LeRenardEtLaCigognePoesie =
+@"Com-pè-re le re-nard se mit un jour en frais
+Et re-tint à dî-ner com-mè-re la ci-gogne
+Le ré-gal fut pe-tit et sans beau-coup d'ap-prêts
+Le ga-land pour tou-te be-sogne
+A-vait un brou-et clair il vi-vait chi-che-ment
+Ce brou-et fut par lui ser-vi sur une as-siette
+La ci-gogne au long bec n'en put at-tra-per miette
+Et le drôle eut la-pé le tout en un mo-ment
+Pour se ven-ger de cet-te trom-pe-rie
+A quel-que temps de là la ci-go-gne le prie
+Vo-lon-tiers lui dit il car a-vec mes a-mis
+Je ne fais point cé-ré-mo-nie
+A l'heu-re dite il cou-rut au lo-gis
+De la ci-go-gne son hô-tesse
+Lou-a très fort la po-li-tesse
+Trou-va le dî-ner cuit à point
+Bon ap-pé-tit sur-tout re-nards n'en man-quent point
+Il se ré-jou-is-sait à l'o-deur de la viande
+Mise en me-nus mor-ceaux et qu'il croy-ait fri-ande
+On ser-vit pour l'em-bar-ras-ser
+En un vase à long col et d'é-troite em-bou-chure
+Le bec de la ci-gogne y pou-vait bien pas-ser
+Mais le mu-seau du sire é-tait d'au-tre me-sure
+Il lui fal-lut à jeun re-tour-ner au lo-gis
+Hon-teux comme un re-nard qu'u-ne poule au-rait pris
+Ser-rant la queue et por-tant bas l'o-reille
+
+Trom-peurs c'est pour vous que j'é-cris
+At-ten-dez vous à la pa-reille";
+
+        [TestMethod]
+        public void TestCigogne()
+        {
+            TestTheText ttt = new TestTheText(LeRenardEtLaCigogne);
+            Config conf = new Config();
+            conf.sylConf.mode = SylConfig.Mode.poesie;
+            ttt.AssertSyls(conf, LeRenardEtLaCigognePoesie);
+        }
+
     }
 }

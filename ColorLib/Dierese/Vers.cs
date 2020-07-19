@@ -83,6 +83,16 @@ namespace ColorLib.Dierese
         // *                                    public members                                    *
         // ****************************************************************************************
 
+        /// <summary>
+        /// Au-delà de cette limite la méthode <see cref="ChercheDierese(int)"/> ne travaille pas.
+        /// L'idée est que si un vers fait plus de ce nombre de pieds, il ne s'agit plus d'un vers
+        /// mais d'un paragraphe. Un paragraphe court, risque encore d'êtr etraité comme un vers...
+        /// </summary>
+        public const int MaxNrPieds = 16;
+
+        /// <summary>
+        /// Nombre de pieds du vers.
+        /// </summary>
         public int nrPieds { get; private set; }
 
         // ****************************************************************************************
@@ -150,7 +160,14 @@ namespace ColorLib.Dierese
         /// plus grand que zéro.</exception>
         public void ChercheDierese (int nbrPiedsVoulu)
         {
-            logger.ConditionalDebug("ChercheDierese, nrPiedsVoulus: {0}, vers; {1}", nbrPiedsVoulu, ToString());
+            logger.ConditionalDebug("ChercheDierese, nrPiedsVoulu: {0}, vers; {1}", nbrPiedsVoulu, ToString());
+            if (nbrPiedsVoulu > MaxNrPieds)
+            {
+                logger.Info(
+                    "Chercher diérèse pour vers de plus de [0] pieds. Non exécuté. nrPiedsVoulu: {1}",
+                    MaxNrPieds, nbrPiedsVoulu);
+                return;
+            }
             if (nbrPiedsVoulu <= 0)
             {
                 logger.Fatal("nbrPiedsVoulu == {0}", nbrPiedsVoulu);

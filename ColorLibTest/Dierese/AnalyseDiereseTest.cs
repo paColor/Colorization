@@ -852,7 +852,7 @@ Leva sa face pâle et lut : — DIX-HUIT BRUMAIRE !
     Le czar n'est qu'un ser-gent le pa-pe n'est qu'un bonze
     Nous a-vons a-vec nous le bon-hom-me de bronze
     Nous som-mes les ne-veux du grand Na-po-lé-on
-    Et Fould Ma-gnan Rouh-er Pa-rieu ca-mé-lé-on
+    Et Fould Ma-gnan Rou-her Pa-rieu ca-mé-lé-on
     Font rage Ils vont mon-trant un sé-nat d'au-to-mates
     Ils ont pris de la paille au fond des ca-se-mates
     Pour em-pa-iller ton aigle ô vain-queur d'I-é-na

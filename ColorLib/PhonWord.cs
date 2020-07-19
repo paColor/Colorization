@@ -298,7 +298,7 @@ namespace ColorLib
 
                         if (startNextWord < txt.Length)
                         {
-                            // il peut y avaoir un mot suivant.
+                            // il peut y avoir un mot suivant.
                             if (Disjonction(nextWord))
                             {
                                 cms = ComportementMotSuivant.consonne;
@@ -549,24 +549,31 @@ namespace ColorLib
                 toReturn = true;
             else if (syl.P == Phonemes.y && succ.P == Phonemes.i)  // ui
                 toReturn = true;
-            else if (syl.P == Phonemes.u
-                         &&
-                         ((succ.P == Phonemes.i && succ.ToLowerString() != "ï")
-                         || succ.P == Phonemes.e_tilda
-                         || succ.P == Phonemes.o_tilda)) // u(i|e_tilda|o_tilda)
+            else if (syl.P == Phonemes.u)
             {
-                if (this.ToLowerString() == "oui")
-                {
-                    toReturn = true;
-                }
-                else
+                if (succ.P == Phonemes.e_tilda || succ.P == Phonemes.o_tilda) // u(e_tilda|o_tilda)
                 {
                     toReturn = !forceDierese;
                 }
-            }
-            else if (syl.P == Phonemes.u && succ.P == Phonemes.a && !forceDierese)
-            {
-                if (succ.Last < this.Last)
+                else if (succ.P == Phonemes.i && succ.ToLowerString() != "ï") // ui
+                {
+                    if (this.ToLowerString() == "oui")
+                    {
+                        toReturn = true;
+                    }
+                    else if (!ToLowerString().StartsWith("enfoui")
+                        && !ToLowerString().StartsWith("foui")
+                        && !ToLowerString().StartsWith("joui")
+                        && !ToLowerString().StartsWith("réjoui")
+                        && !ToLowerString().StartsWith("ébloui")
+                        && !ToLowerString().StartsWith("épanoui")
+                        && !ToLowerString().StartsWith("évanoui"))
+                    {
+                        // pour les exceptions ci-dessus, pas de fusion.
+                        toReturn = !forceDierese;
+                    }
+                }
+                else if (succ.P == Phonemes.a && !forceDierese && succ.Last < this.Last)
                 {
                     // Pas la fin du mot. Quelle est la lettre suivante?
                     char nextC = succ.T.ToLowerString()[succ.Last + 1];
@@ -762,7 +769,7 @@ namespace ColorLib
 
         static string[] liaisons =
         {
-            "yeux", "yeuse", "ypérite", "yèble", "york", "yourcenar"
+            "yeux", "yeuse", "ypérite", "yèble", "york", "yourcenar", "y"
         };
 
         private static StringDictionary liaisons_hashed = null;

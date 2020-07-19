@@ -11,41 +11,35 @@ namespace ColorLibTest.Dierese
     public class CreerSyllabes
     {
         const string Texte =
-@"Ah! pour être dévot, je n'en suis pas moins homme;
-Et lorsqu'on vient à voir vos célestes appas,
-Un coeur se laisse prendre, et ne raisonne pas.
-Je sais qu'un tel discours de moi paraît étrange;
-Mais, Madame, après tout, je ne suis pas un ange;
-Et si vous condamnez l'aveu que je vous fais,
-Vous devez vous en prendre à vos charmants attraits.
-Dès que j'en vis briller la splendeur plus qu'humaine,
-De mon intérieur vous fûtes souveraine.
-De vos regards divins, l'ineffable douceur,
-Força la résistance où s'obstinait mon coeur;
-Elle surmonta tout, jeûnes, prières, larmes,
-Et tourna tous mes voeux du côté de vos charmes.
-Mes yeux, et mes soupirs, vous l'ont dit mille fois ;
-Et pour mieux m'expliquer, j'emploie ici la voix.
-Que si vous contemplez, d'une âme un peu bénigne,
-Les tribulations de votre esclave indigne;
-S'il faut que vos bontés veuillent me consoler,
-Et jusqu'à mon néant daignent se ravaler,
-J'aurai toujours pour vous, ô suave merveille,
-Une dévotion à nulle autre pareille.
-Votre honneur, avec moi, ne court point de hasard;
-Et n'a nulle disgrâce à craindre de ma part.
-Tous ces galants de cour, dont les femmes sont folles,
-Sont bruyants dans leurs faits, et vains dans leurs paroles.
-De leurs progrès sans cesse on les voit se targuer;
-Ils n'ont point de faveurs, qu'ils n'aillent divulguer;
-Et leur langue indiscrète, en qui l'on se confie,
-Déshonore l'autel où leur coeur sacrifie:
-Mais les gens comme nous, brûlent d'un feu discret,
-Avec qui pour toujours on est sûr du secret.
-Le soin que nous prenons de notre renommée,
-Répond de toute chose à la personne aimée;
-Et c'est en nous qu'on trouve, acceptant notre coeur,
-De l'amour sans scandale, et du plaisir sans peur.";
+@"Compère le renard se mit un jour en frais,
+Et retint à dîner commère la cigogne.
+Le régal fut petit et sans beaucoup d'apprêts :
+Le galand, pour toute besogne,
+Avait un brouet clair ; il vivait chichement.
+Ce brouet fut par lui servi sur une assiette :
+La cigogne au long bec n'en put attraper miette,
+Et le drôle eut lapé le tout en un moment.
+Pour se venger de cette tromperie,
+A quelque temps de là, la cigogne le prie.
+'Volontiers, lui dit-il ; car avec mes amis
+Je ne fais point cérémonie.'
+A l'heure dite, il courut au logis
+De la cigogne son hôtesse ;
+Loua très fort la politesse ;
+Trouva le dîner cuit à point :
+Bon appétit surtout ; renards n'en manquent point.
+Il se réjouissait à l'odeur de la viande
+Mise en menus morceaux, et qu'il croyait friande.
+On servit, pour l'embarrasser,
+En un vase à long col et d'étroite embouchure.
+Le bec de la cigogne y pouvait bien passer ;
+Mais le museau du sire était d'autre mesure.
+Il lui fallut à jeun retourner au logis,
+Honteux comme un renard qu'une poule aurait pris,
+Serrant la queue, et portant bas l'oreille.
+
+Trompeurs, c'est pour vous que j'écris :
+Attendez-vous à la pareille.";
 
         [TestMethod]
         public void WriteSyllabes()
@@ -56,7 +50,7 @@ De l'amour sans scandale, et du plaisir sans peur.";
             Config conf = new Config();
 
             // ----------- c'est ici qu'on configure ce qu'on veut ------------------------
-            conf.sylConf.mode = SylConfig.Mode.ecrit;
+            conf.sylConf.mode = SylConfig.Mode.poesie;
             
             List<PhonWord> pws = ttt.GetPhonWordList(conf, true);
             foreach (PhonWord pw in pws)

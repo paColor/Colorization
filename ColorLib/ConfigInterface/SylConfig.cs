@@ -280,6 +280,11 @@ namespace ColorLib
             Reset();
         }
 
+        /// <summary>
+        /// Indique s'il s'agit du bouton qui n'est pas encore actif, mais qu'on peut configurer.
+        /// </summary>
+        /// <param name="butNr"></param>
+        /// <returns></returns>
         public bool ButtonIsActivableOne(int butNr) => butNr == nrSetButtons;
 
         /// <summary>
@@ -308,7 +313,11 @@ namespace ColorLib
         public void SylButtonModified(int butNr, CharFormatting inCf)
         {
             logger.ConditionalDebug("SylButtonModified butNr: {0}", butNr);
-            Debug.Assert(butNr <= nrSetButtons);
+            if (butNr > nrSetButtons)
+            {
+                logger.Fatal("Modification d'un bouton non actif butNr: {0}", butNr);
+                throw new ArgumentException("Modification d'un bouton non actif.", nameof(butNr));
+            }
             sylButtons[butNr].cf = inCf;
             if (butNr == nrSetButtons)
             {

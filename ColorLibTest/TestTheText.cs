@@ -14,16 +14,16 @@ namespace ColorLibTest
 {
     class TestTheText : TheText
     {
-        private static RGB black = new RGB(0, 0, 0);
-        private static RGB red = new RGB(255, 0, 0);
-        private static RGB green = new RGB(0, 255, 0);
-        private static RGB blue = new RGB(0, 0, 255);
-        private static RGB white = new RGB(255, 255, 255);
+        public readonly static RGB black = new RGB(0, 0, 0);
+        public readonly static RGB red = new RGB(255, 0, 0);
+        public readonly static RGB green = new RGB(0, 255, 0);
+        public readonly static RGB blue = new RGB(0, 0, 255);
+        public readonly static RGB white = new RGB(255, 255, 255);
 
-        private static CharFormatting redCF = new CharFormatting(red);
-        private static CharFormatting blueCF = new CharFormatting(blue);
-        private static CharFormatting greenCF = new CharFormatting(green);
-        private static CharFormatting whiteCF = new CharFormatting(white);
+        public readonly static CharFormatting redCF = new CharFormatting(red);
+        public readonly static CharFormatting blueCF = new CharFormatting(blue);
+        public readonly static CharFormatting greenCF = new CharFormatting(green);
+        public readonly static CharFormatting whiteCF = new CharFormatting(white);
 
         /// <summary>
         /// Longuer de ligne pour les strings représentant le texte. Au delà, --> à la ligne
