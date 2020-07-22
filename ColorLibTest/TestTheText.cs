@@ -14,21 +14,230 @@ namespace ColorLibTest
 {
     class TestTheText : TheText
     {
+        // ****************************************************************************************
+        // *                                       STATIC                                         *
+        // ****************************************************************************************
+
         public readonly static RGB black = new RGB(0, 0, 0);
         public readonly static RGB red = new RGB(255, 0, 0);
         public readonly static RGB green = new RGB(0, 255, 0);
         public readonly static RGB blue = new RGB(0, 0, 255);
         public readonly static RGB white = new RGB(255, 255, 255);
 
+        public readonly static RGB hilight1 = new RGB(255, 255, 000); // wdYellow
+        public readonly static RGB hilight2 = new RGB(000, 255, 000); // wdBrightGreen
+        public readonly static RGB hilight3 = new RGB(000, 255, 255); // wdTurquoise
+        public readonly static RGB hilight4 = new RGB(255, 000, 255); // wdPink
+        public readonly static RGB hilight5 = new RGB(000, 000, 255); // wdBlue
+
+        public readonly static RGB col00 = new RGB(010, 010, 010); // on évite la couleure noire
+        public readonly static RGB col01 = new RGB(010, 010, 060);
+        public readonly static RGB col02 = new RGB(010, 010, 120);
+        public readonly static RGB col03 = new RGB(010, 010, 180);
+        public readonly static RGB col04 = new RGB(010, 010, 240);
+        public readonly static RGB col05 = new RGB(010, 060, 010);
+        public readonly static RGB col06 = new RGB(010, 060, 060);
+        public readonly static RGB col07 = new RGB(010, 060, 120);
+        public readonly static RGB col08 = new RGB(010, 060, 180);
+        public readonly static RGB col09 = new RGB(010, 060, 240);
+        public readonly static RGB col10 = new RGB(010, 120, 010);
+        public readonly static RGB col11 = new RGB(010, 120, 060);
+        public readonly static RGB col12 = new RGB(010, 120, 120);
+        public readonly static RGB col13 = new RGB(010, 120, 180);
+        public readonly static RGB col14 = new RGB(010, 120, 240);
+        public readonly static RGB col15 = new RGB(010, 180, 010);
+        public readonly static RGB col16 = new RGB(010, 180, 060);
+        public readonly static RGB col17 = new RGB(010, 180, 120);
+        public readonly static RGB col18 = new RGB(010, 180, 180);
+        public readonly static RGB col19 = new RGB(010, 180, 240);
+        public readonly static RGB col20 = new RGB(010, 240, 010);
+        public readonly static RGB col21 = new RGB(010, 240, 060);
+        public readonly static RGB col22 = new RGB(010, 240, 120);
+        public readonly static RGB col23 = new RGB(010, 240, 180);
+        public readonly static RGB col24 = new RGB(010, 240, 240);
+        public readonly static RGB col25 = new RGB(060, 010, 010);
+        public readonly static RGB col26 = new RGB(060, 010, 060);
+        public readonly static RGB col27 = new RGB(060, 010, 120);
+        public readonly static RGB col28 = new RGB(060, 010, 180);
+        public readonly static RGB col29 = new RGB(060, 010, 240);
+        public readonly static RGB col30 = new RGB(060, 060, 010);
+        public readonly static RGB col31 = new RGB(060, 060, 060);
+        public readonly static RGB col32 = new RGB(060, 060, 120);
+        public readonly static RGB col33 = new RGB(060, 060, 180);
+        public readonly static RGB col34 = new RGB(060, 060, 240);
+        public readonly static RGB col35 = new RGB(060, 120, 010);
+        public readonly static RGB col36 = new RGB(060, 120, 060);
+        public readonly static RGB col37 = new RGB(060, 120, 120);
+        public readonly static RGB col38 = new RGB(060, 120, 180);
+        public readonly static RGB col39 = new RGB(060, 120, 240);
+        public readonly static RGB col40 = new RGB(060, 180, 010);
+        public readonly static RGB col41 = new RGB(060, 180, 060);
+        public readonly static RGB col42 = new RGB(060, 180, 120);
+        public readonly static RGB col43 = new RGB(060, 180, 180);
+        public readonly static RGB col44 = new RGB(060, 180, 240);
+        public readonly static RGB col45 = new RGB(060, 240, 010);
+        public readonly static RGB col46 = new RGB(060, 240, 060);
+        public readonly static RGB col47 = new RGB(060, 240, 120);
+        public readonly static RGB col48 = new RGB(060, 240, 180);
+        public readonly static RGB col49 = new RGB(060, 240, 240);
+
+        public readonly static RGB[] fixCols =
+            new RGB[] { col00, col01, col02, col03, col04, col05, col06, col07, col08, col09,
+                        col10, col11, col12, col13, col14, col15, col16, col17, col18, col19,
+                        col20, col21, col22, col23, col24, col25, col26, col27, col28, col29,
+                        col30, col31, col32, col33, col34, col35, col36, col37, col38, col39,
+                        col40, col41, col42, col43, col44, col45, col46, col47, col48, col49};
+
+        /// <summary>
+        /// Liste de CFs différents
+        /// </summary>
+        public static readonly CharFormatting[] fixCFs = new CharFormatting[50]
+        {
+            //  CharFormatting(bold,  itali, under, caps,  chCol,        chHig       )
+            new CharFormatting(false, false, false, false, true,  col00, false, black),
+            new CharFormatting(false, false, true,  false, true,  col01, false, black),
+            new CharFormatting(false, true,  false, false, true,  col02, false, black),
+            new CharFormatting(false, true,  true,  false, true,  col03, false, black),
+            new CharFormatting(true,  false, false, false, true,  col04, false, black),
+            new CharFormatting(true,  false, true,  false, true,  col05, false, black),
+            new CharFormatting(true,  true,  false, false, true,  col06, false, black),
+            new CharFormatting(true,  true,  true,  false, true,  col07, false, black),
+
+            new CharFormatting(false, false, false, false, true,  col08, true, hilight1),
+            new CharFormatting(false, false, true,  false, true,  col09, true, hilight2),
+            new CharFormatting(false, true,  false, false, true,  col10, true, hilight3),
+            new CharFormatting(false, true,  true,  false, true,  col11, true, hilight4),
+            new CharFormatting(true,  false, false, false, true,  col12, true, hilight5),
+            new CharFormatting(true,  false, true,  false, true,  col13, true, hilight1),
+            new CharFormatting(true,  true,  false, false, true,  col14, true, hilight2),
+            new CharFormatting(true,  true,  true,  false, true,  col15, true, hilight3),
+
+            new CharFormatting(false, false, false, false, true,  col16, false, black),
+            new CharFormatting(false, false, false, false, true,  col17, false, black),
+            new CharFormatting(false, false, false, false, true,  col18, false, black),
+            new CharFormatting(false, false, false, false, true,  col19, false, black),
+            new CharFormatting(false, false, false, false, true,  col20, false, black),
+            new CharFormatting(false, false, false, false, true,  col21, false, black),
+            new CharFormatting(false, false, false, false, true,  col22, false, black),
+            new CharFormatting(false, false, false, false, true,  col23, false, black),
+
+            new CharFormatting(false, false, false, false, true,  col24, true,  hilight1),
+            new CharFormatting(false, false, false, false, true,  col25, true,  hilight2),
+            new CharFormatting(false, false, false, false, true,  col26, true,  hilight3),
+            new CharFormatting(false, false, false, false, true,  col27, true,  hilight4),
+            new CharFormatting(false, false, false, false, true,  col28, true,  hilight5),
+            new CharFormatting(false, false, false, false, true,  col29, false, black),
+            new CharFormatting(false, false, false, false, true,  col30, false, black),
+            new CharFormatting(false, false, false, false, true,  col31, false, black),
+
+            new CharFormatting(false, false, false, false, true,  col32, false, black),
+            new CharFormatting(false, false, true,  false, true,  col33, false, black),
+            new CharFormatting(false, true,  false, false, true,  col34, false, black),
+            new CharFormatting(false, true,  true,  false, true,  col35, false, black),
+            new CharFormatting(true,  false, false, false, true,  col36, false, black),
+            new CharFormatting(true,  false, true,  false, true,  col37, false, black),
+            new CharFormatting(true,  true,  false, false, true,  col38, false, black),
+            new CharFormatting(true,  true,  true,  false, true,  col39, false, black),
+
+            new CharFormatting(false, false, false, false, true,  col40, false, black),
+            new CharFormatting(false, false, false, false, true,  col41, false, black),
+            new CharFormatting(false, false, false, false, true,  col42, false, black),
+            new CharFormatting(false, false, false, false, true,  col43, false, black),
+            new CharFormatting(false, false, false, false, true,  col44, false, black),
+            new CharFormatting(false, false, false, false, true,  col45, false, black),
+            new CharFormatting(false, false, false, false, true,  col46, false, black),
+            new CharFormatting(false, false, false, false, true,  col47, false, black),
+            new CharFormatting(false, false, false, false, true,  col48, false, black),
+            new CharFormatting(false, false, false, false, true,  col49, false, black)
+
+        };
+
+        /// <summary>
+        /// Liste des <see cref="CharFormatting"/> dans <c>fixCFs</c> qui ont le flag <c>bold</c>.
+        /// </summary>
+        public static List<int> Bolds { get; private set; } = new List<int>() 
+            { 4, 5, 6, 7, 12, 13, 14, 15, 36, 37, 38, 39 };
+
+        /// <summary>
+        /// Liste des <see cref="CharFormatting"/> dans <c>fixCFs</c> qui ont le flag <c>italic</c>.
+        /// </summary>
+        public static List<int> Italics { get; private set; } = new List<int>()
+            { 2, 3, 6, 7, 10, 11, 14, 15, 34, 35, 38, 39 };
+
+        /// <summary>
+        /// Liste des <see cref="CharFormatting"/> dans <c>fixCFs</c> qui ont le flag <c>underline</c>.
+        /// </summary>
+        public static List<int> Underlines { get; private set; } = new List<int>()
+            { 1, 3, 5, 7, 9, 11, 13, 15, 33, 35, 37, 39 };
+
+        /// <summary>
+        /// Liste des <see cref="CharFormatting"/> dans <c>fixCFs</c> qui ont le flag <c>changeHilight</c>.
+        /// </summary>
+        public static List<int> Hilighted { get; private set; } = new List<int>()
+            { 8, 9, 10, 11, 12, 13, 14, 15, 24, 25, 26, 27, 28 };
+
         public readonly static CharFormatting redCF = new CharFormatting(red);
         public readonly static CharFormatting blueCF = new CharFormatting(blue);
         public readonly static CharFormatting greenCF = new CharFormatting(green);
         public readonly static CharFormatting whiteCF = new CharFormatting(white);
 
+        public static new void Init()
+        {
+            TheText.Init();
+
+        }
+        
         /// <summary>
-        /// Longuer de ligne pour les strings représentant le texte. Au delà, --> à la ligne
+        /// Longueur de ligne pour les strings représentant le texte. Au delà, --> à la ligne
         /// </summary>
         private const int LineLength = 100;
+
+        /// <summary>
+        /// Extraits les mots des deux strings et effectue une Assert.AreEqual sur chaque mot
+        /// avec ^la même position dans les deux trings.
+        /// </summary>
+        /// <param name="expected">Mots attendus.</param>
+        /// <param name="real">Mots effectifs.</param>
+        public static void CompareWordByWord(string expected, string real)
+        {
+            Regex rx = new Regex(@"\b[\w-]+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            MatchCollection matchesExpected = rx.Matches(expected);
+            MatchCollection matchesReal = rx.Matches(real);
+            Assert.AreEqual(matchesExpected.Count, matchesReal.Count);
+            for (int i = 0; i < matchesExpected.Count; i++)
+                Assert.AreEqual(matchesExpected[i].Value, matchesReal[i].Value);
+        }
+
+        /// <summary>
+        /// retourne la liste de mots <paramref name="pws"/> sous forme de représentation par
+        /// syllabes: espace entre les mots, tiret entre les syllabes. tous les 120 caractères
+        /// environ, une nouvelle ligne est commencée. 
+        /// </summary>
+        /// <param name="pws">La liste de mots à représenter sous forme de syllabes.</param>
+        /// <returns>Les mots de <paramref name="pws"/> en syllabes.</returns>
+        public static string ToSyllabes(List<PhonWord> pws)
+        {
+            StringBuilder sb = new StringBuilder(pws.Count * 9);
+            int lastNL = 0;
+            for (int i = 0; i < pws.Count; i++)
+            {
+                sb.Append(pws[i].Syllabes());
+                if (i < pws.Count - 1)
+                {
+                    sb.Append(" ");
+                }
+                if (pws[i].Last - lastNL > LineLength)
+                {
+                    lastNL = pws[i].Last;
+                    sb.AppendLine();
+                }
+            }
+            return sb.ToString();
+        }
+
+        // ****************************************************************************************
+        // *                             public class FormattedChar                               *
+        // ****************************************************************************************
 
         public class FormattedChar
         {
@@ -101,53 +310,21 @@ namespace ColorLibTest
             }
         }
 
-        /// <summary>
-        /// Extraits les mots des deux strings et effectue une Assert.AreEqual sur chaque mot
-        /// avec ^la même position dans les deux trings.
-        /// </summary>
-        /// <param name="expected">Mots attendus.</param>
-        /// <param name="real">Mots effectifs.</param>
-        public static void CompareWordByWord(string expected, string real)
-        {
-            Regex rx = new Regex(@"\b[\w-]+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            MatchCollection matchesExpected = rx.Matches(expected);
-            MatchCollection matchesReal = rx.Matches(real);
-            Assert.AreEqual(matchesExpected.Count, matchesReal.Count);
-            for (int i = 0; i < matchesExpected.Count; i++)
-                Assert.AreEqual(matchesExpected[i].Value, matchesReal[i].Value);
-        }
-
-        /// <summary>
-        /// retourne la liste de mots <paramref name="pws"/> sous forme de représentation par
-        /// syllabes: espace entre les mots, tiret entre les syllabes. tous les 120 caractères
-        /// environ, une nouvelle ligne est commencée. 
-        /// </summary>
-        /// <param name="pws">La liste de mots à représenter sous forme de syllabes.</param>
-        /// <returns>Les mots de <paramref name="pws"/> en syllabes.</returns>
-        public static string ToSyllabes(List<PhonWord> pws)
-        {
-            StringBuilder sb = new StringBuilder(pws.Count * 9);
-            int lastNL = 0;
-            for (int i = 0; i < pws.Count; i++)
-            {
-                sb.Append(pws[i].Syllabes());
-                if (i < pws.Count - 1)
-                {
-                    sb.Append(" ");
-                }
-                if (pws[i].Last - lastNL > LineLength)
-                {
-                    lastNL = pws[i].Last;
-                    sb.AppendLine();
-                }
-            }
-            return sb.ToString();
-        }
-
+        // ****************************************************************************************
+        // *                                   public Members                                     *
+        // ****************************************************************************************
 
         public List<FormattedChar> formattedText { get; private set; }
 
+        // ****************************************************************************************
+        // *                                   private Members                                    *
+        // ****************************************************************************************
+
         private List<int> finsDeLigne;
+
+        // ****************************************************************************************
+        // *                                   TheText Methods                                    *
+        // ****************************************************************************************
 
         public TestTheText(string txt)
             :base(txt)
@@ -182,18 +359,35 @@ namespace ColorLibTest
             return finsDeLigne;
         }
 
+        // ****************************************************************************************
+        // *                                     TEST SUPPORT                                     *
+        // ****************************************************************************************
+
         public void AssertColor(int pos, RGB theCol)
         {
             Assert.IsTrue(pos >= 0 && pos < S.Length);
-            Assert.IsTrue(formattedText[pos].cf.color == theCol);
+            Assert.AreEqual(theCol, formattedText[pos].cf.color);
         }
 
-        public void AssertColor(int fromPos, int toPos, RGB theCol)
+        public void AssertColor(int fromPos, int len, RGB theCol)
         {
-            Assert.IsTrue(toPos >= fromPos);
-            for (int i = fromPos; i <= toPos; i++)
+            for (int i = fromPos; i <= fromPos + len - 1; i++)
             {
                 AssertColor(i, theCol);
+            }
+        }
+
+        public void AssertCF(int pos, CharFormatting theCF)
+        {
+            Assert.IsTrue(pos >= 0 && pos < S.Length);
+            Assert.AreEqual(theCF, formattedText[pos].cf);
+        }
+
+        public void AssertCF(int fromPos, int len, CharFormatting theCF)
+        {
+            for (int i = fromPos; i <= fromPos + len - 1; i++)
+            {
+                AssertCF(i, theCF);
             }
         }
 

@@ -36,14 +36,29 @@ namespace ColorizationControls
 {
     public partial class HilightForm : Form
     {
-        public const int nrColors = 16; // nr of colors that are handled by the form.
-        public static RGB[] hiliColors { set; private get; } // array with nrColors RGB datasets.
-                                                             // these colors are proposed in the form. The buttons are numberes from 0 to nrColors -1 and display
-                                                             // the corresponding color in hiliColors.
+        /// <summary>
+        /// nr of colors that are handled by the form.
+        /// </summary>
+        public const int nrColors = 16;
 
+        /// <summary>
+        /// array with nrColors RGB datasets.
+        /// these colors are proposed in the form. The buttons are numberes from 0 to nrColors -1 and display
+        /// the corresponding color in hiliColors.
+        /// </summary>
+        /// <remarks>
+        /// If hiliCOlors is not set, it means that the application cannot handle hilighting. In this case, 
+        /// <see cref="CanOperate"/> will return <c>false</c>
+        /// </remarks>
+        public static RGB[] hiliColors { set; private get; }
+
+        /// <summary>
+        /// indicates whether the selection of hilight colors is possible.
+        /// no HilightForm should be crated if the response is <c>false</c>.
+        /// </summary>
+        /// <returns><c>true</c> if the selection of hilight colors is possible.</returns>
         public static bool CanOperate() => (hiliColors != null);
-        // indicates whether the selection of hilight colors is possible.
-        // no HilightForm should be crated if the response is false.
+
 
         private Button[] colButtons;
         private RGB selCol; // selected color
