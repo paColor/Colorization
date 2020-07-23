@@ -18,6 +18,7 @@
  *                                                                              *
  ********************************************************************************/
 
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -142,11 +143,12 @@ namespace ColorLib
             }
             set
             {
+                Mode prevMode = mode;
                 switch (value)
                 {
                     case Mode.ecrit:
                         _modeEcrit = true;
-                        _modeOral   = false;
+                        _modeOral = false;
                         _modePoesie = false;
                         break;
                     case Mode.oral:
@@ -169,7 +171,12 @@ namespace ColorLib
                         throw new ArgumentException("Mode de traitement des syllabes impossible.");
                         break;
                 }
-                OnModeModified();
+                // pour ne pas interférer avec l'initialisation de 'mode', on choisit cette approche
+                // pour éviter les boucles d'événements
+                if (value != prevMode)
+                {
+                    OnModeModified();
+                }
             }
         }
 

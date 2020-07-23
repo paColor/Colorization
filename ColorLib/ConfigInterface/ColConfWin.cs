@@ -577,7 +577,8 @@ namespace ColorLib
         /// <summary>
         /// Assigne un nouveau <see cref="CharFormatting"/> au son <paramref name="son"/>.
         /// </summary>
-        /// <param name="son">Le son dont le <see cref="CharFormatting"/> doit être modifié.</param>
+        /// <param name="son">Le son dont le <see cref="CharFormatting"/> doit être modifié. 
+        /// Voir <c>sonMap</c> pour la liste des sons reconnus.</param>
         /// <param name="cf">Le nouveau <see cref="CharFormatting"/>.</param>
         public void SetCFSon(string son, CharFormatting cf)
         {

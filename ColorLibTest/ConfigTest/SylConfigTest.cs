@@ -163,6 +163,7 @@ namespace ColorLibTest.ConfigTest
                 Assert.AreEqual(cf2, cfSecond);
             }
 
+            syc.ResetCounter();
             TestTheText ttt = new TestTheText(text1);
             ttt.MarkWords(c);
             int index = ttt.S.IndexOf("Monsieur");
@@ -173,30 +174,150 @@ namespace ColorLibTest.ConfigTest
             ttt.AssertCF(index, 5, cf1);
             index = ttt.S.IndexOf("espèce");
             ttt.AssertCF(index, 6, cf1);
+            index = ttt.S.IndexOf("couverte"); // pos 28
+            ttt.AssertCF(index, 8, cf2);
         }
 
         private void CheckAlernateCF(CharFormatting cf1, CharFormatting cf2, CharFormatting cf3, 
             Config c)
         {
+            SylConfig syc = c.sylConf;
+            syc.ResetCounter();
+            for (int i = 0; i < 10; i++)
+            {
+                CharFormatting cfFirst = syc.NextCF();
+                Assert.AreEqual(cf1, cfFirst);
+                CharFormatting cfSecond = syc.NextCF();
+                Assert.AreEqual(cf2, cfSecond);
+                CharFormatting cfThird = syc.NextCF();
+                Assert.AreEqual(cf3, cfThird);
+            }
 
+            syc.ResetCounter();
+            TestTheText ttt = new TestTheText(text1);
+            ttt.MarkWords(c);
+            int index = ttt.S.IndexOf("Monsieur");
+            ttt.AssertCF(index, 8, cf1);
+            index = ttt.S.IndexOf("Poiret");
+            ttt.AssertCF(index, 6, cf2);
+            index = ttt.S.IndexOf("était");
+            ttt.AssertCF(index, 5, cf3);
+            index = ttt.S.IndexOf("une");
+            ttt.AssertCF(index, 3, cf1);
+            index = ttt.S.IndexOf("espèce");
+            ttt.AssertCF(index, 6, cf2);
+            index = ttt.S.IndexOf("couverte"); // pos 28
+            ttt.AssertCF(index, 8, cf1);
         }
 
         private void CheckAlernateCF(CharFormatting cf1, CharFormatting cf2, CharFormatting cf3,
             CharFormatting cf4, Config c)
         {
+            SylConfig syc = c.sylConf;
+            syc.ResetCounter();
+            for (int i = 0; i < 10; i++)
+            {
+                CharFormatting cfFirst = syc.NextCF();
+                Assert.AreEqual(cf1, cfFirst);
+                CharFormatting cfSecond = syc.NextCF();
+                Assert.AreEqual(cf2, cfSecond);
+                CharFormatting cfThird = syc.NextCF();
+                Assert.AreEqual(cf3, cfThird);
+                CharFormatting cfFourth = syc.NextCF();
+                Assert.AreEqual(cf4, cfFourth);
+            }
 
+            syc.ResetCounter();
+            TestTheText ttt = new TestTheText(text1);
+            ttt.MarkWords(c);
+            int index = ttt.S.IndexOf("Monsieur");
+            ttt.AssertCF(index, 8, cf1);
+            index = ttt.S.IndexOf("Poiret");
+            ttt.AssertCF(index, 6, cf2);
+            index = ttt.S.IndexOf("était");
+            ttt.AssertCF(index, 5, cf3);
+            index = ttt.S.IndexOf("une");
+            ttt.AssertCF(index, 3, cf4);
+            index = ttt.S.IndexOf("espèce");
+            ttt.AssertCF(index, 6, cf1);
+            index = ttt.S.IndexOf("couverte"); // pos 28
+            ttt.AssertCF(index, 8, cf4);
         }
 
         private void CheckAlernateCF(CharFormatting cf1, CharFormatting cf2, CharFormatting cf3,
             CharFormatting cf4, CharFormatting cf5, Config c)
         {
+            SylConfig syc = c.sylConf;
+            syc.ResetCounter();
+            for (int i = 0; i < 10; i++)
+            {
+                CharFormatting cfFirst = syc.NextCF();
+                Assert.AreEqual(cf1, cfFirst);
+                CharFormatting cfSecond = syc.NextCF();
+                Assert.AreEqual(cf2, cfSecond);
+                CharFormatting cfThird = syc.NextCF();
+                Assert.AreEqual(cf3, cfThird);
+                CharFormatting cfFourth = syc.NextCF();
+                Assert.AreEqual(cf4, cfFourth);
+                CharFormatting cfFifth = syc.NextCF();
+                Assert.AreEqual(cf5, cfFifth);
+            }
 
+            syc.ResetCounter();
+            TestTheText ttt = new TestTheText(text1);
+            ttt.MarkWords(c);
+            int index = ttt.S.IndexOf("Monsieur");
+            ttt.AssertCF(index, 8, cf1);
+            index = ttt.S.IndexOf("Poiret");
+            ttt.AssertCF(index, 6, cf2);
+            index = ttt.S.IndexOf("était");
+            ttt.AssertCF(index, 5, cf3);
+            index = ttt.S.IndexOf("une");
+            ttt.AssertCF(index, 3, cf4);
+            index = ttt.S.IndexOf("espèce");
+            ttt.AssertCF(index, 6, cf5);
+            index = ttt.S.IndexOf("couverte"); // pos 28
+            ttt.AssertCF(index, 8, cf3);
         }
 
         private void CheckAlernateCF(CharFormatting cf1, CharFormatting cf2, CharFormatting cf3,
             CharFormatting cf4, CharFormatting cf5, CharFormatting cf6, Config c)
         {
+            SylConfig syc = c.sylConf;
+            syc.ResetCounter();
+            for (int i = 0; i < 10; i++)
+            {
+                CharFormatting cfFirst = syc.NextCF();
+                Assert.AreEqual(cf1, cfFirst);
+                CharFormatting cfSecond = syc.NextCF();
+                Assert.AreEqual(cf2, cfSecond);
+                CharFormatting cfThird = syc.NextCF();
+                Assert.AreEqual(cf3, cfThird);
+                CharFormatting cfFourth = syc.NextCF();
+                Assert.AreEqual(cf4, cfFourth);
+                CharFormatting cfFifth = syc.NextCF();
+                Assert.AreEqual(cf5, cfFifth);
+                CharFormatting cfSixth = syc.NextCF();
+                Assert.AreEqual(cf6, cfSixth);
+            }
 
+            syc.ResetCounter();
+            TestTheText ttt = new TestTheText(text1);
+            ttt.MarkWords(c);
+            int index = ttt.S.IndexOf("Monsieur");
+            ttt.AssertCF(index, 8, cf1);
+            index = ttt.S.IndexOf("Poiret");
+            ttt.AssertCF(index, 6, cf2);
+            index = ttt.S.IndexOf("était");
+            ttt.AssertCF(index, 5, cf3);
+            index = ttt.S.IndexOf("une");
+            ttt.AssertCF(index, 3, cf4);
+            index = ttt.S.IndexOf("espèce");
+            ttt.AssertCF(index, 6, cf5);
+            index = ttt.S.IndexOf("de");
+            ttt.AssertCF(index, 2, cf6);
+            index = ttt.S.IndexOf("couverte"); // pos 28
+            ttt.AssertCF(index, 8, cf4);
         }
 
         
@@ -265,6 +386,7 @@ namespace ColorLibTest.ConfigTest
             sC.SylButtonModified(0, TestTheText.blueCF);
             Assert.IsTrue(sylButModNr.Contains(0));
             Assert.IsTrue(sylButModNr.Contains(1));
+            Assert.IsTrue(sylButModNr.Count == 2);
             CheckConsistency(sC);
             CheckAlernateCF(TestTheText.blueCF, conf);
 
@@ -272,9 +394,253 @@ namespace ColorLibTest.ConfigTest
             sC.SylButtonModified(1, TestTheText.redCF);
             Assert.IsTrue(sylButModNr.Contains(1));
             Assert.IsTrue(sylButModNr.Contains(2));
+            Assert.IsTrue(sylButModNr.Count == 2);
             CheckConsistency(sC);
             CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, conf);
 
+            ResetEventCounters();
+            sC.SylButtonModified(2, TestTheText.fixCFs[2]);
+            Assert.IsTrue(sylButModNr.Contains(2));
+            Assert.IsTrue(sylButModNr.Contains(3));
+            Assert.IsTrue(sylButModNr.Count == 2);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2], conf);
+
+            ResetEventCounters();
+            sC.SylButtonModified(3, TestTheText.fixCFs[3]);
+            Assert.IsTrue(sylButModNr.Contains(3));
+            Assert.IsTrue(sylButModNr.Contains(4));
+            Assert.IsTrue(sylButModNr.Count == 2);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2],
+                TestTheText.fixCFs[3], conf);
+
+            ResetEventCounters();
+            sC.SylButtonModified(4, TestTheText.fixCFs[4]);
+            Assert.IsTrue(sylButModNr.Contains(4));
+            Assert.IsTrue(sylButModNr.Contains(5));
+            Assert.IsTrue(sylButModNr.Count == 2);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2],
+                TestTheText.fixCFs[3], TestTheText.fixCFs[4], conf);
+
+            ResetEventCounters();
+            sC.SylButtonModified(5, TestTheText.fixCFs[5]);
+            Assert.IsTrue(sylButModNr.Contains(5));
+            Assert.IsTrue(sylButModNr.Count == 1);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2],
+                TestTheText.fixCFs[3], TestTheText.fixCFs[4], TestTheText.fixCFs[5], conf);
+
+            ResetEventCounters();
+            sC.SylButtonModified(3, TestTheText.fixCFs[7]);
+            Assert.IsTrue(sylButModNr.Contains(3));
+            Assert.IsTrue(sylButModNr.Count == 1);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2],
+                TestTheText.fixCFs[7], TestTheText.fixCFs[4], TestTheText.fixCFs[5], conf);
         }
+
+        [TestMethod]
+        public void TestMethod3()
+        {
+            TestMethod2();
+            SylConfig sC = conf.sylConf;
+            // on sait que tous les boutons ont un CF
+            for (int i = 0; i < SylConfig.NrButtons - 1; i++)
+            {
+                Assert.ThrowsException<ArgumentException>(() => sC.ClearButton(i));
+                CheckConsistency(sC);
+            }
+        }
+
+        [TestMethod]
+        public void TestMethod4()
+        {
+            SylConfig sC = conf.sylConf;
+            CheckConsistency(sC);
+
+            ResetEventCounters();
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(0, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+
+            sC.chercherDierese = false;
+            ResetEventCounters();
+            sC.chercherDierese = true;
+            Assert.AreEqual(true, sC.chercherDierese);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(0, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(1, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.chercherDierese = false;
+            Assert.AreEqual(false, sC.chercherDierese);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(0, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(1, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.chercherDierese = false;
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            ResetEventCounters();
+
+            sC.DoubleConsStd = false;
+            ResetEventCounters();
+            sC.DoubleConsStd = true;
+            Assert.AreEqual(true, sC.DoubleConsStd);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(1, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(0, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.DoubleConsStd = false;
+            Assert.AreEqual(false, sC.DoubleConsStd);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(1, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(0, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.DoubleConsStd = false;
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            ResetEventCounters();
+
+            sC.marquerMuettes = false;
+            ResetEventCounters();
+            sC.marquerMuettes = true;
+            Assert.AreEqual(true, sC.marquerMuettes);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(0, ModeModifiedEventRaised);
+            Assert.AreEqual(1, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.marquerMuettes = false;
+            Assert.AreEqual(false, sC.marquerMuettes);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(0, ModeModifiedEventRaised);
+            Assert.AreEqual(1, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.marquerMuettes = false;
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            ResetEventCounters();
+            
+            sC.mode = SylConfig.Mode.undefined;
+            ResetEventCounters();
+            sC.mode = SylConfig.Mode.ecrit;
+            Assert.AreEqual(SylConfig.Mode.ecrit, sC.mode);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(1, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.mode = SylConfig.Mode.oral;
+            Assert.AreEqual(SylConfig.Mode.oral, sC.mode);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(1, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.mode = SylConfig.Mode.poesie;
+            Assert.AreEqual(SylConfig.Mode.poesie, sC.mode);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(1, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.mode = SylConfig.Mode.poesie;
+            Assert.AreEqual(0, ModeModifiedEventRaised);
+            ResetEventCounters();
+            sC.mode = SylConfig.Mode.undefined;
+            Assert.AreEqual(SylConfig.Mode.undefined, sC.mode);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(1, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+
+            sC.nbrPieds = 99;
+            ResetEventCounters();
+            sC.nbrPieds = 0;
+            Assert.AreEqual(0, sC.nbrPieds);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(0, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(1, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.nbrPieds = 17;
+            Assert.AreEqual(17, sC.nbrPieds);
+            Assert.AreEqual(0, SylButtonModifiedEventRaised);
+            Assert.AreEqual(0, DoubleConsStdModifiedEventRaised);
+            Assert.AreEqual(0, ModeModifiedEventRaised);
+            Assert.AreEqual(0, MarquerMuettesModifiedRaised);
+            Assert.AreEqual(0, ChercherDiereseModifiedRaised);
+            Assert.AreEqual(0, FinDeVersModifiedRaised);
+            Assert.AreEqual(1, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+            sC.nbrPieds = 17;
+            Assert.AreEqual(0, NbrPiedsModifiedRaised);
+            ResetEventCounters();
+        }
+
+        [TestMethod]
+        public void TestMethod5()
+        {
+            // La détection de syllabes et ses trois modes est testée suffisament ailleurs.
+            // Il manque la véréfication que le marquage des muettes fonctionne.
+            TestTheText ttt = new TestTheText(text1);
+
+            // hypothèse: la config par défaut contient des paramètres qui marquent les syllabes
+            conf.sylConf.mode = SylConfig.Mode.ecrit;
+            conf.sylConf.marquerMuettes = true;
+            conf.colors[PhonConfType.muettes].SetCFSon("_muet", TestTheText.fixCFs[0]);
+            ttt.MarkWords(conf);
+
+            int index = ttt.S.IndexOf("Monsieur");
+            ttt.AssertColor(index + 7, TestTheText.fixCols[0]);
+            index = ttt.S.IndexOf("Poiret");
+            ttt.AssertColor(index + 5, TestTheText.fixCols[0]);
+            index = ttt.S.IndexOf("était");
+            ttt.AssertColor(index + 4, TestTheText.fixCols[0]);
+
+        }
+
     }
 }
