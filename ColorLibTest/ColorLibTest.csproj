@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="AutomRuleFilter_Test.cs" />
     <Compile Include="ConfigTest\SylConfigTest.cs" />
+    <Compile Include="ConfigTest\PBDQConfigTest.cs" />
     <Compile Include="Dierese\AnalyseDiereseTest.cs" />
     <Compile Include="Dierese\PoesieTest.cs" />
     <Compile Include="Dierese\CreerSyllabes.cs" />

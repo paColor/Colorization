@@ -718,7 +718,7 @@ namespace ColorizationControls
             logger.ConditionalDebug("cbAlettresNoir_CheckedChanged");
             Debug.Assert(sender != null);
             CheckBox cbx = (CheckBox)sender;
-            theConf.pBDQ.BlackSettingCheckChangedTo(cbx.Checked);
+            theConf.pBDQ.ChangeBlackSettingTo(cbx.Checked);
         }
 
         private void MarkAsBlackModified(object sender, EventArgs e)

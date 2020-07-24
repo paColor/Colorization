@@ -39,7 +39,7 @@ namespace ColorLib
         /// <param name="inFirst">The zero based position of the first character of the <c>Word</c>
         /// in <c>inT</c>. </param>
         /// <param name="inLast">The zero based position of the last character of the <c>Word</c>
-        /// in <c>inT</c>. </param></param>
+        /// in <c>inT</c>. </param>
         public Word(TheText inT, int inFirst, int inLast)
             : base(inT, inFirst, inLast)
         {
@@ -70,11 +70,11 @@ namespace ColorLib
         public char GetChar(int pos) => wordToLower[pos - First];
 
         /// <summary>
-        /// Makes surte that the <c>Word</c> will be formatted according to the next
-        /// <see cref="CHarFormatting"/> delivered by the <c>sylConf</c> configuration
-        /// of <c>config</c>.
+        /// Makes sure that the <c>Word</c> will be formatted according to the next
+        /// <see cref="CharFormatting"/> delivered by the <c>conf.sylConf.NextCF()</c> method.
         /// </summary>
-        /// <param name="conf"></param>
+        /// <param name="conf">The <c>Config</c> that contains the <c>SylConfig</c> to use for
+        /// finding out the <c>CharFormatting</c> to use.</param>
         public override void PutColor(Config conf)
         {
             base.SetCharFormat(conf.sylConf.NextCF()); ;

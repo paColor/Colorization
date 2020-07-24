@@ -22,11 +22,11 @@ namespace ColorizationControls
         private enum State {unset, unsetOver, unsetPressed, setOver, set, setPressed}
         private enum Trigger { enter, leave, down, up}
         private enum Pict { unsetPict = 0, setPict = 1, pressedPict = 2, setOverPict = 3, nrPict = 4 }
-        private enum Action { set, unset, no}
+        private enum Intent { set, unset, no}
 
         private struct Transition
         {
-            public Transition(State inTargState, bool inIsErr, Action inAct)
+            public Transition(State inTargState, bool inIsErr, Intent inAct)
             {
                 targetState = inTargState;
                 isError = inIsErr;
@@ -35,17 +35,17 @@ namespace ColorizationControls
 
             public State targetState { get; private set; }
             public bool isError { get; private set; } // indicates that the transition should logically not happen
-            public Action action { get; private set; }
+            public Intent action { get; private set; }
         }
 
         private static Transition[,] stateMachine = new Transition[,]
         {    /*                      enter                                              leave                                          down                                                  up                       */ 
-/*unset       */ { new Transition(State.unsetOver,    false, Action.no), new Transition(State.unset, true,  Action.no), new Transition(State.unsetPressed, true,  Action.no), new Transition(State.setOver,   true,  Action.set) },
-/*unsetOver   */ { new Transition(State.unsetOver,    true,  Action.no), new Transition(State.unset, false, Action.no), new Transition(State.unsetPressed, false, Action.no), new Transition(State.setOver,   true,  Action.set) },
-/*unsetPressed*/ { new Transition(State.unsetPressed, true,  Action.no), new Transition(State.unset, false, Action.no), new Transition(State.unsetPressed, true,  Action.no), new Transition(State.setOver,   false, Action.set) },
-/*setOver     */ { new Transition(State.setOver,      true,  Action.no), new Transition(State.set,   false, Action.no), new Transition(State.setPressed,   false, Action.no), new Transition(State.unsetOver, true,  Action.unset) },
-/*set         */ { new Transition(State.setOver,      false, Action.no), new Transition(State.set,   true,  Action.no), new Transition(State.setPressed,   true,  Action.no), new Transition(State.unsetOver, true,  Action.unset) },
-/*setPressed  */ { new Transition(State.setPressed,   true,  Action.no), new Transition(State.set,   false, Action.no), new Transition(State.setPressed,   true,  Action.no), new Transition(State.unsetOver, false, Action.unset) }
+/*unset       */ { new Transition(State.unsetOver,    false, Intent.no), new Transition(State.unset, true,  Intent.no), new Transition(State.unsetPressed, true,  Intent.no), new Transition(State.setOver,   true,  Intent.set) },
+/*unsetOver   */ { new Transition(State.unsetOver,    true,  Intent.no), new Transition(State.unset, false, Intent.no), new Transition(State.unsetPressed, false, Intent.no), new Transition(State.setOver,   true,  Intent.set) },
+/*unsetPressed*/ { new Transition(State.unsetPressed, true,  Intent.no), new Transition(State.unset, false, Intent.no), new Transition(State.unsetPressed, true,  Intent.no), new Transition(State.setOver,   false, Intent.set) },
+/*setOver     */ { new Transition(State.setOver,      true,  Intent.no), new Transition(State.set,   false, Intent.no), new Transition(State.setPressed,   false, Intent.no), new Transition(State.unsetOver, true,  Intent.unset) },
+/*set         */ { new Transition(State.setOver,      false, Intent.no), new Transition(State.set,   true,  Intent.no), new Transition(State.setPressed,   true,  Intent.no), new Transition(State.unsetOver, true,  Intent.unset) },
+/*setPressed  */ { new Transition(State.setPressed,   true,  Intent.no), new Transition(State.set,   false, Intent.no), new Transition(State.setPressed,   true,  Intent.no), new Transition(State.unsetOver, false, Intent.unset) }
         };
 
         private static Pict[] pictForState = new Pict[]
@@ -64,8 +64,8 @@ namespace ColorizationControls
         private PictureBox theBox;
         private Image[] picts;
         private Pict activePict;
-        private ExecuteTask setFormat;
-        private ExecuteTask unsetFormat;
+        private Action setFormat;
+        private Action unsetFormat;
 
         /// <summary>
         /// Constructor of a FormatButton. The different <c>PictureBox</c>es must be at exactly the same possition. Their visibility is 
@@ -84,8 +84,8 @@ namespace ColorizationControls
                                     Image inSetPict,
                                     Image inPressedPict,
                                     Image inSetOverPict,
-                                    ExecuteTask inSetAct,
-                                    ExecuteTask inUnsetAct,
+                                    Action inSetAct,
+                                    Action inUnsetAct,
                                     bool startState )
         {
             logger.ConditionalDebug("Contructor FormatButtonHandler");
@@ -135,10 +135,10 @@ namespace ColorizationControls
             }
             switch (transition.action)
             {
-                case Action.set:
+                case Intent.set:
                     setFormat();
                     break;
-                case Action.unset:
+                case Intent.unset:
                     unsetFormat();
                     break;
                 default:

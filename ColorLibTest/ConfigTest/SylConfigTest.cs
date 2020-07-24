@@ -631,16 +631,14 @@ namespace ColorLibTest.ConfigTest
             conf.sylConf.mode = SylConfig.Mode.ecrit;
             conf.sylConf.marquerMuettes = true;
             conf.colors[PhonConfType.muettes].SetCFSon("_muet", TestTheText.fixCFs[0]);
-            ttt.MarkWords(conf);
+            ttt.MarkSyls(conf);
 
             int index = ttt.S.IndexOf("Monsieur");
             ttt.AssertColor(index + 7, TestTheText.fixCols[0]);
-            index = ttt.S.IndexOf("Poiret");
-            ttt.AssertColor(index + 5, TestTheText.fixCols[0]);
             index = ttt.S.IndexOf("était");
             ttt.AssertColor(index + 4, TestTheText.fixCols[0]);
-
+            index = ttt.S.IndexOf("long");
+            ttt.AssertColor(index + 3, TestTheText.fixCols[0]);
         }
-
     }
 }

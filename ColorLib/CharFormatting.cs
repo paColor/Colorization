@@ -165,8 +165,43 @@ namespace ColorLib
         public virtual bool ForceNonSerif(Config conf) => false;
 
         // ****************************************************************************************
-        // *                                    CONSTRUCTORS                                      *
+        // *                             CONSTRUCTORS & ToString()                                *
         // ****************************************************************************************
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder(40);
+            if (bold)
+                sb.Append('b');
+            if (italic)
+                sb.Append('i');
+            if (underline)
+                sb.Append('u');
+            if (caps)
+                sb.Append('C');
+            if (contour)
+                sb.Append('o');
+            if (serif)
+                sb.Append('f');
+            if (changeColor)
+            {
+                sb.Append('c');
+                sb.Append(color.ToString());
+            }
+            if (changeHilight)
+            {
+                sb.Append('h');
+                sb.Append(hilightColor.ToString());
+            }
+            if (changeFontSize)
+            {
+                sb.Append("s-");
+                sb.Append(percIncrFontSize);
+                sb.Append("%-");
+            }
+            return sb.ToString();
+        }
+
 
         /// <summary>
         /// Creates a neutral <c>CharFormatting</c>

@@ -62,10 +62,6 @@ namespace ColorLib
         pureBlue, neutral, lightBlue, darkRed, white
     }
 
-    public delegate void ExecuteTask();
-
-    public delegate void ExecTaskOnSon(string son);
-
     [Serializable]
     public class ColConfWin : ConfigBase
     {
@@ -95,7 +91,7 @@ namespace ColorLib
         // phonemes: les couleurs par phonème qui peuvent être éditées et qui seront appliquées lors de la colorisation des phonèmes.
         // muettes: couleurs appliquées aux phonèmes dans le cas où on ne veut que coloriser les muettes
 
-        public static RGB[] predefinedColors = new RGB[] {
+        public readonly static RGB[] predefinedColors = new RGB[] {
             new RGB(000, 000, 000), // CERAS_oi     --> noir
             new RGB(240, 222, 000), // CERAS_o      --> jaune
             new RGB(237, 125, 049), // CERAS_an     --> orange
@@ -117,22 +113,46 @@ namespace ColorLib
             new RGB(255, 255, 255), // blanc        --> blanc
         };
 
-        public static CharFormatting[] predefCF;
-        // CharFormattings corresponding to the predefined colors.
+        /// <summary>
+        /// CharFormattings corresponding to the predefined colors.
+        /// </summary>
+        /// <remarks>
+        /// Instead of using <c>predefCF[(int)PredefCols.neutral]</c> use
+        /// <c>CharFormatting.NeutralCF</c> which is equivalent.
+        /// </remarks>
+        public static CharFormatting[] predefCF { get; private set; }
+        
 
         // -------------------------------------------------------------------------------------------------------------------
         // -----------------------------------------------  Internal Types ---------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Contient les identifiants pour les flags de contrôle des règles de l'automate
+        /// Identifiants pour les flags de contrôle des règles de l'automate. Est typiquement
+        /// utilisé comme indice dans un tableau de flags.
         /// </summary>
-        /// <remarks>
-        /// IllCeras: les "ill" et "il" sont traités comme un son.
-        /// IllLireCouleur: les "ill" et "il" sont traités en fonction des phonèmes effectivement présents
-        /// dans les mots. fille par exemple donne fij°. l'un des deux flags doit être mis.
-        /// </remarks>
-        internal enum RuleFlag { dummy, IllCeras, IllLireCouleur, last }
+        public enum RuleFlag { 
+            /// <summary>
+            /// valeur non définie.
+            /// </summary>
+            undefined,
+
+            /// <summary>
+            /// les "ill" et "il" sont traités comme un son.
+            /// </summary>
+            IllCeras,
+
+            /// <summary>
+            /// les "ill" et "il" sont traités en fonction des phonèmes effectivement présents
+            /// dans les mots. fille par exemple donne fij°.
+            /// </summary>
+            IllLireCouleur,
+            
+            /// <summary>
+            /// Dernière valeur de l'énuméré. Peut-être utilisé si on désire itérer sur toutes
+            /// les valeurs...
+            /// </summary>
+            last }
 
         // -------------------------------------------------------------------------------------------------------------------
         // --------------------------------------------  private static members ----------------------------------------------
@@ -414,10 +434,10 @@ namespace ColorLib
         // ------------------------------------------------------- Phonemes --------------------------------------------------
 
         /// <summary>
-        /// Retourne le <c>CharFormatting pour le phonème <paramref name="p"/></c>
+        /// Retourne le <c>CharFormatting</c> pour le phonème <paramref name="p"/>
         /// </summary>
-        /// <param name="p">Le phonème pour lequel on veut le <see cref="CharFormatting"/></param>
-        /// <returns></returns>
+        /// <param name="p">Le phonème pour lequel on veut le <c>CharFormatting</c>.</param>
+        /// <returns><c>CharFormatting</c> pour le phonème</returns>
         public CharFormatting Get(Phonemes p)
         // get the Charformatting for the given Phoneme
         {
@@ -439,10 +459,11 @@ namespace ColorLib
         public bool GetCheck(string son) => chkSon[son];
 
         /// <summary>
-        /// <see cref="CharFormatting"/> pour le <paramref name="son"/>.
+        /// DOnne le <c>CharFormatting</c> pour le <c>son</c>.
         /// </summary>
-        /// <param name="son">Le son pour lequel on veut le <see cref=CharFormatting"/>.</param>
-        /// <returns>Le <see cref="CharFormatting"/> demandé.</returns>
+        /// <param name="son">Le son pour lequel on veut le <c>CharFormatting</c>. Voir 
+        /// <c>sonMap</c> pour les valeurs autorisées.</param>
+        /// <returns>le <c>CharFormatting</c> recherché.</returns>
         public CharFormatting GetCF(string son) => cfSon[son];
 
         /// <summary>

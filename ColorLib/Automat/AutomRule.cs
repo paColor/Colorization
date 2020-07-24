@@ -161,7 +161,7 @@ namespace ColorLib
             }
             else
             {
-                flag = ColConfWin.RuleFlag.dummy;
+                flag = ColConfWin.RuleFlag.undefined;
             }
 
             end = pos;

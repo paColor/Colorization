@@ -580,14 +580,13 @@ namespace ColorLib
         /// Applies the formattings defined in the <c>ColConfWin</c> identified by <paramref name="conf"/> and 
         /// <paramref name="pct"/> to the 
         /// "phonèmes" in the text. I.e. fills <c>Formats</c> and makes sure that 
-        /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
+        /// <c>SetChars</c> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
         /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="pct">Identifies the <c>ColConfWin</c> (see <see cref="ColorLib.ColConfWin"/>) that msut
         /// be used when coloring the "phonèmes".</param>
         /// <param name="conf">The <c>Config</c> to use for the colorization.</param>
-        /// </param>
         public void ColorizePhons(Config conf, PhonConfType pct)
         {
             logger.ConditionalDebug("ColorizePhons");
@@ -613,7 +612,6 @@ namespace ColorLib
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
         /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> that must be used for marking the letters.</param>
-        /// </param>
         public void MarkLetters(Config conf)
         {
             logger.ConditionalDebug("MarkLetters");
@@ -638,7 +636,6 @@ namespace ColorLib
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
         /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> to be used for marking the "syllabes".</param>
-        /// </param>
         public void MarkSyls(Config conf)
         {
             logger.ConditionalDebug("MarkSyls");
@@ -671,7 +668,6 @@ namespace ColorLib
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
         /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> to be used for marking the words.</param>
-        /// </param>
         public void MarkWords(Config conf)
         {
             logger.ConditionalDebug("MarkWords");
@@ -696,8 +692,7 @@ namespace ColorLib
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
         /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
-        /// <param name="conf"></param>
-        /// </param>
+        /// <param name="conf">The <see cref="Config"/> to be used for marking the words.</param>
         public void MarkMuettes(Config conf)
         {
             logger.ConditionalDebug("MarkMuettes");
@@ -710,10 +705,10 @@ namespace ColorLib
         /// Colors the "voyelles" and "consonnes" in the text, according to the alternate colors defined in the <see cref="SylConfig"/>
         /// attached to <c>conf</c>, i.e. fills <see cref="formatsMgmt"/> and makes sure that 
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
+        /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
         /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
-        /// </summary>
-        /// </param>
+        /// <param name="conf">The <see cref="Config"/> to be used for marking the words.</param>
         public void MarkVoyCons(Config conf)
         {
             logger.ConditionalDebug("MarkVoyCons");
@@ -737,7 +732,6 @@ namespace ColorLib
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
         /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
-        /// </param>
         public void MarkNoir(Config conf)
         {
             logger.ConditionalDebug("MarkNoir");
@@ -766,7 +760,6 @@ namespace ColorLib
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
         /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> to use.</param>
-        /// </param>
         public void MarkLignes(Config conf)
         {
             logger.ConditionalDebug("MarkLignes");
@@ -798,7 +791,6 @@ namespace ColorLib
         /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
         /// <param name="conf">The <see cref="Config"/> defining how the "duo" formatting should
         /// be applied.</param>
-        /// </param>
         public void MarkDuo(Config conf)
         {
             logger.ConditionalDebug("MarkDuo");
