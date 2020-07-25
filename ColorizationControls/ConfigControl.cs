@@ -551,9 +551,9 @@ namespace ColorizationControls
             logger.ConditionalTrace("SetButtonColor, bouton \'{0}\'", b.Name);
             b.BackColor = color;
             if (color.Dark())
-                b.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.white];
+                b.ForeColor = ColConfWin.predefinedColors[(int)PredefCol.white];
             else
-                b.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.black];
+                b.ForeColor = ColConfWin.predefinedColors[(int)PredefCol.black];
         }
 
         /// <summary>
@@ -1204,9 +1204,9 @@ namespace ColorizationControls
                 tsmiSurlignage.BackColor = cf.hilightColor;
                 tsmiSurlignage.Checked = cf.changeHilight;
                 if (cf.hilightColor.Dark())
-                    tsmiSurlignage.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.white];
+                    tsmiSurlignage.ForeColor = ColConfWin.predefinedColors[(int)PredefCol.white];
                 else
-                    tsmiSurlignage.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.black];
+                    tsmiSurlignage.ForeColor = ColConfWin.predefinedColors[(int)PredefCol.black];
             }
             else
             {
@@ -1219,9 +1219,9 @@ namespace ColorizationControls
             tsmiCouleur.Text = txt;
             tsmiCouleur.BackColor = cf.color;
             if (cf.color.Dark())
-                tsmiCouleur.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.white];
+                tsmiCouleur.ForeColor = ColConfWin.predefinedColors[(int)PredefCol.white];
             else
-                tsmiCouleur.ForeColor = ColConfWin.predefinedColors[(int)PredefCols.black]; 
+                tsmiCouleur.ForeColor = ColConfWin.predefinedColors[(int)PredefCol.black]; 
         }
 
         // cms => context menu strip

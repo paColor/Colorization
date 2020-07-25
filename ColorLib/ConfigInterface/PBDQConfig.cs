@@ -267,7 +267,7 @@ namespace ColorLib
                 markAsBlack = val;
                 OnMarkAsBlackModified();
                 if (markAsBlack)
-                    defaultCF = ColConfWin.predefCF[(int)PredefCols.black];
+                    defaultCF = ColConfWin.predefCF[(int)PredefCol.black];
                 else
                     defaultCF = CharFormatting.NeutralCF;
                 bpdqCF[inactiveLetter] = defaultCF;
@@ -281,10 +281,10 @@ namespace ColorLib
             bpdqCF.Clear();
             // bpdqCF.Add(inactiveLetter, defaultCF); - not needed since done in SetMarkAsBlackTo
             SetMarkAsBlackTo(false);
-            UpdateLetter(0, 'b', ColConfWin.predefCF[(int)PredefCols.red]);
-            UpdateLetter(1, 'p', ColConfWin.predefCF[(int)PredefCols.darkGreen]);
-            UpdateLetter(2, 'd', ColConfWin.predefCF[(int)PredefCols.pureBlue]);
-            UpdateLetter(3, 'q', ColConfWin.predefCF[(int)PredefCols.brown]);
+            UpdateLetter(0, 'b', ColConfWin.predefCF[(int)PredefCol.red]);
+            UpdateLetter(1, 'p', ColConfWin.predefCF[(int)PredefCol.darkGreen]);
+            UpdateLetter(2, 'd', ColConfWin.predefCF[(int)PredefCol.pureBlue]);
+            UpdateLetter(3, 'q', ColConfWin.predefCF[(int)PredefCol.brown]);
             UpdateLetter(4, inactiveLetter, defaultCF);
             UpdateLetter(5, inactiveLetter, defaultCF);
             UpdateLetter(6, inactiveLetter, defaultCF);

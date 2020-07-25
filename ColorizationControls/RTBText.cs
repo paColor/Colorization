@@ -116,7 +116,7 @@ namespace ColorizationControls
             if (cf.changeColor) // set new color
                 rtb.SelectionColor = cf.color;
             else if (cf.ForceBlackColor(inConf))
-                rtb.SelectionColor = ColConfWin.predefinedColors[(int)PredefCols.black];
+                rtb.SelectionColor = ColConfWin.predefinedColors[(int)PredefCol.black];
         }
     }
 }

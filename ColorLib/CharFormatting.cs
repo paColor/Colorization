@@ -455,9 +455,9 @@ namespace ColorLib
             underline = false;
             caps = false;
             changeColor = false;
-            color = ColConfWin.predefinedColors[(int)PredefCols.black];
+            color = ColConfWin.predefinedColors[(int)PredefCol.black];
             changeHilight = false;
-            hilightColor = ColConfWin.predefinedColors[(int)PredefCols.neutral];
+            hilightColor = ColConfWin.predefinedColors[(int)PredefCol.neutral];
             contour = false;
             serif = false;
             changeFontSize = false;

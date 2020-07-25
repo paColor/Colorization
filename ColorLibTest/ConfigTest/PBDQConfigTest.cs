@@ -133,6 +133,10 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(1, MarkAsBlackModifiedEventRaised);
             Assert.AreEqual(false, pC.markAsBlack);
             ResetEventCounters();
+            pC.SetMarkAsBlackTo(false);
+            Assert.AreEqual(0, MarkAsBlackModifiedEventRaised);
+            Assert.AreEqual(false, pC.markAsBlack);
+            ResetEventCounters();
             pC.SetMarkAsBlackTo(true);
             Assert.AreEqual(1, MarkAsBlackModifiedEventRaised);
             Assert.AreEqual(true, pC.markAsBlack);

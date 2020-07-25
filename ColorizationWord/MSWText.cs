@@ -135,7 +135,7 @@ namespace ColorizationWord
             if (cf.changeColor) // set new color
                 toR.Font.Fill.ForeColor.RGB = cf.color;
             else if (cf.ForceBlackColor(inConf))
-                toR.Font.Fill.ForeColor.RGB = ColConfWin.predefinedColors[(int)PredefCols.black];
+                toR.Font.Fill.ForeColor.RGB = ColConfWin.predefinedColors[(int)PredefCol.black];
 
             if (cf.changeHilight)
             {

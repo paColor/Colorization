@@ -287,7 +287,7 @@ namespace ColorLibTest
                     changeColor = true;
                 }
                 else if (theCF.ForceBlackColor(inConf))
-                    color = ColConfWin.predefinedColors[(int)PredefCols.black];
+                    color = ColConfWin.predefinedColors[(int)PredefCol.black];
 
                 if (theCF.changeHilight)
                 {

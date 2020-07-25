@@ -80,7 +80,7 @@ namespace Colorization
             if (cf.changeColor) // set new color
                 tRange.Font.Color.RGB = cf.color;
             else if (cf.ForceBlackColor(inConf))
-                tRange.Font.Color.RGB = ColConfWin.predefinedColors[(int)PredefCols.black];
+                tRange.Font.Color.RGB = ColConfWin.predefinedColors[(int)PredefCol.black];
         }
 
         /// <summary>

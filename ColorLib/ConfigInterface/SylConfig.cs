@@ -338,7 +338,7 @@ namespace ColorLib
                 {
                     // c'est un problème. Il faut une couleur, sinon l'expérience utilisateur n'est pas consistante.
                     // mettons le bouton à noir.
-                    sylButtons[butNr].cf = new CharFormatting(inCf, ColConfWin.predefinedColors[(int)PredefCols.black]);
+                    sylButtons[butNr].cf = new CharFormatting(inCf, ColConfWin.predefinedColors[(int)PredefCol.black]);
                 }
             }
             OnSylButtonModified(butNr);
@@ -368,7 +368,7 @@ namespace ColorLib
                 sylButtons[nrSetButtons].buttonClickable = false;
                 OnSylButtonModified(nrSetButtons);
                 nrSetButtons--;
-                sylButtons[nrSetButtons].cf = ColConfWin.predefCF[(int)PredefCols.neutral];
+                sylButtons[nrSetButtons].cf = ColConfWin.predefCF[(int)PredefCol.neutral];
                 OnSylButtonModified(nrSetButtons);
             }
             else
@@ -411,13 +411,13 @@ namespace ColorLib
             for (int i = 2; i < NrButtons; i++)
             {
                 sylButtons[i].buttonClickable = false;
-                sylButtons[i].cf = ColConfWin.predefCF[(int)PredefCols.neutral];
+                sylButtons[i].cf = ColConfWin.predefCF[(int)PredefCol.neutral];
                 OnSylButtonModified(i);
             }
             sylButtons[0].buttonClickable = true;
             nrSetButtons = 0;
-            SetSylButtonCF(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
-            SetSylButtonCF(1, ColConfWin.predefCF[(int)PredefCols.red]);
+            SetSylButtonCF(0, ColConfWin.predefCF[(int)PredefCol.pureBlue]);
+            SetSylButtonCF(1, ColConfWin.predefCF[(int)PredefCol.red]);
             ResetCounter();
             DoubleConsStd = true; // mode std de LireCouleur
             mode = Mode.ecrit;
