@@ -365,7 +365,7 @@ namespace ColorLibTest.ConfigTest
             Assert.IsTrue(sC.ButtonIsActivableOne(0));
             // conf.sylConf.SylButtonModified(0, TestTheText.blueCF);
             Assert.ThrowsException<ArgumentException> 
-                (() => sC.SylButtonModified(1, TestTheText.redCF));
+                (() => sC.SetSylButtonCF(1, TestTheText.redCF));
             CheckConsistency(sC);
         }
 
@@ -383,7 +383,7 @@ namespace ColorLibTest.ConfigTest
             }
 
             ResetEventCounters();
-            sC.SylButtonModified(0, TestTheText.blueCF);
+            sC.SetSylButtonCF(0, TestTheText.blueCF);
             Assert.IsTrue(sylButModNr.Contains(0));
             Assert.IsTrue(sylButModNr.Contains(1));
             Assert.IsTrue(sylButModNr.Count == 2);
@@ -391,7 +391,7 @@ namespace ColorLibTest.ConfigTest
             CheckAlernateCF(TestTheText.blueCF, conf);
 
             ResetEventCounters();
-            sC.SylButtonModified(1, TestTheText.redCF);
+            sC.SetSylButtonCF(1, TestTheText.redCF);
             Assert.IsTrue(sylButModNr.Contains(1));
             Assert.IsTrue(sylButModNr.Contains(2));
             Assert.IsTrue(sylButModNr.Count == 2);
@@ -399,7 +399,7 @@ namespace ColorLibTest.ConfigTest
             CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, conf);
 
             ResetEventCounters();
-            sC.SylButtonModified(2, TestTheText.fixCFs[2]);
+            sC.SetSylButtonCF(2, TestTheText.fixCFs[2]);
             Assert.IsTrue(sylButModNr.Contains(2));
             Assert.IsTrue(sylButModNr.Contains(3));
             Assert.IsTrue(sylButModNr.Count == 2);
@@ -407,7 +407,7 @@ namespace ColorLibTest.ConfigTest
             CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2], conf);
 
             ResetEventCounters();
-            sC.SylButtonModified(3, TestTheText.fixCFs[3]);
+            sC.SetSylButtonCF(3, TestTheText.fixCFs[3]);
             Assert.IsTrue(sylButModNr.Contains(3));
             Assert.IsTrue(sylButModNr.Contains(4));
             Assert.IsTrue(sylButModNr.Count == 2);
@@ -416,7 +416,7 @@ namespace ColorLibTest.ConfigTest
                 TestTheText.fixCFs[3], conf);
 
             ResetEventCounters();
-            sC.SylButtonModified(4, TestTheText.fixCFs[4]);
+            sC.SetSylButtonCF(4, TestTheText.fixCFs[4]);
             Assert.IsTrue(sylButModNr.Contains(4));
             Assert.IsTrue(sylButModNr.Contains(5));
             Assert.IsTrue(sylButModNr.Count == 2);
@@ -425,7 +425,7 @@ namespace ColorLibTest.ConfigTest
                 TestTheText.fixCFs[3], TestTheText.fixCFs[4], conf);
 
             ResetEventCounters();
-            sC.SylButtonModified(5, TestTheText.fixCFs[5]);
+            sC.SetSylButtonCF(5, TestTheText.fixCFs[5]);
             Assert.IsTrue(sylButModNr.Contains(5));
             Assert.IsTrue(sylButModNr.Count == 1);
             CheckConsistency(sC);
@@ -433,7 +433,7 @@ namespace ColorLibTest.ConfigTest
                 TestTheText.fixCFs[3], TestTheText.fixCFs[4], TestTheText.fixCFs[5], conf);
 
             ResetEventCounters();
-            sC.SylButtonModified(3, TestTheText.fixCFs[7]);
+            sC.SetSylButtonCF(3, TestTheText.fixCFs[7]);
             Assert.IsTrue(sylButModNr.Contains(3));
             Assert.IsTrue(sylButModNr.Count == 1);
             CheckConsistency(sC);
@@ -639,6 +639,78 @@ namespace ColorLibTest.ConfigTest
             ttt.AssertColor(index + 4, TestTheText.fixCols[0]);
             index = ttt.S.IndexOf("long");
             ttt.AssertColor(index + 3, TestTheText.fixCols[0]);
+        }
+
+        [TestMethod]
+        public void TestMethod6()
+        {
+            // Effacer tous les formatages
+            SylConfig sC = conf.sylConf;
+            for (int i = SylConfig.NrButtons - 1; i >= 0; i--)
+            {
+                if (sC.ButtonIsLastActive(i))
+                {
+                    sC.ClearButton(i);
+                }
+            }
+
+            ResetEventCounters();
+            sC.SetSylButtonCF("0", TestTheText.blueCF);
+            Assert.IsTrue(sylButModNr.Contains(0));
+            Assert.IsTrue(sylButModNr.Contains(1));
+            Assert.IsTrue(sylButModNr.Count == 2);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, conf);
+
+            ResetEventCounters();
+            sC.SetSylButtonCF("1", TestTheText.redCF);
+            Assert.IsTrue(sylButModNr.Contains(1));
+            Assert.IsTrue(sylButModNr.Contains(2));
+            Assert.IsTrue(sylButModNr.Count == 2);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, conf);
+
+            ResetEventCounters();
+            sC.SetSylButtonCF("2", TestTheText.fixCFs[2]);
+            Assert.IsTrue(sylButModNr.Contains(2));
+            Assert.IsTrue(sylButModNr.Contains(3));
+            Assert.IsTrue(sylButModNr.Count == 2);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2], conf);
+
+            ResetEventCounters();
+            sC.SetSylButtonCF("3", TestTheText.fixCFs[3]);
+            Assert.IsTrue(sylButModNr.Contains(3));
+            Assert.IsTrue(sylButModNr.Contains(4));
+            Assert.IsTrue(sylButModNr.Count == 2);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2],
+                TestTheText.fixCFs[3], conf);
+
+            ResetEventCounters();
+            sC.SetSylButtonCF("4", TestTheText.fixCFs[4]);
+            Assert.IsTrue(sylButModNr.Contains(4));
+            Assert.IsTrue(sylButModNr.Contains(5));
+            Assert.IsTrue(sylButModNr.Count == 2);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2],
+                TestTheText.fixCFs[3], TestTheText.fixCFs[4], conf);
+
+            ResetEventCounters();
+            sC.SetSylButtonCF("5", TestTheText.fixCFs[5]);
+            Assert.IsTrue(sylButModNr.Contains(5));
+            Assert.IsTrue(sylButModNr.Count == 1);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2],
+                TestTheText.fixCFs[3], TestTheText.fixCFs[4], TestTheText.fixCFs[5], conf);
+
+            ResetEventCounters();
+            sC.SetSylButtonCF("4", TestTheText.fixCFs[7]);
+            Assert.IsTrue(sylButModNr.Contains(4));
+            Assert.IsTrue(sylButModNr.Count == 1);
+            CheckConsistency(sC);
+            CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2],
+                TestTheText.fixCFs[3], TestTheText.fixCFs[7], TestTheText.fixCFs[5], conf);
         }
     }
 }

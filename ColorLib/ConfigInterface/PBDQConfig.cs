@@ -74,9 +74,17 @@ namespace ColorLib
         /// Indique si les lettres qui ne doivent pas être marquées doivent être laissées telles
         /// quelles <c>false</c> ou mises en noir <c>true</c>.
         /// </summary>
-        /// <remarks>Peut être modifié par la méthode <see cref="ChangeBlackSettingTo"/>.
+        /// <remarks>
+        /// <para>
+        /// Peut être modifié par la méthode <see cref="SetMarkAsBlackTo"/>.
         /// On n'a pas modifié le 'setter' pour ne pas se poser de questions sur la compatibilité
-        /// avec les anciennes versions des fichiers de sauvegarde. </remarks>
+        /// avec les anciennes versions des fichiers de sauvegarde. 
+        /// </para>
+        /// <para>
+        /// Seule la culeur est mise à noir. Les autres caractéristiques comme 'bold' ne sont
+        /// pas touchées.
+        /// </para>
+        /// </remarks>
         public bool markAsBlack { get; private set; }
 
         // -------------------------------------------------------------------------------------------------------------------
@@ -121,24 +129,24 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Retourne le <see cref="CharFormatting"/> et la lettre choisie pour le bouton <paramref name="i"/>. 
+        /// Retourne le <see cref="CharFormatting"/> et la lettre choisie pour le bouton <paramref name="butNr"/>. 
         /// </summary>
-        /// <param name="i">Numéro du bouton dont on veut le <see cref="CharFormatting"/> et la lettre.</param>
-        /// <param name="c">Retourne la lettre traitée par le bouton <paramref name="i"/>. Si le 
+        /// <param name="butNr">Numéro du bouton dont on veut le <see cref="CharFormatting"/> et la lettre.</param>
+        /// <param name="c">Retourne la lettre traitée par le bouton <paramref name="butNr"/>. Si le 
         /// bouton est inutilisé, retourne <see cref="inactiveLetter"/>.</param>
-        /// <returns>Le <see cref="CharFormatting"/> attribué au bouton <paramref name="i"/> ou <c>null</c>
+        /// <returns>Le <see cref="CharFormatting"/> attribué au bouton <paramref name="butNr"/> ou <c>null</c>
         /// s'il n'existe pas pour le bouton en question.</returns>
         /// <exception cref="ArgumentException">Si <c>i</c> n'a pas une valeur entre <c>0</c> et
         /// <c>nrButtons - 1</c>.</exception>
-        public CharFormatting GetCfForPBDQButton(int i, out char c)
+        public CharFormatting GetCfForPBDQButton(int butNr, out char c)
         {
-            logger.ConditionalDebug("GetCfForPBDQButton bouton no {0}", i);
-            if (i < 0 || i > nrButtons - 1)
+            logger.ConditionalDebug("GetCfForPBDQButton bouton no {0}", butNr);
+            if (butNr < 0 || butNr > nrButtons - 1)
             {
-                logger.Fatal("GetCfForPBDQButton - le bouton demandé n'existe pas: {0}", i);
-                throw new ArgumentException("GetCfForPBDQButton - le bouton demandé n'existe pas", nameof(i));
+                logger.Fatal("GetCfForPBDQButton - le bouton demandé n'existe pas: {0}", butNr);
+                throw new ArgumentException("GetCfForPBDQButton - le bouton demandé n'existe pas", nameof(butNr));
             }
-            c = selLetters[i];
+            c = selLetters[butNr];
             return GetCfForPBDQLetter(c);
         }
 
@@ -164,27 +172,27 @@ namespace ColorLib
         /// <summary>
         /// Met à jour la configuration du bouton <c>buttonNr</c> avec <c>cf</c>.
         /// </summary>
-        /// <param name="buttonNr">Le nr du bouton pour lequel il y a un nouveau <c>cf</c></param>
+        /// <param name="butNr">Le nr du bouton pour lequel il y a un nouveau <c>cf</c></param>
         /// <param name="cf">Le nouveau <c>CharFormatting</c> pour le bouton.</param>
         /// <returns><c>false</c> si la lettre du bouton en question est égale à la lettre inactive (' '). A ce 
         /// moment-là, rien n'est fait. <c>true</c> si la modification a été effectuée avec succès.</returns>
         /// <exception cref="ArgumentException">Si <c>buttonNr</c> n'a pas une valeur entre <c>0</c> et
         /// <c>nrButtons - 1</c>.</exception>
-        public bool UpdateLetter(int buttonNr, CharFormatting cf)
+        public bool UpdateLetter(int butNr, CharFormatting cf)
         {
-            logger.ConditionalDebug("UpdateLetter bouton no {0}", buttonNr);
-            if (buttonNr < 0 || buttonNr > nrButtons - 1)
+            logger.ConditionalDebug("UpdateLetter bouton no {0}", butNr);
+            if (butNr < 0 || butNr > nrButtons - 1)
             {
-                logger.Fatal("UpdateLetter - le bouton indiqué n'existe pas: {0}", buttonNr);
-                throw new ArgumentException("UpdateLetter - le bouton indiqué n'existe pas", nameof(buttonNr));
+                logger.Fatal("UpdateLetter - le bouton indiqué n'existe pas: {0}", butNr);
+                throw new ArgumentException("UpdateLetter - le bouton indiqué n'existe pas", nameof(butNr));
             }
             bool toReturn = false;
-            char c = selLetters[buttonNr];
+            char c = selLetters[butNr];
             if (c != inactiveLetter)
             {
                 toReturn = true;
                 bpdqCF[c] = cf;
-                OnLetterButtonModifed(new LetterButtonModifiedEventArgs(buttonNr));
+                OnLetterButtonModifed(new LetterButtonModifiedEventArgs(butNr));
             }
             return toReturn;
         }
@@ -194,7 +202,7 @@ namespace ColorLib
         /// pour un autre bouton, la modification est refusée et la méthode retourne <c>false</c>. Si <c>c</c> est 
         /// le caractère inactif ' ', le bouton est "effacé". 
         /// </summary>
-        /// <param name="buttonNr">Identifie le bouton à modifier par son numéro.</param>
+        /// <param name="butNr">Identifie le bouton à modifier par son numéro.</param>
         /// <param name="c">Le caractère pour le bouton. <see cref="inactiveLetter"/> correspond
         /// à un effacement du bouton.</param>
         /// <param name="cf">Le nouveau <c>CharFormatting</c> pour le bouton</param>
@@ -202,16 +210,16 @@ namespace ColorLib
         /// déjà traitée.</returns>
         /// <exception cref="ArgumentException">Si <c>buttonNr</c> n'a pas une valeur entre <c>0</c> et
         /// <c>nrButtons - 1</c>.</exception>
-        public bool UpdateLetter (int buttonNr, char c, CharFormatting cf)
+        public bool UpdateLetter (int butNr, char c, CharFormatting cf)
         {
-            logger.ConditionalDebug("UpdateLetter buttonNr: {0}, c: \'{1}\'", buttonNr, c);
-            if (buttonNr < 0 || buttonNr > nrButtons - 1)
+            logger.ConditionalDebug("UpdateLetter buttonNr: {0}, c: \'{1}\'", butNr, c);
+            if (butNr < 0 || butNr > nrButtons - 1)
             {
-                logger.Fatal("UpdateLetter - le bouton demandé n'existe pas: {0}, lettre \'{1}\'", buttonNr, c);
-                throw new ArgumentException("UpdateLetter - le bouton demandé n'existe pas", nameof(buttonNr));
+                logger.Fatal("UpdateLetter - le bouton demandé n'existe pas: {0}, lettre \'{1}\'", butNr, c);
+                throw new ArgumentException("UpdateLetter - le bouton demandé n'existe pas", nameof(butNr));
             }
             bool toReturn = true;
-            char previousC = selLetters[buttonNr];
+            char previousC = selLetters[butNr];
 
             if (c != inactiveLetter)
             {
@@ -222,7 +230,7 @@ namespace ColorLib
                         if (previousC != inactiveLetter)
                             bpdqCF.Remove(previousC);
                         bpdqCF[c] = cf;
-                        selLetters[buttonNr] = c;
+                        selLetters[butNr] = c;
                     }
                     else
                     {
@@ -239,12 +247,12 @@ namespace ColorLib
             else
             {
                 // c == inactiveLetter
-                selLetters[buttonNr] = inactiveLetter; // neutral character inactiveLetter
+                selLetters[butNr] = inactiveLetter; // neutral character inactiveLetter
                 if (previousC != inactiveLetter)
                     bpdqCF.Remove(previousC);
             }
             if (toReturn)
-                OnLetterButtonModifed(new LetterButtonModifiedEventArgs(buttonNr));
+                OnLetterButtonModifed(new LetterButtonModifiedEventArgs(butNr));
             logger.ConditionalDebug("END UodateLetter toReturn: {0}", toReturn.ToString());
             return toReturn;
         } // UpdateLetter
@@ -253,7 +261,7 @@ namespace ColorLib
         /// Modifie la valeur du flag <c>markAsBlack</c>.
         /// </summary>
         /// <param name="val">Nouvelle valeur du flag.</param>
-        public void ChangeBlackSettingTo(bool val)
+        public void SetMarkAsBlackTo(bool val)
         {
             if (markAsBlack != val) { // on s'assure qu'il ne peut y avoir de boucle pour toujours remettre la même valeur.
                 markAsBlack = val;
@@ -271,8 +279,8 @@ namespace ColorLib
         {
             
             bpdqCF.Clear();
-            // bpdqCF.Add(inactiveLetter, defaultCF); - not needed since done in ChangeBlackSettingTo
-            ChangeBlackSettingTo(false);
+            // bpdqCF.Add(inactiveLetter, defaultCF); - not needed since done in SetMarkAsBlackTo
+            SetMarkAsBlackTo(false);
             UpdateLetter(0, 'b', ColConfWin.predefCF[(int)PredefCols.red]);
             UpdateLetter(1, 'p', ColConfWin.predefCF[(int)PredefCols.darkGreen]);
             UpdateLetter(2, 'd', ColConfWin.predefCF[(int)PredefCols.pureBlue]);

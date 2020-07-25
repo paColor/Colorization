@@ -317,7 +317,7 @@ namespace ColorLib
         /// </summary>
         /// <param name="butNr">Le numéro du bouton dont il faut changer le formatage.</param>
         /// <param name="inCf">Le nouveau formatage.</param>
-        public void SylButtonModified(int butNr, CharFormatting inCf)
+        public void SetSylButtonCF(int butNr, CharFormatting inCf)
         {
             logger.ConditionalDebug("SylButtonModified butNr: {0}", butNr);
             if (butNr > nrSetButtons)
@@ -349,9 +349,9 @@ namespace ColorLib
         /// </summary>
         /// <param name="butNrTxt">Le numéro du boutton.</param>
         /// <param name="inCf">Le nouveau <c>CharFormatting</c> pour le bouton.</param>
-        public void SylButtonModified(string butNrTxt, CharFormatting inCf)
+        public void SetSylButtonCF(string butNrTxt, CharFormatting inCf)
         {
-            SylButtonModified(int.Parse(butNrTxt), inCf);
+            SetSylButtonCF(int.Parse(butNrTxt), inCf);
         }
 
         /// <summary>
@@ -416,8 +416,8 @@ namespace ColorLib
             }
             sylButtons[0].buttonClickable = true;
             nrSetButtons = 0;
-            SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
-            SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.red]);
+            SetSylButtonCF(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
+            SetSylButtonCF(1, ColConfWin.predefCF[(int)PredefCols.red]);
             ResetCounter();
             DoubleConsStd = true; // mode std de LireCouleur
             mode = Mode.ecrit;

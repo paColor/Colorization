@@ -127,13 +127,13 @@ namespace ColorLibTest.ConfigTest
         {
             PBDQConfig pC = conf.pBDQ;
 
-            pC.ChangeBlackSettingTo(true);
+            pC.SetMarkAsBlackTo(true);
             ResetEventCounters();
-            pC.ChangeBlackSettingTo(false);
+            pC.SetMarkAsBlackTo(false);
             Assert.AreEqual(1, MarkAsBlackModifiedEventRaised);
             Assert.AreEqual(false, pC.markAsBlack);
             ResetEventCounters();
-            pC.ChangeBlackSettingTo(true);
+            pC.SetMarkAsBlackTo(true);
             Assert.AreEqual(1, MarkAsBlackModifiedEventRaised);
             Assert.AreEqual(true, pC.markAsBlack);
 
@@ -148,14 +148,31 @@ namespace ColorLibTest.ConfigTest
                 Assert.IsFalse(pC.UpdateLetter(i, CharFormatting.NeutralCF));
             }
             CheckConsistency(pC);
+            ResetEventCounters();
+
             Assert.IsTrue(pC.UpdateLetter(0, 'p', TestTheText.fixCFs[0]));
+            Assert.AreEqual(1, lButNrs.Count);
+            Assert.AreEqual(0, lButNrs[0]);
             CheckConsistency(pC);
+            ResetEventCounters();
+
             Assert.IsTrue(pC.UpdateLetter(1, 'b', TestTheText.fixCFs[1]));
+            Assert.AreEqual(1, lButNrs.Count);
+            Assert.AreEqual(1, lButNrs[0]);
             CheckConsistency(pC);
+            ResetEventCounters();
+
             Assert.IsTrue(pC.UpdateLetter(2, 'd', TestTheText.fixCFs[2]));
+            Assert.AreEqual(1, lButNrs.Count);
+            Assert.AreEqual(2, lButNrs[0]);
             CheckConsistency(pC);
+            ResetEventCounters();
+
             Assert.IsTrue(pC.UpdateLetter(3, 'q', TestTheText.fixCFs[3]));
+            Assert.AreEqual(1, lButNrs.Count);
+            Assert.AreEqual(3, lButNrs[0]);
             CheckConsistency(pC);
+            ResetEventCounters();
         }
 
         [TestMethod]
@@ -220,7 +237,91 @@ namespace ColorLibTest.ConfigTest
         public void TestMethod4()
         {
             // Il faut vérifier que le flag markAsBlack a bien l'effet voulu.
-            Assert.IsTrue(false);
+            PBDQConfig pC = conf.pBDQ;
+            TestTheText ttt = new TestTheText(text1);
+            ttt.AssertColor(12, TestTheText.black);
+
+            // Tout marquer avec un seul CF
+            SylConfig sC = conf.sylConf;
+            for (int i = SylConfig.NrButtons - 1; i >= 0; i--)
+            {
+                if (sC.ButtonIsLastActive(i))
+                {
+                    sC.ClearButton(i);
+                }
+            }
+            conf.sylConf.SetSylButtonCF(0, TestTheText.fixCFs[7]);
+            ttt.MarkWords(conf);
+
+            ttt.AssertNotColor(12, TestTheText.black);
+            ttt.AssertBold(12, true);
+            CharFormatting cf12 = ttt.GetCF(12);
+
+            pC.SetMarkAsBlackTo(false);
+
+            Assert.IsTrue(pC.UpdateLetter(0, 'M', TestTheText.fixCFs[0]));
+            Assert.IsTrue(pC.UpdateLetter(1, 'P', TestTheText.fixCFs[1]));
+            Assert.IsTrue(pC.UpdateLetter(2, 'e', TestTheText.fixCFs[2]));
+            Assert.IsTrue(pC.UpdateLetter(3, 'h', TestTheText.fixCFs[3]));
+            Assert.IsTrue(pC.UpdateLetter(4, PBDQConfig.inactiveLetter, TestTheText.fixCFs[3]));
+            Assert.IsTrue(pC.UpdateLetter(5, PBDQConfig.inactiveLetter, TestTheText.fixCFs[3]));
+            Assert.IsTrue(pC.UpdateLetter(6, PBDQConfig.inactiveLetter, TestTheText.fixCFs[3]));
+            Assert.IsTrue(pC.UpdateLetter(7, PBDQConfig.inactiveLetter, TestTheText.fixCFs[3]));
+
+            Assert.IsFalse(pC.UpdateLetter(3, 'M', TestTheText.fixCFs[0]));
+            Assert.IsFalse(pC.UpdateLetter(4, 'M', TestTheText.fixCFs[0]));
+            Assert.IsFalse(pC.UpdateLetter(5, 'P', TestTheText.fixCFs[0]));
+            Assert.IsFalse(pC.UpdateLetter(6, 'e', TestTheText.fixCFs[0]));
+            Assert.IsFalse(pC.UpdateLetter(7, 'h', TestTheText.fixCFs[0]));
+            Assert.IsFalse(pC.UpdateLetter(1, 'M', TestTheText.fixCFs[0]));
+            Assert.AreEqual('M', pC.GetLetterForButtonNr(0));
+            Assert.AreEqual('P', pC.GetLetterForButtonNr(1));
+            Assert.AreEqual('e', pC.GetLetterForButtonNr(2));
+            Assert.AreEqual('h', pC.GetLetterForButtonNr(3));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(4));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(5));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(6));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(7));
+
+            pC.SetMarkAsBlackTo(false);
+            Assert.AreEqual(pC.GetCfForPBDQLetter(
+                PBDQConfig.inactiveLetter), CharFormatting.NeutralCF);
+            pC.SetMarkAsBlackTo(true);
+            Assert.AreEqual(pC.GetCfForPBDQLetter(
+                PBDQConfig.inactiveLetter), TestTheText.blackCF);
+
+            Assert.IsTrue(pC.UpdateLetter(4, 'x', TestTheText.fixCFs[4]));
+            Assert.IsTrue(pC.UpdateLetter(5, 'y', TestTheText.fixCFs[5]));
+            Assert.IsTrue(pC.UpdateLetter(6, 'z', TestTheText.fixCFs[6]));
+            Assert.IsTrue(pC.UpdateLetter(7, '§', TestTheText.fixCFs[7]));
+            CheckConsistency(pC);
+
+            pC.SetMarkAsBlackTo(false);
+            ttt.MarkLetters(conf);
+            int index = ttt.S.IndexOf("Monsieur");
+            ttt.AssertColor(index, TestTheText.fixCols[0]);
+            ttt.AssertColor(index + 5, TestTheText.fixCols[2]);
+            index = ttt.S.IndexOf("Poiret");
+            ttt.AssertColor(index, TestTheText.fixCols[1]);
+            index = ttt.S.IndexOf("cachait");
+            ttt.AssertColor(index + 3, TestTheText.fixCols[3]);
+            ttt.AssertNotColor(12, TestTheText.black);
+            ttt.AssertCF(12, cf12);
+            ttt.AssertBold(12, true);
+            CheckConsistency(pC);
+
+            pC.SetMarkAsBlackTo(true);
+            ttt.MarkLetters(conf);
+            index = ttt.S.IndexOf("Monsieur");
+            ttt.AssertColor(index, TestTheText.fixCols[0]);
+            ttt.AssertColor(index + 5, TestTheText.fixCols[2]);
+            index = ttt.S.IndexOf("Poiret");
+            ttt.AssertColor(index, TestTheText.fixCols[1]);
+            index = ttt.S.IndexOf("cachait");
+            ttt.AssertColor(index + 3, TestTheText.fixCols[3]);
+            ttt.AssertColor(12, TestTheText.black);
+            ttt.AssertBold(12, true);
+
         }
     }
 }

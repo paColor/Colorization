@@ -180,13 +180,8 @@ namespace ColorLibTest
         public readonly static CharFormatting blueCF = new CharFormatting(blue);
         public readonly static CharFormatting greenCF = new CharFormatting(green);
         public readonly static CharFormatting whiteCF = new CharFormatting(white);
+        public readonly static CharFormatting blackCF = new CharFormatting(black);
 
-        public static new void Init()
-        {
-            TheText.Init();
-
-        }
-        
         /// <summary>
         /// Longueur de ligne pour les strings représentant le texte. Au delà, --> à la ligne
         /// </summary>
@@ -363,11 +358,63 @@ namespace ColorLibTest
         // *                                     TEST SUPPORT                                     *
         // ****************************************************************************************
 
+        // --------------------- On Position -----------------------------
+
         public void AssertColor(int pos, RGB theCol)
         {
-            Assert.IsTrue(pos >= 0 && pos < S.Length);
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
             Assert.AreEqual(theCol, formattedText[pos].cf.color);
         }
+
+        public void AssertNotColor(int pos, RGB theCol)
+        {
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
+            Assert.AreNotEqual(theCol, formattedText[pos].cf.color);
+        }
+
+        public void AssertBold(int pos, bool val)
+        {
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
+            Assert.AreEqual(val, formattedText[pos].cf.bold);
+        }
+
+        public void AssertItalic(int pos, bool val)
+        {
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
+            Assert.AreEqual(val, formattedText[pos].cf.italic);
+        }
+
+        public void AssertUnderline(int pos, bool val)
+        {
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
+            Assert.AreEqual(val, formattedText[pos].cf.underline);
+        }
+
+        public void AssertChangeColor(int pos, bool val)
+        {
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
+            Assert.AreEqual(val, formattedText[pos].cf.changeColor);
+        }
+
+        public void AssertChangeHilight(int pos, bool val)
+        {
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
+            Assert.AreEqual(val, formattedText[pos].cf.changeHilight);
+        }
+
+        public void AssertHilightColor(int pos, RGB theCol)
+        {
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
+            Assert.AreEqual(theCol, formattedText[pos].cf.hilightColor);
+        }
+
+        public CharFormatting GetCF (int pos)
+        {
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
+            return formattedText[pos].cf;
+        }
+
+        // --------------------- On Range -----------------------------
 
         public void AssertColor(int fromPos, int len, RGB theCol)
         {
@@ -414,8 +461,8 @@ namespace ColorLibTest
             for (int i = SylConfig.NrButtons - 1; i >= 0; i--)
                 if (i > 1 && conf.sylConf.ButtonIsLastActive(i))
                     conf.sylConf.ClearButton(i);
-            conf.sylConf.SylButtonModified(0, blueCF);
-            conf.sylConf.SylButtonModified(1, redCF);
+            conf.sylConf.SetSylButtonCF(0, blueCF);
+            conf.sylConf.SetSylButtonCF(1, redCF);
             conf.sylConf.marquerMuettes = false;
 
             MarkSyls(conf);

@@ -698,14 +698,14 @@ namespace ColorLib
             if (theSubConfigNr == 1)
             {
                 SetConfigName(DefaultSubConf1Name);
-                sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
-                sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.lightBlue]);
+                sylConf.SetSylButtonCF(0, ColConfWin.predefCF[(int)PredefCols.pureBlue]);
+                sylConf.SetSylButtonCF(1, ColConfWin.predefCF[(int)PredefCols.lightBlue]);
             }
             else if (theSubConfigNr == 2)
             {
                 SetConfigName(DefaultSubConf2Name);
-                sylConf.SylButtonModified(0, ColConfWin.predefCF[(int)PredefCols.darkRed]);
-                sylConf.SylButtonModified(1, ColConfWin.predefCF[(int)PredefCols.pink]);
+                sylConf.SetSylButtonCF(0, ColConfWin.predefCF[(int)PredefCols.darkRed]);
+                sylConf.SetSylButtonCF(1, ColConfWin.predefCF[(int)PredefCols.pink]);
             }
             else
             {

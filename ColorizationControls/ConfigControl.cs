@@ -718,7 +718,7 @@ namespace ColorizationControls
             logger.ConditionalDebug("cbAlettresNoir_CheckedChanged");
             Debug.Assert(sender != null);
             CheckBox cbx = (CheckBox)sender;
-            theConf.pBDQ.ChangeBlackSettingTo(cbx.Checked);
+            theConf.pBDQ.SetMarkAsBlackTo(cbx.Checked);
         }
 
         private void MarkAsBlackModified(object sender, EventArgs e)
@@ -895,7 +895,7 @@ namespace ColorizationControls
             if (theConf.sylConf.GetSylButtonConfFor(cNr).buttonClickable)
             {
                 CharFormatForm form = new SylFormatForm(theConf.sylConf.GetSylButtonConfFor(cNr).cf,
-                cNrTxt, theConf.sylConf.SylButtonModified);
+                cNrTxt, theConf.sylConf.SetSylButtonCF);
                 mousePos.Offset(-form.Width, -(form.Height / 2));
                 form.Location = mousePos;
                 _ = form.ShowDialog();
@@ -1333,7 +1333,7 @@ namespace ColorizationControls
                     theConf.pBDQ.UpdateLetter(cmsButNr, c, clipboard);
                     break;
                 case "btSC":
-                    theConf.sylConf.SylButtonModified(cmsButNr, clipboard);
+                    theConf.sylConf.SetSylButtonCF(cmsButNr, clipboard);
                     break;
                 case "btn":
                     theConf.colors[pct].SetCbxAndCF(cmsButSon, clipboard);
@@ -1369,7 +1369,7 @@ namespace ColorizationControls
                     _ = theConf.pBDQ.UpdateLetter(cmsButNr, cf);
                     break;
                 case "btSC":
-                    theConf.sylConf.SylButtonModified(cmsButNr, cf);
+                    theConf.sylConf.SetSylButtonCF(cmsButNr, cf);
                     break;
                 case "btn":
                     theConf.colors[pct].SetCbxAndCF(cmsButSon, cf);
