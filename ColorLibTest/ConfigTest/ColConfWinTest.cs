@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ColorLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -29,7 +30,39 @@ namespace ColorLibTest.ConfigTest
         //
         #endregion
 
+        private List<SonConfigModifiedEventArgs> SonCharFormattingModifiedEvents = new List<SonConfigModifiedEventArgs>();
+        private List<SonConfigModifiedEventArgs> SonCBModifiedEvents = new List<SonConfigModifiedEventArgs>();
+        private List<PhonConfModifiedEventArgs> IllModifiedEvents = new List<PhonConfModifiedEventArgs>();
+        private List<PhonConfModifiedEventArgs> DefBehModifiedEvents = new List<PhonConfModifiedEventArgs>();
         private Config conf;
+
+        private void HandleSonCharFormattingModified(object sender, SonConfigModifiedEventArgs e)
+        {
+            SonCharFormattingModifiedEvents.Add(e);
+        }
+
+        private void HandleSonCBModified(object sender, SonConfigModifiedEventArgs e)
+        {
+            SonCBModifiedEvents.Add(e);
+        }
+
+        private void HandleIllModified(object sender, PhonConfModifiedEventArgs e)
+        {
+            IllModifiedEvents.Add(e);
+        }
+
+        private void HandleDefBehModified(object sender, PhonConfModifiedEventArgs e)
+        {
+            DefBehModifiedEvents.Add(e);
+        }
+
+        private void ResetEventCounters()
+        {
+            SonCharFormattingModifiedEvents.Clear();
+            SonCBModifiedEvents.Clear();
+            IllModifiedEvents.Clear();
+            DefBehModifiedEvents.Clear();
+        }
 
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
@@ -42,17 +75,30 @@ namespace ColorLibTest.ConfigTest
         public void MyTestInitialize()
         {
             conf = new Config();
+            ColConfWin ccw = conf.colors[PhonConfType.phonemes];
+            ccw.DefBehModifiedEvent += HandleDefBehModified;
+            ccw.IllModifiedEvent += HandleIllModified;
+            ccw.SonCBModifiedEvent += HandleSonCBModified;
+            ccw.SonCharFormattingModifiedEvent += HandleSonCharFormattingModified;
             ResetEventCounters();
-        }
-
-        private void ResetEventCounters()
-        {
-            
         }
 
         [TestMethod]
         public void TestMethod1()
         {
+            ColConfWin ccw = conf.colors[PhonConfType.phonemes];
+
+            // IllRuleToUse
+            ccw.IllRuleToUse = ColConfWin.IllRule.undefined;
+            ResetEventCounters();
+            ccw.IllRuleToUse = ColConfWin.IllRule.ceras;
+            Assert.AreEqual(1, IllModifiedEvents.Count);
+            Assert.AreEqual(PhonConfType.phonemes, IllModifiedEvents[0].pct);
+            ResetEventCounters();
+            ccw.IllRuleToUse = ColConfWin.IllRule.ceras;
+            Assert.AreEqual(0, IllModifiedEvents.Count);
+
+
         }
     }
 }

@@ -183,6 +183,36 @@ namespace ColorLib
         [Serializable]
         public enum DefBeh { transparent, noir, undefined }
 
+        /// <summary>
+        /// Identifiants pour les flags de contrôle des règles de l'automate. Est typiquement
+        /// utilisé comme indice dans un tableau de flags.
+        /// </summary>
+        [Serializable]
+        public enum RuleFlag
+        {
+            /// <summary>
+            /// valeur non définie.
+            /// </summary>
+            undefined,
+
+            /// <summary>
+            /// les "ill" et "il" sont traités comme un son.
+            /// </summary>
+            IllCeras,
+
+            /// <summary>
+            /// les "ill" et "il" sont traités en fonction des phonèmes effectivement présents
+            /// dans les mots. fille par exemple donne fij°.
+            /// </summary>
+            IllLireCouleur,
+
+            /// <summary>
+            /// Dernière valeur de l'énuméré. Peut-être utilisé si on désire itérer sur toutes
+            /// les valeurs...
+            /// </summary>
+            last
+        }
+
         // -------------------------------------------------------------------------------------------------------------------
         // --------------------------------------------  public static members -----------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
@@ -228,38 +258,6 @@ namespace ColorLib
         /// <c>CharFormatting.NeutralCF</c> which is equivalent.
         /// </remarks>
         public static CharFormatting[] predefCF { get; private set; }
-        
-
-        // -------------------------------------------------------------------------------------------------------------------
-        // -----------------------------------------------  Internal Types ---------------------------------------------------
-        // -------------------------------------------------------------------------------------------------------------------
-
-        /// <summary>
-        /// Identifiants pour les flags de contrôle des règles de l'automate. Est typiquement
-        /// utilisé comme indice dans un tableau de flags.
-        /// </summary>
-        public enum RuleFlag { 
-            /// <summary>
-            /// valeur non définie.
-            /// </summary>
-            undefined,
-
-            /// <summary>
-            /// les "ill" et "il" sont traités comme un son.
-            /// </summary>
-            IllCeras,
-
-            /// <summary>
-            /// les "ill" et "il" sont traités en fonction des phonèmes effectivement présents
-            /// dans les mots. fille par exemple donne fij°.
-            /// </summary>
-            IllLireCouleur,
-            
-            /// <summary>
-            /// Dernière valeur de l'énuméré. Peut-être utilisé si on désire itérer sur toutes
-            /// les valeurs...
-            /// </summary>
-            last }
 
         // -------------------------------------------------------------------------------------------------------------------
         // --------------------------------------------  private static members ----------------------------------------------
@@ -437,8 +435,10 @@ namespace ColorLib
             {
                 if (flags[(int)RuleFlag.IllCeras])
                     return IllRule.ceras;
-                else
+                else if (flags[(int)RuleFlag.IllLireCouleur])
                     return IllRule.lirecouleur;
+                else
+                    return IllRule.undefined;
             }
 
             set
@@ -453,6 +453,12 @@ namespace ColorLib
                 {
                     flags[(int)RuleFlag.IllCeras] = false;
                     flags[(int)RuleFlag.IllLireCouleur] = true;
+                    OnIllModified(pct);
+                }
+                else if (value == IllRule.undefined)
+                {
+                    flags[(int)RuleFlag.IllCeras] = false;
+                    flags[(int)RuleFlag.IllLireCouleur] = false;
                     OnIllModified(pct);
                 }
             }
