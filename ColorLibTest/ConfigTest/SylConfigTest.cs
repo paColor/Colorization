@@ -711,6 +711,40 @@ namespace ColorLibTest.ConfigTest
             CheckConsistency(sC);
             CheckAlernateCF(TestTheText.blueCF, TestTheText.redCF, TestTheText.fixCFs[2],
                 TestTheText.fixCFs[3], TestTheText.fixCFs[7], TestTheText.fixCFs[5], conf);
+
+            sC.Reset();
+            Assert.IsTrue(sC.DoubleConsStd);
+            Assert.AreEqual(SylConfig.Mode.ecrit, sC.mode);
+            Assert.IsTrue(sC.marquerMuettes);
+            Assert.IsTrue(sC.chercherDierese);
+            Assert.AreEqual(0, sC.nbrPieds);
+            Assert.AreEqual(ColConfWinTest.cfBLEU, sC.GetSylButtonConfFor(0).cf);
+            Assert.AreEqual(ColConfWinTest.cfu, sC.GetSylButtonConfFor(1).cf);
+            Assert.IsTrue(sC.ButtonIsLastActive(1));
+            Assert.IsTrue(sC.ButtonIsActivableOne(2));
+            Assert.IsTrue(sC.GetSylButtonConfFor(0).buttonClickable);
+            Assert.IsTrue(sC.GetSylButtonConfFor(1).buttonClickable);
+            Assert.IsTrue(sC.GetSylButtonConfFor(2).buttonClickable);
+            Assert.IsFalse(sC.GetSylButtonConfFor(3).buttonClickable);
+        }
+
+        [TestMethod]
+        public void TestDefault()
+        {
+            SylConfig sC = conf.sylConf;
+            Assert.IsTrue(sC.DoubleConsStd);
+            Assert.AreEqual(SylConfig.Mode.ecrit, sC.mode);
+            Assert.IsTrue(sC.marquerMuettes);
+            Assert.IsTrue(sC.chercherDierese);
+            Assert.AreEqual(0, sC.nbrPieds);
+            Assert.AreEqual(ColConfWinTest.cfBLEU, sC.GetSylButtonConfFor(0).cf);
+            Assert.AreEqual(ColConfWinTest.cfu, sC.GetSylButtonConfFor(1).cf);
+            Assert.IsTrue(sC.ButtonIsLastActive(1));
+            Assert.IsTrue(sC.ButtonIsActivableOne(2));
+            Assert.IsTrue(sC.GetSylButtonConfFor(0).buttonClickable);
+            Assert.IsTrue(sC.GetSylButtonConfFor(1).buttonClickable);
+            Assert.IsTrue(sC.GetSylButtonConfFor(2).buttonClickable);
+            Assert.IsFalse(sC.GetSylButtonConfFor(3).buttonClickable);
         }
     }
 }

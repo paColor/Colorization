@@ -326,6 +326,31 @@ namespace ColorLibTest.ConfigTest
             ttt.AssertColor(12, TestTheText.black);
             ttt.AssertBold(12, true);
 
+            pC.Reset();
+            Assert.IsFalse(pC.markAsBlack);
+            Assert.AreEqual(ColConfWinTest.cf5, pC.GetCfForPBDQLetter('p'));
+            Assert.AreEqual(ColConfWinTest.cfu, pC.GetCfForPBDQLetter('b'));
+            Assert.AreEqual(ColConfWinTest.cfBLEU, pC.GetCfForPBDQLetter('d'));
+            Assert.AreEqual(ColConfWinTest.cfON, pC.GetCfForPBDQLetter('q'));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(4));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(5));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(6));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(7));
+        }
+
+        [TestMethod]
+        public void TestDefault()
+        {
+            PBDQConfig pC = conf.pBDQ;
+            Assert.IsFalse(pC.markAsBlack);
+            Assert.AreEqual(ColConfWinTest.cf5, pC.GetCfForPBDQLetter('p'));
+            Assert.AreEqual(ColConfWinTest.cfu, pC.GetCfForPBDQLetter('b'));
+            Assert.AreEqual(ColConfWinTest.cfBLEU, pC.GetCfForPBDQLetter('d'));
+            Assert.AreEqual(ColConfWinTest.cfON, pC.GetCfForPBDQLetter('q'));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(4));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(5));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(6));
+            Assert.AreEqual(PBDQConfig.inactiveLetter, pC.GetLetterForButtonNr(7));
         }
     }
 }

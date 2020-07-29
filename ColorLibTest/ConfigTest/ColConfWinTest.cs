@@ -8,6 +8,56 @@ namespace ColorLibTest.ConfigTest
     [TestClass]
     public class ColConfWinTest
     {
+        // CERAS colors
+        public static RGB cNoir = new RGB(000, 000, 000);
+        public static RGB cJaune = new RGB(240, 222, 000);
+        public static RGB cOrange = new RGB(237, 125, 049);
+        public static RGB cVertSapin = new RGB(051, 153, 102);
+        public static RGB cViolet = new RGB(164, 020, 210);
+        public static RGB cBleuFoncé = new RGB(000, 020, 208);
+        public static RGB cRouge = new RGB(255, 000, 000);
+        public static RGB cMarron = new RGB(171, 121, 066);
+        public static RGB cBleu = new RGB(071, 115, 255);
+        public static RGB cTurquoise = new RGB(015, 201, 221);
+        public static RGB cGris = new RGB(166, 166, 166);
+        public static RGB cRose = new RGB(255, 100, 177);
+        public static RGB cVertGren = new RGB(127, 241, 000);
+        public static RGB cGrisUn = new RGB(222, 222, 222);
+
+        // more colors
+        public static RGB cGrisNeutre = new RGB(221, 221, 221);
+        public static RGB cBleuPur = new RGB(000, 000, 255);
+        public static RGB cBleuClair = new RGB(091, 215, 255);
+        public static RGB cRougeFonce = new RGB(175, 000, 000);
+        public static RGB cBlanc = new RGB(255, 255, 255);
+
+        // CharFormattings
+        public static CharFormatting cfOI = new CharFormatting(true, false, false, false, true, cNoir,
+                                                        false, cGrisNeutre);
+        public static CharFormatting cfBlack = CharFormatting.BlackCF;
+        public static CharFormatting cfO = new CharFormatting(cJaune);
+        public static CharFormatting cfAN = new CharFormatting(cOrange);
+        public static CharFormatting cf5 = new CharFormatting(cVertSapin);
+        public static CharFormatting cfE = new CharFormatting(cViolet);
+        public static CharFormatting cfe = new CharFormatting(cBleuFoncé);
+        public static CharFormatting cfu = new CharFormatting(cRouge);
+        public static CharFormatting cfON = new CharFormatting(cMarron);
+        public static CharFormatting cf2 = new CharFormatting(cBleu);
+        public static CharFormatting cfOIN = new CharFormatting(cTurquoise);
+        public static CharFormatting cfMUET = new CharFormatting(cGris);
+        public static CharFormatting cfeRose = new CharFormatting(cRose);
+        public static CharFormatting cfILL = new CharFormatting(false, true, false, false, true, cVertGren,
+                                                        false, cGrisNeutre);
+        public static CharFormatting cfVGrenou = new CharFormatting(cVertGren);
+        public static CharFormatting cf1 = new CharFormatting(false, false, true);
+        public static CharFormatting cfGrisUn = new CharFormatting(cGrisUn);
+
+        public static CharFormatting cfNeutre = new CharFormatting(cGrisNeutre);
+        public static CharFormatting cfBLEU = new CharFormatting(cBleuPur);
+        public static CharFormatting cfBLEUCLAIR = new CharFormatting(cBleuClair);
+        public static CharFormatting cfROUGEF = new CharFormatting(cRougeFonce);
+        public static CharFormatting cfBLANC = new CharFormatting(cBlanc);
+
         #region Additional test attributes
         //
         // You can use the following additional attributes as you write your tests:
@@ -275,74 +325,12 @@ namespace ColorLibTest.ConfigTest
             }
         }
 
-        // CERAS colors
-        static RGB cNoir       = new RGB(000, 000, 000);
-        static RGB cJaune      = new RGB(240, 222, 000);
-        static RGB cOrange     = new RGB(237, 125, 049);
-        static RGB cVertSapin  = new RGB(051, 153, 102);
-        static RGB cViolet     = new RGB(164, 020, 210);
-        static RGB cBleuFoncé  = new RGB(000, 020, 208);
-        static RGB cRouge      = new RGB(255, 000, 000);
-        static RGB cMarron     = new RGB(171, 121, 066);
-        static RGB cBleu       = new RGB(071, 115, 255);
-        static RGB cTurquoise  = new RGB(015, 201, 221);
-        static RGB cGris       = new RGB(166, 166, 166);
-        static RGB cRose       = new RGB(255, 100, 177);
-        static RGB cVertGren   = new RGB(127, 241, 000);
-        static RGB cGrisUn     = new RGB(222, 222, 222);
-
-        // more colors
-        static RGB cGrisNeutre = new RGB(221, 221, 221);
-        static RGB cBleuPur    = new RGB(000, 000, 255);
-        static RGB cBleuClair  = new RGB(091, 215, 255);
-        static RGB cRougeFonce = new RGB(175, 000, 000);
-        static RGB cBlanc      = new RGB(255, 255, 255);
-
-        // CharFormattings
-        CharFormatting cfOI        = new CharFormatting(true, false, false, false, true, cNoir, 
-                                                        false, cGrisNeutre);
-        CharFormatting cfBlack     = CharFormatting.BlackCF;
-        CharFormatting cfO         = new CharFormatting(cJaune);
-        CharFormatting cfAN        = new CharFormatting(cOrange);
-        CharFormatting cf5         = new CharFormatting(cVertSapin);
-        CharFormatting cfE         = new CharFormatting(cViolet);
-        CharFormatting cfe         = new CharFormatting(cBleuFoncé);
-        CharFormatting cfu         = new CharFormatting(cRouge);
-        CharFormatting cfON        = new CharFormatting(cMarron);
-        CharFormatting cf2         = new CharFormatting(cBleu);
-        CharFormatting cfOIN       = new CharFormatting(cTurquoise);
-        CharFormatting cfMUET      = new CharFormatting(cGris);
-        CharFormatting cfeRose     = new CharFormatting(cRose);
-        CharFormatting cfILL       = new CharFormatting(false, true, false, false, true, cVertGren,
-                                                        false, cGrisNeutre);
-        CharFormatting cfVGrenou   = new CharFormatting(cVertGren);
-        CharFormatting cf1         = new CharFormatting(false, false, true);
-        CharFormatting cfGrisUn = new CharFormatting(cGrisUn);
-
-        CharFormatting cfNeutre    = new CharFormatting(cGrisNeutre);
-        CharFormatting cfBLEU      = new CharFormatting(cBleuPur);
-        CharFormatting cfBLEUCLAIR = new CharFormatting(cBleuClair);
-        CharFormatting cfROUGEF    = new CharFormatting(cRougeFonce);
-        CharFormatting cfBLANC     = new CharFormatting(cBlanc);
+        
 
         [TestMethod]
         public void TestePredefCols()
         {
-            // couleurs 
-            Assert.AreEqual(cNoir,       ColConfWin.predefinedColors[(int)CERASColor.CERAS_oi]);
-            Assert.AreEqual(cJaune,      ColConfWin.predefinedColors[(int)CERASColor.CERAS_o]);
-            Assert.AreEqual(cOrange,     ColConfWin.predefinedColors[(int)CERASColor.CERAS_an]);
-            Assert.AreEqual(cVertSapin,  ColConfWin.predefinedColors[(int)CERASColor.CERAS_5]);
-            Assert.AreEqual(cViolet,     ColConfWin.predefinedColors[(int)CERASColor.CERAS_E]);
-            Assert.AreEqual(cBleuFoncé,  ColConfWin.predefinedColors[(int)CERASColor.CERAS_e]);
-            Assert.AreEqual(cRouge,      ColConfWin.predefinedColors[(int)CERASColor.CERAS_u]);
-            Assert.AreEqual(cMarron,     ColConfWin.predefinedColors[(int)CERASColor.CERAS_on]);
-            Assert.AreEqual(cBleu,       ColConfWin.predefinedColors[(int)CERASColor.CERAS_eu]);
-            Assert.AreEqual(cTurquoise,  ColConfWin.predefinedColors[(int)CERASColor.CERAS_oin]);
-            Assert.AreEqual(cGris,       ColConfWin.predefinedColors[(int)CERASColor.CERAS_muet]);
-            Assert.AreEqual(cRose,       ColConfWin.predefinedColors[(int)CERASColor.CERAS_rosé]);
-            Assert.AreEqual(cVertGren,   ColConfWin.predefinedColors[(int)CERASColor.CERAS_ill]);
-            Assert.AreEqual(cGrisUn,     ColConfWin.predefinedColors[(int)CERASColor.CERAS_1]);
+            ColConfWin ccw = conf.colors[PhonConfType.phonemes];
 
             Assert.AreEqual(cNoir,       ColConfWin.predefinedColors[(int)PredefCol.black]);
             Assert.AreEqual(cJaune,      ColConfWin.predefinedColors[(int)PredefCol.darkYellow]);
@@ -366,23 +354,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(cBlanc,      ColConfWin.predefinedColors[(int)PredefCol.white]);
 
             // CharFormatting
-            // CERAScf
-            Assert.AreEqual(cfOI,        ColConfWin.cerasCF[(int)CERASColor.CERAS_oi]);
-            Assert.AreEqual(cfO,         ColConfWin.cerasCF[(int)CERASColor.CERAS_o]);
-            Assert.AreEqual(cfAN,        ColConfWin.cerasCF[(int)CERASColor.CERAS_an]);
-            Assert.AreEqual(cf5,         ColConfWin.cerasCF[(int)CERASColor.CERAS_5]);
-            Assert.AreEqual(cfE,         ColConfWin.cerasCF[(int)CERASColor.CERAS_E]);
-            Assert.AreEqual(cfe,         ColConfWin.cerasCF[(int)CERASColor.CERAS_e]);
-            Assert.AreEqual(cfu,         ColConfWin.cerasCF[(int)CERASColor.CERAS_u]);
-            Assert.AreEqual(cfON,        ColConfWin.cerasCF[(int)CERASColor.CERAS_on]);
-            Assert.AreEqual(cf2,         ColConfWin.cerasCF[(int)CERASColor.CERAS_eu]);
-            Assert.AreEqual(cfOIN,       ColConfWin.cerasCF[(int)CERASColor.CERAS_oin]);
-            Assert.AreEqual(cfMUET,      ColConfWin.cerasCF[(int)CERASColor.CERAS_muet]);
-            Assert.AreEqual(cfeRose,     ColConfWin.cerasCF[(int)CERASColor.CERAS_rosé]);
-            Assert.AreEqual(cfILL,       ColConfWin.cerasCF[(int)CERASColor.CERAS_ill]);
-            Assert.AreEqual(cf1,         ColConfWin.cerasCF[(int)CERASColor.CERAS_1]);
-
-            // coloredCF
             Assert.AreEqual(cfBlack,     ColConfWin.coloredCF[(int)PredefCol.black]);
             Assert.AreEqual(cfO,         ColConfWin.coloredCF[(int)PredefCol.darkYellow]);
             Assert.AreEqual(cfAN,        ColConfWin.coloredCF[(int)PredefCol.orange]);
@@ -402,14 +373,111 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(cfBLEUCLAIR, ColConfWin.coloredCF[(int)PredefCol.lightBlue]);
             Assert.AreEqual(cfROUGEF,    ColConfWin.coloredCF[(int)PredefCol.darkRed]);
             Assert.AreEqual(cfBLANC,     ColConfWin.coloredCF[(int)PredefCol.white]);
+
+            // La seule chose qui compte pour les couleurs CERAS est qu'elles soient attribuées
+            // correctement aux sons.
+
+            // configuration par défaut: CERAS rosé.
+
+            HashSet<string> cerasSons = new HashSet<string>()
+            {
+                "oi", "o", "an", "5", "è", "u", "on", "2", "oin", "_muet", "é", "ill", "1"
+            };
+            HashSet<string> tousLesSons = new HashSet<string>(ColConfWin.sonsValides);
+            tousLesSons.ExceptWith(cerasSons);
+            HashSet<string> sonsNonCeras = tousLesSons;
+
+            Assert.IsTrue(cerasSons.IsSubsetOf(ColConfWin.sonsValides));
+
+            Assert.AreEqual(cfOI,    ccw.GetCF("oi"));
+            Assert.AreEqual(cfO,     ccw.GetCF("o"));
+            Assert.AreEqual(cfAN,    ccw.GetCF("an"));
+            Assert.AreEqual(cf5,     ccw.GetCF("5"));
+            Assert.AreEqual(cfE,     ccw.GetCF("è"));
+            Assert.AreEqual(cfu,     ccw.GetCF("u"));
+            Assert.AreEqual(cfON,    ccw.GetCF("on"));
+            Assert.AreEqual(cf2,     ccw.GetCF("2"));
+            Assert.AreEqual(cfOIN,   ccw.GetCF("oin"));
+            Assert.AreEqual(cfMUET,  ccw.GetCF("_muet"));
+            Assert.AreEqual(cfeRose, ccw.GetCF("é"));
+            Assert.AreEqual(cfILL,   ccw.GetCF("ill"));
+            Assert.AreEqual(cf1,     ccw.GetCF("1"));
+
+            foreach (string son in cerasSons)
+                Assert.IsTrue(ccw.GetCheck(son));
+            foreach (string son in sonsNonCeras)
+                Assert.IsFalse(ccw.GetCheck(son));
+
+            ResetEventCounters();
+            ccw.SetCeras();
+            Assert.AreEqual(2, SonCharFormattingModifiedEvents.Count);  // é et ill
+            Assert.AreEqual(1, SonCBModifiedEvents.Count); // ill
+            Assert.AreEqual("ill", SonCBModifiedEvents[0].son);
+
+            Assert.AreEqual(cfOI, ccw.GetCF("oi"));
+            Assert.AreEqual(cfO, ccw.GetCF("o"));
+            Assert.AreEqual(cfAN, ccw.GetCF("an"));
+            Assert.AreEqual(cf5, ccw.GetCF("5"));
+            Assert.AreEqual(cfE, ccw.GetCF("è"));
+            Assert.AreEqual(cfe, ccw.GetCF("é"));
+            Assert.AreEqual(cfu, ccw.GetCF("u"));
+            Assert.AreEqual(cfON, ccw.GetCF("on"));
+            Assert.AreEqual(cf2, ccw.GetCF("2"));
+            Assert.AreEqual(cfOIN, ccw.GetCF("oin"));
+            Assert.AreEqual(cfMUET, ccw.GetCF("_muet"));
+            Assert.AreEqual(cf1, ccw.GetCF("1"));
+
+            cerasSons.Remove("ill");
+            sonsNonCeras.Add("ill");
+            foreach (string son in cerasSons)
+                Assert.IsTrue(ccw.GetCheck(son));
+            foreach (string son in sonsNonCeras)
+                Assert.IsFalse(ccw.GetCheck(son));
         }
 
         [TestMethod]
-        public void Testefault1()
+        public void TestDefaultMuettes()
         {
-            ColConfWin ccw = conf.colors[PhonConfType.phonemes];
-            HashSet<string> testedSons = new HashSet<string>();
+            ColConfWin ccw = conf.colors[PhonConfType.muettes];
+            Assert.AreEqual(cfMUET, ccw.GetCF("_muet"));
 
+            HashSet<string> sonsMuets = new HashSet<string>() { "_muet" };
+            HashSet<string> tousLesSons = new HashSet<string>(ColConfWin.sonsValides);
+            tousLesSons.ExceptWith(sonsMuets);
+            HashSet<string> sonsNonMuets = tousLesSons;
+
+            foreach (string son in sonsMuets)
+                Assert.IsTrue(ccw.GetCheck(son));
+            foreach (string son in sonsNonMuets)
+                Assert.IsFalse(ccw.GetCheck(son));
+        }
+
+        [TestMethod]
+        public void TestRuleFlags()
+        {
+            ColConfWin ccw = conf.colors[PhonConfType.muettes];
+            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
+            Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
+            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.undefined));
+            Assert.ThrowsException<ArgumentOutOfRangeException>
+                (() => ccw.GetFlag(ColConfWin.RuleFlag.last));
+
+            ccw = conf.colors[PhonConfType.phonemes];
+            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
+            Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
+            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.undefined));
+            Assert.ThrowsException<ArgumentOutOfRangeException>
+                (() => ccw.GetFlag(ColConfWin.RuleFlag.last));
+
+            ccw.IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
+            Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
+            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.undefined));
+
+            ccw.IllRuleToUse = ColConfWin.IllRule.undefined;
+            Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
+            Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
+            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.undefined));
         }
     }
 }
