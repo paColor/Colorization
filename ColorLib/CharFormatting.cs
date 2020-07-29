@@ -40,6 +40,12 @@ namespace ColorLib
         /// </summary>
         public readonly static CharFormatting NeutralCF = new CharFormatting();
 
+        /// <summary>
+        /// A <see cref="CharFormatting"/> containing only the instruction to color the text in
+        /// black.
+        /// </summary>
+        public readonly static CharFormatting BlackCF = new CharFormatting(new RGB(0,0,0));
+
         // ****************************************************************************************
         // *                                INSTANTIATED MEMBERS                                  *
         // ****************************************************************************************

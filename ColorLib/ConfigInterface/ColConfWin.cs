@@ -58,10 +58,10 @@ namespace ColorLib
     /// </summary>
     /// <example>
     /// <code>
-    /// new CharFormatting(true, false, false, false, true, predefinedColors[(int)CERASColors.CERAS_oi],
+    /// new CharFormatting(true, false, false, false, 
+    ///         true, predefinedColors[(int)CERASColors.CERAS_oi], 
     ///         false, predefinedColors[(int)PredefCols.neutral]));
-    ///         
-    /// SetCFSon("oin", predefCF[(int)CERASColors.CERAS_oin]);
+    /// SetCFSon("oin", cerasCF[(int)CERASColors.CERAS_oin]);
     /// </code>
     /// </example>
     /// /// <remarks>
@@ -70,31 +70,34 @@ namespace ColorLib
     /// Faire très attention en cas de modifications!
     /// </remarks>
     [Serializable]
-    public enum CERASColor { CERAS_oi, CERAS_o, CERAS_an, CERAS_5, CERAS_E, CERAS_e, CERAS_u, CERAS_on, CERAS_eu,
-        CERAS_oin, CERAS_muet, CERAS_rosé, CERAS_ill,
+    public enum CERASColor
+    {
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+        CERAS_oi, CERAS_o, CERAS_an, CERAS_5, CERAS_E, CERAS_e, CERAS_u,
+        CERAS_on, CERAS_eu, CERAS_oin, CERAS_muet, CERAS_rosé, CERAS_ill, CERAS_1
+#pragma warning restore CA1707 // Identifiers should not contain underscores
     }
 
     /// <summary>
     /// Liste de couleurs prédéfinies. Comme pour <see cref="CERASColor"/>, l'idée est d'utiliser
-    /// les valeurs de cet énuméré comme indice dans les tableaux <c>predefCF</c> et 
-    /// <c>predefinedColors</c>
+    /// les valeurs de cet énuméré comme indice dans <c>predefinedColors</c>.
+    /// L'utilisation dans <c>cerasCF</c> est par contre interdite!
     /// </summary>
     /// <remarks>
     /// <see cref="CERASColor"/> et <see cref="PredefCol"/> sont deux manières différentes
-    /// d'indexer les mêmes tableaux. Les deux énumérés doivent donc absolument correspondre.
+    /// d'indexer <c>predefinedColors</c>. Les deux énumérés doivent donc absolument correspondre.
     /// On a donc ici les couleurs utilisées dans la configuration CERAS.
     /// Faire très attention en cas de modifications!
     /// </remarks>
     /// <example>
     /// <code>
-    /// SetCFSon(son, predefCF[(int)PredefCols.black]);
     /// toR.Font.Fill.ForeColor.RGB = ColConfWin.predefinedColors[(int)PredefCols.black];
     /// </code>
     /// </example>
     [Serializable]
-    public enum PredefCol { black, darkYellow, orange, darkGreen, violet, darkBlue, red, brown, blue, turquoise, grey, pink, 
-        frogGreen,
-        pureBlue, neutral, lightBlue, darkRed, white
+    public enum PredefCol { black, darkYellow, orange, darkGreen, violet, darkBlue, red,
+        brown, blue, turquoise, grey, pink, frogGreen, cerasUn,
+        neutral, pureBlue, lightBlue, darkRed, white
     }
 
     /// <summary>
@@ -115,7 +118,8 @@ namespace ColorLib
     /// <remarks>
     /// Pour que la documentation soit complète, voici une liste des sons telle qu'on la trouve
     /// dans le code. Il est à noter cepenant, que formellemnt, seule la liste dans <c>sonMap</c> 
-    /// (qui est un tableau 'private') fait foi.
+    /// (qui est un tableau 'private') fait foi. Cette liste est disponible dans la liste 
+    /// <see cref="sonsValides"/> si elle s'avère nécessaire.
     /// <code>
     /// private static Dictionary<string, string[]> sonOutMap = new Dictionary<string, string[]> (nrSons)
     /// {
@@ -181,7 +185,25 @@ namespace ColorLib
         /// mise en couleur des phonèmes qui n'ont pas d'instructions de fomratage.
         /// </summary>
         [Serializable]
-        public enum DefBeh { transparent, noir, undefined }
+        public enum DefBeh { 
+            /// <summary>
+            /// Les phonèmes pour lesquels on n'a pas de <see cref="CharFormatting"/> attribué et
+            /// activé, ne sont pas touchés. Il restent tels qu'ils sont dans le texte d'origine.
+            /// </summary>
+            transparent,
+
+            /// <summary>
+            /// Les phonèmes pour lesquels on n'a pas de <see cref="CharFormatting"/> attribué et
+            /// activé, sont mis en noir. (Les autres attributs de formatage comme 'bold' ou 
+            /// 'italic' ne sont pas touchés).
+            /// </summary>
+            noir,
+
+            /// <summary>
+            /// Valeur avant l'initialisation. Comportement indéfini. Pourrait déclencher une
+            /// exception.
+            /// </summary>
+            undefined }
 
         /// <summary>
         /// Identifiants pour les flags de contrôle des règles de l'automate. Est typiquement
@@ -241,23 +263,65 @@ namespace ColorLib
             new RGB(166, 166, 166), // CERAS_muet   --> gris
             new RGB(255, 100, 177), // CERAS_rosé   --> rose
             new RGB(127, 241, 000), // CERAS_ill    --> vert grenouille
+            new RGB(222, 222, 222), // CERAS_1      --> gris // la couleur ne devrait jamais être utilisée.
 
-            new RGB(000, 000, 255), // bleuPur      --> bleu
             new RGB(221, 221, 221), // neutre       --> gris // il est important qu'il ne s'agisse pas d'une couleur de WdColorIndex
+            new RGB(000, 000, 255), // bleuPur      --> bleu
             new RGB(091, 215, 255), // bleu clair   --> bleu clair
             new RGB(175, 000, 000), // rouge foncé  --> rouge foncé
             new RGB(255, 255, 255), // blanc        --> blanc
         };
 
         /// <summary>
-        /// Tableau des <see cref="CharFormatting"/> correspondant aux couleurs prédéfinies.
-        /// Correspond à <see cref="predefinedColors"/>.
+        /// Tableau des <see cref="CharFormatting"/> correspondant à la définition CERAS.
+        /// Peut être accédé en utilisant <see cref="CERASColor"/> comme index afin de
+        /// trouver le bon <c>CharFormatting</c>.
+        /// <para>
+        /// Attention: Les <see cref="CharFormatting"/> correspondent à la définition du CERAS. 
+        /// Ils contiennent parfois un formatage qui va au-delà de la couleur ("oi" est en gras,
+        /// "un" est souligné, "ill" est en italique...). 
+        /// Si on veut un <c>CharFormatting</c> qui ne contienne qu'une couleur il faut
+        /// utiliser <c>coloredCF</c>, ceux qui sont définis dans <see cref="CharFormatting"/>:
+        /// <code>
+        /// defChF = CharFormatting.NeutralCF;
+        /// SetCFSon(son, CharFormatting.BlackCF);
+        /// </code>
+        /// ou alors en créer un nouveau:
+        /// <code>
+        /// RGB maCouleur = new RGB (123, 31, 27);
+        /// new CharFormatting(maCouleur);
+        /// </code>
+        /// Ces différentes manières ne touchent pas aux atres caractéristiques de 
+        /// <see cref="CharFormatting"/>. 
+        /// </para>
         /// </summary>
         /// <remarks>
-        /// Instead of using <c>predefCF[(int)PredefCols.neutral]</c> use
-        /// <c>CharFormatting.NeutralCF</c> which is equivalent.
+        /// Utiliser <c>PredefCol</c> comme index
+        /// <code>
+        /// cerasCF[(int)PredefCol.xxx]
+        /// </code>
+        /// est interdit!
         /// </remarks>
-        public static CharFormatting[] predefCF { get; private set; }
+        public static CharFormatting[] cerasCF { get; private set; }
+
+        /// <summary>
+        /// Contient un <see cref="CharFormatting"/> pour chaque couleur de <see cref="PredefCol"/>.
+        /// Ils ne formattent que les couleurs et laissent les différents flags sur <c>false</c>.
+        /// Le bon <c>CharFormatting</c> sera trouvé en indexant avec <see cref="PredefCol"/>:
+        /// <code>
+        /// coloredCF[(int)PredefCol.frogGreen]
+        /// </code>
+        /// </summary>
+        /// <remarks>
+        /// Attention: <c>coloredCF[(int)PredefCol.neutral]</c> correspond à un gris clair et non
+        /// à <c>CharFormatting.NeutralCF</c>.
+        /// </remarks>
+        public static CharFormatting[] coloredCF { get; private set; }
+
+        /// <summary>
+        /// Listes des sons, tels que définis dans <c>sonMap</c>.
+        /// </summary>
+        public static List<string> sonsValides { get; private set; }
 
         // -------------------------------------------------------------------------------------------------------------------
         // --------------------------------------------  private static members ----------------------------------------------
@@ -362,10 +426,30 @@ namespace ColorLib
         public static void Init()
         {
             logger.ConditionalDebug("Init");
-            predefCF = new CharFormatting[predefinedColors.Length + 1];  // +1 for the enutral entry
+            cerasCF = new CharFormatting[predefinedColors.Length];
+            coloredCF = new CharFormatting[predefinedColors.Length];
             for (int i = 0; i < predefinedColors.Length; i++)
-                predefCF[i] = new CharFormatting(predefinedColors[i]);
-            predefCF[(int)PredefCol.neutral] = CharFormatting.NeutralCF;
+            {
+                cerasCF[i] = new CharFormatting(predefinedColors[i]);
+                coloredCF[i] = cerasCF[i];
+            }
+            cerasCF[(int)PredefCol.neutral] = CharFormatting.NeutralCF;
+
+            cerasCF[(int)CERASColor.CERAS_ill] = new CharFormatting(false, true, false, false,
+                true, predefinedColors[(int)CERASColor.CERAS_ill],
+                false, predefinedColors[(int)PredefCol.neutral]);
+
+            cerasCF[(int)CERASColor.CERAS_oi] = new CharFormatting(true, false, false, false, 
+                true, predefinedColors[(int)CERASColor.CERAS_oi],
+                false, predefinedColors[(int)PredefCol.neutral]);
+
+            cerasCF[(int)CERASColor.CERAS_1] = new CharFormatting(false, false, true);
+
+            sonsValides = new List<string>(sonMap.Count);
+            foreach (KeyValuePair<string, List<Phonemes>> kvp in sonMap)
+            {
+                sonsValides.Add(kvp.Key);
+            }
         }
 
         // -------------------------------------------------- Mapping "sons" to text  ------------------------------------------
@@ -484,6 +568,16 @@ namespace ColorLib
         // on se sert de RuleFlags comme index dans le tableau.
 
         // ------------------------ Le paramétrage du comportement pour le phonèmes "non formatés"  ---------------------------
+        
+        /// <summary>
+        /// Définit le comportement adopté pour les phonèmes qui ne sont pas activés. Voir la
+        /// définition de <see cref="DefBeh"/> pour les valeurs possibles et leur sémantique.
+        /// </summary>
+        /// <remarks>
+        /// Veuillez utiliser <see cref="SetDefaultBehaviourTo(bool)"/> pour définir la valeur
+        /// ce 'membre'. Il est accessible de cette manière pour rester compatible avec d'éventuels
+        /// anciens fichiers de sauvegarde. Attention à ne pas en profiter par erreur.
+        /// </remarks>
         [OptionalField(VersionAdded = 3)]
         public DefBeh defBeh; // {get; private set;}
 
@@ -504,7 +598,7 @@ namespace ColorLib
         {
             logger.ConditionalDebug("ColConfWin Constructor for {0}", inPct);
             defBeh = DefBeh.transparent;
-            defChF = predefCF[(int)PredefCol.neutral];
+            defChF = CharFormatting.NeutralCF;
 
             cfPhon = new CharFormatting[(int)Phonemes.lastPhon];
             chkPhon = new bool[(int)Phonemes.lastPhon];
@@ -602,7 +696,7 @@ namespace ColorLib
         {
             logger.ConditionalDebug("ClearSon");
             SetChkSon(son, false);
-            SetCFSon(son, predefCF[(int)PredefCol.black]);
+            SetCFSon(son, CharFormatting.BlackCF);
         }
 
         /// <summary>
@@ -635,53 +729,52 @@ namespace ColorLib
 
             // o
             SetChkSon("o", true);
-            SetCFSon("o", predefCF[(int)CERASColor.CERAS_o]);
+            SetCFSon("o", cerasCF[(int)CERASColor.CERAS_o]);
 
             // a_tilda (son an)
             SetChkSon("an", true);
-            SetCFSon("an", predefCF[(int)CERASColor.CERAS_an]);
+            SetCFSon("an", cerasCF[(int)CERASColor.CERAS_an]);
 
             // e_tilda (son ain)
             SetChkSon("5", true);
-            SetCFSon("5", predefCF[(int)CERASColor.CERAS_5]);
+            SetCFSon("5", cerasCF[(int)CERASColor.CERAS_5]);
 
             // E (son è)
             SetChkSon("è", true);
-            SetCFSon("è", predefCF[(int)CERASColor.CERAS_E]);
+            SetCFSon("è", cerasCF[(int)CERASColor.CERAS_E]);
 
             // e (son é)
             SetChkSon("é", true);
-            SetCFSon("é", predefCF[(int)CERASColor.CERAS_e]);
+            SetCFSon("é", cerasCF[(int)CERASColor.CERAS_e]);
 
             // u (son ou)
             SetChkSon("u", true);
-            SetCFSon("u", predefCF[(int)CERASColor.CERAS_u]);
+            SetCFSon("u", cerasCF[(int)CERASColor.CERAS_u]);
 
             // w (son oi)
             // bold & black
             SetChkSon("oi", true);
-            SetCFSon("oi", new CharFormatting(true, false, false, false, true, predefinedColors[(int)CERASColor.CERAS_oi],
-                false, predefinedColors[(int)PredefCol.neutral]));
+            SetCFSon("oi", cerasCF[(int)CERASColor.CERAS_oi]);
 
             // o_tilda (son on)
             SetChkSon("on", true);
-            SetCFSon("on", predefCF[(int)CERASColor.CERAS_on]);
+            SetCFSon("on", cerasCF[(int)CERASColor.CERAS_on]);
 
             // (sons eu et oeu)
             SetChkSon("2", true);
-            SetCFSon("2", predefCF[(int)CERASColor.CERAS_eu]);
+            SetCFSon("2", cerasCF[(int)CERASColor.CERAS_eu]);
 
             // (oin)
             SetChkSon("oin", true);
-            SetCFSon("oin", predefCF[(int)CERASColor.CERAS_oin]);
+            SetCFSon("oin", cerasCF[(int)CERASColor.CERAS_oin]);
 
             // (son un)
             SetChkSon("1", true);
-            SetCFSon("1", new CharFormatting(false, false, true)); // underline
+            SetCFSon("1", cerasCF[(int)CERASColor.CERAS_1]); // underline
 
             // ph_muet
             SetChkSon("_muet", true);
-            SetCFSon("_muet", predefCF[(int)CERASColor.CERAS_muet]);
+            SetCFSon("_muet", cerasCF[(int)CERASColor.CERAS_muet]);
         }
 
         /// <summary>
@@ -693,17 +786,17 @@ namespace ColorLib
             // est construit en delta par rapport à SetCeras
             SetCeras();
             // changer la couleur du é en rosé
-            SetCFSon("é", predefCF[(int)CERASColor.CERAS_rosé]);
+            SetCFSon("é", cerasCF[(int)CERASColor.CERAS_rosé]);
 
             // activer le son ill
             SetChkSon("ill", true);
-            SetCFSon("ill", new CharFormatting(false, true, false, false, true, predefinedColors[(int)CERASColor.CERAS_ill],
-                false, predefinedColors[(int)PredefCol.neutral]));
+            SetCFSon("ill", cerasCF[(int)CERASColor.CERAS_ill]);
 
-            // commenté le 14.05.2020 - J'ai eu un feedback de M. Tissot qui suggérait de le laisser mais avec une autre couleur.
+            // commenté le 14.05.2020 - J'ai eu un feedback de M. Tissot qui suggérait de le 
+            // laisser mais avec une autre couleur.
             // désactiver le (oin)
             // SetChkSon("oin", false);
-            // Set("oin", predefCF[(int)PredefCols.black]);
+            // Set("oin", CharFormatting.BlackCF);
 
             IllRuleToUse = IllRule.ceras;
         }
@@ -761,20 +854,25 @@ namespace ColorLib
         /// </para>
         /// </summary>
         /// <param name="val">La nouvelle valeur pour ce flag.</param>
-        public void DefaultBehaviourChangedTo(bool val)
+        public void SetDefaultBehaviourTo(DefBeh val)
         {
-            logger.ConditionalDebug("DefaultBehaviourChangedTo {0}", val);
-            if (val != (defBeh == DefBeh.noir))
+            logger.ConditionalDebug("SetDefaultBehaviourTo {0}", val);
+            if (val != defBeh)
             {
-                if (val)
+                defBeh = val;
+                switch (defBeh)
                 {
-                    defBeh = DefBeh.noir;
-                    defChF = predefCF[(int)PredefCol.black];
-                }
-                else
-                {
-                    defBeh = DefBeh.transparent;
-                    defChF = predefCF[(int)PredefCol.neutral];
+                    case DefBeh.noir:
+                        defChF = CharFormatting.BlackCF;
+                        break;
+
+                    case DefBeh.transparent:
+                        defChF = CharFormatting.NeutralCF;
+                        break;
+
+                    default:
+                        defChF = CharFormatting.NeutralCF;
+                        break;
                 }
                 OnDefBehModified(pct);
             }
@@ -795,7 +893,7 @@ namespace ColorLib
             }
             if (!cfSon.ContainsKey("ill"))
             {
-                SetCFSon("ill", predefCF[(int)PredefCol.black]);
+                SetCFSon("ill", CharFormatting.BlackCF);
                 SetChkSon("ill", false);
                 logger.ConditionalDebug("Son \"ill\" initialisé.");
             }
@@ -808,7 +906,7 @@ namespace ColorLib
         /// </summary>
         /// <param name="rf">identifier of the flag one wants the value of.</param>
         /// <returns>The value of the flag.</returns>
-        internal bool GetFlag(RuleFlag rf) => flags[(int)rf];
+        public bool GetFlag(RuleFlag rf) => flags[(int)rf];
 
         // -------------------------------------------------------------------------------------------------------------------
         // ---------------------------------------------------  private  methods ---------------------------------------------
@@ -822,7 +920,7 @@ namespace ColorLib
             logger.ConditionalDebug("CleanAllSons");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
             {
-                SetCFSon(k.Key, predefCF[(int)PredefCol.black]);
+                SetCFSon(k.Key, CharFormatting.BlackCF);
             }
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
             {
@@ -835,7 +933,7 @@ namespace ColorLib
             logger.ConditionalDebug("InitColorMuettes");
             CleanAllSons();
             SetChkSon("_muet", true);
-            SetCFSon("_muet", predefCF[(int)CERASColor.CERAS_muet]);
+            SetCFSon("_muet", cerasCF[(int)CERASColor.CERAS_muet]);
         }
 
         [OnDeserializing()]
@@ -847,7 +945,7 @@ namespace ColorLib
                 flags.Add(true); // par défaut, les règles sont actives.
             flags[(int)RuleFlag.IllLireCouleur] = false; // config par défaut
             defBeh = DefBeh.transparent;
-            defChF = predefCF[(int)PredefCol.neutral];
+            defChF = CharFormatting.NeutralCF;
         }
 
 

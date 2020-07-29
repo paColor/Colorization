@@ -368,7 +368,7 @@ namespace ColorLib
                 sylButtons[nrSetButtons].buttonClickable = false;
                 OnSylButtonModified(nrSetButtons);
                 nrSetButtons--;
-                sylButtons[nrSetButtons].cf = ColConfWin.predefCF[(int)PredefCol.neutral];
+                sylButtons[nrSetButtons].cf = CharFormatting.NeutralCF;
                 OnSylButtonModified(nrSetButtons);
             }
             else
@@ -411,13 +411,13 @@ namespace ColorLib
             for (int i = 2; i < NrButtons; i++)
             {
                 sylButtons[i].buttonClickable = false;
-                sylButtons[i].cf = ColConfWin.predefCF[(int)PredefCol.neutral];
+                sylButtons[i].cf = CharFormatting.NeutralCF;
                 OnSylButtonModified(i);
             }
             sylButtons[0].buttonClickable = true;
             nrSetButtons = 0;
-            SetSylButtonCF(0, ColConfWin.predefCF[(int)PredefCol.pureBlue]);
-            SetSylButtonCF(1, ColConfWin.predefCF[(int)PredefCol.red]);
+            SetSylButtonCF(0, ColConfWin.coloredCF[(int)PredefCol.pureBlue]);
+            SetSylButtonCF(1, ColConfWin.coloredCF[(int)PredefCol.red]);
             ResetCounter();
             DoubleConsStd = true; // mode std de LireCouleur
             mode = Mode.ecrit;

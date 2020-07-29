@@ -732,7 +732,10 @@ namespace ColorizationControls
             logger.ConditionalDebug("cbSBlackPhons_CheckedChanged");
             Debug.Assert(sender != null);
             CheckBox cbx = (CheckBox)sender;
-            theConf.colors[pct].DefaultBehaviourChangedTo(cbx.Checked);
+            if (cbx.Checked)
+                theConf.colors[pct].SetDefaultBehaviourTo(ColConfWin.DefBeh.noir);
+            else
+                theConf.colors[pct].SetDefaultBehaviourTo(ColConfWin.DefBeh.transparent);
         }
 
         private void DefBehModified(object sender, PhonConfModifiedEventArgs e)
