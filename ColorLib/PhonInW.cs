@@ -405,7 +405,7 @@ namespace ColorLib
 
         public override void PutColor(Config conf) => PutColor(conf, PhonConfType.phonemes);
 
-        public void PutColor (Config conf, PhonConfType pct) => base.SetCharFormat(conf.colors[pct].Get(P));
+        public void PutColor (Config conf, PhonConfType pct) => base.SetCharFormat(conf.colors[pct].GetCF(P));
 
         public override string AllStringInfo()
         {

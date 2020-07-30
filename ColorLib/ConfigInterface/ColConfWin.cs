@@ -51,14 +51,14 @@ namespace ColorLib
     }
 
     /// <summary>
-    /// Liste de couleurs prédéfinies. Comme pour <see cref="CERASColor"/>, l'idée est d'utiliser
+    /// Liste de couleurs prédéfinies. L'idée est d'utiliser
     /// les valeurs de cet énuméré comme indice dans <c>predefinedColors</c>.
     /// L'utilisation dans <c>cerasCF</c> est par contre interdite!
     /// </summary>
     /// <remarks>
     /// <c>CERASColor</c> et <see cref="PredefCol"/> sont deux manières différentes
     /// d'indexer <c>predefinedColors</c>. Les deux énumérés doivent donc absolument correspondre.
-    /// On a donc ici les couleurs utilisées dans la configuration CERAS.
+    /// On doit par conséquence avoir ici les couleurs utilisées dans la configuration CERAS.
     /// Faire très attention en cas de modifications!
     /// </remarks>
     /// <example>
@@ -90,12 +90,10 @@ namespace ColorLib
     /// </summary>
     /// <remarks>
     /// Pour que la documentation soit complète, voici une liste des sons telle qu'on la trouve
-    /// dans le code. Il est à noter cepenant, que formellemnt, seule la liste dans <c>sonMap</c> 
+    /// dans le code. Il est à noter cependant que formellement, seule la liste dans <c>sonMap</c> 
     /// (qui est un tableau 'private') fait foi. Cette liste est disponible dans la liste 
     /// <see cref="sonsValides"/> si elle s'avère nécessaire.
     /// <code>
-    /// private static Dictionary<string, string[]> sonOutMap = new Dictionary<string, string[]> (nrSons)
-    /// {
     ///     {"a",   new string[2] {"[a]",   "ta, plat"  } },
     ///     {"q",   new string[2] {"[e]",   "le"        } },
     ///     {"i",   new string[2] {"[i]",   "il, lit"   } },
@@ -137,7 +135,6 @@ namespace ColorLib
     ///     {"oin", new string[2] {"[oin]", "soin"      } },
     ///     {"_muet", new string[2] {"[#]", "\'muet\'"  } },
     ///     {"q_caduc", new string[2] {"[-]", "e caduc" } }, 
-    /// };
     /// </code>
     /// </remarks>
     [Serializable]
@@ -352,7 +349,7 @@ namespace ColorLib
             {"oi",  new List<Phonemes> (1) {Phonemes.oi}},
             {"5",   new List<Phonemes> (1) {Phonemes.e_tilda}},
             {"w",   new List<Phonemes> (1) {Phonemes.w}},
-            {"j",   new List<Phonemes> (1) {Phonemes.j}},
+            {"j",   new List<Phonemes> (2) {Phonemes.j, Phonemes.ji}},
             {"ill", new List<Phonemes> (2) {Phonemes.j_ill, Phonemes.i_j_ill}},
             {"ng",  new List<Phonemes> (1) {Phonemes.J}},
             {"gn",  new List<Phonemes> (1) {Phonemes.N}},
@@ -580,7 +577,7 @@ namespace ColorLib
         /// définition de <see cref="DefBeh"/> pour les valeurs possibles et leur sémantique.
         /// </summary>
         /// <remarks>
-        /// Veuillez utiliser <see cref="SetDefaultBehaviourTo(bool)"/> pour définir la valeur
+        /// Veuillez utiliser <see cref="SetDefaultBehaviourTo(DefBeh)"/> pour définir la valeur
         /// ce 'membre'. Il est accessible de cette manière pour rester compatible avec d'éventuels
         /// anciens fichiers de sauvegarde. Attention à ne pas en profiter par erreur.
         /// </remarks>
@@ -650,7 +647,7 @@ namespace ColorLib
         /// </summary>
         /// <param name="p">Le phonème pour lequel on veut le <c>CharFormatting</c>.</param>
         /// <returns><c>CharFormatting</c> pour le phonème</returns>
-        public CharFormatting Get(Phonemes p)
+        public CharFormatting GetCF(Phonemes p)
         // get the Charformatting for the given Phoneme
         {
             CharFormatting toReturn;
@@ -668,14 +665,22 @@ namespace ColorLib
         /// </summary>
         /// <param name="son">Le son pour lequel on veut la valeur de la checkbox.</param>
         /// <returns>La valeur de la checkbox.</returns>
+        /// <exception cref="KeyNotFoundException"> si le <paramref name="son"/> n'est pas 
+        /// un son connu. Voir <see cref="sonsValides"/></exception>
+        /// <exception cref="ArgumentNullException"> si <paramref name="son"/> est <c>null</c>.
+        /// </exception>
         public bool GetCheck(string son) => chkSon[son];
 
         /// <summary>
-        /// DOnne le <c>CharFormatting</c> pour le <c>son</c>.
+        /// Donne le <c>CharFormatting</c> pour le <c>son</c>.
         /// </summary>
         /// <param name="son">Le son pour lequel on veut le <c>CharFormatting</c>. Voir 
         /// <c>sonMap</c> pour les valeurs autorisées.</param>
         /// <returns>le <c>CharFormatting</c> recherché.</returns>
+        /// <exception cref="KeyNotFoundException"> si le <paramref name="son"/> n'est pas 
+        /// un son connu. Voir <see cref="sonsValides"/></exception>
+        /// <exception cref="ArgumentNullException"> si <paramref name="son"/> est <c>null</c>.
+        /// </exception>
         public CharFormatting GetCF(string son) => cfSon[son];
 
         /// <summary>
@@ -685,6 +690,10 @@ namespace ColorLib
         /// <param name="son">Le son dont on veut modifier le <see cref="CharFormatting"/>"/> et la 
         /// checkbox.</param>
         /// <param name="cf">Le nouveau <see cref="CharFormatting"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException"> si le <paramref name="son"/> n'est pas 
+        /// un son connu. Voir <see cref="sonsValides"/></exception>
+        /// <exception cref="ArgumentNullException"> si un des paramètres est <c>null</c>.
+        /// </exception>
         public void SetCbxAndCF(string son, CharFormatting cf)
         {
             logger.ConditionalDebug("SetCbxAndCF, son: {0}", son);
@@ -814,8 +823,27 @@ namespace ColorLib
         /// <param name="son">Le son dont le <see cref="CharFormatting"/> doit être modifié. 
         /// Voir <c>sonMap</c> pour la liste des sons reconnus.</param>
         /// <param name="cf">Le nouveau <see cref="CharFormatting"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException"> si le <paramref name="son"/> n'est pas 
+        /// un son connu. Voir <see cref="sonsValides"/></exception>
+        /// <exception cref="ArgumentNullException"> si un des paramètres est <c>null</c>.
+        /// </exception>
         public void SetCFSon(string son, CharFormatting cf)
         {
+            if (cf == null)
+            {
+                logger.Fatal("CharFormatting null passé à SetCFSon");
+                throw new ArgumentNullException(nameof(cf), "CharFormatting null passé à SetCFSon");
+            }
+            if (son == null)
+            {
+                logger.Fatal("son null passé à SetCFSon");
+                throw new ArgumentNullException(nameof(son), "son null passé à SetCFSon");
+            }
+            if (!sonsValides.Contains(son))
+            {
+                logger.Fatal("Les son {0} n'est pas autorisé.", son);
+                throw new ArgumentOutOfRangeException(nameof(son), "Son non autorisé: " + son);
+            }
             logger.ConditionalDebug("SetCFSon \'{0}\'", son);
             CharFormatting valCF;
             if(!(cfSon.TryGetValue(son, out valCF) && valCF == cf))
@@ -833,8 +861,22 @@ namespace ColorLib
         /// </summary>
         /// <param name="son">Le son dont la checkbox est modifiée.</param>
         /// <param name="checkVal">La nouvelle valeur du flag checkbox.</param>
+        /// <exception cref="ArgumentOutOfRangeException"> si le <paramref name="son"/> n'est pas 
+        /// un son connu. Voir <see cref="sonsValides"/></exception>
+        /// <exception cref="ArgumentNullException"> si un des paramètres est <c>null</c>.
+        /// </exception>
         public void SetChkSon(string son, bool checkVal)
         {
+            if (son == null)
+            {
+                logger.Fatal("son null passé à SetCFSon");
+                throw new ArgumentNullException(nameof(son), "son null passé à SetCFSon");
+            }
+            if (!sonsValides.Contains(son))
+            {
+                logger.Fatal("Les son {0} n'est pas autorisé.", son);
+                throw new ArgumentOutOfRangeException(nameof(son), "Son non autorisé: " + son);
+            }
             logger.ConditionalDebug("SetChkSon \'{0}\' to {1}", son, checkVal);
             bool valCK;
             if (!(chkSon.TryGetValue(son, out valCK) && valCK == checkVal)) 

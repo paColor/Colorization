@@ -133,6 +133,31 @@ namespace ColorLibTest.ConfigTest
             ResetEventCounters();
         }
 
+        private void CheckConsistency(ColConfWin ccw)
+        {
+            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.undefined));
+            Assert.ThrowsException<ArgumentOutOfRangeException>
+                        (() => ccw.GetFlag(ColConfWin.RuleFlag.last));
+            switch (ccw.IllRuleToUse)
+            {
+                case ColConfWin.IllRule.ceras:
+                    Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
+                    Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
+                    break;
+                case ColConfWin.IllRule.lirecouleur:
+                    Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
+                    Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
+                    break;
+                case ColConfWin.IllRule.undefined:
+                    Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
+                    Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("Valeur inconnue pour IllRuleToUse");
+                    break;
+            }
+        }
+
         [TestMethod]
         public void TestEvents1()
         {
@@ -191,6 +216,8 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(PhonConfType.phonemes, DefBehModifiedEvents[0].pct);
             Assert.AreEqual(ColConfWin.DefBeh.undefined, ccw.defBeh);
             ResetEventCounters();
+
+            CheckConsistency(ccw);
         }
 
         [TestMethod]
@@ -285,6 +312,8 @@ namespace ColorLibTest.ConfigTest
                 }
                 Assert.IsTrue(found);
             }
+
+            CheckConsistency(ccw);
         }
 
         [TestMethod]
@@ -323,6 +352,8 @@ namespace ColorLibTest.ConfigTest
 
                 i++;
             }
+
+            CheckConsistency(ccw);
         }
 
         
@@ -433,6 +464,8 @@ namespace ColorLibTest.ConfigTest
                 Assert.IsTrue(ccw.GetCheck(son));
             foreach (string son in sonsNonCeras)
                 Assert.IsFalse(ccw.GetCheck(son));
+
+            CheckConsistency(ccw);
         }
 
         [TestMethod]
@@ -450,34 +483,313 @@ namespace ColorLibTest.ConfigTest
                 Assert.IsTrue(ccw.GetCheck(son));
             foreach (string son in sonsNonMuets)
                 Assert.IsFalse(ccw.GetCheck(son));
+
+            CheckConsistency(ccw);
         }
 
         [TestMethod]
         public void TestRuleFlags()
         {
             ColConfWin ccw = conf.colors[PhonConfType.muettes];
-            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
-            Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
-            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.undefined));
-            Assert.ThrowsException<ArgumentOutOfRangeException>
-                (() => ccw.GetFlag(ColConfWin.RuleFlag.last));
+            Assert.AreEqual(ColConfWin.IllRule.ceras, ccw.IllRuleToUse);
+            CheckConsistency(ccw);
 
             ccw = conf.colors[PhonConfType.phonemes];
-            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
-            Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
-            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.undefined));
-            Assert.ThrowsException<ArgumentOutOfRangeException>
-                (() => ccw.GetFlag(ColConfWin.RuleFlag.last));
+            Assert.AreEqual(ColConfWin.IllRule.ceras, ccw.IllRuleToUse);
+            CheckConsistency(ccw);
 
             ccw.IllRuleToUse = ColConfWin.IllRule.lirecouleur;
-            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
-            Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
-            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.undefined));
+            Assert.AreEqual(ColConfWin.IllRule.lirecouleur, ccw.IllRuleToUse);
+            CheckConsistency(ccw);
 
             ccw.IllRuleToUse = ColConfWin.IllRule.undefined;
-            Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllLireCouleur));
-            Assert.IsFalse(ccw.GetFlag(ColConfWin.RuleFlag.IllCeras));
-            Assert.IsTrue(ccw.GetFlag(ColConfWin.RuleFlag.undefined));
+            Assert.AreEqual(ColConfWin.IllRule.undefined, ccw.IllRuleToUse);
+            CheckConsistency(ccw);
+        }
+
+        private Dictionary<string, CharFormatting> SetTestConfig(ColConfWin ccw)
+        {
+            Dictionary<string, CharFormatting> toReturn = new Dictionary<string, CharFormatting>();
+            int i = 0;
+            foreach (string son in ColConfWin.sonsValides)
+            {
+                ccw.SetCbxAndCF(son, TestTheText.fixCFs[i]);
+                Assert.IsTrue(ccw.GetCheck(son));
+                Assert.AreEqual(TestTheText.fixCFs[i], ccw.GetCF(son));
+                toReturn.Add(son, TestTheText.fixCFs[i]);
+                i++;
+            }
+            return toReturn;
+        }
+
+        [TestMethod]
+        public void TestGetForPhons()
+        {
+            ColConfWin ccw = conf.colors[PhonConfType.phonemes];
+            Dictionary<string, CharFormatting> son2CF = SetTestConfig(ccw);
+            Assert.AreEqual(ccw.GetCF("a"),     ccw.GetCF(Phonemes.a));
+            Assert.AreEqual(ccw.GetCF("q"),     ccw.GetCF(Phonemes.q));
+            Assert.AreEqual(ccw.GetCF("q_caduc"), ccw.GetCF(Phonemes.q_caduc));
+            Assert.AreEqual(ccw.GetCF("i"),     ccw.GetCF(Phonemes.i));
+            Assert.AreEqual(ccw.GetCF("o"),     ccw.GetCF(Phonemes.o));
+            Assert.AreEqual(ccw.GetCF("o"),     ccw.GetCF(Phonemes.o_comp));
+            Assert.AreEqual(ccw.GetCF("u"),     ccw.GetCF(Phonemes.u));
+            Assert.AreEqual(ccw.GetCF("y"),     ccw.GetCF(Phonemes.y));
+            Assert.AreEqual(ccw.GetCF("é"),     ccw.GetCF(Phonemes.e));
+            Assert.AreEqual(ccw.GetCF("è"),     ccw.GetCF(Phonemes.E));
+            Assert.AreEqual(ccw.GetCF("è"),     ccw.GetCF(Phonemes.E_comp));
+            Assert.AreEqual(ccw.GetCF("é"),     ccw.GetCF(Phonemes.e_comp));
+            Assert.AreEqual(ccw.GetCF("5"),     ccw.GetCF(Phonemes.e_tilda));
+            Assert.AreEqual(ccw.GetCF("an"),    ccw.GetCF(Phonemes.a_tilda));
+            Assert.AreEqual(ccw.GetCF("on"),    ccw.GetCF(Phonemes.o_tilda));
+            Assert.AreEqual(ccw.GetCF("1"),     ccw.GetCF(Phonemes.x_tilda));
+            Assert.AreEqual(ccw.GetCF("2"),     ccw.GetCF(Phonemes.x2));
+            Assert.AreEqual(ccw.GetCF("oi"),    ccw.GetCF(Phonemes.oi));
+            Assert.AreEqual(ccw.GetCF("oin"),   ccw.GetCF(Phonemes.w_e_tilda));
+            Assert.AreEqual(ccw.GetCF("w"),     ccw.GetCF(Phonemes.w));
+            Assert.AreEqual(ccw.GetCF("j"),     ccw.GetCF(Phonemes.j));
+            Assert.AreEqual(ccw.GetCF("ng"),    ccw.GetCF(Phonemes.J));
+            Assert.AreEqual(ccw.GetCF("ij"),    ccw.GetCF(Phonemes.i_j));
+            Assert.AreEqual(ccw.GetCF("gn"),    ccw.GetCF(Phonemes.N));
+            Assert.AreEqual(ccw.GetCF("p"),     ccw.GetCF(Phonemes.p));
+            Assert.AreEqual(ccw.GetCF("b"),     ccw.GetCF(Phonemes.b));
+            Assert.AreEqual(ccw.GetCF("t"),     ccw.GetCF(Phonemes.t));
+            Assert.AreEqual(ccw.GetCF("d"),     ccw.GetCF(Phonemes.d));
+            Assert.AreEqual(ccw.GetCF("k"),     ccw.GetCF(Phonemes.k));
+            Assert.AreEqual(ccw.GetCF("g"),     ccw.GetCF(Phonemes.g));
+            Assert.AreEqual(ccw.GetCF("f"),     ccw.GetCF(Phonemes.f));
+            Assert.AreEqual(ccw.GetCF("v"),     ccw.GetCF(Phonemes.v));
+            Assert.AreEqual(ccw.GetCF("s"),     ccw.GetCF(Phonemes.s));
+            Assert.AreEqual(ccw.GetCF("z"),     ccw.GetCF(Phonemes.z));
+            Assert.AreEqual(ccw.GetCF("ch"),    ccw.GetCF(Phonemes.S));
+            Assert.AreEqual(ccw.GetCF("ge"),    ccw.GetCF(Phonemes.Z));
+            Assert.AreEqual(ccw.GetCF("m"),     ccw.GetCF(Phonemes.m));
+            Assert.AreEqual(ccw.GetCF("n"),     ccw.GetCF(Phonemes.n));
+            Assert.AreEqual(ccw.GetCF("l"),     ccw.GetCF(Phonemes.l));
+            Assert.AreEqual(ccw.GetCF("r"),     ccw.GetCF(Phonemes.R));
+            Assert.AreEqual(ccw.GetCF("f"),     ccw.GetCF(Phonemes.f_ph));
+            Assert.AreEqual(ccw.GetCF("k"),     ccw.GetCF(Phonemes.k_qu));
+            Assert.AreEqual(ccw.GetCF("g"),     ccw.GetCF(Phonemes.g_u));
+            Assert.AreEqual(ccw.GetCF("s"),     ccw.GetCF(Phonemes.s_c));
+            Assert.AreEqual(ccw.GetCF("s"),     ccw.GetCF(Phonemes.s_t));
+            Assert.AreEqual(ccw.GetCF("s"),     ccw.GetCF(Phonemes.s_x));
+            Assert.AreEqual(ccw.GetCF("z"),     ccw.GetCF(Phonemes.z_s));
+            Assert.AreEqual(ccw.GetCF("ks"),    ccw.GetCF(Phonemes.ks));
+            Assert.AreEqual(ccw.GetCF("gz"),    ccw.GetCF(Phonemes.gz));
+            Assert.AreEqual(ccw.GetCF("_muet"), ccw.GetCF(Phonemes.verb_3p));
+            Assert.AreEqual(ccw.GetCF("_muet"), ccw.GetCF(Phonemes._muet));
+            Assert.AreEqual(ccw.GetCF("ill"),   ccw.GetCF(Phonemes.j_ill));
+            Assert.AreEqual(ccw.GetCF("ill"),   ccw.GetCF(Phonemes.i_j_ill));
+            Assert.AreEqual(ccw.GetCF("j"),     ccw.GetCF(Phonemes.ji));
+        }
+
+        const string text1 = @"Monsieur Poiret était une espèce de mécanique. En l’apercevant
+            s’étendre comme une ombre grise le long d’une allée au Jardin-des-Plantes, la 
+            tête couverte d’une vieille casquette flasque, tenant à peine sa canne à pomme
+            d’ivoire jauni dans sa main, laissant flotter les pans flétris de sa redingote qui 
+            cachait mal une culotte presque vide, et des jambes en bas bleus qui flageolaient comme
+            celles d’un homme ivre, montrant son gilet blanc sale et son jabot de grosse mousseline 
+            recroquevillée qui s’unissait imparfaitement à sa cravate cordée autour de son cou de 
+            dindon, bien des gens se demandaient si cette ombre chinoise appartenait à la race
+            audacieuse des fils de Japhet qui papillonnent sur le boulevard italien.";
+
+        [TestMethod]
+        public void TestMiseEnCouleur()
+        {
+            ColConfWin ccw = conf.colors[PhonConfType.phonemes];
+            Dictionary<string, CharFormatting> son2CF = SetTestConfig(ccw);
+            TestTheText ttt = new TestTheText(text1);
+            ttt.ColorizePhons(conf, PhonConfType.phonemes);
+            int index = ttt.S.IndexOf("Monsieur");
+            ttt.AssertCF(index, 1, son2CF["m"]);
+            ttt.AssertCF(index + 1, 2, son2CF["q"]);
+            ttt.AssertCF(index + 3, 1, son2CF["s"]);
+            ttt.AssertCF(index + 4, 1, son2CF["j"]);
+            ttt.AssertCF(index + 5, 2, son2CF["2"]);
+            ttt.AssertCF(index + 7, 1, son2CF["_muet"]);
+
+            index = ttt.S.IndexOf("imparfaitement");
+            ttt.AssertCF(index,      2, son2CF["5"]);
+            ttt.AssertCF(index + 2,  1, son2CF["p"]);
+            ttt.AssertCF(index + 3,  1, son2CF["a"]);
+            ttt.AssertCF(index + 4,  1, son2CF["r"]);
+            ttt.AssertCF(index + 5,  1, son2CF["f"]);
+            ttt.AssertCF(index + 6,  2, son2CF["è"]);
+            ttt.AssertCF(index + 8,  1, son2CF["t"]);
+            ttt.AssertCF(index + 9,  1, son2CF["q"]);
+            ttt.AssertCF(index + 10, 1, son2CF["m"]);
+            ttt.AssertCF(index + 11, 2, son2CF["an"]);
+            ttt.AssertCF(index + 13, 1, son2CF["_muet"]);
+
+            Assert.AreEqual(ColConfWin.IllRule.ceras, ccw.IllRuleToUse);
+            index = ttt.S.IndexOf("papillonnent");
+            ttt.AssertCF(index,     1, son2CF["p"]);
+            ttt.AssertCF(index + 1, 1, son2CF["a"]);
+            ttt.AssertCF(index + 2, 1, son2CF["p"]);
+            ttt.AssertCF(index + 3, 3, son2CF["ill"]);
+            ttt.AssertCF(index + 6, 1, son2CF["o"]);
+            ttt.AssertCF(index + 7, 2, son2CF["n"]);
+            ttt.AssertCF(index + 9, 1, son2CF["q_caduc"]);
+            ttt.AssertCF(index + 10, 2, son2CF["_muet"]);
+
+            index = ttt.S.IndexOf("couverte");
+            ttt.AssertCF(index, 1, son2CF["k"]);
+            ttt.AssertCF(index + 1, 2, son2CF["u"]);
+            ttt.AssertCF(index + 3, 1, son2CF["v"]);
+            ttt.AssertCF(index + 4, 1, son2CF["è"]);
+            ttt.AssertCF(index + 5, 1, son2CF["r"]);
+            ttt.AssertCF(index + 6, 1, son2CF["t"]);
+            ttt.AssertCF(index + 7, 1, son2CF["q_caduc"]);
+
+            index = ttt.S.IndexOf("ombre");
+            ttt.AssertCF(index, 2, son2CF["on"]);
+            ttt.AssertCF(index + 2, 1, son2CF["b"]);
+            ttt.AssertCF(index + 3, 1, son2CF["r"]);
+            ttt.AssertCF(index + 4, 1, son2CF["q_caduc"]);
+
+            index = ttt.S.IndexOf("mécanique");
+            ttt.AssertCF(index, 1, son2CF["m"]);
+            ttt.AssertCF(index + 1, 1, son2CF["é"]);
+            ttt.AssertCF(index + 2, 1, son2CF["k"]);
+            ttt.AssertCF(index + 3, 1, son2CF["a"]);
+            ttt.AssertCF(index + 4, 1, son2CF["n"]);
+            ttt.AssertCF(index + 5, 1, son2CF["i"]);
+            ttt.AssertCF(index + 6, 2, son2CF["k"]);
+            ttt.AssertCF(index + 8, 1, son2CF["q_caduc"]);
+
+            index = ttt.S.IndexOf("culotte");
+            ttt.AssertCF(index, 1, son2CF["k"]);
+            ttt.AssertCF(index + 1, 1, son2CF["y"]);
+            ttt.AssertCF(index + 2, 1, son2CF["l"]);
+            ttt.AssertCF(index + 3, 1, son2CF["o"]);
+            ttt.AssertCF(index + 4, 2, son2CF["t"]);
+            ttt.AssertCF(index + 6, 1, son2CF["q_caduc"]);
+
+            index = ttt.S.IndexOf("Poiret");
+            ttt.AssertCF(index, 1, son2CF["p"]);
+            ttt.AssertCF(index + 1, 2, son2CF["oi"]);
+            ttt.AssertCF(index + 3, 1, son2CF["r"]);
+            ttt.AssertCF(index + 4, 2, son2CF["è"]);
+
+            TestTheText ttt2 = new TestTheText("pria");
+            ttt2.ColorizePhons(conf, PhonConfType.phonemes);
+            ttt2.AssertCF(0, 1, son2CF["p"]);
+            ttt2.AssertCF(1, 1, son2CF["r"]);
+            ttt2.AssertCF(2, 1, son2CF["ij"]);
+            ttt2.AssertCF(3, 1, son2CF["a"]);
+
+            index = ttt.S.IndexOf(@"celles d’un");
+            ttt.AssertCF(index + 9, 2, son2CF["1"]);
+
+            ttt2 = new TestTheText("soin");
+            ttt2.ColorizePhons(conf, PhonConfType.phonemes);
+            ttt2.AssertCF(0, 1, son2CF["s"]);
+            ttt2.AssertCF(1, 3, son2CF["oin"]);
+
+            ttt2 = new TestTheText("parking");
+            ttt2.ColorizePhons(conf, PhonConfType.phonemes);
+            ttt2.AssertCF(0, 1, son2CF["p"]);
+            ttt2.AssertCF(1, 1, son2CF["a"]);
+            ttt2.AssertCF(2, 1, son2CF["r"]);
+            ttt2.AssertCF(3, 1, son2CF["k"]);
+            ttt2.AssertCF(4, 1, son2CF["i"]);
+            ttt2.AssertCF(5, 2, son2CF["ng"]);
+
+            index = ttt.S.IndexOf("Jardin");
+            ttt.AssertCF(index, 1, son2CF["ge"]);
+            ttt.AssertCF(index + 1, 1, son2CF["a"]);
+            ttt.AssertCF(index + 2, 1, son2CF["r"]);
+            ttt.AssertCF(index + 3, 1, son2CF["d"]);
+            ttt.AssertCF(index + 4, 2, son2CF["5"]);
+
+            index = ttt.S.IndexOf("chinoise");
+            ttt.AssertCF(index, 2, son2CF["ch"]);
+            ttt.AssertCF(index + 2, 1, son2CF["i"]);
+            ttt.AssertCF(index + 3, 1, son2CF["n"]);
+            ttt.AssertCF(index + 4, 2, son2CF["oi"]);
+            ttt.AssertCF(index + 6, 1, son2CF["z"]);
+            ttt.AssertCF(index + 7, 1, son2CF["q_caduc"]);
+
+            index = ttt.S.IndexOf("grise");
+            ttt.AssertCF(index, 1, son2CF["g"]);
+            ttt.AssertCF(index + 1, 1, son2CF["r"]);
+            ttt.AssertCF(index + 2, 1, son2CF["i"]);
+            ttt.AssertCF(index + 3, 1, son2CF["z"]);
+            ttt.AssertCF(index + 4, 1, son2CF["q_caduc"]);
+
+            ttt2 = new TestTheText("ligne");
+            ttt2.ColorizePhons(conf, PhonConfType.phonemes);
+            ttt2.AssertCF(0, 1, son2CF["l"]);
+            ttt2.AssertCF(1, 1, son2CF["i"]);
+            ttt2.AssertCF(2, 2, son2CF["gn"]);
+            ttt2.AssertCF(4, 1, son2CF["q_caduc"]);
+
+            ttt2 = new TestTheText("rixe");
+            ttt2.ColorizePhons(conf, PhonConfType.phonemes);
+            ttt2.AssertCF(0, 1, son2CF["r"]);
+            ttt2.AssertCF(1, 1, son2CF["i"]);
+            ttt2.AssertCF(2, 1, son2CF["ks"]);
+            ttt2.AssertCF(3, 1, son2CF["q_caduc"]);
+
+            ttt2 = new TestTheText("examen");
+            ttt2.ColorizePhons(conf, PhonConfType.phonemes);
+            ttt2.AssertCF(0, 1, son2CF["è"]);
+            ttt2.AssertCF(1, 1, son2CF["gz"]);
+            ttt2.AssertCF(2, 1, son2CF["a"]);
+            ttt2.AssertCF(3, 1, son2CF["m"]);
+            ttt2.AssertCF(4, 2, son2CF["5"]);
+
+            ttt2 = new TestTheText("kiwi");
+            ttt2.ColorizePhons(conf, PhonConfType.phonemes);
+            ttt2.AssertCF(0, 1, son2CF["k"]);
+            ttt2.AssertCF(1, 1, son2CF["i"]);
+            ttt2.AssertCF(2, 1, son2CF["w"]);
+            ttt2.AssertCF(3, 1, son2CF["i"]);
+
+            ccw.IllRuleToUse = ColConfWin.IllRule.lirecouleur;
+            ttt.ColorizePhons(conf, PhonConfType.phonemes);
+            Assert.AreEqual(ColConfWin.IllRule.lirecouleur, ccw.IllRuleToUse);
+            index = ttt.S.IndexOf("papillonnent");
+            ttt.AssertCF(index, 1, son2CF["p"]);
+            ttt.AssertCF(index + 1, 1, son2CF["a"]);
+            ttt.AssertCF(index + 2, 1, son2CF["p"]);
+            ttt.AssertCF(index + 3, 1, son2CF["i"]);
+            ttt.AssertCF(index + 4, 2, son2CF["j"]);
+            ttt.AssertCF(index + 6, 1, son2CF["o"]);
+            ttt.AssertCF(index + 7, 2, son2CF["n"]);
+            ttt.AssertCF(index + 9, 1, son2CF["q_caduc"]);
+            ttt.AssertCF(index + 10, 2, son2CF["_muet"]);
+        }
+
+        [TestMethod]
+        public void TestOutOfRange()
+        {
+            ColConfWin ccw = conf.colors[PhonConfType.phonemes];
+            Assert.ThrowsException<KeyNotFoundException>(() => ccw.GetCheck("farfelu"));
+            Assert.ThrowsException<ArgumentNullException>(() => ccw.GetCheck(null));
+
+            Assert.ThrowsException<KeyNotFoundException>(() => ccw.GetCF("farfelu"));
+            Assert.ThrowsException<ArgumentNullException>(() => ccw.GetCF(null));
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() 
+                => ccw.SetCbxAndCF("farfelu", CharFormatting.BlackCF));
+            Assert.ThrowsException<ArgumentNullException>(() 
+                => ccw.SetCbxAndCF(null, CharFormatting.BlackCF));
+            Assert.ThrowsException<ArgumentNullException>(() 
+                => ccw.SetCbxAndCF("a", null));
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => ccw.ClearSon("farfelu"));
+            Assert.ThrowsException<ArgumentNullException>(() => ccw.ClearSon(null));
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() 
+                => ccw.SetCFSon("farfelu", CharFormatting.BlackCF));
+            Assert.ThrowsException<ArgumentNullException>(() 
+                => ccw.SetCFSon(null, CharFormatting.BlackCF));
+            Assert.ThrowsException<ArgumentNullException>(() 
+                => ccw.SetCFSon("a", null));
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => ccw.SetChkSon("farfelu", false));
+            Assert.ThrowsException<ArgumentNullException>(() => ccw.SetChkSon(null, true));
         }
     }
 }
