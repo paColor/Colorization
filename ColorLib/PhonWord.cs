@@ -597,7 +597,7 @@ namespace ColorLib
                 if (syl.EstConsonne() && succ.ToLowerString() == "h")
                 {
                     // Il faut parfois faire le césure de syllabes entre la consonne et le h
-                    // (bon-homme, mal-heur) et parfois ile est correct de fusionner la consonne 
+                    // (bon-homme, mal-heur) et parfois il est correct de fusionner la consonne 
                     // avec le h qui suit (sym-pa-thique).
                     // Hypothèse: ça dépend de la consonne qui précède. Certaines repoussent le
                     // h alors que d'autres l'attirent :-). C'est probablement un peu plus compliqué
@@ -631,9 +631,16 @@ namespace ColorLib
         // ****************************************************************************************
 
         // Les mots avec trait d'union ont été enlevés de la liste car on considère que le proogramme 
-        // copue les mots au trait d'union... En tenir compte si cela devait changer...
+        // coupe les mots au trait d'union... En tenir compte si cela devait changer...
         // A prt ça, on a un problème avec 'huis-clos' qui doit dans la liste mais pas 'huis':
         // le huis-clos mais l'huis...
+        // Quelques ajouts grâce à Lauriane:
+        //    - harle (oiseau présent en Suisse)
+        //    - hongrie (pays)
+        //    - honduras (pays)
+        //    - haïti (le nom propre n'y était pas)
+        //    - harelde (harelde boréale: un oiseau présent en Suisse)
+
 
         static string[] hAspire =
         {
@@ -642,7 +649,7 @@ namespace ColorLib
             "hachis", "hachisch", "hachoir", "hachure", "hachurer", "hackle", "hadal",
             "hadale", "hadaux", "haddock", "haflinger", "hafnium", "hagard", "haggis", "haie",
             "haillon", "haillonneux", "haillonneuse", "haine", "haineusement", "haineux", "haineuse",
-            "haïr", "haire", "haïssable", "haïtien", "haïtienne", "halage", "hâlage", "halal", 
+            "haïr", "haire", "haïssable", "haïti", "haïtien", "haïtienne", "halage", "hâlage", "halal", 
             "halbi", "halbran", "halbrené", "halbrenée", "halde", "hâle", "hâlé", 
             "hâlée", "hale", "halefis", "haler", "hâler", "haletant", "halètement", "haleter", 
             "haleur", "haleuse", "half", "hall", "halle", "hallebarde", "halo", "hallux", "halte", 
@@ -654,10 +661,10 @@ namespace ColorLib
             "harangueur", "harangueuse", "haras", "harassant", "harassante", "harassé", "harassée",
             "harassement", "harasser", "harcelant", "harcelante", "harcèlement", "harceler",
             "hard", "harde", "hardé", "harder", "hardes", "hardi", "hardie",
-            "hardiesse", "hardiment", "hardware", "harem", "hareng", "harengade",
+            "hardiesse", "hardiment", "hardware", "harelde", "harem", "hareng", "harengade",
             "harengaison", "harengère", "harenguet", "harengueux", "harenguier", "harenguière",
             "haret", "harfang", "hargne", "hargneusement", "hargneux", "hargneuse", "haricot",
-            "haridelle", "harissa", "harka", "harki", "harnachement", "harnacher", "harnais",
+            "haridelle", "harissa", "harka", "harki", "harle", "harnachement", "harnacher", "harnais",
             "harnat", "harnois", "haro", "harouelle", "harpail", "harpaye", "harpe", "harpette",
             "harpie", "harpiste", "harpocéras", "harpodon", "harpoise", "harpon", "harponnage",
             "harponnement", "harponner", "harponneur", "harpye", "harrier", "hart", "hasard",
@@ -680,6 +687,7 @@ namespace ColorLib
             "hochequeue", "hocher", "hochet", "hockey", "hockeyeur", "hockeyeuse", "holding",
             "holà", "hold", "hollandite", "hollywoodien", "hollywoodienne", "homard", 
             "homarderie", "homardier", "home", "hongre", "hongrer", "hongreur", "hongreuse", 
+            "honduras", "hondurien", "hondurienne", "hongrie", "hongrois", "hongroise", "hongroises",
             "hongroierie", "hongroyage", "hongroyer", "hongroyeur", "honning", "honnir", "honoris",
             "honte", "honteusement", "honteux", "honteuse", "hooligan", "hooliganisme", "hop",
             "hoquet", "hoqueter", "hoqueton", "horde", "horion", "hormis", "hornblende", "hors",
@@ -692,7 +700,7 @@ namespace ColorLib
             "houseau", "house", "houspiller", "houssage", "housse", "housser", "housset",
             "houssière", "houst", "houx", "hovéa", "hoyau", "hoyé", "hoyée", "huard", "huart",
             "hublot", "huche", "hucher", "huchier", "hue", "huée", "huer", "huerta", "huguenot", 
-            "huipil", "huir", "huis-clos", "huit", "huitain", "huitaine", "huitante", "huitième", 
+            "huipil", "huir", "huis", "huit", "huitain", "huitaine", "huitante", "huitième", 
             "huitièmement", "hulotte", "hululation", "hululement", "hululer", "hum", "humantin", 
             "humer", "hune", "hunier", "hunter", "huppe", "huppé", "huppée", "huque", "hurdler", 
             "hure", "hurlant", "hurlement", "hurler", "hurleur", "hurleuse", "huron", "huronne", 
