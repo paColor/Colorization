@@ -129,7 +129,7 @@ namespace ColorLib
         /// <param name="conf">The <c>Config</c> that must be used to answer the question.</param>
         /// <returns><c>true</c> if <c>bold</c> == <c>false</c> means that the character should be set to no 
         /// 'bold'</returns>
-        public virtual bool ForceNonBold(Config conf) => conf.unsetBeh.CbuVal(Ucbx.bold);
+        public virtual bool ForceNonBold(Config conf) => conf.unsetBeh.GetCbuFlag(Ucbx.bold);
 
         /// <summary>
         /// Indicates whether a <c>false</c> value for the member <c>italic</c> should be interpreted as 'do nothing' 
@@ -138,7 +138,7 @@ namespace ColorLib
         /// <param name="conf">The <c>Config</c> that must be used to answer the question.</param>
         /// <returns><c>true</c> if <c>italic</c> == <c>false</c> means that the character should be set to no 
         /// 'italic'</returns>
-        public virtual bool ForceNonItalic(Config conf) => conf.unsetBeh.CbuVal(Ucbx.italic);
+        public virtual bool ForceNonItalic(Config conf) => conf.unsetBeh.GetCbuFlag(Ucbx.italic);
 
         /// <summary>
         /// Indicates whether a <c>false</c> value for the member <c>underline</c> should be interpreted as 'do nothing' 
@@ -147,7 +147,7 @@ namespace ColorLib
         /// <param name="conf">The <c>Config</c> that must be used to answer the question.</param>
         /// <returns><c>true</c> if <c>underline</c> == <c>false</c> means that the character should be set to no 
         /// 'underline'</returns>
-        public virtual bool ForceNonUnderline(Config conf) => conf.unsetBeh.CbuVal(Ucbx.underline);
+        public virtual bool ForceNonUnderline(Config conf) => conf.unsetBeh.GetCbuFlag(Ucbx.underline);
 
         /// <summary>
         /// Indicates how to react when <c>changeColor</c> is <c>false</c>. If the response is <c>true</c>, the 
@@ -156,7 +156,7 @@ namespace ColorLib
         /// <param name="conf">The <c>Config</c> that must be used to answer the question.</param>
         /// <returns><c>true</c> if the color black (RGB(0,0,0)) must be applied when <c>changeColor</c>
         /// is <c>false</c></returns>
-        public virtual bool ForceBlackColor(Config conf) => conf.unsetBeh.CbuVal(Ucbx.color);
+        public virtual bool ForceBlackColor(Config conf) => conf.unsetBeh.GetCbuFlag(Ucbx.color);
 
         /// <summary>
         /// Indicates how to react when <c>changeHilight</c> is <c>false</c>. If the response is <c>true</c>, the 
@@ -165,7 +165,7 @@ namespace ColorLib
         /// <param name="conf">The <c>Config</c> that must be used to answer the question.</param>
         /// <returns><c>true</c> if the hilighting must be turned off when <c>changeHilight</c>
         /// is <c>false</c></returns>
-        public virtual bool ForceHilightClear(Config conf) => conf.unsetBeh.CbuVal(Ucbx.hilight);
+        public virtual bool ForceHilightClear(Config conf) => conf.unsetBeh.GetCbuFlag(Ucbx.hilight);
         public virtual bool ForceNonCaps(Config conf) => false;
         public virtual bool ForceNonContour(Config conf) => false;
         public virtual bool ForceNonSerif(Config conf) => false;

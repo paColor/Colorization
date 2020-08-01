@@ -439,5 +439,26 @@ At-ten-dez vous à la pa-reille";
             ttt.AssertSyls(conf, LeRenardEtLaCigognePoesie);
         }
 
+        const string HarlesEtHiboux =
+@"Il chante Harles et Hiboux
+En oubliant les diérèses.
+Maigre hymne que j’ai en dégoût ;
+Diérèse ou pas, fais qu’il se taise !";
+
+        const string HarlesEtHibouxPoesie =
+@"Il chan-te Har-les et Hi-boux
+En ou-bli-ant les di-é-rèses.
+Maigre hym-ne que j’ai en dé-goût ;
+Dié-rèse ou pas, fais qu’il se taise !";
+
+        [TestMethod]
+        public void TestHarle()
+        {
+            TestTheText ttt = new TestTheText(HarlesEtHiboux);
+            Config conf = new Config();
+            conf.sylConf.mode = SylConfig.Mode.poesie;
+            ttt.AssertSyls(conf, HarlesEtHibouxPoesie);
+        }
+
     }
 }

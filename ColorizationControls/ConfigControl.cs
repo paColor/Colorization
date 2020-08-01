@@ -315,7 +315,7 @@ namespace ColorizationControls
             foreach (string cbUname in formattingCheckBoxes.Keys)
             {
                 CheckBox fcb = formattingCheckBoxes[cbUname];
-                fcb.Checked = theConf.unsetBeh.CbuVal(cbUname);
+                fcb.Checked = theConf.unsetBeh.GetCbuFlag(cbUname);
             }
         }
 
@@ -753,7 +753,7 @@ namespace ColorizationControls
             logger.ConditionalDebug("UcheckBoxes_CheckedChanged {0}", cbu.Name);
             Debug.Assert(cbu.Name.StartsWith("cbu"));
             string cbuNameEnd = cbu.Name.Substring(3, cbu.Name.Length - 3);
-            theConf.unsetBeh.CbuChecked(cbuNameEnd, cbu.Checked);
+            theConf.unsetBeh.SetCbuFlag(cbuNameEnd, cbu.Checked);
         }
 
         private void CheckboxUnsetModified (object sender, CheckboxUnsetModifiedEventArgs e)
@@ -761,7 +761,7 @@ namespace ColorizationControls
             logger.ConditionalDebug("CheckboxUnsetModified, checkbox \'{0}\'", e.unsetCBName);
             Debug.Assert(ReferenceEquals(sender, theConf.unsetBeh));
             CheckBox fcb = formattingCheckBoxes[e.unsetCBName];
-            fcb.Checked = theConf.unsetBeh.CbuVal(e.unsetCBX);
+            fcb.Checked = theConf.unsetBeh.GetCbuFlag(e.unsetCBX);
         }
 
         //--------------------------------------------------------------------------------------------

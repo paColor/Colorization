@@ -150,8 +150,8 @@ namespace ColorLib.Dierese
 
         /// <summary>
         /// Cherche une ou plusieurs diérèses dans le vers, transforme les mots correspondants 
-        /// Jusqu'à ce que le nombre de pieds voulu soit atteint ou qu'il n'y ait plus de diérèse
-        /// détecetable.
+        /// jusqu'à ce que le nombre de pieds voulu soit atteint ou qu'il n'y ait plus de diérèse
+        /// détectable.
         /// </summary>
         /// <param name="conf">La <c>Config</c> à utiliser pour l'identification des pieds.</param>
         /// <param name="nbrPiedsVoulu">Le nombre de pieds souhaité après la mise en évidence des
@@ -173,7 +173,7 @@ namespace ColorLib.Dierese
                 logger.Fatal("nbrPiedsVoulu == {0}", nbrPiedsVoulu);
                 throw new ArgumentOutOfRangeException(nameof(nbrPiedsVoulu), "doit être plus grand que 0");
             }
-            // traitement spécial pour les nombres de pieds pairs, parcequ'ils le valent bien
+            // traitement spécial pour les nombres de pieds pairs, parcequ'ils le valent bien!
             if (nbrPiedsVoulu % 2 == 0)
             {
                 // nombre pair de pieds

@@ -34,14 +34,29 @@ namespace ColorLib.Dierese
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-
+        /// <summary>
+        /// Au fur et à mesure de la construction de la zone, un algorithme estime le nombre de 
+        /// pieds que devraient contenir les vers de la zone. 
+        /// </summary>
+        /// <value>Nombre de pieds calculé au fur et à mesure de l'ajout de vers.</value>
         public int nrPiedsVoulu { get; private set; }
+        
+        /// <summary>
+        /// Liste (ordonnée) des vers de la zone.
+        /// </summary>
         public List<Vers> vList { get; private set; }
 
         private const float DeltaMoins = 2.7f;
         private const float DeltaPlus = 2.1f;
         private float nrPiedsMoyen;
 
+        /// <summary>
+        /// Crée une <see cref="ZonePoeme"/> vide pour le texte <paramref name="tt"/>.
+        /// </summary>
+        /// <param name="tt"><see cref="TheText"/> sur lequel est construit la 
+        /// <see cref="ZonePoeme"/>.</param>
+        /// <exception cref="ArgumentNullException"> si <paramref name="tt"/> est <c>null</c>
+        /// </exception>
         public ZonePoeme(TheText tt)
             : base(tt, 0, -1) // élément vide
         {
@@ -57,8 +72,14 @@ namespace ColorLib.Dierese
         /// <returns><c>true</c>: Le vers a été ajouté à la zone. <c>false</c>: le vers a un nombre
         /// de pieds trop éloigné des autres vers de la zone. Il fait partie d'une autre zone.
         /// Il n'a pas été ajouté.</returns>
+        /// <exception cref="ArgumentNullException"> si <paramref name="v"/> est <c>null</c>.</exception>
         public bool AddVers(Vers v)
         {
+            if (v == null)
+            {
+                logger.Fatal("Vers null ajouté à la zone.");
+                throw new ArgumentNullException(nameof(v), "Vers null ajouté à la zone.");
+            }
             bool toReturn = false;
             if (vList.Count == 0)
             {
@@ -90,10 +111,19 @@ namespace ColorLib.Dierese
         /// </summary>
         /// <param name="nrPieds">Nombre de pieds à rechercher. 0 s'il faut prendre le nombre de
         /// pieds estimé par l'algorithme.</param>
+        /// /// <exception cref="ArgumentOutOfRangeException">Si <c>nbrPiedsVoulu</c> est plus
+        /// petit que zéro.</exception>
         public void ChercheDierese(int nrPieds)
         {
-            if (nrPieds != 0)
+            if (nrPieds > 0)
                 nrPiedsVoulu = nrPieds;
+            else if (nrPieds < 0)
+            {
+                logger.Fatal("Nombre de pieds voulu négatif: {0}", nrPieds);
+                throw new ArgumentOutOfRangeException(nameof(nrPieds), 
+                    "Nombre de pieds voulu négatif: " + nrPieds.ToString());
+            }
+
             if (nrPiedsVoulu <= Vers.MaxNrPieds)
             {
                 foreach (Vers v in vList)

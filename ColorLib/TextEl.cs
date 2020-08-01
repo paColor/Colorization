@@ -105,6 +105,8 @@ namespace ColorLib
         /// être plus grand ou égal à 0. </param>
         /// <param name="inLast">La position du dernier caractère dans <c>inT</c>. S'il est plus 
         /// petit que <c>inFirst</c>, l'élément est considéré comme vide.</param>
+        /// <exception cref="ArgumentNullException"> si <paramref name="tt"/> est <c>null</c>
+        /// </exception>
         public TextEl(TheText tt, int inFirst, int inLast)
         {
             if (tt == null)

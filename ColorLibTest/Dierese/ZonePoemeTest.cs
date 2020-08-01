@@ -186,11 +186,12 @@ Ou le consul de marbre ou l'empereur d'airain !";
 
         // Use TestInitialize to run code before running each test 
         [TestInitialize()]
-        public void MyTestInitialize() {
+        public void MyTestInitialize()
+        {
             ttt = new TestTheText(expiation31);
             conf = new Config();
             conf.sylConf.mode = SylConfig.Mode.poesie;
-            pws = ttt.GetPhonWordList(conf,true);
+            pws = ttt.GetPhonWordList(conf, true);
             foreach (PhonWord pw in pws)
             {
                 pw.ComputeSyls();
@@ -385,10 +386,20 @@ Fût jaloux de Napoléon ! »";
             startLigne = zp.Last + 2;
             v = new Vers(ttt, startLigne, pws);
             Assert.IsFalse(zp.AddVers(v));
-            
+
             TestTheText.CompareWordByWord(v8Syls, zp.Syllabes());
             zp.ChercheDierese(0);
             TestTheText.CompareWordByWord(v8SylsDierese, zp.Syllabes());
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => zp.ChercheDierese(-1));
+        }
+
+        [TestMethod]
+        public void TestExceptions()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => _ = new ZonePoeme(null));
+            ZonePoeme zp = new ZonePoeme(ttt);
+            Assert.ThrowsException<ArgumentNullException>(() => _ = zp.AddVers(null));
         }
     }
 }

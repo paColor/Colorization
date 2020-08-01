@@ -29,10 +29,10 @@ namespace ColorLib
         public Ucbx unsetCBX { get; private set; }
         public string unsetCBName { get; private set; }
 
-        public CheckboxUnsetModifiedEventArgs(Ucbx inUnsetCBX)
+        public CheckboxUnsetModifiedEventArgs(Ucbx inUnsetCBX, string inUnsetCBName)
         {
             unsetCBX = inUnsetCBX;
-            unsetCBName = UnsetBehConf.cbuNames[(int)unsetCBX];
+            unsetCBName = inUnsetCBName;   
         }
     }
 
@@ -40,12 +40,32 @@ namespace ColorLib
     /// Les différentes checkboxes qui existent
     /// </summary>
     [Serializable]
-    public enum Ucbx { bold, italic, underline, color, hilight, all, last } // all avant-dernier, last dernier
+    public enum Ucbx { bold, italic, underline, color, hilight, all, last }
+    // all avant-dernier, last dernier
 
     /// <summary>
+    /// <para>
+    /// UnsetBehaviourConfiguration:
+    /// </para>
+    /// <para>
     /// Configuration pour les flags avancés déterminant comment doit se comporter le formatage
-    /// quand un attribut d'un <see cref="CharFormatting"/> sont à la valeur <c>false</c>. Faut-il
+    /// quand un attribut d'un <see cref="CharFormatting"/> est à la valeur <c>false</c>. Faut-il
     /// laisser le formatage dans l'état actuel ou forcer à la valeur <c>false</c>?
+    /// </para>
+    /// <para>
+    /// Chacun des flags indique comment traiter un des attributs de <see cref="CharFormatting"/>.
+    /// La liste des attributs gérés par la classe est donnée par l'enum <see cref="Ucbx"/>. On
+    /// peut également accéder à chaque flag par son nom sous forme de <c>string</c>. Les valeurs
+    /// admises sont:
+    /// <code>
+    /// { "Bold",       Ucbx.bold },
+    /// { "Italic",     Ucbx.},
+    /// { "Underline",  Ucbx.underline },
+    /// { "Color",      Ucbx.color },
+    /// { "Hilight",    Ucbx.hilight },
+    /// { "All",        Ucbx.all }
+    /// </code>
+    /// </para>
     /// </summary>
     [Serializable]
     public class UnsetBehConf : ConfigBase
@@ -57,24 +77,24 @@ namespace ColorLib
 
         /// <summary>
         /// Les différents <c>string</c> qui peuvent être utilisés pour identifier une des checkboxes. Les 
-        /// positions dans le tableau correspondent à l'order dans l'énum <see cref="Ucbx"/>
+        /// positions dans le tableau correspondent à l'ordre dans l'énum <see cref="Ucbx"/>
         /// </summary>
-        public static string[] cbuNames { get; private set; } 
+        private static string[] cbuNames { get; set; } 
             = new string[] { "Bold", "Italic", "Underline", "Color", "Hilight", "All" };
 
         /// <summary>
         /// permet de faire la conversion checkbox name --> index dans <see cref="Ucbx"/> en utilsant la
-        /// forme <c>int i = cbuMap[name];</c>
+        /// forme <code>int i = cbuMap[name];</code>
         /// </summary>
-        public static Dictionary<string, int> cbuMap { get; private set; } = new Dictionary<string, int>((int)Ucbx.last);
-
-        public static void Init()
+        private static Dictionary<string, Ucbx> cbuMap { get; set; } = new Dictionary<string, Ucbx>((int)Ucbx.last)
         {
-            for (int i = 0; i < (int)Ucbx.last; i++)
-            {
-                cbuMap[cbuNames[i]] = i;
-            }
-        }
+            { "Bold",       Ucbx.bold },
+            { "Italic",     Ucbx.italic },
+            { "Underline",  Ucbx.underline },
+            { "Color",      Ucbx.color },
+            { "Hilight",    Ucbx.hilight },
+            { "All",        Ucbx.all }
+        };
 
         // ************************************************** INSTANTIATED ********************************************
 
@@ -92,12 +112,19 @@ namespace ColorLib
         // --------------------------------------------------  Members -------------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Le tableau des valeurs des flags gérés. À indexer avec <see cref="Ucbx"/>.
+        /// </summary>
         private bool[] act;
 
         // -------------------------------------------------------------------------------------------------------------------
         // --------------------------------------------------  Methods -------------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Crée un <see cref="UnsetBehConf"/> avec une configuration par défaut (celle obtenue
+        /// après <see cref="Reset"/>.
+        /// </summary>
         public UnsetBehConf()
         {
             act = new bool[(int)Ucbx.last];
@@ -110,10 +137,59 @@ namespace ColorLib
         /// </summary>
         /// <param name="cbuName">Le nom de la checkbox à modifier.</param>
         /// <param name="val">La nouvelle valeur.</param>
-        public void CbuChecked(string cbuName, bool val)
+        /// <exception cref="ArgumentNullException"> si <paramref name="cbuName"/> est null.
+        /// </exception>
+        /// <exception cref="KeyNotFoundException"> si <paramref name="cbuName"/> n'est pas
+        /// l'identifiant valable d'un flag.</exception>
+        public void SetCbuFlag(string cbuName, bool val)
         {
-            logger.ConditionalDebug("CbuChecked cbuName: \'{0}\', val: {1}", cbuName, val);
-            int btuIndex = cbuMap[cbuName];
+            SetCbuFlag(cbuMap[cbuName], val);
+        }
+
+        /// <summary>
+        /// Donne la valeur du flag identifié par <paramref name="cbuName"/>.
+        /// </summary>
+        /// <param name="cbuName">Le nom du flag dont on veut connaître la valeur.</param>
+        /// <returns>La valeur du flag.</returns>
+        /// <exception cref="ArgumentNullException"> si <paramref name="cbuName"/> est null.
+        /// </exception>
+        /// <exception cref="KeyNotFoundException"> si <paramref name="cbuName"/> n'est pas
+        /// l'identifiant valable d'un flag.</exception>
+        public bool GetCbuFlag(string cbuName) => act[(int)cbuMap[cbuName]];
+
+        /// <summary>
+        /// Donne la valeur du flag identifié par <paramref name="u"/>.
+        /// </summary>
+        /// <param name="u">Le flag dont on veut connaître la valeur.</param>
+        /// <returns>La valeur du flag.</returns>
+        /// <exception cref="IndexOutOfRangeException"> si <paramref name="u"/> est égal à
+        /// <c>Ucbx.last</c></exception>
+        public bool GetCbuFlag(Ucbx u) => act[(int)u];
+
+        /// <summary>
+        /// Réinitialise tous les flags à <c>false</c>.
+        /// </summary>
+        public override void Reset()
+        {
+            logger.ConditionalDebug("Reset");
+            for (int i = 0; i < (int)Ucbx.last; i++)
+            {
+                SetCbuFlag((Ucbx)i, false);
+            }
+        }
+
+        protected virtual void OnCheckboxUnsetModified(Ucbx u)
+        {
+            logger.ConditionalDebug(BaseConfig.cultF, "OnCheckboxUnsetModified, checkbox \'{0}\'", cbuNames[(int)u]);
+            EventHandler<CheckboxUnsetModifiedEventArgs> eventHandler = CheckboxUnsetModifiedEvent;
+            eventHandler?.Invoke(this, new CheckboxUnsetModifiedEventArgs(u, cbuNames[(int)u]));
+        }
+
+        private void SetCbuFlag(Ucbx flag, bool val)
+        {
+            logger.ConditionalDebug("SetCbuFlag flag: \'{0}\', val: {1}", flag, val);
+            int btuIndex = (int)flag;
+
             if (act[btuIndex] != val) // Pour éviter un évènement si rien ne change
             {
                 act[btuIndex] = val;
@@ -127,39 +203,6 @@ namespace ColorLib
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Donne la valeur du flag identifié par <paramref name="cbuName"/>.
-        /// </summary>
-        /// <param name="cbuName">Le nom du flag dont on veut connaître la valeur.</param>
-        /// <returns></returns>
-        public bool CbuVal(string cbuName) => act[cbuMap[cbuName]];
-        
-        /// <summary>
-        /// Donne la valeur du flag identifié par <paramref name="u"/>.
-        /// </summary>
-        /// <param name="u">Le flag dont on veut connaître la valeur.</param>
-        /// <returns></returns>
-        public bool CbuVal(Ucbx u) => act[(int)u];
-
-        /// <summary>
-        /// Réinitialise tous les flags à <c>false</c>.
-        /// </summary>
-        public override void Reset()
-        {
-            logger.ConditionalDebug("Reset");
-            for (int i = 0; i < (int)Ucbx.last; i++)
-            {
-                CbuChecked(cbuNames[i], false);
-            }
-        }
-
-        protected virtual void OnCheckboxUnsetModified(Ucbx u)
-        {
-            logger.ConditionalDebug(BaseConfig.cultF, "OnCheckboxUnsetModified, checkbox \'{0}\'", cbuNames[(int)u]);
-            EventHandler<CheckboxUnsetModifiedEventArgs> eventHandler = CheckboxUnsetModifiedEvent;
-            eventHandler?.Invoke(this, new CheckboxUnsetModifiedEventArgs(u));
         }
     }
 }

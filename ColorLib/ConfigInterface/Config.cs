@@ -152,8 +152,6 @@ namespace ColorLib
             }
             theConfs = new Dictionary<object, Config>();
             doc2Win = new Dictionary<object, List<object>>();
-
-            UnsetBehConf.Init();
         }
 
         /// <summary>
