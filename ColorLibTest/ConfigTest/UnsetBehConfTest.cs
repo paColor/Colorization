@@ -312,5 +312,70 @@ namespace ColorLibTest.ConfigTest
             ttt.AssertBold(10, false);
             ttt.AssertColor(10, TestTheText.black);
         }
+
+        [TestMethod]
+        public void TestFormatage2()
+        {
+            UnsetBehConf uB = conf.unsetBeh;
+            ColConfWin ccw = conf.colors[PhonConfType.phonemes];
+            SylConfig sC = conf.sylConf;
+
+            RGB color = new RGB(25, 100, 200);
+            RGB hiColor = new RGB(200, 100, 25);
+            CharFormatting cfAll = new CharFormatting(true, true, true, true, true, color, true, hiColor);
+            ccw.SetCbxAndCF("p", cfAll);
+            TestTheText ttt = new TestTheText(text1);
+            ttt.ColorizePhons(conf, PhonConfType.phonemes);
+            ttt.AssertBold(9, true);
+            ttt.AssertItalic(9, true);
+            ttt.AssertUnderline(9, true);
+            ttt.AssertColor(9, color);
+            ttt.AssertChangeHilight(9, true);
+            ttt.AssertHilightColor(9, hiColor);
+            ttt.AssertBold(10, true); // La config par défaut fait ça.
+            ttt.AssertColor(10, TestTheText.black);
+
+            ttt.MarkLetters(conf); // ça ne devrait pas toucher au P majuscule...
+            ttt.AssertBold(9, true);
+            ttt.AssertItalic(9, true);
+            ttt.AssertUnderline(9, true);
+            ttt.AssertColor(9, color);
+            ttt.AssertChangeHilight(9, true);
+            ttt.AssertHilightColor(9, hiColor);
+            ttt.AssertBold(10, true);
+            ttt.AssertColor(10, TestTheText.black);
+
+            uB.SetCbuFlag("Italic", true);
+            ttt.MarkLetters(conf);
+            ttt.AssertBold(9, true);
+            ttt.AssertItalic(9, false);
+            ttt.AssertUnderline(9, true);
+            ttt.AssertColor(9, color);
+            ttt.AssertChangeHilight(9, true);
+            ttt.AssertHilightColor(9, hiColor);
+            ttt.AssertBold(10, true);
+            ttt.AssertColor(10, TestTheText.black);
+
+            uB.SetCbuFlag("Underline", true);
+            ttt.MarkLetters(conf);
+            ttt.AssertBold(9, true);
+            ttt.AssertItalic(9, false);
+            ttt.AssertUnderline(9, false);
+            ttt.AssertColor(9, color);
+            ttt.AssertChangeHilight(9, true);
+            ttt.AssertHilightColor(9, hiColor);
+            ttt.AssertBold(10, true);
+            ttt.AssertColor(10, TestTheText.black);
+
+            uB.SetCbuFlag("All", true);
+            ttt.MarkLetters(conf);
+            ttt.AssertBold(9, false);
+            ttt.AssertItalic(9, false);
+            ttt.AssertUnderline(9, false);
+            ttt.AssertColor(9, TestTheText.black);
+            ttt.AssertChangeHilight(9, false);
+            ttt.AssertBold(10, false);
+            ttt.AssertColor(10, TestTheText.black);
+        }
     }
 }
