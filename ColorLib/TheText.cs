@@ -444,7 +444,7 @@ namespace ColorLib
         /// Il est vivement conseillé d'informer l'utilisateur des erreurs rencontrées. En utilisant
         /// <c>Windows.Forms</c> on peut par exemple faire ceci:
         /// <code>
-        /// List<string> errMsgs = new List<string>();
+        /// List&lt;string&gt; errMsgs = new List&lt;string&gt;();
         /// TheText.Init(errMsgs);
         /// foreach(string errMsg in errMsgs)
         ///     MessageBox.Show(errMsg, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -597,8 +597,10 @@ namespace ColorLib
         /// <c>SetChars</c> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
-        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
-        /// <param name="pct">Identifies the <c>ColConfWin</c> (see <see cref="ColorLib.ColConfWin"/>) that msut
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not 'completed', 
+        /// i.e. <see cref="ProgressNotifier.Completed"/> method of <see cref="ProgressNotifier"/> is not called.
+        /// </remarks>
+        /// <param name="pct">Identifies the <c>ColConfWin</c> (see <see cref="ColorLib.ColConfWin"/>) that must
         /// be used when coloring the "phonèmes".</param>
         /// <param name="conf">The <c>Config</c> to use for the colorization.</param>
         public void ColorizePhons(Config conf, PhonConfType pct)
@@ -624,7 +626,9 @@ namespace ColorLib
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
-        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not 'completed', 
+        /// i.e. <see cref="ProgressNotifier.Completed"/> method of <see cref="ProgressNotifier"/> is not called.
+        /// </remarks>
         /// <param name="conf">The <see cref="Config"/> that must be used for marking the letters.</param>
         public void MarkLetters(Config conf)
         {
@@ -648,7 +652,9 @@ namespace ColorLib
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
-        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not 'completed', 
+        /// i.e. <see cref="ProgressNotifier.Completed"/> method of <see cref="ProgressNotifier"/> is not called.
+        /// </remarks>
         /// <param name="conf">The <see cref="Config"/> to be used for marking the "syllabes".</param>
         public void MarkSyls(Config conf)
         {
@@ -680,7 +686,9 @@ namespace ColorLib
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
-        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not 'completed', 
+        /// i.e. <see cref="ProgressNotifier.Completed"/> method of <see cref="ProgressNotifier"/>
+        /// is not called.</remarks>
         /// <param name="conf">The <see cref="Config"/> to be used for marking the words.</param>
         public void MarkWords(Config conf)
         {
@@ -705,7 +713,9 @@ namespace ColorLib
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
-        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not 'completed', 
+        /// i.e. <see cref="ProgressNotifier.Completed"/> method of <see cref="ProgressNotifier"/>
+        /// is not called. </remarks>
         /// <param name="conf">The <see cref="Config"/> to be used for marking the words.</param>
         public void MarkMuettes(Config conf)
         {
@@ -716,12 +726,15 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Colors the "voyelles" and "consonnes" in the text, according to the alternate colors defined in the <see cref="SylConfig"/>
+        /// Colors the "voyelles" and "consonnes" in the text, according to the alternate colors
+        /// defined in the <see cref="SylConfig"/>
         /// attached to <c>conf</c>, i.e. fills <see cref="formatsMgmt"/> and makes sure that 
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
-        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not 'completed', 
+        /// i.e. <see cref="ProgressNotifier.Completed"/> method of <see cref="ProgressNotifier"/> is not called.
+        /// </remarks>
         /// <param name="conf">The <see cref="Config"/> to be used for marking the words.</param>
         public void MarkVoyCons(Config conf)
         {
@@ -744,7 +757,9 @@ namespace ColorLib
         /// Forces the text to black color and no bold, italic, underline, ... formatting.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
-        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not 'completed', 
+        /// i.e. <see cref="ProgressNotifier.Completed"/> method of <see cref="ProgressNotifier"/>
+        /// is not called. </remarks>
         /// <param name="conf">The <see cref="Config"/> to use for the formatting.</param>
         public void MarkNoir(Config conf)
         {
@@ -772,7 +787,9 @@ namespace ColorLib
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
-        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not 'completed', 
+        /// i.e. <see cref="ProgressNotifier.Completed"/> method of <see cref="ProgressNotifier"/>
+        /// is not called. </remarks>
         /// <param name="conf">The <see cref="Config"/> to use.</param>
         public void MarkLignes(Config conf)
         {
@@ -802,7 +819,9 @@ namespace ColorLib
         /// Formats the text to the duo formatting defined in <c>conf</c>.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
-        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not completed.</remarks>
+        /// from 1% to 99%. <c>ProgressNotifier.thePN</c> is not 'completed', 
+        /// i.e. <see cref="ProgressNotifier.Completed"/> method of <see cref="ProgressNotifier"/>
+        /// is not called.</remarks>
         /// <param name="conf">The <see cref="Config"/> defining how the "duo" formatting should
         /// be applied.</param>
         public void MarkDuo(Config conf)

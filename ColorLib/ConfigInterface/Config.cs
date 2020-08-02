@@ -87,7 +87,8 @@ namespace ColorLib
     /// qui libérera les ressources nécessaires.
     /// </para>
     /// <para>
-    /// La méthode de base de la partie statique est <see cref="GetConfigFor(object, object)"/> qui retourne une 
+    /// La méthode de base de la partie statique est <see cref="GetConfigFor(object, object, out string)"/> 
+    /// qui retourne une 
     /// <c>Config</c> pour la fenêtre donnée. Un certain nombre d'autres méthodes permettent d'obtenir une 
     /// <c>Config</c> par défaut ou de charger une config sauvegardée.
     /// </para>
