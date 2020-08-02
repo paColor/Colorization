@@ -409,7 +409,7 @@ namespace ColorLib
 
         public override string AllStringInfo()
         {
-            return String.Format(BaseConfig.cultF, "{0, -25} Rule: {1, -7} --> Phon: {2, -8} LexSound: {3, -3}",
+            return String.Format(ConfigBase.cultF, "{0, -25} Rule: {1, -7} --> Phon: {2, -8} LexSound: {3, -3}",
                 base.AllStringInfo(), firedRuleName, P, Phon2String());
         }
 

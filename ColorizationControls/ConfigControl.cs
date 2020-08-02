@@ -177,7 +177,10 @@ namespace ColorizationControls
             // theConf
             theWin = inWin;
             theDoc = inDoc;
-            InitCtor(version, Config.GetConfigFor(theWin, theDoc));
+            string errMsg;
+            InitCtor(version, Config.GetConfigFor(theWin, theDoc, out errMsg));
+            if (!string.IsNullOrEmpty(errMsg))
+                MessageBox.Show(errMsg, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             logger.ConditionalDebug("ConfigControl - EXIT constructeur avec win et doc");
         }
 
@@ -986,7 +989,7 @@ namespace ColorizationControls
                 StringBuilder sb = new StringBuilder();
                 sb.Append(@"Les caractères /\?%*:|<>");
                 sb.Append("\" ne peuvent pas être utilisés dans le nom d'une configuration.");
-                MessageBox.Show(sb.ToString(), BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(sb.ToString(), ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 e.Handled = true;
                 logger.Info("Caractère refusé pour le nom de config: \'{0}\', code ASCII \'{1}\'", e.KeyChar, (int)e.KeyChar);
             }
@@ -1019,7 +1022,7 @@ namespace ColorizationControls
                     string message = String.Format(
                         "Un configuration poartant le nom \'{0}\' est déjà enregistrée. Souhaitez-vous le remplacer?",
                         txtBNomConfig.Text);
-                    var result = MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.YesNo,
+                    var result = MessageBox.Show(message, ConfigBase.ColorizationName, MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning);
                     doIt = (result == DialogResult.Yes);
                 }
@@ -1030,7 +1033,7 @@ namespace ColorizationControls
                     {
                         string message = String.Format("Impossible de sauvegarder la configuration \'{0}\'. Erreur: {1}", 
                             txtBNomConfig.Text, msgTxt);
-                        MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(message, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -1080,7 +1083,7 @@ namespace ColorizationControls
             {
                 string message = String.Format("Impossible de charger la configuration \'{0}\'. Erreur: {1}",
                     configName, errMsg);
-                MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(message, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1104,7 +1107,7 @@ namespace ColorizationControls
                         "Voulez-vous vraiment effacer la configuration \'{0}\' ? Cette opération est " +
                         "irréversible",
                         configName);
-            var result = MessageBox.Show(message, BaseConfig.ColorizationName, MessageBoxButtons.YesNo,
+            var result = MessageBox.Show(message, ConfigBase.ColorizationName, MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
@@ -1112,7 +1115,7 @@ namespace ColorizationControls
                 if (!Config.DeleteSavedConfig(configName, out errTxt))
                 {
                     string errMessages = String.Format("Impossible d'effacer la configuration \'{0}\'. Erreur: {1}", configName, errTxt);
-                    MessageBox.Show(errMessages, BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(errMessages, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

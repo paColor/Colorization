@@ -37,7 +37,10 @@ namespace Colorization
 
         public static void Initialize()
         {
-            TheText.Init();
+            List<string> errMsgs = new List<string>();
+            TheText.Init(errMsgs);
+            foreach(string errMsg in errMsgs)
+                MessageBox.Show(errMsg, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             ConfigControl.Init();
         }
 

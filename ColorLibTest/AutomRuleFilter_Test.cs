@@ -16,7 +16,7 @@ namespace ColorLibTest
             string tst = "asdéertôjnüjjguü è asd ï ùuuöá - ÉàaqÀÏbghtFREÔç";
             string result = AutomRuleFilter.ChaineSansAccents(tst);
             Assert.AreEqual("asdeertojnujjguu e asd i uuuoa - ÉaaqÀÏbghtFREÔç", result);
-            string tstS = tst.ToLower(BaseConfig.cultF);
+            string tstS = tst.ToLower(ConfigBase.cultF);
             result = AutomRuleFilter.ChaineSansAccents(tstS);
             Assert.AreEqual("asdeertojnujjguu e asd i uuuoa - eaaqaibghtfreoç", result, "Chaîne sans accents!");
         }

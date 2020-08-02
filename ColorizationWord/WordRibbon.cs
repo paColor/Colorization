@@ -235,10 +235,14 @@ namespace ColorizationWord
             }
         }
 
-        private Config GetConfigForActiveWindow()
+        private static Config GetConfigForActiveWindow()
         {
             Window activeWin = ColorizationMSW.thisAddIn.Application.ActiveWindow;
-            return Config.GetConfigFor(activeWin, activeWin.Document);
+            string errMsg;
+            Config toReturn = Config.GetConfigFor(activeWin, activeWin.Document, out errMsg);
+            if (!string.IsNullOrEmpty(errMsg))
+                MessageBox.Show(errMsg, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return toReturn;
         }
 
         private void btnPhonemes_Click(object sender, RibbonControlEventArgs e)

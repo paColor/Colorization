@@ -125,7 +125,7 @@ namespace ColorizationControls
             theDoc = inDoc;
             customTaskPanes = inCustomTaskPanes;
             confContr = new ConfigControl(inWin, inDoc, version);
-            configTaskPane = customTaskPanes.Add(confContr, BaseConfig.ColorizationName, theWin);
+            configTaskPane = customTaskPanes.Add(confContr, ConfigBase.ColorizationName, theWin);
             configTaskPane.Width = ((int)(OrigWidth * confContr.ScaleFactor)) + 2;
         }
 

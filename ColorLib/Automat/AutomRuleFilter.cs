@@ -90,7 +90,7 @@ namespace ColorLib
                 while (s[pos] != '}')
                 {
                     //let's find the '
-                    Debug.Assert(s[pos] == '\'', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomRuleFilter, on attend un \''\' en début de règle.", pos, s));
+                    Debug.Assert(s[pos] == '\'', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomRuleFilter, on attend un \''\' en début de règle.", pos, s));
                     //let's find the + or -
                     pos = GetNextChar(pos + 1);
                     bool plus;
@@ -103,22 +103,22 @@ namespace ColorLib
                         plus = false;
                     }
                     else
-                        throw new ArgumentException(String.Format(BaseConfig.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'+\' ou un \'+\'.", pos));
+                        throw new ArgumentException(String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'+\' ou un \'+\'.", pos));
                     //let's find the '
                     pos = GetNextChar(pos + 1);
-                    Debug.Assert(s[pos] == '\'', String.Format(BaseConfig.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \''\' après + ou -.", pos));
+                    Debug.Assert(s[pos] == '\'', String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \''\' après + ou -.", pos));
                     //let's find the :
                     pos = GetNextChar(pos + 1);
-                    Debug.Assert(s[pos] == ':', String.Format(BaseConfig.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \':\' après + ou -.", pos));
+                    Debug.Assert(s[pos] == ':', String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \':\' après + ou -.", pos));
                     //let's find the /
                     pos = GetNextChar(pos + 1);
-                    Debug.Assert(s[pos] == '/', String.Format(BaseConfig.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'/\' avant une regex", pos));
+                    Debug.Assert(s[pos] == '/', String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'/\' avant une regex", pos));
                     // let's load the regex
                     // Let's assume that there is no '/' in the regex itself. Else we would need to handle the escape character that is necessary in .js
                     pos = GetNextChar(pos + 1);
                     int endOfRegexSlashPos = s.IndexOf('/', pos);
-                    Debug.Assert(endOfRegexSlashPos > pos, String.Format(BaseConfig.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'/\' pour clore une regex", pos));
-                    Debug.Assert(s[pos - 1] != '\\', String.Format(BaseConfig.cultF, "La pos {0} n'est pas un AutomRuleFilter, le cas d\'un \\ n'est pas traité.", pos));
+                    Debug.Assert(endOfRegexSlashPos > pos, String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'/\' pour clore une regex", pos));
+                    Debug.Assert(s[pos - 1] != '\\', String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, le cas d\'un \\ n'est pas traité.", pos));
                     string theExpression = s.Substring(pos, endOfRegexSlashPos - pos).Trim();
                     StringBuilder sb = new StringBuilder(); // Building the regular expression
                     if (plus)
@@ -150,12 +150,12 @@ namespace ColorLib
                     }
                     // let's find the i
                     pos = GetNextChar(endOfRegexSlashPos + 1);
-                    Debug.Assert(s[pos] == 'i', String.Format(BaseConfig.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'i\' après une regex", pos));
+                    Debug.Assert(s[pos] == 'i', String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'i\' après une regex", pos));
                     // let's find the next character
                     pos = GetNextChar(pos + 1);
                     // it is either ',' or '}'
                     Debug.Assert(((s[pos] == ',') || (s[pos] == '}')),
-                        String.Format(BaseConfig.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend une \',\' entre deux DirectionRegex ou un \'}}\'", pos));
+                        String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend une \',\' entre deux DirectionRegex ou un \'}}\'", pos));
                     if (s[pos] == ',')
                         pos = GetNextChar(pos + 1);
                 } // while
@@ -165,7 +165,7 @@ namespace ColorLib
                 // the "regle" starts with "this."
                 // let's find the dot
                 var endOfThisDot = s.IndexOf('.', pos);
-                Debug.Assert(endOfThisDot > 0, String.Format(BaseConfig.cultF, "AutomRuleFiletr: la pos {0} de {1} doit être suivie d'un \'.\' pour délimiter \'this\'",
+                Debug.Assert(endOfThisDot > 0, String.Format(ConfigBase.cultF, "AutomRuleFiletr: la pos {0} de {1} doit être suivie d'un \'.\' pour délimiter \'this\'",
                     pos - start, s.Substring(start, (pos + 1) - start)));
                 var thisTxt = s.Substring(pos, endOfThisDot - pos);
                 Debug.Assert(thisTxt == "this", "La référence à une fonction de règle doit commencer par \"this\".");
@@ -174,9 +174,9 @@ namespace ColorLib
                 pos = GetNextChar(pos + 1);
                 var endOfNameComma = s.IndexOf(',', pos);
                 var thisName = s.Substring(pos, endOfNameComma - (pos)).Trim();
-                Debug.Assert(endOfNameComma > pos, String.Format(BaseConfig.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend une \',\' après le nom de fonction", pos));
+                Debug.Assert(endOfNameComma > pos, String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend une \',\' après le nom de fonction", pos));
                 var found = checkRuleFs.TryGetValue(thisName, out crf);
-                Debug.Assert(found, String.Format(BaseConfig.cultF, "La pos {0} n'est pas un AutomRuleFilter, {1} n'est pas un nom valide", pos, thisName));
+                Debug.Assert(found, String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, {1} n'est pas un nom valide", pos, thisName));
                 pos = endOfNameComma-1; // pos points to the last char before the comma
             }
             end = pos;
@@ -257,7 +257,7 @@ namespace ColorLib
         // works only for lower case chars
         public static string ChaineSansAccents(string s)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "ChaineSansAccents \'{0}\'", s);
+            logger.ConditionalTrace(ConfigBase.cultF, "ChaineSansAccents \'{0}\'", s);
             StringBuilder sb = new StringBuilder(s.Length);
             char woAccent;
             for (var i = 0; i < s.Length; i++)
@@ -273,7 +273,7 @@ namespace ColorLib
         public static string SansSFinal(string s)
             // s est en minuscules et n'est pas vide!
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "SansSFinal \'{0}\'", s);
+            logger.ConditionalTrace(ConfigBase.cultF, "SansSFinal \'{0}\'", s);
             if (s[s.Length - 1] == 's')
                 return s.Substring(0, s.Length - 1);
             else
@@ -320,7 +320,7 @@ namespace ColorLib
 
         public static bool Regle_ient(string mot, int pos_mot)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_ient - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ient - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null); 
             Debug.Assert((pos_mot >=0) && (pos_mot < mot.Length));
 
@@ -392,7 +392,7 @@ namespace ColorLib
          */
         public static bool Regle_mots_ent (string mot, int pos_mot)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_mots_ent - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_mots_ent - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
@@ -445,7 +445,7 @@ namespace ColorLib
          */
         public static bool Regle_ment(string mot, int pos_mot)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_ment - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ment - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
@@ -463,7 +463,7 @@ namespace ColorLib
         // quasiment l'inverse de Regle_ment
         public static bool Regle_verbe_mer(string mot, int pos_mot)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_verbe_mer - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_verbe_mer - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
@@ -497,7 +497,7 @@ namespace ColorLib
          */
         public static bool Regle_er (string mot, int pos_mot)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_er - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_er - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
             Debug.Assert(mot[pos_mot] == 'e'); // sinon un 's' seul ferait sauter la banque plus bas...
@@ -530,7 +530,7 @@ namespace ColorLib
          */
         public static bool Regle_nc_ai_final(string mot, int pos_mot)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_nc_ai_final - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_nc_ai_final - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
@@ -555,7 +555,7 @@ namespace ColorLib
          */
         public static bool Regle_avoir(string mot, int pos_mot)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_avoir - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_avoir - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
@@ -591,7 +591,7 @@ namespace ColorLib
          */
         public static bool Regle_s_final(string mot, int pos_mot)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_s_final - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_s_final - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
             Debug.Assert(mot[pos_mot] == 's');
@@ -621,7 +621,7 @@ namespace ColorLib
         public static bool Regle_t_final(string mot, int pos_mot)
             // pos_mot pointe sur un 't'
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_t_final - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_t_final - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
             Debug.Assert(mot[pos_mot] == 't'); 
@@ -644,7 +644,7 @@ namespace ColorLib
         // On aurait pu isoler les deux cas à l'aide de règles et ne traîter ici que
         // les exceptions. --> À faire... à l'occasion
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_tien - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_tien - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
             Debug.Assert(mot[pos_mot] == 't'); // pas vraiment nécessaire, mais autre chose n'a pas de sens.
@@ -690,7 +690,7 @@ namespace ColorLib
         public static bool Regle_finD(string mot, int pos_mot)
             // retourne true si on est sur le d final et le mot se termine par un 'd' qui se prononce
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_finD - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_finD - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot[pos_mot] == 'd', "Regle_finD: on attend un 'd'");
 
             string mSing = SansSFinal(mot);
@@ -750,7 +750,7 @@ namespace ColorLib
         /// <returns></returns>
         public static bool Regle_ill(string mot, int pos_mot)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Regle_ill - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ill - mot: \'{0}\', pos: {1}", mot, pos_mot);
             bool condMet = false;
             if (mot[pos_mot] == 'i')
                 condMet = ((pos_mot < mot.Length - 2) && (mot[pos_mot + 1] == 'l') && (mot[pos_mot + 2] == 'l'));
@@ -761,7 +761,7 @@ namespace ColorLib
 
         public bool Check (PhonWord pw, int pos, string firstPart, string secondPart)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "Check - pw: \'{0}\', pos: {1}, firstPart: \'{2}\', secPart: \'{3}\'", 
+            logger.ConditionalTrace(ConfigBase.cultF, "Check - pw: \'{0}\', pos: {1}, firstPart: \'{2}\', secPart: \'{3}\'", 
                 pw, pos, firstPart, secondPart);
             Debug.Assert(pw != null);
             Debug.Assert(pw.GetWord().Length > 0);

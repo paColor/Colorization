@@ -484,7 +484,7 @@ namespace ColorLib
 			int pos = 0;
             pos = GetNextChar(pos);
             // The char at pos must be an {
-            Debug.Assert(s[pos] == '{', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomAutomat, on attend un \'{{\' en début d'automate.",
+            Debug.Assert(s[pos] == '{', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomAutomat, on attend un \'{{\' en début d'automate.",
                 pos - start, s.Substring(start, (pos + 1) - start)));
 
             // Let's load the list of AutomLetters
@@ -496,7 +496,7 @@ namespace ColorLib
                 automLetters.Add(al.Letter, al);
                 pos = GetNextChar(pos + 1);
                 // it is either ',' or '}'
-                Debug.Assert(((s[pos] == ',') || (s[pos] == '}')), string.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomAutomat, on attend une \',\' ou un \'}}\' après une lettre.",
+                Debug.Assert(((s[pos] == ',') || (s[pos] == '}')), string.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomAutomat, on attend une \',\' ou un \'}}\' après une lettre.",
                     pos - start, s.Substring(start, (pos + 1) - start)));
                 if (s[pos] == ',')
                     pos = GetNextChar(pos + 1);
@@ -540,7 +540,7 @@ namespace ColorLib
 				else
 				{
 					// this should not happen!!
-					string message = String.Format(BaseConfig.cultF, "La règle générique n'existe pas et on en aurait besoin...");
+					string message = String.Format(ConfigBase.cultF, "La règle générique n'existe pas et on en aurait besoin...");
 					throw new KeyNotFoundException(message);
 				}
 			} // while

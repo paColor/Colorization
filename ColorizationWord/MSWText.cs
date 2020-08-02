@@ -107,7 +107,10 @@ namespace ColorizationWord
         public static void Initialize()
         {
             logger.ConditionalDebug("Initialize");
-            TheText.Init();
+            List<string> errMsgs = new List<string>();
+            TheText.Init(errMsgs);
+            foreach (string errMsg in errMsgs)
+                MessageBox.Show(errMsg, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             ConfigControl.Init();
             HilightForm.hiliColors = hilightColors;
         }
@@ -217,7 +220,7 @@ namespace ColorizationWord
                 else
                 {
                     MessageBox.Show("La mise en couleur de lignes ne fonctionne que dans le mode \'Page\'.",
-                        BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             return finDeLignes;

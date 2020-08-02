@@ -231,7 +231,7 @@ namespace ColorLib
                         default:
                             logger.Error("Type d'alternance non traité par la commande \'Duo\'. alternance: \'{0}\'",
                                 alt);
-                            throw new ArgumentException(String.Format(BaseConfig.cultF,
+                            throw new ArgumentException(String.Format(ConfigBase.cultF,
                                 "Type d'alternance non traité par la commande \'Duo\'." +
                                 "alternance: \'{0}\'", alt));
                             break;
@@ -434,16 +434,30 @@ namespace ColorLib
         // ****************************************************************************************
 
         /// <summary>
-        /// Initializes the static elements of the whole <c>ColorLib</c> library. Must be called before any
-        /// usage of the library.
+        /// Initializes the static elements of the whole <c>ColorLib</c> library. Must be called y
+        /// before an usage of the library.
         /// </summary>
-        public static void Init()
+        /// <param name="errMsgs">Si une erreur se produit, un message est ajouté à la liste. 
+        /// La liste n'est pas touchée si tout se passe bien. <c>null</c> indique que le message
+        /// n'est pas souhaité par l'appelant.</param>
+        /// <example>
+        /// Il est vivement conseillé d'informer l'utilisateur des erreurs rencontrées. En utilisant
+        /// <c>Windows.Forms</c> on peut par exemple faire ceci:
+        /// <code>
+        /// List<string> errMsgs = new List<string>();
+        /// TheText.Init(errMsgs);
+        /// foreach(string errMsg in errMsgs)
+        ///     MessageBox.Show(errMsg, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        /// </code>
+        /// </example>
+        public static void Init(List<string> errMsgs = null)
         {
             logger.ConditionalDebug("Init");
+            ConfigBase.Init(errMsgs);
             AutomAutomat.InitAutomat();
             PhonInW.Init();
             SylInW.Init();
-            Config.Init();
+            Config.Init(errMsgs);
         }
 
         // ****************************************************************************************
@@ -477,8 +491,8 @@ namespace ColorLib
         /// <param name="inConf">The <c>Config</c> that will be used when applying formatsMgmt to the text.</param>
         public TheText(string txt)
         {
-            logger.ConditionalDebug(BaseConfig.cultF, "TheText");
-            logger.ConditionalTrace(BaseConfig.cultF, "TheText Constructor, txt: \'{0}\'.", txt);
+            logger.ConditionalDebug(ConfigBase.cultF, "TheText");
+            logger.ConditionalTrace(ConfigBase.cultF, "TheText Constructor, txt: \'{0}\'.", txt);
             Debug.Assert(txt != null);
             this.S = txt;
             formatsMgmt = new FormatsMgmt(S.Length);
@@ -503,7 +517,7 @@ namespace ColorLib
         {
             if (lowerCaseS == null)
             {
-                lowerCaseS = S.ToLower(BaseConfig.cultF);
+                lowerCaseS = S.ToLower(ConfigBase.cultF);
             }
             return lowerCaseS;
         }
@@ -1073,7 +1087,7 @@ namespace ColorLib
             int i = first;
             if (lowerCaseS == null)
             {
-                lowerCaseS = S.ToLower(BaseConfig.cultF);
+                lowerCaseS = S.ToLower(ConfigBase.cultF);
             }
             while (i <= last)
             {

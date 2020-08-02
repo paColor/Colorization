@@ -848,7 +848,7 @@ namespace ColorLib
             CharFormatting valCF;
             if(!(cfSon.TryGetValue(son, out valCF) && valCF == cf))
             {
-                Debug.Assert(sonMap.ContainsKey(son), String.Format(BaseConfig.cultF, "{0} n'est pas un son connu", son));
+                Debug.Assert(sonMap.ContainsKey(son), String.Format(ConfigBase.cultF, "{0} n'est pas un son connu", son));
                 cfSon[son] = cf;
                 foreach (Phonemes p in sonMap[son])
                     Set(p, cf);

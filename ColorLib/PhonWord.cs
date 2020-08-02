@@ -100,7 +100,7 @@ namespace ColorLib
         /// 'hi-er'. Si <c>false</c> 'hier' correspond à une seule syllabe.</param>
         public void ComputeSyls(bool forceDierese = false)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "ComputeAndColorSyls {0}", GetWord());
+            logger.ConditionalTrace(ConfigBase.cultF, "ComputeAndColorSyls {0}", GetWord());
             SylInW siw;
             int i, j;
             SylConfig sylConfig = theConf.sylConf;

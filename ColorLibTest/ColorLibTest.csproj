@@ -64,6 +64,7 @@
     <Compile Include="ConfigTest\SylConfigTest.cs" />
     <Compile Include="ConfigTest\PBDQConfigTest.cs" />
     <Compile Include="ConfigTest\ColConfWinTest.cs" />
+    <Compile Include="ConfigTest\ConfigTest.cs" />
     <Compile Include="ConfigTest\UnsetBehConfTest.cs" />
     <Compile Include="Dierese\AnalyseDiereseTest.cs" />
     <Compile Include="Dierese\PoesieTest.cs" />

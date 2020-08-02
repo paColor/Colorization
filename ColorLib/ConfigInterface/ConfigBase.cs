@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace ColorLib
@@ -30,6 +31,63 @@ namespace ColorLib
     [Serializable]
     public abstract class ConfigBase
     {
+        // ***************************************************************************************
+        // ***                                       S T A T I C                               ***
+        // ***************************************************************************************
+
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+        /// <summary>
+        /// Le paramètre de culture à utiliser dans le traitement des <c>string</c> quand cela est
+        /// nécessaire
+        /// </summary>
+        public static CultureInfo cultF = new CultureInfo("fr-FR");
+
+        /// <summary>
+        /// Le nom de l'application (avec le s à l'envers :-)
+        /// </summary>
+        /// <remarks>Logiquement, ce n'est pas sa place. Le nom "commercial" de l'application ne joue
+        /// aucun rôle dans <c>ColorLib</c>. Quel est le zouave qui l'a mis ici?</remarks>
+        public static string ColorizationName { get; private set; } = "Coloriƨation";
+
+        /// <summary>
+        /// Répertoire où sont écrits les fichiers dont a besoin le programme. 
+        /// </summary>
+        public static readonly string colorizationDirPath =
+            System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), colorizationDirName);
+
+        private const string colorizationDirName = "Colorization";
+
+        /// <summary>
+        /// Initialise les éléments statiques de la classe. Crée le répertoire pour le fichiers
+        /// de Coloriƨation.
+        /// </summary>
+        /// <param name="errMsgs">Si une erreur se produit, un message est ajouté à la liste. 
+        /// La liste n'est pas touchée si tout se passe bien. <c>null</c> indique que le message
+        /// n'est pas souhaité par l'appelant.</param>
+        public static void Init(List<string> errMsgs = null)
+        {
+            logger.ConditionalDebug("Init");
+            // Ensure that colorizationDirPath folder does exist
+            if (!System.IO.Directory.Exists(colorizationDirPath))
+            {
+                try
+                {
+                    System.IO.Directory.CreateDirectory(colorizationDirPath);
+                    logger.Info("Dossier {0} créé.", colorizationDirPath);
+                }
+                catch (System.IO.IOException e)
+                {
+                    errMsgs?.Add("Impossible de créer le répertoire" + colorizationDirPath);
+                    logger.Error("Impossible de créer le répertoire {0}. Erreur {1}", colorizationDirPath, e.Message);
+                }
+            }
+        }
+
+
+        // ***************************************************************************************
+        // ***                                 I N S T A N T I A T E D                         ***
+        // ***************************************************************************************
 
         /// <summary>
         /// Est appelé à la fin de la désérialisation pour permettre d'initilaiser les membres optionnels

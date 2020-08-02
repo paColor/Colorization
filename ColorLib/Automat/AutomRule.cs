@@ -88,25 +88,25 @@ namespace ColorLib
              */
 
             // Let's parse the ruleName
-            Debug.Assert(s[pos] == '\'', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomRule, il ne commence pas par \'.",
+            Debug.Assert(s[pos] == '\'', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomRule, il ne commence pas par \'.",
                 pos - start, s.Substring(start, (pos + 1) - start)));
             pos = GetNextChar(pos + 1);
             var endOfRuleNameApostrophyPos = s.IndexOf('\'', pos);
-            Debug.Assert(endOfRuleNameApostrophyPos > pos, String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomRule, le nom de la règle ne se termine pas par \'.",
+            Debug.Assert(endOfRuleNameApostrophyPos > pos, String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomRule, le nom de la règle ne se termine pas par \'.",
                 pos - start, s.Substring(start, (pos + 1) - start)));
             RuleName = s.Substring(pos, endOfRuleNameApostrophyPos - pos).Trim();
             // check that ruleName is in ruleNames
-            Debug.Assert(SortedRuleNames.BinarySearch(RuleName) >= 0, String.Format(BaseConfig.cultF, "AutomRule: {0} ne se trouve pas dans la liste des noms de règles.", RuleName));
+            Debug.Assert(SortedRuleNames.BinarySearch(RuleName) >= 0, String.Format(ConfigBase.cultF, "AutomRule: {0} ne se trouve pas dans la liste des noms de règles.", RuleName));
             pos = endOfRuleNameApostrophyPos;
 
             // Let's find the colon
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == ':', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend un \':\'",
+            Debug.Assert(s[pos] == ':', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend un \':\'",
                 pos - start, s.Substring(start, (pos + 1) - start)));
 
             // let's find the [
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == '[', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend un \'[\'",
+            Debug.Assert(s[pos] == '[', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend un \'[\'",
                 pos - start, s.Substring(start, (pos + 1) - start)));
 
             // let's find the RuleFilter
@@ -115,18 +115,18 @@ namespace ColorLib
 
             // let's find the comma
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == ',', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend une \',\' avant le phonème.",
+            Debug.Assert(s[pos] == ',', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend une \',\' avant le phonème.",
                 pos - start, s.Substring(start, (pos + 1) - start)));
 
             // let's find the phoneme
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == '\'', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend \' au début du phonème.",
+            Debug.Assert(s[pos] == '\'', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend \' au début du phonème.",
                 pos - start, s.Substring(start, (pos + 1) - start)));
 
             // let's find the phoneme name
             pos = GetNextChar(pos + 1);
             var endOfPhonemeApostrophyPos = s.IndexOf('\'', pos);
-            Debug.Assert(endOfPhonemeApostrophyPos > pos, String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomRule, le nom du phonème ne se termine pas par \'.",
+            Debug.Assert(endOfPhonemeApostrophyPos > pos, String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomRule, le nom du phonème ne se termine pas par \'.",
                 pos - start, s.Substring(start, (pos + 1) - start)));
             var phonemeName = s.Substring(pos, endOfPhonemeApostrophyPos - pos).Trim();
             p = (Phonemes)Enum.Parse(typeof(Phonemes), phonemeName);
@@ -134,17 +134,17 @@ namespace ColorLib
 
             // let's find the comma
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == ',', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend une \',\' avant le pas.",
+            Debug.Assert(s[pos] == ',', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomRule, on attend une \',\' avant le pas.",
                 pos - start, s.Substring(start, (pos + 1) - start)));
 
             // let's find the increment i.e. le pas
             pos = GetNextChar(pos + 1);
             var endOfNumberPos = s.IndexOfAny("],".ToCharArray(), pos);
-            Debug.Assert(endOfNumberPos > pos, String.Format(BaseConfig.cultF,
+            Debug.Assert(endOfNumberPos > pos, String.Format(ConfigBase.cultF,
                 "La pos {0} de {1} n'est pas un AutomRule, on attend \']\' ou \',\' après le pas.",
                 pos - start, s.Substring(start, (pos + 1) - start)));
             var theIntString = s.Substring(pos, endOfNumberPos - pos).Trim();
-            incr = int.Parse(theIntString, BaseConfig.cultF);
+            incr = int.Parse(theIntString, ConfigBase.cultF);
             pos = endOfNumberPos;
 
             // if we are on a coma, there is an identifier to load.
@@ -152,7 +152,7 @@ namespace ColorLib
             {
                 pos = GetNextChar(pos + 1);
                 var endOfFlagName = s.IndexOf(']', pos);
-                Debug.Assert(endOfFlagName > pos, String.Format(BaseConfig.cultF,
+                Debug.Assert(endOfFlagName > pos, String.Format(ConfigBase.cultF,
                     "La pos {0} de {1} n'est pas un AutomRule, on attend \']\' après le nom de flag.",
                     pos - start, s.Substring(start, (pos + 1) - start)));
                 var flagName = s.Substring(pos, endOfFlagName - pos).Trim();
@@ -172,11 +172,11 @@ namespace ColorLib
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Original Text: " + base.ToString());
-            sb.AppendLine(String.Format(BaseConfig.cultF, "RuleName: {0}", RuleName));
-            sb.AppendLine(String.Format(BaseConfig.cultF, "rf: {0}", rf));
+            sb.AppendLine(String.Format(ConfigBase.cultF, "RuleName: {0}", RuleName));
+            sb.AppendLine(String.Format(ConfigBase.cultF, "rf: {0}", rf));
 
-            sb.AppendLine(String.Format(BaseConfig.cultF, "p: {0}", p));
-            sb.AppendLine(String.Format(BaseConfig.cultF, "incr: {0}", incr));
+            sb.AppendLine(String.Format(ConfigBase.cultF, "p: {0}", p));
+            sb.AppendLine(String.Format(ConfigBase.cultF, "incr: {0}", incr));
             return sb.ToString();
         }
 

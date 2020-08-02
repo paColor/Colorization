@@ -26,12 +26,11 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Windows.Forms;
 
 namespace ColorLib
 {
     /// <summary>
-    /// Argument passé lors de l'évènement <c>ConfigResetttedEvent</c>.
+    /// Argument passé lors de l'évènement <c>ConfigRplacedEvent</c>.
     /// </summary>
     public class ConfigReplacedEventArgs : EventArgs
     {
@@ -83,7 +82,7 @@ namespace ColorLib
     /// </para>
     /// <para>
     /// Comme il n'est pas possible de recevoir un événement quand une fenêtre est fermée (en tout cas je n'ai
-    /// pas trouvé comment faire), les fenêtre sont rattachées à un document (il peut y avoir plusieurs fenêtres
+    /// pas trouvé comment faire), les fenêtres sont rattachées à un document (il peut y avoir plusieurs fenêtres
     /// pour le même document). L'évènement de fermeture de document peut appeler <see cref="DocClosed(object)"/>
     /// qui libérera les ressources nécessaires.
     /// </para>
@@ -91,6 +90,14 @@ namespace ColorLib
     /// La méthode de base de la partie statique est <see cref="GetConfigFor(object, object)"/> qui retourne une 
     /// <c>Config</c> pour la fenêtre donnée. Un certain nombre d'autres méthodes permettent d'obtenir une 
     /// <c>Config</c> par défaut ou de charger une config sauvegardée.
+    /// </para>
+    /// <para>La suvegarde et le chargement d'une configuration depuis le disque se fait dans cette
+    /// classe. Le nom de la <see cref="Config"/> est défini au moment de la sauvegarde sur le
+    /// disque.</para>
+    /// <para>Lorsque le dernier document est fermé, la configuration est sauvegardée sur le disque.
+    /// Cette sauvegarde est rechargée lorsqu'une premipre configuration est demandée. C'est ce qui
+    /// permet à l'utilisateur de se retrouver dans la situation qu'il a laissée lors de sa 
+    /// précédente session.
     /// </para>
     /// </remarks>
     [Serializable]
@@ -113,7 +120,7 @@ namespace ColorLib
 
         private const string ConfigDirName = "Config";
         private static readonly string ConfigDirPath =
-            Path.Combine(BaseConfig.colorizationDirPath, ConfigDirName);
+            Path.Combine(ConfigBase.colorizationDirPath, ConfigDirName);
         private const string DefaultFileName = "ClrzConfig";
         private const string DefaultAutomaticExtension = ".clrz"; // for automatic saving
         private const string SavedConfigExtension = ".clrzn"; // for user saved configs
@@ -132,7 +139,10 @@ namespace ColorLib
         /// Appelle les <c>Init()</c> statiques des autres classes de configuration.
         /// </summary>
         /// <remarks> Est responsable de la création du répertoire où seront sauvegardées les configs.</remarks>
-        public static void Init()
+        /// <param name="errMsgs">Si une erreur se produit, un message est ajouté à la liste. 
+        /// La liste n'est pas touchée si tout se passe bien. <c>null</c> indique que le message
+        /// n'est pas souhaité par l'appelant.</param>
+        public static new void Init(List<string> errMsgs = null)
         {
             logger.ConditionalDebug("Init");
             ColConfWin.Init();
@@ -146,7 +156,7 @@ namespace ColorLib
                 }
                 catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
                 {
-                    MessageBox.Show("Impossible de créer le répertoire" + ConfigDirPath);
+                    errMsgs?.Add("Impossible de créer le répertoire" + ConfigDirPath);
                     logger.Error("Impossible de créer le répertoire {0}. Erreur {1}", ConfigDirPath, e.Message);
                 }
             }
@@ -180,36 +190,60 @@ namespace ColorLib
         }
 
         /// <summary>
+        /// <para>
         /// Donne la confiuration qui correspond à la fenêtre <c>win</c>. Mémorise les infos pour
         /// que l'évènement de fermeture du document <c>doc</c> soit traité correctement. Voir
         /// <see cref="DocClosed(object)"/>.
+        /// </para>
+        /// <para>
+        /// Si une configuration a été sauvegardée à la fin de la session de travail précédente,
+        /// c'est elle qui est chargée. Dans le cas contraire, ou si le chargement échoue, une
+        /// nouvelle <see cref="Config"/> est créée avec des valeurs par défaut.
+        /// </para>
         /// </summary>
-        /// <param name="win">La fenêtre pour laquelle on veut un objet <c>Config</c>.</param>
+        /// <param name="win">La fenêtre pour laquelle on veut une <see cref="Config"/>.</param>
         /// <param name="doc">Le document attaché à la fenêtre. </param>
+        /// <param name="errMsg">OUT: En cas de problème lors du chargement de la configuration de
+        /// la dernière session, ce paramètre contient le message pour l'utilisateur. <c>null</c>
+        /// si tout s'est bien passé.</param>
         /// <returns>La <c>Config</c> pour la fenêtre.</returns>
-        public static Config GetConfigFor(Object win, Object doc)
+        /// <example>
+        /// Il est vivement conseillé de tester la valeur de <c>errMsg</c> et le cas échéant de
+        /// présenter le message à l'utilisateur. Par exemple, dans une application
+        /// <c>Windows.Forms</c> on peut utiliser <c>MessageBox</c> comme ci-dessous.
+        /// <code>
+        /// using System.Windows.Forms;
+        /// 
+        /// string errMsg;
+        /// Config conf = Config.GetConfigFor(theWin, theDoc, out errMsg));
+        /// if (!string.IsNullOrEmpty(errMsg))
+        ///     MessageBox.Show(errMsg, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        /// </code>
+        /// </example>
+        public static Config GetConfigFor(Object win, Object doc, out string errMsg)
         // returns the Config associated with the Object win, normally the active window. 
         // if there is none, a new one with the defauilt config is created.
         {
             logger.ConditionalDebug("GetConfigFor");
             Config toReturn;
+            errMsg = null;
             if (!theConfs.TryGetValue(win, out toReturn))
             {
                 // it is a new window
                 // Does a default file configuration exist?
                 if (File.Exists(DefaultConfFile))
                 {
-                    string errMsg;
-                    toReturn = LoadConfigFile(DefaultConfFile, out errMsg);
+                    string eM;
+                    toReturn = LoadConfigFile(DefaultConfFile, out eM);
                     if (toReturn == null)
                     {
                         StringBuilder sb = new StringBuilder();
                         sb.AppendLine("Ouuuups! Une erreur s'est produite en chargeant la configuration de votre dernière session. Désolé!");
                         sb.AppendLine("La configuration par défaut est chargée à la place.");
                         sb.Append("Message du système: ");
-                        sb.AppendLine(errMsg);
-                        MessageBox.Show(sb.ToString(), BaseConfig.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        logger.Info("Error MessageBox displayed.");
+                        sb.AppendLine(eM);
+                        errMsg = sb.ToString();
+                        logger.Warn("Error MessageBox displayed.");
                         toReturn = new Config(); // essayons de sauver les meubles.
                         logger.ConditionalDebug("New Config created.");
                     }
@@ -226,11 +260,12 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Informe la gestion de configurations, que le document <c>doc</c> a été fermé par l'utilisateur.
+        /// Informe la gestion de configurations, que le document <c>doc</c> a été fermé par
+        /// l'utilisateur.
         /// </summary>
         /// <remarks>
-        /// S'assure que tous les configs, liées au document soient sauvegardées, et oubliées et met à jour la 
-        /// gestion de fenêtres et de documents.
+        /// S'assure que toutes les configurations liées au document soient sauvegardées, et 
+        ///  oubliées. Met à jour la gestion de fenêtres et de documents.
         /// </remarks>
         /// <param name="doc">Le document qui se ferme.</param>
         public static void DocClosed(Object doc)
@@ -239,7 +274,8 @@ namespace ColorLib
             List<Object> theWindows;
             if (doc2Win.TryGetValue(doc, out theWindows))
             {
-                logger.ConditionalDebug("DocClosed. {0} corresponding window(s) to remove.", theWindows.Count);
+                logger.ConditionalDebug("DocClosed. {0} corresponding window(s) to remove.", 
+                    theWindows.Count);
                 foreach (Object win in theWindows)
                 {
                     Config conf;
@@ -264,12 +300,12 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Efface la configuration portant le nom <c>confName</c>.
+        /// Efface la configuration portant le nom <paramref name="confName"/> du disque.
         /// </summary>
         /// <param name="confName">Le nom de la configuration à effacer des configurations enregistrées.</param>
         /// <param name="msgTxt">Le texte du message d'erreur au cas où la <c>Config</c> ne peut pas être effacée.</param>
         /// <returns><c>true</c> si <c>confName</c> a pu être effacé, <c>false</c> en cas de problème. Dans ce dernier cas,
-        /// <paramref name="msgTxt"/> contient un message d'erreur.</returns>
+        /// <paramref name="msgTxt"/> contient un message d'erreur. "" (empty string) sinon.</returns>
         public static bool DeleteSavedConfig(string confName, out string msgTxt)
         {
             bool toReturn = false;
@@ -285,10 +321,10 @@ namespace ColorLib
             }
             catch (Exception e) when (e is IOException || e is SerializationException || e is UnauthorizedAccessException)
             {
-                logger.Error(BaseConfig.cultF,
+                logger.Error(ConfigBase.cultF,
                     "Impossible d'effacer la configuration \'{0}\' dans le fichier \"{1}\". Erreur {2}. StackTrace: {3}", 
                     confName, fileName, e.Message, e.StackTrace);
-                msgTxt = e.Message;
+                msgTxt = e.Message == null ? "" : e.Message; // probabelment jamais null, mais...
                 toReturn = false;
             }
             return toReturn;
@@ -591,10 +627,33 @@ namespace ColorLib
 
         /// <summary>
         /// Charge la <c>Config</c> sauvgardée identifiée par <paramref name="name"/>. Si ça marche,
-        /// un évènement <c>ConfigReplacedEvent</c> est déclenché avec la référence de la nouvelle
+        /// un évènement <see cref="ConfigReplacedEvent"/> est déclenché avec la référence de la nouvelle
         /// config et <c>true</c> est retourné. Si ça échoue, <c>false</c> est retourné et 
         /// <paramref name="errMsg"/> contient le message d'erreur.
         /// </summary>
+        /// <remarks>
+        /// Les évènements <see cref="ConfigNameModifiedEvent"/> et <see cref="DuoConfReplacedEvent"/> ne 
+        /// sont pas déclenchés! L'idée est que <see cref="ConfigReplacedEvent"/> suffit.
+        /// </remarks>
+        /// <example>
+        /// Deux choses sont un peu surprenantes: 1 - Devoir disposer d'une <see cref="Config"/>
+        /// pour en charger une autre. Cela provient de l'interface utilisateur actuelle de 
+        /// Colorization. 2 - Devoir aller chercher la nouvelle <see cref="Config"/>
+        /// dans les paramètres de l'évènement...
+        /// <code>
+        /// Config conf = new Config();
+        /// conf.LoadConfig("SuperbeConf", out errMsg);
+        /// 
+        /// // L'évènement 'ConfigReplacedEvent' a lieu ici.
+        /// 
+        /// private void HandleConfigReplaced(object sender, ConfigReplacedEventArgs e)
+        /// {
+        ///    conf = e.newConfig;
+        ///    AssignHandlersTo(conf);
+        /// }
+        /// 
+        /// </code>
+        /// </example>
         /// <param name="name">Le nom de la <c>Config</c> sauvegardée à charger.</param>
         /// <param name="errMsg">Le message d'erreur si une erreur s'est produite, sinon "".</param>
         /// <returns><c>true</c> si la <c>Config</c> a pu être chargée, sinon <c>false</c>.</returns>

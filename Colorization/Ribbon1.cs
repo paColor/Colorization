@@ -176,6 +176,16 @@ namespace Colorization
 
         private static void PresentationClosed(Presentation inPres) => ConfigPane.DocClosed(inPres);
 
+        private static Config GetConfigForActiveWindow()
+        {
+            DocumentWindow activeWin = ColorizationPPT.thisAddIn.Application.ActiveWindow;
+            string errMsg;
+            Config toReturn = Config.GetConfigFor(activeWin, activeWin.Presentation, out errMsg);
+            if (!string.IsNullOrEmpty(errMsg))
+                MessageBox.Show(errMsg, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return toReturn;
+        }
+
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             logger.ConditionalDebug("Ribbon1_Load");
@@ -215,12 +225,6 @@ namespace Colorization
                 ConfigPane.MakePaneVisibleInWin(activeWin, activeWin.Presentation, ColorizationPPT.thisAddIn.CustomTaskPanes,
                     typeof(ColorizationPPT).Assembly.GetName().Version.ToString());
             }
-        }
-
-        private Config GetConfigForActiveWindow()
-        {
-            DocumentWindow activeWin = ColorizationPPT.thisAddIn.Application.ActiveWindow;
-            return Config.GetConfigFor(activeWin, activeWin.Presentation);
         }
 
         private void btnColoriser_Click(object sender, RibbonControlEventArgs e)

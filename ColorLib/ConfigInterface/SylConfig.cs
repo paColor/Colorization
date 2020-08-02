@@ -452,7 +452,7 @@ namespace ColorLib
 
         protected virtual void OnSylButtonModified(int buttonNr)
         {
-            logger.ConditionalDebug(BaseConfig.cultF, "OnSylButtonModified bouton: \'{0}\'", buttonNr);
+            logger.ConditionalDebug(ConfigBase.cultF, "OnSylButtonModified bouton: \'{0}\'", buttonNr);
             EventHandler<SylButtonModifiedEventArgs> eventHandler = SylButtonModifiedEvent;
             eventHandler?.Invoke(this, new SylButtonModifiedEventArgs(buttonNr));
         }

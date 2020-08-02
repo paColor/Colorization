@@ -302,7 +302,7 @@ namespace ColorLib
         /// <param name="e">Les paramètres à joindre à l'évènement déclenché.</param>
         protected virtual void OnLetterButtonModifed (LetterButtonModifiedEventArgs e)
         {
-            logger.ConditionalDebug(BaseConfig.cultF, "OnLetterButtonModifed, buttonNr: {0}", e.buttonNr);
+            logger.ConditionalDebug(ConfigBase.cultF, "OnLetterButtonModifed, buttonNr: {0}", e.buttonNr);
             EventHandler<LetterButtonModifiedEventArgs> eventHandler = LetterButtonModifiedEvent;
             eventHandler?.Invoke(this, e);
         }

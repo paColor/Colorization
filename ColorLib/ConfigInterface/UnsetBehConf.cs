@@ -180,7 +180,7 @@ namespace ColorLib
 
         protected virtual void OnCheckboxUnsetModified(Ucbx u)
         {
-            logger.ConditionalDebug(BaseConfig.cultF, "OnCheckboxUnsetModified, checkbox \'{0}\'", cbuNames[(int)u]);
+            logger.ConditionalDebug(ConfigBase.cultF, "OnCheckboxUnsetModified, checkbox \'{0}\'", cbuNames[(int)u]);
             EventHandler<CheckboxUnsetModifiedEventArgs> eventHandler = CheckboxUnsetModifiedEvent;
             eventHandler?.Invoke(this, new CheckboxUnsetModifiedEventArgs(u, cbuNames[(int)u]));
         }

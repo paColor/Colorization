@@ -37,11 +37,11 @@ namespace ColorLib
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("progress: ");
-            sb.Append(progress.ToString(BaseConfig.cultF));
+            sb.Append(progress.ToString(ConfigBase.cultF));
             sb.Append(", elapsedMilliseconds: ");
-            sb.Append(elapsedMilliseconds.ToString(BaseConfig.cultF));
+            sb.Append(elapsedMilliseconds.ToString(ConfigBase.cultF));
             sb.Append(", remainingMilliseconds: ");
-            sb.Append(remainingMilliseconds.ToString(BaseConfig.cultF));
+            sb.Append(remainingMilliseconds.ToString(ConfigBase.cultF));
             return sb.ToString();
         }
 
@@ -65,7 +65,7 @@ namespace ColorLib
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("elapsedMilliseconds: ");
-            sb.Append(elapsedMilliseconds.ToString(BaseConfig.cultF));
+            sb.Append(elapsedMilliseconds.ToString(ConfigBase.cultF));
             return sb.ToString();
         }
     }
@@ -167,7 +167,7 @@ namespace ColorLib
         /// <param name="progression">en pourcents (0 - 100) l'état de progression de la tâche.</param>
         public void InProgress(int progression)
         {
-            logger.ConditionalTrace(BaseConfig.cultF, "InProgress {0}%", progression);
+            logger.ConditionalTrace(ConfigBase.cultF, "InProgress {0}%", progression);
             OnProgressEvent(progression);
         }
 

@@ -61,26 +61,26 @@ namespace ColorLib
             // Let's skip possible leading spaces
             pos = GetNextChar(pos);
             // The char at pos must be an '
-            Debug.Assert(s[pos] == '\'', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un \''\' en début de lettre.", 
+            Debug.Assert(s[pos] == '\'', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un \''\' en début de lettre.", 
                 pos - start, s.Substring(start, (pos+1) - start)));
             // Let's find the letter
             pos = GetNextChar(pos + 1);
             Letter = s[pos];
             // Let's find the closing '
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == '\'', string.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un \''\' en fin de lettre.",
+            Debug.Assert(s[pos] == '\'', string.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un \''\' en fin de lettre.",
                 pos - start, s.Substring(start, (pos + 1) - start)));
             // Let's find the :
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == ':', string.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un : après la lettre",
+            Debug.Assert(s[pos] == ':', string.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un : après la lettre",
                 pos - start, s.Substring(start, (pos + 1) - start)));
             // let's find the first [
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == '[', string.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un [ après le :",
+            Debug.Assert(s[pos] == '[', string.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un [ après le :",
                 pos - start, s.Substring(start, (pos + 1) - start)));
             // let's find the second [
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == '[', string.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un [ après le premier [",
+            Debug.Assert(s[pos] == '[', string.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un [ après le premier [",
                 pos - start, s.Substring(start, (pos + 1) - start)));
 
             //Let's load the list of rule names
@@ -89,18 +89,18 @@ namespace ColorLib
             while (s[pos] != ']')
             {
                 // The char at pos must be an '
-                Debug.Assert(s[pos] == '\'', String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un \''\' en début de nom de règle.",
+                Debug.Assert(s[pos] == '\'', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un \''\' en début de nom de règle.",
                     pos - start, s.Substring(start, (pos + 1) - start)));
                 // the rulename must end with a '
                 pos = GetNextChar(pos + 1);
                 int endOfRuleNameApostrophyPos = s.IndexOf('\'', pos);
-                Debug.Assert(endOfRuleNameApostrophyPos > pos, String.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un \''\' en fin de nom de règle.",
+                Debug.Assert(endOfRuleNameApostrophyPos > pos, String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un \''\' en fin de nom de règle.",
                     pos - start, s.Substring(start, (pos + 1) - start)));
                 string theRuleName = s.Substring(pos, endOfRuleNameApostrophyPos - pos);
                 ruleOrder.Add(theRuleName);
                 pos = GetNextChar(endOfRuleNameApostrophyPos + 1);
                 // it is either ',' or ']'
-                Debug.Assert(((s[pos] == ',') || (s[pos] == ']')), string.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend une \',\' ou un \']\'.",
+                Debug.Assert(((s[pos] == ',') || (s[pos] == ']')), string.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend une \',\' ou un \']\'.",
                     pos - start, s.Substring(start, (pos + 1) - start)));
                 if (s[pos] == ',')
                     pos = GetNextChar(pos + 1);
@@ -108,12 +108,12 @@ namespace ColorLib
 
             // Let's find the ,
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == ',', string.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend une \',\' avant les règles",
+            Debug.Assert(s[pos] == ',', string.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend une \',\' avant les règles",
                 pos - start, s.Substring(start, (pos + 1) - start)));
 
             // Let's load the rules
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == '{', string.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend une \'{{\' avant la liste de règles",
+            Debug.Assert(s[pos] == '{', string.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend une \'{{\' avant la liste de règles",
                 pos - start, s.Substring(start, (pos + 1) - start)));
             List<string> sortedRuleNames = new List<string>(ruleOrder);
             sortedRuleNames.Sort();
@@ -126,7 +126,7 @@ namespace ColorLib
                 rules.Add(ar.RuleName, ar);
                 pos = GetNextChar(pos + 1);
                 // it is either ',' or '}'
-                Debug.Assert(((s[pos] == ',') || (s[pos] == '}')), string.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend une \',\' ou un \'}}\' après une règle.",
+                Debug.Assert(((s[pos] == ',') || (s[pos] == '}')), string.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend une \',\' ou un \'}}\' après une règle.",
                     pos - start, s.Substring(start, (pos + 1) - start)));
                 if (s[pos] == ',')
                     pos = GetNextChar(pos + 1);
@@ -134,7 +134,7 @@ namespace ColorLib
 
             // Let's Find the closing ]
             pos = GetNextChar(pos + 1);
-            Debug.Assert(s[pos] == ']', string.Format(BaseConfig.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un \']\' après la liste des règles",
+            Debug.Assert(s[pos] == ']', string.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomLetter, on attend un \']\' après la liste des règles",
                 pos - start, s.Substring(start, (pos + 1) - start)));
 
             end = pos;
@@ -145,7 +145,7 @@ namespace ColorLib
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Original Text: " + base.ToString());
-            sb.AppendLine(String.Format(BaseConfig.cultF, "letter: {0}", Letter));
+            sb.AppendLine(String.Format(ConfigBase.cultF, "letter: {0}", Letter));
             sb.AppendLine("ruleOrder:");
             foreach (string rS in ruleOrder)
                 sb.AppendLine("  " + rS);
@@ -188,12 +188,12 @@ namespace ColorLib
                 }
                 else
                 {
-                    string message = String.Format(BaseConfig.cultF, "La règle \"{0}\" n'existe pas", ruleOrder[i]);
+                    string message = String.Format(ConfigBase.cultF, "La règle \"{0}\" n'existe pas", ruleOrder[i]);
                     throw new KeyNotFoundException(message);
                 }
                 i++;
             }
-            Debug.Assert (found, String.Format(BaseConfig.cultF, "Pas de règle pour pos {0} dans \"{1}\" ", pos, pw.GetWord()));
+            Debug.Assert (found, String.Format(ConfigBase.cultF, "Pas de règle pour pos {0} dans \"{1}\" ", pos, pw.GetWord()));
         } // public void FireRule
 
         public void CountPhons(ref int[] usedPhons)
