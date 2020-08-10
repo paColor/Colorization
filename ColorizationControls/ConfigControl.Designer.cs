@@ -145,17 +145,9 @@
             this.cmsPhonVSMuettes = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.configMuettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabAutres = new System.Windows.Forms.TabPage();
-            this.cbMuettesSyl = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.butExecuteDuo = new System.Windows.Forms.Button();
             this.butConfigDuo = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rbnStandard = new System.Windows.Forms.RadioButton();
-            this.rbnAv2Cons = new System.Windows.Forms.RadioButton();
-            this.grpBEcritOral = new System.Windows.Forms.GroupBox();
-            this.rbnPoesie = new System.Windows.Forms.RadioButton();
-            this.rbnEcrit = new System.Windows.Forms.RadioButton();
-            this.rbnOral = new System.Windows.Forms.RadioButton();
             this.btcLNoir = new System.Windows.Forms.Button();
             this.btSVoyCons = new System.Windows.Forms.Button();
             this.pbHL5 = new System.Windows.Forms.PictureBox();
@@ -197,6 +189,18 @@
             this.btcLbpdq = new System.Windows.Forms.Button();
             this.btSMots = new System.Windows.Forms.Button();
             this.btSAppliquer = new System.Windows.Forms.Button();
+            this.groupBoxSyllabes = new System.Windows.Forms.GroupBox();
+            this.comboBoxNrPieds = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.checkBoxDierese = new System.Windows.Forms.CheckBox();
+            this.grpBEcritOral = new System.Windows.Forms.GroupBox();
+            this.rbnPoesie = new System.Windows.Forms.RadioButton();
+            this.rbnEcrit = new System.Windows.Forms.RadioButton();
+            this.rbnOral = new System.Windows.Forms.RadioButton();
+            this.cbMuettesSyl = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rbnStandard = new System.Windows.Forms.RadioButton();
+            this.rbnAv2Cons = new System.Windows.Forms.RadioButton();
             this.tabAvancé = new System.Windows.Forms.TabPage();
             this.groupBoxIll = new System.Windows.Forms.GroupBox();
             this.rbnIllCeras = new System.Windows.Forms.RadioButton();
@@ -220,13 +224,12 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBoxPoesie = new System.Windows.Forms.GroupBox();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
             this.cmsPhonVSMuettes.SuspendLayout();
             this.tabAutres.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.grpBEcritOral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).BeginInit();
@@ -234,11 +237,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).BeginInit();
             this.cmsEffacerCopier.SuspendLayout();
+            this.groupBoxSyllabes.SuspendLayout();
+            this.grpBEcritOral.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabAvancé.SuspendLayout();
             this.groupBoxIll.SuspendLayout();
             this.tabAPropos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBoxPoesie.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbxa
@@ -1653,12 +1660,9 @@
             // tabAutres
             // 
             this.tabAutres.BackColor = System.Drawing.SystemColors.Control;
-            this.tabAutres.Controls.Add(this.cbMuettesSyl);
             this.tabAutres.Controls.Add(this.label8);
             this.tabAutres.Controls.Add(this.butExecuteDuo);
             this.tabAutres.Controls.Add(this.butConfigDuo);
-            this.tabAutres.Controls.Add(this.groupBox1);
-            this.tabAutres.Controls.Add(this.grpBEcritOral);
             this.tabAutres.Controls.Add(this.btcLNoir);
             this.tabAutres.Controls.Add(this.btSVoyCons);
             this.tabAutres.Controls.Add(this.pbHL5);
@@ -1689,6 +1693,7 @@
             this.tabAutres.Controls.Add(this.btcLbpdq);
             this.tabAutres.Controls.Add(this.btSMots);
             this.tabAutres.Controls.Add(this.btSAppliquer);
+            this.tabAutres.Controls.Add(this.groupBoxSyllabes);
             this.tabAutres.Location = new System.Drawing.Point(4, 22);
             this.tabAutres.Name = "tabAutres";
             this.tabAutres.Padding = new System.Windows.Forms.Padding(3);
@@ -1697,23 +1702,11 @@
             this.tabAutres.Text = "Autres";
             this.ttipLettreEnNoir.SetToolTip(this.tabAutres, "Configuration pour la colorisation de lettres, syllabes, mots, lignes");
             // 
-            // cbMuettesSyl
-            // 
-            this.cbMuettesSyl.AutoSize = true;
-            this.cbMuettesSyl.Location = new System.Drawing.Point(9, 242);
-            this.cbMuettesSyl.Name = "cbMuettesSyl";
-            this.cbMuettesSyl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.cbMuettesSyl.Size = new System.Drawing.Size(105, 17);
-            this.cbMuettesSyl.TabIndex = 172;
-            this.cbMuettesSyl.Text = "Marquer muettes";
-            this.cbMuettesSyl.UseVisualStyleBackColor = true;
-            this.cbMuettesSyl.CheckedChanged += new System.EventHandler(this.cbMuettesSyl_CheckedChanged);
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(11, 308);
+            this.label8.Location = new System.Drawing.Point(11, 379);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(318, 32);
             this.label8.TabIndex = 171;
@@ -1725,7 +1718,7 @@
             // 
             this.butExecuteDuo.AutoSize = true;
             this.butExecuteDuo.Image = global::ColorizationControls.Properties.Resources._2_32;
-            this.butExecuteDuo.Location = new System.Drawing.Point(65, 347);
+            this.butExecuteDuo.Location = new System.Drawing.Point(65, 418);
             this.butExecuteDuo.Name = "butExecuteDuo";
             this.butExecuteDuo.Size = new System.Drawing.Size(88, 55);
             this.butExecuteDuo.TabIndex = 170;
@@ -1740,7 +1733,7 @@
             // 
             this.butConfigDuo.AutoSize = true;
             this.butConfigDuo.Image = global::ColorizationControls.Properties.Resources._2Config_32;
-            this.butConfigDuo.Location = new System.Drawing.Point(173, 347);
+            this.butConfigDuo.Location = new System.Drawing.Point(173, 418);
             this.butConfigDuo.Name = "butConfigDuo";
             this.butConfigDuo.Size = new System.Drawing.Size(88, 55);
             this.butConfigDuo.TabIndex = 169;
@@ -1751,92 +1744,6 @@
             this.butConfigDuo.UseVisualStyleBackColor = true;
             this.butConfigDuo.Click += new System.EventHandler(this.butConfigDuo_Click);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.rbnStandard);
-            this.groupBox1.Controls.Add(this.rbnAv2Cons);
-            this.groupBox1.Location = new System.Drawing.Point(3, 190);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(96, 49);
-            this.groupBox1.TabIndex = 168;
-            this.groupBox1.TabStop = false;
-            // 
-            // rbnStandard
-            // 
-            this.rbnStandard.AutoSize = true;
-            this.rbnStandard.Location = new System.Drawing.Point(6, 10);
-            this.rbnStandard.Name = "rbnStandard";
-            this.rbnStandard.Size = new System.Drawing.Size(68, 17);
-            this.rbnStandard.TabIndex = 165;
-            this.rbnStandard.TabStop = true;
-            this.rbnStandard.Text = "Standard";
-            this.ttipLettreEnNoir.SetToolTip(this.rbnStandard, "Les syllabes sont coupées entre\r\ndeux consonnes répétées.");
-            this.rbnStandard.UseVisualStyleBackColor = true;
-            this.rbnStandard.CheckedChanged += new System.EventHandler(this.rbnStandard_CheckedChanged);
-            // 
-            // rbnAv2Cons
-            // 
-            this.rbnAv2Cons.AutoSize = true;
-            this.rbnAv2Cons.Location = new System.Drawing.Point(6, 29);
-            this.rbnAv2Cons.Name = "rbnAv2Cons";
-            this.rbnAv2Cons.Size = new System.Drawing.Size(91, 17);
-            this.rbnAv2Cons.TabIndex = 166;
-            this.rbnAv2Cons.TabStop = true;
-            this.rbnAv2Cons.Text = "Avant 2 cons.";
-            this.ttipLettreEnNoir.SetToolTip(this.rbnAv2Cons, "Les syllabes sont coupées avant\r\ndeux consonnes répétées.\r\n");
-            this.rbnAv2Cons.UseVisualStyleBackColor = true;
-            // 
-            // grpBEcritOral
-            // 
-            this.grpBEcritOral.Controls.Add(this.rbnPoesie);
-            this.grpBEcritOral.Controls.Add(this.rbnEcrit);
-            this.grpBEcritOral.Controls.Add(this.rbnOral);
-            this.grpBEcritOral.Location = new System.Drawing.Point(261, 189);
-            this.grpBEcritOral.Name = "grpBEcritOral";
-            this.grpBEcritOral.Size = new System.Drawing.Size(63, 70);
-            this.grpBEcritOral.TabIndex = 167;
-            this.grpBEcritOral.TabStop = false;
-            // 
-            // rbnPoesie
-            // 
-            this.rbnPoesie.AutoSize = true;
-            this.rbnPoesie.Location = new System.Drawing.Point(6, 47);
-            this.rbnPoesie.Name = "rbnPoesie";
-            this.rbnPoesie.Size = new System.Drawing.Size(57, 17);
-            this.rbnPoesie.TabIndex = 167;
-            this.rbnPoesie.TabStop = true;
-            this.rbnPoesie.Text = "Poésie";
-            this.rbnPoesie.UseVisualStyleBackColor = true;
-            this.rbnPoesie.CheckedChanged += new System.EventHandler(this.rbnPoesie_CheckedChanged);
-            // 
-            // rbnEcrit
-            // 
-            this.rbnEcrit.AutoSize = true;
-            this.rbnEcrit.Location = new System.Drawing.Point(6, 10);
-            this.rbnEcrit.Name = "rbnEcrit";
-            this.rbnEcrit.Size = new System.Drawing.Size(46, 17);
-            this.rbnEcrit.TabIndex = 165;
-            this.rbnEcrit.TabStop = true;
-            this.rbnEcrit.Text = "Écrit";
-            this.ttipLettreEnNoir.SetToolTip(this.rbnEcrit, "Les e caducs génèrent des syllabes.\r\nLes muettes sont marquées.\r\nA-na-chro-ni-que" +
-        "");
-            this.rbnEcrit.UseVisualStyleBackColor = true;
-            this.rbnEcrit.CheckedChanged += new System.EventHandler(this.rbnEcrit_CheckedChanged);
-            // 
-            // rbnOral
-            // 
-            this.rbnOral.AutoSize = true;
-            this.rbnOral.Location = new System.Drawing.Point(6, 29);
-            this.rbnOral.Name = "rbnOral";
-            this.rbnOral.Size = new System.Drawing.Size(44, 17);
-            this.rbnOral.TabIndex = 166;
-            this.rbnOral.TabStop = true;
-            this.rbnOral.Text = "Oral";
-            this.ttipLettreEnNoir.SetToolTip(this.rbnOral, "Les e caducs ne génèrent pas de syllabes.\r\nLes muettes ne sont pas marquées.\r\nA-n" +
-        "a-chro-nique");
-            this.rbnOral.UseVisualStyleBackColor = true;
-            this.rbnOral.CheckedChanged += new System.EventHandler(this.rbnOral_CheckedChanged);
-            // 
             // btcLNoir
             // 
             this.btcLNoir.BackColor = System.Drawing.SystemColors.Control;
@@ -1845,8 +1752,7 @@
             this.btcLNoir.Name = "btcLNoir";
             this.btcLNoir.Size = new System.Drawing.Size(38, 38);
             this.btcLNoir.TabIndex = 164;
-            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir, "Coloriser les lignes. Soit en surlignant avec les couleurs\r\nci-dessous, soit en a" +
-        "ppliquant les couleurs des syllabes\r\nci-dessus.");
+            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir, "Mettre le texte sélectionnée en \r\nnoir sans autre formatage.");
             this.btcLNoir.UseVisualStyleBackColor = false;
             this.btcLNoir.Click += new System.EventHandler(this.btcLNoir_Click);
             // 
@@ -1858,14 +1764,13 @@
             this.btSVoyCons.Name = "btSVoyCons";
             this.btSVoyCons.Size = new System.Drawing.Size(38, 38);
             this.btSVoyCons.TabIndex = 163;
-            this.ttipLettreEnNoir.SetToolTip(this.btSVoyCons, "Coloriser les lignes. Soit en surlignant avec les couleurs\r\nci-dessous, soit en a" +
-        "ppliquant les couleurs des syllabes\r\nci-dessus.");
+            this.ttipLettreEnNoir.SetToolTip(this.btSVoyCons, "Coloriser les voyelles et les consonnes.");
             this.btSVoyCons.UseVisualStyleBackColor = false;
             this.btSVoyCons.Click += new System.EventHandler(this.btSVoyCons_Click);
             // 
             // pbHL5
             // 
-            this.pbHL5.Location = new System.Drawing.Point(307, 272);
+            this.pbHL5.Location = new System.Drawing.Point(307, 312);
             this.pbHL5.Name = "pbHL5";
             this.pbHL5.Size = new System.Drawing.Size(17, 13);
             this.pbHL5.TabIndex = 162;
@@ -1874,7 +1779,7 @@
             // 
             // pbHL4
             // 
-            this.pbHL4.Location = new System.Drawing.Point(253, 272);
+            this.pbHL4.Location = new System.Drawing.Point(253, 312);
             this.pbHL4.Name = "pbHL4";
             this.pbHL4.Size = new System.Drawing.Size(17, 13);
             this.pbHL4.TabIndex = 161;
@@ -1883,7 +1788,7 @@
             // 
             // pbHL3
             // 
-            this.pbHL3.Location = new System.Drawing.Point(199, 272);
+            this.pbHL3.Location = new System.Drawing.Point(199, 312);
             this.pbHL3.Name = "pbHL3";
             this.pbHL3.Size = new System.Drawing.Size(17, 13);
             this.pbHL3.TabIndex = 160;
@@ -1892,7 +1797,7 @@
             // 
             // pbHL2
             // 
-            this.pbHL2.Location = new System.Drawing.Point(145, 272);
+            this.pbHL2.Location = new System.Drawing.Point(145, 312);
             this.pbHL2.Name = "pbHL2";
             this.pbHL2.Size = new System.Drawing.Size(17, 13);
             this.pbHL2.TabIndex = 159;
@@ -1901,7 +1806,7 @@
             // 
             // pbHL1
             // 
-            this.pbHL1.Location = new System.Drawing.Point(91, 272);
+            this.pbHL1.Location = new System.Drawing.Point(91, 312);
             this.pbHL1.Name = "pbHL1";
             this.pbHL1.Size = new System.Drawing.Size(17, 13);
             this.pbHL1.TabIndex = 158;
@@ -1911,7 +1816,7 @@
             // pbHL0
             // 
             this.pbHL0.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.pbHL0.Location = new System.Drawing.Point(38, 272);
+            this.pbHL0.Location = new System.Drawing.Point(38, 312);
             this.pbHL0.Name = "pbHL0";
             this.pbHL0.Size = new System.Drawing.Size(17, 13);
             this.pbHL0.TabIndex = 157;
@@ -1920,7 +1825,7 @@
             // 
             // btSC5
             // 
-            this.btSC5.Location = new System.Drawing.Point(281, 267);
+            this.btSC5.Location = new System.Drawing.Point(281, 307);
             this.btSC5.Name = "btSC5";
             this.btSC5.Size = new System.Drawing.Size(48, 23);
             this.btSC5.TabIndex = 156;
@@ -1931,7 +1836,7 @@
             // 
             // btSC4
             // 
-            this.btSC4.Location = new System.Drawing.Point(227, 267);
+            this.btSC4.Location = new System.Drawing.Point(227, 307);
             this.btSC4.Name = "btSC4";
             this.btSC4.Size = new System.Drawing.Size(48, 23);
             this.btSC4.TabIndex = 155;
@@ -1943,17 +1848,19 @@
             // btcInitSyls
             // 
             this.btcInitSyls.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btcInitSyls.Location = new System.Drawing.Point(140, 196);
+            this.btcInitSyls.Location = new System.Drawing.Point(94, 336);
             this.btcInitSyls.Name = "btcInitSyls";
-            this.btcInitSyls.Size = new System.Drawing.Size(76, 63);
+            this.btcInitSyls.Size = new System.Drawing.Size(150, 23);
             this.btcInitSyls.TabIndex = 151;
             this.btcInitSyls.Text = "réinitialiser à bleu / rouge";
+            this.ttipLettreEnNoir.SetToolTip(this.btcInitSyls, "Réinitialise aux couleurs bleu et rouge.\r\nRéinitialise les paramètres de la color" +
+        "isation\r\nde syllabes à leur valeur par défaut.");
             this.btcInitSyls.UseVisualStyleBackColor = false;
             this.btcInitSyls.Click += new System.EventHandler(this.btcInitSyls_Click);
             // 
             // btSC3
             // 
-            this.btSC3.Location = new System.Drawing.Point(173, 267);
+            this.btSC3.Location = new System.Drawing.Point(173, 307);
             this.btSC3.Name = "btSC3";
             this.btSC3.Size = new System.Drawing.Size(48, 23);
             this.btSC3.TabIndex = 149;
@@ -1964,7 +1871,7 @@
             // 
             // btSC2
             // 
-            this.btSC2.Location = new System.Drawing.Point(119, 267);
+            this.btSC2.Location = new System.Drawing.Point(119, 307);
             this.btSC2.Name = "btSC2";
             this.btSC2.Size = new System.Drawing.Size(48, 23);
             this.btSC2.TabIndex = 148;
@@ -1975,7 +1882,7 @@
             // 
             // btSC1
             // 
-            this.btSC1.Location = new System.Drawing.Point(65, 267);
+            this.btSC1.Location = new System.Drawing.Point(65, 307);
             this.btSC1.Name = "btSC1";
             this.btSC1.Size = new System.Drawing.Size(48, 23);
             this.btSC1.TabIndex = 147;
@@ -1986,7 +1893,7 @@
             // 
             // btSC0
             // 
-            this.btSC0.Location = new System.Drawing.Point(12, 267);
+            this.btSC0.Location = new System.Drawing.Point(12, 307);
             this.btSC0.Name = "btSC0";
             this.btSC0.Size = new System.Drawing.Size(48, 23);
             this.btSC0.TabIndex = 146;
@@ -2266,6 +2173,175 @@
             this.btSAppliquer.UseVisualStyleBackColor = false;
             this.btSAppliquer.Click += new System.EventHandler(this.btSAppliquer_Click);
             // 
+            // groupBoxSyllabes
+            // 
+            this.groupBoxSyllabes.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxSyllabes.Controls.Add(this.cbMuettesSyl);
+            this.groupBoxSyllabes.Controls.Add(this.groupBoxPoesie);
+            this.groupBoxSyllabes.Controls.Add(this.grpBEcritOral);
+            this.groupBoxSyllabes.Controls.Add(this.groupBox1);
+            this.groupBoxSyllabes.Location = new System.Drawing.Point(14, 196);
+            this.groupBoxSyllabes.Name = "groupBoxSyllabes";
+            this.groupBoxSyllabes.Size = new System.Drawing.Size(314, 105);
+            this.groupBoxSyllabes.TabIndex = 176;
+            this.groupBoxSyllabes.TabStop = false;
+            this.groupBoxSyllabes.Text = "Syllabes";
+            this.ttipLettreEnNoir.SetToolTip(this.groupBoxSyllabes, "Paramètres pour la mise \r\nen couleur des syllabes.");
+            // 
+            // comboBoxNrPieds
+            // 
+            this.comboBoxNrPieds.FormattingEnabled = true;
+            this.comboBoxNrPieds.Items.AddRange(new object[] {
+            "Auto",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"});
+            this.comboBoxNrPieds.Location = new System.Drawing.Point(6, 55);
+            this.comboBoxNrPieds.Name = "comboBoxNrPieds";
+            this.comboBoxNrPieds.Size = new System.Drawing.Size(79, 21);
+            this.comboBoxNrPieds.TabIndex = 175;
+            this.comboBoxNrPieds.Text = "Auto";
+            this.ttipLettreEnNoir.SetToolTip(this.comboBoxNrPieds, "Nombre de pieds à atteindre\r\ndans les vers sélectionnés.\r\n");
+            this.comboBoxNrPieds.SelectedIndexChanged += new System.EventHandler(this.comboBoxNrPieds_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(5, 37);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(76, 13);
+            this.label3.TabIndex = 174;
+            this.label3.Text = "Nbre de pieds:";
+            // 
+            // checkBoxDierese
+            // 
+            this.checkBoxDierese.AutoSize = true;
+            this.checkBoxDierese.Location = new System.Drawing.Point(9, 19);
+            this.checkBoxDierese.Name = "checkBoxDierese";
+            this.checkBoxDierese.Size = new System.Drawing.Size(62, 17);
+            this.checkBoxDierese.TabIndex = 173;
+            this.checkBoxDierese.Text = "Diérèse";
+            this.ttipLettreEnNoir.SetToolTip(this.checkBoxDierese, "Indique si dans le mode poésie, \r\nil faut rechercher les diérèses.");
+            this.checkBoxDierese.UseVisualStyleBackColor = true;
+            this.checkBoxDierese.CheckedChanged += new System.EventHandler(this.checkBoxDierese_CheckedChanged);
+            // 
+            // grpBEcritOral
+            // 
+            this.grpBEcritOral.BackColor = System.Drawing.Color.Transparent;
+            this.grpBEcritOral.Controls.Add(this.rbnPoesie);
+            this.grpBEcritOral.Controls.Add(this.rbnEcrit);
+            this.grpBEcritOral.Controls.Add(this.rbnOral);
+            this.grpBEcritOral.Location = new System.Drawing.Point(12, 19);
+            this.grpBEcritOral.Name = "grpBEcritOral";
+            this.grpBEcritOral.Padding = new System.Windows.Forms.Padding(0);
+            this.grpBEcritOral.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.grpBEcritOral.Size = new System.Drawing.Size(63, 80);
+            this.grpBEcritOral.TabIndex = 167;
+            this.grpBEcritOral.TabStop = false;
+            this.grpBEcritOral.Text = "Mode";
+            // 
+            // rbnPoesie
+            // 
+            this.rbnPoesie.AutoSize = true;
+            this.rbnPoesie.Location = new System.Drawing.Point(3, 54);
+            this.rbnPoesie.Name = "rbnPoesie";
+            this.rbnPoesie.Size = new System.Drawing.Size(57, 17);
+            this.rbnPoesie.TabIndex = 167;
+            this.rbnPoesie.TabStop = true;
+            this.rbnPoesie.Text = "Poésie";
+            this.rbnPoesie.UseVisualStyleBackColor = true;
+            this.rbnPoesie.CheckedChanged += new System.EventHandler(this.rbnPoesie_CheckedChanged);
+            // 
+            // rbnEcrit
+            // 
+            this.rbnEcrit.AutoSize = true;
+            this.rbnEcrit.Location = new System.Drawing.Point(3, 15);
+            this.rbnEcrit.Name = "rbnEcrit";
+            this.rbnEcrit.Size = new System.Drawing.Size(46, 17);
+            this.rbnEcrit.TabIndex = 165;
+            this.rbnEcrit.TabStop = true;
+            this.rbnEcrit.Text = "Écrit";
+            this.ttipLettreEnNoir.SetToolTip(this.rbnEcrit, "Les e caducs génèrent des syllabes.\r\nLes muettes sont marquées.\r\nA-na-chro-ni-que" +
+        "");
+            this.rbnEcrit.UseVisualStyleBackColor = true;
+            this.rbnEcrit.CheckedChanged += new System.EventHandler(this.rbnEcrit_CheckedChanged);
+            // 
+            // rbnOral
+            // 
+            this.rbnOral.AutoSize = true;
+            this.rbnOral.Location = new System.Drawing.Point(3, 34);
+            this.rbnOral.Name = "rbnOral";
+            this.rbnOral.Size = new System.Drawing.Size(44, 17);
+            this.rbnOral.TabIndex = 166;
+            this.rbnOral.TabStop = true;
+            this.rbnOral.Text = "Oral";
+            this.ttipLettreEnNoir.SetToolTip(this.rbnOral, "Les e caducs ne génèrent pas de syllabes.\r\nLes muettes ne sont pas marquées.\r\nA-n" +
+        "a-chro-nique");
+            this.rbnOral.UseVisualStyleBackColor = true;
+            this.rbnOral.CheckedChanged += new System.EventHandler(this.rbnOral_CheckedChanged);
+            // 
+            // cbMuettesSyl
+            // 
+            this.cbMuettesSyl.AutoSize = true;
+            this.cbMuettesSyl.Location = new System.Drawing.Point(94, 21);
+            this.cbMuettesSyl.Name = "cbMuettesSyl";
+            this.cbMuettesSyl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbMuettesSyl.Size = new System.Drawing.Size(111, 17);
+            this.cbMuettesSyl.TabIndex = 172;
+            this.cbMuettesSyl.Text = "Marquer muettes  ";
+            this.cbMuettesSyl.UseVisualStyleBackColor = true;
+            this.cbMuettesSyl.CheckedChanged += new System.EventHandler(this.cbMuettesSyl_CheckedChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rbnStandard);
+            this.groupBox1.Controls.Add(this.rbnAv2Cons);
+            this.groupBox1.Location = new System.Drawing.Point(93, 41);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 5, 0, 0);
+            this.groupBox1.Size = new System.Drawing.Size(96, 58);
+            this.groupBox1.TabIndex = 168;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "2 consonnes";
+            // 
+            // rbnStandard
+            // 
+            this.rbnStandard.AutoSize = true;
+            this.rbnStandard.Location = new System.Drawing.Point(6, 18);
+            this.rbnStandard.Name = "rbnStandard";
+            this.rbnStandard.Size = new System.Drawing.Size(68, 17);
+            this.rbnStandard.TabIndex = 165;
+            this.rbnStandard.TabStop = true;
+            this.rbnStandard.Text = "Standard";
+            this.ttipLettreEnNoir.SetToolTip(this.rbnStandard, "Les syllabes sont coupées entre\r\ndeux consonnes répétées.");
+            this.rbnStandard.UseVisualStyleBackColor = true;
+            this.rbnStandard.CheckedChanged += new System.EventHandler(this.rbnStandard_CheckedChanged);
+            // 
+            // rbnAv2Cons
+            // 
+            this.rbnAv2Cons.AutoSize = true;
+            this.rbnAv2Cons.Location = new System.Drawing.Point(6, 37);
+            this.rbnAv2Cons.Name = "rbnAv2Cons";
+            this.rbnAv2Cons.Size = new System.Drawing.Size(91, 17);
+            this.rbnAv2Cons.TabIndex = 166;
+            this.rbnAv2Cons.TabStop = true;
+            this.rbnAv2Cons.Text = "Avant 2 cons.";
+            this.ttipLettreEnNoir.SetToolTip(this.rbnAv2Cons, "Les syllabes sont coupées avant\r\ndeux consonnes répétées.\r\n");
+            this.rbnAv2Cons.UseVisualStyleBackColor = true;
+            // 
             // tabAvancé
             // 
             this.tabAvancé.BackColor = System.Drawing.SystemColors.Control;
@@ -2541,6 +2617,18 @@
             this.ttipLettreEnNoir.InitialDelay = 500;
             this.ttipLettreEnNoir.ReshowDelay = 100;
             // 
+            // groupBoxPoesie
+            // 
+            this.groupBoxPoesie.Controls.Add(this.comboBoxNrPieds);
+            this.groupBoxPoesie.Controls.Add(this.label3);
+            this.groupBoxPoesie.Controls.Add(this.checkBoxDierese);
+            this.groupBoxPoesie.Location = new System.Drawing.Point(207, 19);
+            this.groupBoxPoesie.Name = "groupBoxPoesie";
+            this.groupBoxPoesie.Size = new System.Drawing.Size(93, 80);
+            this.groupBoxPoesie.TabIndex = 176;
+            this.groupBoxPoesie.TabStop = false;
+            this.groupBoxPoesie.Text = "Mode poésie";
+            // 
             // ConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2560,10 +2648,6 @@
             this.cmsPhonVSMuettes.ResumeLayout(false);
             this.tabAutres.ResumeLayout(false);
             this.tabAutres.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.grpBEcritOral.ResumeLayout(false);
-            this.grpBEcritOral.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).EndInit();
@@ -2571,6 +2655,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).EndInit();
             this.cmsEffacerCopier.ResumeLayout(false);
+            this.groupBoxSyllabes.ResumeLayout(false);
+            this.groupBoxSyllabes.PerformLayout();
+            this.grpBEcritOral.ResumeLayout(false);
+            this.grpBEcritOral.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabAvancé.ResumeLayout(false);
             this.tabAvancé.PerformLayout();
             this.groupBoxIll.ResumeLayout(false);
@@ -2579,6 +2669,8 @@
             this.tabAPropos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBoxPoesie.ResumeLayout(false);
+            this.groupBoxPoesie.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2775,5 +2867,10 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox cbMuettesSyl;
         private System.Windows.Forms.RadioButton rbnPoesie;
+        private System.Windows.Forms.GroupBox groupBoxSyllabes;
+        private System.Windows.Forms.ComboBox comboBoxNrPieds;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox checkBoxDierese;
+        private System.Windows.Forms.GroupBox groupBoxPoesie;
     }
 }

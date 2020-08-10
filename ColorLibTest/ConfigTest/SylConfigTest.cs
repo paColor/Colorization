@@ -38,7 +38,6 @@ namespace ColorLibTest.ConfigTest
         private int ModeModifiedEventRaised;
         private int MarquerMuettesModifiedRaised;
         private int ChercherDiereseModifiedRaised;
-        private int FinDeVersModifiedRaised;
         private int NbrPiedsModifiedRaised;
         private List<int> sylButModNr = new List<int>(); // modified buttons
         private Config conf;
@@ -67,11 +66,7 @@ namespace ColorLibTest.ConfigTest
         {
             ChercherDiereseModifiedRaised++;
         }
-        private void HandleFinDeVersModified(object sender, EventArgs e)
-        {
-            FinDeVersModifiedRaised++;
-        }
-
+        
         private void HandleNbrPiedsModified(object sender, EventArgs e)
         {
             NbrPiedsModifiedRaised++;
@@ -84,7 +79,6 @@ namespace ColorLibTest.ConfigTest
             ModeModifiedEventRaised = 0;
             MarquerMuettesModifiedRaised = 0;
             ChercherDiereseModifiedRaised = 0;
-            FinDeVersModifiedRaised = 0;
             NbrPiedsModifiedRaised = 0;
             sylButModNr.Clear();
         }
@@ -328,7 +322,6 @@ namespace ColorLibTest.ConfigTest
             conf = new Config();
             conf.sylConf.ChercherDiereseModified += HandleChercherDiereseModified;
             conf.sylConf.DoubleConsStdModifiedEvent += HandleDoubleConsStdModified;
-            conf.sylConf.FinDeVersModified += HandleFinDeVersModified;
             conf.sylConf.MarquerMuettesModified += HandleMarquerMuettesModified;
             conf.sylConf.ModeModifiedEvent += HandleModeModifiedEvent;
             conf.sylConf.NbrPiedsModified += HandleNbrPiedsModified;
@@ -466,7 +459,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(0, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
 
             sC.chercherDierese = false;
@@ -478,7 +470,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(0, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(1, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.chercherDierese = false;
@@ -488,7 +479,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(0, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(1, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.chercherDierese = false;
@@ -504,7 +494,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(0, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.DoubleConsStd = false;
@@ -514,7 +503,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(0, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.DoubleConsStd = false;
@@ -530,7 +518,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(0, ModeModifiedEventRaised);
             Assert.AreEqual(1, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.marquerMuettes = false;
@@ -540,7 +527,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(0, ModeModifiedEventRaised);
             Assert.AreEqual(1, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.marquerMuettes = false;
@@ -556,7 +542,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(1, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.mode = SylConfig.Mode.oral;
@@ -566,7 +551,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(1, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.mode = SylConfig.Mode.poesie;
@@ -576,7 +560,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(1, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.mode = SylConfig.Mode.poesie;
@@ -589,7 +572,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(1, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(0, NbrPiedsModifiedRaised);
             ResetEventCounters();
 
@@ -602,7 +584,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(0, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(1, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.nbrPieds = 17;
@@ -612,7 +593,6 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(0, ModeModifiedEventRaised);
             Assert.AreEqual(0, MarquerMuettesModifiedRaised);
             Assert.AreEqual(0, ChercherDiereseModifiedRaised);
-            Assert.AreEqual(0, FinDeVersModifiedRaised);
             Assert.AreEqual(1, NbrPiedsModifiedRaised);
             ResetEventCounters();
             sC.nbrPieds = 17;

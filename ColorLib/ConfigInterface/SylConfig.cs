@@ -95,12 +95,6 @@ namespace ColorLib
         public event EventHandler ChercherDiereseModified;
 
         /// <summary>
-        /// Evènement déclenché quand la façon de détecter les fins de vers est modifiée.
-        /// </summary>
-        [field: NonSerialized]
-        public event EventHandler FinDeVersModified;
-
-        /// <summary>
         /// Evènement déclenché quand nombre de pieds à considérer est modifié.
         /// </summary>
         [field: NonSerialized]

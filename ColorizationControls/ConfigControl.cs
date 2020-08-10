@@ -260,11 +260,39 @@ namespace ColorizationControls
             rbnEcrit.Checked = theConf.sylConf.mode == SylConfig.Mode.ecrit;
             rbnOral.Checked = theConf.sylConf.mode == SylConfig.Mode.oral;
             rbnPoesie.Checked = theConf.sylConf.mode == SylConfig.Mode.poesie;
+            UpdateDiereseControls();
         }
 
         private void UpdateMarquerMuettesButton()
         {
             cbMuettesSyl.Checked = theConf.sylConf.marquerMuettes;
+        }
+
+        private void UpdateNrPieds()
+        {
+            logger.ConditionalDebug("UpdateNrPieds: {0}", theConf.sylConf.nbrPieds);
+            const string DefaultText = "Auto";
+            string txt = DefaultText;
+            if (theConf.sylConf.nbrPieds != 0)
+            {
+                txt = theConf.sylConf.nbrPieds.ToString();
+            }
+            comboBoxNrPieds.Text = txt;
+        }
+
+        private void UpdateChercherDierese()
+        {
+            logger.ConditionalDebug("UpdateChercherDierese: {0}", theConf.sylConf.chercherDierese);
+            checkBoxDierese.Checked = theConf.sylConf.chercherDierese;
+            comboBoxNrPieds.Enabled = theConf.sylConf.chercherDierese;
+            UpdateNrPieds();
+        }
+
+        private void UpdateDiereseControls()
+        {
+            logger.ConditionalDebug("UpdateDiereseControls");
+            groupBoxPoesie.Enabled = theConf.sylConf.mode == SylConfig.Mode.poesie;
+            UpdateChercherDierese();
         }
 
         private void UpdateSylButtons ()
@@ -383,6 +411,8 @@ namespace ColorizationControls
             theConf.sylConf.ModeModifiedEvent += SylModeModified;
             theConf.sylConf.DoubleConsStdModifiedEvent += DoubleConsStdModified;
             theConf.sylConf.MarquerMuettesModified += MarquerMuettesModified;
+            theConf.sylConf.ChercherDiereseModified += HandleChercherDiereseModified;
+            theConf.sylConf.NbrPiedsModified += HandleNbrPiedsModified;
             theConf.unsetBeh.CheckboxUnsetModifiedEvent += CheckboxUnsetModified;
         }
 
@@ -406,6 +436,8 @@ namespace ColorizationControls
             theConf.sylConf.ModeModifiedEvent -= SylModeModified;
             theConf.sylConf.DoubleConsStdModifiedEvent -= DoubleConsStdModified;
             theConf.sylConf.MarquerMuettesModified -= MarquerMuettesModified;
+            theConf.sylConf.ChercherDiereseModified -= HandleChercherDiereseModified;
+            theConf.sylConf.NbrPiedsModified -= HandleNbrPiedsModified;
             theConf.unsetBeh.CheckboxUnsetModifiedEvent -= CheckboxUnsetModified;
 
             // Initialiser les handlers
@@ -416,12 +448,11 @@ namespace ColorizationControls
         }
 
         /// <summary>
-        /// Appelé par les constructeurs pour les initialisations communes aux différents cas. Attention, <c>theConf</c>
-        /// doit être défini avant l'appel de cette méthode.
-        /// </summary>
-        /// <param name="version">Le numéro de version à utiliser pour l'affichage si la version ne peutm pas
-        /// être récupérée du déployement.</param>
-        /// <param name="inConf">La <c>Config</c> pour laquelle le <c>ConfigControl</c> est créé.</param>
+        /// Appelé par les constructeurs pour les initialisations communes aux différents cas. 
+        /// <param name="version">Le numéro de version à utiliser pour l'affichage si la version ne
+        /// peut pas être récupérée dans le fichier de déployement.</param>
+        /// <param name="inConf">La <see cref="Config"/> pour laquelle le <c>ConfigControl</c>
+        /// est créé.</param>
         private void InitCtor(string version, Config inConf)
         {
             logger.ConditionalDebug("InitCtor");
@@ -480,6 +511,7 @@ namespace ColorizationControls
             // set by the higher level, which corresponds to the assembly version.
 
             lblVersion.Text = "Version: " + version;
+
         }
 
         private void ConfigControl_Load(object sender, EventArgs e)
@@ -915,6 +947,31 @@ namespace ColorizationControls
             Debug.Assert((SylConfig)sender == theConf.sylConf);
             UpdateSylButton(e.buttonNr);
         }
+
+        private void checkBoxDierese_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("checkBoxDierese_CheckedChanged: {0}", checkBoxDierese.Checked);
+            theConf.sylConf.chercherDierese = checkBoxDierese.Checked;
+        }
+
+        private void comboBoxNrPieds_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("checkBoxDierese_CheckedChanged: {0}", comboBoxNrPieds.SelectedIndex);
+            theConf.sylConf.nbrPieds = comboBoxNrPieds.SelectedIndex;
+        }
+
+        private void HandleChercherDiereseModified(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("HandleChercherDiereseModified");
+            UpdateChercherDierese();
+        }
+
+        private void HandleNbrPiedsModified(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("HandleNbrPiedsModified");
+            UpdateNrPieds();
+        }
+
 
         //--------------------------------------------------------------------------------------------
         // --------------------------------------- Boutons Duo ---------------------------------------
