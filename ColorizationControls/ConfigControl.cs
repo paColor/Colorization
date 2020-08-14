@@ -271,13 +271,7 @@ namespace ColorizationControls
         private void UpdateNrPieds()
         {
             logger.ConditionalDebug("UpdateNrPieds: {0}", theConf.sylConf.nbrPieds);
-            const string DefaultText = "Auto";
-            string txt = DefaultText;
-            if (theConf.sylConf.nbrPieds != 0)
-            {
-                txt = theConf.sylConf.nbrPieds.ToString();
-            }
-            comboBoxNrPieds.Text = txt;
+            comboBoxNrPieds.SelectedIndex = theConf.sylConf.nbrPieds;
         }
 
         private void UpdateChercherDierese()

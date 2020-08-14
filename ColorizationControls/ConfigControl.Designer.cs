@@ -190,6 +190,8 @@
             this.btSMots = new System.Windows.Forms.Button();
             this.btSAppliquer = new System.Windows.Forms.Button();
             this.groupBoxSyllabes = new System.Windows.Forms.GroupBox();
+            this.cbMuettesSyl = new System.Windows.Forms.CheckBox();
+            this.groupBoxPoesie = new System.Windows.Forms.GroupBox();
             this.comboBoxNrPieds = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxDierese = new System.Windows.Forms.CheckBox();
@@ -197,7 +199,6 @@
             this.rbnPoesie = new System.Windows.Forms.RadioButton();
             this.rbnEcrit = new System.Windows.Forms.RadioButton();
             this.rbnOral = new System.Windows.Forms.RadioButton();
-            this.cbMuettesSyl = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbnStandard = new System.Windows.Forms.RadioButton();
             this.rbnAv2Cons = new System.Windows.Forms.RadioButton();
@@ -224,7 +225,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBoxPoesie = new System.Windows.Forms.GroupBox();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -238,6 +238,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).BeginInit();
             this.cmsEffacerCopier.SuspendLayout();
             this.groupBoxSyllabes.SuspendLayout();
+            this.groupBoxPoesie.SuspendLayout();
             this.grpBEcritOral.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabAvancé.SuspendLayout();
@@ -245,7 +246,6 @@
             this.tabAPropos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBoxPoesie.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbxa
@@ -2188,6 +2188,30 @@
             this.groupBoxSyllabes.Text = "Syllabes";
             this.ttipLettreEnNoir.SetToolTip(this.groupBoxSyllabes, "Paramètres pour la mise \r\nen couleur des syllabes.");
             // 
+            // cbMuettesSyl
+            // 
+            this.cbMuettesSyl.AutoSize = true;
+            this.cbMuettesSyl.Location = new System.Drawing.Point(94, 21);
+            this.cbMuettesSyl.Name = "cbMuettesSyl";
+            this.cbMuettesSyl.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbMuettesSyl.Size = new System.Drawing.Size(111, 17);
+            this.cbMuettesSyl.TabIndex = 172;
+            this.cbMuettesSyl.Text = "Marquer muettes  ";
+            this.cbMuettesSyl.UseVisualStyleBackColor = true;
+            this.cbMuettesSyl.CheckedChanged += new System.EventHandler(this.cbMuettesSyl_CheckedChanged);
+            // 
+            // groupBoxPoesie
+            // 
+            this.groupBoxPoesie.Controls.Add(this.comboBoxNrPieds);
+            this.groupBoxPoesie.Controls.Add(this.label3);
+            this.groupBoxPoesie.Controls.Add(this.checkBoxDierese);
+            this.groupBoxPoesie.Location = new System.Drawing.Point(207, 19);
+            this.groupBoxPoesie.Name = "groupBoxPoesie";
+            this.groupBoxPoesie.Size = new System.Drawing.Size(93, 80);
+            this.groupBoxPoesie.TabIndex = 176;
+            this.groupBoxPoesie.TabStop = false;
+            this.groupBoxPoesie.Text = "Mode poésie";
+            // 
             // comboBoxNrPieds
             // 
             this.comboBoxNrPieds.FormattingEnabled = true;
@@ -2292,18 +2316,6 @@
         "a-chro-nique");
             this.rbnOral.UseVisualStyleBackColor = true;
             this.rbnOral.CheckedChanged += new System.EventHandler(this.rbnOral_CheckedChanged);
-            // 
-            // cbMuettesSyl
-            // 
-            this.cbMuettesSyl.AutoSize = true;
-            this.cbMuettesSyl.Location = new System.Drawing.Point(94, 21);
-            this.cbMuettesSyl.Name = "cbMuettesSyl";
-            this.cbMuettesSyl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.cbMuettesSyl.Size = new System.Drawing.Size(111, 17);
-            this.cbMuettesSyl.TabIndex = 172;
-            this.cbMuettesSyl.Text = "Marquer muettes  ";
-            this.cbMuettesSyl.UseVisualStyleBackColor = true;
-            this.cbMuettesSyl.CheckedChanged += new System.EventHandler(this.cbMuettesSyl_CheckedChanged);
             // 
             // groupBox1
             // 
@@ -2617,18 +2629,6 @@
             this.ttipLettreEnNoir.InitialDelay = 500;
             this.ttipLettreEnNoir.ReshowDelay = 100;
             // 
-            // groupBoxPoesie
-            // 
-            this.groupBoxPoesie.Controls.Add(this.comboBoxNrPieds);
-            this.groupBoxPoesie.Controls.Add(this.label3);
-            this.groupBoxPoesie.Controls.Add(this.checkBoxDierese);
-            this.groupBoxPoesie.Location = new System.Drawing.Point(207, 19);
-            this.groupBoxPoesie.Name = "groupBoxPoesie";
-            this.groupBoxPoesie.Size = new System.Drawing.Size(93, 80);
-            this.groupBoxPoesie.TabIndex = 176;
-            this.groupBoxPoesie.TabStop = false;
-            this.groupBoxPoesie.Text = "Mode poésie";
-            // 
             // ConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2657,6 +2657,8 @@
             this.cmsEffacerCopier.ResumeLayout(false);
             this.groupBoxSyllabes.ResumeLayout(false);
             this.groupBoxSyllabes.PerformLayout();
+            this.groupBoxPoesie.ResumeLayout(false);
+            this.groupBoxPoesie.PerformLayout();
             this.grpBEcritOral.ResumeLayout(false);
             this.grpBEcritOral.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -2669,8 +2671,6 @@
             this.tabAPropos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBoxPoesie.ResumeLayout(false);
-            this.groupBoxPoesie.PerformLayout();
             this.ResumeLayout(false);
 
         }
