@@ -138,6 +138,8 @@
             this.btSauvSauv = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCouleurs = new System.Windows.Forms.TabPage();
+            this.btn47 = new System.Windows.Forms.Button();
+            this.cbx47 = new System.Windows.Forms.CheckBox();
             this.btnill = new System.Windows.Forms.Button();
             this.cbxill = new System.Windows.Forms.CheckBox();
             this.btcLNoir2 = new System.Windows.Forms.Button();
@@ -225,8 +227,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
-            this.btn47 = new System.Windows.Forms.Button();
-            this.cbx47 = new System.Windows.Forms.CheckBox();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -1590,6 +1590,30 @@
             this.tabCouleurs.Text = "Phonèmes";
             this.ttipLettreEnNoir.SetToolTip(this.tabCouleurs, "Configuration pour la colorisation des phonèmes");
             // 
+            // btn47
+            // 
+            this.btn47.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn47.Location = new System.Drawing.Point(267, 256);
+            this.btn47.Name = "btn47";
+            this.btn47.Size = new System.Drawing.Size(61, 25);
+            this.btn47.TabIndex = 170;
+            this.btn47.Text = "0..9";
+            this.ttipLettreEnNoir.SetToolTip(this.btn47, "Formatage pour les chiffres 0 à 9");
+            this.btn47.UseVisualStyleBackColor = true;
+            this.btn47.Click += new System.EventHandler(this.SonButton_Click);
+            // 
+            // cbx47
+            // 
+            this.cbx47.AutoSize = true;
+            this.cbx47.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbx47.Location = new System.Drawing.Point(228, 262);
+            this.cbx47.Name = "cbx47";
+            this.cbx47.Size = new System.Drawing.Size(44, 17);
+            this.cbx47.TabIndex = 169;
+            this.cbx47.Text = "[47]";
+            this.cbx47.UseVisualStyleBackColor = true;
+            this.cbx47.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
+            // 
             // btnill
             // 
             this.btnill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2632,29 +2656,6 @@
             this.ttipLettreEnNoir.AutoPopDelay = 6000;
             this.ttipLettreEnNoir.InitialDelay = 500;
             this.ttipLettreEnNoir.ReshowDelay = 100;
-            // 
-            // btn47
-            // 
-            this.btn47.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn47.Location = new System.Drawing.Point(267, 256);
-            this.btn47.Name = "btn47";
-            this.btn47.Size = new System.Drawing.Size(61, 25);
-            this.btn47.TabIndex = 170;
-            this.btn47.Text = "0..9";
-            this.btn47.UseVisualStyleBackColor = true;
-            this.btn47.Click += new System.EventHandler(this.SonButton_Click);
-            // 
-            // cbx47
-            // 
-            this.cbx47.AutoSize = true;
-            this.cbx47.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbx47.Location = new System.Drawing.Point(228, 262);
-            this.cbx47.Name = "cbx47";
-            this.cbx47.Size = new System.Drawing.Size(44, 17);
-            this.cbx47.TabIndex = 169;
-            this.cbx47.Text = "[47]";
-            this.cbx47.UseVisualStyleBackColor = true;
-            this.cbx47.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
             // ConfigControl
             // 
