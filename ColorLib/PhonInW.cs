@@ -161,8 +161,8 @@ namespace ColorLib
         /// <summary>le son [j] quand il est produit par la lettre i seule devant une voyelle. 
         /// --> 'j'</summary>
         ji,
-        /// <summary>réserve, comme le nom l'indique :-)</summary>
-        reserve4,
+        /// <summary>pour les chiffres 0 .. 9.</summary>
+        chiffre,
         /// <summary>réserve, comme le nom l'indique :-)</summary>
         reserve5,
 
@@ -296,7 +296,8 @@ namespace ColorLib
             { Phonemes._muet,       "" },
             { Phonemes.j_ill,       "j" },
             { Phonemes.i_j_ill,     "ij" },
-            { Phonemes.ji,          "j" },    
+            { Phonemes.ji,          "j" },
+            { Phonemes.chiffre,     "" },
             { Phonemes.firstPhon,   "FIRSTPHON" },
             { Phonemes.lastPhon,    "LASTPHON" }
         };
@@ -316,7 +317,8 @@ namespace ColorLib
         private static List<Phonemes> semiVoyelles = new List<Phonemes> { Phonemes.w,
             Phonemes.J, Phonemes.N, Phonemes.j, Phonemes.j_ill, Phonemes.ji };
 
-        private static List<Phonemes> muet = new List<Phonemes> { Phonemes.verb_3p, Phonemes._muet };
+        private static List<Phonemes> muet = new List<Phonemes> { Phonemes.verb_3p, Phonemes._muet,
+            Phonemes.chiffre};
 
         /// <summary>
         /// Indique si le <c>PhonInW</c> correspond à un son "consonne".

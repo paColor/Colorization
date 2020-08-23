@@ -132,6 +132,7 @@ namespace ColorLib
     ///     {"g",   new string[2] {"[g]",   "gare"      } },
     ///     {"ch",  new string[2] {"[ch]",  "chat"      } },
     ///     {"ij",  new string[2] {"[ij]",  "pria"      } },
+    ///     {"47",  new string[2] {"[47]",  "0..9"      } },
     ///     {"oin", new string[2] {"[oin]", "soin"      } },
     ///     {"_muet", new string[2] {"[#]", "\'muet\'"  } },
     ///     {"q_caduc", new string[2] {"[-]", "e caduc" } }, 
@@ -245,7 +246,7 @@ namespace ColorLib
         /// <summary>
         /// Nombre de sons
         /// </summary>
-        public const int nrSons = 41; // don't forget to increase in case...
+        public const int nrSons = 42; // don't forget to increase in case...
 
         
         /// <summary>
@@ -373,6 +374,7 @@ namespace ColorLib
             {"g",   new List<Phonemes> (2) {Phonemes.g, Phonemes.g_u}},
             {"ij",  new List<Phonemes> (1) {Phonemes.i_j}},
             {"oin", new List<Phonemes> (1) {Phonemes.w_e_tilda}},
+            {"47",  new List<Phonemes> (1) {Phonemes.chiffre}},
             {"_muet",   new List<Phonemes> (2) {Phonemes.verb_3p, Phonemes._muet}},
             {"q_caduc", new List<Phonemes> (1) {Phonemes.q_caduc}}
         };
@@ -417,6 +419,7 @@ namespace ColorLib
             {"g",   new string[2] {"[g]",   "gare"      } },
             {"ch",  new string[2] {"[ch]",  "chat"      } },
             {"ij",  new string[2] {"[ij]",  "pria"      } },
+            {"47",  new string[2] {"[47]",  "0..9"      } },
             {"oin", new string[2] {"[oin]", "soin"      } },
             {"_muet", new string[2] {"[#]", "\'muet\'"  } },
             {"q_caduc", new string[2] {"[-]", "e caduc" } }, 
@@ -945,6 +948,12 @@ namespace ColorLib
                 SetCFSon("ill", CharFormatting.BlackCF);
                 SetChkSon("ill", false);
                 logger.ConditionalDebug("Son \"ill\" initialisé.");
+            }
+            if (!cfSon.ContainsKey("47"))
+            {
+                SetCFSon("47", CharFormatting.BlackCF);
+                SetChkSon("47", false);
+                logger.ConditionalDebug("Son \"47\" initialisé.");
             }
         }
 

@@ -225,6 +225,8 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
+            this.btn47 = new System.Windows.Forms.Button();
+            this.cbx47 = new System.Windows.Forms.CheckBox();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -647,7 +649,7 @@
             // 
             this.cbxge.AutoSize = true;
             this.cbxge.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxge.Location = new System.Drawing.Point(229, 351);
+            this.cbxge.Location = new System.Drawing.Point(228, 351);
             this.cbxge.Name = "cbxge";
             this.cbxge.Size = new System.Drawing.Size(46, 19);
             this.cbxge.TabIndex = 65;
@@ -705,7 +707,7 @@
             // 
             this.cbxn.AutoSize = true;
             this.cbxn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxn.Location = new System.Drawing.Point(229, 320);
+            this.cbxn.Location = new System.Drawing.Point(228, 320);
             this.cbxn.Name = "cbxn";
             this.cbxn.Size = new System.Drawing.Size(39, 19);
             this.cbxn.TabIndex = 60;
@@ -740,7 +742,7 @@
             // 
             this.cbxr.AutoSize = true;
             this.cbxr.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxr.Location = new System.Drawing.Point(229, 290);
+            this.cbxr.Location = new System.Drawing.Point(228, 290);
             this.cbxr.Name = "cbxr";
             this.cbxr.Size = new System.Drawing.Size(36, 19);
             this.cbxr.TabIndex = 57;
@@ -1042,7 +1044,7 @@
             // 
             this.cbxg.AutoSize = true;
             this.cbxg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxg.Location = new System.Drawing.Point(229, 442);
+            this.cbxg.Location = new System.Drawing.Point(228, 442);
             this.cbxg.Name = "cbxg";
             this.cbxg.Size = new System.Drawing.Size(39, 19);
             this.cbxg.TabIndex = 77;
@@ -1065,7 +1067,7 @@
             // 
             this.cbxk.AutoSize = true;
             this.cbxk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxk.Location = new System.Drawing.Point(229, 411);
+            this.cbxk.Location = new System.Drawing.Point(228, 411);
             this.cbxk.Name = "cbxk";
             this.cbxk.Size = new System.Drawing.Size(38, 19);
             this.cbxk.TabIndex = 75;
@@ -1088,7 +1090,7 @@
             // 
             this.cbxch.AutoSize = true;
             this.cbxch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxch.Location = new System.Drawing.Point(229, 381);
+            this.cbxch.Location = new System.Drawing.Point(228, 381);
             this.cbxch.Name = "cbxch";
             this.cbxch.Size = new System.Drawing.Size(45, 19);
             this.cbxch.TabIndex = 73;
@@ -1207,7 +1209,7 @@
             // 
             this.cbxoin.AutoSize = true;
             this.cbxoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxoin.Location = new System.Drawing.Point(229, 229);
+            this.cbxoin.Location = new System.Drawing.Point(228, 232);
             this.cbxoin.Name = "cbxoin";
             this.cbxoin.Size = new System.Drawing.Size(46, 17);
             this.cbxoin.TabIndex = 86;
@@ -1489,6 +1491,8 @@
             // tabCouleurs
             // 
             this.tabCouleurs.BackColor = System.Drawing.SystemColors.Control;
+            this.tabCouleurs.Controls.Add(this.btn47);
+            this.tabCouleurs.Controls.Add(this.cbx47);
             this.tabCouleurs.Controls.Add(this.btnill);
             this.tabCouleurs.Controls.Add(this.cbxill);
             this.tabCouleurs.Controls.Add(this.btGCerasRose);
@@ -2629,6 +2633,29 @@
             this.ttipLettreEnNoir.InitialDelay = 500;
             this.ttipLettreEnNoir.ReshowDelay = 100;
             // 
+            // btn47
+            // 
+            this.btn47.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn47.Location = new System.Drawing.Point(267, 256);
+            this.btn47.Name = "btn47";
+            this.btn47.Size = new System.Drawing.Size(61, 25);
+            this.btn47.TabIndex = 170;
+            this.btn47.Text = "0..9";
+            this.btn47.UseVisualStyleBackColor = true;
+            this.btn47.Click += new System.EventHandler(this.SonButton_Click);
+            // 
+            // cbx47
+            // 
+            this.cbx47.AutoSize = true;
+            this.cbx47.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbx47.Location = new System.Drawing.Point(228, 262);
+            this.cbx47.Name = "cbx47";
+            this.cbx47.Size = new System.Drawing.Size(44, 17);
+            this.cbx47.TabIndex = 169;
+            this.cbx47.Text = "[47]";
+            this.cbx47.UseVisualStyleBackColor = true;
+            this.cbx47.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
+            // 
             // ConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2872,5 +2899,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBoxDierese;
         private System.Windows.Forms.GroupBox groupBoxPoesie;
+        private System.Windows.Forms.Button btn47;
+        private System.Windows.Forms.CheckBox cbx47;
     }
 }

@@ -581,6 +581,7 @@ namespace ColorLibTest.ConfigTest
             Assert.AreEqual(ccw.GetCF("ill"),   ccw.GetCF(Phonemes.j_ill));
             Assert.AreEqual(ccw.GetCF("ill"),   ccw.GetCF(Phonemes.i_j_ill));
             Assert.AreEqual(ccw.GetCF("j"),     ccw.GetCF(Phonemes.ji));
+            Assert.AreEqual(ccw.GetCF("47"),    ccw.GetCF(Phonemes.chiffre));
         }
 
         const string text1 = @"Monsieur Poiret était une espèce de mécanique. En l’apercevant
@@ -759,6 +760,38 @@ namespace ColorLibTest.ConfigTest
             ttt.AssertCF(index + 7, 2, son2CF["n"]);
             ttt.AssertCF(index + 9, 1, son2CF["q_caduc"]);
             ttt.AssertCF(index + 10, 2, son2CF["_muet"]);
+        }
+
+        const string txt47 = 
+            @"Tu approuves 1867 donc mon projet ? dit M. de Rênal2, reme35rciant sa
+              23femme, p45ar un sourire, de l’excellente31 idée qu’elle venait 
+              d’avoir. Allons, voilà qui est déc0123456789idé.";
+
+        [TestMethod]
+        public void TestChiffres()
+        {
+            TestTheText ttt = new TestTheText(txt47);
+            ColConfWin ccw = conf.colors[PhonConfType.phonemes];
+            Dictionary<string, CharFormatting> son2CF = SetTestConfig(ccw);
+
+            ttt.ColorizePhons(conf, PhonConfType.phonemes);
+            int index = ttt.S.IndexOf("1867");
+            ttt.AssertCF(index, 4, son2CF["47"]);
+
+            index = ttt.S.IndexOf("Rênal");
+            ttt.AssertCF(index + 5, son2CF["47"]);
+
+            index = ttt.S.IndexOf("reme35rciant");
+            ttt.AssertCF(index + 4, 2, son2CF["47"]);
+
+            index = ttt.S.IndexOf("23femme");
+            ttt.AssertCF(index, 2, son2CF["47"]);
+
+            index = ttt.S.IndexOf("p45ar");
+            ttt.AssertCF(index + 1, 2, son2CF["47"]);
+
+            index = ttt.S.IndexOf("déc0123456789idé");
+            ttt.AssertCF(index + 3, 10, son2CF["47"]);
         }
 
         [TestMethod]

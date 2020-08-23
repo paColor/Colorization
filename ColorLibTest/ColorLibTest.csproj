@@ -82,6 +82,7 @@
     <Compile Include="PhonWordTest.cs" />
     <Compile Include="PerfParallelTest.cs" />
     <Compile Include="RGBTest.cs" />
+    <Compile Include="ChiffresTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">
