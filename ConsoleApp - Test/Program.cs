@@ -260,9 +260,12 @@ namespace ConsoleApp___Test
                             // Read current line fields, pointer moves to the next line.
                             Mot m = new Mot(csvParser.ReadFields());
                         }
-                        Config conf = new Config();
-                        Mot.EnsureCompleteness(conf, recompute);
-                        Mot.DumpMotsFiltered(excludedFile, outFile);
+
+                        Mot.DumpPourTests(outFile);
+
+                        //Config conf = new Config();
+                        //Mot.EnsureCompleteness(conf, recompute);
+                        //Mot.DumpMotsFiltered(excludedFile, outFile);
                     }
                 }
             }

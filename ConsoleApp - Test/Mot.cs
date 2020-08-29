@@ -55,6 +55,46 @@ namespace ConsoleApp___Test
             }
         }
 
+        public static void DumpPourTests(StreamWriter sw)
+        {
+            const int MaxCperLine = 90;
+            int posLine = 20;
+
+            sw.Write("const string txt = @\"");
+            foreach (Mot m in mots)
+            {
+                sw.Write(m.graphie);
+                sw.Write(" ");
+                posLine += m.graphie.Length + 1;
+                if (posLine > MaxCperLine)
+                {
+                    sw.WriteLine();
+                    posLine = 0;
+                }
+                    
+            }
+            sw.Write("\";");
+            sw.WriteLine();
+            sw.WriteLine();
+            
+            sw.WriteLine(@"string[] phonetique = new string[]");
+            sw.WriteLine(@"{");
+            posLine = 0;
+            foreach (Mot m in mots)
+            {
+                sw.Write("\"");
+                sw.Write(m.col);
+                sw.Write("\", ");
+                posLine += m.col.Length + 4;
+                if (posLine > MaxCperLine)
+                {
+                    sw.WriteLine();
+                    posLine = 0;
+                }
+            }
+            sw.WriteLine(@"};");
+        }
+
         /// <summary>
         /// Écrit l'en-tête du fichier csv.
         /// </summary>
