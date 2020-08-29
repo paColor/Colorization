@@ -72,7 +72,6 @@
     <Compile Include="Dierese\CreerSyllabes.cs" />
     <Compile Include="Dierese\ZonePoemeTest.cs" />
     <Compile Include="Dierese\VersTest.cs" />
-    <Compile Include="ListesMots\TrouveExceptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomRuleTest.cs" />
     <Compile Include="AutomLetterTest.cs" />
