@@ -8,6 +8,7 @@ using Microsoft.VisualBasic.FileIO;
 using System.IO;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using ColorLib.Morphalou;
 
 namespace ConsoleApp___Test
 {
@@ -261,11 +262,9 @@ namespace ConsoleApp___Test
                             Mot m = new Mot(csvParser.ReadFields());
                         }
 
-                        Mot.DumpPourTests(outFile);
-
-                        //Config conf = new Config();
-                        //Mot.EnsureCompleteness(conf, recompute);
-                        //Mot.DumpMotsFiltered(excludedFile, outFile);
+                        Config conf = new Config();
+                        Mot.EnsureCompleteness(conf, recompute, true);
+                        Mot.DumpMotsFiltered(excludedFile, outFile);
                     }
                 }
             }

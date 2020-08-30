@@ -72,7 +72,6 @@
     <Compile Include="Dierese\CreerSyllabes.cs" />
     <Compile Include="Dierese\ZonePoemeTest.cs" />
     <Compile Include="Dierese\VersTest.cs" />
-    <Compile Include="MorphalouTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomRuleTest.cs" />
     <Compile Include="AutomLetterTest.cs" />
@@ -85,6 +84,7 @@
     <Compile Include="PerfParallelTest.cs" />
     <Compile Include="RGBTest.cs" />
     <Compile Include="ChiffresTest.cs" />
+    <Compile Include="TestMorphalou.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">

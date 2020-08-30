@@ -152,7 +152,7 @@ namespace ColorLib
 						'dmuet':[{'+':/(s?)$/i},'_muet',1], // un d suivi éventuellement d'un s ex. : retards
 						'apostrophe':[{'+':/('|’)/i},'d',2], // apostrophe
 						'*':[{},'d',1]}],
-				'e' : [['conj_v_ier','uient','ien','ien_2','een','except_en','_ent','clef','hier','adv_emment_fin',
+				'e' : [['conj_v_ier','uient','ien_0','ien','ien_2','een','except_en','_ent','clef','hier','adv_emment_fin',
 						'ment','imparfait','verbe_3_pluriel','au',
 						'eu_final','avoir','monsieur','jeudi','jeu_','eux','eur','eu','eu_accent_circ','in','eil','y','iy','ennemi','enn_debut_mot','dessus_dessous',
 						'et','cet','t_final','eclm_final','est','d_except','drz_final','n','adv_emment_a','femme','lemme','em_gene','nm','tclesmesdes',
@@ -174,7 +174,8 @@ namespace ColorLib
 						'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
 						'except_en':[{'-':/(exam|mino|édu)/i,'+':/n(s?)$/i},'e_tilda',2], // exceptions des mots où le 'en' final se prononce [e_tilda] (héritage latin)
 						'een':[{'-':/é/i,'+':/n(s?)$/i},'e_tilda',2], // les mots qui se terminent par 'éen'
-						'ien':[{'-':/[bcdlmrstvh]i/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
+						'ien_0':[{'-':/ni/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient
+						'ien':[{'-':/[bcdlmnrstvh]i/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 						'ien_2':[{'-':/ï/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // mots avec 'ïen' => son [e_tilda]
 						'nm':[{'+':/[nm]$/i},'a_tilda',2],
 						'd_except': [{'-':/(^bl|^ou|^damn)/i, '+':/d(s?)$/i},'E',1], // [PAE 22.02.20] pour covrir oued, bled, damned
@@ -381,7 +382,7 @@ namespace ColorLib
 							{'sch':[{'+':/ch/i},'S',3], // schlem
 							'h':[{'+':/h/i},'S',2],
 							's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
-							'z':[{'-':/[aeiyouéèàüûùëöêîô]/i,'+':/[aeiyouéèàüûùëöêîô]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
+							'z':[{'-':/[aeiyouéèàâüûùëöêîô]/i,'+':/[aeiyouéèàâüûùëöêîô]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 							'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*
 							'para':[{'-':/para/i},'s',1], // para quelque chose (parasol, parasismique, ...)
 							's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]

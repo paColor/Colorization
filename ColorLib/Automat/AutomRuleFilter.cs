@@ -314,7 +314,8 @@ namespace ColorLib
         
         //Règle spécifique de traitement des successions de lettres finales 'ient'
         //sert à savoir si la séquence 'ient' se prononce [i][_muet] ou [j][e_tilda]
-        // pour nous, pos_mot correspond à la position de la lettre examinéée. Chez Marie-Pierre, c'est la position après la lettre examinée.
+        // pour nous, pos_mot correspond à la position de la lettre examinéée. Chez Marie-Pierre, 
+        // c'est la position après la lettre examinée.
 
         // Précondition: mot est en minuscules
 
