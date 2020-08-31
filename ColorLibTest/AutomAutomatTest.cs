@@ -187,7 +187,7 @@ namespace ColorLibTest
 				  tranquillos, désillusionné, distiller, illogisme, illustraient, illégalement, illumineront, imbécillité,
 				  instillassiez, millésime, millionnaire, multimilliardaires, multimillionnaire, villégiature, villageoises,
 				  villa,
-				  examen, minoen, gastroentérologue, électroencéphalographie";
+				  examen, minoen, gastroentérologue, électroencéphalographie, acclamation";
 
 			string[] phonetique = new string[]
 			{
@@ -196,7 +196,7 @@ namespace ColorLibTest
 				"lilipysj5", "milimetRe", "distil°RE", "tR@kiliz", "tR@kilite", "tR@kiliz@t", "tR@kilOs", "dezilyzjOne",
 				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnER",
 				"myltimiljaRdER", "myltimiljOnER", "vileZjatyR", "vilaZwaz", "vila",
-				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi"
+				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi", "aklamasj§"
 			};
 			CheckTextVsPhonetique(txt, phonetique, ColConfWin.IllRule.lirecouleur);
 		}

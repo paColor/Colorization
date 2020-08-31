@@ -249,21 +249,23 @@ namespace ColorLib
 							'*':[{},'g',1]}],
 					'h' : [['*'],
 							{'*':[{},'_muet',1]}],
-					'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill','mill2','tranquille',
-							'ill','except_ill','ill_Ceras', '@ill','@il','ll','@il_Ceras','ll_Ceras','ui','ient_1','ient_2','ie','i_voyelle', '*'],
+					'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill2','tranquille',
+							'ill','except_ill','bacille','ill_Ceras', '@ill','@il','ll','@il_Ceras',
+							'll_Ceras','ui','ient_1','ient_2','ie','i_voyelle', '*'],
 							{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng$/i},'i',1],
 							'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
 							'm':[{'+':/m[bcçdfghjklnpqrstvwxz]/i},'e_tilda',2],
 							'nm':[{'+':/[n|m]$/i},'e_tilda',2],
 							'prec_2cons':[{'-':/[ptkcbdgfv][lr]/i, '+':/[aäâeéèêëoôöuù]/i},'i_j',1], // précédé de 2 consonnes (en position 3), doit apparaître comme [ij] [PAE 20.02.20: rajouté les voyelles]
 							'lldeb':[{'-':/^/i,'+':/ll/i},'i',1],
-							'vill':[{'-':/v/i,'+':/ll/i},'i',1],
-							'mill':[{'-':/m/i,'+':/ll/i},'i',1,IllLireCouleur],
+							'vill':[{'-':/v/i,'+':/ll/i},'i',1,IllCeras],
+							//'mill':[{'-':/m/i,'+':/ll[^(et)]/i},'i',1,IllLireCouleur],
 							'mill2':[{'-':/^m/i,'+':/ll[^(et)]/i},'i',1,IllCeras],
 							'tranquille' : [{'-':/tranqu/i,'+':/ll/i},'i',1,IllCeras],
 							'ill':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i',1,IllLireCouleur], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
 							'ill_Ceras':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i_j_ill',3,IllCeras], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
 							'except_ill':[this.Regle_ill,'i',1], // PAE - 07.05.20
+							'bacille':[{'-':/(bac|dist|inst)/i,'+':/ll/i},'i',1], // il y tant de mots contenant 'bacill'... et les verbes...
 							'@ill':[{'-':/[aeoœ]/i,'+':/ll/i},'j',3,IllLireCouleur], // par défaut précédé d'une voyelle et suivi de 'll' donne le son [j]
 							'@il':[{'-':/[aeouœ]/i,'+':/l(s?)$/i},'j',2,IllLireCouleur], // par défaut précédé d'une voyelle et suivi de 'l' donne le son [j]
 							'@il_Ceras':[{'-':/[aeouœ]/i,'+':/l(s?)$/i},'j_ill',2, IllCeras], // par défaut précédé d'une voyelle et suivi de 'l' donne le son [ill]
@@ -285,12 +287,14 @@ namespace ColorLib
 							{'*':[{},'Z',1]}],
 					'k' : [['*'],
 							{'*':[{},'k',1]}],
-					'l' : [['vill','mill','tranquille','illdeb','except_ill_l','ill','eil','ll','excep_il', 'apostrophe','lisole', '*'],
+					'l' : [['vill','mill','tranquille','illdeb','except_ill_l','bacille','ill','eil','ll','excep_il', 'apostrophe','lisole', '*'],
 							{'vill':[{'-':/^vi/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
-							'mill':[{'-':/^mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
+							//'mill':[{'-':/^mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
+							'mill':[{'-':/mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
 							'tranquille':[{'-':/tranqui/i,'+':/l/i},'l',2], // tranquille => son [l]
 							'illdeb':[{'-':/^i/i,'+':/l/i},'l',2], // 'ill' en début de mot = son [l] ; exemple : illustration
 							'except_ill_l':[this.Regle_ill,'l',2],
+							'bacille':[{'-':/(baci|disti|insti)/i,'+':/l/i},'l',2],
 							'lisole':[{'+':/$/i,'-':/^/i},'l',1], // exemple : l'animal
 							'ill':[{'-':/.i/i,'+':/l/i},'j',2], // par défaut, 'ill' donne le son [j]
 							'll':[{'+':/l/i},'l',2], // à défaut de l'application d'une autre règle, 'll' donne le son [l]
@@ -378,7 +382,9 @@ namespace ColorLib
 							'r':[{'+':/r/i},'R',2],
 							'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 							'*':[{},'R',1]}],
-					's' : [['sch','h','s_final','parasit','para','mars','s','z','sisole','smuet','apostrophe', '@', '*'],
+					's' : [['sch','h','s_final','parasit','para','mars','s','z','sisole',
+							// 'smuet',
+							'apostrophe', '@', '*'],
 							{'sch':[{'+':/ch/i},'S',3], // schlem
 							'h':[{'+':/h/i},'S',2],
 							's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
@@ -388,18 +394,22 @@ namespace ColorLib
 							's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
 							'sisole':[{'+':/$/i,'-':/^/i},'s',1], // exemple : s'approche
 							'mars':[{'+':/$/i,'-':/mar/i},'s',1], // mars
-							'smuet':[{'-':/(e?)/i,'+':/$/i},'_muet',1], // un s en fin de mot éventuellement précédé d'un e ex. : correctes
+							//'smuet':[{'-':/(e?)/i,'+':/$/i},'_muet',1], // un s en fin de mot éventuellement précédé d'un e ex. : correctes
 							'apostrophe':[{'+':/('|’)/i},'s',2], // apostrophe
 							'*':[{},'s',1],
 							'@':[{'+':/$/i},'_muet',1]}],
-					't' : [['t','tisole','except_tien','_tien','cratie','vingt','tion',
+					't' : [['t_deb','t','tisole','except_tien','_tien','ex_tie','tie','ex_tiot','tiaot','tiaos','vingt',
 							'ourt','_inct','_spect','_ct','_est','t_final','tmuet','apostrophe', '@', '*'],
 							{'t':[{'+':/t/i},'t',2],
+							't_deb':[{'-':/^/i},'t',1],
 							'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
 							'_tien':[{'+':/ien/i},'s_t',1],
-							'cratie':[{'-':/cra/i,'+':/ie/i},'s_t',1],
+							'ex_tie':[{'-':/minu/i,'+':/ie(r|z)/i},'t',1],
+							'tie':[{'-':/(ambi|albu|cra|lvi|^essen|idio|iner|ini|minu|ipé|oten|phé)/i,'+':/ie/i},'s_t',1],
+							'ex_tiot':[{'-':/(cré|plé|jé)/i,'+':/i[ao]/i},'s_t',1],
+							'tiaot':[{'-':/([eéèêës]|[sc]en|an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io])/i,'+':/i[ao]/i},'t',1],
+							'tiaos':[{'+':/i[ao]/i},'s_t',1],
 							'vingt':[{'-':/ving/i,'+':/$/i},'t',1], // vingt mais pas vingts
-							'tion':[{'+':/ion/i},'s_t',1],
 							'tisole':[{'+':/$/i,'-':/^/i},'t',1], // exemple : demande-t-il
 							'ourt':[{'-':/(a|h|g)our/i,'+':/$/i},'t',1], // exemple : yaourt, yoghourt, yogourt
 							'_est':[{'-':/es/i,'+':/(s?)$/i},'t',1], // test, ouest, brest, west, zest, lest
