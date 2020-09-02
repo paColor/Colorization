@@ -147,6 +147,100 @@ namespace ColorLib.Morphalou
             return toReturn;
         }
 
+        /// <summary>
+        /// Retourne la liste des versions de <paramref name="s"/> où il manque un '°'
+        /// </summary>
+        /// <param name="s">Le <c>string</c> à raccourcir.</param>
+        /// <returns>Un eliste de strings correspondant à <paramref name="s"/> raccourci
+        /// d'un '°'. La liste est vide s'il n'en contient pas.</returns>
+        private static List<string> RemoveSchwas(string s)
+        {
+            List<string> toReturn = new List<string>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == '°')
+                {
+                    string subS = s.Remove(i, 1);
+                    toReturn.Add(subS);
+                }
+            }
+            return toReturn;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="graphie"></param>
+        /// <param name="ph1">La représentation phonétique morphalou</param>
+        /// <param name="col">La représentation phonétique de colorization</param>
+        /// <returns></returns>
+        private static bool AreEqualButSchwa(string graphie, string ph1, string col)
+        {
+            List<string> sL = RemoveSchwas(ph1);
+            foreach (string sampa in sL)
+            {
+                if (AreMatch(graphie, sampa, col))
+                    return true;
+            }
+
+            sL = RemoveSchwas(col);
+            foreach (string c in sL)
+            {
+                if (AreMatch(graphie, ph1, c))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="graphie"></param>
+        /// <param name="ph1">La représentation phonétique morphalou</param>
+        /// <param name="col">La représentation phonétique de colorization</param>
+        /// <returns></returns>
+        private static bool AreMatch(string graphie, string ph1, string col)
+        {
+            if (String.IsNullOrEmpty(ph1))
+                return false; // col vide ne nous intéresse de toute façon pas.
+            
+            if (ph1 == col)
+                return true;
+            
+            // s'il s'agit d'un 'b' qu'on peut prononcer 'p'
+            List<int> diffs;
+            bool equality = AreEqualPhon(ph1, col, out diffs);
+            Debug.Assert(!equality);
+            foreach (int pos in diffs)
+            {
+                if (pos < graphie.Length
+                    && graphie[pos] == 'b' // il est clair que l'index dans grpahie peut vite diverger
+                    && pos < ph1.Length
+                    && ph1[pos] == 'p'
+                    && pos < col.Length
+                    && col[pos] == 'b')
+                {
+                    return true;
+                };
+
+                if (pos > 0 && pos < col.Length
+                    && col[pos] == col[pos - 1])
+                {
+                    // La version colorization double parfois certains sons, ce qui n'est pas un problème
+                    // quand on colorise. 
+                    if (AreMatch(graphie, ph1, col.Remove(pos, 1)))
+                        return true;
+                }
+
+            }
+
+            if (AreEqualButSchwa(graphie, ph1, col))
+                return true;
+            // La récursion ne doit pas se faire plus d'une fois
+
+            return false;
+        }
+
         // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
         // * * * * * * * * * * * * * * *   I N S T A N T I A T E D   * * * * * * * * * * * * * * *
         // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -300,91 +394,18 @@ namespace ColorLib.Morphalou
             }
         }
 
-        /// <summary>
-        /// Retourne <paramref name="s"/> sans son premier '°'
-        /// </summary>
-        /// <param name="s">Le <c>string</c> à raccourcir.</param>
-        /// <returns><paramref name="s"/> raccourci de son premier '°' ou
-        /// <paramref name="s"/> s'il n'en contient pas.</returns>
-        private string RemoveFirstSchwa(string s)
-        {
-            int index = s.IndexOf('°');
-            if (index < 0)
-            {
-                return s;
-            }
-            else
-            {
-                return s.Remove(index, 1);
-            }
-        }
-
-        private bool AreEqualButSchwa1(string s1, string s2)
-        {
-            if (RemoveFirstSchwa(s1) == s2)
-                return true;
-            else
-                return s1 == RemoveFirstSchwa(s2);
-        }
-
         private bool Match()
         {
             if (graphie.Contains(" ")
                 || graphie.Contains("-")
                 || graphie.Contains(@"'")
                 || graphie.Contains(@".")
-                || col == sampa1
-                || col == sampa2
                )
             {
                 return true;
             }
-
-            // Seulement un '°' de différence?
-            else if (AreEqualButSchwa1(sampa1, col))
-                return true;
-            else if (AreEqualButSchwa1(sampa2, col))
-                return true;
-
-            else
-            {
-                // s'il s'agit d'un 'b' qu'on peut prononcer 'p'
-                List<int> diffs;
-                bool equality = AreEqualPhon(sampa1, col, out diffs);
-                Debug.Assert(!equality);
-                if (diffs.Count == 1)
-                {
-                    int pos = diffs[0];
-                    if (pos < graphie.Length
-                        && graphie[pos] == 'b' // il est clair que l'index dans grpahie peut vite diverger
-                        && pos < sampa1.Length
-                        && sampa1[pos] == 'p'
-                        && pos < col.Length
-                        && col[pos] == 'b')
-                    {
-                        return true;
-                    };
-                }
-                equality = AreEqualPhon(sampa2, col, out diffs);
-                Debug.Assert(!equality);
-                if (diffs.Count == 1)
-                {
-                    int pos = diffs[0];
-                    if (pos < graphie.Length
-                        && graphie[pos] == 'b' // il est clair que l'index dans grpahie peut vite diverger
-                        && pos < sampa2.Length
-                        && sampa2[pos] == 'p'
-                        && pos < col.Length
-                        && col[pos] == 'b')
-                    {
-                        return true;
-                    };
-                }
-            }
-            return false;
+            return AreMatch(graphie, sampa1, col) || AreMatch(graphie, sampa2, col);
         }
-
-
 
     }
 }

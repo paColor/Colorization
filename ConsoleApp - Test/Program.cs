@@ -18,7 +18,7 @@ namespace ConsoleApp___Test
         const string path = @"F:\Utilisateurs\Papa\Divers\Colorization\Morphalou\csv\";
         const string fullName = path + @"morphalou.csv";
         const string fullOutFName = path + @"morphalouFiltre.csv";
-        const string fullFilteredOutFN = path + @"morphaplouExclus.csv";
+        const string fullFilteredOutFN = path + @"morphalouExclus.csv";
 
         private static void ExclutMotsComposes()
         {

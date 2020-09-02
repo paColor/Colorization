@@ -155,7 +155,7 @@ namespace ColorLib
 				'e' : [['conj_v_ier','uient','ien_0','ien','ien_2','een','except_en','_ent','clef','hier','adv_emment_fin',
 						'ment','imparfait','verbe_3_pluriel','au',
 						'eu_final','avoir','monsieur','jeudi','jeu_','eux','eur','eu','eu_accent_circ','in','eil','y','iy','ennemi','enn_debut_mot','dessus_dessous',
-						'et','cet','t_final','eclm_final','est','d_except','drz_final','n','adv_emment_a','femme','lemme','em_gene','nm','tclesmesdes',
+						'et','cet','t_final','eclm_final','est','d_except','drz_final','zen','n','adv_emment_a','femme','lemme','em_gene','nm','tclesmesdes',
 						'que_isole','que_gue_final','jtcnslemede','jean','ge','eoi','ex','ef','reqquechose','except_evr','2consonnes','abbaye','e_muet','e_caduc','e_deb', '@', '*'],
 						{'_ent':[this.Regle_mots_ent,'a_tilda',2], // quelques mots (adverbes ou noms) terminés par ent
 						'adv_emment_fin':[{'-':/emm/i,'+':/nt/i},'a_tilda',2], // adverbe avec 'emment' => se termine par le son [a_tilda]
@@ -177,6 +177,7 @@ namespace ColorLib
 						'ien_0':[{'-':/ni/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient
 						'ien':[{'-':/[bcdlmnrstvh]i/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 						'ien_2':[{'-':/ï/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // mots avec 'ïen' => son [e_tilda]
+						'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
 						'nm':[{'+':/[nm]$/i},'a_tilda',2],
 						'd_except': [{'-':/(^bl|^ou|^damn)/i, '+':/d(s?)$/i},'E',1], // [PAE 22.02.20] pour covrir oued, bled, damned
 						'drz_final':[{'+':/[drz](s?)$/i},'e_comp',2], // e suivi d'un d,r ou z en fin de mot done le son [e]
