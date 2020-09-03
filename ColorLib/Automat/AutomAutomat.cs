@@ -545,7 +545,7 @@ namespace ColorLib
         }
 
 		/// <summary>
-		/// Cherche les phonèmes dans <c>pw</c> et les complète <c>pw</c> pour qu'il contienne l'information.
+		/// Cherche les phonèmes dans <c>pw</c> et complète <c>pw</c> pour qu'il contienne l'information.
 		/// </summary>
 		/// <param name="pw">Le <see cref="PhonWord"/> à analyser et à compléter avec ses phonèmes.</param>
 		/// <param name="conf">La <see cref="Config"/> à utiliser au cours de cette analyse.</param>

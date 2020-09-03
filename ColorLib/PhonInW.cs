@@ -377,17 +377,39 @@ namespace ColorLib
         }
 
         public string Phon2String() => lexMap[P];
-            // Retourne la correspondance "Lexique" (voir lexique.org) du phonème.
+        // Retourne la correspondance "Lexique" (voir lexique.org) du phonème.
 
+        /// <summary>
+        /// Crée un <see cref="PhonInW"/> et l'ajoute à la liste des phonèmes de 
+        /// <paramref name="inW"/>
+        /// </summary>
+        /// <param name="inW">Le <see cref="PhonWord"/> à l'intérieur duquel se trouve le 
+        /// <see cref="PhonInW"/></param>
+        /// <param name="inBeg">Position dans le mot (<paramref name="inW"/>) de la première
+        /// lettre qui correspond au phonème. 0 correspond à la première lettre du mot.</param>
+        /// <param name="inEnd">Position dans le mot (<paramref name="inW"/>) de la dernière
+        /// lettre qui correspond au phonème. 0 correspond à la première lettre du mot.</param>
+        /// <param name="inP">Le phonème</param>
+        /// <param name="ruleName">La règle qui a détecté le phonème.</param>
         public PhonInW(PhonWord inW, int inBeg, int inEnd, Phonemes inP, string ruleName)
-            // inBeg and inEnd are relative to inW!
             : base(inW.T, inW.First+ inBeg, inW.First + inEnd)
         {
             PW = inW;
             P = inP;
             firedRuleName = ruleName;
+            inW.AddPhon(this);
         }
 
+        /// <summary>
+        /// Crée un <see cref="PhonInW"/>. Il n'est PAS ajouté à la liste des phonèmes du mot.
+        /// </summary>
+        /// <param name="inW">Le <see cref="PhonWord"/> à l'intérieur duquel se trouve le 
+        /// <see cref="PhonInW"/></param>
+        /// <param name="inBeg">Postion dans le <see cref="TheText"/> de base, de la première   
+        /// lettre correspondant au phonème.</param>
+        /// <param name="inEnd">Postion dans le <see cref="TheText"/> de base, de la dernière   
+        /// lettre correspondant au phonème.</param>
+        /// <param name="inP">Le phonème</param>
         public PhonInW(PhonWord inW, int inBeg, int inEnd, Phonemes inP)
             // inBeg and inEnd are relative to the original TheText!
             : base(inW.T, inBeg, inEnd)

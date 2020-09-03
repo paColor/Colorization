@@ -201,7 +201,6 @@ namespace ColorLib
             if (found) 
             {
                 PhonInW piw = new PhonInW(pw, pos, pos + incr - 1, p, RuleName);
-                pw.AddPhon(piw);
                 pos = pos + incr;
             }
             return found;

@@ -28,7 +28,7 @@ namespace ColorLib.Morphalou
         // La notation exacte utilisés par Colorization dans la production d'une visualisation phonétique
         // d'un mot, sont spécifiés dans PhonInW.cs
 
-        public static Dictionary<string, string> Lex2ColSimpl = new Dictionary<string, string>()
+        private static Dictionary<string, string> Lex2ColSimpl = new Dictionary<string, string>()
         {
             {"a","a" },
             {"i","i" },
@@ -69,9 +69,9 @@ namespace ColorLib.Morphalou
             {"G","G" }
         };
 
-        public static Dictionary<string, string> Col2ColSimpl = Lex2ColSimpl;
+        private static Dictionary<string, string> Col2ColSimpl = Lex2ColSimpl;
 
-        public static Dictionary<string, string> Sampa2ColSimpl = new Dictionary<string, string>()
+        private static Dictionary<string, string> Sampa2ColSimpl = new Dictionary<string, string>()
         {
             { "p", "p" },
             { "b", "b" },
@@ -105,7 +105,7 @@ namespace ColorLib.Morphalou
             { "y", "y" },
             { "2", "2" },
             { "9", "2" },
-            { "6", "2" },
+            { "6", "2" }, // 6 est parfois utilisé autrement :-(
             { "@", "°" },
             { "e~", "5" },
             { "a~", "@" },
@@ -114,6 +114,80 @@ namespace ColorLib.Morphalou
             { "E/", "E" },
             { "O/", "O" },
         };
+
+        /// <summary>
+        /// Traduction de la représentation ColSimpl étendue (ça devient un peu compliqué) vers les 
+        /// phonèmes utilisés par PhonInW et PhonWord.
+        /// Extensions: 
+        ///     "#" pour muet, 
+        ///     "ç" pour e caduc, 
+        ///     "4" pour les chiffres, 
+        ///     "3" pour oin, 
+        ///     "6" pour oi, 
+        ///     "x" pour ks, 
+        ///     "X" pour gz,
+        ///     "%" pour ill
+        ///     "/" pour ij
+        /// 
+        /// </summary>
+        private static Dictionary<string, Phonemes> son2phoneme = new Dictionary<string, Phonemes>() // don't forget to increase in case...
+        {
+            {"a",   Phonemes.a},
+            {"°",   Phonemes.q},
+            {"i",   Phonemes.i},
+            {"y",   Phonemes.y},
+            {"1",   Phonemes.x_tilda},
+            {"u",   Phonemes.u},
+            {"e",   Phonemes.e},
+            {"o",   Phonemes.o},
+            {"E",   Phonemes.E},
+            {"@",   Phonemes.a_tilda}, // an
+            {"§",   Phonemes.o_tilda}, // on
+            {"2",   Phonemes.x2},
+            {"6",   Phonemes.oi}, // oi
+            {"5",   Phonemes.e_tilda},
+            {"w",   Phonemes.w},
+            {"j",   Phonemes.j},
+            {"%",   Phonemes.j_ill}, // ill
+            {"N",   Phonemes.J}, // ng
+            {"G",   Phonemes.N}, // gn
+            {"l",   Phonemes.l},
+            {"v",   Phonemes.v},
+            {"f",   Phonemes.f},
+            {"p",   Phonemes.p},
+            {"b",   Phonemes.b},
+            {"m",   Phonemes.m},
+            {"z",   Phonemes.z},
+            {"s",   Phonemes.s},
+            {"t",   Phonemes.t},
+            {"d",   Phonemes.d},
+            {"x",   Phonemes.ks}, // ks
+            {"X",   Phonemes.gz}, // gz
+            {"R",   Phonemes.R},
+            {"n",   Phonemes.n},
+            {"Z",   Phonemes.Z}, // ge
+            {"S",   Phonemes.S}, // ch
+            {"k",   Phonemes.k},
+            {"g",   Phonemes.g},
+            {"/",   Phonemes.i_j},
+            {"3",   Phonemes.w_e_tilda}, // oin
+            {"4",   Phonemes.chiffre},
+            {"#",   Phonemes._muet},
+            {"ç",   Phonemes.q_caduc}
+        };
+
+        /// <summary>
+        /// Retourne le phonèmes correspondant au son <paramref name="s"/> de la notation
+        /// ColSimpl étendue.
+        /// </summary>
+        /// <param name="s">Un son de la notation ColSimpl étendue.</param>
+        /// <returns>Le phonème correspondant.</returns>
+        /// <exception cref="KeyNotFoundException">Si <paramref name="s"/> n'est pas un son
+        /// connu.</exception>
+        public static Phonemes Son2phon(String s)
+        {
+            return son2phoneme[s];
+        }
 
         /// <summary>
         /// Retourne la représentation Colorization simplifiée de la représentation SAMPA
