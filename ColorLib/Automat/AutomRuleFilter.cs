@@ -50,7 +50,8 @@ namespace ColorLib
             {"Regle_ierConjI", Regle_ierConjI },
             {"Regle_ierConjE", Regle_ierConjE },
             {"Regle_VerbesTier", Regle_VerbesTier },
-            {"Regle_MotsUM", Regle_MotsUM }
+            {"Regle_MotsUM", Regle_MotsUM },
+            {"Regle_X_Final", Regle_X_Final }
         };
 
         private CheckRuleFunction crf;
@@ -220,8 +221,6 @@ namespace ColorLib
                     noms_ai_hashed.Add(noms_ai[i], null);
                 for (int i = 0; i < avoir_eu.Length; i++)
                     avoir_eu_hashed.Add(avoir_eu[i], null);
-                for (int i = 0; i < mots_s_final.Length; i++)
-                    mots_s_final_hashed.Add(mots_s_final[i], null);
                 for (int i = 0; i < mots_d_final.Length; i++)
                     mots_d_final_hashed.Add(mots_d_final[i], null);
                 for (int i = 0; i <except_ill.Length; i++)
@@ -297,25 +296,11 @@ namespace ColorLib
             bool toReturn = false;
             if (pos >= mot.Length - 4) // checking i or e from the "ient" any previous letter in the word would not fit.
             {
-                if (rxConsIent.IsMatch(mot)) // le mot doit se terminer pas par 'ient' (précédé d'une consonne)
+                if (rxConsIent.IsMatch(mot)) // le mot doit se terminer par 'ient' (précédé d'une consonne)
                 {
                     // il faut savoir si le mot est un verbe dont l'infinitif se termine par 'ier' ou non
-                    //string pseudo_infinitif = ChaineSansAccents(mot.Substring(0, mot.Length - 2) + 'r');
-                    string pseudo_infinitif = mot.Substring(0, mot.Length - 2) + 'r';
-                    toReturn = verbes_ier.Contains(pseudo_infinitif);
+                    toReturn = verbes_ier.Contains(mot.Substring(0, mot.Length - 2) + 'r');
                 }
-
-                // Je ne comprends pas le code suivant car je n'ai pas trouve le code de pretraitement de texte.
-                // Un déterminant élidé serait un l'. Je ne vois pas bien quand on aurait un cas pareil. Ca dépend de la coupure en mots
-                // et il paraît logique de couper "l'animal" en "l'" et "animal"... A voir...
-                //
-                //pseudo_infinitif = chaine_sans_accent(mot).substring(0, mot.length - 2) + 'r';
-                //if ((pseudo_infinitif.length > 1) && (pseudo_infinitif[1] == '@'))
-                //{
-                //    // mot précédé d'un déterminant élidé - codage de l'apostrophe : voir pretraitement_texte
-                //    pseudo_infinitif = pseudo_infinitif.slice(2);
-                //}
-                //return (verbes_ier.indexOf(pseudo_infinitif) >= 0);
             }
             return toReturn;
         }
@@ -456,17 +441,64 @@ namespace ColorLib
             "rythmer","reaccoutumer","reaffirmer","reanimer","rearmer","reassumer","reclamer",
             "reimprimer","reprimer","resumer","retamer","semer","slalomer","sommer",
             "sublimer","supprimer","surestimer","surnommer","tramer","transformer",
-            "trimer","zoomer","ecremer","ecumer","elimer", "dormer" // "dormer" est là pour intercepter le cas de ils/elles dorment
+            "trimer","zoomer","ecremer","ecumer","elimer", "acarêmer",
+            "dormer" // "dormer" est là pour intercepter le cas de ils/elles dorment
         };
 
-        /*
-         * Règle spécifique de traitement des successions de lettres 'ment'
-         * sert à savoir si le mot figure dans les mots qui se prononcent a_tilda à la fin
-         * on vérifie s'il s'agit d'un verbe en mer. Si c'est le cas on retourne false sinon true
-         * on considère que les mots terminés par 'ment' se prononcent [a_tilda] sauf s'il s'agit d'un verbe
-         * 
-         * Précondition: mot est en minuscules
-         */
+        /// <summary>
+        /// Liste "complète" des verbes en "mer"
+        /// </summary>
+        private static HashSet<string> verbes_mer_Morphalou = new HashSet<string>
+        {
+            "abimer",
+            "abîmer", "acclamer", "accoutumer", "affamer", "affermer", "affirmer", "aimer", "alarmer",
+            "allumer", "amalgamer", "amertumer", "anagrammer", "animer", "apostumer", "approximer",
+            "armer", "arrimer", "assommer", "assumer", "bitumer", "blasphémer", "blâmer", "boumer",
+            "bramer", "brimer", "brumer", "calmer", "charmer", "chaumer", "chimer", "chloroformer",
+            "chromer", "chômer", "clairsemer", "clamer", "comprimer", "confirmer", "conformer",
+            "consommer", "consumer", "cramer", "crémer", "damer", "desquamer", "diadémer", "diaphragmer",
+            "diffamer", "difformer", "diplômer", "dirimer", "décarêmer", "décharmer", "déchaumer",
+            "décimer", "déclamer", "décomprimer", "déflegmer", "déformer", "dégermer", "dégommer",
+            "dégrimer", "dénommer", "déplumer", "déprimer", "désaccoutumer", "désaimer", "désarmer",
+            "désenrhumer", "dîmer", "effumer", "embaumer", "embrumer", "empaumer", "emplumer",
+            "enfermer", "enflammer", "enfumer", "enrhumer", "ensimer", "entamer", "enthousiasmer",
+            "entrefermer", "envenimer", "escrimer", "espalmer", "essaimer", "estimer", "exclamer",
+            "exhumer", "exprimer", "fermer", "filmer", "former", "frimer", "fumer", "gemmer",
+            "germer", "gommer", "gourmer", "grimer", "humer", "imprimer", "infirmer", "informer",
+            "inhumer", "intimer", "lamer", "larmer", "limer", "légitimer", "maximer", "microfilmer",
+            "millésimer", "mimer", "mésestimer", "nommer", "opprimer", "palmer", "parfumer",
+            "parsemer", "paumer", "pommer", "primer", "proclamer", "programmer", "préformer",
+            "prénommer", "présumer", "rallumer", "ramer", "ranimer", "refermer", "reformer",
+            "remplumer", "renfermer", "renflammer", "renommer", "rimer", "rythmer", "réaccoutumer",
+            "réaffirmer", "réanimer", "réarmer", "réclamer", "rédimer", "réformer", "réimprimer",
+            "réprimer", "résumer", "rétamer", "semer", "slalomer", "sommer", "sublimer", "subsumer",
+            "supprimer", "surcomprimer", "surestimer", "surnommer", "tomer", "tramer", "transformer",
+            "transhumer", "trimer", "vacarmer", "victimer", "vidimer", "écimer", "écrémer", "écumer",
+            "élimer", "étamer", "éverdumer", "défumer", "flammer", "groomer", "groumer", "infamer",
+            "mésaimer", "minimer", "pseudonymer", "raccoutumer", "réaimer", "reconfirmer", "réentamer",
+            "rentamer", "ressemer", "retransformer", "sous", "affermer", "sous", "estimer", "surimprimer",
+            "sursemer", "termer", "aramer", "arimer", "autoallumer", "autoconsommer", "autoformer",
+            "autoproclamer", "barémer", "biotransformer", "boffumer", "bromer", "camer", "chêmer",
+            "coanimer", "coexprimer", "costumer", "débitumer", "débromer", "déchromer", "dédamer",
+            "défrimer", "délégitimer", "déparfumer", "déprogrammer", "dépâmer", "déramer", "déréprimer",
+            "désarrimer", "déschlammer", "désemplumer", "désenflammer", "désenfumer", "désengommer",
+            "désensimer", "désenthousiasmer", "désenvenimer", "désinformer", "désâmer", "désétamer",
+            "emmiasmer", "empalmer", "empommer", "enchaussumer", "enformer", "engamer", "engommer",
+            "enlarmer", "esseimer", "essimer", "fantasmer", "flemmer", "gendarmer", "hydroformer",
+            "microprogrammer", "monoprogrammer", "multiprogrammer", "mésinformer", "napalmer",
+            "normer", "néoformer", "pantomimer", "performer", "plamer", "plumer", "polychromer",
+            "prismer", "préimprimer", "pâmer", "périmer", "raffermer", "rebitumer", "rechaumer",
+            "rechromer", "recomprimer", "reconsommer", "redamer", "refilmer", "refumer", "regermer",
+            "regommer", "relimer", "relégitimer", "renformer", "renvenimer", "repaumer", "reproclamer",
+            "reprogrammer", "resemer", "rhumer", "réaffermer", "réallumer", "réarrimer", "réassumer",
+            "réenflammer", "réenrhumer", "réenthousiasmer", "réenvenimer", "réestimer", "réexhumer",
+            "réexprimer", "régimer", "réintimer", "réétamer", "spasmer", "stemer", "stemmer",
+            "suranimer", "surarmer", "surconsommer", "surinformer", "thermoformer", "téléimprimer",
+            "zoomer", "échaumer", "égermer", "épilamer", "diplomer", "pimer", "carmer", "abimer",
+            "entraimer", "spammer", "terraformer", "apatamer", "chroumer", "autolégitimer",
+            "autotransformer", "préprogrammer", "reclamer", "sousestimer",
+            "dormer" // "dormer" est là pour intercepter le cas de ils/elles dorment
+        };
 
         /// <summary>
         /// Détermine si <paramref name="mot"/> se termine par "ment" et se prononce a~/@.
@@ -603,7 +635,7 @@ namespace ColorLib
             return toReturn;
         }
 
-        static string[] mots_s_final =
+        private static HashSet<string> mots_s_final = new HashSet<string>
         {
             "abribus","airbus","autobus","bibliobus","bus","nimbus","gibus",
             "microbus","minibus","mortibus","omnibus","oribus", "pédibus", "quibus","rasibus",
@@ -618,25 +650,30 @@ namespace ColorLib
             "albatros","albinos","calvados","craignos","mérinos","rhinocéros","tranquillos","tétanos","os",
             "alias","atlas","hélas","madras","sensas","tapas","trias","vasistas","hypocras","gambas","as",
             "biceps","quadriceps","chips","relaps","forceps","schnaps","laps","oups","triceps","princeps",
-            "tricératops", "abraxas"
+            "tricératops", "abraxas", "acanthéchinus"
         };
-
-        private static StringDictionary mots_s_final_hashed = new StringDictionary();
 
         /*
          * Règle spécifique de traitement des mots qui se terminent par "s".
          * Pour un certain nombre de ces mots, le 's' final se prononce. true dans ce cas.
          */
-        public static bool Regle_s_final(string mot, int pos_mot)
+         /// <summary>
+         /// Dit si le s final se pronoce pour <paramref name="mot"/>.
+         /// </summary>
+         /// <param name="mot">Le mot à analyser</param>
+         /// <param name="pos">La position de la lettre sous analyse. En l'occurence le s 
+         /// final.</param>
+         /// <returns><c>true</c> si le s final se prononce.</returns>
+        public static bool Regle_s_final(string mot, int pos)
         {
-            logger.ConditionalTrace(ConfigBase.cultF, "Regle_s_final - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_s_final - mot: \'{0}\', pos: {1}", mot, pos);
             Debug.Assert(mot != null);
-            Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
-            Debug.Assert(mot[pos_mot] == 's');
+            Debug.Assert((pos >= 0) && (pos < mot.Length));
+            Debug.Assert(mot[pos] == 's');
 
             bool toReturn = false;
-            if (pos_mot == mot.Length - 1)
-                toReturn = mots_s_final_hashed.ContainsKey(mot);
+            if (pos == mot.Length - 1)
+                toReturn = mots_s_final.Contains(mot);
             return toReturn;
         } // Regle_s_final
 
@@ -863,82 +900,21 @@ namespace ColorLib
             return toReturn;
         }
 
-        /// <summary>
-        /// Ensemble de verbes qui se terminent par -ier, venant de LireCouleur
-        /// !! attention : pas d'accents !!
-        /// </summary>
-        public static HashSet<string> verbes_ierR = new HashSet<string>
+        public static bool Regle_X_Final(string mot, int pos)
         {
-            "affilier","allier","amnistier","amplifier","anesthesier","apparier",
-            "approprier","apprecier","asphyxier","associer","atrophier","authentifier","autographier",
-            "autopsier","balbutier","bonifier","beatifier","beneficier","betifier","calligraphier","calomnier",
-            "carier","cartographier","certifier","charrier","chier","choregraphier","chosifier","chatier",
-            "clarifier","classifier","cocufier","codifier","colorier","communier","conchier","concilier",
-            "confier","congedier","contrarier","copier","crier","crucifier","dactylographier",
-            "differencier","disgracier","disqualifier","dissocier","distancier","diversifier","domicilier",
-            "decrier","dedier","defier","deifier","delier","demarier","demultiplier","demystifier","denazifier",
-            "denier","deplier","deprecier","dequalifier","dévier","envier","estropier","excommunier",
-            "exemplifier","exfolier","expatrier","expier","exproprier","expedier","extasier","falsifier",
-            "fier","fluidifier","fortifier","frigorifier","fructifier","gazeifier","glorifier","gracier",
-            "gratifier","horrifier","humidifier","humilier","identifier","incendier","ingenier","initier",
-            "injurier","intensifier","inventorier","irradier","justifier","licencier","lier","liquefier",
-            "lubrifier","magnifier","maleficier","manier","marier","mendier","modifier","momifier","mortifier",
-            "multiplier","mystifier","mythifier","mefier","nier","notifier","negocier","obvier","officier",
-            "opacifier","orthographier","oublier","pacifier","palinodier","pallier","parier","parodier",
-            "personnifier","photocopier","photographier","plagier","planifier","plastifier","plier","polycopier",
-            "pontifier","prier","privilegier","psalmodier","publier","purifier","putrefier","pepier","petrifier",
-            "qualifier","quantifier","radier","radiographier","rallier","ramifier","rapatrier","rarefier",
-            "rassasier","ratifier","razzier","recopier","rectifier","relier","remanier","remarier",
-            "remercier","remedier","renier","renegocier","replier","republier","requalifier","revivifier",
-            "reverifier","rigidifier","reconcilier","recrier","reexpedier","refugier","repertorier","repudier",
-            "resilier","reunifier","reedifier","reetudier","sacrifier","salarier","sanctifier","scier",
-            "signifier","simplifier","skier","solidifier","soucier","spolier","specifier","statufier","strier",
-            "stupefier","supplicier","supplier","serier","terrifier","tonifier","trier","tumefier",
-            "typographier","telegraphier","unifier","varier","versifier","vicier","vitrifier","vivifier",
-            "verifier","echographier","ecrier","edifier","electrifier","emulsifier","epier","etudier",
-            "abetifier", "abrier"
-        };
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_X_Final - mot: \'{0}\', pos: {1}", mot, pos);
+            Debug.Assert(mot != null);
 
-        /// <summary>
-        /// Ensemble de verbes qui se terminent par -ier, venant de LireCouleur
-        /// !! avec accents !!
-        /// </summary>
-        public static HashSet<string> verbes_ierACC = new HashSet<string>
-        {
-            "affilier","allier","amnistier","amplifier","anesthésier","apparier",
-            "approprier","apprécier","asphyxier","associer","atrophier","authentifier","autographier",
-            "autopsier","balbutier","bonifier","béatifier","bénéficier","bêtifier","calligraphier","calomnier",
-            "carier","cartographier","certifier","charrier","chier","chorégraphier","chosifier","châtier",
-            "clarifier","classifier","cocufier","codifier","colorier","communier","conchier","concilier",
-            "confier","congédier","contrarier","copier","crier","crucifier","dactylographier",
-            "différencier","disgracier","disqualifier","dissocier","distancier","diversifier","domicilier",
-            "décrier","dédier","défier","déifier","délier","démarier","démultiplier","démystifier","dénazifier",
-            "dénier","déplier","déprécier","déqualifier","dévier","envier","estropier","excommunier",
-            "exemplifier","exfolier","expatrier","expier","exproprier","expédier","extasier","falsifier",
-            "fier","fluidifier","fortifier","frigorifier","fructifier","gazéifier","glorifier","gracier",
-            "gratifier","horrifier","humidifier","humilier","identifier","incendier","ingénier","initier",
-            "injurier","intensifier","inventorier","irradier","justifier","licencier","lier","liquéfier",
-            "lubrifier","magnifier","maléficier","manier","marier","mendier","modifier","momifier","mortifier",
-            "multiplier","mystifier","mythifier","méfier","nier","notifier","négocier","obvier","officier",
-            "opacifier","orthographier","oublier","pacifier","palinodier","pallier","parier","parodier",
-            "personnifier","photocopier","photographier","plagier","planifier","plastifier","plier","polycopier",
-            "pontifier","prier","privilégier","psalmodier","publier","purifier","putréfier","pépier","pétrifier",
-            "qualifier","quantifier","radier","radiographier","rallier","ramifier","rapatrier","raréfier",
-            "rassasier","ratifier","razzier","recopier","rectifier","relier","remanier","remarier",
-            "remercier","remédier","renier","renégocier","replier","republier","requalifier","revivifier",
-            "revérifier","rigidifier","réconcilier","récrier","réexpédier","réfugier","répertorier","répudier",
-            "résilier","réunifier","réédifier","réétudier","sacrifier","salarier","sanctifier","scier",
-            "signifier","simplifier","skier","solidifier","soucier","spolier","spécifier","statufier","strier",
-            "stupéfier","supplicier","supplier","sérier","terrifier","tonifier","trier","tuméfier",
-            "typographier","télégraphier","unifier","varier","versifier","vicier","vitrifier","vivifier",
-            "vérifier","échographier","écrier","édifier","électrifier","émulsifier","épier","étudier",
-            "abêtifier", "abrier"
-        };
+            bool toReturn = false;
+            if (pos == mot.Length - 1)
+                toReturn = motsX.Contains(mot);
+            return toReturn;
+        }
 
         /// <summary>
         /// Liste des verbes en ier venant de Morphalou. Avec accents.
         /// </summary>
-        public static HashSet<string> verbes_ier = new HashSet<string>
+        private static HashSet<string> verbes_ier = new HashSet<string>
         {
             "abrier", "abêtifier", "académifier", "académisier", "acidifier", "acétifier", "affier", "affilier",
             "agatifier", "allier", "amnistier", "amodier", "amplier", "amplifier", "anesthésier", "anémier",
@@ -1294,5 +1270,28 @@ namespace ColorLib
             "régimenter", "surassister", "surcommenter",
         };
 
-    } // class AutomRuleFilter
+        /// <summary>
+        /// mots dont le x final se pronoce.
+        /// </summary>
+        private static HashSet<string> motsX = new HashSet<string>
+        {
+            "abax", "abrasax", "acromyrmex", "ajax", "alpax", "anthrax", "apex", "archéoptéryx",
+            "aspalax", "bembex", "bombyx", "borax", "box", "carex", "chaix", "climax", "codex",
+            "contumax", "contumax", "cortex", "cérambyx", "demodex", "duplex", "duplex", "démodex",
+            "flytox", "hapax", "hélix", "ibex", "index", "larix", "larynx", "lastex", "latex",
+            "lux", "lynx", "meix", "multiplex", "multiplex", "murex", "narthex", "onyx", "opopanax",
+            "opoponax", "panax", "pharynx", "phlox", "phénix", "pneumothorax", "pnyx", "pollex",
+            "préfix", "pyrex", "pétrosilex", "quadruplex", "reflex", "relax", "rhinopharynx",
+            "rumex", "scandix", "scolex", "silex", "sirex", "smilax", "solex", "spalax", "sphex",
+            "sphinx", "storax", "strix", "styrax", "syrinx", "thorax", "triplex", "télex", "ulex",
+            "vertex", "viandox", "vortex", "acanthonyx", "acanthophœnix", "calythrix", "chénalopex",
+            "cladothrix", "épipharynx", "glossanthrax", "glossocalyx", "infinitéisme", "hapax",
+            "mégalonyx", "nycticorax", "oléothorax", "pédoclimax", "prépharynx", "protothorax",
+            "sphénothorax", "sténothorax", "streptothrix", "vitex", "astérix", "obélix", "remix",
+            "mix", "idéfix", "panoramix", "félix", "abraracourcix", "assurancetourix",
+            "ocatarinetabellatchitchix", "ordralfabétix", "cétautomatix"
+
+        };
+
+        } // class AutomRuleFilter
 } // namespace ColorLib

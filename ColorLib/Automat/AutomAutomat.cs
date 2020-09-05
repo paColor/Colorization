@@ -445,7 +445,7 @@ namespace ColorLib
 					'w' : [['wurst', '*'],
 							{'wurst':[{'+':/(ur|ag|isi|estp|ei)/i},'v',1], // saucisse [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
 							'*':[{},'w',1]}], 
-					'x' : [['six_dix','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','_ix', '@', '*'],
+					'x' : [['six_dix','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','x_final', '@', '*'],
 							{'six_dix':[{'-':/(s|d)i/i},'s_x',1],
 							'gz_1':[{'-':/^/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un x suivi d'une voyelle
 							'gz_2':[{'-':/^(h?)e/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'ex' ou 'hex' suivi d'une voyelle
@@ -454,7 +454,7 @@ namespace ColorLib
 							'gz_5':[{'-':/^(p?)rée/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'réex' ou 'préex' suivi d'une voyelle
 							'_aeox':[{'-':/[aeo]/i},'ks',1],
 							'fix':[{'-':/fi/i},'ks',1],
-							'_ix':[{'-':/(remi|obéli|astéri|héli|phéni|féli)/i},'ks',1],
+							'x_final':[this.Regle_X_Final,'ks',1],
 							'*':[{},'ks',1],
 							'@':[{'+':/$/i},'_muet',1]}],
 					'y' : [['m','n','nm','abbaye','y_voyelle', '*'],

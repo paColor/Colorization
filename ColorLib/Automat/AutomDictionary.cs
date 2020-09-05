@@ -108,7 +108,8 @@ namespace ColorLib
             { "abies", "a-a;b-b;i-j;e-E;s-s" },
             { "abigaïl", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l" },
             { "abigaïls", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l" },
-            { "abrasax", "ab;r-R;asax" }
+            { "abrasax", "ab;r-R;asax" },
+            { "acanthophœnix", "a;c-k;an-@;t;h-#;o;ph-f;œ-e;ni;x" }
         }; 
     }
 }
