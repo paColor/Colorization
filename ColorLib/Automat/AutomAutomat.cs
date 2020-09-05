@@ -240,7 +240,7 @@ namespace ColorLib
 							{'g':[{'+':/g/i},'g',2],
 							'n':[{'+':/n/i},'N',2],
 							'ao':[{'+':/(a|o)/i},'g',1],
-							'eiy':[{'+':/[eéèêëïiy]/i},'Z',1], // un 'g' suivi de e,i,y se prononce [Z]
+							'eiy':[{'+':/[eéèêëïiîy]/i},'Z',1], // un 'g' suivi de e,i,y se prononce [Z]
 							'g_muet_oin':[{'-':/oi(n?)/i},'_muet',1], // un 'g' précédé de 'oin' ou de 'oi' ne se prononce pas ; ex. : poing, doigt
 							'g_muet_our':[{'-':/ou(r)/i},'_muet',1], // un 'g' précédé de 'our' ou de 'ou(' ne se prononce pas ; ex. : bourg
 							'g_muet_an':[{'-':/(s|^ét|^r)an/i,'+':/(s?)$/i},'_muet',1], // sang, rang, étang
@@ -276,8 +276,8 @@ namespace ColorLib
 							'll_Ceras':[{'+':/ll/i},'j_ill',3, IllCeras], // par défaut avec ll donne le son [ill]
 							'ui':[{'-':/u/i,'+':/ent/i},'i',1], // essuient, appuient
 							'ient_1':[this.Regle_ient,'i',1], // règle spécifique pour différencier les verbes du premier groupe 3ème pers pluriel
-							'ient_2':[{'+':/ent(s)?$/i},'j',1], // si la règle précédente ne fonctionne pas
-							'ie':[{'+':/e(s|nt)?$/i},'i',1], // mots terminés par -ie(s|nt)
+							'ient_2':[{'+':/ent(s?)$/i},'j',1], // si la règle précédente ne fonctionne pas
+							'ie':[{'+':/e(s?)$/i},'i',1], // mots terminés par -ie(s)
 							'ier_Conj':[this.Regle_ierConjI,'i',1], // verbes en ier conjugués au futur ou au conditionnel
 							'i_voyelle':[{'+':/[aäâeéèêëoôöuù]/i},'ji',1], // i suivi d'une voyelle donne [j]
 							'*':[{},'i',1]}],
@@ -428,7 +428,8 @@ namespace ColorLib
 							'apostrophe':[{'+':/('|’)/i},'t',2], // apostrophe
 							'@':[{'+':/$/i},'_muet',1]}],
 					'u' : [['um','n','nm','ueil', '*'],
-							{'um':[{'-':/[^aefo]/i,'+':/m$/i},'o',1],
+							{//'um':[{'-':/[^aefo]/i,'+':/m$/i},'o',1],
+							'um':[this.Regle_MotsUM,'o',1],
 							'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'x_tilda',2],
 							'nm':[{'+':/[nm]$/i},'x_tilda',2],
 							'ueil':[{'+':/eil/i},'x2',2], // mots terminés en 'ueil' => son [x2]

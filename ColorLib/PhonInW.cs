@@ -302,33 +302,35 @@ namespace ColorLib
             { Phonemes.lastPhon,    "LASTPHON" }
         };
 
-        private static List<Phonemes> voyelles = new List<Phonemes> { Phonemes.a, Phonemes.q, 
+        private static HashSet<Phonemes> voyelles = new HashSet<Phonemes> { Phonemes.a, Phonemes.q, 
             Phonemes.q_caduc, Phonemes.i, Phonemes.o, Phonemes.o_comp, Phonemes.u, Phonemes.y, 
             Phonemes.e, Phonemes.E, Phonemes.E_comp, Phonemes.e_comp, Phonemes.e_tilda,
             Phonemes.a_tilda, Phonemes.o_tilda, Phonemes.x_tilda, Phonemes.x2, Phonemes.oi, 
             Phonemes.w_e_tilda, Phonemes.i_j, Phonemes.i_j_ill};
 
-        private static List<Phonemes> consonnes = new List<Phonemes> { Phonemes.p, Phonemes.b, 
+        private static HashSet<Phonemes> consonnes = new HashSet<Phonemes> { Phonemes.p, Phonemes.b, 
             Phonemes.t, Phonemes.d, Phonemes.k, Phonemes.g, Phonemes.f, Phonemes.v, Phonemes.s,
             Phonemes.z, Phonemes.S, Phonemes.Z, Phonemes.m, Phonemes.n, Phonemes.l, Phonemes.R, 
             Phonemes.f_ph, Phonemes.k_qu, Phonemes.g_u, Phonemes.s_c, Phonemes.s_t, Phonemes.s_x,
             Phonemes.z_s,Phonemes.ks, Phonemes.gz};
 
-        private static List<Phonemes> semiVoyelles = new List<Phonemes> { Phonemes.w,
+        private static HashSet<Phonemes> semiVoyelles = new HashSet<Phonemes> { Phonemes.w,
             Phonemes.J, Phonemes.N, Phonemes.j, Phonemes.j_ill, Phonemes.ji };
 
-        private static List<Phonemes> muet = new List<Phonemes> { Phonemes.verb_3p, Phonemes._muet,
+        private static HashSet<Phonemes> muet = new HashSet<Phonemes> { Phonemes.verb_3p, Phonemes._muet,
             Phonemes.chiffre};
+
+        public static bool IsPhonVoyelle(Phonemes p) => voyelles.Contains(p);
+        public static bool IsPhonConsonne(Phonemes p) => consonnes.Contains(p);
+        public static bool IsPhonSemiVoyelle(Phonemes p) => semiVoyelles.Contains(p);
+        public static bool IsPhonMuet(Phonemes p) => muet.Contains(p);
+
 
         /// <summary>
         /// Indique si le <c>PhonInW</c> correspond à un son "consonne".
         /// </summary>
-        /// <param name="forceDierese">Indique si la diérèse doit être forcée.</param>
         /// <returns>Le son est une "consonne".</returns>
-        public bool EstConsonne()
-        {  
-            return (consonnes.BinarySearch(P) >= 0);
-        }
+        public bool EstConsonne() => IsPhonConsonne(P);
 
         /// <summary>
         /// Indique si le <c>PhonInW</c> correspond à un son "voyelle".
@@ -344,18 +346,18 @@ namespace ColorLib
             }
             else
             {
-                toReturn = (voyelles.BinarySearch(P) >= 0);
+                toReturn = IsPhonVoyelle(P);
             }
             return toReturn;
         }
             
-        public bool EstSemiVoyelle() => (semiVoyelles.BinarySearch(P) >= 0);
+        public bool EstSemiVoyelle() => IsPhonSemiVoyelle(P);
         
         /// <summary>
         /// Indique si le phonème corespond à un son muet.
         /// </summary>
         /// <returns>Le son est muet</returns>
-        public bool EstMuet() => (muet.BinarySearch(P) >= 0);
+        public bool EstMuet() => (muet.Contains(P));
 
         static public List<Phonemes> String2Phons(string s)
         {
@@ -366,14 +368,6 @@ namespace ColorLib
                     toReturn.Add(k.Key);
             }
             return toReturn;
-        }
-
-        public static void Init()
-        {
-            voyelles.Sort();
-            consonnes.Sort();
-            semiVoyelles.Sort();
-            muet.Sort();
         }
 
         public string Phon2String() => lexMap[P];

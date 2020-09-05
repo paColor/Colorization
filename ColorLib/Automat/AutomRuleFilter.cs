@@ -49,7 +49,8 @@ namespace ColorLib
             {"Regle_ill", Regle_ill},
             {"Regle_ierConjI", Regle_ierConjI },
             {"Regle_ierConjE", Regle_ierConjE },
-            {"Regle_VerbesTier", Regle_VerbesTier }
+            {"Regle_VerbesTier", Regle_VerbesTier },
+            {"Regle_MotsUM", Regle_MotsUM }
         };
 
         private CheckRuleFunction crf;
@@ -213,12 +214,6 @@ namespace ColorLib
             logger.ConditionalDebug("InitAutomat");
             if (!initiated)
             {
-                for (int i = 0; i < verbes_ier.Length; i++)
-                    verbes_ier_hashed.Add(verbes_ier[i], null);
-                for (int i = 0; i < mots_ent.Length; i++)
-                    mots_ent_hashed.Add(mots_ent[i], null);
-                for (int i = 0; i < verbes_mer.Length; i++)
-                    verbes_mer_hashed.Add(verbes_mer[i], null);
                 for (int i = 0; i < exceptions_final_er.Length; i++)
                     exceptions_final_er_hashed.Add(exceptions_final_er[i], null);
                 for (int i = 0; i < noms_ai.Length; i++)
@@ -227,8 +222,6 @@ namespace ColorLib
                     avoir_eu_hashed.Add(avoir_eu[i], null);
                 for (int i = 0; i < mots_s_final.Length; i++)
                     mots_s_final_hashed.Add(mots_s_final[i], null);
-                for (int i = 0; i < mots_t_final.Length; i++)
-                    mots_t_final_hashed.Add(mots_t_final[i], null);
                 for (int i = 0; i < mots_d_final.Length; i++)
                     mots_d_final_hashed.Add(mots_d_final[i], null);
                 for (int i = 0; i <except_ill.Length; i++)
@@ -283,63 +276,33 @@ namespace ColorLib
                 return s;
         } // SansSFinal
 
-
-        // Ensemble de verbes qui se terminent par -ier !! attention : pas d'accents !!
-        private static string[] verbes_ier = {"affilier","allier","amnistier","amplifier","anesthesier","apparier",
-            "approprier","apprecier","asphyxier","associer","atrophier","authentifier","autographier",
-            "autopsier","balbutier","bonifier","beatifier","beneficier","betifier","calligraphier","calomnier",
-            "carier","cartographier","certifier","charrier","chier","choregraphier","chosifier","chatier",
-            "clarifier","classifier","cocufier","codifier","colorier","communier","conchier","concilier",
-            "confier","congedier","contrarier","copier","crier","crucifier","dactylographier",
-            "differencier","disgracier","disqualifier","dissocier","distancier","diversifier","domicilier",
-            "decrier","dedier","defier","deifier","delier","demarier","demultiplier","demystifier","denazifier",
-            "denier","deplier","deprecier","dequalifier","dévier","envier","estropier","excommunier",
-            "exemplifier","exfolier","expatrier","expier","exproprier","expedier","extasier","falsifier",
-            "fier","fluidifier","fortifier","frigorifier","fructifier","gazeifier","glorifier","gracier",
-            "gratifier","horrifier","humidifier","humilier","identifier","incendier","ingenier","initier",
-            "injurier","intensifier","inventorier","irradier","justifier","licencier","lier","liquefier",
-            "lubrifier","magnifier","maleficier","manier","marier","mendier","modifier","momifier","mortifier",
-            "multiplier","mystifier","mythifier","mefier","nier","notifier","negocier","obvier","officier",
-            "opacifier","orthographier","oublier","pacifier","palinodier","pallier","parier","parodier",
-            "personnifier","photocopier","photographier","plagier","planifier","plastifier","plier","polycopier",
-            "pontifier","prier","privilegier","psalmodier","publier","purifier","putrefier","pepier","petrifier",
-            "qualifier","quantifier","radier","radiographier","rallier","ramifier","rapatrier","rarefier",
-            "rassasier","ratifier","razzier","recopier","rectifier","relier","remanier","remarier",
-            "remercier","remedier","renier","renegocier","replier","republier","requalifier","revivifier",
-            "reverifier","rigidifier","reconcilier","recrier","reexpedier","refugier","repertorier","repudier",
-            "resilier","reunifier","reedifier","reetudier","sacrifier","salarier","sanctifier","scier",
-            "signifier","simplifier","skier","solidifier","soucier","spolier","specifier","statufier","strier",
-            "stupefier","supplicier","supplier","serier","terrifier","tonifier","trier","tumefier",
-            "typographier","telegraphier","unifier","varier","versifier","vicier","vitrifier","vivifier",
-            "verifier","echographier","ecrier","edifier","electrifier","emulsifier","epier","etudier",
-            "abetifier"
-        };
-
-        private static StringDictionary verbes_ier_hashed = new StringDictionary();
-
-        //Règle spécifique de traitement des successions de lettres finales 'ient'
-        //sert à savoir si la séquence 'ient' se prononce [i][_muet] ou [j][e_tilda]
-        // pour nous, pos_mot correspond à la position de la lettre examinéée. Chez Marie-Pierre, 
-        // c'est la position après la lettre examinée.
-
-        // Précondition: mot est en minuscules
-
+        
         private static Regex rxConsIent = new Regex("[bcçdfghjklnmpqrstvwxz]ient$", RegexOptions.IgnoreCase);
 
-        public static bool Regle_ient(string mot, int pos_mot)
+        /// <summary>
+        /// Cherche si <paramref name="mot"/> se termine par "ient" et est la forme conjuguée au
+        /// présent, 3e pers. du pluriel d'un verbe du premier groupe en "ier". 
+        /// </summary>
+        /// <remarks>Le mot doit être en minuscules.</remarks>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">La position dans le mot de la lettre actuellement analysée. Doit être
+        /// dans les quatre dernières lettres. </param>
+        /// <returns><c>true</c> si c'est une terminaison en "ient" et un verbe conjugué.</returns>
+        public static bool Regle_ient(string mot, int pos)
         {
-            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ient - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ient - mot: \'{0}\', pos: {1}", mot, pos);
             Debug.Assert(mot != null); 
-            Debug.Assert((pos_mot >=0) && (pos_mot < mot.Length));
+            Debug.Assert((pos >=0) && (pos < mot.Length));
 
             bool toReturn = false;
-            if (pos_mot >= mot.Length - 4) // checking i or e from the "ient" any previous letter in the word would not fit.
+            if (pos >= mot.Length - 4) // checking i or e from the "ient" any previous letter in the word would not fit.
             {
                 if (rxConsIent.IsMatch(mot)) // le mot doit se terminer pas par 'ient' (précédé d'une consonne)
                 {
                     // il faut savoir si le mot est un verbe dont l'infinitif se termine par 'ier' ou non
-                    string pseudo_infinitif = ChaineSansAccents(mot.Substring(0, mot.Length - 2) + 'r');
-                    toReturn = verbes_ier_hashed.ContainsKey(pseudo_infinitif);
+                    //string pseudo_infinitif = ChaineSansAccents(mot.Substring(0, mot.Length - 2) + 'r');
+                    string pseudo_infinitif = mot.Substring(0, mot.Length - 2) + 'r';
+                    toReturn = verbes_ier.Contains(pseudo_infinitif);
                 }
 
                 // Je ne comprends pas le code suivant car je n'ai pas trouve le code de pretraitement de texte.
@@ -373,7 +336,7 @@ namespace ColorLib
         /// </returns>
         public static bool Regle_ierConjI(string mot, int pos_mot)
         {
-            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ierConjugue - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ierConjI - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
@@ -384,25 +347,6 @@ namespace ColorLib
                 && mot[pos_mot + 1] == 'e'
                 && mot[pos_mot + 2] == 'r'
                 && termFutCond.Contains(mot.Substring(pos_mot + 3)));
-
-            /*
-            bool toReturn = false;
-            if (pos_mot < mot.Length - 3 
-                && mot[pos_mot] == 'i' 
-                && mot[pos_mot + 1] == 'e'
-                && mot[pos_mot + 2] == 'r'
-                && termFutCond.Contains(mot.Substring(pos_mot + 3)))
-            {
-                // Il faudrait vérifier qu'il s'agit bien d'un des verbes de la liste.
-                // Mais si on disait qu'avec cette terminaison il s'agit à tous les coups d'un
-                // verbe conjugué?
-
-                // il faut savoir si le mot est un verbe dont l'infinitif se termine par 'ier' ou non
-                //string pseudo_infinitif = ChaineSansAccents(mot.Substring(0, mot.Length - 2) + 'r');
-                //toReturn = verbes_ier_hashed.ContainsKey(pseudo_infinitif);
-            }
-            return toReturn;
-            */
         }
 
         /// <summary>
@@ -415,7 +359,7 @@ namespace ColorLib
         /// conditionnel, <c>false</c> sinon. </returns>
         public static bool Regle_ierConjE(string mot, int pos_mot)
         {
-            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ierConjugue - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ierConjE - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
@@ -429,30 +373,9 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Vérifie si le mot est un verbe en ter à la 1e personne du pluriel de l'imparfait.
-        /// Par ex. "nous formations". Le but est de découvrir que "ti" se prononce ti et non si.
+        /// Liste des mots se terminant par ent et se prononçant a~/@
         /// </summary>
-        /// <remarks>Utilise la liste <c>verbesTer</c> qui se trouve à la fin du fichier.</remarks>
-        /// <param name="mot">Mot à analyser.</param>
-        /// <param name="pos">Position du t de tions dans le mot.</param>
-        /// <returns><c>true</c> si tions est utilisé pour conjuguer un verbe.</returns>
-        public static bool Regle_VerbesTier(string mot, int pos)
-        {
-            Debug.Assert(mot != null);
-            bool toReturn = false;
-            if (pos == mot.Length - 5
-                && mot.EndsWith("tions"))
-            {
-                StringBuilder sb = new StringBuilder(mot.Length);
-                sb.Append(mot.Substring(0, mot.Length - 4));
-                sb.Append("er");
-                toReturn = verbesTer.Contains(sb.ToString());
-            }
-            return toReturn;
-        }
-
-
-            static string[] mots_ent =
+        private static HashSet<string> mots_ent = new HashSet<string>
         {
             "absent", "abstinent", "accent", "accident", "adhérent", "adjacent",
             "adolescent", "afférent", "agent", "ambivalent", "antécédent", "apparent",
@@ -479,10 +402,9 @@ namespace ColorLib
             "efficient", "effluent", "engoulevent", "entregent", "escient", "event",
             "excédent", "expédient", "éloquent", "éminent", "émollient", "évanescent", "évent",
             "agrément", "aliment", "ciment","content","compliment","boniment","document",
-            "parlement","ornement","supplément","tourment","spent", "argument"
+            "parlement","ornement","supplément","tourment","spent", "argument", "abrivent"
         };
 
-        private static StringDictionary mots_ent_hashed = new StringDictionary();
         /*
          * Règle spécifique de traitement des successions de lettres '*ent'
          * sert à savoir si le mot figure dans les mots qui se prononcent a_tilda à la fin
@@ -505,12 +427,15 @@ namespace ColorLib
                 if (r.IsMatch(comparateur))
                     toReturn = true;
                 else
-                    toReturn = mots_ent_hashed.ContainsKey(comparateur);
+                    toReturn = mots_ent.Contains(comparateur);
             }
             return toReturn;
         }
 
-        static string[] verbes_mer =
+        /// <summary>
+        /// Liste "complète" des verbes en "mer"
+        /// </summary>
+        private static HashSet<string> verbes_mer = new HashSet<string>
         {
             "abimer","acclamer","accoutumer","affamer","affirmer","aimer",
             "alarmer","allumer","amalgamer","animer","armer","arrimer","assommer","assumer",
@@ -534,8 +459,6 @@ namespace ColorLib
             "trimer","zoomer","ecremer","ecumer","elimer", "dormer" // "dormer" est là pour intercepter le cas de ils/elles dorment
         };
 
-        private static StringDictionary verbes_mer_hashed = new StringDictionary();
-
         /*
          * Règle spécifique de traitement des successions de lettres 'ment'
          * sert à savoir si le mot figure dans les mots qui se prononcent a_tilda à la fin
@@ -544,6 +467,15 @@ namespace ColorLib
          * 
          * Précondition: mot est en minuscules
          */
+
+        /// <summary>
+        /// Détermine si <paramref name="mot"/> se termine par "ment" et se prononce a~/@.
+        /// </summary>
+        /// <remarks>Utilise la liste des verbes en "mer". Si le mot correspond à un verbe
+        /// conjugué, retourne <c>false</c>. Sinon <c>true</c></remarks>
+        /// <param name="mot">Le mot à examiner.</param>
+        /// <param name="pos_mot">La position de 'e' dans la terminaison "ent".</param>
+        /// <returns><c>true</c> si le mot en "ment" se prononce a~/@</returns>
         public static bool Regle_ment(string mot, int pos_mot)
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_ment - mot: \'{0}\', pos: {1}", mot, pos_mot);
@@ -555,13 +487,18 @@ namespace ColorLib
             if ((pos_mot >= mot.Length - 3) && (r.IsMatch(mot))) // on n'est pas en train de traiter une lettre avant la terminaison
             {
                 string pseudo_infinitif = ChaineSansAccents(mot.Substring(0, mot.Length - 2) + 'r');
-                toReturn = !verbes_mer_hashed.ContainsKey(pseudo_infinitif);
+                toReturn = !verbes_mer.Contains(pseudo_infinitif);
             }
             return toReturn;
         }
 
-        // retoune true si la terminaison en ment correspond à un verbe. 
-        // quasiment l'inverse de Regle_ment
+        /// <summary>
+        /// Détermine si <paramref name="mot"/> se termine par "ment" et est un verbe
+        /// conjugué au présent 3e pers. pluriel. De fait l'inverse le la méthode précédente.
+        /// </summary>
+        /// <param name="mot">Le mot à examiner.</param>
+        /// <param name="pos_mot">La position de 'e' dans la terminaison "ent".</param>
+        /// <returns><c>true</c> si le mot en "ment" est un verbe conjugué.</returns>
         public static bool Regle_verbe_mer(string mot, int pos_mot)
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_verbe_mer - mot: \'{0}\', pos: {1}", mot, pos_mot);
@@ -573,7 +510,7 @@ namespace ColorLib
             if ((pos_mot >= mot.Length - 3) && (r.IsMatch(mot))) // on n'est pas en train de traiter une lettre avant la terminaison
             {
                 string pseudo_infinitif = ChaineSansAccents(mot.Substring(0, mot.Length - 2) + 'r');
-                toReturn = verbes_mer_hashed.ContainsKey(pseudo_infinitif);
+                toReturn = verbes_mer.Contains(pseudo_infinitif);
             }
             return toReturn;
         }
@@ -681,7 +618,7 @@ namespace ColorLib
             "albatros","albinos","calvados","craignos","mérinos","rhinocéros","tranquillos","tétanos","os",
             "alias","atlas","hélas","madras","sensas","tapas","trias","vasistas","hypocras","gambas","as",
             "biceps","quadriceps","chips","relaps","forceps","schnaps","laps","oups","triceps","princeps",
-            "tricératops"
+            "tricératops", "abraxas"
         };
 
         private static StringDictionary mots_s_final_hashed = new StringDictionary();
@@ -703,18 +640,16 @@ namespace ColorLib
             return toReturn;
         } // Regle_s_final
 
-
-        static string[] mots_t_final =
+        private static HashSet<string> mots_t_final = new HashSet<string>
         {
             "accessit","cet","but","diktat","kumquat","prurit","affidavit","dot","rut","audit",
             "exeat","magnificat","satisfecit","azimut","exit","mat","scorbut","brut",
             "fiat","mazout","sinciput","cajeput","granit","net","internet","transat","sept",
             "chut","huit","obit","transit","coït","incipit","occiput","ut","comput",
             "introït","pat","zut","déficit","inuit","prétérit", "uppercut",
-            "gadget","kilt","kit","scout","fret"
+            "gadget","kilt","kit","scout","fret", "abrupt", "concept", "percept", "rapt", "rupt",
+            "script", "transept"
         };
-
-        private static StringDictionary mots_t_final_hashed = new StringDictionary();
 
         /*
          * Règle spécifique de traitement des mots qui se terminent par la lettre "t" prononcée.
@@ -731,7 +666,7 @@ namespace ColorLib
 
             bool toReturn = false;
             if (pos_mot == mSing.Length - 1)
-                toReturn = mots_t_final_hashed.ContainsKey(mSing);
+                toReturn = mots_t_final.Contains(mSing);
             return toReturn;
         } // Regle_t_final
 
@@ -887,7 +822,255 @@ namespace ColorLib
             return toReturn;
         }
 
-        static HashSet<string> verbesTer = new HashSet<string>()
+        /// <summary>
+        /// Vérifie si le mot se termine par "um" ou "ums" et si le u se prononce O.
+        /// </summary>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">La position du 'u' dans la terminaison um(s?).</param>
+        /// <returns><c>true</c> si "um" se prononce Om.</returns>
+        public static bool Regle_MotsUM(string mot, int pos)
+        {
+            Debug.Assert(mot != null);
+            bool toReturn = false;
+            if (pos > mot.Length - 4 && pos < mot.Length - 1 && mot[pos] == 'u' && mot[pos + 1] == 'm')
+            {
+                string lemme = SansSFinal(mot);
+                toReturn = motsUM.Contains(lemme);
+            }
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Vérifie si le mot est un verbe en ter à la 1e personne du pluriel de l'imparfait.
+        /// Par ex. "nous formations". Le but est de découvrir que "ti" se prononce ti et non si.
+        /// </summary>
+        /// <remarks>Utilise la liste <c>verbesTer</c> qui se trouve à la fin du fichier.</remarks>
+        /// <param name="mot">Mot à analyser.</param>
+        /// <param name="pos">Position du t de tions dans le mot.</param>
+        /// <returns><c>true</c> si tions est utilisé pour conjuguer un verbe.</returns>
+        public static bool Regle_VerbesTier(string mot, int pos)
+        {
+            Debug.Assert(mot != null);
+            bool toReturn = false;
+            if (pos == mot.Length - 5
+                && mot.EndsWith("tions"))
+            {
+                StringBuilder sb = new StringBuilder(mot.Length);
+                sb.Append(mot.Substring(0, mot.Length - 4));
+                sb.Append("er");
+                toReturn = verbesTer.Contains(sb.ToString());
+            }
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Ensemble de verbes qui se terminent par -ier, venant de LireCouleur
+        /// !! attention : pas d'accents !!
+        /// </summary>
+        public static HashSet<string> verbes_ierR = new HashSet<string>
+        {
+            "affilier","allier","amnistier","amplifier","anesthesier","apparier",
+            "approprier","apprecier","asphyxier","associer","atrophier","authentifier","autographier",
+            "autopsier","balbutier","bonifier","beatifier","beneficier","betifier","calligraphier","calomnier",
+            "carier","cartographier","certifier","charrier","chier","choregraphier","chosifier","chatier",
+            "clarifier","classifier","cocufier","codifier","colorier","communier","conchier","concilier",
+            "confier","congedier","contrarier","copier","crier","crucifier","dactylographier",
+            "differencier","disgracier","disqualifier","dissocier","distancier","diversifier","domicilier",
+            "decrier","dedier","defier","deifier","delier","demarier","demultiplier","demystifier","denazifier",
+            "denier","deplier","deprecier","dequalifier","dévier","envier","estropier","excommunier",
+            "exemplifier","exfolier","expatrier","expier","exproprier","expedier","extasier","falsifier",
+            "fier","fluidifier","fortifier","frigorifier","fructifier","gazeifier","glorifier","gracier",
+            "gratifier","horrifier","humidifier","humilier","identifier","incendier","ingenier","initier",
+            "injurier","intensifier","inventorier","irradier","justifier","licencier","lier","liquefier",
+            "lubrifier","magnifier","maleficier","manier","marier","mendier","modifier","momifier","mortifier",
+            "multiplier","mystifier","mythifier","mefier","nier","notifier","negocier","obvier","officier",
+            "opacifier","orthographier","oublier","pacifier","palinodier","pallier","parier","parodier",
+            "personnifier","photocopier","photographier","plagier","planifier","plastifier","plier","polycopier",
+            "pontifier","prier","privilegier","psalmodier","publier","purifier","putrefier","pepier","petrifier",
+            "qualifier","quantifier","radier","radiographier","rallier","ramifier","rapatrier","rarefier",
+            "rassasier","ratifier","razzier","recopier","rectifier","relier","remanier","remarier",
+            "remercier","remedier","renier","renegocier","replier","republier","requalifier","revivifier",
+            "reverifier","rigidifier","reconcilier","recrier","reexpedier","refugier","repertorier","repudier",
+            "resilier","reunifier","reedifier","reetudier","sacrifier","salarier","sanctifier","scier",
+            "signifier","simplifier","skier","solidifier","soucier","spolier","specifier","statufier","strier",
+            "stupefier","supplicier","supplier","serier","terrifier","tonifier","trier","tumefier",
+            "typographier","telegraphier","unifier","varier","versifier","vicier","vitrifier","vivifier",
+            "verifier","echographier","ecrier","edifier","electrifier","emulsifier","epier","etudier",
+            "abetifier", "abrier"
+        };
+
+        /// <summary>
+        /// Ensemble de verbes qui se terminent par -ier, venant de LireCouleur
+        /// !! avec accents !!
+        /// </summary>
+        public static HashSet<string> verbes_ierACC = new HashSet<string>
+        {
+            "affilier","allier","amnistier","amplifier","anesthésier","apparier",
+            "approprier","apprécier","asphyxier","associer","atrophier","authentifier","autographier",
+            "autopsier","balbutier","bonifier","béatifier","bénéficier","bêtifier","calligraphier","calomnier",
+            "carier","cartographier","certifier","charrier","chier","chorégraphier","chosifier","châtier",
+            "clarifier","classifier","cocufier","codifier","colorier","communier","conchier","concilier",
+            "confier","congédier","contrarier","copier","crier","crucifier","dactylographier",
+            "différencier","disgracier","disqualifier","dissocier","distancier","diversifier","domicilier",
+            "décrier","dédier","défier","déifier","délier","démarier","démultiplier","démystifier","dénazifier",
+            "dénier","déplier","déprécier","déqualifier","dévier","envier","estropier","excommunier",
+            "exemplifier","exfolier","expatrier","expier","exproprier","expédier","extasier","falsifier",
+            "fier","fluidifier","fortifier","frigorifier","fructifier","gazéifier","glorifier","gracier",
+            "gratifier","horrifier","humidifier","humilier","identifier","incendier","ingénier","initier",
+            "injurier","intensifier","inventorier","irradier","justifier","licencier","lier","liquéfier",
+            "lubrifier","magnifier","maléficier","manier","marier","mendier","modifier","momifier","mortifier",
+            "multiplier","mystifier","mythifier","méfier","nier","notifier","négocier","obvier","officier",
+            "opacifier","orthographier","oublier","pacifier","palinodier","pallier","parier","parodier",
+            "personnifier","photocopier","photographier","plagier","planifier","plastifier","plier","polycopier",
+            "pontifier","prier","privilégier","psalmodier","publier","purifier","putréfier","pépier","pétrifier",
+            "qualifier","quantifier","radier","radiographier","rallier","ramifier","rapatrier","raréfier",
+            "rassasier","ratifier","razzier","recopier","rectifier","relier","remanier","remarier",
+            "remercier","remédier","renier","renégocier","replier","republier","requalifier","revivifier",
+            "revérifier","rigidifier","réconcilier","récrier","réexpédier","réfugier","répertorier","répudier",
+            "résilier","réunifier","réédifier","réétudier","sacrifier","salarier","sanctifier","scier",
+            "signifier","simplifier","skier","solidifier","soucier","spolier","spécifier","statufier","strier",
+            "stupéfier","supplicier","supplier","sérier","terrifier","tonifier","trier","tuméfier",
+            "typographier","télégraphier","unifier","varier","versifier","vicier","vitrifier","vivifier",
+            "vérifier","échographier","écrier","édifier","électrifier","émulsifier","épier","étudier",
+            "abêtifier", "abrier"
+        };
+
+        /// <summary>
+        /// Liste des verbes en ier venant de Morphalou. Avec accents.
+        /// </summary>
+        public static HashSet<string> verbes_ier = new HashSet<string>
+        {
+            "abrier", "abêtifier", "académifier", "académisier", "acidifier", "acétifier", "affier", "affilier",
+            "agatifier", "allier", "amnistier", "amodier", "amplier", "amplifier", "anesthésier", "anémier",
+            "apostasier", "apparier", "approprier", "apprécier", "armorier", "artificier", "asphyxier", "associer",
+            "atrophier", "aurifier", "authentifier", "autographier", "autopsier", "avarier", "balbutier", "barbifier",
+            "baronifier", "biographier", "bistourier", "bonifier", "bougier", "béatifier", "bénéficier", "bêtifier",
+            "calcifier", "calligraphier", "calomnier", "certifier", "charabier", "charrier", "chier", "chirographier",
+            "chosifier", "choséifier", "châtier", "circonstancier", "clarifier", "classifier", "cocufier", "codifier",
+            "colorier", "communier", "complexifier", "conchier", "concilier", "confier", "congédier", "contrarier",
+            "-convier", "copier", "corporifier", "crier", "crucifier", "dactylographier", "densifier", "différencier",
+            "différentier", "dignifier", "disgracier", "disqualifier", "dissocier", "diversifier", "domicilier",
+            "domifier", "dulcifier", "décalcifier", "déclassifier", "décrier", "dédier", "dédifférencier", "défier",
+            "déifier", "délier", "démarier", "démultiplier", "démystifier", "démythifier", "dénier", "déparier",
+            "dépatrier", "déplier", "déprécier", "désapproprier", "dévier", "dévitrifier", "ectasier", "enlier",
+            "envier", "escarrifier", "escoffier", "estropier", "estérifier", "excommunier", "excorier", "exemplifier",
+            "exfolier", "expatrier", "expier", "exproprier", "expédier", "extasier", "falsifier", "fantasier",
+            "fier", "fluidifier", "fortifier", "frigorifier", "fructifier", "gambier", "gazéifier", "glorifier",
+            "gracier", "gratifier", "gélifier", "géographier", "harmonier", "historier", "horrifier", "humidifier",
+            "humilier", "hyperplasier", "hypertrophier", "hypostasier", "identifier", "idiotifier", "incendier",
+            "ingénier", "initier", "injurier", "intensifier", "interfolier", "inventorier", "irradier", "justicier",
+            "justifier", "jérémier", "lapidifier", "licencier", "lier", "lignifier", "liquéfier", "lithographier",
+            "lubrifier", "lénifier", "madéfier", "magnifier", "maléficier", "manier", "marier", "massifier",
+            "mellifier", "mendier", "modifier", "mollifier", "momifier", "mondifier", "monographier", "mortifier",
+            "multiplier", "mystifier", "mythifier", "méfier", "mésallier", "nazifier", "nidifier", "nier", "nitrifier",
+            "notifier", "nullifier", "négocier", "obvier", "octavier", "officier", "opacifier", "orthographier",
+            "ossifier", "oublier", "pacifier", "palifier", "palinodier", "pallier", "panifier", "parier", "parodier",
+            "passéifier", "personnifier", "photocopier", "photographier", "pilorier", "plagier", "planchéier",
+            "planifier", "plastifier", "plier", "polycopier", "pontifier", "prier", "privilégier", "prosodier",
+            "préjudicier", "présentifier", "psalmodier", "publier", "purifier", "putréfier", "pépier", "pétrifier",
+            "qualifier", "quantifier", "quintessencier", "radier", "radiographier", "rallier", "ramifier", "rapatrier",
+            "rapparier", "rapproprier", "raréfier", "rassasier", "ratifier", "razzier", "recalcifier", "recopier",
+            "rectifier", "relier", "remanier", "remarier", "remercier", "remplier", "remédier", "renier", "renvier",
+            "replier", "reprographier", "revivifier", "rigidifier", "rubéfier", "russifier", "réconcilier",
+            "récrier", "réexpédier", "réfugier", "réifier", "répertorier", "répudier", "résilier", "résinifier",
+            "réunifier", "réédifier", "saccharifier", "sacrifier", "salarier", "salifier", "sanctifier", "sanguifier",
+            "saponifier", "scarifier", "schistifier", "scier", "scorifier", "sentencier", "signifier", "simplifier",
+            "skier", "solacier", "solfier", "solidifier", "soucier", "spolier", "spécifier", "statufier", "stipendier",
+            "stratifier", "strier", "stupéfier", "sténographier", "substantifier", "supplicier", "supplier",
+            "surmultiplier", "sérier", "tarifier", "terrifier", "tonifier", "torréfier", "transsubstantier",
+            "trier", "tuméfier", "tunisifier", "typifier", "télécopier", "télégraphier", "unifier", "varier",
+            "versifier", "vicarier", "vicier", "vinifier", "vitrifier", "vivifier", "vérifier", "écrier", "édifier",
+            "électrifier", "émacier", "émier", "émulsifier", "épier", "éthérifier", "étudier", "ambroisier",
+            "carier", "défolier", "dragéifier", "gâtifier", "hyperesthésier", "iconographier", "immensifier",
+            "indulgencier", "jazzifier", "lividifier", "lubréfier", "luxurier", "lyrifier", "maladier", "mélancholier",
+            "mélancolier", "mélancolifier", "moruefier", "multigraphier", "nanifier", "négrifier", "nettifier",
+            "noblifier", "odifier", "oedématier", "oursifier", "pécufier", "perlifier", "perruquifier", "phonographier",
+            "plasmifier", "plénifier", "prussifier", "réétudier", "réhumidifier", "renégocier", "réoublier",
+            "reprier", "republier", "revérifier", "rhodier", "sanifier", "savantifier", "sclérifier", "silencier",
+            "starifier", "sublimifier", "sulpicier", "surlier", "syllabifier", "tartufier", "théorifier", "transsubstantifier",
+            "typographier", "alcoolifier", "aluminier", "ammonifier", "analgésier", "angarier", "autenticier",
+            "autocopier", "autodéprécier", "autojustifier", "autolubrifier", "automodifier", "autoradiographier",
+            "autovérifier", "basifier", "bibliographier", "brier", "cadmier", "calorifier", "capier", "caprifier",
+            "carnifier", "cartographier", "caséifier", "caustifier", "chalcographier", "chondrifier", "chorégraphier",
+            "chylifier", "chymifier", "cinégraphier", "cinématographier", "coassocier", "cokéfier", "compactifier",
+            "consonantifier", "consonifier", "copublier", "cosmifier", "covarier", "cryptographier", "cérifier",
+            "diazocopier", "distancier", "déclergifier", "décodifier", "décrucifier", "dédensifier", "dédifférencier",
+            "défortifier", "délignifier", "démassifier", "dénazifier", "dénitrifier", "dépatrier", "déplanifier",
+            "déprier", "dépétrifier", "déqualifier", "dérelier", "dérussifier", "désacidifier", "désaffilier",
+            "désallier", "désapparier", "désassocier", "désertifier", "désessencier", "déshumidifier", "désignifier",
+            "désilicier", "désilicifier", "désirradier", "désorthographier", "désunifier", "désémulsifier",
+            "détoxifier", "dézincifier", "effigier", "entremarier", "escarifier", "escarrifier", "escofier",
+            "euthanasier", "eutrophier", "faséier", "frigidifier", "gabarier", "gleyifier", "graphier", "grésifier",
+            "holographier", "homogénéifier", "houillifier", "humifier", "hyperhémier", "hyperplasier", "hyperémier",
+            "hypolipidémier", "indifférencier", "ingénier", "instancier", "ischémier", "karstifier", "lamifier",
+            "latensifier", "lichénifier", "lignifier", "lithifier", "lithotypographier", "lixivier", "macrophotographier",
+            "magnésier", "matifier", "microcopier", "microphotographier", "miméographier", "moinifier", "muséifier",
+            "méfier", "mésédifier", "neutrographier", "notarier", "olographier", "organifier", "ortier", "pantographier",
+            "peptonifier", "phototélécopier", "polyestérifier", "polygraphier", "potentier", "préplastifier",
+            "prépublier", "présanctifier", "préétudier", "quartzifier", "radioscopier", "radiotélégraphier",
+            "rapprécier", "rebénéficier", "recertifier", "rechâtier", "reclassifier", "recodifier", "recolorier",
+            "reconfier", "recongédier", "recontrarier", "recrier", "redactylographier", "redifférencier", "redomicilier",
+            "redécalcifier", "redédier", "redéfier", "redéplier", "refortifier", "regazéifier", "reglorifier",
+            "relicencier", "relubrifier", "remodifier", "rengracier", "renotifier", "repacifier", "reparier",
+            "rephotocopier", "rephotographier", "replanifier", "replastifier", "requalifier", "resacrifier",
+            "resignifier", "resupplier", "retrier", "retélégraphier", "réaffilier", "réapparier", "réapproprier",
+            "réassocier", "récrier", "réestérifier", "référencier", "réorthographier", "rétifier", "rétrodévier",
+            "scénographier", "silicier", "silicifier", "sismographier", "solmifier", "spathifier", "substantier",
+            "subérifier", "sudorifier", "surqualifier", "sursignifier", "surédifier", "sélénier", "tanguier",
+            "taudifier", "thermoanesthésier", "transestérifier", "tubérifier", "turquifier", "urbanifier", "xylographier",
+            "xérocopier", "xérographier", "échographier", "écrier", "élier", "élutrier", "épigraphier", "épitaxier",
+            "époutier", "équarrier", "étanchéifier", "étatifier", "substancier", "subsidier", "sérigraphier",
+            "saccarifier", "ambifier", "chromolithographier", "compacifier", "décertifier", "décomplexifier",
+            "déplastifier", "dérigidifier", "désidentifier", "glacifier", "grâcier", "hyperqualifier", "interrelier",
+            "piétonnifier", "recrucifier", "redémultiplier", "réapprécier", "sectifier", "téléfalsifier", "zombifier"
+        };
+
+        /// <summary>
+        /// Liste des mots en "um" se prononçant [Om]
+        /// </summary>
+        private static HashSet<string> motsUM = new HashSet<string>
+        {
+            "abrotanum", "acanthophyllum", "acérathérium", "acérothérium", "acétabulum", "acrotérium", "actinium",
+            "adénoépithélium", "adiantum", "adytum", "aérium", "ageratum", "album", "allopalladium", "aluminium",
+            "alyssum", "américium", "ammonium", "ancylothérium", "anoplothérium", "aquarium", "arboretum", "arum",
+            "atrium", "auditorium", "barathrum", "barnum", "baryum", "bégum", "béryllium", "bibendum", "blastophyllium",
+            "cadmium", "caecum", "caffardum", "calcanéum", "calcium", "caldarium", "cambium", "capsicum", "carborundum",
+            "castoréum", "cérium", "césium", "coagulum", "cœcum", "colostrum", "columbarium", "compendium",
+            "componium", "condominium", "consortium", "continuum", "coronium", "critérium", "cryptosepalum",
+            "cuprammonium", "cuprosilicium", "curriculum", "cymbalum", "cypripedium", "décorum", "delirium",
+            "delphinium", "dentalium", "deutérium", "dextrorsum", "diachylum", "diascordium", "dictum", "didymium",
+            "diluvium", "dinotherium", "dinothérium", "duodénum", "électrum", "emporium", "endothélium", "épithélium",
+            "equisetum", "équisetum", "érodium", "factotum", "factum", "fanum", "fatum", "fermium", "flabellum",
+            "flamméum", "forum", "francium", "frigidarium", "gadolinium", "galbanum", "galium", "gallium", "garum",
+            "géranium", "germanium", "gérontocomium", "glucinium", "hafnium", "harmonium", "hedysarum", "hédysarum",
+            "hélium", "hyménium", "hypericum", "iléum", "illuvium", "imperium", "impluvium", "indium", "infundibulum",
+            "iridium", "jéjunum", "labarum", "labium", "lactucarium", "ladanum", "latifundium", "laudanum",
+            "léontopodium", "leucanthémum", "lilium", "linoléum", "lithium", "lutécium", "magnésium", "magnum",
+            "martyrium", "marum", "maximum", "méconium", "médium", "mégathérium", "memorandum", "mémorandum",
+            "mendélévium", "mésorectum", "millénium", "minimum", "minium", "molluscum", "muséum", "mycélium",
+            "natrium", "natrum", "nébulium", "neptunium", "niobium", "nobélium", "oïdium", "oleum", "omnium",
+            "opium", "opossum", "oppidum", "optimum", "organum", "osmium", "paléocérébellum", "paléothérium",
+            "palladium", "pallidum", "pallium", "palmarium", "pandémonium", "parabellum", "pedum", "pélargonium",
+            "pénicillium", "pensum", "péplum", "perfectum", "pétrolatum", "phormium", "phylum", "physospermum",
+            "pilum", "pittosporum", "planétarium", "plasmodium", "platiniridium", "plenum", "plénum", "plutonium",
+            "podium", "podophyllum", "polonium", "polygonum", "pomoerium", "populéum", "postulatum", "potassium",
+            "praesidium", "préférendum", "presbyterium", "présidium", "préventorium", "proscenium", "psyllium",
+            "pterophyllum", "punctum", "pycnogonum", "quadrivium", "quantum", "quorum", "radioaluminium", "radiosilicium",
+            "radiosodium", "radium", "rectum", "referendum", "référendum", "reticulatum", "réticulatum", "reticulum",
+            "réticulum", "rhénium", "rhinosporidium", "rhodium", "rhum", "rosarium", "rubidium", "ruthénium",
+            "sacrum", "samarium", "sanatorium", "sanitarium", "santalum", "scandium", "scriptorium", "scrotum",
+            "sébum", "sedum", "sélénium", "sempervivum", "sensorium", "septum", "sérapeum", "serapéum", "sérum",
+            "silicium", "silicocalcium", "silphium", "simultaneum", "sium", "sodium", "solanum", "solarium",
+            "speculum", "spéculum", "sphagnum", "sphénophyllum", "sternum", "stomodéum", "stramonium", "strontium",
+            "sudatorium", "sulfonium", "summum", "symposium", "tactum", "targum", "technécium", "technétium",
+            "tépidarium", "terbium", "terebellum", "térebellum", "terébellum", "thallium", "thermopréférendum",
+            "thorium", "thulium", "trichodesmium", "triclinium", "triduum", "triforium", "tritérium", "tritium",
+            "trivium", "ultimatum", "unicum", "uranium", "vacuum", "vanadium", "vasothélium", "velarium", "vélarium",
+            "velum", "vélum", "verumontanum", "vérumontanum", "vexillum", "viburnum", "vivarium", "xiphisternum",
+            "ytterbium", "yttrium", "zirconium", "zygantrum", "zygopetalum", "zygophyllum", "zythum"
+        };
+
+        private static HashSet<string> verbesTer = new HashSet<string>
         {
             "aboter", "abouter", "abricoter", "abriter", "absorbanter", "abuter", "accepter", "accidenter",
             "acclimater", "accointer", "accoster", "accoter", "accravanter", "accréditer", "acheter", "acouter",
@@ -923,7 +1106,7 @@ namespace ColorLib
             "couchoter", "coupleter", "courtcircuiter", "coïter", "coûter", "crachoter", "cranter", "crapahuter",
             "crapouilloter", "craqueter", "cravater", "crocheter", "croûter", "créditer", "créosoter",
             "crépiter", "crêter", "culbuter", "cureter", "cémenter", "dansoter", "dater", "diamanter",
-            "dicter", "diffracter", "dilater", "diligenter", "discréditer", "discuter", "disputer", "disserter",
+            "-dicter", "-diffracter", "dilater", "diligenter", "discréditer", "discuter", "disputer", "disserter",
             "documenter", "doigter", "dompter", "dorloter", "doter", "douter", "duiter", "duveter", "dynamiter",
             "débecqueter", "débequeter", "débiliter", "débiter", "débouter", "déboyauter", "déboîter",
             "débuter", "débâter", "décacheter", "décanter", "décapiter", "décapoter", "-décarbonater", "déchanter",
@@ -933,15 +1116,15 @@ namespace ColorLib
             "délester", "délimiter", "déliter", "déluter", "démailloter", "démonter", "démoucheter", "démâter",
             "démériter", "dénoter", "dénoyauter", "dépaqueter", "dépiauter", "dépister", "dépiter", "déplanter",
             "dépointer", "déporter", "dépoter", "députer", "dérater", "dérouter", "désacclimater", "désadapter",
-            "désaffecter", "désaimanter", "désajuster", "désappointer", "désargenter", "désenchanter",
-            "déserter", "déshabiter", "déshydrater", "déshériter", "désincruster", "désinfecter", "désorbiter",
-            "désorienter", "détecter", "détester", "détracter", "dévaster", "dévelouter", "dévolter", "effriter",
+            "-désaffecter", "désaimanter", "désajuster", "désappointer", "désargenter", "désenchanter",
+            "-déserter", "déshabiter", "déshydrater", "déshériter", "désincruster", "-désinfecter", "désorbiter",
+            "désorienter", "-détecter", "détester", "-détracter", "dévaster", "dévelouter", "dévolter", "effriter",
             "effruiter", "emberlificoter", "embouter", "emboîter", "embâter", "embêter", "emmailloter",
             "empaqueter", "empester", "empiéter", "emporter", "empoter", "emprunter", "empâter", "encarter",
             "enchanter", "encravater", "encroter", "encroûter", "endenter", "enfanter", "enfaîter", "enfûter",
             "enkyster", "enquêter", "enrégimenter", "ensanglanter", "enter", "entêter", "envoûter", "ergoter",
-            "escamoter", "escompter", "escorter", "esquinter", "essarter", "ester", "exalter", "excepter",
-            "exciter", "excogiter", "excrémenter", "excréter", "exempter", "exhorter", "exister", "expliciter",
+            "escamoter", "escompter", "escorter", "esquinter", "essarter", "ester", "exalter", "-excepter",
+            "exciter", "excogiter", "excrémenter", "excréter", "-exempter", "exhorter", "exister", "expliciter",
             "exploiter", "exporter", "expérimenter", "exulter", "exécuter", "faciliter", "fagoter", "fainéanter",
             "fauter", "feinter", "fermenter", "feuilleter", "fienter", "fileter", "filouter", "flibuster",
             "flirter", "flûter", "folioter", "fomenter", "forjeter", "fragmenter", "frelater", "fricoter",
@@ -950,9 +1133,9 @@ namespace ColorLib
             "grignoter", "guillemeter", "gâter", "gîter", "habiliter", "habiter", "haleter", "hanter",
             "haricoter", "heurter", "hoqueter", "humecter", "hydrater", "hâter", "hébéter", "hériter",
             "hésiter", "illimiter", "illuter", "imiter", "impatienter", "implanter", "importer", "imputer",
-            "incanter", "incidenter", "inciter", "incruster", "infecter", "infester", "ingurgiter", "injecter",
-            "innocenter", "inquiéter", "insister", "inspecter", "instrumenter", "insulter", "insupporter",
-            "intenter", "intercepter", "interjeter", "interpréter", "intersecter", "introspecter", "inventer",
+            "incanter", "incidenter", "inciter", "incruster", "-infecter", "infester", "ingurgiter", "-injecter",
+            "innocenter", "inquiéter", "insister", "-inspecter", "instrumenter", "insulter", "insupporter",
+            "-intenter", "-intercepter", "interjeter", "interpréter", "-intersecter", "-introspecter", "-inventer",
             "inviter", "irriter", "jaboter", "jacter", "jarreter", "jeter", "jointer", "jouter", "jouxter",
             "juter", "knouter", "lamenter", "lester", "lichoter", "liciter", "lifter", "ligoter", "limiter",
             "linéamenter", "lister", "liter", "loqueter", "louveter", "luter", "léviter", "machicoter",
@@ -960,62 +1143,62 @@ namespace ColorLib
             "margoter", "marmiter", "marqueter", "massicoter", "mater", "mazouter", "mendigoter", "mignoter",
             "mijoter", "militer", "minuter", "miroiter", "miter", "molester", "moleter", "monter", "moucheter",
             "moufter", "mouvementer", "mugueter", "muter", "mâter", "mécontenter", "médicamenter", "méditer",
-            "mégoter", "mériter", "mésinterpréter", "nageoter", "neigeoter", "nitrater", "noter", "noyauter",
-            "numéroter", "nécessiter", "objecter", "occulter", "opter", "orbiter", "orienter", "ornementer",
+            "mégoter", "mériter", "mésinterpréter", "nageoter", "neigeoter", "nitrater", "-noter", "noyauter",
+            "numéroter", "nécessiter", "-objecter", "occulter", "-opter", "orbiter", "orienter", "ornementer",
             "ouater", "pagnoter", "pailleter", "palpiter", "panneauter", "papilloter", "papoter", "paqueter",
             "parachuter", "parasiter", "parementer", "parlementer", "parloter", "parqueter", "passementer",
             "patenter", "patienter", "patricoter", "pelleter", "peloter", "percuter", "permuter", "pernocter",
-            "persister", "persécuter", "pester", "phagocyter", "phosphater", "pianoter", "picoter", "picter",
+            "persister", "-persécuter", "pester", "phagocyter", "phosphater", "pianoter", "picoter", "picter",
             "pieuter", "pigmenter", "piloter", "pimenter", "pinceauter", "pinter", "piqueter", "pirater",
             "pissoter", "pister", "pivoter", "piéter", "placoter", "plaisanter", "planter", "pleuvoter",
-            "plébisciter", "pocheter", "pointer", "poireauter", "poiroter", "ponter", "porter", "postdater",
-            "poster", "profiter", "projeter", "prospecter", "protester", "précipiter", "précompter", "préexister",
+            "plébisciter", "pocheter", "pointer", "poireauter", "poiroter", "ponter", "-porter", "postdater",
+            "poster", "profiter", "projeter", "-prospecter", "protester", "précipiter", "précompter", "préexister",
             "préméditer", "présenter", "prétexter", "prêter", "pâter", "pécloter", "péricliter", "péter",
             "quarter", "queuter", "quêter", "rabioter", "raboter", "rabouter", "racheter", "raconter",
             "radoter", "ragoter", "ragoûter", "rajouter", "rajuster", "rameuter", "rapioter", "rapiéceter",
-            "rapporter", "rassoter", "rater", "ravigoter", "rebecter", "rebouter", "rebuter", "rechanter",
-            "rechuter", "recompter", "recruter", "redouter", "refléter", "rejeter", "relater", "reloqueter",
+            "rapporter", "rassoter", "-rater", "ravigoter", "rebecter", "rebouter", "rebuter", "rechanter",
+            "rechuter", "recompter", "recruter", "redouter", "refléter", "rejeter", "-relater", "reloqueter",
             "remboîter", "remmailloter", "remonter", "rempiéter", "remporter", "rempoter", "renfaîter",
             "renter", "replanter", "reporter", "représenter", "requêter", "respecter", "ressauter", "ressusciter",
             "rester", "retraiter", "rewriter", "riboter", "rioter", "riposter", "riveter", "ronfloter",
             "ronéoter", "roter", "rouspéter", "router", "réadapter", "réajuster", "réciter", "récolter",
-            "réconforter", "réescompter", "réexporter", "réfracter", "réfuter", "régater", "régenter",
-            "réglementer", "régurgiter", "réhabiliter", "réhydrater", "réimplanter", "réimporter", "réinfecter",
-            "réinventer", "réorienter", "répercuter", "réputer", "répéter", "résister", "résulter", "rétracter",
-            "révolter", "rééditer", "saboter", "sangloter", "sarter", "sauter", "saveter", "scruter", "sculpter",
+            "réconforter", "réescompter", "réexporter", "-réfracter", "réfuter", "régater", "régenter",
+            "réglementer", "régurgiter", "réhabiliter", "réhydrater", "réimplanter", "réimporter", "-réinfecter",
+            "réinventer", "réorienter", "répercuter", "réputer", "répéter", "résister", "résulter", "-rétracter",
+            "révolter", "-rééditer", "saboter", "sangloter", "sarter", "sauter", "saveter", "scruter", "sculpter",
             "secréter", "segmenter", "serpenter", "shooter", "shunter", "siester", "siffloter", "siroter",
             "solliciter", "soubresauter", "soucheter", "souffleter", "souhaiter", "souter", "sprinter",
             "subsister", "suinter", "sulfater", "sulfiter", "supplanter", "supplémenter", "supporter",
             "supputer", "suppéditer", "surajouter", "suralimenter", "surexciter", "surexploiter", "surjeter",
             "surmonter", "sursauter", "survolter", "susciter", "suspecter", "sustenter", "suçoter", "sécréter",
-            "sédimenter", "sélecter", "tacheter", "taluter", "tangoter", "tapoter", "tarabiscoter", "tarabuster",
+            "sédimenter", "-sélecter", "tacheter", "taluter", "tangoter", "tapoter", "tarabiscoter", "tarabuster",
             "teinter", "tempêter", "tenter", "terreauter", "tester", "tinter", "tiqueter", "toaster", "tourmenter",
-            "tournicoter", "toussoter", "tracter", "traficoter", "traiter", "transbahuter", "transiter",
-            "translater", "transmuter", "transplanter", "transporter", "travailloter", "trembloter", "tressauter",
+            "tournicoter", "toussoter", "-tracter", "traficoter", "traiter", "transbahuter", "transiter",
+            "-translater", "transmuter", "transplanter", "transporter", "travailloter", "trembloter", "tressauter",
             "tricoter", "tripoter", "trompeter", "truster", "trémater", "turluter", "tuyauter", "tâter",
             "téter", "valeter", "vanter", "velouter", "velter", "venter", "vergeter", "verjuter", "violenter",
             "virevolter", "visiter", "vivisecter", "vivoter", "voleter", "volter", "voluter", "voter",
             "voûter", "végéter", "warranter", "zester", "zieuter", "zozoter", "zyeuter", "ébouillanter",
             "ébouter", "ébruiter", "écarter", "éclater", "écoqueter", "écourter", "écouter", "écroûter",
-            "écrêter", "édenter", "édicter", "éditer", "éjecter", "électrocuter", "éliciter", "émoucheter",
+            "écrêter", "édenter", "édicter", "-éditer", "-éjecter", "électrocuter", "éliciter", "émoucheter",
             "épater", "épinceter", "épointer", "épousseter", "épouvanter", "équeuter", "éreinter", "éructer",
             "étiqueter", "étêter", "éventer", "éviter", "ôter", "alinéater", "arc-bouter", "chevrèter",
             "co-adapter", "contre-bouter", "contre-pointer", "court-circuiter", "débecter", "désencroûter",
             "détricoter", "dormoter", "ébruter", "emmazouter", "empianoter", "encorseter", "enredingoter",
             "fayoter", "fébriciter", "flânoter", "frégater", "fuiter", "fumoter", "funester", "gargoter",
             "gloussoter", "glouter", "graphiter", "grésilloter", "grognoter", "guéreter", "halter", "héliporter",
-            "hirsuter", "humoter", "indulter", "insolenter", "interlocuter", "introjecter", "lancicoter",
-            "lavementer", "léchoter", "législater", "lingoter", "lock-outer", "méprisoter", "mithridater",
+            "hirsuter", "humoter", "indulter", "insolenter", "-interlocuter", "-introjecter", "lancicoter",
+            "lavementer", "léchoter", "-législater", "lingoter", "lock-outer", "méprisoter", "mithridater",
             "moineauter", "moufeter", "mouffeter", "muleter", "nuiter", "obiter", "onguenter", "opporter",
             "pédanter", "péréquater", "permanenter", "perscruter", "pilloter", "pistoleter", "plaçoter",
-            "plaignoter", "plumeter", "popoter", "poussoter", "préadapter", "préempter", "prester", "progéniter",
+            "plaignoter", "plumeter", "popoter", "poussoter", "préadapter", "-préempter", "prester", "progéniter",
             "prouter", "pschuter", "quasi-contracter", "rabanter", "râloter", "raugmenter", "réacclimater",
             "réadopter", "réaffecter", "réaimanter", "réalimenter", "réappâter", "réapprêter", "réaugmenter",
             "recacheter", "recompléter", "rediscuter", "réécouter", "réenchanter", "refeuilleter", "regoûter",
             "réhabiter", "réhumecter", "réinjecter", "réinterpréter", "réinviter", "remâter", "rempaqueter",
             "reprêter", "re-sous-traiter", "revisiter", "rococoter", "roussoter", "rudenter", "saccageoter",
             "sarmenter", "sauveter", "savater", "silicater", "soixanter", "solvater", "souffloter", "sous-affréter",
-            "sous-exploiter", "sous-traiter", "stelliter", "substanter", "surcoter", "surinfecter", "surventer",
+            "sous-exploiter", "sous-traiter", "stelliter", "substanter", "surcoter", "-surinfecter", "surventer",
             "tableauter", "tabuster", "tacoter", "tangenter", "télétraiter", "testamenter", "touchoter",
             "trempoter", "twister", "ubiquiter", "varianter", "yoyoter", "-ablater", "absenter", "affriter",
             "alester", "alloter", "aloter", "anchoiter", "antiparasiter", "anuiter", "aponter", "appeauter",
@@ -1031,11 +1214,11 @@ namespace ColorLib
             "coexploiter", "cohériter", "compoter", "confiter", "conjointer", "contrebouter", "contremanifester",
             "contrenquêter", "contrepointer", "copermuter", "coprésenter", "copyrighter", "corneter", "cotransfecter",
             "coupeter", "coéditer", "craboter", "crapaüter", "craquanter", "crypter", "crânoter", "cuiter",
-            "curedenter", "cuter", "denter", "dessuinter", "diazoter", "disconnecter", "discounter", "disjoncter",
-            "dismuter", "dolenter", "duplicater", "déafférenter", "déballaster", "débruter", "débudgéter",
+            "curedenter", "cuter", "denter", "dessuinter", "diazoter", "disconnecter", "discounter", "-disjoncter",
+            "dismuter", "dolenter", "-duplicater", "déafférenter", "déballaster", "débruter", "débudgéter",
             "débéqueter", "décalfater", "décaoutchouter", "déclimater", "décolmater", "décompacter", "décompartimenter",
             "déconnoter", "décoter", "décranter", "décravater", "décrémenter", "décuiter", "décuscuter",
-            "-déflater", "défolioter", "déforester", "déformater", "défruiter", "défuncter", "dégarroter",
+            "-déflater", "défolioter", "déforester", "-déformater", "défruiter", "défuncter", "dégarroter",
             "dégraphiter", "déguillemeter", "dégurgiter", "dégîter", "déjanter", "déjointer", "déjouter",
             "délaiter", "délenter", "déleucocyter", "délicoter", "déligoter", "délinéamenter", "délister",
             "déléter", "démazouter", "dénitrater", "dépageoter", "dépagnoter", "dépailleter", "dépajoter",
@@ -1051,16 +1234,16 @@ namespace ColorLib
             "encrister", "endiamanter", "enganter", "enjanter", "ensaboter", "ensiloter", "entrevoûter",
             "esquimauter", "essarmenter", "essenter", "exorbiter", "explanter", "fabricoter", "faignanter",
             "farnienter", "farter", "fauberter", "feignanter", "ferrouter", "fleureter", "fluater", "folleter",
-            "formater", "frimater", "fruiter", "galeter", "galipoter", "genéter", "gileter", "graffiter",
-            "greneter", "grenter", "gruauter", "gruter", "guniter", "horodater", "hydrocuter", "hélitransporter",
+            "-formater", "frimater", "fruiter", "galeter", "galipoter", "genéter", "gileter", "graffiter",
+            "greneter", "grenter", "gruauter", "gruter", "guniter", "horodater", "-hydrocuter", "hélitransporter",
             "impacter", "implémenter", "incrémenter", "indenter", "inexister", "inquarter", "interconnecter",
-            "interjecter", "introjeter", "intuiter", "jésuiter", "knockouter", "langueter", "lanter", "lenter",
+            "-interjecter", "introjeter", "intuiter", "jésuiter", "knockouter", "langueter", "lanter", "lenter",
             "levreter", "liquater", "lockouter", "maffioter", "mafioter", "microter", "mixter", "muloter",
             "museleter", "mâchoter", "mécompter", "méliniter", "niqueter", "nitriter", "noqueter", "nordester",
             "nordouester", "outer", "pageoter", "pajoter", "paleter", "paloter", "pancarter", "papiéter",
             "perchlorater", "photomonter", "picrater", "pinceter", "pinçoter", "piter", "pituiter", "planéter",
             "pleuroter", "pleuvioter", "plissoter", "plouter", "pluvioter", "poivroter", "polliciter",
-            "poter", "protracter", "préacheter", "préciter", "précoter", "prédater", "préformater", "prémonter",
+            "-poter", "-protracter", "préacheter", "préciter", "précoter", "-prédater", "-préformater", "prémonter",
             "prétester", "prétraiter", "puter", "pédimenter", "rabiauter", "radiodétecter", "raffûter",
             "raineter", "rapapilloter", "rapiater", "rapprêter", "rebachoter", "rebaisoter", "rebarboter",
             "rebecqueter", "rebisouter", "rebizouter", "reboiter", "reboursicoter", "rebâter", "rebécoter",
@@ -1089,11 +1272,11 @@ namespace ColorLib
             "souffroter", "souqueter", "sousqueter", "sporter", "suracheter", "suradapter", "surmédicamenter",
             "surreprésenter", "sursulfater", "sustanter", "tarter", "tilloter", "tilter", "tomater", "torchecuter",
             "toster", "transfecter", "trichoter", "tripleter", "trouilloter", "truiter", "tréjeter", "télédébiter",
-            "télédétecter", "télépancarter", "télépiloter", "télépointer", "téléporter", "usiter", "vigneter",
+            "-télédétecter", "télépancarter", "télépiloter", "télépointer", "téléporter", "usiter", "vigneter",
             "violeter", "virevouster", "volanter", "véroter", "youyouter", "zéroter", "ébouqueter", "ébûcheter",
             "échaloter", "écointer", "écolleter", "écroter", "écôter", "éjointer", "élaiter", "énoyauter",
             "épiéter", "épuiseter", "îloter", "knock-outer", "pied-au-cuter", "sous-alimenter", "menoter",
-            "moqueter", "phagociter", "enchrister", "santer", "stater", "center", "scripter", "balter",
+            "moqueter", "phagociter", "enchrister", "santer", "-stater", "center", "scripter", "balter",
             "clienter", "moiter", "couter", "giter", "koter", "balloter", "règlementer", "vouter", "gouter",
             "arcbouter", "surinterpréter", "comater", "tûter", "emboiter", "dégouter", "crouter", "encrypter",
             "affuter", "fluter", "défragmenter", "garroter", "charlater", "déboiter", "marabouter", "entreheurter",

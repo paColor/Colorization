@@ -213,25 +213,79 @@ namespace ColorLib.Morphalou
             Debug.Assert(!equality);
             foreach (int pos in diffs)
             {
-                if (pos < graphie.Length
-                    && graphie[pos] == 'b' // il est clair que l'index dans grpahie peut vite diverger
-                    && pos < ph1.Length
-                    && ph1[pos] == 'p'
-                    && pos < col.Length
-                    && col[pos] == 'b')
+                if (pos < col.Length)
                 {
-                    return true;
-                };
-
-                if (pos > 0 && pos < col.Length
-                    && col[pos] == col[pos - 1])
-                {
-                    // La version colorization double parfois certains sons, ce qui n'est pas un problème
-                    // quand on colorise. 
-                    if (AreMatch(graphie, ph1, col.Remove(pos, 1)))
-                        return true;
+                    if (pos > 0 && col[pos] == col[pos - 1])
+                    {
+                        // La version colorization double parfois certains sons, ce qui n'est 
+                        // pas un problème quand on colorise. 
+                        if (AreMatch(graphie, ph1, col.Remove(pos, 1)))
+                            return true;
+                    }
+                    if (pos > 2
+                        && col[pos] == 'j'
+                        && col[pos - 1] == 'i'
+                        && PhonInW.IsPhonConsonne(NotationsPhon.Son2phon(col[pos - 2]))
+                        && PhonInW.IsPhonConsonne(NotationsPhon.Son2phon(col[pos - 3]))
+                        )
+                    {
+                        // ça pourrait être la fameuse règle 'prec_2cons' que nous considérons
+                        // juste, mais où Morphalou omet le j.
+                        // recalculons 'col' sans le son [j]
+                        string newCol = col.Remove(pos, 1);
+                        if (AreMatch(graphie, ph1, newCol))
+                            return true;
+                    } 
+                    if (pos < ph1.Length)
+                    {
+                        if (pos < graphie.Length
+                            && graphie[pos] == 'b' // il est clair que l'index dans grpahie peut vite diverger
+                            && ph1[pos] == 'p'
+                            && col[pos] == 'b')
+                        {
+                            return true;
+                        }
+                        if (pos > 2 
+                            && ph1[pos] == 'j'
+                            && ph1[pos - 1] == 'a'
+                            && ph1[pos - 2] == 'w'
+                            )
+                        {
+                            // Il es possible qu'on ait un mot comme "aboya" que Morphalou voit
+                            // comme "abwaja" mais où Colorization ne voit pas le [j]. Morphalou
+                            // a raison, mais ça n'a aucune importance pour la fonctionalité de
+                            // Colorization puisque Colorization ne peut associer qu'un son (une
+                            // couleur) à une lettre.
+                            // On pourrait en théorie introduire un nouveau 'phonème' pour oy
+                            // qui correspondrait à la phonétique [waj]. Ce serait correct mais
+                            // inutile pour coloriser correctement.
+                            string newPh1 = ph1.Remove(pos, 1);
+                            if (AreMatch(graphie, newPh1, col))
+                                return true;
+                        }
+                        if (pos > 3
+                            && ph1[pos] == 'i'
+                            && ph1[pos - 1] == 'j'
+                            && ph1[pos - 2] == 'a'
+                            && ph1[pos - 3] == 'w')
+                        {
+                            // pour aboyiez...
+                            string newPh1 = ph1.Remove(pos - 1, 1);
+                            if (AreMatch(graphie, newPh1, col))
+                                return true;
+                        }
+                        if (((col[pos] == 'i' && ph1[pos] == 'j')
+                            || (col[pos] == 'j' && ph1[pos] == 'i'))
+                            && pos < ph1.Length - 1
+                            && pos < col.Length - 1
+                            && col[pos + 1] == ph1[pos + 1]
+                            && PhonInW.IsPhonVoyelle(NotationsPhon.Son2phon(col[pos + 1]))
+                           )
+                        {
+                            return true;
+                        }
+                    }
                 }
-
             }
 
             if (AreEqualButSchwa(graphie, ph1, col))

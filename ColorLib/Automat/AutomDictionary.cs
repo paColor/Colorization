@@ -66,7 +66,7 @@ namespace ColorLib
                     lettres = lettres.Trim();
                     len = lettres.Length;
                     char son;
-                    if (sons[j] == '-')
+                    if (j < sons.Length && sons[j] == '-')
                     {
                         i = j + 1;
                         while (j < sons.Length && sons[j] != ';')
@@ -108,15 +108,7 @@ namespace ColorLib
             { "abies", "a-a;b-b;i-j;e-E;s-s" },
             { "abigaïl", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l" },
             { "abigaïls", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l" },
-            //{ "abotions", "a;b;o;t;i-j;on-§;s-#" },
-            //{ "aboutions", "ab;ou-u;t;i-j;on-§;s-#" },
-            //{ "abricotions","abRi; c-k ;ot;i-j;on-§;s-#" },
-            //{ "abritions", "abRit;i-j;on-§;s-#" },
-            //{ "abutions", "ab;u-y;t;i-j;on-§;s-#" },
-            //{ "acceptions", "a;c-k;c-s;e-E;pt;i-j;on-§;s-#" },
-            //{ "accidentions", "a;c-k;c-s;id;en-@;t;i-j;on-§;s-#" },
-            //{ "accointions", "a;cc-k;oin-3;t;i-j;on-§;s-#" },
-            //{ "accotions", "a;cc-k;ot;i-j;on-§;s-#" },
+            { "abrasax", "ab;r-R;asax" }
         }; 
     }
 }

@@ -85,6 +85,7 @@
     <Compile Include="RGBTest.cs" />
     <Compile Include="ChiffresTest.cs" />
     <Compile Include="TestMorphalou.cs" />
+    <Compile Include="TransformWordLists.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">

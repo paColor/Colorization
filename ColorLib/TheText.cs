@@ -455,7 +455,6 @@ namespace ColorLib
             logger.ConditionalDebug("Init");
             ConfigBase.Init(errMsgs);
             AutomAutomat.InitAutomat();
-            PhonInW.Init();
             SylInW.Init();
             Config.Init(errMsgs);
         }
