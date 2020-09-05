@@ -21,6 +21,7 @@
 using ColorLib.Morphalou;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -54,22 +55,38 @@ namespace ColorLib
                 while (i < sons.Length)
                 {
                     int j = i;
-                    while (sons[j] != '-')
+                    while (j < sons.Length
+                        && sons[j] != '-'
+                        && sons[j] != ';')
                     {
                         j++;
                     }
                     int len = j - i; // j doit être > i, donc len > 0;
-                    string lettres = sons.Substring(i, len); 
-                    string son = sons.Substring(j + 1, 1); // si on est à la fin du string, ça
-                    // va déclencher une exception et c'est très bien ainsi.
-
-                    PhonInW piw = new PhonInW(pw, l, l + len - 1, NotationsPhon.Son2phon(son), "exception");
-
-                    l += len;
-
-                    while (sons[j] != ';')
+                    string lettres = sons.Substring(i, len);
+                    lettres = lettres.Trim();
+                    len = lettres.Length;
+                    char son;
+                    if (sons[j] == '-')
                     {
-                        j++;
+                        i = j + 1;
+                        while (j < sons.Length && sons[j] != ';')
+                        {
+                            j++;
+                        }
+                        string strSon = sons.Substring(i, j - i);
+                        strSon = strSon.Trim();
+                        son = strSon[0]; // par définition un seul charactère.
+                        PhonInW piw = new PhonInW(pw, l, l + len - 1, NotationsPhon.Son2phon(son), "exception");
+                        l += len;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < len; k++)
+                        {
+                            son = lettres[k];
+                            PhonInW piw = new PhonInW(pw, l, l, NotationsPhon.Son2phon(son), "exception");
+                            l++;
+                        }
                     }
                     i = j + 1;
                 }
@@ -88,6 +105,18 @@ namespace ColorLib
         {
             { "aber", "a-a;b-b;e-E;r-R" },
             { "abers", "a-a;b-b;e-E;r-R;s-#" },
+            { "abies", "a-a;b-b;i-j;e-E;s-s" },
+            { "abigaïl", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l" },
+            { "abigaïls", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l" },
+            //{ "abotions", "a;b;o;t;i-j;on-§;s-#" },
+            //{ "aboutions", "ab;ou-u;t;i-j;on-§;s-#" },
+            //{ "abricotions","abRi; c-k ;ot;i-j;on-§;s-#" },
+            //{ "abritions", "abRit;i-j;on-§;s-#" },
+            //{ "abutions", "ab;u-y;t;i-j;on-§;s-#" },
+            //{ "acceptions", "a;c-k;c-s;e-E;pt;i-j;on-§;s-#" },
+            //{ "accidentions", "a;c-k;c-s;id;en-@;t;i-j;on-§;s-#" },
+            //{ "accointions", "a;cc-k;oin-3;t;i-j;on-§;s-#" },
+            //{ "accotions", "a;cc-k;ot;i-j;on-§;s-#" },
         }; 
     }
 }

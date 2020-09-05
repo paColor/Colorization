@@ -92,7 +92,7 @@ namespace ColorLib
 			@"{
 				'a' : [['u','il','in','nc_ai_fin','ai_fin','fais','i','n','m','nm','y_except','y_fin','yat','y', '*'],
 						{'n':[{'+':/n[bcçdfgjklmpqrstvwxz]/i},'a_tilda',2],
-						'm':[{'+':/m[mbp]/i},'a_tilda',2], // règle du m devant m, b, p
+						'm':[{'+':/m[bp]/i},'a_tilda',2], // règle du m devant b, p
 						'nm':[{'+':/n(s?)$/i},'a_tilda',2],
 						'y_except':[{'-':/(^b|cob|cip|^k|^m|^f|mal)/i,'+':/y/i},'a',1], // exception : baye, cobaye, kayac, maya, mayonnaise, fayot (PAE - 10.03.20)
 						'y_fin':[{'+':/y$/i},'E_comp',2], // (PAE - 10.03.20)
@@ -156,7 +156,8 @@ namespace ColorLib
 						'ment','imparfait','verbe_3_pluriel','au',
 						'eu_final','avoir','monsieur','jeudi','jeu_','eux','eur','eu','eu_accent_circ','in','eil','y','iy','ennemi','enn_debut_mot','dessus_dessous',
 						'et','cet','t_final','eclm_final','est','d_except','drz_final','zen','n','adv_emment_a','femme','lemme','em_gene','nm','tclesmesdes',
-						'que_isole','que_gue_final','jtcnslemede','jean','ge','eoi','ex','ef','reqquechose','except_evr','2consonnes','abbaye','e_muet','e_caduc','e_deb', '@', '*'],
+						'que_isole','que_gue_final','jtcnslemede','jean','ge','eoi','ex','ef',
+						'reqquechose','except_evr','2consonnes','abbaye','e_muet','e_caduc','e_deb','@','ier_Conj','*'],
 						{'_ent':[this.Regle_mots_ent,'a_tilda',2], // quelques mots (adverbes ou noms) terminés par ent
 						'adv_emment_fin':[{'-':/emm/i,'+':/nt/i},'a_tilda',2], // adverbe avec 'emment' => se termine par le son [a_tilda]
 						'ment':[this.Regle_ment,'a_tilda',2], // on considère que les mots terminés par 'ment' se prononcent [a_tilda] sauf s'il s'agit d'un verbe
@@ -218,6 +219,7 @@ namespace ColorLib
 						'ge':[{'-':/g/i,'+':/[aouàäôâ]/i},'_muet',1], // un e précédé d'un 'g' et suivi d'une voyelle ex. : cageot
 						'eoi':[{'+':/oi/i},'_muet',1], // un e suivi de 'oi' ex. : asseoir
 						'e_caduc':[{'-':/[bcçdfghjklmnpqrstvwxzy]/i,'+':/(s?)$/i},'q_caduc',1], // un e suivi éventuellement d'un 's' et précédé d'une consonne ex. : correctes
+						'ier_Conj':[this.Regle_ierConjE,'_muet',1], // verbes en ier conjugués au futur ou au conditionnel
 						'*':[{},'q',1],
 						'@':[{'+':/$/i},'q_caduc',1]
 						}],
@@ -252,7 +254,7 @@ namespace ColorLib
 							{'*':[{},'_muet',1]}],
 					'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill2','tranquille',
 							'ill','except_ill','bacille','ill_Ceras', '@ill','@il','ll','@il_Ceras',
-							'll_Ceras','ui','ient_1','ient_2','ie','i_voyelle', '*'],
+							'll_Ceras','ui','ient_1','ient_2','ie','ier_Conj','i_voyelle', '*'],
 							{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng$/i},'i',1],
 							'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
 							'm':[{'+':/m[bcçdfghjklnpqrstvwxz]/i},'e_tilda',2],
@@ -276,6 +278,7 @@ namespace ColorLib
 							'ient_1':[this.Regle_ient,'i',1], // règle spécifique pour différencier les verbes du premier groupe 3ème pers pluriel
 							'ient_2':[{'+':/ent(s)?$/i},'j',1], // si la règle précédente ne fonctionne pas
 							'ie':[{'+':/e(s|nt)?$/i},'i',1], // mots terminés par -ie(s|nt)
+							'ier_Conj':[this.Regle_ierConjI,'i',1], // verbes en ier conjugués au futur ou au conditionnel
 							'i_voyelle':[{'+':/[aäâeéèêëoôöuù]/i},'ji',1], // i suivi d'une voyelle donne [j]
 							'*':[{},'i',1]}],
 					'ï' : [['thai', 'aie', '*'],
@@ -399,7 +402,8 @@ namespace ColorLib
 							'apostrophe':[{'+':/('|’)/i},'s',2], // apostrophe
 							'*':[{},'s',1],
 							'@':[{'+':/$/i},'_muet',1]}],
-					't' : [['t_deb','t','tisole','except_tien','_tien','ex_tie','tie','ex_tiot','tiaot','tiaos','vingt',
+					't' : [['t_deb','t','tisole','except_tien','_tien','ex_tie','tie','ex_tiot','tiaot',
+							'verb_tions','tiaos','vingt',
 							'ourt','_inct','_spect','_ct','_est','t_final','tmuet','apostrophe', '@', '*'],
 							{'t':[{'+':/t/i},'t',2],
 							't_deb':[{'-':/^/i},'t',1],
@@ -409,6 +413,7 @@ namespace ColorLib
 							'tie':[{'-':/(ambi|albu|cra|lvi|^essen|idio|iner|ini|minu|ipé|oten|phé)/i,'+':/ie/i},'s_t',1],
 							'ex_tiot':[{'-':/(cré|plé|jé)/i,'+':/i[ao]/i},'s_t',1],
 							'tiaot':[{'-':/([eéèêës]|[sc]en|an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io])/i,'+':/i[ao]/i},'t',1],
+							'verb_tions':[this.Regle_VerbesTier,'t',1], // verbes en ter à l'imparfait - nous
 							'tiaos':[{'+':/i[ao]/i},'s_t',1],
 							'vingt':[{'-':/ving/i,'+':/$/i},'t',1], // vingt mais pas vingts
 							'tisole':[{'+':/$/i,'-':/^/i},'t',1], // exemple : demande-t-il
@@ -554,28 +559,31 @@ namespace ColorLib
 			logger.ConditionalTrace("FindPhons");
 			Debug.Assert(pw != null);
 
-			int pos = 0;
-			string w = pw.GetWord();
-			AutomLetter al;
-
-			while (pos < w.Length)
+			if (!AutomDictionary.FindPhons(pw, conf))
 			{
-				if (automLetters.TryGetValue(w[pos], out al))
+				int pos = 0;
+				string w = pw.GetWord();
+				AutomLetter al;
+
+				while (pos < w.Length)
 				{
-					al.FireRule(pw, ref pos, conf);
-				}
-				else if (automLetters.TryGetValue('*', out al))
-				{
-					// strange character encountered --> handle it as letter '*'
-					al.FireRule(pw, ref pos, conf);
-				} 
-				else
-				{
-					// this should not happen!!
-					string message = String.Format(ConfigBase.cultF, "La règle générique n'existe pas et on en aurait besoin...");
-					throw new KeyNotFoundException(message);
-				}
-			} // while
+					if (automLetters.TryGetValue(w[pos], out al))
+					{
+						al.FireRule(pw, ref pos, conf);
+					}
+					else if (automLetters.TryGetValue('*', out al))
+					{
+						// strange character encountered --> handle it as letter '*'
+						al.FireRule(pw, ref pos, conf);
+					}
+					else
+					{
+						// this should not happen!!
+						string message = String.Format(ConfigBase.cultF, "La règle générique n'existe pas et on en aurait besoin...");
+						throw new KeyNotFoundException(message);
+					}
+				} // while
+			} // if
 		} // FindPhons
 
 		public void CountPhons(ref int[] usedPhons)

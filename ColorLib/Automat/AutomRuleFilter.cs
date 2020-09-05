@@ -33,7 +33,7 @@ namespace ColorLib
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private delegate bool CheckRuleFunction(string mot, int posMot);
-        static private Dictionary<string, CheckRuleFunction> checkRuleFs = new Dictionary<string, CheckRuleFunction>(11)
+        static private Dictionary<string, CheckRuleFunction> checkRuleFs = new Dictionary<string, CheckRuleFunction>()
         {
             {"Regle_ient", Regle_ient},
             {"Regle_mots_ent", Regle_mots_ent},
@@ -46,7 +46,10 @@ namespace ColorLib
             {"Regle_t_final", Regle_t_final},
             {"Regle_tien", Regle_tien},
             {"Regle_finD", Regle_finD},
-            {"Regle_ill", Regle_ill}
+            {"Regle_ill", Regle_ill},
+            {"Regle_ierConjI", Regle_ierConjI },
+            {"Regle_ierConjE", Regle_ierConjE },
+            {"Regle_VerbesTier", Regle_VerbesTier }
         };
 
         private CheckRuleFunction crf;
@@ -308,16 +311,20 @@ namespace ColorLib
             "signifier","simplifier","skier","solidifier","soucier","spolier","specifier","statufier","strier",
             "stupefier","supplicier","supplier","serier","terrifier","tonifier","trier","tumefier",
             "typographier","telegraphier","unifier","varier","versifier","vicier","vitrifier","vivifier",
-            "verifier","echographier","ecrier","edifier","electrifier","emulsifier","epier","etudier"};
+            "verifier","echographier","ecrier","edifier","electrifier","emulsifier","epier","etudier",
+            "abetifier"
+        };
 
         private static StringDictionary verbes_ier_hashed = new StringDictionary();
-        
+
         //Règle spécifique de traitement des successions de lettres finales 'ient'
         //sert à savoir si la séquence 'ient' se prononce [i][_muet] ou [j][e_tilda]
         // pour nous, pos_mot correspond à la position de la lettre examinéée. Chez Marie-Pierre, 
         // c'est la position après la lettre examinée.
 
         // Précondition: mot est en minuscules
+
+        private static Regex rxConsIent = new Regex("[bcçdfghjklnmpqrstvwxz]ient$", RegexOptions.IgnoreCase);
 
         public static bool Regle_ient(string mot, int pos_mot)
         {
@@ -328,8 +335,7 @@ namespace ColorLib
             bool toReturn = false;
             if (pos_mot >= mot.Length - 4) // checking i or e from the "ient" any previous letter in the word would not fit.
             {
-                Regex r = new Regex("[bcçdfghjklnmpqrstvwxz]ient$", RegexOptions.IgnoreCase);
-                if (r.IsMatch(mot)) // le mot doit se terminer pas par 'ient' (précédé d'une consonne)
+                if (rxConsIent.IsMatch(mot)) // le mot doit se terminer pas par 'ient' (précédé d'une consonne)
                 {
                     // il faut savoir si le mot est un verbe dont l'infinitif se termine par 'ier' ou non
                     string pseudo_infinitif = ChaineSansAccents(mot.Substring(0, mot.Length - 2) + 'r');
@@ -351,8 +357,102 @@ namespace ColorLib
             return toReturn;
         }
 
+        private static HashSet<string> termFutCond = new HashSet<string>()
+        {
+            { "ai" }, { "as" }, { "a" }, { "ons" }, { "ez" }, { "ont" },
+            { "ais" }, { "ait" }, { "ions" }, { "iez" }, { "aient" }
+        };
 
-        static string[] mots_ent =
+        /// <summary>
+        /// Vérifie se le mote est une forme conjuguée en ier[*] au futur ou au conditionnel.
+        /// </summary>
+        /// <param name="mot">Le mot à vérifier.</param>
+        /// <param name="pos_mot">La position du i de "ier" dans le mot.</param>
+        /// <returns><c>true</c> s'il s'agit d'un verbe en ier conjugué au futur ou au
+        /// conditionnel. <c>false</c> dans le cas contraire.
+        /// </returns>
+        public static bool Regle_ierConjI(string mot, int pos_mot)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ierConjugue - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            Debug.Assert(mot != null);
+            Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
+
+            return (pos_mot > 0 
+                && pos_mot < mot.Length - 3
+                && TextEl.EstConsonne(mot[pos_mot - 1])
+                && mot[pos_mot] == 'i'
+                && mot[pos_mot + 1] == 'e'
+                && mot[pos_mot + 2] == 'r'
+                && termFutCond.Contains(mot.Substring(pos_mot + 3)));
+
+            /*
+            bool toReturn = false;
+            if (pos_mot < mot.Length - 3 
+                && mot[pos_mot] == 'i' 
+                && mot[pos_mot + 1] == 'e'
+                && mot[pos_mot + 2] == 'r'
+                && termFutCond.Contains(mot.Substring(pos_mot + 3)))
+            {
+                // Il faudrait vérifier qu'il s'agit bien d'un des verbes de la liste.
+                // Mais si on disait qu'avec cette terminaison il s'agit à tous les coups d'un
+                // verbe conjugué?
+
+                // il faut savoir si le mot est un verbe dont l'infinitif se termine par 'ier' ou non
+                //string pseudo_infinitif = ChaineSansAccents(mot.Substring(0, mot.Length - 2) + 'r');
+                //toReturn = verbes_ier_hashed.ContainsKey(pseudo_infinitif);
+            }
+            return toReturn;
+            */
+        }
+
+        /// <summary>
+        /// Comme <see cref="Regle_ierConjI(string, int)"/> mais avec <paramref name="pos_mot"/>
+        /// pointant sur le 'e'.
+        /// </summary>
+        /// <param name="mot">Le mot à analyser</param>
+        /// <param name="pos_mot">La position de la lettre e dans la terminason 'ier'...</param>
+        /// <returns><c>true</c> s'il s'agit d'un verbe en 'ier' conjugué au futur ou au
+        /// conditionnel, <c>false</c> sinon. </returns>
+        public static bool Regle_ierConjE(string mot, int pos_mot)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ierConjugue - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            Debug.Assert(mot != null);
+            Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
+
+            return (pos_mot > 1 
+                && pos_mot < mot.Length - 2
+                && TextEl.EstConsonne(mot[pos_mot - 2])
+                && mot[pos_mot - 1] == 'i'
+                && mot[pos_mot] == 'e'
+                && mot[pos_mot + 1] == 'r'
+                && termFutCond.Contains(mot.Substring(pos_mot + 2)));
+        }
+
+        /// <summary>
+        /// Vérifie si le mot est un verbe en ter à la 1e personne du pluriel de l'imparfait.
+        /// Par ex. "nous formations". Le but est de découvrir que "ti" se prononce ti et non si.
+        /// </summary>
+        /// <remarks>Utilise la liste <c>verbesTer</c> qui se trouve à la fin du fichier.</remarks>
+        /// <param name="mot">Mot à analyser.</param>
+        /// <param name="pos">Position du t de tions dans le mot.</param>
+        /// <returns><c>true</c> si tions est utilisé pour conjuguer un verbe.</returns>
+        public static bool Regle_VerbesTier(string mot, int pos)
+        {
+            Debug.Assert(mot != null);
+            bool toReturn = false;
+            if (pos == mot.Length - 5
+                && mot.EndsWith("tions"))
+            {
+                StringBuilder sb = new StringBuilder(mot.Length);
+                sb.Append(mot.Substring(0, mot.Length - 4));
+                sb.Append("er");
+                toReturn = verbesTer.Contains(sb.ToString());
+            }
+            return toReturn;
+        }
+
+
+            static string[] mots_ent =
         {
             "absent", "abstinent", "accent", "accident", "adhérent", "adjacent",
             "adolescent", "afférent", "agent", "ambivalent", "antécédent", "apparent",
@@ -786,6 +886,230 @@ namespace ColorLib
             }
             return toReturn;
         }
+
+        static HashSet<string> verbesTer = new HashSet<string>()
+        {
+            "aboter", "abouter", "abricoter", "abriter", "absorbanter", "abuter", "accepter", "accidenter",
+            "acclimater", "accointer", "accoster", "accoter", "accravanter", "accréditer", "acheter", "acouter",
+            "acquêter", "acravanter", "-acter", "adapter", "adenter", "admonester", "admonéter", "-adopter",
+            "affaiter", "affaîter", "-affecter", "afforester", "affronter", "affruiter", "affréter", "affûter",
+            "aganter", "agater", "agioter", "agiter", "agréanter", "agrémenter", "aheurter", "ahonter",
+            "aiguilleter", "aimanter", "ajointer", "ajouter", "ajuster", "ajuter", "alerter", "alimenter",
+            "aliter", "allaiter", "amateloter", "ameuter", "amicoter", "amignoter", "amignouter", "amputer",
+            "annoter", "antidater", "antidoter", "aoûter", "apléter", "aposter", "apparenter", "appointer",
+            "apponter", "apporter", "apprésenter", "apprêter", "appâter", "appéter", "arbreter", "argenter",
+            "argoter", "argumenter", "arpenter", "arrenter", "arrêter", "aspecter", "asphalter", "assermenter",
+            "assister", "assoter", "asticoter", "atinter", "-attenter", "attester", "attrister", "augmenter",
+            "ausculter", "avorter", "azimuter", "bachoter", "bagoter", "bahuter", "baisoter", "ballaster",
+            "banqueter", "baqueter", "barboter", "baster", "bavoter", "becqueter", "becter", "beloter",
+            "bibeloter", "bijouter", "biscoter", "biscuiter", "biseauter", "bizuter", "blaireauter", "bleuter",
+            "bluter", "boiter", "bonimenter", "bonneter", "bouilloter", "bouqueter", "boursicoter", "bouter",
+            "bouveter", "branloter", "breveter", "brillanter", "brilloter", "briqueter", "brocanter", "brocheter",
+            "brouter", "bruiter", "budgéter", "buter", "buvoter", "bâter", "bécoter", "bégueter", "béqueter",
+            "bêcheveter", "caboter", "cacheter", "cadeauter", "cadoter", "cafeter", "cahoter", "cailleboter",
+            "cailleter", "caillouter", "caleter", "calfater", "calter", "cameloter", "canoter", "canter",
+            "caoutchouter", "capoter", "capter", "caqueter", "carapater", "-carbonater", "casemater", "catapulter",
+            "cataracter", "causoter", "chahuter", "chanter", "chapeauter", "charabiater", "charcuter",
+            "charpenter", "charreter", "chevreauter", "chevreter", "chevroter", "chicoter", "chipoter",
+            "chiqueter", "chouchouter", "chuchoter", "chuinter", "chuter", "cimenter", "citer", "claboter",
+            "clapoter", "claqueter", "claveter", "clignoter", "cliqueter", "clocheter", "clouter", "coapter",
+            "cocoter", "coexister", "cogiter", "cohabiter", "-collecter", "colleter", "colmater", "colporter",
+            "commanditer", "commenter", "commuter", "compacter", "compartimenter", "complanter", "complimenter",
+            "comploter", "complémenter", "compléter", "comporter", "composter", "compter", "computer",
+            "compéter", "concerter", "concocter", "concréter", "condimenter", "conforter", "confronter",
+            "connecter", "connoter", "conquêter", "consister", "constater", "conster", "consulter", "contacter",
+            "contenter", "conter", "contester", "contingenter", "-contracter", "contraster", "contrebuter",
+            "contreventer", "contrister", "convoiter", "coopter", "copter", "coqueter", "corseter", "coter",
+            "couchoter", "coupleter", "courtcircuiter", "coïter", "coûter", "crachoter", "cranter", "crapahuter",
+            "crapouilloter", "craqueter", "cravater", "crocheter", "croûter", "créditer", "créosoter",
+            "crépiter", "crêter", "culbuter", "cureter", "cémenter", "dansoter", "dater", "diamanter",
+            "dicter", "diffracter", "dilater", "diligenter", "discréditer", "discuter", "disputer", "disserter",
+            "documenter", "doigter", "dompter", "dorloter", "doter", "douter", "duiter", "duveter", "dynamiter",
+            "débecqueter", "débequeter", "débiliter", "débiter", "débouter", "déboyauter", "déboîter",
+            "débuter", "débâter", "décacheter", "décanter", "décapiter", "décapoter", "-décarbonater", "déchanter",
+            "déchiqueter", "déclaveter", "décliqueter", "décolleter", "décompléter", "décompter", "déconcerter",
+            "déconforter", "déconnecter", "-décontracter", "décroûter", "décrypter", "décréditer", "décrépiter",
+            "décréter", "défunter", "déganter", "dégoter", "dégoûter", "déguster", "déjeter", "délecter",
+            "délester", "délimiter", "déliter", "déluter", "démailloter", "démonter", "démoucheter", "démâter",
+            "démériter", "dénoter", "dénoyauter", "dépaqueter", "dépiauter", "dépister", "dépiter", "déplanter",
+            "dépointer", "déporter", "dépoter", "députer", "dérater", "dérouter", "désacclimater", "désadapter",
+            "désaffecter", "désaimanter", "désajuster", "désappointer", "désargenter", "désenchanter",
+            "déserter", "déshabiter", "déshydrater", "déshériter", "désincruster", "désinfecter", "désorbiter",
+            "désorienter", "détecter", "détester", "détracter", "dévaster", "dévelouter", "dévolter", "effriter",
+            "effruiter", "emberlificoter", "embouter", "emboîter", "embâter", "embêter", "emmailloter",
+            "empaqueter", "empester", "empiéter", "emporter", "empoter", "emprunter", "empâter", "encarter",
+            "enchanter", "encravater", "encroter", "encroûter", "endenter", "enfanter", "enfaîter", "enfûter",
+            "enkyster", "enquêter", "enrégimenter", "ensanglanter", "enter", "entêter", "envoûter", "ergoter",
+            "escamoter", "escompter", "escorter", "esquinter", "essarter", "ester", "exalter", "excepter",
+            "exciter", "excogiter", "excrémenter", "excréter", "exempter", "exhorter", "exister", "expliciter",
+            "exploiter", "exporter", "expérimenter", "exulter", "exécuter", "faciliter", "fagoter", "fainéanter",
+            "fauter", "feinter", "fermenter", "feuilleter", "fienter", "fileter", "filouter", "flibuster",
+            "flirter", "flûter", "folioter", "fomenter", "forjeter", "fragmenter", "frelater", "fricoter",
+            "frisoter", "froufrouter", "fréquenter", "fréter", "fureter", "féliciter", "fêter", "ganter",
+            "gigoter", "glavioter", "glouglouter", "gobeloter", "gobeter", "goûter", "graniter", "graviter",
+            "grignoter", "guillemeter", "gâter", "gîter", "habiliter", "habiter", "haleter", "hanter",
+            "haricoter", "heurter", "hoqueter", "humecter", "hydrater", "hâter", "hébéter", "hériter",
+            "hésiter", "illimiter", "illuter", "imiter", "impatienter", "implanter", "importer", "imputer",
+            "incanter", "incidenter", "inciter", "incruster", "infecter", "infester", "ingurgiter", "injecter",
+            "innocenter", "inquiéter", "insister", "inspecter", "instrumenter", "insulter", "insupporter",
+            "intenter", "intercepter", "interjeter", "interpréter", "intersecter", "introspecter", "inventer",
+            "inviter", "irriter", "jaboter", "jacter", "jarreter", "jeter", "jointer", "jouter", "jouxter",
+            "juter", "knouter", "lamenter", "lester", "lichoter", "liciter", "lifter", "ligoter", "limiter",
+            "linéamenter", "lister", "liter", "loqueter", "louveter", "luter", "léviter", "machicoter",
+            "mailleter", "mailloter", "malter", "maltraiter", "mandater", "mangeoter", "manifester", "maquereauter",
+            "margoter", "marmiter", "marqueter", "massicoter", "mater", "mazouter", "mendigoter", "mignoter",
+            "mijoter", "militer", "minuter", "miroiter", "miter", "molester", "moleter", "monter", "moucheter",
+            "moufter", "mouvementer", "mugueter", "muter", "mâter", "mécontenter", "médicamenter", "méditer",
+            "mégoter", "mériter", "mésinterpréter", "nageoter", "neigeoter", "nitrater", "noter", "noyauter",
+            "numéroter", "nécessiter", "objecter", "occulter", "opter", "orbiter", "orienter", "ornementer",
+            "ouater", "pagnoter", "pailleter", "palpiter", "panneauter", "papilloter", "papoter", "paqueter",
+            "parachuter", "parasiter", "parementer", "parlementer", "parloter", "parqueter", "passementer",
+            "patenter", "patienter", "patricoter", "pelleter", "peloter", "percuter", "permuter", "pernocter",
+            "persister", "persécuter", "pester", "phagocyter", "phosphater", "pianoter", "picoter", "picter",
+            "pieuter", "pigmenter", "piloter", "pimenter", "pinceauter", "pinter", "piqueter", "pirater",
+            "pissoter", "pister", "pivoter", "piéter", "placoter", "plaisanter", "planter", "pleuvoter",
+            "plébisciter", "pocheter", "pointer", "poireauter", "poiroter", "ponter", "porter", "postdater",
+            "poster", "profiter", "projeter", "prospecter", "protester", "précipiter", "précompter", "préexister",
+            "préméditer", "présenter", "prétexter", "prêter", "pâter", "pécloter", "péricliter", "péter",
+            "quarter", "queuter", "quêter", "rabioter", "raboter", "rabouter", "racheter", "raconter",
+            "radoter", "ragoter", "ragoûter", "rajouter", "rajuster", "rameuter", "rapioter", "rapiéceter",
+            "rapporter", "rassoter", "rater", "ravigoter", "rebecter", "rebouter", "rebuter", "rechanter",
+            "rechuter", "recompter", "recruter", "redouter", "refléter", "rejeter", "relater", "reloqueter",
+            "remboîter", "remmailloter", "remonter", "rempiéter", "remporter", "rempoter", "renfaîter",
+            "renter", "replanter", "reporter", "représenter", "requêter", "respecter", "ressauter", "ressusciter",
+            "rester", "retraiter", "rewriter", "riboter", "rioter", "riposter", "riveter", "ronfloter",
+            "ronéoter", "roter", "rouspéter", "router", "réadapter", "réajuster", "réciter", "récolter",
+            "réconforter", "réescompter", "réexporter", "réfracter", "réfuter", "régater", "régenter",
+            "réglementer", "régurgiter", "réhabiliter", "réhydrater", "réimplanter", "réimporter", "réinfecter",
+            "réinventer", "réorienter", "répercuter", "réputer", "répéter", "résister", "résulter", "rétracter",
+            "révolter", "rééditer", "saboter", "sangloter", "sarter", "sauter", "saveter", "scruter", "sculpter",
+            "secréter", "segmenter", "serpenter", "shooter", "shunter", "siester", "siffloter", "siroter",
+            "solliciter", "soubresauter", "soucheter", "souffleter", "souhaiter", "souter", "sprinter",
+            "subsister", "suinter", "sulfater", "sulfiter", "supplanter", "supplémenter", "supporter",
+            "supputer", "suppéditer", "surajouter", "suralimenter", "surexciter", "surexploiter", "surjeter",
+            "surmonter", "sursauter", "survolter", "susciter", "suspecter", "sustenter", "suçoter", "sécréter",
+            "sédimenter", "sélecter", "tacheter", "taluter", "tangoter", "tapoter", "tarabiscoter", "tarabuster",
+            "teinter", "tempêter", "tenter", "terreauter", "tester", "tinter", "tiqueter", "toaster", "tourmenter",
+            "tournicoter", "toussoter", "tracter", "traficoter", "traiter", "transbahuter", "transiter",
+            "translater", "transmuter", "transplanter", "transporter", "travailloter", "trembloter", "tressauter",
+            "tricoter", "tripoter", "trompeter", "truster", "trémater", "turluter", "tuyauter", "tâter",
+            "téter", "valeter", "vanter", "velouter", "velter", "venter", "vergeter", "verjuter", "violenter",
+            "virevolter", "visiter", "vivisecter", "vivoter", "voleter", "volter", "voluter", "voter",
+            "voûter", "végéter", "warranter", "zester", "zieuter", "zozoter", "zyeuter", "ébouillanter",
+            "ébouter", "ébruiter", "écarter", "éclater", "écoqueter", "écourter", "écouter", "écroûter",
+            "écrêter", "édenter", "édicter", "éditer", "éjecter", "électrocuter", "éliciter", "émoucheter",
+            "épater", "épinceter", "épointer", "épousseter", "épouvanter", "équeuter", "éreinter", "éructer",
+            "étiqueter", "étêter", "éventer", "éviter", "ôter", "alinéater", "arc-bouter", "chevrèter",
+            "co-adapter", "contre-bouter", "contre-pointer", "court-circuiter", "débecter", "désencroûter",
+            "détricoter", "dormoter", "ébruter", "emmazouter", "empianoter", "encorseter", "enredingoter",
+            "fayoter", "fébriciter", "flânoter", "frégater", "fuiter", "fumoter", "funester", "gargoter",
+            "gloussoter", "glouter", "graphiter", "grésilloter", "grognoter", "guéreter", "halter", "héliporter",
+            "hirsuter", "humoter", "indulter", "insolenter", "interlocuter", "introjecter", "lancicoter",
+            "lavementer", "léchoter", "législater", "lingoter", "lock-outer", "méprisoter", "mithridater",
+            "moineauter", "moufeter", "mouffeter", "muleter", "nuiter", "obiter", "onguenter", "opporter",
+            "pédanter", "péréquater", "permanenter", "perscruter", "pilloter", "pistoleter", "plaçoter",
+            "plaignoter", "plumeter", "popoter", "poussoter", "préadapter", "préempter", "prester", "progéniter",
+            "prouter", "pschuter", "quasi-contracter", "rabanter", "râloter", "raugmenter", "réacclimater",
+            "réadopter", "réaffecter", "réaimanter", "réalimenter", "réappâter", "réapprêter", "réaugmenter",
+            "recacheter", "recompléter", "rediscuter", "réécouter", "réenchanter", "refeuilleter", "regoûter",
+            "réhabiter", "réhumecter", "réinjecter", "réinterpréter", "réinviter", "remâter", "rempaqueter",
+            "reprêter", "re-sous-traiter", "revisiter", "rococoter", "roussoter", "rudenter", "saccageoter",
+            "sarmenter", "sauveter", "savater", "silicater", "soixanter", "solvater", "souffloter", "sous-affréter",
+            "sous-exploiter", "sous-traiter", "stelliter", "substanter", "surcoter", "surinfecter", "surventer",
+            "tableauter", "tabuster", "tacoter", "tangenter", "télétraiter", "testamenter", "touchoter",
+            "trempoter", "twister", "ubiquiter", "varianter", "yoyoter", "-ablater", "absenter", "affriter",
+            "alester", "alloter", "aloter", "anchoiter", "antiparasiter", "anuiter", "aponter", "appeauter",
+            "apériter", "assarmenter", "asserter", "-auditer", "autoadapter", "autoalimenter", "autoamputer",
+            "autociter", "autocommuter", "autocontester", "autodicter", "autodécontracter", "autoexciter",
+            "autolimiter", "autopiloter", "autoporter", "autosubsister", "autotracter", "azoter", "aéroporter",
+            "aérotransporter", "barroter", "baryter", "baréter", "bicarbonater", "bichromater", "billeter",
+            "binoter", "biotraiter", "biqueter", "bisegmenter", "bisouter", "-bissecter", "biter", "bizouter",
+            "blablater", "borater", "borosilicater", "bouleter", "boyauter", "briffeter", "brifter", "bruter",
+            "buffeter", "cacaoter", "cafter", "calamiter", "cambuter", "candidater", "caneter", "canneter",
+            "canqueter", "carter", "chaluter", "chapoter", "chariboter", "charioter", "chlorater", "chocolater",
+            "chromater", "chucheter", "chélater", "circuiter", "clinquanter", "clocter", "coadapter", "cobalter",
+            "coexploiter", "cohériter", "compoter", "confiter", "conjointer", "contrebouter", "contremanifester",
+            "contrenquêter", "contrepointer", "copermuter", "coprésenter", "copyrighter", "corneter", "cotransfecter",
+            "coupeter", "coéditer", "craboter", "crapaüter", "craquanter", "crypter", "crânoter", "cuiter",
+            "curedenter", "cuter", "denter", "dessuinter", "diazoter", "disconnecter", "discounter", "disjoncter",
+            "dismuter", "dolenter", "duplicater", "déafférenter", "déballaster", "débruter", "débudgéter",
+            "débéqueter", "décalfater", "décaoutchouter", "déclimater", "décolmater", "décompacter", "décompartimenter",
+            "déconnoter", "décoter", "décranter", "décravater", "décrémenter", "décuiter", "décuscuter",
+            "-déflater", "défolioter", "déforester", "déformater", "défruiter", "défuncter", "dégarroter",
+            "dégraphiter", "déguillemeter", "dégurgiter", "dégîter", "déjanter", "déjointer", "déjouter",
+            "délaiter", "délenter", "déleucocyter", "délicoter", "déligoter", "délinéamenter", "délister",
+            "déléter", "démazouter", "dénitrater", "dépageoter", "dépagnoter", "dépailleter", "dépajoter",
+            "dépanneauter", "dépapilloter", "déparasiter", "déparementer", "déparqueter", "déphosphater",
+            "dépigmenter", "déposter", "déqueusoter", "dériveter", "dérocter", "déréglementer", "désabouter",
+            "désabriter", "désadopter", "désaffronter", "désafférenter", "désagater", "désamianter", "désapparenter",
+            "désasphalter", "désattrister", "désazoter", "déschister", "désemboîter", "désemmailloter",
+            "désempaqueter", "désemprunter", "désencarter", "désencaster", "désencliqueter", "désenrégimenter",
+            "désentêter", "désenvoûter", "désergoter", "désexciter", "déshabiliter", "désilicater", "désinviter",
+            "désister", "désocculter", "désolvater", "désulfater", "désulfiter", "désétiqueter", "détriter",
+            "déventer", "emboucauter", "embouffeter", "empapaouter", "empapilloter", "empeloter", "emplanter",
+            "empointer", "empouter", "encaster", "enceinter", "encliqueter", "encolleter", "encorneter",
+            "encrister", "endiamanter", "enganter", "enjanter", "ensaboter", "ensiloter", "entrevoûter",
+            "esquimauter", "essarmenter", "essenter", "exorbiter", "explanter", "fabricoter", "faignanter",
+            "farnienter", "farter", "fauberter", "feignanter", "ferrouter", "fleureter", "fluater", "folleter",
+            "formater", "frimater", "fruiter", "galeter", "galipoter", "genéter", "gileter", "graffiter",
+            "greneter", "grenter", "gruauter", "gruter", "guniter", "horodater", "hydrocuter", "hélitransporter",
+            "impacter", "implémenter", "incrémenter", "indenter", "inexister", "inquarter", "interconnecter",
+            "interjecter", "introjeter", "intuiter", "jésuiter", "knockouter", "langueter", "lanter", "lenter",
+            "levreter", "liquater", "lockouter", "maffioter", "mafioter", "microter", "mixter", "muloter",
+            "museleter", "mâchoter", "mécompter", "méliniter", "niqueter", "nitriter", "noqueter", "nordester",
+            "nordouester", "outer", "pageoter", "pajoter", "paleter", "paloter", "pancarter", "papiéter",
+            "perchlorater", "photomonter", "picrater", "pinceter", "pinçoter", "piter", "pituiter", "planéter",
+            "pleuroter", "pleuvioter", "plissoter", "plouter", "pluvioter", "poivroter", "polliciter",
+            "poter", "protracter", "préacheter", "préciter", "précoter", "prédater", "préformater", "prémonter",
+            "prétester", "prétraiter", "puter", "pédimenter", "rabiauter", "radiodétecter", "raffûter",
+            "raineter", "rapapilloter", "rapiater", "rapprêter", "rebachoter", "rebaisoter", "rebarboter",
+            "rebecqueter", "rebisouter", "rebizouter", "reboiter", "reboursicoter", "rebâter", "rebécoter",
+            "rebéqueter", "recalfater", "recaoutchouter", "recapoter", "rechahuter", "recharcuter", "recharpenter",
+            "recimenter", "reciter", "recollecter", "recolmater", "recolporter", "recommanditer", "recommenter",
+            "recompartimenter", "recomplimenter", "recomploter", "reconfronter", "reconnecter", "reconstater",
+            "reconsulter", "reconter", "recontacter", "recontester", "recontingenter", "recontracter",
+            "recoqueter", "recoter", "recravater", "redater", "redicter", "redisjoncter", "redisputer",
+            "redompter", "redorloter", "redoter", "redébiter", "redébouter", "redébuter", "redécacheter",
+            "redécanter", "redécapoter", "redécompter", "redéconnecter", "redécrypter", "redécréter", "redégoter",
+            "redélimiter", "redémonter", "redépaqueter", "redéporter", "redéserter", "redésister", "redétecter",
+            "redévaster", "refarter", "reforester", "reformater", "refréquenter", "refureter", "reféliciter",
+            "refêter", "reheurter", "rehériter", "relifter", "remaltraiter", "remandater", "remanifester",
+            "remiliter", "reminuter", "remprunter", "renoter", "renuméroter", "repapilloter", "repaqueter",
+            "reparqueter", "repercuter", "repiloter", "repirater", "replaisanter", "repleuvoter", "repointer",
+            "reprofiter", "reprojeter", "repter", "repéter", "resaboter", "resauter", "reshooter", "resolliciter",
+            "resulfater", "retenter", "retester", "retransiter", "retransplanter", "retransporter", "retricoter",
+            "retâter", "reventer", "revoter", "rhabiter", "rouster", "réabouter", "réabriter", "réabsenter",
+            "réaccepter", "réaccidenter", "réaccoster", "réadmonester", "réaffronter", "réaffréter", "réaffûter",
+            "réalerter", "réallaiter", "réannoter", "réargenter", "réargumenter", "réarpenter", "réarrêter",
+            "réasphalter", "réassister", "réemboîter", "réemmailloter", "réempaqueter", "réempiéter", "réemprunter",
+            "réenquêter", "réenvoûter", "réescamoter", "réescorter", "réexalter", "réexhorter", "réexpliciter",
+            "réexploiter", "réexpérimenter", "réexécuter", "réimputer", "réincruster", "réinfester", "réingurgiter",
+            "réinsister", "réinspecter", "réintenter", "réintercepter", "réobjecter", "réécarter", "réécourter",
+            "réédicter", "rééjecter", "réétiqueter", "saligoter", "scheloter", "schloter", "siloter", "simpleter",
+            "souffroter", "souqueter", "sousqueter", "sporter", "suracheter", "suradapter", "surmédicamenter",
+            "surreprésenter", "sursulfater", "sustanter", "tarter", "tilloter", "tilter", "tomater", "torchecuter",
+            "toster", "transfecter", "trichoter", "tripleter", "trouilloter", "truiter", "tréjeter", "télédébiter",
+            "télédétecter", "télépancarter", "télépiloter", "télépointer", "téléporter", "usiter", "vigneter",
+            "violeter", "virevouster", "volanter", "véroter", "youyouter", "zéroter", "ébouqueter", "ébûcheter",
+            "échaloter", "écointer", "écolleter", "écroter", "écôter", "éjointer", "élaiter", "énoyauter",
+            "épiéter", "épuiseter", "îloter", "knock-outer", "pied-au-cuter", "sous-alimenter", "menoter",
+            "moqueter", "phagociter", "enchrister", "santer", "stater", "center", "scripter", "balter",
+            "clienter", "moiter", "couter", "giter", "koter", "balloter", "règlementer", "vouter", "gouter",
+            "arcbouter", "surinterpréter", "comater", "tûter", "emboiter", "dégouter", "crouter", "encrypter",
+            "affuter", "fluter", "défragmenter", "garroter", "charlater", "déboiter", "marabouter", "entreheurter",
+            "greloter", "écrouter", "broadcaster", "aouter", "rameter", "soqueter", "entarter", "encrouter",
+            "discompter", "flouter", "contre-buter", "trompéter", "enfaiter", "casse-croûter", "envouter",
+            "entre-heurter", "casse-crouter", "anticommuter", "contre-manifester", "bouloter", "capahuter",
+            "crapoter", "dérèglementer", "désenvouter", "guilleméter", "marcoter", "psychoter", "raffuter",
+            "rapièceter", "rouloter", "réaffuter", "ragouter", "bichoter", "bla-blater", "blobloter", "borgnoter",
+            "bèqueter", "caïmanter", "charrioter", "cliquoter", "cognoter", "discuputer", "débarboter",
+            "débèqueter", "décrouter", "dégiter", "démarabouter", "désindenter", "emballoter", "enfuter",
+            "entrevouter", "kaoter", "magoter", "motamoter", "nobscuriter", "raccuspoter", "rapipoter",
+            "remboiter", "renfaiter", "rûter", "schmecter", "teseter", "télédicter", "anecdoter", "autocomplimenter",
+            "autorecruter", "autoréglementer", "blaster", "choucrouter", "concomiter", "démater", "désinventer",
+            "entreciter", "entruster", "exhalter", "hyperdilater", "osculter", "réapparenter", "réditer",
+            "régimenter", "surassister", "surcommenter",
+        };
 
     } // class AutomRuleFilter
 } // namespace ColorLib

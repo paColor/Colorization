@@ -130,50 +130,50 @@ namespace ColorLib.Morphalou
         ///     "/" pour ij
         /// 
         /// </summary>
-        private static Dictionary<string, Phonemes> son2phoneme = new Dictionary<string, Phonemes>() // don't forget to increase in case...
+        private static Dictionary<char, Phonemes> son2phoneme = new Dictionary<char, Phonemes>() // don't forget to increase in case...
         {
-            {"a",   Phonemes.a},
-            {"°",   Phonemes.q},
-            {"i",   Phonemes.i},
-            {"y",   Phonemes.y},
-            {"1",   Phonemes.x_tilda},
-            {"u",   Phonemes.u},
-            {"e",   Phonemes.e},
-            {"o",   Phonemes.o},
-            {"E",   Phonemes.E},
-            {"@",   Phonemes.a_tilda}, // an
-            {"§",   Phonemes.o_tilda}, // on
-            {"2",   Phonemes.x2},
-            {"6",   Phonemes.oi}, // oi
-            {"5",   Phonemes.e_tilda},
-            {"w",   Phonemes.w},
-            {"j",   Phonemes.j},
-            {"%",   Phonemes.j_ill}, // ill
-            {"N",   Phonemes.J}, // ng
-            {"G",   Phonemes.N}, // gn
-            {"l",   Phonemes.l},
-            {"v",   Phonemes.v},
-            {"f",   Phonemes.f},
-            {"p",   Phonemes.p},
-            {"b",   Phonemes.b},
-            {"m",   Phonemes.m},
-            {"z",   Phonemes.z},
-            {"s",   Phonemes.s},
-            {"t",   Phonemes.t},
-            {"d",   Phonemes.d},
-            {"x",   Phonemes.ks}, // ks
-            {"X",   Phonemes.gz}, // gz
-            {"R",   Phonemes.R},
-            {"n",   Phonemes.n},
-            {"Z",   Phonemes.Z}, // ge
-            {"S",   Phonemes.S}, // ch
-            {"k",   Phonemes.k},
-            {"g",   Phonemes.g},
-            {"/",   Phonemes.i_j},
-            {"3",   Phonemes.w_e_tilda}, // oin
-            {"4",   Phonemes.chiffre},
-            {"#",   Phonemes._muet},
-            {"ç",   Phonemes.q_caduc}
+            {'a',   Phonemes.a},
+            {'°',   Phonemes.q},
+            {'i',   Phonemes.i},
+            {'y',   Phonemes.y},
+            {'1',   Phonemes.x_tilda},
+            {'u',   Phonemes.u},
+            {'e',   Phonemes.e},
+            {'o',   Phonemes.o},
+            {'E',   Phonemes.E},
+            {'@',   Phonemes.a_tilda}, // an
+            {'§',   Phonemes.o_tilda}, // on
+            {'2',   Phonemes.x2},
+            {'6',   Phonemes.oi}, // oi
+            {'5',   Phonemes.e_tilda},
+            {'w',   Phonemes.w},
+            {'j',   Phonemes.j},
+            {'%',   Phonemes.j_ill}, // ill
+            {'N',   Phonemes.J}, // ng
+            {'G',   Phonemes.N}, // gn
+            {'l',   Phonemes.l},
+            {'v',   Phonemes.v},
+            {'f',   Phonemes.f},
+            {'p',   Phonemes.p},
+            {'b',   Phonemes.b},
+            {'m',   Phonemes.m},
+            {'z',   Phonemes.z},
+            {'s',   Phonemes.s},
+            {'t',   Phonemes.t},
+            {'d',   Phonemes.d},
+            {'x',   Phonemes.ks}, // ks
+            {'X',   Phonemes.gz}, // gz
+            {'R',   Phonemes.R},
+            {'n',   Phonemes.n},
+            {'Z',   Phonemes.Z}, // ge
+            {'S',   Phonemes.S}, // ch
+            {'k',   Phonemes.k},
+            {'g',   Phonemes.g},
+            {'/',   Phonemes.i_j},
+            {'3',   Phonemes.w_e_tilda}, // oin
+            {'4',   Phonemes.chiffre},
+            {'#',   Phonemes._muet},
+            {'ç',   Phonemes.q_caduc}
         };
 
         /// <summary>
@@ -184,9 +184,9 @@ namespace ColorLib.Morphalou
         /// <returns>Le phonème correspondant.</returns>
         /// <exception cref="KeyNotFoundException">Si <paramref name="s"/> n'est pas un son
         /// connu.</exception>
-        public static Phonemes Son2phon(String s)
+        public static Phonemes Son2phon(char c)
         {
-            return son2phoneme[s];
+            return son2phoneme[c];
         }
 
         /// <summary>
