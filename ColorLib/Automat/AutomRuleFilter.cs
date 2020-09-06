@@ -49,9 +49,10 @@ namespace ColorLib
             {"Regle_ill", Regle_ill},
             {"Regle_ierConjI", Regle_ierConjI },
             {"Regle_ierConjE", Regle_ierConjE },
-            {"Regle_VerbesTier", Regle_VerbesTier },
+            {"Regle_VerbesTer", Regle_VerbesTer },
             {"Regle_MotsUM", Regle_MotsUM },
-            {"Regle_X_Final", Regle_X_Final }
+            {"Regle_X_Final", Regle_X_Final },
+            {"Regle_ChK", Regle_ChK },
         };
 
         private CheckRuleFunction crf;
@@ -62,8 +63,8 @@ namespace ColorLib
 
         public AutomRuleFilter(string s, ref int pos)
             : base(s, pos)
-            // on exit, pos points to the last character of the AutomRuleFilter. i.e. ']' or the character 
-            // before the ',' in case of a "regle" function.
+        // on exit, pos points to the last character of the AutomRuleFilter. i.e. ']' or the character 
+        // before the ',' in case of a "regle" function.
         {
             logger.ConditionalTrace("AutomRuleFilter");
             /*
@@ -182,7 +183,7 @@ namespace ColorLib
                 Debug.Assert(endOfNameComma > pos, String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend une \',\' après le nom de fonction", pos));
                 var found = checkRuleFs.TryGetValue(thisName, out crf);
                 Debug.Assert(found, String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, {1} n'est pas un nom valide", pos, thisName));
-                pos = endOfNameComma-1; // pos points to the last char before the comma
+                pos = endOfNameComma - 1; // pos points to the last char before the comma
             }
             end = pos;
         } // Constructor AutomRuleFilter
@@ -223,7 +224,7 @@ namespace ColorLib
                     avoir_eu_hashed.Add(avoir_eu[i], null);
                 for (int i = 0; i < mots_d_final.Length; i++)
                     mots_d_final_hashed.Add(mots_d_final[i], null);
-                for (int i = 0; i <except_ill.Length; i++)
+                for (int i = 0; i < except_ill.Length; i++)
                     except_ill_hashed.Add(except_ill[i], null);
             }
             initiated = true;
@@ -266,7 +267,7 @@ namespace ColorLib
         } // ChaineSansAccents
 
         public static string SansSFinal(string s)
-            // s est en minuscules et n'est pas vide!
+        // s est en minuscules et n'est pas vide!
         {
             logger.ConditionalTrace(ConfigBase.cultF, "SansSFinal \'{0}\'", s);
             if (s[s.Length - 1] == 's')
@@ -275,7 +276,7 @@ namespace ColorLib
                 return s;
         } // SansSFinal
 
-        
+
         private static Regex rxConsIent = new Regex("[bcçdfghjklnmpqrstvwxz]ient$", RegexOptions.IgnoreCase);
 
         /// <summary>
@@ -290,8 +291,8 @@ namespace ColorLib
         public static bool Regle_ient(string mot, int pos)
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_ient - mot: \'{0}\', pos: {1}", mot, pos);
-            Debug.Assert(mot != null); 
-            Debug.Assert((pos >=0) && (pos < mot.Length));
+            Debug.Assert(mot != null);
+            Debug.Assert((pos >= 0) && (pos < mot.Length));
 
             bool toReturn = false;
             if (pos >= mot.Length - 4) // checking i or e from the "ient" any previous letter in the word would not fit.
@@ -299,7 +300,10 @@ namespace ColorLib
                 if (rxConsIent.IsMatch(mot)) // le mot doit se terminer par 'ient' (précédé d'une consonne)
                 {
                     // il faut savoir si le mot est un verbe dont l'infinitif se termine par 'ier' ou non
-                    toReturn = verbes_ier.Contains(mot.Substring(0, mot.Length - 2) + 'r');
+                    StringBuilder sb = new StringBuilder(mot.Length);
+                    sb.Append(mot.Substring(0, mot.Length - 2));
+                    sb.Append('r');
+                    toReturn = verbes_ier.Contains(sb.ToString());
                 }
             }
             return toReturn;
@@ -325,7 +329,7 @@ namespace ColorLib
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
-            return (pos_mot > 0 
+            return (pos_mot > 0
                 && pos_mot < mot.Length - 3
                 && TextEl.EstConsonne(mot[pos_mot - 1])
                 && mot[pos_mot] == 'i'
@@ -348,7 +352,7 @@ namespace ColorLib
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
-            return (pos_mot > 1 
+            return (pos_mot > 1
                 && pos_mot < mot.Length - 2
                 && TextEl.EstConsonne(mot[pos_mot - 2])
                 && mot[pos_mot - 1] == 'i'
@@ -398,7 +402,7 @@ namespace ColorLib
          * 
          * Précondition: mot est en minuscules
          */
-        public static bool Regle_mots_ent (string mot, int pos_mot)
+        public static bool Regle_mots_ent(string mot, int pos_mot)
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_mots_ent - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
@@ -417,88 +421,7 @@ namespace ColorLib
             return toReturn;
         }
 
-        /// <summary>
-        /// Liste "complète" des verbes en "mer"
-        /// </summary>
-        private static HashSet<string> verbes_mer = new HashSet<string>
-        {
-            "abimer","acclamer","accoutumer","affamer","affirmer","aimer",
-            "alarmer","allumer","amalgamer","animer","armer","arrimer","assommer","assumer",
-            "blasphemer","blamer","bramer","brimer","calmer","camer","carmer","charmer",
-            "chloroformer","chomer","clamer","comprimer","confirmer","conformer","consommer",
-            "consumer","costumer","cramer","cremer","damer","diffamer","diplomer","decimer",
-            "declamer","decomprimer","deformer","degommer","denommer","deplumer","deprimer",
-            "deprogrammer","desaccoutumer","desarmer","desinformer","embaumer","embrumer",
-            "empaumer","enfermer","enflammer","enfumer","enrhumer","entamer","enthousiasmer",
-            "entraimer","envenimer","escrimer","estimer","exclamer","exhumer","exprimer",
-            "fantasmer","fermer","filmer","flemmer","former","frimer","fumer","gendarmer",
-            "germer","gommer","grammer","grimer","groumer","humer","imprimer","infirmer",
-            "informer","inhumer","intimer","lamer","limer","legitimer","mimer","mesestimer",
-            "nommer","opprimer","palmer","parfumer","parsemer","paumer","plumer","pommer",
-            "primer","proclamer","programmer","preformer","prenommer","presumer","pamer",
-            "perimer","rallumer","ramer","ranimer","refermer","reformer","refumer","remplumer",
-            "renfermer","renommer","rentamer","reprogrammer","ressemer","retransformer","rimer",
-            "rythmer","reaccoutumer","reaffirmer","reanimer","rearmer","reassumer","reclamer",
-            "reimprimer","reprimer","resumer","retamer","semer","slalomer","sommer",
-            "sublimer","supprimer","surestimer","surnommer","tramer","transformer",
-            "trimer","zoomer","ecremer","ecumer","elimer", "acarêmer",
-            "dormer" // "dormer" est là pour intercepter le cas de ils/elles dorment
-        };
 
-        /// <summary>
-        /// Liste "complète" des verbes en "mer"
-        /// </summary>
-        private static HashSet<string> verbes_mer_Morphalou = new HashSet<string>
-        {
-            "abimer",
-            "abîmer", "acclamer", "accoutumer", "affamer", "affermer", "affirmer", "aimer", "alarmer",
-            "allumer", "amalgamer", "amertumer", "anagrammer", "animer", "apostumer", "approximer",
-            "armer", "arrimer", "assommer", "assumer", "bitumer", "blasphémer", "blâmer", "boumer",
-            "bramer", "brimer", "brumer", "calmer", "charmer", "chaumer", "chimer", "chloroformer",
-            "chromer", "chômer", "clairsemer", "clamer", "comprimer", "confirmer", "conformer",
-            "consommer", "consumer", "cramer", "crémer", "damer", "desquamer", "diadémer", "diaphragmer",
-            "diffamer", "difformer", "diplômer", "dirimer", "décarêmer", "décharmer", "déchaumer",
-            "décimer", "déclamer", "décomprimer", "déflegmer", "déformer", "dégermer", "dégommer",
-            "dégrimer", "dénommer", "déplumer", "déprimer", "désaccoutumer", "désaimer", "désarmer",
-            "désenrhumer", "dîmer", "effumer", "embaumer", "embrumer", "empaumer", "emplumer",
-            "enfermer", "enflammer", "enfumer", "enrhumer", "ensimer", "entamer", "enthousiasmer",
-            "entrefermer", "envenimer", "escrimer", "espalmer", "essaimer", "estimer", "exclamer",
-            "exhumer", "exprimer", "fermer", "filmer", "former", "frimer", "fumer", "gemmer",
-            "germer", "gommer", "gourmer", "grimer", "humer", "imprimer", "infirmer", "informer",
-            "inhumer", "intimer", "lamer", "larmer", "limer", "légitimer", "maximer", "microfilmer",
-            "millésimer", "mimer", "mésestimer", "nommer", "opprimer", "palmer", "parfumer",
-            "parsemer", "paumer", "pommer", "primer", "proclamer", "programmer", "préformer",
-            "prénommer", "présumer", "rallumer", "ramer", "ranimer", "refermer", "reformer",
-            "remplumer", "renfermer", "renflammer", "renommer", "rimer", "rythmer", "réaccoutumer",
-            "réaffirmer", "réanimer", "réarmer", "réclamer", "rédimer", "réformer", "réimprimer",
-            "réprimer", "résumer", "rétamer", "semer", "slalomer", "sommer", "sublimer", "subsumer",
-            "supprimer", "surcomprimer", "surestimer", "surnommer", "tomer", "tramer", "transformer",
-            "transhumer", "trimer", "vacarmer", "victimer", "vidimer", "écimer", "écrémer", "écumer",
-            "élimer", "étamer", "éverdumer", "défumer", "flammer", "groomer", "groumer", "infamer",
-            "mésaimer", "minimer", "pseudonymer", "raccoutumer", "réaimer", "reconfirmer", "réentamer",
-            "rentamer", "ressemer", "retransformer", "sous", "affermer", "sous", "estimer", "surimprimer",
-            "sursemer", "termer", "aramer", "arimer", "autoallumer", "autoconsommer", "autoformer",
-            "autoproclamer", "barémer", "biotransformer", "boffumer", "bromer", "camer", "chêmer",
-            "coanimer", "coexprimer", "costumer", "débitumer", "débromer", "déchromer", "dédamer",
-            "défrimer", "délégitimer", "déparfumer", "déprogrammer", "dépâmer", "déramer", "déréprimer",
-            "désarrimer", "déschlammer", "désemplumer", "désenflammer", "désenfumer", "désengommer",
-            "désensimer", "désenthousiasmer", "désenvenimer", "désinformer", "désâmer", "désétamer",
-            "emmiasmer", "empalmer", "empommer", "enchaussumer", "enformer", "engamer", "engommer",
-            "enlarmer", "esseimer", "essimer", "fantasmer", "flemmer", "gendarmer", "hydroformer",
-            "microprogrammer", "monoprogrammer", "multiprogrammer", "mésinformer", "napalmer",
-            "normer", "néoformer", "pantomimer", "performer", "plamer", "plumer", "polychromer",
-            "prismer", "préimprimer", "pâmer", "périmer", "raffermer", "rebitumer", "rechaumer",
-            "rechromer", "recomprimer", "reconsommer", "redamer", "refilmer", "refumer", "regermer",
-            "regommer", "relimer", "relégitimer", "renformer", "renvenimer", "repaumer", "reproclamer",
-            "reprogrammer", "resemer", "rhumer", "réaffermer", "réallumer", "réarrimer", "réassumer",
-            "réenflammer", "réenrhumer", "réenthousiasmer", "réenvenimer", "réestimer", "réexhumer",
-            "réexprimer", "régimer", "réintimer", "réétamer", "spasmer", "stemer", "stemmer",
-            "suranimer", "surarmer", "surconsommer", "surinformer", "thermoformer", "téléimprimer",
-            "zoomer", "échaumer", "égermer", "épilamer", "diplomer", "pimer", "carmer", "abimer",
-            "entraimer", "spammer", "terraformer", "apatamer", "chroumer", "autolégitimer",
-            "autotransformer", "préprogrammer", "reclamer", "sousestimer",
-            "dormer" // "dormer" est là pour intercepter le cas de ils/elles dorment
-        };
 
         /// <summary>
         /// Détermine si <paramref name="mot"/> se termine par "ment" et se prononce a~/@.
@@ -565,7 +488,7 @@ namespace ColorLib
          * 
          * Précondition: mot est en minuscules et non null
          */
-        public static bool Regle_er (string mot, int pos_mot)
+        public static bool Regle_er(string mot, int pos_mot)
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_er - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
@@ -575,7 +498,7 @@ namespace ColorLib
             string mSing = SansSFinal(mot);
 
             bool toReturn = false;
-            if ((pos_mot >= mSing.Length - 2) && (mSing[mSing.Length - 1] == 'r')) 
+            if ((pos_mot >= mSing.Length - 2) && (mSing[mSing.Length - 1] == 'r'))
                 // on n'est pas en train de traiter une lettre avant la terminaison
                 // le mot se termine par 'r'
                 toReturn = exceptions_final_er_hashed.ContainsKey(mSing);
@@ -605,7 +528,7 @@ namespace ColorLib
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
             bool toReturn = false;
-            if ((pos_mot == mot.Length - 2) && (mot[mot.Length-1] == 'i'))
+            if ((pos_mot == mot.Length - 2) && (mot[mot.Length - 1] == 'i'))
                 toReturn = noms_ai_hashed.ContainsKey(mot);
             return toReturn;
         }
@@ -635,6 +558,9 @@ namespace ColorLib
             return toReturn;
         }
 
+        /// <summary>
+        /// Liste des mots se terminant par 's' et où le 's' se prononce.
+        /// </summary>
         private static HashSet<string> mots_s_final = new HashSet<string>
         {
             "abribus","airbus","autobus","bibliobus","bus","nimbus","gibus",
@@ -650,23 +576,23 @@ namespace ColorLib
             "albatros","albinos","calvados","craignos","mérinos","rhinocéros","tranquillos","tétanos","os",
             "alias","atlas","hélas","madras","sensas","tapas","trias","vasistas","hypocras","gambas","as",
             "biceps","quadriceps","chips","relaps","forceps","schnaps","laps","oups","triceps","princeps",
-            "tricératops", "abraxas", "acanthéchinus"
+            "tricératops", "abraxas", "acanthéchinus",
+            // sans accents
+            "pedibus", "rebus", "medius", "cresus", "humerus", "retrovirus", "uterus", "detritus",
+            "merinos", "rhinoceros", "tetanos", "helas", "triceratops", "acanthechinus",
         };
 
-        /*
-         * Règle spécifique de traitement des mots qui se terminent par "s".
-         * Pour un certain nombre de ces mots, le 's' final se prononce. true dans ce cas.
-         */
-         /// <summary>
-         /// Dit si le s final se pronoce pour <paramref name="mot"/>.
-         /// </summary>
-         /// <param name="mot">Le mot à analyser</param>
-         /// <param name="pos">La position de la lettre sous analyse. En l'occurence le s 
-         /// final.</param>
-         /// <returns><c>true</c> si le s final se prononce.</returns>
+        /// <summary>
+        /// Dit si le s final se pronoce pour <paramref name="mot"/>.
+        /// </summary>
+        /// <param name="mot">Le mot à analyser</param>
+        /// <param name="pos">La position de la lettre sous analyse. En l'occurence le s 
+        /// final.</param>
+        /// <returns><c>true</c> si le s final se prononce.</returns>
         public static bool Regle_s_final(string mot, int pos)
         {
-            logger.ConditionalTrace(ConfigBase.cultF, "Regle_s_final - mot: \'{0}\', pos: {1}", mot, pos);
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_s_final - mot: \'{0}\', pos: {1}",
+                mot, pos);
             Debug.Assert(mot != null);
             Debug.Assert((pos >= 0) && (pos < mot.Length));
             Debug.Assert(mot[pos] == 's');
@@ -685,19 +611,21 @@ namespace ColorLib
             "chut","huit","obit","transit","coït","incipit","occiput","ut","comput",
             "introït","pat","zut","déficit","inuit","prétérit", "uppercut",
             "gadget","kilt","kit","scout","fret", "abrupt", "concept", "percept", "rapt", "rupt",
-            "script", "transept"
+            "script", "transept", "ziggourat",
+            // sans accents
+            "coit", "introit", "deficit", "preterit",
         };
 
         /*
          * Règle spécifique de traitement des mots qui se terminent par la lettre "t" prononcée.
          */
         public static bool Regle_t_final(string mot, int pos_mot)
-            // pos_mot pointe sur un 't'
+        // pos_mot pointe sur un 't'
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_t_final - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot != null);
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
-            Debug.Assert(mot[pos_mot] == 't'); 
+            Debug.Assert(mot[pos_mot] == 't');
 
             string mSing = SansSFinal(mot);
 
@@ -727,8 +655,8 @@ namespace ColorLib
             Regex r;
 
             // vérifions que le 't' se trouve bien au début de "tien"
-            if ((mSing.Length - pos_mot >= 4) 
-                && (mSing[pos_mot + 1] == 'i') 
+            if ((mSing.Length - pos_mot >= 4)
+                && (mSing[pos_mot + 1] == 'i')
                 && (mSing[pos_mot + 2] == 'e')
                 && (mSing[pos_mot + 3] == 'n')) {
 
@@ -743,7 +671,7 @@ namespace ColorLib
                     else
                     {
                         // il reste les exceptions qui commencent par "chrétien","soutien", "appartien", "détien"
-                        toReturn = (mot.StartsWith("chré") || mot.StartsWith("sou") || mot.StartsWith("appar") || mot.StartsWith("dé")) ;
+                        toReturn = (mot.StartsWith("chré") || mot.StartsWith("sou") || mot.StartsWith("appar") || mot.StartsWith("dé"));
                     }
                 }
             }
@@ -753,7 +681,7 @@ namespace ColorLib
 
         static string[] mots_d_final =
         {
-            "apartheid", "aïd", "background", "barmaid", "baroud", "band", "bled", "caïd", "celluloïd", "damned", 
+            "apartheid", "aïd", "background", "barmaid", "baroud", "band", "bled", "caïd", "celluloïd", "damned",
             "djihad", "kid", "fjord", "hard", "jihad", "lad", "lord", "sud", "oued", "pad", "plaid", "polaroid", "polaroïd",
             "rhodoïd", "shetland", "board", "skateboard", "skinhead", "steward", "tabloïd", "end"
         };
@@ -761,7 +689,7 @@ namespace ColorLib
         private static StringDictionary mots_d_final_hashed = new StringDictionary();
 
         public static bool Regle_finD(string mot, int pos_mot)
-            // retourne true si on est sur le d final et le mot se termine par un 'd' qui se prononce
+        // retourne true si on est sur le d final et le mot se termine par un 'd' qui se prononce
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_finD - mot: \'{0}\', pos: {1}", mot, pos_mot);
             Debug.Assert(mot[pos_mot] == 'd', "Regle_finD: on attend un 'd'");
@@ -769,7 +697,7 @@ namespace ColorLib
             string mSing = SansSFinal(mot);
 
             bool toReturn = false;
-            if (pos_mot == mSing.Length -1)
+            if (pos_mot == mSing.Length - 1)
                 toReturn = mots_d_final_hashed.ContainsKey(mSing);
             return toReturn;
         }
@@ -778,29 +706,29 @@ namespace ColorLib
         {
             "abbevillien", "abbevillienne", "abbevilliennes", "abbevilliens", "abbevillois", "abbevilloise",
             "abbevilloises", "admaxillaire", "admaxillaires",
-            "achille", "achilles", "achillée", "achillées", "ancillaire", "ancillaires", "armadille", "armadilles", "aspergillose", 
-            "aspergilloses", "aspergillus", "axillaire", "axillaires", "bacillaire", "bacillaires", 
-            "bellevillois", "bellevilloise", "bellevilloises", "bidonville", "bidonvilles", "bill", "billevesée", 
-            "billevesées", "billion", "billions", "bills", "bougainvillée", "bougainvillées", "bougainvillier", "bougainvilliers", 
-            "calville", "calvilles", "canetille", "canetilles", "capillaire", "capillaires", "capillarité", "capillarités", 
-            "capilliculteur", "capilliculteurs", "caterpillar", "chinchilla", "chinchillas", "cochenille", "cochenilles", "codicille", 
-            "codicilles", "cyrillique", "cyrilliques", "défibrillateur", "défibrillateurs", 
-            "défibrillation", "défibrillations", "défibriller", "défibrille", "défibrilles", "défibrillons", "défibrillez", 
-            "défibrillent", "défibrillé", "défibrillais", "défibrillait", "défibrillions", "défibrilliez", "défibrillaient", 
-            "défibrillai", "défibrillas", "défibrilla", "défibrillâmes", "défibrillâtes", "défibrillèrent", "défibrillerai", 
-            "défibrilleras", "défibrillera", "défibrillerons", "défibrillerez", "défibrilleront", "défibrillerais", "défibrillerait", 
-            "défibrillerions", "défibrilleriez", "défibrilleraient", "défibrillasse", "défibrillasses", "défibrillât", 
-            "défibrillassions", "défibrillassiez", "défibrillassent", "défibrillant", "défibrillée", "défibrillées", 
-            "désillusion", "désillusionné", "désillusionnés", "désillusionnement", "désillusionnements", "désillusionner", 
-            "désillusions", "drill", "fibrillation", "fibrillations", 
-            "fringillidé", "fritillaires", "gilles", "grill", "imbécillité", "imbécillités", "killer", "killers", "krill", "krills", 
-            "lilliputien", "lilliputienne", "lilliputiennes", "lilliputiens", "lillois", "lilloise", "lilloises", "mandrill", 
-            "mandrills", "maxillaire", "maxillaires", "multimilliardaire", "multimilliardaires", "multimillionnaire", 
-            "multimillionnaires", "papillaire", "papillaires", "pénicilline", "pénicillines", "pupillaire", "pupillaires", 
-            "pupillarité", "pupillarités", "pusillanime", "pusillanimes", "pusillanimité", "pusillanimités", "quatrillion", 
-            "quatrillions", "schilling", "schillings", "shilling", "shillings", "sigillaire", "sigillaires", "sigillé", "sigillée", 
-            "sigillées", "sigillés", "thrill", "thriller", "thrillers", "thrills", "till", "tills", "transillumination", 
-            "transilluminations", "trillion", "trillions", "twill", "vaudeville", "vaudevilles", "vaudevillesque", "vaudevillesques", 
+            "achille", "achilles", "achillée", "achillées", "ancillaire", "ancillaires", "armadille", "armadilles", "aspergillose",
+            "aspergilloses", "aspergillus", "axillaire", "axillaires", "bacillaire", "bacillaires",
+            "bellevillois", "bellevilloise", "bellevilloises", "bidonville", "bidonvilles", "bill", "billevesée",
+            "billevesées", "billion", "billions", "bills", "bougainvillée", "bougainvillées", "bougainvillier", "bougainvilliers",
+            "calville", "calvilles", "canetille", "canetilles", "capillaire", "capillaires", "capillarité", "capillarités",
+            "capilliculteur", "capilliculteurs", "caterpillar", "chinchilla", "chinchillas", "cochenille", "cochenilles", "codicille",
+            "codicilles", "cyrillique", "cyrilliques", "défibrillateur", "défibrillateurs",
+            "défibrillation", "défibrillations", "défibriller", "défibrille", "défibrilles", "défibrillons", "défibrillez",
+            "défibrillent", "défibrillé", "défibrillais", "défibrillait", "défibrillions", "défibrilliez", "défibrillaient",
+            "défibrillai", "défibrillas", "défibrilla", "défibrillâmes", "défibrillâtes", "défibrillèrent", "défibrillerai",
+            "défibrilleras", "défibrillera", "défibrillerons", "défibrillerez", "défibrilleront", "défibrillerais", "défibrillerait",
+            "défibrillerions", "défibrilleriez", "défibrilleraient", "défibrillasse", "défibrillasses", "défibrillât",
+            "défibrillassions", "défibrillassiez", "défibrillassent", "défibrillant", "défibrillée", "défibrillées",
+            "désillusion", "désillusionné", "désillusionnés", "désillusionnement", "désillusionnements", "désillusionner",
+            "désillusions", "drill", "fibrillation", "fibrillations",
+            "fringillidé", "fritillaires", "gilles", "grill", "imbécillité", "imbécillités", "killer", "killers", "krill", "krills",
+            "lilliputien", "lilliputienne", "lilliputiennes", "lilliputiens", "lillois", "lilloise", "lilloises", "mandrill",
+            "mandrills", "maxillaire", "maxillaires", "multimilliardaire", "multimilliardaires", "multimillionnaire",
+            "multimillionnaires", "papillaire", "papillaires", "pénicilline", "pénicillines", "pupillaire", "pupillaires",
+            "pupillarité", "pupillarités", "pusillanime", "pusillanimes", "pusillanimité", "pusillanimités", "quatrillion",
+            "quatrillions", "schilling", "schillings", "shilling", "shillings", "sigillaire", "sigillaires", "sigillé", "sigillée",
+            "sigillées", "sigillés", "thrill", "thriller", "thrillers", "thrills", "till", "tills", "transillumination",
+            "transilluminations", "trillion", "trillions", "twill", "vaudeville", "vaudevilles", "vaudevillesque", "vaudevillesques",
             "verticille", "verticilles", "willaya", "willayas", "william", "williams"
         };
 
@@ -824,9 +752,9 @@ namespace ColorLib
             return (condMet && except_ill_hashed.ContainsKey(mot));
         }
 
-        public bool Check (PhonWord pw, int pos, string firstPart, string secondPart)
+        public bool Check(PhonWord pw, int pos, string firstPart, string secondPart)
         {
-            logger.ConditionalTrace(ConfigBase.cultF, "Check - pw: \'{0}\', pos: {1}, firstPart: \'{2}\', secPart: \'{3}\'", 
+            logger.ConditionalTrace(ConfigBase.cultF, "Check - pw: \'{0}\', pos: {1}, firstPart: \'{2}\', secPart: \'{3}\'",
                 pw, pos, firstPart, secondPart);
             Debug.Assert(pw != null);
             Debug.Assert(pw.GetWord().Length > 0);
@@ -835,7 +763,7 @@ namespace ColorLib
             if (crf != null)
             {
                 toReturn = crf(pw.GetWord(), pos);
-            } 
+            }
             else
             {
                 bool prevResp = true;
@@ -872,7 +800,7 @@ namespace ColorLib
             if (pos > mot.Length - 4 && pos < mot.Length - 1 && mot[pos] == 'u' && mot[pos + 1] == 'm')
             {
                 string lemme = SansSFinal(mot);
-                toReturn = motsUM.Contains(lemme);
+                toReturn = motsUM.Contains(ChaineSansAccents(lemme));
             }
             return toReturn;
         }
@@ -885,7 +813,7 @@ namespace ColorLib
         /// <param name="mot">Mot à analyser.</param>
         /// <param name="pos">Position du t de tions dans le mot.</param>
         /// <returns><c>true</c> si tions est utilisé pour conjuguer un verbe.</returns>
-        public static bool Regle_VerbesTier(string mot, int pos)
+        public static bool Regle_VerbesTer(string mot, int pos)
         {
             Debug.Assert(mot != null);
             bool toReturn = false;
@@ -900,19 +828,48 @@ namespace ColorLib
             return toReturn;
         }
 
+        /// <summary>
+        /// Identifie si le 'x' final de <paramref name="mot"/> se pronoce.
+        /// </summary>
+        /// <remarks>Les accents ne sont pa prise en compte.</remarks>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">La position de la lettre x.</param>
+        /// <returns><c>true</c> si <paramref name="pos"/> pointe sur un x final qui se prononce.</returns>
         public static bool Regle_X_Final(string mot, int pos)
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_X_Final - mot: \'{0}\', pos: {1}", mot, pos);
             Debug.Assert(mot != null);
+            Debug.Assert(mot[pos] == 'x');
 
             bool toReturn = false;
             if (pos == mot.Length - 1)
-                toReturn = motsX.Contains(mot);
+                toReturn = motsX.Contains(ChaineSansAccents(mot));
             return toReturn;
         }
 
         /// <summary>
-        /// Liste des verbes en ier venant de Morphalou. Avec accents.
+        /// Checrhe si le 'ch' identifié par <paramref name="pos"/> dans <paramref name="mot"/> se 
+        /// prononce [k]. 
+        /// </summary>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">La position du 'c' de 'ch'.</param>
+        /// <returns><c>true</c> si <paramref name="pos"/> pointe sur une combinaison 'ch' qui se
+        /// prononce [k].</returns>
+        public static bool Regle_ChK(string mot, int pos)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_ChK - mot: \'{0}\', pos: {1}", mot, pos);
+            Debug.Assert(mot != null);
+
+            bool toReturn = false;
+            if (pos < mot.Length - 1
+                && mot[pos] == 'c'
+                && mot[pos + 1] == 'h')
+                toReturn = motsChK.Contains(mot);
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Liste des verbes en ier. Avec accents.
         /// </summary>
         private static HashSet<string> verbes_ier = new HashSet<string>
         {
@@ -998,7 +955,43 @@ namespace ColorLib
             "époutier", "équarrier", "étanchéifier", "étatifier", "substancier", "subsidier", "sérigraphier",
             "saccarifier", "ambifier", "chromolithographier", "compacifier", "décertifier", "décomplexifier",
             "déplastifier", "dérigidifier", "désidentifier", "glacifier", "grâcier", "hyperqualifier", "interrelier",
-            "piétonnifier", "recrucifier", "redémultiplier", "réapprécier", "sectifier", "téléfalsifier", "zombifier"
+            "piétonnifier", "recrucifier", "redémultiplier", "réapprécier", "sectifier", "téléfalsifier", "zombifier",
+            // sans accents
+            "abetifier", "academifier", "academisier", "acetifier", "anesthesier", "anemier",
+            "apprecier", "beatifier", "beneficier", "betifier", "choseifier", "chatier", "congedier",
+            "differencier", "differentier", "decalcifier", "declassifier", "decrier", "dedier",
+            "dedifferencier", "defier", "deifier", "delier", "demarier", "demultiplier", "demystifier",
+            "demythifier", "denier", "deparier", "depatrier", "deplier", "deprecier", "desapproprier",
+            "-devier", "devitrifier", "esterifier", "expedier", "gazeifier", "gelifier", "geographier",
+            "ingenier", "jeremier", "liquefier", "lenifier", "madefier", "maleficier", "mefier",
+            "mesallier", "negocier", "passeifier", "plancheier", "privilegier", "prejudicier",
+            "presentifier", "putrefier", "pepier", "petrifier", "rarefier", "remedier", "rubefier",
+            "reconcilier", "reexpedier", "refugier", "reifier", "repertorier", "repudier", "resilier",
+            "resinifier", "reunifier", "reedifier", "specifier", "stupefier", "stenographier",
+            "serier", "torrefier", "tumefier", "telecopier", "telegraphier", "verifier", "ecrier",
+            "edifier", "electrifier", "emacier", "emier", "emulsifier", "epier", "etherifier",
+            "etudier", "defolier", "drageifier", "gatifier", "hyperesthesier", "lubrefier", "melancholier",
+            "melancolier", "melancolifier", "negrifier", "oedematier", "pecufier", "plenifier",
+            "reetudier", "rehumidifier", "renegocier", "reoublier", "reverifier", "sclerifier",
+            "theorifier", "analgesier", "autodeprecier", "autoverifier", "caseifier", "choregraphier",
+            "cinegraphier", "cinematographier", "cokefier", "cerifier", "declergifier", "decodifier",
+            "decrucifier", "dedensifier", "defortifier", "delignifier", "demassifier", "denazifier",
+            "denitrifier", "deplanifier", "deprier", "depetrifier", "dequalifier", "derelier",
+            "derussifier", "desacidifier", "desaffilier", "desallier", "desapparier", "desassocier",
+            "desertifier", "desessencier", "deshumidifier", "designifier", "desilicier", "desilicifier",
+            "desirradier", "desorthographier", "desunifier", "desemulsifier", "detoxifier", "dezincifier",
+            "faseier", "gresifier", "homogeneifier", "hyperhemier", "hyperemier", "hypolipidemier",
+            "indifferencier", "ischemier", "lichenifier", "magnesier", "mimeographier", "museifier",
+            "mesedifier", "phototelecopier", "polyesterifier", "preplastifier", "prepublier",
+            "presanctifier", "preetudier", "radiotelegraphier", "rapprecier", "rebeneficier",
+            "rechatier", "recongedier", "redifferencier", "redecalcifier", "rededier", "redefier",
+            "redeplier", "regazeifier", "retelegraphier", "reaffilier", "reapparier", "reapproprier",
+            "reassocier", "reesterifier", "referencier", "reorthographier", "retifier", "retrodevier",
+            "scenographier", "suberifier", "suredifier", "selenier", "thermoanesthesier", "transesterifier",
+            "tuberifier", "xerocopier", "xerographier", "echographier", "elier", "elutrier", "epigraphier",
+            "epitaxier", "epoutier", "equarrier", "etancheifier", "etatifier", "serigraphier",
+            "decertifier", "decomplexifier", "deplastifier", "derigidifier", "desidentifier",
+            "pietonnifier", "redemultiplier", "reapprecier", "telefalsifier"
         };
 
         /// <summary>
@@ -1043,7 +1036,20 @@ namespace ColorLib
             "thorium", "thulium", "trichodesmium", "triclinium", "triduum", "triforium", "tritérium", "tritium",
             "trivium", "ultimatum", "unicum", "uranium", "vacuum", "vanadium", "vasothélium", "velarium", "vélarium",
             "velum", "vélum", "verumontanum", "vérumontanum", "vexillum", "viburnum", "vivarium", "xiphisternum",
-            "ytterbium", "yttrium", "zirconium", "zygantrum", "zygopetalum", "zygophyllum", "zythum"
+            "ytterbium", "yttrium", "zirconium", "zygantrum", "zygopetalum", "zygophyllum", "zythum",
+            // sans accents
+            "aceratherium", "acerotherium", "acetabulum", "acroterium", "adenoepithelium", "aerium",
+            "americium", "ancylotherium", "anoplotherium", "begum", "beryllium", "calcaneum",
+            "castoreum", "cerium", "cesium", "criterium", "decorum", "deuterium", "duodenum",
+            "electrum", "endothelium", "epithelium", "erodium", "flammeum", "geranium", "gerontocomium",
+            "helium", "hymenium", "ileum", "jejunum", "leontopodium", "leucanthemum", "linoleum",
+            "lutecium", "magnesium", "meconium", "medium", "megatherium", "mendelevium", "mesorectum",
+            "millenium", "museum", "mycelium", "nebulium", "nobelium", "oidium", "paleocerebellum",
+            "paleotherium", "pandemonium", "pelargonium", "penicillium", "peplum", "petrolatum",
+            "planetarium", "populeum", "preferendum", "presidium", "preventorium", "rhenium",
+            "ruthenium", "sebum", "selenium", "serapeum", "serapeum", "serum", "sphenophyllum",
+            "stomodeum", "technecium", "technetium", "tepidarium", "thermopreferendum", "triterium",
+            "vasothelium"
         };
 
         private static HashSet<string> verbesTer = new HashSet<string>
@@ -1268,6 +1274,88 @@ namespace ColorLib
             "autorecruter", "autoréglementer", "blaster", "choucrouter", "concomiter", "démater", "désinventer",
             "entreciter", "entruster", "exhalter", "hyperdilater", "osculter", "réapparenter", "réditer",
             "régimenter", "surassister", "surcommenter",
+            // sans accents
+            "accrediter", "acqueter", "admoneter", "affreter", "agreanter", "agrementer", "apleter",
+            "appresenter", "appreter", "appater", "appeter", "arreter", "budgeter", "bater", "becoter",
+            "begueter", "bequeter", "becheveter", "complementer", "completer", "competer", "concreter",
+            "conqueter", "coiter", "crediter", "creosoter", "crepiter", "creter", "cementer",
+            "discrediter", "debecqueter", "debequeter", "debiliter", "debiter", "debouter", "deboyauter",
+            "deboiter", "debuter", "debater", "decacheter", "decanter", "decapiter", "decapoter",
+            "-decarbonater", "dechanter", "dechiqueter", "declaveter", "decliqueter", "decolleter",
+            "decompleter", "decompter", "deconcerter", "deconforter", "deconnecter", "-decontracter",
+            "decrouter", "decrypter", "decrediter", "decrepiter", "decreter", "defunter", "deganter",
+            "degoter", "degouter", "deguster", "dejeter", "delecter", "delester", "delimiter",
+            "deliter", "deluter", "demailloter", "demonter", "demoucheter", "demater", "demeriter",
+            "denoter", "denoyauter", "depaqueter", "depiauter", "depister", "depiter", "deplanter",
+            "depointer", "deporter", "depoter", "deputer", "derater", "derouter", "desacclimater",
+            "desadapter", "-desaffecter", "desaimanter", "desajuster", "desappointer", "desargenter",
+            "desenchanter", "-deserter", "deshabiter", "deshydrater", "desheriter", "desincruster",
+            "-desinfecter", "desorbiter", "desorienter", "-detecter", "detester", "-detracter",
+            "devaster", "develouter", "devolter", "embeter", "empieter", "empater",
+            "enqueter", "enregimenter", "enteter", "excrementer", "excreter", "experimenter",
+            "executer", "faineanter", "frequenter", "freter", "feliciter", "feter", "gater", "hater",
+            "hebeter", "heriter", "hesiter", "inquieter", "interpreter", "lineamenter", "leviter",
+            "mecontenter", "medicamenter", "mediter", "megoter", "meriter", "mesinterpreter",
+            "numeroter", "necessiter", "-persecuter", "pieter", "plebisciter", "precipiter", "precompter",
+            "preexister", "premediter", "presenter", "pretexter", "preter", "pater", "pecloter",
+            "pericliter", "peter", "queter", "rapieceter", "refleter", "rempieter", "representer",
+            "requeter", "roneoter", "rouspeter", "readapter", "reajuster", "recolter", "reconforter",
+            "reescompter", "reexporter", "-refracter", "refuter", "regater", "regenter", "reglementer",
+            "regurgiter", "rehabiliter", "rehydrater", "reimplanter", "reimporter", "-reinfecter",
+            "reinventer", "reorienter", "reputer", "repeter", "resister", "resulter", "-retracter",
+            "revolter", "-reediter", "secreter", "supplementer", "suppediter", "secreter", "sedimenter",
+            "-selecter", "tempeter", "tremater", "tater", "teter", "vegeter", "ebouillanter",
+            "ebouter", "ebruiter", "ecarter", "eclater", "ecoqueter", "ecourter", "ecouter", "ecrouter",
+            "ecreter", "edenter", "edicter", "-editer", "-ejecter", "electrocuter", "eliciter",
+            "emoucheter", "epater", "epinceter", "epointer", "epousseter", "epouvanter", "equeuter",
+            "ereinter", "eructer", "etiqueter", "eteter", "eventer", "eviter", "oter", "alineater",
+            "debecter", "desencrouter", "detricoter", "ebruter", "febriciter", "flanoter", "fregater",
+            "gresilloter", "guereter", "heliporter", "lechoter", "-legislater", "meprisoter",
+            "pedanter", "perequater", "preadapter", "-preempter", "progeniter", "raloter", "reacclimater",
+            "readopter", "reaffecter", "reaimanter", "realimenter", "reappater", "reappreter",
+            "reaugmenter", "recompleter", "reecouter", "reenchanter", "regouter", "rehabiter",
+            "rehumecter", "reinjecter", "reinterpreter", "reinviter", "remater", "repreter", "sous-affreter",
+            "teletraiter", "aperiter", "autodecontracter", "aeroporter", "aerotransporter", "bareter",
+            "chelater", "coheriter", "contrenqueter", "copresenter", "coediter", "crapauter",
+            "cranoter", "deafferenter", "deballaster", "debruter", "debudgeter", "debequeter",
+            "decalfater", "decaoutchouter", "declimater", "decolmater", "decompacter", "decompartimenter",
+            "deconnoter", "decoter", "decranter", "decravater", "decrementer", "decuiter", "decuscuter",
+            "-deflater", "defolioter", "deforester", "-deformater", "defruiter", "defuncter",
+            "degarroter", "degraphiter", "deguillemeter", "degurgiter", "degiter", "dejanter",
+            "dejointer", "dejouter", "delaiter", "delenter", "deleucocyter", "delicoter", "deligoter",
+            "delineamenter", "delister", "deleter", "demazouter", "denitrater", "depageoter",
+            "depagnoter", "depailleter", "depajoter", "depanneauter", "depapilloter", "deparasiter",
+            "deparementer", "deparqueter", "dephosphater", "depigmenter", "deposter", "dequeusoter",
+            "deriveter", "derocter", "dereglementer", "desabouter", "desabriter", "desadopter",
+            "desaffronter", "desafferenter", "desagater", "desamianter", "desapparenter", "desasphalter",
+            "desattrister", "desazoter", "deschister", "desemboiter", "desemmailloter", "desempaqueter",
+            "desemprunter", "desencarter", "desencaster", "desencliqueter", "desenregimenter",
+            "desenteter", "desenvouter", "desergoter", "desexciter", "deshabiliter", "desilicater",
+            "desinviter", "desister", "desocculter", "desolvater", "desulfater", "desulfiter",
+            "desetiqueter", "detriter", "deventer", "geneter", "helitransporter", "implementer",
+            "incrementer", "jesuiter", "machoter", "mecompter", "meliniter", "papieter", "planeter",
+            "preacheter", "preciter", "precoter", "-predater", "-preformater", "premonter", "pretester",
+            "pretraiter", "pedimenter", "radiodetecter", "rappreter", "rebater", "rebecoter",
+            "rebequeter", "redebiter", "redebouter", "redebuter", "redecacheter", "redecanter",
+            "redecapoter", "redecompter", "redeconnecter", "redecrypter", "redecreter", "redegoter",
+            "redelimiter", "redemonter", "redepaqueter", "redeporter", "redeserter", "redesister",
+            "redetecter", "redevaster", "refrequenter", "refeliciter", "refeter", "reheriter",
+            "renumeroter", "repeter", "retater", "reabouter", "reabriter", "reabsenter", "reaccepter",
+            "reaccidenter", "reaccoster", "readmonester", "reaffronter", "reaffreter", "reaffuter",
+            "realerter", "reallaiter", "reannoter", "reargenter", "reargumenter", "rearpenter",
+            "rearreter", "reasphalter", "reassister", "reemboiter", "reemmailloter", "reempaqueter",
+            "reempieter", "reemprunter", "reenqueter", "reenvouter", "reescamoter", "reescorter",
+            "reexalter", "reexhorter", "reexpliciter", "reexploiter", "reexperimenter", "reexecuter",
+            "reimputer", "reincruster", "reinfester", "reingurgiter", "reinsister", "reinspecter",
+            "reintenter", "reintercepter", "reobjecter", "reecarter", "reecourter", "reedicter",
+            "reejecter", "reetiqueter", "surmedicamenter", "surrepresenter", "trejeter", "teledebiter",
+            "-teledetecter", "telepancarter", "telepiloter", "telepointer", "teleporter", "veroter",
+            "zeroter", "ebouqueter", "ebucheter", "echaloter", "ecointer", "ecolleter", "ecroter",
+            "ecoter", "ejointer", "elaiter", "enoyauter", "epieter", "epuiseter", "iloter", "reglementer",
+            "surinterpreter", "tuter", "degouter", "defragmenter", "deboiter", "ecrouter", "dereglementer",
+            "desenvouter", "rapieceter", "reaffuter", "bequeter", "caimanter", "debarboter", "debequeter",
+            "decrouter", "degiter", "demarabouter", "desindenter", "ruter", "teledicter", "autoreglementer",
+            "demater", "desinventer", "reapparenter", "rediter", "regimenter", "-embater",
         };
 
         /// <summary>
@@ -1289,9 +1377,238 @@ namespace ColorLib
             "mégalonyx", "nycticorax", "oléothorax", "pédoclimax", "prépharynx", "protothorax",
             "sphénothorax", "sténothorax", "streptothrix", "vitex", "astérix", "obélix", "remix",
             "mix", "idéfix", "panoramix", "félix", "abraracourcix", "assurancetourix",
-            "ocatarinetabellatchitchix", "ordralfabétix", "cétautomatix"
-
+            "ocatarinetabellatchitchix", "ordralfabétix", "cétautomatix",
+            // sans accents
+            "archeopteryx", "cerambyx", "helix", "phenix", "prefix", "petrosilex", "telex", "chenalopex",
+            "epipharynx", "infiniteisme", "megalonyx", "oleothorax", "pedoclimax", "prepharynx",
+            "sphenothorax", "stenothorax", "asterix", "obelix", "idefix", "felix", "ordralfabetix",
+            "cetautomatix",
         };
 
-        } // class AutomRuleFilter
+        /// <summary>
+        /// Liste "complète" des verbes en "mer"
+        /// </summary>
+        private static HashSet<string> verbes_mer = new HashSet<string>
+        {
+            "abimer",
+            "abîmer", "acclamer", "accoutumer", "affamer", "affermer", "affirmer", "aimer", "alarmer",
+            "allumer", "amalgamer", "amertumer", "anagrammer", "animer", "apostumer", "approximer",
+            "armer", "arrimer", "assommer", "assumer", "bitumer", "blasphémer", "blâmer", "boumer",
+            "bramer", "brimer", "brumer", "calmer", "charmer", "chaumer", "chimer", "chloroformer",
+            "chromer", "chômer", "clairsemer", "clamer", "comprimer", "confirmer", "conformer",
+            "consommer", "consumer", "cramer", "crémer", "damer", "desquamer", "diadémer", "diaphragmer",
+            "diffamer", "difformer", "diplômer", "dirimer", "décarêmer", "décharmer", "déchaumer",
+            "décimer", "déclamer", "décomprimer", "déflegmer", "déformer", "dégermer", "dégommer",
+            "dégrimer", "dénommer", "déplumer", "déprimer", "désaccoutumer", "désaimer", "désarmer",
+            "désenrhumer", "dîmer", "effumer", "embaumer", "embrumer", "empaumer", "emplumer",
+            "enfermer", "enflammer", "enfumer", "enrhumer", "ensimer", "entamer", "enthousiasmer",
+            "entrefermer", "envenimer", "escrimer", "espalmer", "essaimer", "estimer", "exclamer",
+            "exhumer", "exprimer", "fermer", "filmer", "former", "frimer", "fumer", "gemmer",
+            "germer", "gommer", "gourmer", "grimer", "humer", "imprimer", "infirmer", "informer",
+            "inhumer", "intimer", "lamer", "larmer", "limer", "légitimer", "maximer", "microfilmer",
+            "millésimer", "mimer", "mésestimer", "nommer", "opprimer", "palmer", "parfumer",
+            "parsemer", "paumer", "pommer", "primer", "proclamer", "programmer", "préformer",
+            "prénommer", "présumer", "rallumer", "ramer", "ranimer", "refermer", "reformer",
+            "remplumer", "renfermer", "renflammer", "renommer", "rimer", "rythmer", "réaccoutumer",
+            "réaffirmer", "réanimer", "réarmer", "réclamer", "rédimer", "réformer", "réimprimer",
+            "réprimer", "résumer", "rétamer", "semer", "slalomer", "sommer", "sublimer", "subsumer",
+            "supprimer", "surcomprimer", "surestimer", "surnommer", "tomer", "tramer", "transformer",
+            "transhumer", "trimer", "vacarmer", "victimer", "vidimer", "écimer", "écrémer", "écumer",
+            "élimer", "étamer", "éverdumer", "défumer", "flammer", "groomer", "groumer", "infamer",
+            "mésaimer", "minimer", "pseudonymer", "raccoutumer", "réaimer", "reconfirmer", "réentamer",
+            "rentamer", "ressemer", "retransformer", "sous", "affermer", "sous", "estimer", "surimprimer",
+            "sursemer", "termer", "aramer", "arimer", "autoallumer", "autoconsommer", "autoformer",
+            "autoproclamer", "barémer", "biotransformer", "boffumer", "bromer", "camer", "chêmer",
+            "coanimer", "coexprimer", "costumer", "débitumer", "débromer", "déchromer", "dédamer",
+            "défrimer", "délégitimer", "déparfumer", "déprogrammer", "dépâmer", "déramer", "déréprimer",
+            "désarrimer", "déschlammer", "désemplumer", "désenflammer", "désenfumer", "désengommer",
+            "désensimer", "désenthousiasmer", "désenvenimer", "désinformer", "désâmer", "désétamer",
+            "emmiasmer", "empalmer", "empommer", "enchaussumer", "enformer", "engamer", "engommer",
+            "enlarmer", "esseimer", "essimer", "fantasmer", "flemmer", "gendarmer", "hydroformer",
+            "microprogrammer", "monoprogrammer", "multiprogrammer", "mésinformer", "napalmer",
+            "normer", "néoformer", "pantomimer", "performer", "plamer", "plumer", "polychromer",
+            "prismer", "préimprimer", "pâmer", "périmer", "raffermer", "rebitumer", "rechaumer",
+            "rechromer", "recomprimer", "reconsommer", "redamer", "refilmer", "refumer", "regermer",
+            "regommer", "relimer", "relégitimer", "renformer", "renvenimer", "repaumer", "reproclamer",
+            "reprogrammer", "resemer", "rhumer", "réaffermer", "réallumer", "réarrimer", "réassumer",
+            "réenflammer", "réenrhumer", "réenthousiasmer", "réenvenimer", "réestimer", "réexhumer",
+            "réexprimer", "-régimer", "réintimer", "réétamer", "spasmer", "stemer", "stemmer",
+            "suranimer", "surarmer", "surconsommer", "surinformer", "thermoformer", "téléimprimer",
+            "zoomer", "échaumer", "égermer", "épilamer", "diplomer", "-pimer", "carmer", "abimer",
+            "entraimer", "spammer", "terraformer", "apatamer", "chroumer", "autolégitimer",
+            "autotransformer", "préprogrammer", "reclamer", "sousestimer", "grammer", "acarêmer",
+            // versions sans accents
+            "abimer", "blasphemer", "blamer", "chomer", "cremer", "diademer", "diplomer", "decaremer",
+            "decharmer", "dechaumer", "decimer", "declamer", "decomprimer", "deflegmer", "deformer",
+            "degermer", "degommer", "degrimer", "denommer", "deplumer", "deprimer", "desaccoutumer",
+            "desaimer", "desarmer", "desenrhumer", "dimer", "legitimer", "millesimer", "mesestimer",
+            "preformer", "prenommer", "presumer", "reaccoutumer", "reaffirmer", "reanimer", "rearmer",
+            "reclamer", "redimer", "reformer", "reimprimer", "reprimer", "resumer", "retamer",
+            "ecimer", "ecremer", "ecumer", "elimer", "etamer", "everdumer", "defumer", "mesaimer",
+            "reaimer", "reentamer", "baremer", "chemer", "debitumer", "debromer", "dechromer",
+            "dedamer", "defrimer", "delegitimer", "deparfumer", "deprogrammer", "depamer", "deramer",
+            "dereprimer", "desarrimer", "deschlammer", "desemplumer", "desenflammer", "desenfumer",
+            "desengommer", "desensimer", "desenthousiasmer", "desenvenimer", "desinformer", "desamer",
+            "desetamer", "mesinformer", "neoformer", "preimprimer", "pamer", "perimer", "relegitimer",
+            "reaffermer", "reallumer", "rearrimer", "reassumer", "reenflammer", "reenrhumer",
+            "reenthousiasmer", "reenvenimer", "reestimer", "reexhumer", "reexprimer", "-regimer",
+            "reintimer", "reetamer", "teleimprimer", "echaumer", "egermer", "epilamer", "autolegitimer",
+            "preprogrammer", "acaremer",
+            // "dormer" est là pour intercepter le cas de ils/elles dorment
+            "dormer"
+        };
+
+        /// <summary>
+        /// Liste mots non identifiés par les règles, où 'ch' se prononce [k]
+        /// </summary>
+        private static HashSet<string> motsChK = new HashSet<string>
+        {
+            "achéen", "achéenne", "achéennes", "achéens", "achéménide", "achéménides", "achène",
+            "achènes", "achillée", "achillées", "achilléine", "achilléines", "achirite", "achirites",
+            "acholique", "acholiques", "achondroplase", "achondroplases", "achondroplasie", "achondroplasies",
+            "aeschne", "aeschnes", "allochtone", "allochtones", "allochtonie", "anchilops", "andrachné",
+            "andrachnés", "antichthone", "antichthones", "antichtone", "antichtones", "apocholique",
+            "arachnéen", "arachnéenne", "arachnéennes", "arachnéens", "arachnéolithe", "arachnéosites",
+            "arachnide", "arachnides", "arachnitis", "arachnoïde", "arachnoïdes", "arachnoïdien",
+            "arachnoïdienne", "arachnoïdiennes", "arachnoïdiens", "arachnoïdite", "arachnoïdites",
+            "arachnophiles", "archaïque", "archaïquement", "archaïques", "archaïsa", "archaïsai",
+            "archaïsaient", "archaïsais", "archaïsait", "archaïsâmes", "archaïsant", "archaïsante",
+            "archaïsantes", "archaïsants", "archaïsas", "archaïsasse", "archaïsassent", "archaïsasses",
+            "archaïsassiez", "archaïsassions", "archaïsât", "archaïsâtes", "archaïse", "archaïsé",
+            "archaïsée", "archaïsées", "archaïsent", "archaïser", "archaïsera", "archaïserai",
+            "archaïseraient", "archaïserais", "archaïserait", "archaïseras", "archaïsèrent", "archaïserez",
+            "archaïseriez", "archaïserions", "archaïserons", "archaïseront", "archaïses", "archaïsés",
+            "archaïsez", "archaïsiez", "archaïsions", "archaïsme", "archaïsmes", "archaïsons",
+            "archaïste", "archaïstes", "archal", "archals", "archange", "archangélique", "archangéliques",
+            "archanges", "archébiose", "archéen", "archéenne", "archéennes", "archéens", "archégone",
+            "archégones", "archéidés", "archencéphale", "archencéphalon", "archentère", "archentères",
+            "archentéron", "archentérons", "archétype", "archétypes", "archétypique", "archétypiques",
+            "archontat", "archontats", "archonte", "archontes", "arthrochondrite", "aurichalque",
+            "aurichalques", "aurochs", "autochtone", "autochtones", "autochtonie", "autochtonies",
+            "azédarach", "batrachographe", "batrachomorphes", "batrachophobie", "batrachopides",
+            "blastocholines", "brachélytre", "brachélytres", "brachial", "brachiale", "brachiales",
+            "brachiaux", "brachycéphale", "brachycéphales", "brachycéphalie", "brachycéphalies",
+            "brachycéphalisation", "brachycéphalisations", "brachylogie", "brachylogies", "brachylogique",
+            "brachylogiques", "brachyodonte", "brachyodontie", "brachypode", "brachyrhynque",
+            "brachysome", "brachytype", "branchial", "branchiale", "branchiales", "branchiaux",
+            "broncholithe", "bronchopneumonique", "bronchopneumoniques", "bronchoscope", "bronchoscopes",
+            "bronchoscopie", "bronchoscopies", "bronchotomie", "bronchotomies", "callichte", "callichtes",
+            "carachs", "carchésion", "carchésions", "catéchuménat", "catéchuménats", "catéchumène",
+            "catéchumènes", "chaetodon", "chaetodons", "chalaze", "chalazes", "chalcaspide", "chalcaspides",
+            "chalcogènes", "chalcographie", "chalcographies", "chaldaïque", "chaldaïques", "chaldaïsme",
+            "chaldaïsmes", "chaldéen", "chaldéenne", "chaldéennes", "chaldéens", "chaos", "chaotique",
+            "chaotiquement", "chaotiques", "charismatique", "charismatiques", "charismatisme",
+            "charismatismes", "charisme", "charismes", "charybde", "charybdes", "chéilalgie",
+            "chéilanthe", "chéilocace", "chéilodactyle", "chéilophagie", "chéiloraphie", "chéiranthé",
+            "chéiranthère", "chéiranthus", "chéirogale", "chéirogaleus", "chéirolepis", "chéiromys",
+            "chéiroptères", "chélidoine", "chélidoines", "chéliforme", "chélipède", "chélodonte",
+            "chéloïde", "chéloïdes", "chéloïdien", "chéloïdienne", "chéloïdiennes", "chéloïdiens",
+            "chélonée", "chélonées", "chélonien", "chélonienne", "chéloniennes", "chéloniens",
+            "chéloniens", "chélonographe", "chélonographie", "chélonophage", "chélopode", "chélopodes",
+            "chélostome", "chélyde", "chélydés", "chélys", "chénalopex", "chéniscus", "chénocolymbes",
+            "chénopodées", "chénopodiacées", "chénopodiées", "chénosure", "chersochélone", "chersohydrochélone",
+            "chétocéphale", "chétodiptère", "chétodon", "chétodons", "chétodonte", "chétognathes",
+            "chétopode", "chétopodes", "chétosomides", "chianti", "chiantis", "chiasma", "chiasmas",
+            "chiasme", "chiasmes", "chiragre", "chiragres", "chirobaliste", "chirocentre", "chirognomonie",
+            "chirognomonies", "chirographaire", "chirographaires", "chirographe", "chirographes",
+            "chirographia", "chirographiai", "chirographiaient", "chirographiais", "chirographiait",
+            "chirographiâmes", "chirographiant", "chirographias", "chirographiasse", "chirographiassent",
+            "chirographiasses", "chirographiassiez", "chirographiassions", "chirographiât", "chirographiâtes",
+            "chirographie", "chirographié", "chirographiée", "chirographiées", "chirographient",
+            "chirographier", "chirographiera", "chirographierai", "chirographieraient", "chirographierais",
+            "chirographierait", "chirographieras", "chirographièrent", "chirographierez", "chirographieriez",
+            "chirographierions", "chirographierons", "chirographieront", "chirographies", "chirographiés",
+            "chirographiez", "chirographiiez", "chirographiions", "chirographions", "chirologie",
+            "chirologies", "chironecte", "chironome", "chironomes", "chironomie", "chironomies",
+            "chirosophe", "chirosophes", "chirote", "chitine", "chitines", "chitineuse", "chitineuses",
+            "chitineux", "chiton", "chitons", "chleuh", "choanoflagellés", "choéphore", "choéphores",
+            "cholagogue", "cholagogues", "cholécystectomie", "cholécystectomies", "cholécystite",
+            "cholécystites", "cholédocholithotripsie", "cholédociarctie", "cholédocotomie", "cholédoque",
+            "cholédoques", "choléra", "choléraphage", "choléras", "cholérifère", "cholériforme",
+            "cholériformes", "cholérine", "cholérines", "cholérique", "cholériques", "cholestérol",
+            "cholestérols", "choline", "cholines", "cholique", "choliques", "chondrichtyens",
+            "chondriome", "chondriomes", "chondroplaste", "chondroptérygiens", "chondrostéens",
+            "chthonien", "chthonienne", "chthoniennes", "chthoniens", "cinchonine", "cinchonines",
+            "cochléaire", "cochléaires", "cochléaria", "cochléarias", "cochlée", "cochlées", "cochylis",
+            "conchite", "conchites", "conchoïdal", "conchoïdale", "conchoïdales", "conchoïdaux",
+            "conchoïde", "conchoïdes", "conchyliculteur", "conchyliculteurs", "conchylien", "conchylienne",
+            "conchyliennes", "conchyliens", "conchylifère", "conchylifères", "conchyliologie",
+            "conchyliologies", "conchyliologiste", "conchyliologistes", "conchyliologue", "conchyliologues",
+            "conchylis", "courbachs", "cynorchis", "décadrachme", "décadrachmes", "diachylon",
+            "diachylons", "diachylum", "diachylums", "dichotome", "dichotomes", "dichotomie",
+            "dichotomies", "dichotomique", "dichotomiques", "dichotomisa", "dichotomisai", "dichotomisaient",
+            "dichotomisais", "dichotomisait", "dichotomisâmes", "dichotomisant", "dichotomisas",
+            "dichotomisasse", "dichotomisassent", "dichotomisasses", "dichotomisassiez", "dichotomisassions",
+            "dichotomisât", "dichotomisâtes", "dichotomise", "dichotomisé", "dichotomisée", "dichotomisées",
+            "dichotomisent", "dichotomiser", "dichotomisera", "dichotomiserai", "dichotomiseraient",
+            "dichotomiserais", "dichotomiserait", "dichotomiseras", "dichotomisèrent", "dichotomiserez",
+            "dichotomiseriez", "dichotomiserions", "dichotomiserons", "dichotomiseront", "dichotomises",
+            "dichotomisés", "dichotomisez", "dichotomisiez", "dichotomisions", "dichotomisons",
+            "didrachme", "didrachmes", "dolichocéphale", "dolichocéphales", "dolichocéphalie",
+            "dolichocéphalies", "dolichocrânien", "dolichodrome", "dolichogyne", "dolichomégacôlon",
+            "dolichomorphe", "dolichopode", "dolichosaure", "dolichostylé", "drachme", "drachmes",
+            "échidné", "échidnés", "échinocactus", "échinocoque", "échinocoques", "échinoderme",
+            "échinodermes", "écho", "écholalie", "écholalies", "échos", "échosonde", "échotier",
+            "échotiers", "enchondrome", "enchondromes", "enchymose", "enchymoses", "eucharistie",
+            "eucharisties", "eucharistique", "eucharistiques", "euchologe", "euchologes", "euchologue",
+            "euchologues", "eunuchisme", "eunuchismes", "eunuchoïde", "eunuchoïdes", "eunuchoïdisme",
+            "eunuchoïdismes", "exarchat", "exarchats", "fuchsine", "fuchsiné", "fuchsines", "fuchsinophile",
+            "hétérochtone", "hyperdolichocéphalie", "hyperfuchsien", "hypocholestérinémie", "ichneumon",
+            "ichneumonides", "ichneumonidés", "ichneumons", "ichnographie", "ichnographies", "ichnographique",
+            "ichthyophagie", "ichthyophagies", "ichthyophagique", "ichthyornis", "ichtyobdellidés",
+            "ichtyobiologiste", "ichtyographie", "ichtyol", "ichtyologie", "ichtyologies", "ichtyologique",
+            "ichtyologiques", "ichtyologiste", "ichtyologistes", "ichtyologue", "ichtyologues",
+            "ichtyols", "ichtyomasse", "ichtyophage", "ichtyophages", "ichtyophagie", "ichtyophagies",
+            "ichtyophagique", "ichtyophile", "ichtyophtalme", "ichtyophtalmite", "ichtyoptérygiens",
+            "ichtyornis", "ichtyosaure", "ichtyosaures", "ichtyosauriens", "ichtyose", "ichtyoses",
+            "ichtyostega", "ichtyostégidés", "ichtyotoxique", "ichtyotoxisme", "ichtys", "inchoatif",
+            "inchoatifs", "inchoation", "inchoative", "inchoatives", "inchoativité", "intratrachéal",
+            "kalanchoé", "kalanchoés", "krach", "krachs", "lichen", "lichénique", "lichéniques",
+            "lichens", "loch", "lochs", "looch", "loochs", "lychnide", "lychnides", "lychnis",
+            "mach", "machairodus", "machaon", "machaons", "machiavel", "machiavélique", "machiavéliques",
+            "machiavélisa", "machiavélisai", "machiavélisaient", "machiavélisais", "machiavélisait",
+            "machiavélisâmes", "machiavélisant", "machiavélisas", "machiavélisasse", "machiavélisassent",
+            "machiavélisasses", "machiavélisassiez", "machiavélisassions", "machiavélisât", "machiavélisâtes",
+            "machiavélise", "machiavélisé", "machiavélisée", "machiavélisées", "machiavélisent",
+            "machiavéliser", "machiavélisera", "machiavéliserai", "machiavéliseraient", "machiavéliserais",
+            "machiavéliserait", "machiavéliseras", "machiavélisèrent", "machiavéliserez", "machiavéliseriez",
+            "machiavéliserions", "machiavéliserons", "machiavéliseront", "machiavélises", "machiavélisés",
+            "machiavélisez", "machiavélisiez", "machiavélisions", "machiavélisme", "machiavélismes",
+            "machiavélisons", "machiavéliste", "machiavélistes", "machiavels", "machs", "manichéen",
+            "manichéenne", "manichéennes", "manichéens", "manichéisme", "manichéismes", "mélancholier",
+            "melchior", "melchiors", "melchite", "melchites", "ménechme", "ménechmes", "michelangelesque",
+            "michelangelesques", "michelangesque", "michelangesques", "microrchide", "mitochondrie",
+            "mitochondries", "moloch", "molochs", "monobrachial", "monorchide", "monorchides",
+            "monorchidie", "monorchidies", "munichois", "munichoise", "munichoises", "nabuchodonosor",
+            "nabuchodonosors", "neurophychiatre", "neurophychiatres", "neuropsychiatrie", "neuropsychiatries",
+            "neuropsychiatrique", "neuropsychiatriques", "oenochoé", "oenochoés", "onychomancie",
+            "onychophore", "opodeldoch", "opodeldochs", "orchidacées", "orchidales", "orchidée",
+            "orchidées", "orchidien", "orchidocèle", "orchidodynie", "orchidothérapie", "orchiodynie",
+            "orchiopexie", "orchiorraphie", "orchiotome", "orchis", "orchite", "orchites", "orchotome",
+            "orchotomie", "orichalque", "orichalques", "ostéichthyens", "paracholéra", "parorchide",
+            "pelvitrochantérien", "périchondre", "périchondres", "pibroch", "pibrochs", "picholine",
+            "picholines", "pichtogorne", "podolachnite", "polychètes", "prétrachéal", "psychédélique",
+            "psychédéliques", "psychédélisme", "psychédélismes", "psychiatre", "psychiatres",
+            "psychiatrie", "psychiatries", "psychiatrique", "psychiatriques", "rhinotrachéite",
+            "rhynchite", "rhynchites", "rhynchobdelles", "rhynchobdellides", "rhynchobdellidés",
+            "rhynchonelles", "rhynchotes", "spirochète", "spirochètes", "spirochétose", "spirochétoses",
+            "splanchnique", "splanchniques", "splanchnologie", "splanchnologies", "stichomythie",
+            "stichomythies", "stochastique", "stochastiques", "stœchiométrie", "stœchiométries",
+            "stœchiométrique", "stœchiométriques", "strychnine", "strychnines", "strychnos", "synechthre",
+            "synechthrie", "taricheute", "taricheutes", "tétradrachme", "tétradrachmes", "tétrarchat",
+            "tétrarchats", "tichodrome", "tichodromes", "trachéen", "trachéenne", "trachéennes",
+            "trachéens", "trachéide", "trachéides", "trachéifère", "trachéite", "trachéites",
+            "trachélides", "trachome", "trachomes", "trachydolérite", "trachylides", "trachystomates",
+            "trachystomes", "trachyte", "trachytes", "trachytique", "trachytiques", "trichiasis",
+            "trichinal", "trichinale", "trichinales", "trichinaux", "trichiné", "trichinée", "trichinées",
+            "trichinés", "trichinose", "trichinoses", "trichite", "trichites", "trichocardie",
+            "trichocyste", "trichode", "trichodesmie", "trichodonte", "trichoépithéliome", "trichogène",
+            "trichogyne", "trichopathie", "trichoptères", "trichosanthe", "trichosome", "trochaïque",
+            "trochaïques", "trochanter", "trochantérien", "trochantérienne", "trochantériennes",
+            "trochantériens", "trochanters", "trochile", "trochiles", "trochilidés", "trochlée",
+            "trochlées", "tylenchus", "ultrabrachycéphale", "varech", "varechs", "vichnouisme",
+            "vichnouismes", "yachmak", "yachmaks",
+        };
+
+    } // class AutomRuleFilter
 } // namespace ColorLib

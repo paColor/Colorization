@@ -112,7 +112,7 @@ namespace ColorLib.Morphalou
             { "o~", "§" },
             { "9~", "1" },
             { "E/", "E" },
-            { "O/", "O" },
+            { "O/", "o" },
         };
 
         /// <summary>

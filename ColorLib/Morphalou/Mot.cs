@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 
 namespace ColorLib.Morphalou
 {
@@ -284,6 +285,29 @@ namespace ColorLib.Morphalou
                         {
                             return true;
                         }
+                        if (pos < col.Length - 1 && pos < ph1.Length - 1
+                            && col[pos] == 'u' && ph1[pos] == 'w'
+                            && (col[pos + 1] == 'a' && ph1[pos + 1] == 'a'
+                            || col[pos + 1] == 'i' && ph1[pos + 1] == 'i'))
+                        {
+                            StringBuilder sb = new StringBuilder(col.Length);
+                            sb.Append(col.Substring(0, pos));
+                            sb.Append('w'); // à la place du 'u'
+                            sb.Append(col.Substring(pos + 1, col.Length - (pos + 1)));
+                            if (AreMatch(graphie, ph1, sb.ToString()))
+                                return true;
+                        }
+                    }
+                } // if (pos < col.Length)
+
+                if (pos < ph1.Length)
+                {
+                    if (pos > 0 && ph1[pos - 1] == ph1[pos])
+                    {
+                        // Morphalou a doublé un son qui n'apparaît qu'une fois pour colorization.
+                        // Si le reste est équivalent, cela n'a pas d'importance pour coloriser.
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col))
+                            return true;
                     }
                 }
             }

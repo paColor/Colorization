@@ -96,20 +96,30 @@ namespace ColorLib
 
         /// <summary>
         /// Le dictionnaire contien d'un côté le mot comme clé, de l'autre la représentation sous
-        /// forme de string de sa représentation en phonèmes.
+        /// forme de string de sa forme en phonèmes.
         /// Le deuxième string (le contenu) a le format {lettre, {lettre} "-" son ";"}. L'ensemble
         /// des lettres doit être équivalent au mot, cad à la clé. 
         /// son est la représentation en code colorization du son, où un symbole rerpésente un son.
         /// </summary>
         private static Dictionary<string, string> except = new Dictionary<string, string>()
         {
+            // les mots suivants proviennent de la base de données Morphalou.
+            // Je me demande s'ils existent tous...
             { "aber", "a-a;b-b;e-E;r-R" },
             { "abers", "a-a;b-b;e-E;r-R;s-#" },
             { "abies", "a-a;b-b;i-j;e-E;s-s" },
             { "abigaïl", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l" },
             { "abigaïls", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l" },
             { "abrasax", "ab;r-R;asax" },
-            { "acanthophœnix", "a;c-k;an-@;t;h-#;o;ph-f;œ-e;ni;x" }
+            { "acanthophœnix", "a;c-k;an-@;t;h-#;o;ph-f;œ-e;ni;x" },
+            { "trachélobranches", "t;r-R;ak;é-e;lob;r-R;an-@;ch-S;e-°;s-#" },
+            { "trachélobranche", "t;r-R;ak;é-e;lob;r-R;an-@;ch-S;e-°" },
+            { "schnorchel", "sch-S;no;r-R;ch-k;e-E;l" },
+            { "schnorchels", "sch-S;no;r-R;ch-k;e-E;l;s-#" },
+            { "cholédochoclyse", "ch-k;ol;é-e;do;ch-S;o;c-k;l;y-i;s-z;e-°" },
+            { "cholédochoclyses", "ch-k;ol;é-e;do;ch-S;o;c-k;l;y-i;s-z;e-°;s-#" },
+            { "chénomychon", "cg-k;é-e;nom;y-i;ch-S;on-§" },
+            { "chénomychons", "cg-k;é-e;nom;y-i;ch-S;on-§;s-#" },
         }; 
     }
 }

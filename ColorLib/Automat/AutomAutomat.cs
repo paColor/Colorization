@@ -114,18 +114,22 @@ namespace ColorLib
 						{'b':[{'+':/b/i},'b',2],
 						'plomb':[{'-':/plom/i,'+':/(s?)$/i},'_muet',1], // le ´b´ à la fin de plomb ne se prononce pas
 						'*':[{},'b',1]}],
-				'c' : [['eiy','choeur_1','choeur_2','chor','psycho','brachio','cheo','chest','chiro','chlo_chlam','chr',
-						'h','erc_orc','cisole','c_muet_fin','onc_donc','nc_muet_fin','_spect','_inct','cciey','cc','apostrophe', 'voy_c_fin','@','*'],
+				'c' : [['eiy','choeur_1','choeur_2','chor','psycho','brachio','cheo','chest','chiro',
+						'chlo_chlam','chr','tech','tachy','chK','h','erc_orc','cisole','c_muet_fin','onc_donc',
+						'nc_muet_fin','_spect','_inct','cciey','cc','apostrophe', 'voy_c_fin','@','*'],
 						{'choeur_1':[{'+':/hoe/i},'k',2],
 						'choeur_2':[{'+':/hœ/i},'k',2],
 						'chor':[{'+':/hor/i},'k',2], // tous les ´choral, choriste´... exceptions non traitées : chorizo, maillechort
-						'psycho':[{'-':/psy/i,'+':/ho/i},'k',2], // tous les ´psycho´ quelque chose
+						'psycho':[{'-':/psy/i,'+':/h[oa]/i},'k',2], // tous les ´psycho´ quelque chose
 						'brachio':[{'-':/bra/i,'+':/hio/i},'k',2], // brachiosaure, brachiocéphale
 						'cheo':[{'+':/héo/i},'k',2], // archéo..., trachéo...
 						'chest':[{'+':/hest/i},'k',2], // orchestre et les mots de la même famille
 						'chiro':[{'+':/hiro[p|m]/i},'k',2], // chiroptère, chiromancie
 						'chlo_chlam':[{'+':/hl(o|am)/i},'k',2], // chlorure, chlamyde
 						'chr':[{'+':/hr/i},'k',2], // de chrétien à synchronisé
+						'tech':[{'-':/te/i,'+':/hn/i},'k',2], // technique et tous ses dérivés
+						'tachy':[{'-':/ta/i,'+':/hy/i},'k',2],
+						'chK':[this.Regle_ChK,'k',2], // pour les cas qui n'ont pas été reconnus par les règles précédentes
 						'h':[{'+':/h/i},'S',2],
 						'eiy':[{'+':/[eiyéèêëîï]/i},'s_c',1],
 						'cisole':[{'+':/$/i,'-':/^/i},'s_c',1], // exemple : c'est
@@ -392,7 +396,7 @@ namespace ColorLib
 							{'sch':[{'+':/ch/i},'S',3], // schlem
 							'h':[{'+':/h/i},'S',2],
 							's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
-							'z':[{'-':/[aeiyouéèàâüûùëöêîô]/i,'+':/[aeiyouéèàâüûùëöêîô]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
+							'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 							'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*
 							'para':[{'-':/para/i},'s',1], // para quelque chose (parasol, parasismique, ...)
 							's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
@@ -413,7 +417,7 @@ namespace ColorLib
 							'tie':[{'-':/(ambi|albu|cra|lvi|^essen|idio|iner|ini|minu|ipé|oten|phé)/i,'+':/ie/i},'s_t',1],
 							'ex_tiot':[{'-':/(cré|plé|jé)/i,'+':/i[ao]/i},'s_t',1],
 							'tiaot':[{'-':/([eéèêës]|[sc]en|an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io])/i,'+':/i[ao]/i},'t',1],
-							'verb_tions':[this.Regle_VerbesTier,'t',1], // verbes en ter à l'imparfait - nous
+							'verb_tions':[this.Regle_VerbesTer,'t',1], // verbes en ter à l'imparfait - nous
 							'tiaos':[{'+':/i[ao]/i},'s_t',1],
 							'vingt':[{'-':/ving/i,'+':/$/i},'t',1], // vingt mais pas vingts
 							'tisole':[{'+':/$/i,'-':/^/i},'t',1], // exemple : demande-t-il
