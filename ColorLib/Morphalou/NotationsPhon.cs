@@ -111,7 +111,7 @@ namespace ColorLib.Morphalou
             { "a~", "@" },
             { "o~", "§" },
             { "9~", "1" },
-            { "E/", "E" },
+            { "E/", "ë" },
             { "O/", "o" },
         };
 
@@ -164,6 +164,7 @@ namespace ColorLib.Morphalou
             {'x',   Phonemes.ks}, // ks
             {'X',   Phonemes.gz}, // gz
             {'R',   Phonemes.R},
+            {'r',   Phonemes.R},
             {'n',   Phonemes.n},
             {'Z',   Phonemes.Z}, // ge
             {'S',   Phonemes.S}, // ch

@@ -156,12 +156,14 @@ namespace ColorLib
 						'dmuet':[{'+':/(s?)$/i},'_muet',1], // un d suivi éventuellement d'un s ex. : retards
 						'apostrophe':[{'+':/('|’)/i},'d',2], // apostrophe
 						'*':[{},'d',1]}],
-				'e' : [['conj_v_ier','uient','ien_0','ien','ien_2','een','except_en','_ent','clef','hier','adv_emment_fin',
-						'ment','imparfait','verbe_3_pluriel','au',
-						'eu_final','avoir','monsieur','jeudi','jeu_','eux','eur','eu','eu_accent_circ','in','eil','y','iy','ennemi','enn_debut_mot','dessus_dessous',
-						'et','cet','t_final','eclm_final','est','d_except','drz_final','zen','n','adv_emment_a','femme','lemme','em_gene','nm','tclesmesdes',
-						'que_isole','que_gue_final','jtcnslemede','jean','ge','eoi','ex','ef',
-						'reqquechose','except_evr','2consonnes','abbaye','e_muet','e_caduc','e_deb','@','ier_Conj','*'],
+				'e' : [['conj_v_ier','uient','ien_0','ien','ien_2','een','except_en','_ent','clef',
+						'hier','adv_emment_fin','ment','imparfait','verbe_3_pluriel','au','eu_final',
+						'avoir','monsieur','jeudi','jeu_','eux','eur','eu','eu_accent_circ',
+						'in','eil','y','iy','ennemi','enn_debut_mot','dessus_dessous','et','cet',
+						't_final','eclm_final','est','d_except','drz_final','zen','n','adv_emment_a',
+						'femme','lemme','em_gene','nm','tclesmesdes','que_isole','que_gue_final',
+						'jtcnslemede','jean','ge','eoi','ex','ef','reqquechose','except_evr','2consonnes',
+						'abbaye','e_muet','e_caduc','e_deb','@','ier_Conj','*'],
 						{'_ent':[this.Regle_mots_ent,'a_tilda',2], // quelques mots (adverbes ou noms) terminés par ent
 						'adv_emment_fin':[{'-':/emm/i,'+':/nt/i},'a_tilda',2], // adverbe avec 'emment' => se termine par le son [a_tilda]
 						'ment':[this.Regle_ment,'a_tilda',2], // on considère que les mots terminés par 'ment' se prononcent [a_tilda] sauf s'il s'agit d'un verbe
@@ -408,7 +410,8 @@ namespace ColorLib
 							'@':[{'+':/$/i},'_muet',1]}],
 					't' : [['t_deb','t','tisole','except_tien','_tien','ex_tie','tie','ex_tiot','tiaot',
 							'verb_tions','tiaos','vingt',
-							'ourt','_inct','_spect','_ct','_est','t_final','tmuet','apostrophe', '@', '*'],
+							'ourt','_inct','_spect','_ct','_est','t_final','tmuet','apostrophe',
+							'ex_tiel','_tiel','@','*'],
 							{'t':[{'+':/t/i},'t',2],
 							't_deb':[{'-':/^/i},'t',1],
 							'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
@@ -428,8 +431,10 @@ namespace ColorLib
 							'_ct':[{'-':/c/i,'+':/(s?)$/i},'t',1], // tous les autres mots terminés par 'ct'
 							't_final':[this.Regle_t_final,'t',1], // quelques mots où le ´t´ final se prononce
 							'tmuet':[{'+':/(s?)$/i},'_muet',1], // un t suivi éventuellement d'un s ex. : marrants
-							'*':[{},'t',1],
 							'apostrophe':[{'+':/('|’)/i},'t',2], // apostrophe
+							'ex_tiel':[{'-':/céles/i},'t',1],
+							'_tiel':[{'+':/iel((le)?)(s?)/i},'s_t',1],
+							'*':[{},'t',1],							
 							'@':[{'+':/$/i},'_muet',1]}],
 					'u' : [['um','n','nm','ueil', '*'],
 							{//'um':[{'-':/[^aefo]/i,'+':/m$/i},'o',1],

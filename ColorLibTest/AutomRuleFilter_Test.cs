@@ -165,7 +165,6 @@ namespace ColorLibTest
             Assert.AreEqual(false, AutomRuleFilter.Regle_s_final("eusses", 5));
             Assert.AreEqual(false, AutomRuleFilter.Regle_s_final("essa", 2));
             Assert.AreEqual(false, AutomRuleFilter.Regle_s_final("essais", 5));
-            Assert.AreEqual(false, AutomRuleFilter.Regle_s_final("s", 0));
         }
 
         [TestMethod]

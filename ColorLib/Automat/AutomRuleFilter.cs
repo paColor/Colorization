@@ -216,8 +216,6 @@ namespace ColorLib
             logger.ConditionalDebug("InitAutomat");
             if (!initiated)
             {
-                for (int i = 0; i < exceptions_final_er.Length; i++)
-                    exceptions_final_er_hashed.Add(exceptions_final_er[i], null);
                 for (int i = 0; i < noms_ai.Length; i++)
                     noms_ai_hashed.Add(noms_ai[i], null);
                 for (int i = 0; i < avoir_eu.Length; i++)
@@ -275,6 +273,15 @@ namespace ColorLib
             else
                 return s;
         } // SansSFinal
+
+        public static string SansEFinal(string s)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "SansEFinal \'{0}\'", s);
+            if (s[s.Length - 1] == 'e')
+                return s.Substring(0, s.Length - 1);
+            else
+                return s;
+        }
 
 
         private static Regex rxConsIent = new Regex("[bcçdfghjklnmpqrstvwxz]ient$", RegexOptions.IgnoreCase);
@@ -391,7 +398,14 @@ namespace ColorLib
             "efficient", "effluent", "engoulevent", "entregent", "escient", "event",
             "excédent", "expédient", "éloquent", "éminent", "émollient", "évanescent", "évent",
             "agrément", "aliment", "ciment","content","compliment","boniment","document",
-            "parlement","ornement","supplément","tourment","spent", "argument", "abrivent"
+            "parlement","ornement","supplément","tourment","spent", "argument", "abrivent",
+            "accrescent", "acescent", "albescent", "alcalescent", "amarescent", "concupiscent",
+            "convalescent", "dégénérescent", "déhiscent", "délitescent", "détumescent", "efflorescent",
+            "érubescent", "flavescent", "florescent", "frutescent", "ignescent", "imputrescent",
+            "indéhiscent", "marcescent", "négrescent", "photoluminescent", "pubescent", "quiescent",
+            "rarescent", "recrudescent", "résipiscent", "reviviscent", "réviviscent", "rubescent",
+            "sénescent", "somnolescent", "spinescent", "thermoluminescent",
+
         };
 
         /*
@@ -409,8 +423,8 @@ namespace ColorLib
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
 
             bool toReturn = false;
-            string comparateur = SansSFinal(mot);
-            if (pos_mot >= comparateur.Length - 3) // on teste a priori le e de la terminaison
+            string comparateur = SansEFinal(SansSFinal(mot));
+            if (pos_mot == comparateur.Length - 3) // on teste le e de la terminaison
             {
                 Regex r = new Regex("^[bcdfghjklmnpqrstvwxz]ent$", RegexOptions.IgnoreCase); // mot court, évtlmt imaginaire...
                 if (r.IsMatch(comparateur))
@@ -470,16 +484,19 @@ namespace ColorLib
             return toReturn;
         }
 
-
-        static string[] exceptions_final_er =
+        /// <summary>
+        /// Liste des mots se terminant par 'er' et qui se prononcent [ER]. Pour couvrir le pluriel,
+        /// ils sont testés sans un éventuel 's' final.
+        /// </summary>
+        private static HashSet<string> exceptions_final_er = new HashSet<string>
         {
             "amer", "cher", "hier", "mer", "coroner", "charter", "cracker",
             "chester", "doppler", "cascher", "bulldozer", "cancer", "carter", "geyser", "cocker", "pullover",
             "alter", "aster", "fer", "ver", "diver", "perver", "enfer", "traver", "univer", "cuiller", "container",
-            "cutter", "révolver", "super", "master"
+            "cutter", "révolver", "super", "master",
+            "aver", "conver", "dever", "diver", "déver", "enver","obver", "per", "rever", "tier", "traver",
+            "enver", "univer", "water", "acquier"
         };
-
-        private static StringDictionary exceptions_final_er_hashed = new StringDictionary();
 
         /*
          * Règle spécifique de traitement des successions de lettres finales 'er'
@@ -488,6 +505,12 @@ namespace ColorLib
          * 
          * Précondition: mot est en minuscules et non null
          */
+        /// <summary>
+        /// Détermine si le mot se termine en 'er' ou 'ers' et se pronoce [ER].
+        /// </summary>
+        /// <param name="mot">Le mot à anlayser.</param>
+        /// <param name="pos_mot"></param>
+        /// <returns></returns>
         public static bool Regle_er(string mot, int pos_mot)
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_er - mot: \'{0}\', pos: {1}", mot, pos_mot);
@@ -501,7 +524,7 @@ namespace ColorLib
             if ((pos_mot >= mSing.Length - 2) && (mSing[mSing.Length - 1] == 'r'))
                 // on n'est pas en train de traiter une lettre avant la terminaison
                 // le mot se termine par 'r'
-                toReturn = exceptions_final_er_hashed.ContainsKey(mSing);
+                toReturn = exceptions_final_er.Contains(mSing);
             return toReturn;
         }
 
@@ -561,7 +584,7 @@ namespace ColorLib
         /// <summary>
         /// Liste des mots se terminant par 's' où le 's' se prononce.
         /// </summary>
-        public static HashSet<string> mots_s_final = new HashSet<string>
+        private static HashSet<string> mots_s_final = new HashSet<string>
         {
             "abies", "abraxas", "acarus", "acens", "acinus", "adonis", "agasillis", "agnus", "agnès",
             "agrostis", "albatros", "albinos", "albinos", "alcarazas", "alios", "alkermès", "aloès",
@@ -623,23 +646,23 @@ namespace ColorLib
             "antivirus", "bathycrinus", "bathyptéroïs", "batrachoseps", "caryorrhexis", "cetorhinus",
             "chéiranthus", "chéiromys", "chélys", "chéniscus", "chiroteuthis", "chlamydomonas",
             "chronotaraxis", "colotyphus", "craniotabes", "criocarcinus", "crypsis", "cynanthémis",
-            "cynorchis", "delirium", "tremens", "de", "profundis", "dyscomyces", "électrobus",
+            "cynorchis", "tremens", "profundis", "dyscomyces", "électrobus",
             "électrotonus", "épicanthus", "épispadias", "ès", "muros", "florès", "glomus",
             "glossochilus", "gyrobus", "habeas", "corpus", "haliotis", "halobenthos", "hippotigris",
-            "hypertonus", "extremis", "inmedias", "res", "in", "partibus", "intemporalibus",
+            "hypertonus", "extremis", "inmedias", "res", "partibus", "intemporalibus",
             "iridodonésis", "knickers", "lophaetus", "macrothésaurus", "malus", "mégacéros", "méningotyphus",
             "métanauplius", "micrococcus", "minibus", "minus", "habens", "monocéros", "morphochorésis",
             "myriagauss", "myxovirus", "naturalibus", "néphrotyphus", "neuroptéris", "nimbostratus",
             "nounours", "numerus", "clausus", "odontophorus", "oligoamnios", "ovibos", "ovotestis",
             "palatoschizis", "pardeuss", "pedibus", "pentacrinus", "périonyxis", "phycomyces",
-            "phytéléphas", "pleurocanthus", "poliovirus", "prémycosis", "préoestrus", "pretium",
+            "phytéléphas", "pleurocanthus", "poliovirus", "prémycosis", "préoestrus",
             "doloris", "pronéphros", "pronucléus", "protococcus", "protopterus", "provirus", "pterocarpus",
             "pterygotus", "rapidos", "rhinochetus", "rhinocoris", "rhinovirus", "rhizopus", "s",
-            "saccharomyces", "schizanthus", "semper", "virens", "sensass", "s", "o", "s", "sphénoptéris",
-            "s", "s", "stegosaurus", "sui", "generis", "syndésis", "syneidésis", "synizésis",
+            "saccharomyces", "schizanthus", "virens", "sensass", "sphénoptéris",
+            "s", "stegosaurus", "generis", "syndésis", "syneidésis", "synizésis",
             "syntomis", "thanatos", "thésaurus", "tricératops", "trichorhexis", "trolleybus",
             "tss", "typhlosolis", "ultravirus", "uranoschisis", "uranostaphyloschisis", "vidéobus",
-            "vulgum", "pecus", "zoobenthos", "zygoptéris", "zygopteris",
+            "pecus", "zoobenthos", "zygoptéris", "zygopteris",
             "abribus", "airbus", "bus", "microbus", "mortibus", "pédibus", "autofocus", "focus",
             "erectus", "modus", "plus", "liquidus", "versus", "ratus", "burnous", "tous",
             "anubis", "craignos", "tranquillos", "alias", "sensas", "tapas", "gambas", "oups",
@@ -683,22 +706,66 @@ namespace ColorLib
             return toReturn;
         } // Regle_s_final
 
+        /// <summary>
+        /// Liste des mots se termionant par 't' où le 't' se prononce.
+        /// </summary>
         private static HashSet<string> mots_t_final = new HashSet<string>
         {
-            "accessit","cet","but","diktat","kumquat","prurit","affidavit","dot","rut","audit",
-            "exeat","magnificat","satisfecit","azimut","exit","mat","scorbut","brut",
-            "fiat","mazout","sinciput","cajeput","granit","net","internet","transat","sept",
-            "chut","huit","obit","transit","coït","incipit","occiput","ut","comput",
-            "introït","pat","zut","déficit","inuit","prétérit", "uppercut",
-            "gadget","kilt","kit","scout","fret", "abrupt", "concept", "percept", "rapt", "rupt",
-            "script", "transept", "ziggourat",
+            "abject", "abrupt", "abrupt", "abstract", "accessit", "aconit", "affect", "affidavit",
+            "ajust", "alcootest", "anet", "antichrist", "antitrust", "antéchrist", "août", "artéfact",
+            "azimut", "ballast", "bit", "boycott", "breakfast", "brut", "béhémot", "catgut", "celebret",
+            "chott", "christ", "chut", "cobalt", "cockpit", "coint", "colt", "compact", "compost",
+            "comput", "concept", "contact", "convict", "copyright", "correct", "covercoat", "coït",
+            "cricket", "cronstadt", "digest", "diktat", "direct", "direct", "discount", "district",
+            "dot", "drifft", "drift", "duffelcoat", "durit", "déficit", "est", "exeat", "exocet",
+            "fat", "fiat", "flirt", "fret", "gadget", "gestalt", "hast", "horst", "huit", "hypercorrect",
+            "impact", "incipit", "incorrect", "indirect", "indult", "inexact", "infect", "intact",
+            "intellect", "karst", "kart", "kilowatt", "kilt", "kit", "knout", "kraft", "kumquat",
+            "lest", "lift", "magnificat", "malt", "mat", "mat", "mazout", "moult", "net", "net",
+            "obit", "occiput", "offset", "offset", "ost", "ouest", "oust", "out", "output", "pat",
+            "peppermint", "percept", "pft", "pfut", "pfutt", "phot", "pickpocket", "prout", "prurit",
+            "prétérit", "pschent", "pschit", "pschitt", "pscht", "pschtt", "pschut", "pschutt",
+            "psit", "psst", "putt", "racket", "raout", "rapt", "runabout", "rut", "réquisit",
+            "samizdat", "satisfecit", "scat", "scorbut", "scout", "scout", "script", "select",
+            "sephirot", "sept", "set", "shoot", "short", "shunt", "sinciput", "skeet", "smalt",
+            "smart", "socket", "soviet", "spalt", "spart", "spot", "sprat", "sprint", "squat",
+            "stabat", "stout", "strict", "sunlight", "sécurit", "sélect", "tact", "test", "tilt",
+            "toast", "tract", "transat", "transept", "transit", "trust", "tsitsit", "twist", "tzitzit",
+            "umlaut", "uppercut", "ut", "veniat", "verdict", "volcelest", "volt", "watt", "whist",
+            "yacht", "yaourt", "yoghourt", "yogourt", "zest", "zest", "ziggourat", "zut", "baby",
+            "foot", "bast", "black", "out", "boy", "scout", "brain", "trust", "cargo", "boat",
+            "centriciput", "chassez", "huit", "chrono", "test", "cinq", "à", "sept", "combinaison",
+            "short", "contre", "ut", "cover", "coat", "culotte", "short", "dead", "heat", "demi",
+            "watt", "dog", "cart", "duffel", "coat", "en", "but", "est", "sud", "est", "exit",
+            "far", "west", "ferry", "boat", "fox", "trot", "fox", "trott", "grape", "fruit", "hectowatt",
+            "ice", "boat", "in", "dix", "huit", "in", "dix", "huit", "input", "instit", "jazz",
+            "hot", "jumbo", "jet", "kilovolt", "knock", "out", "lampe", "spot", "lock", "out",
+            "luminaire", "spot", "maxi", "short", "maxi", "yacht", "mégawatt", "melting", "pot",
+            "microvolt", "microwatt", "millivolt", "mini", "basket", "mini", "short", "monowatt",
+            "neuf", "huit", "à", "neuf", "huit", "nord", "est", "nord", "nord", "est", "nord",
+            "nord", "ouest", "nord", "ouest", "ouest", "sud", "ouest", "paris", "brest", "passing",
+            "shot", "permafrost", "pippermint", "planche", "contact", "préconcept", "pré", "test",
+            "privat", "docent", "projecteur", "spot", "quatre", "huit", "radiocobalt", "rocket",
+            "rupt", "séephirot", "self", "government", "sérum", "test", "six", "huit", "snow",
+            "boot", "snowboot", "squatt", "steam", "boat", "steamboat", "subtest", "sud", "est",
+            "sud", "ouest", "sud", "sud", "est", "sud", "sud", "ouest", "super", "huit", "superjet",
+            "sweat", "shirt", "sweatshirt", "tee", "shirt", "thrombotest", "top", "weight", "trench",
+            "coat", "trois", "huit", "t", "shirt", "twin", "set", "ulster", "coat", "voile", "contact",
+            "water", "closet", "water", "jacket", "white", "spirit", "xéno", "test", "ziggurat",
+            "zist", "cet", "audit", "cajeput", "granit", "internet", "introït", "inuit",
             // sans accents
-            "coit", "introit", "deficit", "preterit",
+            "antechrist", "aout", "artefact", "behemot", "coit", "deficit", "preterit", "requisit",
+            "securit", "a", "megawatt", "preconcept", "pre", "seephirot", "serum", "xeno", "introit",
         };
 
-        /*
-         * Règle spécifique de traitement des mots qui se terminent par la lettre "t" prononcée.
-         */
+        /// <summary>
+        /// Dit si le t final se pronoce pour <paramref name="mot"/>. Les mots au pluriel
+        /// sont traités également.
+        /// </summary>
+        /// <param name="mot">Le mot à analyser. Peut être au pluriel.</param>
+        /// <param name="pos">La position de la lettre sous analyse. En l'occurence le t final. 
+        /// </param>
+        /// <returns><c>true</c> si le t final se prononce.</returns>
         public static bool Regle_t_final(string mot, int pos_mot)
         // pos_mot pointe sur un 't'
         {
@@ -745,7 +812,7 @@ namespace ColorLib
                     toReturn = true; // tous les mots commençant par 'tien' ---> 't'
                 else
                 {
-                    r = new Regex(".+[befhns]tien.*"); // hypothèse: il n'existe pas de mot contenant deux fois "tien"
+                    r = new Regex(".+[beéfhns]tien.*"); // hypothèse: il n'existe pas de mot contenant deux fois "tien"
                     if (r.IsMatch(mSing))
                         toReturn = true;
                     else
@@ -1135,6 +1202,7 @@ namespace ColorLib
         private static HashSet<string> verbesTer = new HashSet<string>
         {
             "aboter", "abouter", "abricoter", "abriter", "absorbanter", "abuter", "accepter", "accidenter",
+            "accoiter",
             "acclimater", "accointer", "accoster", "accoter", "accravanter", "accréditer", "acheter", "acouter",
             "acquêter", "acravanter", "-acter", "adapter", "adenter", "admonester", "admonéter", "-adopter",
             "affaiter", "affaîter", "-affecter", "afforester", "affronter", "affruiter", "affréter", "affûter",

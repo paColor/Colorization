@@ -297,6 +297,17 @@ namespace ColorLib.Morphalou
                             if (AreMatch(graphie, ph1, sb.ToString()))
                                 return true;
                         }
+                        if (ph1[pos] == 'ë' && (col[pos] == 'e' || col[pos] == 'E'))
+                        {
+                            if (AreMatch(graphie, ph1.Remove(pos, 1), col.Remove(pos,1)))
+                                return true;
+                        }
+                    }
+                    if (col[pos] == 'j' && pos > 0 && col[pos - 1] == 'N')
+                    {
+                        // gnions - N§ - Nj§
+                        if (AreMatch(graphie, ph1, col.Remove(pos,1)))
+                            return true;
                     }
                 } // if (pos < col.Length)
 
