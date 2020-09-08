@@ -120,6 +120,7 @@ namespace ColorLib
             { "cholédochoclyses", "ch-k;ol;é-e;do;ch-S;o;c-k;l;y-i;s-z;e-°;s-#" },
             { "chénomychon", "cg-k;é-e;nom;y-i;ch-S;on-§" },
             { "chénomychons", "cg-k;é-e;nom;y-i;ch-S;on-§;s-#" },
+            { "accelerando", "a;cc-x;e-e;l;e-e;r;an-@;do" },
         }; 
     }
 }

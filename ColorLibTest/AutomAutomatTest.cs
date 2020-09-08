@@ -188,7 +188,7 @@ namespace ColorLibTest
 				  instillassiez, millésime, millionnaire, multimilliardaires, multimillionnaire, villégiature, villageoises,
 				  villa,
 				  examen, minoen, gastroentérologue, électroencéphalographie, acclamation, abdomens, abougrie, 
-				  abougries, abrivent, académifient";
+				  abougries, abrivent, académifient, achilléen, accaparas";
 
 			string[] phonetique = new string[]
 			{
@@ -198,7 +198,7 @@ namespace ColorLibTest
 				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnER",
 				"myltimiljaRdER", "myltimiljOnER", "vileZjatyR", "vilaZwaz", "vila",
 				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi", "aklamasj§", "abdOmEn", "abugRij", 
-				"abugRij", "abRiv@", "akademifi"
+				"abugRij", "abRiv@", "akademifi", "akile5", "akapaRa"
 			};
 			CheckTextVsPhonetique(txt, phonetique, ColConfWin.IllRule.lirecouleur);
 		}

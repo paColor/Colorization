@@ -268,7 +268,7 @@ namespace ColorLib
 							'vill':[{'-':/v/i,'+':/ll/i},'i',1,IllCeras],
 							//'mill':[{'-':/m/i,'+':/ll[^(et)]/i},'i',1,IllLireCouleur],
 							'mill2':[{'-':/^m/i,'+':/ll[^(et)]/i},'i',1,IllCeras],
-							'tranquille' : [{'-':/tranqu/i,'+':/ll/i},'i',1,IllCeras],
+							'tranquille' : [{'-':/(ach|tranqu)/i,'+':/ll/i},'i',1,IllCeras],
 							'ill':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i',1,IllLireCouleur], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
 							'ill_Ceras':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i_j_ill',3,IllCeras], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
 							'except_ill':[this.Regle_ill,'i',1], // PAE - 07.05.20
@@ -299,7 +299,7 @@ namespace ColorLib
 							{'vill':[{'-':/^vi/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
 							//'mill':[{'-':/^mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
 							'mill':[{'-':/mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
-							'tranquille':[{'-':/tranqui/i,'+':/l/i},'l',2], // tranquille => son [l]
+							'tranquille':[{'-':/(achi|tranqui)/i,'+':/l/i},'l',2], // tranquille => son [l]
 							'illdeb':[{'-':/^i/i,'+':/l/i},'l',2], // 'ill' en début de mot = son [l] ; exemple : illustration
 							'except_ill_l':[this.Regle_ill,'l',2],
 							'bacille':[{'-':/(baci|disti|insti)/i,'+':/l/i},'l',2],
@@ -398,7 +398,7 @@ namespace ColorLib
 							's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
 							'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 							'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*
-							'para':[{'-':/para/i},'s',1], // para quelque chose (parasol, parasismique, ...)
+							'para':[{'-':/^para/i},'s',1], // para quelque chose (parasol, parasismique, ...)
 							's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
 							'sisole':[{'+':/$/i,'-':/^/i},'s',1], // exemple : s'approche
 							'mars':[{'+':/$/i,'-':/mar/i},'s',1], // mars
