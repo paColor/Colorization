@@ -451,6 +451,37 @@ namespace ColorLib
         }
 
         /// <summary>
+        /// Produit le texte pour le dictionnaire d'exceptions en utilisant les phonèmes
+        /// du <c>PhonWord</c>
+        /// </summary>
+        /// <returns>un texte au format "{ "trachélobranches", "t;r-R;ak;é-e;lob;r-R;an-@;ch-S;e-°;s-#" },"
+        /// ou <c>null</c> s'il n'y a pas de phonèmes.
+        /// </returns>
+        public string PourExceptDictionary()
+        {
+            if (phons.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder(GetWord().Length * 6);
+                sb.Append("{ \"");
+                sb.Append(GetWord());
+                sb.Append("\", \"");
+                for (int i = 0; i < phons.Count - 1; i++)
+                {
+                    sb.Append(phons[i].ExceptDict());
+                    sb.Append(";");
+                }
+                sb.Append(phons[phons.Count - 1].ExceptDict());
+                sb.Append("\" },");
+                return sb.ToString();
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
+
+        /// <summary>
         /// Retourne le mot avec des tirets '-' entre les syllabes
         /// </summary>
         /// <returns>Le <c>string</c> contenant le mot découpé en syllabes.</returns>

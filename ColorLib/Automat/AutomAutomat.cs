@@ -182,9 +182,9 @@ namespace ColorLib
 						'except_en':[{'-':/(exam|mino|édu)/i,'+':/n(s?)$/i},'e_tilda',2], // exceptions des mots où le 'en' final se prononce [e_tilda] (héritage latin)
 						'een':[{'-':/é/i,'+':/n(s?)$/i},'e_tilda',2], // les mots qui se terminent par 'éen'
 						'ien_0':[{'-':/ni/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient
-						'ien':[{'-':/[bcdlmnrstvh]i/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
+						'ien':[{'-':/[bcdlmnrstvhz]i/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 						'ien_2':[{'-':/ï/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // mots avec 'ïen' => son [e_tilda]
-						'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
+						'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|acum)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
 						'nm':[{'+':/[nm]$/i},'a_tilda',2],
 						'd_except': [{'-':/(^bl|^ou|^damn)/i, '+':/d(s?)$/i},'E',1], // [PAE 22.02.20] pour covrir oued, bled, damned
 						'drz_final':[{'+':/[drz](s?)$/i},'e_comp',2], // e suivi d'un d,r ou z en fin de mot done le son [e]
@@ -417,7 +417,7 @@ namespace ColorLib
 							'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
 							'_tien':[{'+':/ien/i},'s_t',1],
 							'ex_tie':[{'-':/minu/i,'+':/ie(r|z)/i},'t',1],
-							'tie':[{'-':/(ambi|albu|cra|lvi|^essen|idio|iner|ini|minu|ipé|oten|phé)/i,'+':/ie/i},'s_t',1],
+							'tie':[{'-':/(ambi|albu|cra|lvi|^essen|idio|iner|ini|minu|ipé|oten|phé|oba)/i,'+':/ie/i},'s_t',1],
 							'ex_tiot':[{'-':/(cré|plé|jé)/i,'+':/i[ao]/i},'s_t',1],
 							'tiaot':[{'-':/([eéèêës]|[sc]en|an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io])/i,'+':/i[ao]/i},'t',1],
 							'verb_tions':[this.Regle_VerbesTer,'t',1], // verbes en ter à l'imparfait - nous
@@ -436,10 +436,12 @@ namespace ColorLib
 							'_tiel':[{'+':/iel((le)?)(s?)/i},'s_t',1],
 							'*':[{},'t',1],							
 							'@':[{'+':/$/i},'_muet',1]}],
-					'u' : [['um','n','nm','ueil', '*'],
+					'u' : [['um','n_on','n','nm','ueil', '*'],
 							{//'um':[{'-':/[^aefo]/i,'+':/m$/i},'o',1],
 							'um':[this.Regle_MotsUM,'o',1],
-							'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'x_tilda',2],
+							'n_on':[this.Regle_MotsUN_ON,'o_tilda',2],
+							//'n_on':[{'-':/(accup|av|bécab|carbor|conj|contrap|f|hom)/i,'+':/n((cula?)|gicide|cule)/i},'o_tilda',2],
+							'n':[{'+':/n[bcçdfgjklmpqrstvwxz]/i},'x_tilda',2],
 							'nm':[{'+':/[nm]$/i},'x_tilda',2],
 							'ueil':[{'+':/eil/i},'x2',2], // mots terminés en 'ueil' => son [x2]
 							'*':[{},'y',1]}],

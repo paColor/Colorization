@@ -76,7 +76,7 @@ namespace ColorLib
                         string strSon = sons.Substring(i, j - i);
                         strSon = strSon.Trim();
                         son = strSon[0]; // par définition un seul charactère.
-                        PhonInW piw = new PhonInW(pw, l, l + len - 1, NotationsPhon.Son2phon(son), "exception");
+                        PhonInW piw = new PhonInW(pw, l, l + len - 1, son, "exception");
                         l += len;
                     }
                     else
@@ -84,7 +84,7 @@ namespace ColorLib
                         for (int k = 0; k < len; k++)
                         {
                             son = lettres[k];
-                            PhonInW piw = new PhonInW(pw, l, l, NotationsPhon.Son2phon(son), "exception");
+                            PhonInW piw = new PhonInW(pw, l, l, son, "exception");
                             l++;
                         }
                     }
@@ -123,6 +123,8 @@ namespace ColorLib
             { "accelerando", "a;cc-x;e-e;l;e-e;r-R;an-@;do" },
             { "ace", "a-E;c-s;e-ç" },
             { "aces", "a-E;c-s;e-ç;s-#" },
+            { "actaea", "a-a;c-k;t-t;ae-e;a-a" },
+            { "actaeas", "a-a;c-k;t-t;ae-e;a-a;s-#" },
         }; 
     }
 }

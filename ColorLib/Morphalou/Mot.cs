@@ -226,8 +226,8 @@ namespace ColorLib.Morphalou
                     if (pos > 2
                         && col[pos] == 'j'
                         && col[pos - 1] == 'i'
-                        && PhonInW.IsPhonConsonne(NotationsPhon.Son2phon(col[pos - 2]))
-                        && PhonInW.IsPhonConsonne(NotationsPhon.Son2phon(col[pos - 3]))
+                        && PhonInW.IsPhonConsonne(PhonInW.ColSE2phon(col[pos - 2]))
+                        && PhonInW.IsPhonConsonne(PhonInW.ColSE2phon(col[pos - 3]))
                         )
                     {
                         // ça pourrait être la fameuse règle 'prec_2cons' que nous considérons
@@ -280,7 +280,7 @@ namespace ColorLib.Morphalou
                             && pos < ph1.Length - 1
                             && pos < col.Length - 1
                             && col[pos + 1] == ph1[pos + 1]
-                            && PhonInW.IsPhonVoyelle(NotationsPhon.Son2phon(col[pos + 1]))
+                            && PhonInW.IsPhonVoyelle(PhonInW.ColSE2phon(col[pos + 1]))
                            )
                         {
                             return true;

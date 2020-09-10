@@ -93,6 +93,19 @@ namespace ColorLibTest
         }
 
         [TestMethod]
+        public void PrintExceptFormat()
+        {
+            string txt = "actaea";
+            TheText tt = new TheText(txt);
+            Config conf = new Config();
+            List<PhonWord> pws = tt.GetPhonWordList(conf);
+            foreach (PhonWord pw in pws)
+            {
+                Console.WriteLine(pw.PourExceptDictionary());
+            }
+        }
+
+        [TestMethod]
         public void WriteWords()
         {
             Regex rx = new Regex(@"\b\w+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase); // matches words
@@ -106,30 +119,85 @@ namespace ColorLibTest
             
         string words =
         @"
-           avers
-convers
-devers
-divers
-dévers
-dévers
-envers
-envers
-ers
-obvers
-pers
-pervers
-pervers
-revers
-tiers
-tiers
-travers
-univers
-vers
-vers
-à l'envers
-amers
-anti-univers
-waters
+           acupuncteur
+acupuncteurs
+acupuncture
+acupunctures
+avunculaire
+avunculairement
+avunculaires
+avunculat
+avunculats
+bécabunga
+bécabungas
+carborundum
+carborundums
+compound
+conjungo
+conjungos
+contrapuntique
+contrapuntiques
+contrapuntiste
+contrapuntistes
+fungicide
+homuncule
+homuncules
+infundibulum
+infundibulums
+latifundium
+latifundiums
+negundo
+négundo
+negundos
+négundos
+nuncupatif
+nuncupatifs
+nuncupation
+nuncupations
+nuncupative
+nuncupatives
+nundinal
+nundinale
+nundinales
+nundinaux
+nundines
+opuntia
+opuntias
+pacfung
+pacfungs
+punctiforme
+punctiformes
+punctum
+punctums
+puntarelle
+puntarelles
+secundo
+skungs
+skunks
+unciforme
+unciformes
+uncinaire
+unciné
+uncinée
+uncinées
+uncinés
+uncinule
+uncipenne
+uncirostre
+undécennal
+undécennale
+undécennales
+undécennaux
+unguéal
+unguéale
+unguéales
+unguéaux
+unguifère
+unguifères
+unguis
+vasopuncture
+vérécundie
+
 
 
         ";

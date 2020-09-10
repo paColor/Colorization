@@ -238,7 +238,7 @@ namespace ColorLib
         private string firedRuleName { get; set; } // name of the rule that was used to define the phoneme
 
         // Mapping vers la représentation lexique.org des phonèmes.
-        static private Dictionary<Phonemes, string> lexMap = new Dictionary<Phonemes, string>((int)Phonemes.lastPhon)
+        static private Dictionary<Phonemes, string> lexMap = new Dictionary<Phonemes, string>
         {
             { Phonemes.a,           "a" },
             { Phonemes.q,           "°" },
@@ -301,6 +301,207 @@ namespace ColorLib
             { Phonemes.firstPhon,   "FIRSTPHON" },
             { Phonemes.lastPhon,    "LASTPHON" }
         };
+
+        // Mapping vers la représentation lexique.org des phonèmes.
+        static private Dictionary<Phonemes, string> colMap = new Dictionary<Phonemes, string>
+        {
+            { Phonemes.a,           "a" },
+            { Phonemes.q,           "°" },
+            { Phonemes.q_caduc,     "" }, // e final "" est plus proche de Lexique, normalement il faudrait plutôt °
+            { Phonemes.i,           "i" },
+            { Phonemes.o,           "O" },
+            { Phonemes.o_comp,      "o" },
+            { Phonemes.u,           "u" },
+            { Phonemes.y,           "y" },
+            { Phonemes.e,           "e" },
+            { Phonemes.E,           "E" },
+            { Phonemes.E_comp,      "E" },
+            { Phonemes.e_comp,      "e" },
+            { Phonemes.e_tilda,     "5" },
+            { Phonemes.a_tilda,     "@" },
+            { Phonemes.o_tilda,     "§" },
+            { Phonemes.x_tilda,     "1" },
+            // { Phonemes.x9,          "9" }, plus de distinction entre x2 et x9
+            { Phonemes.x2,          "2" },
+            { Phonemes.oi,          "wa" },
+            { Phonemes.w,           "w" },
+            { Phonemes.i_j,         "ij" },
+            { Phonemes.j,           "j" },
+            { Phonemes.J,           "G" },
+            { Phonemes.p,           "p" },
+            { Phonemes.b,           "b" },
+            { Phonemes.t,           "t" },
+            { Phonemes.d,           "d" },
+            { Phonemes.k,           "k" },
+            { Phonemes.g,           "g" },
+            { Phonemes.f,           "f" },
+            { Phonemes.v,           "v" },
+            { Phonemes.s,           "s" },
+            { Phonemes.z,           "z" },
+            { Phonemes.S,           "S" },
+            { Phonemes.Z,           "Z" },
+            { Phonemes.m,           "m" },
+            { Phonemes.n,           "n" },
+            { Phonemes.N,           "N" },
+            { Phonemes.l,           "l" },
+            { Phonemes.R,           "R" },
+            { Phonemes.w_e_tilda,   "w5" },
+            // { Phonemes.w_E_comp,    "wE" }, // cas enlevé de l'automate
+            // { Phonemes.w_i,         "wi" }, résultera en 'wi' sans besoin de le traiter comme un cas particulier.
+            { Phonemes.f_ph,        "f" },
+            { Phonemes.k_qu,        "k" },
+            { Phonemes.g_u,         "g" },
+            { Phonemes.s_c,         "s" },
+            { Phonemes.s_t,         "s" },
+            { Phonemes.s_x,         "s" },
+            { Phonemes.z_s,         "z" },
+            { Phonemes.ks,          "ks" },
+            { Phonemes.gz,          "gz" },
+            { Phonemes.verb_3p,     "" },
+            { Phonemes._muet,       "" },
+            { Phonemes.j_ill,       "j" },
+            { Phonemes.i_j_ill,     "ij" },
+            { Phonemes.ji,          "j" },
+            { Phonemes.chiffre,     "" },
+            { Phonemes.firstPhon,   "FIRSTPHON" },
+            { Phonemes.lastPhon,    "LASTPHON" }
+        };
+
+        /// <summary>
+        /// Traduction de la représentation ColSimpl étendue (ça devient un peu compliqué) vers les 
+        /// phonèmes utilisés par PhonInW et PhonWord.
+        /// Extensions: 
+        ///     "#" pour muet, 
+        ///     "ç" pour e caduc, 
+        ///     "4" pour les chiffres, 
+        ///     "3" pour oin, 
+        ///     "6" pour oi, 
+        ///     "x" pour ks, 
+        ///     "X" pour gz,
+        ///     "%" pour ill
+        ///     "/" pour ij
+        /// 
+        /// </summary>
+        private static Dictionary<char, Phonemes> colSE2phoneme = new Dictionary<char, Phonemes> // don't forget to increase in case...
+        {
+            {'a',   Phonemes.a},
+            {'°',   Phonemes.q},
+            {'i',   Phonemes.i},
+            {'y',   Phonemes.y},
+            {'1',   Phonemes.x_tilda},
+            {'u',   Phonemes.u},
+            {'e',   Phonemes.e},
+            {'o',   Phonemes.o},
+            {'E',   Phonemes.E},
+            {'@',   Phonemes.a_tilda}, // an
+            {'§',   Phonemes.o_tilda}, // on
+            {'2',   Phonemes.x2},
+            {'6',   Phonemes.oi}, // oi
+            {'5',   Phonemes.e_tilda},
+            {'w',   Phonemes.w},
+            {'j',   Phonemes.j},
+            {'%',   Phonemes.j_ill}, // ill
+            {'N',   Phonemes.J}, // ng
+            {'G',   Phonemes.N}, // gn
+            {'l',   Phonemes.l},
+            {'v',   Phonemes.v},
+            {'f',   Phonemes.f},
+            {'p',   Phonemes.p},
+            {'b',   Phonemes.b},
+            {'m',   Phonemes.m},
+            {'z',   Phonemes.z},
+            {'s',   Phonemes.s},
+            {'t',   Phonemes.t},
+            {'d',   Phonemes.d},
+            {'x',   Phonemes.ks}, // ks
+            {'X',   Phonemes.gz}, // gz
+            {'R',   Phonemes.R},
+            {'r',   Phonemes.R},
+            {'n',   Phonemes.n},
+            {'Z',   Phonemes.Z}, // ge
+            {'S',   Phonemes.S}, // ch
+            {'k',   Phonemes.k},
+            {'g',   Phonemes.g},
+            {'/',   Phonemes.i_j},
+            {'3',   Phonemes.w_e_tilda}, // oin
+            {'4',   Phonemes.chiffre},
+            {'#',   Phonemes._muet},
+            {'ç',   Phonemes.q_caduc}
+        };
+
+        static private Dictionary<Phonemes, string> phon2colSE = new Dictionary<Phonemes, string>
+        {
+            { Phonemes.a,           "a" },
+            { Phonemes.q,           "°" },
+            { Phonemes.q_caduc,     "ç" }, // e final "" est plus proche de Lexique, normalement il faudrait plutôt °
+            { Phonemes.i,           "i" },
+            { Phonemes.o,           "o" },
+            { Phonemes.o_comp,      "o" },
+            { Phonemes.u,           "u" },
+            { Phonemes.y,           "y" },
+            { Phonemes.e,           "e" },
+            { Phonemes.E,           "E" },
+            { Phonemes.E_comp,      "E" },
+            { Phonemes.e_comp,      "e" },
+            { Phonemes.e_tilda,     "5" },
+            { Phonemes.a_tilda,     "@" },
+            { Phonemes.o_tilda,     "§" },
+            { Phonemes.x_tilda,     "1" },
+            { Phonemes.x2,          "2" },
+            { Phonemes.oi,          "6" },
+            { Phonemes.w,           "w" },
+            { Phonemes.i_j,         "/" },
+            { Phonemes.j,           "j" },
+            { Phonemes.J,           "N" },
+            { Phonemes.p,           "p" },
+            { Phonemes.b,           "b" },
+            { Phonemes.t,           "t" },
+            { Phonemes.d,           "d" },
+            { Phonemes.k,           "k" },
+            { Phonemes.g,           "g" },
+            { Phonemes.f,           "f" },
+            { Phonemes.v,           "v" },
+            { Phonemes.s,           "s" },
+            { Phonemes.z,           "z" },
+            { Phonemes.S,           "S" },
+            { Phonemes.Z,           "Z" },
+            { Phonemes.m,           "m" },
+            { Phonemes.n,           "n" },
+            { Phonemes.N,           "J" },
+            { Phonemes.l,           "l" },
+            { Phonemes.R,           "R" },
+            { Phonemes.w_e_tilda,   "3" },
+            { Phonemes.f_ph,        "f" },
+            { Phonemes.k_qu,        "k" },
+            { Phonemes.g_u,         "g" },
+            { Phonemes.s_c,         "s" },
+            { Phonemes.s_t,         "s" },
+            { Phonemes.s_x,         "s" },
+            { Phonemes.z_s,         "z" },
+            { Phonemes.ks,          "x" },
+            { Phonemes.gz,          "X" },
+            { Phonemes.verb_3p,     "#" },
+            { Phonemes._muet,       "#" },
+            { Phonemes.j_ill,       "j" },
+            { Phonemes.i_j_ill,     "/" },
+            { Phonemes.ji,          "j" },
+            { Phonemes.chiffre,     "4" },
+            { Phonemes.firstPhon,   "" },
+            { Phonemes.lastPhon,    "" }
+        };
+
+        /// <summary>
+        /// Retourne le phonèmes correspondant au son <paramref name="c"/> de la notation
+        /// ColSimpl étendue.
+        /// </summary>
+        /// <param name="c">Un son de la notation ColSimpl étendue.</param>
+        /// <returns>Le phonème correspondant.</returns>
+        /// <exception cref="KeyNotFoundException">Si <paramref name="s"/> n'est pas un son
+        /// connu.</exception>
+        public static Phonemes ColSE2phon(char c)
+        {
+            return colSE2phoneme[c];
+        }
 
         private static HashSet<Phonemes> voyelles = new HashSet<Phonemes> { Phonemes.a, Phonemes.q, 
             Phonemes.q_caduc, Phonemes.i, Phonemes.o, Phonemes.o_comp, Phonemes.u, Phonemes.y, 
@@ -395,6 +596,27 @@ namespace ColorLib
         }
 
         /// <summary>
+        /// Crée un <see cref="PhonInW"/> et l'ajoute à la liste des phonèmes de 
+        /// <paramref name="inW"/>
+        /// </summary>
+        /// <param name="inW">Le <see cref="PhonWord"/> à l'intérieur duquel se trouve le 
+        /// <see cref="PhonInW"/></param>
+        /// <param name="inBeg">Position dans le mot (<paramref name="inW"/>) de la première
+        /// lettre qui correspond au phonème. 0 correspond à la première lettre du mot.</param>
+        /// <param name="inEnd">Position dans le mot (<paramref name="inW"/>) de la dernière
+        /// lettre qui correspond au phonème. 0 correspond à la première lettre du mot.</param>
+        /// <param name="colSE">Le phonème au format ColSimplifiéEtendu.</param>
+        /// <param name="ruleName">La règle qui a détecté le phonème.</param>
+        public PhonInW(PhonWord inW, int inBeg, int inEnd, char colSE, string ruleName)
+            : base(inW.T, inW.First + inBeg, inW.First + inEnd)
+        {
+            PW = inW;
+            P = ColSE2phon(colSE);
+            firedRuleName = ruleName;
+            inW.AddPhon(this);
+        }
+
+        /// <summary>
         /// Crée un <see cref="PhonInW"/>. Il n'est PAS ajouté à la liste des phonèmes du mot.
         /// </summary>
         /// <param name="inW">Le <see cref="PhonWord"/> à l'intérieur duquel se trouve le 
@@ -429,6 +651,11 @@ namespace ColorLib
         {
             return String.Format(ConfigBase.cultF, "{0, -25} Rule: {1, -7} --> Phon: {2, -8} LexSound: {3, -3}",
                 base.AllStringInfo(), firedRuleName, P, Phon2String());
+        }
+
+        public string ExceptDict()
+        {
+            return String.Format(ConfigBase.cultF, "{0}-{1}", ToLowerString(),phon2colSE[P]);
         }
 
         //public override string ToString()

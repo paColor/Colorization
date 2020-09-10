@@ -53,6 +53,7 @@ namespace ColorLib
             {"Regle_MotsUM", Regle_MotsUM },
             {"Regle_X_Final", Regle_X_Final },
             {"Regle_ChK", Regle_ChK },
+            {"Regle_MotsUN_ON", Regle_MotsUN_ON },
         };
 
         private CheckRuleFunction crf;
@@ -220,8 +221,6 @@ namespace ColorLib
                     noms_ai_hashed.Add(noms_ai[i], null);
                 for (int i = 0; i < avoir_eu.Length; i++)
                     avoir_eu_hashed.Add(avoir_eu[i], null);
-                for (int i = 0; i < mots_d_final.Length; i++)
-                    mots_d_final_hashed.Add(mots_d_final[i], null);
                 for (int i = 0; i < except_ill.Length; i++)
                     except_ill_hashed.Add(except_ill[i], null);
             }
@@ -284,7 +283,7 @@ namespace ColorLib
         }
 
 
-        private static Regex rxConsIent = new Regex("[bcçdfghjklnmpqrstvwxz]ient$", RegexOptions.IgnoreCase);
+        private static Regex rxConsIent = new Regex("[bcçdfghjklnmpqrstvwxz]ient$", RegexOptions.Compiled);
 
         /// <summary>
         /// Cherche si <paramref name="mot"/> se termine par "ient" et est la forme conjuguée au
@@ -714,7 +713,7 @@ namespace ColorLib
             "abject", "abrupt", "abrupt", "abstract", "accessit", "aconit", "affect", "affidavit",
             "ajust", "alcootest", "anet", "antichrist", "antitrust", "antéchrist", "août", "artéfact",
             "azimut", "ballast", "bit", "boycott", "breakfast", "brut", "béhémot", "catgut", "celebret",
-            "chott", "christ", "chut", "cobalt", "cockpit", "coint", "colt", "compact", "compost",
+            "chott", "christ", "chut", "cobalt", "cockpit", "colt", "compact", "compost",
             "comput", "concept", "contact", "convict", "copyright", "correct", "covercoat", "coït",
             "cricket", "cronstadt", "digest", "diktat", "direct", "direct", "discount", "district",
             "dot", "drifft", "drift", "duffelcoat", "durit", "déficit", "est", "exeat", "exocet",
@@ -737,10 +736,10 @@ namespace ColorLib
             "centriciput", "chassez", "huit", "chrono", "test", "cinq", "à", "sept", "combinaison",
             "short", "contre", "ut", "cover", "coat", "culotte", "short", "dead", "heat", "demi",
             "watt", "dog", "cart", "duffel", "coat", "en", "but", "est", "sud", "est", "exit",
-            "far", "west", "ferry", "boat", "fox", "trot", "fox", "trott", "grape", "fruit", "hectowatt",
+            "far", "west", "ferry", "boat", "fox", "-trot", "fox", "trott", "grape", "fruit", "hectowatt",
             "ice", "boat", "in", "dix", "huit", "in", "dix", "huit", "input", "instit", "jazz",
-            "hot", "jumbo", "jet", "kilovolt", "knock", "out", "lampe", "spot", "lock", "out",
-            "luminaire", "spot", "maxi", "short", "maxi", "yacht", "mégawatt", "melting", "pot",
+            "hot", "jumbo", "-jet", "kilovolt", "knock", "out", "lampe", "spot", "lock", "out",
+            "luminaire", "spot", "maxi", "short", "maxi", "yacht", "mégawatt", "melting", "-pot",
             "microvolt", "microwatt", "millivolt", "mini", "basket", "mini", "short", "monowatt",
             "neuf", "huit", "à", "neuf", "huit", "nord", "est", "nord", "nord", "est", "nord",
             "nord", "ouest", "nord", "ouest", "ouest", "sud", "ouest", "paris", "brest", "passing",
@@ -754,7 +753,7 @@ namespace ColorLib
             "water", "closet", "water", "jacket", "white", "spirit", "xéno", "test", "ziggurat",
             "zist", "cet", "audit", "cajeput", "granit", "internet", "introït", "inuit",
             // sans accents
-            "antechrist", "aout", "artefact", "behemot", "coit", "deficit", "preterit", "requisit",
+            "antechrist", "aout", "artefact", "behemot", "coit", "deficit", "preterit", "-requisit",
             "securit", "a", "megawatt", "preconcept", "pre", "seephirot", "serum", "xeno", "introit",
         };
 
@@ -782,10 +781,15 @@ namespace ColorLib
             return toReturn;
         } // Regle_t_final
 
+        static Regex rTien = new Regex(".+[beéfhns]tien.*", RegexOptions.Compiled);
+        // hypothèse: il n'existe pas de mot contenant deux fois "tien"
 
-        /*
-         * Règle spécifique de traitement des mots contenant "tien" et où le t se prononce t
-         */
+        /// <summary>
+        /// Recherche si <paramref name="mot"/> se termine par tien(*) où le t se prononce [t]
+        /// </summary>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos_mot">La position du 't' de "tien" dans <paramref name="mot"/>.</param>
+        /// <returns><c>true</c> si le tide "tien" se prononce [t].</returns>
         public static bool Regle_tien(string mot, int pos_mot)
         // pos_mot pointe sur un 't'
         // Cette fonnction n'est pas tout à fait dans la philosophie de l'automate.
@@ -799,7 +803,6 @@ namespace ColorLib
 
             string mSing = SansSFinal(mot);
             bool toReturn = false;
-            Regex r;
 
             // vérifions que le 't' se trouve bien au début de "tien"
             if ((mSing.Length - pos_mot >= 4)
@@ -812,8 +815,10 @@ namespace ColorLib
                     toReturn = true; // tous les mots commençant par 'tien' ---> 't'
                 else
                 {
-                    r = new Regex(".+[beéfhns]tien.*"); // hypothèse: il n'existe pas de mot contenant deux fois "tien"
-                    if (r.IsMatch(mSing))
+                    if (rTien.IsMatch(mSing) 
+                        && !mot.StartsWith("capétien")
+                        && !mot.StartsWith("lutétien")
+                        )
                         toReturn = true;
                     else
                     {
@@ -825,12 +830,14 @@ namespace ColorLib
             return toReturn;
         } // Regle_tien
 
-
-        static string[] mots_d_final =
+        /// <summary>
+        /// Liste des mots se termionant par 'd' où le 'd' se prononce.
+        /// </summary>
+        private static HashSet<string> mots_d_final = new HashSet<string>
         {
             "apartheid", "aïd", "background", "barmaid", "baroud", "band", "bled", "caïd", "celluloïd", "damned",
             "djihad", "kid", "fjord", "hard", "jihad", "lad", "lord", "sud", "oued", "pad", "plaid", "polaroid", "polaroïd",
-            "rhodoïd", "shetland", "board", "skateboard", "skinhead", "steward", "tabloïd", "end"
+            "rhodoïd", "shetland", "board", "skateboard", "skinhead", "steward", "tabloïd", "end", "adalid",
         };
 
         private static StringDictionary mots_d_final_hashed = new StringDictionary();
@@ -1014,6 +1021,45 @@ namespace ColorLib
                 toReturn = motsChK.Contains(mot);
             return toReturn;
         }
+
+        /// <summary>
+        /// Retourne <c>true</c> si les lettres "un" à la position <paramref name="pos"/> dans
+        /// <paramref name="mot"/> se prononcent [§]
+        /// </summary>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">La poistion de 'un' dans <paramref name="mot"/>.</param>
+        /// <returns><c>true</c> s'il s'agit bien de 'un' qui se pronoce [§].</returns>
+        public static bool Regle_MotsUN_ON(string mot, int pos)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_MotsUN_ON - mot: \'{0}\', pos: {1}", mot, pos);
+            Debug.Assert(mot != null);
+            bool toReturn = false;
+            if (pos > 0 && pos < mot.Length - 1 && mot[pos] == 'u' && mot[pos + 1] == 'n')
+            {
+                toReturn = motsUNon.Contains(SansSFinal(mot));
+            }
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Liste des mots contenant 'un' où 'un' se prononce [§]
+        /// </summary>
+        private static HashSet<string> motsUNon = new HashSet<string>
+        {
+            "acupuncteur", "acupuncteurs", "acupuncture", "acupunctures", "avunculaire", "avunculairement",
+            "avunculaires", "avunculat", "avunculats", "bécabunga", "bécabungas", "carborundum",
+            "carborundums", "compound", "conjungo", "conjungos", "contrapuntique", "contrapuntiques",
+            "contrapuntiste", "contrapuntistes", "fungicide", "homuncule", "homuncules", "infundibulum",
+            "infundibulums", "latifundium", "latifundiums", "negundo", "négundo", "negundos",
+            "négundos", "nuncupatif", "nuncupatifs", "nuncupation", "nuncupations", "nuncupative",
+            "nuncupatives", "nundinal", "nundinale", "nundinales", "nundinaux", "nundines", "opuntia",
+            "opuntias", "pacfung", "pacfungs", "punctiforme", "punctiformes", "punctum", "punctums",
+            "puntarelle", "puntarelles", "secundo", "skungs", "skunks", "unciforme", "unciformes",
+            "uncinaire", "unciné", "uncinée", "uncinées", "uncinés", "uncinule", "uncipenne",
+            "uncirostre", "undécennal", "undécennale", "undécennales", "undécennaux", "unguéal",
+            "unguéale", "unguéales", "unguéaux", "unguifère", "unguifères", "unguis", "vasopuncture",
+            "vérécundie",
+        };
 
         /// <summary>
         /// Liste des verbes en ier. Avec accents.
