@@ -90,7 +90,8 @@ namespace ColorLib
                     }
                     i = j + 1;
                 }
-                Debug.Assert(l == pw.GetWord().Length);
+                Debug.Assert(l == pw.GetWord().Length, string.Format(ConfigBase.cultF,
+                    "AutomDictionary.FindPhons: le nombre de lettres du mot n'est pas consistant. {0} {1}", pw.GetWord(), l));
             }
             return toReturn;
         }
@@ -110,7 +111,7 @@ namespace ColorLib
             { "abers", "a-a;b-b;e-E;r-R;s-#" },
             { "abies", "a-a;b-b;i-j;e-E;s-s" },
             { "abigaïl", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l" },
-            { "abigaïls", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l" },
+            { "abigaïls", "a-a;b-b;i-i;g-g;a-a;ï-j;l-l;s-#" },
             { "abrasax", "ab;r-R;asax" },
             { "acanthophœnix", "a;c-k;an-@;t;h-#;o;ph-f;œ-e;ni;x" },
             { "trachélobranches", "t;r-R;ak;é-e;lob;r-R;an-@;ch-S;e-°;s-#" },
@@ -129,6 +130,12 @@ namespace ColorLib
             { "agnus", "a-a;gn-J;u-u;s-s" },
             { "aérosol", "a-a;é-e;r-R;o-o;s-s;o-o;l-l" },
             { "aérosols", "a-a;é-e;r-R;o-o;s-s;o-o;l-l;s-#" },
+            { "clef", "c-k;l;ef-e" },
+            { "clefs", "c-k;l;ef-e;s-#" },
+            { "et", "et-e" },
+            { "est", "est-E" },
+            { "que", "qu-k;e-°" },
+
         }; 
     }
 }

@@ -192,11 +192,11 @@ namespace ColorLibTest
 
 			string[] phonetique = new string[]
 			{
-				"Ej§", "balEja", "ajatOla", "kajak", "tOkE", "majOnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
-				"dilEm", "5pEkabl", "S°vRije", "kaRamEl", "b°dOn@", "f°z§", "afEs°RE", "R°f°zE", "tR@kil", "ilegal°m@",
-				"lilipysj5", "milimetRe", "distil°RE", "tR@kiliz", "tR@kilite", "tR@kiliz@t", "tR@kilOs", "dezilyzjOne",
-				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnER",
-				"myltimiljaRdER", "myltimiljOnER", "vileZjatyR", "vilaZwaz", "vila",
+				"Ej§", "balEja", "ajatOla", "kajak", "tOkE", "majOnnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
+				"dilEm", "5pEkabl", "S°vRije", "kaRamEl", "b°dOnn@", "f°z§", "afEs°RE", "R°f°zE", "tR@kil", "ilegal°m@",
+				"lilipysj5", "milimetRe", "distil°RE", "tR@kiliz", "tR@kilite", "tR@kiliz@t", "tR@kilOs", "dezilyzjOnne",
+				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnnER",
+				"myltimiljaRdER", "myltimiljOnnER", "vileZjatyR", "vilaZwaz", "vila",
 				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi", "aklamasj§", "abdOmEn", "abugRij", 
 				"abugRij", "abRiv@", "akademifi", "akile5", "akapaRa"
 			};
@@ -226,11 +226,11 @@ namespace ColorLibTest
 
 			string[] phonetique = new string[]
 			{
-				"Ej§", "balEja", "ajatOla", "kajak", "tOkE", "majOnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
-				"dilEm", "5pEkabl", "S°vRije", "kaRamEl", "b°dOn@", "f°z§", "afEs°RE", "R°f°zE", "tR@kil", "ilegal°m@",
-				"lilipysj5", "milimetRe", "distil°RE", "tR@kiliz", "tR@kilite", "tR@kiliz@t", "tR@kilOs", "dezilyzjOne",
-				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnER",
-				"myltimiljaRdER", "myltimiljOnER", "vileZjatyR", "vilaZwaz", "vila",
+				"Ej§", "balEja", "ajatOla", "kajak", "tOkE", "majOnnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
+				"dilEm", "5pEkabl", "S°vRije", "kaRamEl", "b°dOnn@", "f°z§", "afEs°RE", "R°f°zE", "tR@kil", "ilegal°m@",
+				"lilipysj5", "milimetRe", "distil°RE", "tR@kiliz", "tR@kilite", "tR@kiliz@t", "tR@kilOs", "dezilyzjOnne",
+				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnnER",
+				"myltimiljaRdER", "myltimiljOnnER", "vileZjatyR", "vilaZwaz", "vila",
 				"Egzam5", "minO5", "gastRO@teROlOg", "elEktRO@sefalOgRafi"
 			};
 
