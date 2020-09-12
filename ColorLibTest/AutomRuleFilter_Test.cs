@@ -49,7 +49,7 @@ namespace ColorLibTest
             Assert.AreEqual(false, AutomRuleFilter.Regle_mots_ent("revérifient", 7));
             Assert.AreEqual(false, AutomRuleFilter.Regle_mots_ent("rient", 2));
             Assert.AreEqual(false, AutomRuleFilter.Regle_mots_ent("impertinent", 7));
-            Assert.AreEqual(true, AutomRuleFilter.Regle_mots_ent("impertinent", 9));
+            Assert.AreEqual(true, AutomRuleFilter.Regle_mots_ent("impertinent", 8));
             Assert.AreEqual(false, AutomRuleFilter.Regle_mots_ent("bonjour", 4));
             Assert.AreEqual(true, AutomRuleFilter.Regle_mots_ent("lents", 1));
             Assert.AreEqual(true, AutomRuleFilter.Regle_mots_ent("zent", 1));
@@ -190,7 +190,7 @@ namespace ColorLibTest
             Assert.AreEqual(true, AutomRuleFilter.Regle_t_final("prétérit", 7));
             Assert.AreEqual(false, AutomRuleFilter.Regle_t_final("put", 2));
             Assert.AreEqual(true, AutomRuleFilter.Regle_t_final("uppercut", 7));
-            Assert.AreEqual(false, AutomRuleFilter.Regle_t_final("fat", 2));
+            Assert.AreEqual(true, AutomRuleFilter.Regle_t_final("fat", 2));
             Assert.AreEqual(false, AutomRuleFilter.Regle_t_final("t", 0));
             Assert.AreEqual(false, AutomRuleFilter.Regle_t_final("raté", 2));
         }

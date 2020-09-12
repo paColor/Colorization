@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "trustent";
+            string txt = "adiabatie";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -95,7 +95,19 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintExceptFormat()
         {
-            string txt = "actaea";
+            string txt = @"baedeker
+baedekers
+caecal
+caecale
+caecales
+caecaux
+caecum
+caecums
+elaeis
+élaeis
+inpraesentia
+
+";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -119,85 +131,64 @@ namespace ColorLibTest
             
         string words =
         @"
-           acupuncteur
-acupuncteurs
-acupuncture
-acupunctures
-avunculaire
-avunculairement
-avunculaires
-avunculat
-avunculats
-bécabunga
-bécabungas
-carborundum
-carborundums
-compound
-conjungo
-conjungos
-contrapuntique
-contrapuntiques
-contrapuntiste
-contrapuntistes
-fungicide
-homuncule
-homuncules
-infundibulum
-infundibulums
-latifundium
-latifundiums
-negundo
-négundo
-negundos
-négundos
-nuncupatif
-nuncupatifs
-nuncupation
-nuncupations
-nuncupative
-nuncupatives
-nundinal
-nundinale
-nundinales
-nundinaux
-nundines
-opuntia
-opuntias
-pacfung
-pacfungs
-punctiforme
-punctiformes
-punctum
-punctums
-puntarelle
-puntarelles
-secundo
-skungs
-skunks
-unciforme
-unciformes
-uncinaire
-unciné
-uncinée
-uncinées
-uncinés
-uncinule
-uncipenne
-uncirostre
-undécennal
-undécennale
-undécennales
-undécennaux
-unguéal
-unguéale
-unguéales
-unguéaux
-unguifère
-unguifères
-unguis
-vasopuncture
-vérécundie
-
+           adéquat
+adéquats
+adéquate
+adéquates
+adéquatement
+adéquata
+adéquatai
+adéquataient
+adéquatais
+adéquatais
+adéquatait
+adéquatant
+adéquatas
+adéquatasse
+adéquatassent
+adéquatasses
+adéquatassiez
+adéquatassions
+adéquate
+adéquate
+adéquate
+adéquate
+adéquate
+adéquatent
+adéquatent
+adéquater
+adéquatera
+adéquaterai
+adéquateraient
+adéquaterais
+adéquaterais
+adéquaterait
+adéquateras
+adéquaterez
+adéquateriez
+adéquaterions
+adéquaterons
+adéquateront
+adéquates
+adéquates
+adéquatez
+adéquatez
+adéquatiez
+adéquatiez
+adéquations
+adéquations
+adéquatons
+adéquatons
+adéquatâmes
+adéquatât
+adéquatâtes
+adéquatèrent
+adéquatés
+adéquaté
+adéquatée
+adéquatées
+adéquation
+adéquations
 
 
         ";

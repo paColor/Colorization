@@ -23,6 +23,7 @@ namespace ColorLibTest
         [TestMethod]
         public void TestMethod1()
         {
+            bool success = true;
             if (File.Exists(fullName))
             {
                 using (TextFieldParser csvParser = new TextFieldParser(fullName))
@@ -42,15 +43,15 @@ namespace ColorLibTest
 
                     foreach (Mot m in Mot.mots)
                     {
-                        bool success = m.matchSet && m.match;
-                        if (!success)
+                        if (!(m.matchSet && m.match))
                         {
-                            Console.WriteLine(m.ToString());
+                            success = false;
+                            Console.WriteLine(m.GetFileString());
                         }
-                        Assert.IsTrue(success);
                     }
                 }
             }
+            Assert.IsTrue(success);
         }
     }
 }

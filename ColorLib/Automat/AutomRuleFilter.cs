@@ -54,6 +54,9 @@ namespace ColorLib
             {"Regle_X_Final", Regle_X_Final },
             {"Regle_ChK", Regle_ChK },
             {"Regle_MotsUN_ON", Regle_MotsUN_ON },
+            {"Regle_finAM", Regle_finAM },
+            {"RegleMotsQUkw", RegleMotsQUkw },
+            {"RegleMotsAEe", RegleMotsAEe },
         };
 
         private CheckRuleFunction crf;
@@ -217,8 +220,6 @@ namespace ColorLib
             logger.ConditionalDebug("InitAutomat");
             if (!initiated)
             {
-                for (int i = 0; i < noms_ai.Length; i++)
-                    noms_ai_hashed.Add(noms_ai[i], null);
                 for (int i = 0; i < avoir_eu.Length; i++)
                     avoir_eu_hashed.Add(avoir_eu[i], null);
                 for (int i = 0; i < except_ill.Length; i++)
@@ -403,7 +404,7 @@ namespace ColorLib
             "érubescent", "flavescent", "florescent", "frutescent", "ignescent", "imputrescent",
             "indéhiscent", "marcescent", "négrescent", "photoluminescent", "pubescent", "quiescent",
             "rarescent", "recrudescent", "résipiscent", "reviviscent", "réviviscent", "rubescent",
-            "sénescent", "somnolescent", "spinescent", "thermoluminescent",
+            "sénescent", "somnolescent", "spinescent", "thermoluminescent","adent",
 
         };
 
@@ -527,13 +528,14 @@ namespace ColorLib
             return toReturn;
         }
 
-        static string[] noms_ai =
+        /// <summary>
+        /// Liste des mots se terminant par 'ai' qui se prononce [E].
+        /// </summary>
+        private static HashSet<string> noms_ai = new HashSet<string>
         {
             "balai", "brai", "chai", "déblai", "délai", "essai", "frai", "geai", "lai", "mai",
             "minerai", "papegai", "quai", "rai", "remblai", "vrai" // PAE: ajouté "vrai" 18.05.20
         };
-
-        private static StringDictionary noms_ai_hashed = new StringDictionary();
 
         /*
          * Règle spécifique de traitement des noms communs qui se terminent par 'ai'
@@ -551,7 +553,7 @@ namespace ColorLib
 
             bool toReturn = false;
             if ((pos_mot == mot.Length - 2) && (mot[mot.Length - 1] == 'i'))
-                toReturn = noms_ai_hashed.ContainsKey(mot);
+                toReturn = noms_ai.Contains(mot);
             return toReturn;
         }
 
@@ -665,6 +667,7 @@ namespace ColorLib
             "abribus", "airbus", "bus", "microbus", "mortibus", "pédibus", "autofocus", "focus",
             "erectus", "modus", "plus", "liquidus", "versus", "ratus", "burnous", "tous",
             "anubis", "craignos", "tranquillos", "alias", "sensas", "tapas", "gambas", "oups",
+            "williams",
             // sans accents
             "agnes", "alkermes", "aloes", "anacampseros", "angelus", "anthemis", "antinous", "asclepias",
             "-asperges", "cacatoes", "-callais", "catoblepas", "-coleus", "cortes", "coreopsis",
@@ -716,7 +719,7 @@ namespace ColorLib
             "chott", "christ", "chut", "cobalt", "cockpit", "colt", "compact", "compost",
             "comput", "concept", "contact", "convict", "copyright", "correct", "covercoat", "coït",
             "cricket", "cronstadt", "digest", "diktat", "direct", "direct", "discount", "district",
-            "dot", "drifft", "drift", "duffelcoat", "durit", "déficit", "est", "exeat", "exocet",
+            "dot", "drifft", "drift", "duffelcoat", "durit", "déficit", "-est", "exeat", "exocet",
             "fat", "fiat", "flirt", "fret", "gadget", "gestalt", "hast", "horst", "huit", "hypercorrect",
             "impact", "incipit", "incorrect", "indirect", "indult", "inexact", "infect", "intact",
             "intellect", "karst", "kart", "kilowatt", "kilt", "kit", "knout", "kraft", "kumquat",
@@ -731,30 +734,18 @@ namespace ColorLib
             "stabat", "stout", "strict", "sunlight", "sécurit", "sélect", "tact", "test", "tilt",
             "toast", "tract", "transat", "transept", "transit", "trust", "tsitsit", "twist", "tzitzit",
             "umlaut", "uppercut", "ut", "veniat", "verdict", "volcelest", "volt", "watt", "whist",
-            "yacht", "yaourt", "yoghourt", "yogourt", "zest", "zest", "ziggourat", "zut", "baby",
-            "foot", "bast", "black", "out", "boy", "scout", "brain", "trust", "cargo", "boat",
-            "centriciput", "chassez", "huit", "chrono", "test", "cinq", "à", "sept", "combinaison",
-            "short", "contre", "ut", "cover", "coat", "culotte", "short", "dead", "heat", "demi",
-            "watt", "dog", "cart", "duffel", "coat", "en", "but", "est", "sud", "est", "exit",
-            "far", "west", "ferry", "boat", "fox", "-trot", "fox", "trott", "grape", "fruit", "hectowatt",
-            "ice", "boat", "in", "dix", "huit", "in", "dix", "huit", "input", "instit", "jazz",
-            "hot", "jumbo", "-jet", "kilovolt", "knock", "out", "lampe", "spot", "lock", "out",
-            "luminaire", "spot", "maxi", "short", "maxi", "yacht", "mégawatt", "melting", "-pot",
-            "microvolt", "microwatt", "millivolt", "mini", "basket", "mini", "short", "monowatt",
-            "neuf", "huit", "à", "neuf", "huit", "nord", "est", "nord", "nord", "est", "nord",
-            "nord", "ouest", "nord", "ouest", "ouest", "sud", "ouest", "paris", "brest", "passing",
-            "shot", "permafrost", "pippermint", "planche", "contact", "préconcept", "pré", "test",
-            "privat", "docent", "projecteur", "spot", "quatre", "huit", "radiocobalt", "rocket",
-            "rupt", "séephirot", "self", "government", "sérum", "test", "six", "huit", "snow",
-            "boot", "snowboot", "squatt", "steam", "boat", "steamboat", "subtest", "sud", "est",
-            "sud", "ouest", "sud", "sud", "est", "sud", "sud", "ouest", "super", "huit", "superjet",
-            "sweat", "shirt", "sweatshirt", "tee", "shirt", "thrombotest", "top", "weight", "trench",
-            "coat", "trois", "huit", "t", "shirt", "twin", "set", "ulster", "coat", "voile", "contact",
-            "water", "closet", "water", "jacket", "white", "spirit", "xéno", "test", "ziggurat",
-            "zist", "cet", "audit", "cajeput", "granit", "internet", "introït", "inuit",
+            "yacht", "yaourt", "yoghourt", "yogourt", "zest", "ziggourat", "zut",
+            "foot", "bast", "scout", "boat", "centriciput", "coat", "heat", "cart", "but", "exit",
+            "west", "-trot", "hectowatt", "input", "instit", "hot", "-jet", "kilovolt","mégawatt", 
+            "-pot", "microvolt", "microwatt", "millivolt", "basket", "monowatt", "brest",
+            "shot", "permafrost", "pippermint","préconcept","privat", "docent", "radiocobalt", 
+            "rocket", "rupt", "séephirot", "government", "boot", "snowboot", "squatt", "steamboat", 
+            "subtest", "superjet", "sweat", "shirt", "sweatshirt", "thrombotest", "weight", 
+            "closet", "jacket", "spirit", "ziggurat", "zist", "cet", "audit", "cajeput", "granit",
+            "internet", "introït", "inuit",
             // sans accents
             "antechrist", "aout", "artefact", "behemot", "coit", "deficit", "preterit", "-requisit",
-            "securit", "a", "megawatt", "preconcept", "pre", "seephirot", "serum", "xeno", "introit",
+            "securit", "megawatt", "preconcept", "seephirot", "introit",
         };
 
         /// <summary>
@@ -840,8 +831,6 @@ namespace ColorLib
             "rhodoïd", "shetland", "board", "skateboard", "skinhead", "steward", "tabloïd", "end", "adalid",
         };
 
-        private static StringDictionary mots_d_final_hashed = new StringDictionary();
-
         public static bool Regle_finD(string mot, int pos_mot)
         // retourne true si on est sur le d final et le mot se termine par un 'd' qui se prononce
         {
@@ -852,7 +841,32 @@ namespace ColorLib
 
             bool toReturn = false;
             if (pos_mot == mSing.Length - 1)
-                toReturn = mots_d_final_hashed.ContainsKey(mSing);
+                toReturn = mots_d_final.Contains(mSing);
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Liste des mots se termionant par 'am' où celà se prononce [am].
+        /// </summary>
+        private static HashSet<string> mots_am_final = new HashSet<string>
+        {
+            "ayam", "bairam", "baïram", "bantam", "brougham", "clam", "dam", "goddam", "gram",
+            "hammam", "imam", "islam", "jéroboam", "lingam", "litham", "macadam", "madapolam",
+            "ogam", "ogham", "pyroceram", "pyrocéram", "quidam", "ramdam", "sélam", "siam", "tarmacadam",
+            "tram", "wigwam", "ram", "william"
+        };
+
+        public static bool Regle_finAM(string mot, int pos_mot)
+        // retourne true si on est sur le d final et le mot se termine par un 'd' qui se prononce
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "Regle_finAM - mot: \'{0}\', pos: {1}", mot, pos_mot);
+            Debug.Assert(mot[pos_mot] == 'a', "Regle_finAM: on attend un 'a'");
+
+            string mSing = SansSFinal(mot);
+
+            bool toReturn = false;
+            if (pos_mot == mSing.Length - 2)
+                toReturn = mots_am_final.Contains(mSing);
             return toReturn;
         }
 
@@ -1033,12 +1047,43 @@ namespace ColorLib
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_MotsUN_ON - mot: \'{0}\', pos: {1}", mot, pos);
             Debug.Assert(mot != null);
-            bool toReturn = false;
-            if (pos > 0 && pos < mot.Length - 1 && mot[pos] == 'u' && mot[pos + 1] == 'n')
-            {
-                toReturn = motsUNon.Contains(SansSFinal(mot));
-            }
-            return toReturn;
+            return
+                pos < mot.Length - 1 && mot[pos] == 'u' && mot[pos + 1] == 'n'
+                && motsUNon.Contains(SansSFinal(mot));
+        }
+
+        /// <summary>
+        /// Identifie si "qu" dans <paramref name="mot"/> se prononce [qw]
+        /// </summary>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">La position du 'q' ou du 'u' de "qu".</param>
+        /// <returns><c>true</c> si "qu" se prononce [qw].</returns>
+        public static bool RegleMotsQUkw(string mot, int pos)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "RegleMotsQUkw - mot: \'{0}\', pos: {1}", mot, pos);
+            Debug.Assert(mot != null);
+            return 
+                ((pos < mot.Length - 1 && mot[pos] == 'q' && mot[pos + 1] == 'u') 
+                || 
+                (pos > 0 && mot[pos - 1] == 'q' && mot[pos] == 'u'))
+                &&
+                motsQUkw.Contains(mot);
+        }
+
+        /// <summary>
+        /// Identifie si "ae" dans <paramref name="mot"/> se prononce [e]
+        /// </summary>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">La position du 'a' de "ae".</param>
+        /// <returns><c>true</c> si "ae" se prononce [e].</returns>
+        public static bool RegleMotsAEe(string mot, int pos)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "RegleMotsAEe - mot: \'{0}\', pos: {1}", mot, pos);
+            Debug.Assert(mot != null);
+            return
+                pos < mot.Length - 1 && mot[pos] == 'a' && mot[pos + 1] == 'e'
+                &&
+                motsAEe.Contains(mot);
         }
 
         /// <summary>
@@ -1804,6 +1849,80 @@ namespace ColorLib
             "trochantériens", "trochanters", "trochile", "trochiles", "trochilidés", "trochlée",
             "trochlées", "tylenchus", "ultrabrachycéphale", "varech", "varechs", "vichnouisme",
             "vichnouismes", "yachmak", "yachmaks",
+        };
+
+        /// <summary>
+        /// Liste mots où 'qu' se prononce [kw]
+        /// </summary>
+        private static HashSet<string> motsQUkw = new HashSet<string>
+        {
+            "aquafortiste", "aquafortistes", "aquamoteur", "aquaphobie", "aquaplane", "aquaplanes",
+            "aquarella", "aquarellai", "aquarellaient", "aquarellais", "aquarellait", "aquarellâmes",
+            "aquarellant", "aquarellas", "aquarellasse", "aquarellassent", "aquarellasses", "aquarellassiez",
+            "aquarellassions", "aquarellât", "aquarellâtes", "aquarelle", "aquarellé", "aquarellée",
+            "aquarellées", "aquarellent", "aquareller", "aquarellera", "aquarellerai", "aquarelleraient",
+            "aquarellerais", "aquarellerait", "aquarelleras", "aquarellèrent", "aquarellerez",
+            "aquarelleriez", "aquarellerions", "aquarellerons", "aquarelleront", "aquarelles",
+            "aquarellés", "aquarellez", "aquarelliez", "aquarellions", "aquarelliste", "aquarellistes",
+            "aquarellons", "aquarien", "aquarienne", "aquariennes", "aquariens", "aquarium", "aquariums",
+            "aquateinte", "aquateintes", "aquatintiste", "aquatintistes", "aquatique", "aquatiques",
+            "biquadratique", "biquadratiques", "colliquatif", "colliquatifs", "colliquation",
+            "colliquations", "colliquative", "colliquatives", "desquama", "desquamai", "desquamaient",
+            "desquamais", "desquamait", "desquamâmes", "desquamant", "desquamas", "desquamasse",
+            "desquamassent", "desquamasses", "desquamassiez", "desquamassions", "desquamât", "desquamâtes",
+            "desquamation", "desquamations", "desquame", "desquamé", "desquamée", "desquamées",
+            "desquament", "desquamer", "desquamera", "desquamerai", "desquameraient", "desquamerais",
+            "desquamerait", "desquameras", "desquamèrent", "desquamerez", "desquameriez", "desquamerions",
+            "desquamerons", "desquameront", "desquames", "desquamés", "desquamez", "desquamiez",
+            "desquamions", "desquamons", "équanimité", "équanimités", "équateur", "équateurs",
+            "équation", "équations", "équatorial", "équatoriale", "équatoriales", "équatoriaux",
+            "exequatur", "inadéquat", "inadéquate", "inadéquates", "inadéquation", "inadéquations",
+            "inadéquats", "inéquation", "inéquations", "kumquat", "kumquats", "liquation", "liquations",
+            "péréquation", "péréquations", "quadrature", "quadraturer", "quadratures", "quadrillion",
+            "quadrillions", "quadrique", "quadriques", "quadrirème", "quadrirèmes", "quadrisaïeul",
+            "quadrisaïeule", "quadrisaïeules", "quadrisaïeuls", "quadrisyllabe", "quadrisyllabes",
+            "quadrisyllabique", "quadrisyllabiques", "quadrivalence", "quadrivalences", "quadrivalent",
+            "quadrivalente", "quadrivalentes", "quadrivalents", "quadrivium", "quadriviums", "quadrumane",
+            "quadrumanes", "quadrupède", "quadrupèdes", "quadrupla", "quadruplai", "quadruplaient",
+            "quadruplais", "quadruplait", "quadruplâmes", "quadruplant", "quadruplas", "quadruplasse",
+            "quadruplassent", "quadruplasses", "quadruplassiez", "quadruplassions", "quadruplât",
+            "quadruplâtes", "quadruple", "quadruplé", "quadruplée", "quadruplées", "quadruplement",
+            "quadruplements", "quadruplent", "quadrupler", "quadruplera", "quadruplerai", "quadrupleraient",
+            "quadruplerais", "quadruplerait", "quadrupleras", "quadruplèrent", "quadruplerez",
+            "quadrupleriez", "quadruplerions", "quadruplerons", "quadrupleront", "quadruples",
+            "quadruplés", "quadruplex", "quadruplez", "quadrupliez", "quadruplions", "quadruplons",
+            "quaker", "quakereresse", "quakereresses", "quakerien", "quakerisme", "quakerismes",
+            "quakeriste", "quakers", "quanta", "quantum", "quantums", "-quarter", "-quarters", "quartet",
+            "quartets", "quartette", "quartettes", "quartettiste", "quartettistes", "quarto",
+            "quartz", "quartzeuse", "quartzeuses", "quartzeux", "quartzifère", "quartzifères",
+            "quartzine", "quartzique", "quartziques", "quartzite", "quartzites", "quasar", "quasars",
+            "quassia", "quassias", "quassier", "quassiers", "quassine", "quassines", "quater",
+            "quaternaire", "quaternaires", "quaterne", "quaternes", "quaternion", "quaternions",
+            "quatrillion", "quattrocentiste", "quattrocentistes", "quattrocento", "quattrocentos",
+            "quatuor", "quatuors", "quetsche", "quetsches", "quetschier", "quetschiers", "squale",
+            "squales", "squalide", "squalides", "squalidés", "squalidité", "squalidités", "squaloïdes",
+            "squamates", "squame", "squames", "squameuse", "squameuses", "squameux", "squamule",
+            "squamules", "square", "squares", "squash", "squashs", "squat", "squatine", "squatines",
+            "squatinidés", "squats", "squatta", "squattai", "squattaient", "squattais", "squattait",
+            "squattâmes", "squattant", "squattas", "squattasse", "squattassent", "squattasses",
+            "adéquat", "adéquats", "adéquate", "adéquates", "adéquatement", "adéquata", "adéquatai",
+            "adéquataient", "adéquatais", "adéquatais", "adéquatait", "adéquatant", "adéquatas",
+            "adéquatasse", "adéquatassent", "adéquatasses", "adéquatassiez", "adéquatassions",
+            "adéquate", "adéquate", "adéquate", "adéquate", "adéquate", "adéquatent", "adéquatent",
+            "adéquater", "adéquatera", "adéquaterai", "adéquateraient", "adéquaterais", "adéquaterais",
+            "adéquaterait", "adéquateras", "adéquaterez", "adéquateriez", "adéquaterions", "adéquaterons",
+            "adéquateront", "adéquates", "adéquates", "adéquatez", "adéquatez", "adéquatiez",
+            "adéquatiez", "adéquations", "adéquations", "adéquatons", "adéquatons", "adéquatâmes",
+            "adéquatât", "adéquatâtes", "adéquatèrent", "adéquatés", "adéquaté", "adéquatée",
+            "adéquatées", "adéquation", "adéquations",
+        };
+
+        /// <summary>
+        /// Liste mots où 'ae' se prononce [e]
+        /// </summary>
+        private static HashSet<string> motsAEe = new HashSet<string>
+        {
+
         };
 
     } // class AutomRuleFilter
