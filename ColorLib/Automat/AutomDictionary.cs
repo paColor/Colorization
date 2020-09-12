@@ -90,6 +90,7 @@ namespace ColorLib
                     }
                     i = j + 1;
                 }
+                Debug.Assert(l == pw.GetWord().Length);
             }
             return toReturn;
         }
@@ -104,7 +105,7 @@ namespace ColorLib
         private static Dictionary<string, string> except = new Dictionary<string, string>()
         {
             // les mots suivants proviennent de la base de données Morphalou.
-            // Je me demande s'ils existent tous...
+            // Je me demande s'ils existent vraiment tous dans notre belle langue...
             { "aber", "a-a;b-b;e-E;r-R" },
             { "abers", "a-a;b-b;e-E;r-R;s-#" },
             { "abies", "a-a;b-b;i-j;e-E;s-s" },
@@ -125,6 +126,9 @@ namespace ColorLib
             { "aces", "a-E;c-s;e-ç;s-#" },
             { "actaea", "a-a;c-k;t-t;ae-e;a-a" },
             { "actaeas", "a-a;c-k;t-t;ae-e;a-a;s-#" },
+            { "agnus", "a-a;gn-J;u-u;s-s" },
+            { "aérosol", "a-a;é-e;r-R;o-o;s-s;o-o;l-l" },
+            { "aérosols", "a-a;é-e;r-R;o-o;s-s;o-o;l-l;s-#" },
         }; 
     }
 }

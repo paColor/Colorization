@@ -118,7 +118,9 @@ namespace ColorLib
 						'*':[{},'b',1]}],
 				'c' : [['eiy','choeur_1','choeur_2','chor','psycho','brachio','cheo','chest','chiro',
 						'chlo_chlam','chr','tech','tachy','chK','h','erc_orc','cisole','c_muet_fin','onc_donc',
-						'nc_muet_fin','_spect','_inct','cciey','cc','apostrophe', 'voy_c_fin','@','*'],
+						'nc_muet_fin','_spect','_inct','cciey','cc',
+						//'apostrophe', 
+						'voy_c_fin','@','*'],
 						{'choeur_1':[{'+':/hoe/i},'k',2],
 						'choeur_2':[{'+':/hœ/i},'k',2],
 						'chor':[{'+':/hor/i},'k',2], // tous les ´choral, choriste´... exceptions non traitées : chorizo, maillechort
@@ -144,19 +146,21 @@ namespace ColorLib
 						'_inct':[{'-':/in/i,'+':/t(s?)$/i},'_muet',1], // instinct, succinct, distinct
 						'cciey':[{'+':/c[eiyéèêëîï]/i},'k',1], // accident, accepter, coccyx
 						'cc':[{'+':/c/i},'k',2], // accorder, accompagner
-						'apostrophe':[{'+':/('|’)/i},'s',2], // apostrophe
+						// 'apostrophe':[{'+':/('|’)/i},'s',2], // apostrophe
 						'*':[{},'k',1], 
 						'@':[{'+':/$/i},'_muet',1]}], // + tous les *nc sauf ´onc´ et ´donc´
 				'ç' : [['*'],
 						{'*':[{},'s',1]}],
-				'd' : [['d','aujourdhui','disole','except','dmuet','apostrophe', '*'],
+				'd' : [['d','aujourdhui','disole','except','dmuet',
+						// 'apostrophe', 
+						'*'],
 						{'d':[{'+':/d/i},'d',2],
 						//'except':[{'-':/(aï|oue)/i, '+':/(s?)$/i},'d',1], // aïd, caïd, oued
 						'except':[this.Regle_finD,'d',1], // aïd, caïd, oued
 						'aujourdhui':[{'-':/aujour/i},'d',1], // aujourd'hui
 						'disole':[{'+':/$/i,'-':/^/i},'d',1], // exemple : d'abord
 						'dmuet':[{'+':/(s?)$/i},'_muet',1], // un d suivi éventuellement d'un s ex. : retards
-						'apostrophe':[{'+':/('|’)/i},'d',2], // apostrophe
+						//'apostrophe':[{'+':/('|’)/i},'d',2], // apostrophe
 						'*':[{},'d',1]}],
 				'e' : [['conj_v_ier','uient','ien_0','ien','ien_2','een','except_en','_ent','clef',
 						'hier','adv_emment_fin','ment','imparfait','verbe_3_pluriel','au','eu_final',
@@ -301,7 +305,9 @@ namespace ColorLib
 							{'*':[{},'Z',1]}],
 					'k' : [['*'],
 							{'*':[{},'k',1]}],
-					'l' : [['vill','mill','tranquille','illdeb','except_ill_l','bacille','ill','eil','ll','excep_il', 'apostrophe','lisole', '*'],
+					'l' : [['vill','mill','tranquille','illdeb','except_ill_l','bacille','ill','eil','ll','excep_il', 
+							//'apostrophe',
+							'lisole', '*'],
 							{'vill':[{'-':/^vi/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
 							//'mill':[{'-':/^mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
 							'mill':[{'-':/mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
@@ -314,7 +320,7 @@ namespace ColorLib
 							'll':[{'+':/l/i},'l',2], // à défaut de l'application d'une autre règle, 'll' donne le son [l]
 							'excep_il':[{'-':/fusi|outi|genti|sourci|persi/i,'+':/(s?)$/i},'_muet',1], // les exceptions trouvées ou le 'l' à la fin ne se prononce pas : fusil, gentil, outil
 							'eil':[{'-':/e(u?)i/i},'j',1], // les mots terminés en 'eil' ou 'ueil' => son [j]
-							'apostrophe':[{'+':/('|’)/i},'l',2], // apostrophe
+							//'apostrophe':[{'+':/('|’)/i},'l',2], // apostrophe
 							'*':[{},'l',1]}],
 					'm' : [['m','tomn','damn',
 							//'misole','apostrophe', 
@@ -404,8 +410,8 @@ namespace ColorLib
 							'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 							'*':[{},'R',1]}],
 					's' : [['sch','h','s_final','parasit','para','mars','s','z','sisole',
-							// 'smuet',
-							'apostrophe', '@', '*'],
+							// 'smuet','apostrophe', 
+							'@', '*'],
 							{'sch':[{'+':/ch/i},'S',3], // schlem
 							'h':[{'+':/h/i},'S',2],
 							's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
@@ -416,12 +422,13 @@ namespace ColorLib
 							'sisole':[{'+':/$/i,'-':/^/i},'s',1], // exemple : s'approche
 							'mars':[{'+':/$/i,'-':/mar/i},'s',1], // mars
 							//'smuet':[{'-':/(e?)/i,'+':/$/i},'_muet',1], // un s en fin de mot éventuellement précédé d'un e ex. : correctes
-							'apostrophe':[{'+':/('|’)/i},'s',2], // apostrophe
+							//'apostrophe':[{'+':/('|’)/i},'s',2], // apostrophe
 							'*':[{},'s',1],
 							'@':[{'+':/$/i},'_muet',1]}],
 					't' : [['t_deb','t','tisole','except_tien','_tien','ex_tie','tie','ex_tiot','tiaot',
 							'verb_tions','tiaos','vingt',
-							'ourt','_inct','_spect','_ct','_est','t_final','tmuet','apostrophe',
+							'ourt','_inct','_spect','_ct','_est','t_final','tmuet',
+							//'apostrophe',
 							'ex_tiel','_tiel','@','*'],
 							{'t':[{'+':/t/i},'t',2],
 							't_deb':[{'-':/^/i},'t',1],
@@ -442,7 +449,7 @@ namespace ColorLib
 							'_ct':[{'-':/c/i,'+':/(s?)$/i},'t',1], // tous les autres mots terminés par 'ct'
 							't_final':[this.Regle_t_final,'t',1], // quelques mots où le ´t´ final se prononce
 							'tmuet':[{'+':/(s?)$/i},'_muet',1], // un t suivi éventuellement d'un s ex. : marrants
-							'apostrophe':[{'+':/('|’)/i},'t',2], // apostrophe
+							//'apostrophe':[{'+':/('|’)/i},'t',2], // apostrophe
 							'ex_tiel':[{'-':/céles/i},'t',1],
 							'_tiel':[{'+':/iel((le)?)(s?)/i},'s_t',1],
 							'*':[{},'t',1],							

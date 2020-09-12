@@ -95,17 +95,11 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintExceptFormat()
         {
-            string txt = @"baedeker
-baedekers
-caecal
-caecale
-caecales
-caecaux
-caecum
-caecums
-elaeis
-élaeis
-inpraesentia
+            string txt = @"
+
+ressembliez
+ressouviendriez
+ressouviendrions
 
 ";
             TheText tt = new TheText(txt);
