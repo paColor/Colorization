@@ -15,6 +15,21 @@ namespace ColorLib.Morphalou
     ///   2 - Colorization - Une version simplifiée de Lexique, où les différences par exemple
     /// entre sons ouverts ou fermés(o vs. O) ne sont pas pris en compte, conformément au
     /// moteur de reconnaissance des phonèmes.
+    /// Cette version ColSimpl est étendue pour permettre de représenter les phonèmes de
+    /// Colorization qui n'en sont pas vriament comme "oi" en un 'son' d'une seule lettre.
+    /// Par convention on parle dans le code de ColSE (pour simplifié-étendu :-))
+    /// Les extensions sont:
+    /// <para>
+    ///     "#" pour muet, 
+    ///     "ç" pour e caduc, 
+    ///     "4" pour les chiffres, 
+    ///     "3" pour oin, 
+    ///     "6" pour oi, 
+    ///     "x" pour ks, 
+    ///     "X" pour gz,
+    ///     "%" pour ill
+    ///     "/" pour ij
+    /// </para>
     ///   3 - SAMPA, utilisé par Morphalou
     ///
     /// Notre but est de pouvoir comparer les différentes bases de données avec ce que produit
@@ -35,7 +50,7 @@ namespace ColorLib.Morphalou
             {"y","y" },
             {"u","u" },
             {"o","o" },
-            {"O","o" },
+            {"O","o" }, // c'est la seule différence!
             {"e","e" },
             {"E","E" },
             {"°","°" },
@@ -93,7 +108,7 @@ namespace ColorLib.Morphalou
             { "l", "l" },
             { "R", "R" },
             { "w", "w" },
-            { "H", "u" },
+            { "H", "ü" },
             { "i", "i" },
             { "e", "e" },
             { "E", "E" },

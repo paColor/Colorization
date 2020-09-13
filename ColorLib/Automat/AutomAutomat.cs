@@ -164,13 +164,13 @@ namespace ColorLib
 		//'apostrophe':[{'+':/('|’)/i},'d',2], // apostrophe
 		'*':[{},'d',1]}],
 'e' : [['conj_v_ier','uient','ien_0','ien','ien_2','een','except_en','_ent',//'clef',
-		'adv_emment_fin','ment','verbe_3_pluriel','hier','imparfait','au',
+		'adv_emment_fin','ment','imparfait','verbe_3_pluriel','hier','au',
 		'avoir','eu',
 		'in','eil','y','iy','ennemi','enn_debut_mot','dessus_dessous','cet',
 		't_final','eclm_final','d_except','drz_final','zen','except_en2','n','adv_emment_a',
 		'femme','lemme','em_gene','nm','tclesmesdes','que_gue_final',
-		'jtcnslemede','jean','ge','eoi','ex','ef','ressu','ress','except_evr','2consonnes',
-		'abbaye','e_muet','e_caduc','e_deb','@','ier_Conj','*'],
+		'jtcnslemede','jean','ge','eoi','ex','ef','reqquechose','ressu','ress','except_evr',
+		'2consonnes','abbaye','e_muet','e_caduc','e_deb','@','ier_Conj','*'],
 		{
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
@@ -183,9 +183,9 @@ namespace ColorLib
         // 'clef':[{'-':/cl/i,'+':/f/i},'e_comp',2], // une clef
         'adv_emment_fin':[{'-':/emm/i,'+':/nt/i},'a_tilda',2], // adverbe avec 'emment' => se termine par le son [a_tilda]
         'ment':[this.Regle_ment,'a_tilda',2], // on considère que les mots terminés par 'ment' se prononcent [a_tilda] sauf s'il s'agit d'un verbe
+		'imparfait':[{'-':/ai/i,'+':/nt$/i},'verb_3p',3], // imparfait à la 3ème personne du pluriel
 		'verbe_3_pluriel':[{'+':/nt$/i},'q_caduc',1], // normalement, pratiquement tout le temps verbe à la 3eme personne du pluriel
 		'hier':[this.Regle_er,'E_comp',1], // encore des exceptions avec les mots terminés par 'er' prononcés 'R'        
-		'imparfait':[{'-':/ai/i,'+':/nt$/i},'verb_3p',3], // imparfait à la 3ème personne du pluriel
 		'au':[{'+':/au/i},'o_comp',3],
         'avoir':[this.Regle_avoir,'y',2],
 		//'eu_final': [{'+':/u(s?)$/i},'x2',2], // [PAE 23.02.20] --> envisager de supprimer toutes les règles eu.
@@ -227,7 +227,7 @@ namespace ColorLib
 		'eoi':[{'+':/oi/i},'_muet',1], // un e suivi de 'oi' ex. : asseoir
 		'ex':[{'+':/x/i},'E_comp',1], // e suivi d'un x se prononce è
 		'ef':[{'+':/[bf](s?)$/i},'E_comp',1], // e suivi d'un f ou d'un b en fin de mot se prononce è
-		//'reqquechose':[{'-':/r/i,'+':/[bcçdfghjklmnpqrstvwxz](h|l|r)/i},'q',1], // re-quelque chose : le e se prononce 'e'
+		'reqquechose':[{'-':/r/i,'+':/[bcçdfghjklmnpqrstvwxz](h|l|r)/i},'q',1], // re-quelque chose : le e se prononce 'e'
 		'ressu':[{'-':/^r/i,'+':/ssu(i|s|y)/i},'E_comp',1],
 		'ress':[{'-':/^r/i,'+':/ss/i},'q',1],
         'except_evr':[{'+':/vr/i},'q',1], // chevrier, chevron, chevreuil
@@ -413,22 +413,23 @@ namespace ColorLib
 		'r':[{'+':/r/i},'R',2],
 		'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
-'s' : [['sch','h','s_final','parasit','para','mars','s','z','sisole',
-		// 'smuet','apostrophe', 
+'s' : [['sch','h','s_final','s','parasit','pasZ','z',
+		// 'sisole','smuet','apostrophe', 
 		'@', '*'],
 		{'sch':[{'+':/ch/i},'S',3], // schlem
 		'h':[{'+':/h/i},'S',2],
 		's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
-		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
-		'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*
-		'para':[{'-':/^para/i},'s',1], // para quelque chose (parasol, parasismique, ...)
 		's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
-		'sisole':[{'+':/$/i,'-':/^/i},'s',1], // exemple : s'approche
-		'mars':[{'+':/$/i,'-':/mar/i},'s',1], // mars
+		'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*
+		//'para':[{'-':/^para/i},'s',1], // para quelque chose (parasol, parasismique, ...)
+		'pasZ':[{'-':/(^para|^contre|^mono)/i},'s',1],
+		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
+		//'sisole':[{'+':/$/i,'-':/^/i},'s',1], // exemple : s'approche
+		//'mars':[{'+':/$/i,'-':/mar/i},'s',1], // mars
 		//'smuet':[{'-':/(e?)/i,'+':/$/i},'_muet',1], // un s en fin de mot éventuellement précédé d'un e ex. : correctes
 		//'apostrophe':[{'+':/('|’)/i},'s',2], // apostrophe
-		'*':[{},'s',1],
-		'@':[{'+':/$/i},'_muet',1]}],
+		'@':[{'+':/$/i},'_muet',1],
+		'*':[{},'s',1]}],
 't' : [['t_deb','t','tisole','except_tien','_tien','ex_tie','tie','ex_tiot','tiaot',
 		'verb_tions','tiaos','vingt',
 		'ourt','_inct','_spect','_ct','_est','t_final','tmuet',
@@ -497,10 +498,11 @@ namespace ColorLib
 		'm':[{'+':/m[mpb]/i},'e_tilda',2],
 		'nm':[{'+':/[n|m]$/i},'e_tilda',2],
 		'*':[{},'i',1]}],
-'z' : [['riz', 'iz', 'gaz', '@', '*'],
+'z' : [['riz', 'iz', 'gaz', 'razzia','@', '*'],
 		{'riz':[{'-':/i/i,'+':/$/i},'_muet',1], // y suivi d'une voyelle donne [j]
 		'iz':[{'-':/i/i,'+':/$/i},'z',1],
 		'gaz':[{'-':/a/i,'+':/$/i},'z',1],
+		'razzia':[{'+':/z/i},'d',1],
 		'*':[{},'z',1],
 		'@':[{'+':/$/i},'_muet',1]}],
 '0' : [['*'],

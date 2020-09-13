@@ -667,7 +667,7 @@ namespace ColorLib
             "abribus", "airbus", "bus", "microbus", "mortibus", "pédibus", "autofocus", "focus",
             "erectus", "modus", "plus", "liquidus", "versus", "ratus", "burnous", "tous",
             "anubis", "craignos", "tranquillos", "alias", "sensas", "tapas", "gambas", "oups",
-            "williams",
+            "williams", "s", // "s" isolé se prononce [s]
             // sans accents
             "agnes", "alkermes", "aloes", "anacampseros", "angelus", "anthemis", "antinous", "asclepias",
             "-asperges", "cacatoes", "-callais", "catoblepas", "-coleus", "cortes", "coreopsis",
@@ -1848,7 +1848,7 @@ namespace ColorLib
             "trochaïques", "trochanter", "trochantérien", "trochantérienne", "trochantériennes",
             "trochantériens", "trochanters", "trochile", "trochiles", "trochilidés", "trochlée",
             "trochlées", "tylenchus", "ultrabrachycéphale", "varech", "varechs", "vichnouisme",
-            "vichnouismes", "yachmak", "yachmaks",
+            "vichnouismes", "yachmak", "yachmaks","orchiectomie", "orchiépididymite", "trichodesmium",
         };
 
         /// <summary>

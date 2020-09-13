@@ -110,36 +110,38 @@ namespace ColorLib.Morphalou
         /// Compare les deux strings. retourne dans <paramref name="diffs"/> un flag 
         /// <c>true</c> pour chaque position différente.
         /// </summary>
-        /// <param name="s1">premier <c>string</c> à comparer.</param>
-        /// <param name="s2">deuxième <c>string</c> à comparer.</param>
+        /// <param name="ph">premier <c>string</c> à comparer.</param>
+        /// <param name="col">deuxième <c>string</c> à comparer.</param>
         /// <param name="diffs">Liste des positions où les deux <c>string</c>(s)
         /// diffèrent.</param>
         /// <returns></returns>
-        private static bool AreEqualPhon(string s1, string s2, out List<int> diffs)
+        private static bool AreEqualPhon(string ph, string col, out List<int> diffs)
         {
-            logger.Trace("AreEqualPhon \'{0}\', \'{1}\'", s1, s2);
+            logger.Trace("AreEqualPhon \'{0}\', \'{1}\'", ph, col);
             bool toReturn = true;
             diffs = new List<int>();
-            for (int i = 0; i < Math.Max(s1.Length, s2.Length); i++)
+            for (int i = 0; i < Math.Max(ph.Length, col.Length); i++)
             {
-                char c1, c2;
-                if (i < s1.Length)
+                char cPh, cCol;
+                if (i < ph.Length)
                 {
-                    c1 = s1[i];
+                    cPh = ph[i];
                 }
                 else
                 {
-                    c1 = '$';
+                    cPh = '$';
                 }
-                if (i < s2.Length)
+                if (i < col.Length)
                 {
-                    c2 = s2[i];
+                    cCol = col[i];
                 }
                 else
                 {
-                    c2 = '$';
+                    cCol = '$';
                 }
-                if (c1 != c2)
+                if (cPh != cCol 
+                    && !(cPh == 'ë' && (cCol == 'e' || cCol == 'E'))
+                    && !(cPh == 'ü' && (cCol == 'u' || cCol == 'y')))
                 {
                     toReturn = false;
                     diffs.Add(i);
@@ -211,10 +213,10 @@ namespace ColorLib.Morphalou
             // s'il s'agit d'un 'b' qu'on peut prononcer 'p'
             List<int> diffs;
             bool equality = AreEqualPhon(ph1, col, out diffs);
-            Debug.Assert(!equality);
-            int pos = diffs[0];
+            if (equality)
+                return true; // il peut s'agir de ü ou ë
 
-            // foreach (int pos in diffs) {
+            int pos = diffs[0];
 
             if (pos < col.Length)
             {
@@ -225,20 +227,7 @@ namespace ColorLib.Morphalou
                     if (AreMatch(graphie, ph1, col.Remove(pos, 1)))
                         return true;
                 }
-                if (pos > 2
-                    && col[pos] == 'j'
-                    && col[pos - 1] == 'i'
-                    && PhonInW.IsPhonConsonne(PhonInW.ColSE2phon(col[pos - 2]))
-                    && PhonInW.IsPhonConsonne(PhonInW.ColSE2phon(col[pos - 3]))
-                    )
-                {
-                    // ça pourrait être la fameuse règle 'prec_2cons' que nous considérons
-                    // juste, mais où Morphalou omet le j.
-                    // recalculons 'col' sans le son [j]
-                    string newCol = col.Remove(pos, 1);
-                    if (AreMatch(graphie, ph1, newCol))
-                        return true;
-                }
+
                 if (pos < ph1.Length)
                 {
                     if (pos < graphie.Length
@@ -246,8 +235,10 @@ namespace ColorLib.Morphalou
                         && ph1[pos] == 'p'
                         && col[pos] == 'b')
                     {
+                        // lettre 'b' dans le texte, son [p] morphalou et [b] colorization
                         return true;
                     }
+
                     if (pos > 2
                         && ph1[pos] == 'j'
                         && ph1[pos - 1] == 'a'
@@ -266,17 +257,20 @@ namespace ColorLib.Morphalou
                         if (AreMatch(graphie, newPh1, col))
                             return true;
                     }
+
                     if (pos > 3
                         && ph1[pos] == 'i'
                         && ph1[pos - 1] == 'j'
                         && ph1[pos - 2] == 'a'
                         && ph1[pos - 3] == 'w')
                     {
-                        // pour aboyiez...
+                        // pour aboyiez... Morphalou met [ji] pour le 'yi', Colorization conna'it
+                        // le son [oi] et met [j] pour le 'y'.
                         string newPh1 = ph1.Remove(pos - 1, 1);
                         if (AreMatch(graphie, newPh1, col))
                             return true;
                     }
+
                     if (((col[pos] == 'i' && ph1[pos] == 'j')
                         || (col[pos] == 'j' && ph1[pos] == 'i'))
                         && pos < ph1.Length - 1
@@ -285,13 +279,16 @@ namespace ColorLib.Morphalou
                         && PhonInW.IsPhonVoyelle(PhonInW.ColSE2phon(col[pos + 1]))
                        )
                     {
+                        // Col [ij], Morph [ji] mais suivi de le même voyelle
                         return true;
                     }
+
                     if (pos < col.Length - 1 && pos < ph1.Length - 1
                         && col[pos] == 'u' && ph1[pos] == 'w'
                         && (col[pos + 1] == 'a' && ph1[pos + 1] == 'a'
                         || col[pos + 1] == 'i' && ph1[pos + 1] == 'i'))
                     {
+                        // col [ua] et morph [wa], ou alors col [ui] et morph [wi].
                         StringBuilder sb = new StringBuilder(col.Length);
                         sb.Append(col.Substring(0, pos));
                         sb.Append('w'); // à la place du 'u'
@@ -299,19 +296,82 @@ namespace ColorLib.Morphalou
                         if (AreMatch(graphie, ph1, sb.ToString()))
                             return true;
                     }
-                    if (ph1[pos] == 'ë' && (col[pos] == 'e' || col[pos] == 'E'))
+
+                    if (pos < col.Length - 2
+                        && col[pos] == 'i'
+                        && col[pos + 1] == 'j'
+                        && ph1[pos] == 'j'
+                        && PhonInW.IsPhonVoyelle(PhonInW.ColSE2phon(col[pos + 2])))
                     {
+                        // Morphalou a peut-être seulement le [j]. 
+                        // S'il y a une voyelle derrière, c'est équivalent.
+                        // Enlevons le [i]
+                        string newCol = col.Remove(pos, 1);
+                        if (AreMatch(graphie, ph1, newCol))
+                            return true;
+                    }
+
+                    if (col[pos] == 'N' && ph1[pos] == 'n'
+                        && pos < col.Length - 1 && pos < ph1.Length - 1
+                        && col[pos+1] == 'j' && ph1[pos + 1] == 'j')
+                    {
+                        // [nj] est équivalent à [Nj]
                         if (AreMatch(graphie, ph1.Remove(pos, 1), col.Remove(pos, 1)))
                             return true;
                     }
+                    
+                    if (col[pos] == 'j' && ph1[pos] == 'i'
+                        && pos < col.Length - 1 && pos < ph1.Length - 1
+                        && col[pos + 1] == '°' && ph1[pos + 1] == '°')
+                    {
+                        // [nj] est équivalent à [Nj]
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col.Remove(pos, 1)))
+                            return true;
+                    }
+                } // if (pos < ph1.Length)
+
+                if (pos > 2 && pos - 1 < ph1.Length
+                    && col[pos] == 'j'
+                    && col[pos - 1] == 'i'
+                    && ph1[pos - 1] == 'i'
+                    && PhonInW.IsPhonConsonne(PhonInW.ColSE2phon(col[pos - 2]))
+                    && PhonInW.IsPhonConsonne(PhonInW.ColSE2phon(col[pos - 3])))
+                {
+                    // [ij] dans colorization et Morphalou a évtlmt seulement le [i
+                    // ça pourrait être la fameuse règle 'prec_2cons' que nous considérons
+                    // juste, mais où Morphalou omet le j.
+                    // recalculons 'col' sans le son [j]
+                    string newCol = col.Remove(pos, 1);
+                    if (AreMatch(graphie, ph1, newCol))
+                        return true;
                 }
+
                 if (col[pos] == 'j' && pos > 0 && col[pos - 1] == 'N')
                 {
                     // gnions - N§ - Nj§
                     if (AreMatch(graphie, ph1, col.Remove(pos, 1)))
                         return true;
                 }
+
             } // if (pos < col.Length)
+
+            if (pos > 0 && pos < ph1.Length - 1 
+                && ph1[pos] == 'i' && ph1[pos - 1] == 'j'
+                && PhonInW.IsPhonVoyelle(PhonInW.ColSE2phon(ph1[pos + 1])))
+            {
+                // Morphalou a [ji] suivi d'une voyelle, Col n'a pas le [i].
+                if (AreMatch(graphie, ph1.Remove(pos, 1), col))
+                    return true;
+            }
+
+            if (pos > 0 && pos < ph1.Length - 2
+                && ph1[pos] == 'i' && ph1[pos + 1] == 'j'
+                && PhonInW.IsPhonVoyelle(PhonInW.ColSE2phon(ph1[pos + 2])))
+            {
+                // Morphalou a [ji] suivi d'une voyelle, Col n'a pas le [i].
+                if (AreMatch(graphie, ph1.Remove(pos, 1), col))
+                    return true;
+            }
 
             if (pos < ph1.Length)
             {
@@ -323,8 +383,6 @@ namespace ColorLib.Morphalou
                         return true;
                 }
             }
-
-            // } 
 
             if (AreEqualButSchwa(graphie, ph1, col))
                 return true;

@@ -242,72 +242,7 @@ namespace ColorLib
         {
             { Phonemes.a,           "a" },
             { Phonemes.q,           "°" },
-            { Phonemes.q_caduc,     "" }, // e final "" est plus proche de Lexique, normalement il faudrait plutôt °
-            { Phonemes.i,           "i" },
-            { Phonemes.o,           "O" },
-            { Phonemes.o_comp,      "o" },
-            { Phonemes.u,           "u" },
-            { Phonemes.y,           "y" },
-            { Phonemes.e,           "e" },
-            { Phonemes.E,           "E" },
-            { Phonemes.E_comp,      "E" },
-            { Phonemes.e_comp,      "e" },
-            { Phonemes.e_tilda,     "5" },
-            { Phonemes.a_tilda,     "@" },
-            { Phonemes.o_tilda,     "§" },
-            { Phonemes.x_tilda,     "1" },
-            // { Phonemes.x9,          "9" }, plus de distinction entre x2 et x9
-            { Phonemes.x2,          "2" },
-            { Phonemes.oi,          "wa" },
-            { Phonemes.w,           "w" },
-            { Phonemes.i_j,         "ij" },
-            { Phonemes.j,           "j" },
-            { Phonemes.J,           "G" },
-            { Phonemes.p,           "p" },
-            { Phonemes.b,           "b" },
-            { Phonemes.t,           "t" },
-            { Phonemes.d,           "d" },
-            { Phonemes.k,           "k" },
-            { Phonemes.g,           "g" },
-            { Phonemes.f,           "f" },
-            { Phonemes.v,           "v" },
-            { Phonemes.s,           "s" },
-            { Phonemes.z,           "z" },
-            { Phonemes.S,           "S" },
-            { Phonemes.Z,           "Z" },
-            { Phonemes.m,           "m" },
-            { Phonemes.n,           "n" },
-            { Phonemes.N,           "N" },
-            { Phonemes.l,           "l" },
-            { Phonemes.R,           "R" },
-            { Phonemes.w_e_tilda,   "w5" },
-            // { Phonemes.w_E_comp,    "wE" }, // cas enlevé de l'automate
-            // { Phonemes.w_i,         "wi" }, résultera en 'wi' sans besoin de le traiter comme un cas particulier.
-            { Phonemes.f_ph,        "f" },
-            { Phonemes.k_qu,        "k" },
-            { Phonemes.g_u,         "g" },
-            { Phonemes.s_c,         "s" },
-            { Phonemes.s_t,         "s" },
-            { Phonemes.s_x,         "s" },
-            { Phonemes.z_s,         "z" },
-            { Phonemes.ks,          "ks" },
-            { Phonemes.gz,          "gz" },
-            { Phonemes.verb_3p,     "" },
-            { Phonemes._muet,       "" },
-            { Phonemes.j_ill,       "j" },
-            { Phonemes.i_j_ill,     "ij" },
-            { Phonemes.ji,          "j" },
-            { Phonemes.chiffre,     "" },
-            { Phonemes.firstPhon,   "FIRSTPHON" },
-            { Phonemes.lastPhon,    "LASTPHON" }
-        };
-
-        // Mapping vers la représentation lexique.org des phonèmes.
-        static private Dictionary<Phonemes, string> colMap = new Dictionary<Phonemes, string>
-        {
-            { Phonemes.a,           "a" },
-            { Phonemes.q,           "°" },
-            { Phonemes.q_caduc,     "" }, // e final "" est plus proche de Lexique, normalement il faudrait plutôt °
+            { Phonemes.q_caduc,     ""  }, // e final "" est plus proche de Lexique, normalement il faudrait plutôt °
             { Phonemes.i,           "i" },
             { Phonemes.o,           "O" },
             { Phonemes.o_comp,      "o" },
@@ -370,6 +305,8 @@ namespace ColorLib
         /// <summary>
         /// Traduction de la représentation ColSimpl étendue (ça devient un peu compliqué) vers les 
         /// phonèmes utilisés par PhonInW et PhonWord.
+        /// ColSimpl correspond en fait à Lexique sans la distinction entre "o" et "O". Les extensions
+        /// attribuent une représentation en une lettre pour les phonèmes "spéciaux" de colorization.
         /// Extensions: 
         ///     "#" pour muet, 
         ///     "ç" pour e caduc, 
@@ -401,8 +338,8 @@ namespace ColorLib
             {'w',   Phonemes.w},
             {'j',   Phonemes.j},
             {'%',   Phonemes.j_ill}, // ill
-            {'N',   Phonemes.J}, // ng
-            {'G',   Phonemes.N}, // gn
+            {'G',   Phonemes.J}, // ng
+            {'N',   Phonemes.N}, // gn
             {'l',   Phonemes.l},
             {'v',   Phonemes.v},
             {'f',   Phonemes.f},
@@ -452,7 +389,7 @@ namespace ColorLib
             { Phonemes.w,           "w" },
             { Phonemes.i_j,         "/" },
             { Phonemes.j,           "j" },
-            { Phonemes.J,           "N" },
+            { Phonemes.J,           "G" },
             { Phonemes.p,           "p" },
             { Phonemes.b,           "b" },
             { Phonemes.t,           "t" },
@@ -467,7 +404,7 @@ namespace ColorLib
             { Phonemes.Z,           "Z" },
             { Phonemes.m,           "m" },
             { Phonemes.n,           "n" },
-            { Phonemes.N,           "J" },
+            { Phonemes.N,           "N" },
             { Phonemes.l,           "l" },
             { Phonemes.R,           "R" },
             { Phonemes.w_e_tilda,   "3" },
