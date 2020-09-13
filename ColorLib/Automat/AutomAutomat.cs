@@ -107,7 +107,7 @@ namespace ColorLib
 		'ai_fin':[{'+':/i$/i},'e_comp',2],
 		'fais':[{'-':/f/i,'+':/is[aeiouy]/i},'q', 2], // (PAE - 30.04.20) faisais et toutes les variations
 		'i':[{'+':/[iî]/i},'E_comp',2],
-		'ae_e': [this.RegleMotsAEe,'e',2],
+		'ae_e': [{'+':/e/i},'e',2],
 		'*':[{},'a',1]}],
 'â' : [['*'],
 		{'*':[{},'a',1]}],
@@ -121,7 +121,7 @@ namespace ColorLib
 		'chlo_chlam','chr','tech','tachy','chK','h','erc_orc','cisole','c_muet_fin','onc_donc',
 		'nc_muet_fin','_spect','_inct','cciey','cc',
 		'apostrophe', 
-		'voy_c_fin','@','*'],
+		'voy_c_fin','cae','@','*'],
 		{'choeur_1':[{'+':/hoe/i},'k',2],
 		'choeur_2':[{'+':/hœ/i},'k',2],
 		'chor':[{'+':/hor/i},'k',2], // tous les ´choral, choriste´... exceptions non traitées : chorizo, maillechort
@@ -147,7 +147,8 @@ namespace ColorLib
 		'_inct':[{'-':/in/i,'+':/t(s?)$/i},'_muet',1], // instinct, succinct, distinct
 		'cciey':[{'+':/c[eiyéèêëîï]/i},'k',1], // accident, accepter, coccyx
 		'cc':[{'+':/c/i},'k',2], // accorder, accompagner
-		'apostrophe':[{'+':/('|’)/i},'s',2], // apostrophe
+		'apostrophe':[{'+':/('|’)/i},'s_c',2], // apostrophe
+		'cae':[{'+':/ae/i},'s_c',1],
 		'*':[{},'k',1], 
 		'@':[{'+':/$/i},'_muet',1]}], // + tous les *nc sauf ´onc´ et ´donc´
 'ç' : [['*'],
@@ -376,7 +377,7 @@ namespace ColorLib
 		//'oe_1':[{'-':/c/i,'+':/e/i},'o',1], // exemple : coefficient
 		'oe_2':[{'-':/m/i,'+':/e/i},'oi',2], // exemple : moelle [PAE 26.02.2020] remplacé par 'oi'
 		'oe_3':[{'-':/f/i,'+':/e/i},'e',2], // exemple : foetus
-		'oe_4':[{'-':/(gastr|électr|inc|min|c)/i,'+':/e/i},'o',1], // [PAE 26.02.2020] électroencéphalogramme, minoen, coefficient
+		'oe_4':[{'-':/(gastr|électr|inc|min|c|aér)/i,'+':/e/i},'o',1], // [PAE 26.02.2020] électroencéphalogramme, minoen, coefficient
 		'oe_defaut':[{'+':/e/i},'x2',2], // exemple : oeil
 		'*':[{},'o',1]
 		}],
@@ -511,6 +512,8 @@ namespace ColorLib
 		'razzia':[{'+':/z/i},'d',1],
 		'*':[{},'z',1],
 		'@':[{'+':/$/i},'_muet',1]}],
+'æ' : [['*'],
+		{'*':[{},'e',1]}], // les autres cas sont traités dans les exceptions. [ae] n'est cependant pas possible...
 '0' : [['*'],
 		{'*':[{},'chiffre',1]}],
 '1' : [['*'],

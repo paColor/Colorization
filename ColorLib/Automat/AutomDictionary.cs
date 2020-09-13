@@ -148,6 +148,21 @@ namespace ColorLib
             { "gars", "g-g;a-a;rs-#" },
             { "aeschne", "ae-e;s;ch-k;n-n;e-e" },
             { "aeschnes", "ae-e;s;ch-k;n-n;e-e;s-#" },
+            { "elaeis", "el;ae-e;is" },
+            { "élaeis", "el;ae-e;is" },
+            { "maelstrom", "m-m;ae-a;l-l;s-s;t-t;r-R;om" },
+            { "maelstroms", "m-m;ae-a;l-l;s-s;t-t;r-R;om;s-#" },
+            { "maestoso", "m-m;a-a;e-E;s-s;t-t;o-o;s-z;o-o" },
+            { "maestria", "m-m;a-a;e-E;s-s;t-t;r-R;i-/;a-a" },
+            { "maestrias", "m-m;a-a;e-E;s-s;t-t;r-R;i-/;a-a;s-#" },
+            { "maestro", "m-m;a-a;e-E;s-s;t-t;r-R;o-o" },
+            { "maestros", "m-m;a-a;e-E;s-s;t-t;r-R;o-o;s-#" },
+            { "paella", "p-p;a-a;e-E;ll-l;a-a" },
+            { "paellas", "p-p;a-a;e-E;ll-l;a-a;s-#" },
+            { "tael", "t-t;a-a;e-E;l-l" },
+            { "taels", "t-t;a-a;e-E;l-l;s-#" },
+            { "ægilopinée", "æ-E;g-Z;i-i;l-l;o-o;p-p;i-i;n-n;é-e;e-#" },
+            { "ægilopinées", "æ-E;g-Z;i-i;l-l;o-o;p-p;i-i;n-n;é-e;e-#;s-#" },
 
         }; 
     }

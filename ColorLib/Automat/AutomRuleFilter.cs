@@ -56,7 +56,6 @@ namespace ColorLib
             {"Regle_MotsUN_ON", Regle_MotsUN_ON },
             {"Regle_finAM", Regle_finAM },
             {"RegleMotsQUkw", RegleMotsQUkw },
-            {"RegleMotsAEe", RegleMotsAEe },
         };
 
         private CheckRuleFunction crf;
@@ -667,7 +666,7 @@ namespace ColorLib
             "abribus", "airbus", "bus", "microbus", "mortibus", "pédibus", "autofocus", "focus",
             "erectus", "modus", "plus", "liquidus", "versus", "ratus", "burnous", "tous",
             "anubis", "craignos", "tranquillos", "alias", "sensas", "tapas", "gambas", "oups",
-            "williams", "s", // "s" isolé se prononce [s]
+            "williams", "aegilops", "aepyornis", "s", // "s" isolé se prononce [s]
             // sans accents
             "agnes", "alkermes", "aloes", "anacampseros", "angelus", "anthemis", "antinous", "asclepias",
             "-asperges", "cacatoes", "-callais", "catoblepas", "-coleus", "cortes", "coreopsis",
@@ -1068,22 +1067,6 @@ namespace ColorLib
                 (pos > 0 && mot[pos - 1] == 'q' && mot[pos] == 'u'))
                 &&
                 motsQUkw.Contains(mot);
-        }
-
-        /// <summary>
-        /// Identifie si "ae" dans <paramref name="mot"/> se prononce [e]
-        /// </summary>
-        /// <param name="mot">Le mot à analyser.</param>
-        /// <param name="pos">La position du 'a' de "ae".</param>
-        /// <returns><c>true</c> si "ae" se prononce [e].</returns>
-        public static bool RegleMotsAEe(string mot, int pos)
-        {
-            logger.ConditionalTrace(ConfigBase.cultF, "RegleMotsAEe - mot: \'{0}\', pos: {1}", mot, pos);
-            Debug.Assert(mot != null);
-            return
-                pos < mot.Length - 1 && mot[pos] == 'a' && mot[pos + 1] == 'e'
-                &&
-                motsAEe.Contains(mot);
         }
 
         /// <summary>
@@ -1849,6 +1832,7 @@ namespace ColorLib
             "trochantériens", "trochanters", "trochile", "trochiles", "trochilidés", "trochlée",
             "trochlées", "tylenchus", "ultrabrachycéphale", "varech", "varechs", "vichnouisme",
             "vichnouismes", "yachmak", "yachmaks","orchiectomie", "orchiépididymite", "trichodesmium",
+            "aechmalotarque", "aechmalotarques", "aechmalote", "aechmalotes",
         };
 
         /// <summary>
@@ -1915,14 +1899,6 @@ namespace ColorLib
             "adéquatiez", "adéquations", "adéquations", "adéquatons", "adéquatons", "adéquatâmes",
             "adéquatât", "adéquatâtes", "adéquatèrent", "adéquatés", "adéquaté", "adéquatée",
             "adéquatées", "adéquation", "adéquations",
-        };
-
-        /// <summary>
-        /// Liste mots où 'ae' se prononce [e]
-        /// </summary>
-        private static HashSet<string> motsAEe = new HashSet<string>
-        {
-
         };
 
     } // class AutomRuleFilter
