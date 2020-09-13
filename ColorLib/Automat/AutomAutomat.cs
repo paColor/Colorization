@@ -342,7 +342,7 @@ namespace ColorLib
 		// 'nisole','apostrophe', 
 		'*'],
 		{// 'n':[{'+':/n/i},'n',2],
-		//'ment':[this.Regle_verbe_mer,'verb_3p',2], // on considère que les verbent terminés par 'ment' se prononcent [_muet]
+		//'ment':[this.Regle_verbe_mer,'verb_3p',2], // on considère que les verbes terminés par 'ment' se prononcent [_muet]
 		//'urent':[{'-':/ure/i,'+':/t$/i},'verb_3p',2], // verbes avec terminaisons en -urent
 		//'irent':[{'-':/ire/i,'+':/t$/i},'verb_3p',2], // verbes avec terminaisons en -irent
 		//'erent':[{'-':/ère/i,'+':/t$/i},'verb_3p',2], // verbes avec terminaisons en -èrent
@@ -352,28 +352,31 @@ namespace ColorLib
 		//'nisole':[{'+':/$/i,'-':/^/i},'n',1], // exemple : n'a
 		//'apostrophe':[{'+':/('|’)/i},'n',2] // apostrophe
 		}],
-'o' : [['in','oignon','i',
-		'tomn','monsieur','n','m','nm','y1','u','o','oeu_defaut','oe_0','oe_1','oe_2', 'oe_3','voeux','oeufs','noeud','oe_4','oe_defaut', '*'],
+'o' : [['in','oignon','i','tomn',
+		//'monsieur',
+		'n','m','nm','y1','u','o','oeu_defaut','oe_0','oe_2', 'oe_3',
+		//'voeux','oeufs','noeud',
+		'oe_4','oe_defaut', '*'],
 		{'in':[{'+':/i[nm]([bcçdfghjklpqrstvwxz]|$)/i},'w_e_tilda',3],
 		'oignon':[{'-':/^/i,'+':/ignon/i},'o',2],
 		'i':[{'+':/(i|î|y)/i},'oi',2], // [PAE 26.02.20] introduction du phonème oi pour pouvoir le marquer dans la convention CERAS
 		'u':[{'+':/[uwûù]/i},'u',2], // son [u] : clou, clown
 		'tomn':[{'-':/t/i,'+':/mn/i},'o',1], // Regle spécifique pour 'automne' et ses dérivés
-		'monsieur':[{'-':/m/i,'+':/nsieur/i},'q',2],
+		//'monsieur':[{'-':/m/i,'+':/nsieur/i},'q',2],
 		'n':[{'+':/n[bcçdfgjklmpqrstvwxz]/i},'o_tilda',2],
 		'm':[{'+':/m[bcçdfgjklpqrstvwxz]/i},'o_tilda',2], // toute consonne sauf le m
 		'nm':[{'+':/[nm]$/i},'o_tilda',2],
 		'y1':[{'+':/y$/i},'oi',2], // [PAE 26.02.2020] introduction de 'oi' par exemple pour roy
 		'o':[{'+':/o/i},'o',2], // exemple : zoo
-		'voeux':[{'+':/eux/i},'x2',3], // voeux
-		'noeud':[{'+':/eud/i},'x2',3], // noeud
-		'oeufs':[{'+':/eufs/i},'x2',3], // traite oeufs et boeufs
+		//'voeux':[{'+':/eux/i},'x2',3], // voeux
+		//'noeud':[{'+':/eud/i},'x2',3], // noeud
+		//'oeufs':[{'+':/eufs/i},'x2',3], // traite oeufs et boeufs
 		'oeu_defaut':[{'+':/eu/i},'x2',3], // exemple : oeuf
 		'oe_0':[{'+':/ê/i},'oi',2],  // exemple : poêle [PAE 26.02.2020] remplacé par 'oi'
-		'oe_1':[{'-':/c/i,'+':/e/i},'o',1], // exemple : coefficient
+		//'oe_1':[{'-':/c/i,'+':/e/i},'o',1], // exemple : coefficient
 		'oe_2':[{'-':/m/i,'+':/e/i},'oi',2], // exemple : moelle [PAE 26.02.2020] remplacé par 'oi'
 		'oe_3':[{'-':/f/i,'+':/e/i},'e',2], // exemple : foetus
-		'oe_4':[{'-':/(gastr|électr|inc|min)/i,'+':/e/i},'o',1], // [PAE 26.02.2020] électroencéphalogramme, minoen
+		'oe_4':[{'-':/(gastr|électr|inc|min|c)/i,'+':/e/i},'o',1], // [PAE 26.02.2020] électroencéphalogramme, minoen, coefficient
 		'oe_defaut':[{'+':/e/i},'x2',2], // exemple : oeil
 		'*':[{},'o',1]
 		}],
@@ -407,11 +410,14 @@ namespace ColorLib
 		'qu':[{'+':/u[bcçdfgjklmnpqrstvwxz]/i},'k',1],
 		'k':[{'+':/u/i},'k_qu',2],
 		'*':[{},'k',1]}],
-'r' : [['monsieur','messieurs','gars','r', '*'],
-		{'monsieur':[{'-':/monsieu/i},'_muet',1],
-		'messieurs':[{'-':/messieu/i},'_muet',1],
+'r' : [[
+		//'monsieur','messieurs','gars',
+		'r', '*'],
+		{
+		//'monsieur':[{'-':/monsieu/i},'_muet',1],
+		//'messieurs':[{'-':/messieu/i},'_muet',1],
 		'r':[{'+':/r/i},'R',2],
-		'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
+		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
 's' : [['sch','h','s_final','s','parasit','pasZ','z',
 		// 'sisole','smuet','apostrophe', 

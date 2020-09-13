@@ -130,19 +130,24 @@ namespace ColorLib
             { "agnus", "a-a;gn-N;u-u;s-s" },
             { "aérosol", "a-a;é-e;r-R;o-o;s-s;o-o;l-l" },
             { "aérosols", "a-a;é-e;r-R;o-o;s-s;o-o;l-l;s-#" },
-            { "clef", "c-k;l;ef-e" },
+            { "clef", "c-k;l;ef-e" }, // évite un règle pour un seul mot
             { "clefs", "c-k;l;ef-e;s-#" },
-            { "et", "et-e" },
-            { "est", "est-E" },
-            { "que", "qu-k;e-°" },
+            { "et", "et-e" }, // évite un règle pour un seul mot
+            { "est", "est-E" }, // évite un règle pour un seul mot
+            { "que", "qu-k;e-°" }, // évite un règle pour un seul mot
             { "mars", "m-m;a-a;r-R;s-s" },
             { "encoigniez", "en-@;c-k;oi-o;gn-N;i-j;ez-e" },
             { "opisthocoelien", "o-o;p-p;i-i;s-s;t-t;h-#;o-o;c-s;oe-2;l-l;i-i;en-5" },
             { "opisthocoeliens", "o-o;p-p;i-i;s-s;t-t;h-#;o-o;c-s;oe-2;l-l;i-i;en-5;s-#" },
             { "opisthocoelienne", "o-o;p-p;i-i;s-s;t-t;h-#;o-o;c-s;oe-2;l-l;i-i;e-E;n-n;n-n;e-ç" },
             { "opisthocoeliennes", "o-o;p-p;i-i;s-s;t-t;h-#;o-o;c-s;oe-2;l-l;i-i;e-E;n-n;n-n;e-ç;s-#" },
-            { "grizzly", "g-g;r-R;i-i;zz-z;l-l;y-i" },
-            { "grizzlys", "g-g;r-R;i-i;zz-z;l-l;y-i;s-#" },
+            { "grizzly", "g-g;r-R;i-i;zz-z;l-l;y-i" }, // évite un règle pour un seul mot
+            { "grizzlys", "g-g;r-R;i-i;zz-z;l-l;y-i;s-#" }, // évite un règle pour un seul mot
+            { "monsieur", "m-m;on-°;s-s;i-j;eu-2;r-#" },
+            { "messieurs", "m-m;e-E;ss-s;i-j;eu-2;r-#;s-#" },
+            { "gars", "g-g;a-a;rs-#" },
+            { "aeschne", "ae-e;s;ch-k;n-n;e-e" },
+            { "aeschnes", "ae-e;s;ch-k;n-n;e-e;s-#" },
 
         }; 
     }
