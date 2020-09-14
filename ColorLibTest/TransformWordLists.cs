@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "aéroengrangeur";
+            string txt = "bien";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -96,7 +96,7 @@ namespace ColorLibTest
         public void PrintExceptFormat()
         {
             string txt = @"
-ægilopinées
+ageratum
 
 
 ";
@@ -123,64 +123,12 @@ namespace ColorLibTest
             
         string words =
         @"
-           adéquat
-adéquats
-adéquate
-adéquates
-adéquatement
-adéquata
-adéquatai
-adéquataient
-adéquatais
-adéquatais
-adéquatait
-adéquatant
-adéquatas
-adéquatasse
-adéquatassent
-adéquatasses
-adéquatassiez
-adéquatassions
-adéquate
-adéquate
-adéquate
-adéquate
-adéquate
-adéquatent
-adéquatent
-adéquater
-adéquatera
-adéquaterai
-adéquateraient
-adéquaterais
-adéquaterais
-adéquaterait
-adéquateras
-adéquaterez
-adéquateriez
-adéquaterions
-adéquaterons
-adéquateront
-adéquates
-adéquates
-adéquatez
-adéquatez
-adéquatiez
-adéquatiez
-adéquations
-adéquations
-adéquatons
-adéquatons
-adéquatâmes
-adéquatât
-adéquatâtes
-adéquatèrent
-adéquatés
-adéquaté
-adéquatée
-adéquatées
-adéquation
-adéquations
+addendas
+addendum
+addenda
+addendums
+
+
 
 
         ";

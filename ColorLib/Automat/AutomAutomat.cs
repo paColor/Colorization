@@ -212,7 +212,7 @@ namespace ColorLib
  		'd_except': [{'-':/(^bl|^ou|^damn)/i, '+':/d(s?)$/i},'E',1], // [PAE 22.02.20] pour covrir oued, bled, damned   
         'drz_final':[{'+':/[drz](s?)$/i},'e_comp',2], // e suivi d'un d,r ou z en fin de mot done le son [e]    
         'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|acum)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
-        'except_en2':[{'-':/(^add)/i,'+':/nd/i},'e_tilda',2],
+		'except_en2':[this.RegleMotsEn5,'e_tilda',2], // mots dont le en se prononce [5]
         'n':[{'+':/n[bcdfghjklmpqrstvwxzç]/i},'a_tilda',2],
         'adv_emment_a':[{'+':/mment/i},'a',1], // adverbe avec 'emment' => son [a]
 		'femme':[{'-':/f/i,'+':/mm/i},'a',1], // femme et ses dérivés => son [a]
@@ -253,9 +253,10 @@ namespace ColorLib
 		{'f':[{'+':/f/i},'f',2],
 			'oeufs':[{'-':/(oeu|œu)/i,'+':/s/i},'_muet',1], // oeufs et boeufs
 			'*':[{},'f',1]}],
-'g' : [['g','ao','eiy','aiguille','u_consonne','u','n','vingt','g_muet_oin',
+'g' : [['g','ao','eiy','aiguille','u_consonne','u','except_n','n','vingt','g_muet_oin',
 		'g_muet_our','g_muet_an','g_muet_fin', '*'],
 		{'g':[{'+':/g/i},'g',2],
+		'except_n':[this.RegleMotsGnGN,'g',1],
 		'n':[{'+':/n/i},'N',2],
 		'ao':[{'+':/(a|o)/i},'g',1],
 		'eiy':[{'+':/[eéèêëïiîy]/i},'Z',1], // un 'g' suivi de e,i,y se prononce [Z]

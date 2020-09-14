@@ -163,6 +163,12 @@ namespace ColorLib
             { "taels", "t-t;a-a;e-E;l-l;s-#" },
             { "ægilopinée", "æ-E;g-Z;i-i;l-l;o-o;p-p;i-i;n-n;é-e;e-#" },
             { "ægilopinées", "æ-E;g-Z;i-i;l-l;o-o;p-p;i-i;n-n;é-e;e-#;s-#" },
+            { "affettuoso", "a-a;ff-f;e-e;tt-t;u;o-o;s-z;o-o" },
+            { "afrikander", "a-a;f-f;r-R;i-i;k-k;an-@;d-d;e-E;r-R" },
+            { "afrikanders", "a-a;f-f;r-R;i-i;k-k;an-@;d-d;e-E;r-R;s-#" },
+            { "lignosité", "li;gn-N;o;s-z;it;é-e" },
+            { "hargnosité", "h-#;a-a;r-R;gn-N;o-o;s-z;i-i;t-t;é-e" },
+            { "ageratum", "a-a;g-Z;e;r-R;a-a;t-t;u-o;m-m" },
 
         }; 
     }

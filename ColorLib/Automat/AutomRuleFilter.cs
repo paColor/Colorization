@@ -56,6 +56,8 @@ namespace ColorLib
             {"Regle_MotsUN_ON", Regle_MotsUN_ON },
             {"Regle_finAM", Regle_finAM },
             {"RegleMotsQUkw", RegleMotsQUkw },
+            {"RegleMotsEn5", RegleMotsEn5 },
+            {"RegleMotsGnGN", RegleMotsGnGN },
         };
 
         private CheckRuleFunction crf;
@@ -221,8 +223,6 @@ namespace ColorLib
             {
                 for (int i = 0; i < avoir_eu.Length; i++)
                     avoir_eu_hashed.Add(avoir_eu[i], null);
-                for (int i = 0; i < except_ill.Length; i++)
-                    except_ill_hashed.Add(except_ill[i], null);
             }
             initiated = true;
         }
@@ -403,7 +403,8 @@ namespace ColorLib
             "érubescent", "flavescent", "florescent", "frutescent", "ignescent", "imputrescent",
             "indéhiscent", "marcescent", "négrescent", "photoluminescent", "pubescent", "quiescent",
             "rarescent", "recrudescent", "résipiscent", "reviviscent", "réviviscent", "rubescent",
-            "sénescent", "somnolescent", "spinescent", "thermoluminescent","adent",
+            "sénescent", "somnolescent", "spinescent", "thermoluminescent","adent", "affident",
+            "affluent"
 
         };
 
@@ -666,7 +667,7 @@ namespace ColorLib
             "abribus", "airbus", "bus", "microbus", "mortibus", "pédibus", "autofocus", "focus",
             "erectus", "modus", "plus", "liquidus", "versus", "ratus", "burnous", "tous",
             "anubis", "craignos", "tranquillos", "alias", "sensas", "tapas", "gambas", "oups",
-            "williams", "aegilops", "aepyornis", "s", // "s" isolé se prononce [s]
+            "williams", "aegilops", "aepyornis", "afficionados", "s", // "s" isolé se prononce [s]
             // sans accents
             "agnes", "alkermes", "aloes", "anacampseros", "angelus", "anthemis", "antinous", "asclepias",
             "-asperges", "cacatoes", "-callais", "catoblepas", "-coleus", "cortes", "coreopsis",
@@ -845,7 +846,7 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Liste des mots se termionant par 'am' où celà se prononce [am].
+        /// Liste des mots se terminant par 'am' où celà se prononce [am].
         /// </summary>
         private static HashSet<string> mots_am_final = new HashSet<string>
         {
@@ -869,37 +870,7 @@ namespace ColorLib
             return toReturn;
         }
 
-        static string[] except_ill = // les mots où ill se pronoce [il] et non [j] ou [ij]
-        {
-            "abbevillien", "abbevillienne", "abbevilliennes", "abbevilliens", "abbevillois", "abbevilloise",
-            "abbevilloises", "admaxillaire", "admaxillaires",
-            "achille", "achilles", "achillée", "achillées", "ancillaire", "ancillaires", "armadille", "armadilles", "aspergillose",
-            "aspergilloses", "aspergillus", "axillaire", "axillaires", "bacillaire", "bacillaires",
-            "bellevillois", "bellevilloise", "bellevilloises", "bidonville", "bidonvilles", "bill", "billevesée",
-            "billevesées", "billion", "billions", "bills", "bougainvillée", "bougainvillées", "bougainvillier", "bougainvilliers",
-            "calville", "calvilles", "canetille", "canetilles", "capillaire", "capillaires", "capillarité", "capillarités",
-            "capilliculteur", "capilliculteurs", "caterpillar", "chinchilla", "chinchillas", "cochenille", "cochenilles", "codicille",
-            "codicilles", "cyrillique", "cyrilliques", "défibrillateur", "défibrillateurs",
-            "défibrillation", "défibrillations", "défibriller", "défibrille", "défibrilles", "défibrillons", "défibrillez",
-            "défibrillent", "défibrillé", "défibrillais", "défibrillait", "défibrillions", "défibrilliez", "défibrillaient",
-            "défibrillai", "défibrillas", "défibrilla", "défibrillâmes", "défibrillâtes", "défibrillèrent", "défibrillerai",
-            "défibrilleras", "défibrillera", "défibrillerons", "défibrillerez", "défibrilleront", "défibrillerais", "défibrillerait",
-            "défibrillerions", "défibrilleriez", "défibrilleraient", "défibrillasse", "défibrillasses", "défibrillât",
-            "défibrillassions", "défibrillassiez", "défibrillassent", "défibrillant", "défibrillée", "défibrillées",
-            "désillusion", "désillusionné", "désillusionnés", "désillusionnement", "désillusionnements", "désillusionner",
-            "désillusions", "drill", "fibrillation", "fibrillations",
-            "fringillidé", "fritillaires", "gilles", "grill", "imbécillité", "imbécillités", "killer", "killers", "krill", "krills",
-            "lilliputien", "lilliputienne", "lilliputiennes", "lilliputiens", "lillois", "lilloise", "lilloises", "mandrill",
-            "mandrills", "maxillaire", "maxillaires", "multimilliardaire", "multimilliardaires", "multimillionnaire",
-            "multimillionnaires", "papillaire", "papillaires", "pénicilline", "pénicillines", "pupillaire", "pupillaires",
-            "pupillarité", "pupillarités", "pusillanime", "pusillanimes", "pusillanimité", "pusillanimités", "quatrillion",
-            "quatrillions", "schilling", "schillings", "shilling", "shillings", "sigillaire", "sigillaires", "sigillé", "sigillée",
-            "sigillées", "sigillés", "thrill", "thriller", "thrillers", "thrills", "till", "tills", "transillumination",
-            "transilluminations", "trillion", "trillions", "twill", "vaudeville", "vaudevilles", "vaudevillesque", "vaudevillesques",
-            "verticille", "verticilles", "willaya", "willayas", "william", "williams"
-        };
-
-        private static StringDictionary except_ill_hashed = new StringDictionary();
+        
 
         /// <summary>
         /// Vérifie si le mot est une exception pour les lettres ill qui se prononcent [il]. La méthode peut
@@ -916,7 +887,7 @@ namespace ColorLib
                 condMet = ((pos_mot < mot.Length - 2) && (mot[pos_mot + 1] == 'l') && (mot[pos_mot + 2] == 'l'));
             else if (mot[pos_mot] == 'l')
                 condMet = ((pos_mot > 0) && (mot[pos_mot - 1] == 'i') && (pos_mot < mot.Length - 1) && (mot[pos_mot + 1] == 'l'));
-            return (condMet && except_ill_hashed.ContainsKey(mot));
+            return (condMet && except_ill.Contains(mot));
         }
 
         public bool Check(PhonWord pw, int pos, string firstPart, string secondPart)
@@ -1070,6 +1041,49 @@ namespace ColorLib
         }
 
         /// <summary>
+        /// Identifie si "en" se prononce [5] dans <paramref name="mot"/>.
+        /// </summary>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">La position du 'e' de "en" dans le mot.</param>
+        /// <returns><c>true</c> si <paramref name="pos"/> pointe bien sur "en" et que ce 
+        /// "en" se pronoce [5] d'après la lsite de cas.</returns>
+        public static bool RegleMotsEn5(string mot, int pos)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "RegleMotsEn5 - mot: \'{0}\', pos: {1}", mot, pos);
+            Debug.Assert(mot != null);
+            Debug.Assert(mot[pos] == 'e');
+            return
+                (pos < mot.Length - 1 && mot[pos + 1] == 'n' && motsEn5.Contains(mot));
+        }
+
+
+        /// <summary>
+        /// Identifie si les lettres "gn" dans le mot se prononcent [gn]
+        /// </summary>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">La position du 'g' dans le mot.</param>
+        /// <returns><c>true</c> si <paramref name="pos"/> pointe bien sur "gn" et que cela se 
+        /// prononce [gn].</returns>
+        public static bool RegleMotsGnGN(string mot, int pos)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "RegleMotsGnGN - mot: \'{0}\', pos: {1}", mot, pos);
+            Debug.Assert(mot != null);
+            Debug.Assert(mot[pos] == 'g');
+
+            // Essayons une approche un peu différente vu qu'il s'agit vraiment de familles de mot.
+            // L'utiisation de Regex n'est pas plus rapide, mais elle est plus tolérante aux fautes
+            // d'orthographe.
+
+            return
+                (pos < mot.Length - 1 && mot[pos + 1] == 'n' && rxGnGN.IsMatch(mot));
+        }
+
+        private static Regex rxGnGN = new Regex(
+            @"(gnos|^agnat|^cogn(a|i)|gnath|^gneiss|^gnou|^ign(e|é|i|)|pugna|^magn(a|u)
+                |gnom|^récogni|^stagn|^wagn)", 
+            RegexOptions.Compiled);
+
+        /// <summary>
         /// Liste des mots contenant 'un' où 'un' se prononce [§]
         /// </summary>
         private static HashSet<string> motsUNon = new HashSet<string>
@@ -1216,7 +1230,7 @@ namespace ColorLib
         };
 
         /// <summary>
-        /// Liste des mots en "um" se prononçant [Om]
+        /// Liste des mots en "um" se prononçant [Om]. (sans le 's' du pluriel)
         /// </summary>
         private static HashSet<string> motsUM = new HashSet<string>
         {
@@ -1257,7 +1271,7 @@ namespace ColorLib
             "thorium", "thulium", "trichodesmium", "triclinium", "triduum", "triforium", "tritérium", "tritium",
             "trivium", "ultimatum", "unicum", "uranium", "vacuum", "vanadium", "vasothélium", "velarium", "vélarium",
             "velum", "vélum", "verumontanum", "vérumontanum", "vexillum", "viburnum", "vivarium", "xiphisternum",
-            "ytterbium", "yttrium", "zirconium", "zygantrum", "zygopetalum", "zygophyllum", "zythum",
+            "ytterbium", "yttrium", "zirconium", "zygantrum", "zygopetalum", "zygophyllum", "zythum", "ageratum",
             // sans accents
             "aceratherium", "acerotherium", "acetabulum", "acroterium", "adenoepithelium", "aerium",
             "americium", "ancylotherium", "anoplotherium", "begum", "beryllium", "calcaneum",
@@ -1273,6 +1287,9 @@ namespace ColorLib
             "vasothelium"
         };
 
+        /// <summary>
+        /// Liste des verbes en "ter"
+        /// </summary>
         private static HashSet<string> verbesTer = new HashSet<string>
         {
             "aboter", "abouter", "abricoter", "abriter", "absorbanter", "abuter", "accepter", "accidenter",
@@ -1899,6 +1916,99 @@ namespace ColorLib
             "adéquatiez", "adéquations", "adéquations", "adéquatons", "adéquatons", "adéquatâmes",
             "adéquatât", "adéquatâtes", "adéquatèrent", "adéquatés", "adéquaté", "adéquatée",
             "adéquatées", "adéquation", "adéquations",
+        };
+
+        /// <summary>
+        /// Liste mots où 'en' se prononce [5] et qui ne sont pas intercéptés par les règles déjà
+        /// existantes.
+        /// </summary>
+        private static HashSet<string> motsEn5 = new HashSet<string>
+        {
+            "agenda", "agendas", "aléoutiens", "algonkiens", "alsaciens", "angioendothéliome",
+            "apexiens", "apiens", "aplacentaire", "aplacentaires", "aptiens", "archiloquiens",
+            "arsénobenzol", "artiens", "aryens", "astartiens", "asymptotiquement", "attingent",
+            "baconiens", "banvilliens", "basedowiens", "bathycentèse", "bayreuthiens", "beethoveniens",
+            "bengale", "bengales", "bengali", "bengalis", "benjamin", "benjamine", "benjamines",
+            "benjamins", "benjoin", "benjoins", "bens", "benthique", "benthiques", "benthos",
+            "benzédrine", "benzène", "benzènes", "benzènesulfonyle", "benzénique", "benzéniques",
+            "benzile", "benziles", "benzilique", "benziliques", "benzimide", "benzine", "benzines",
+            "benzocarbonique", "benzoène", "benzoestrol", "benzoïque", "benzoïques", "benzol",
+            "benzolé", "benzolée", "benzolées", "benzolés", "benzols", "benzone", "benzosulfate",
+            "benzosulfurique", "benzoyle", "benzoyles", "benzyle", "benzyles", "berkeleyens",
+            "bibendum", "bibendums", "bienfaisance", "bienfaisances", "bienfaisant", "bienfaisante",
+            "bienfaisantes", "bienfaisants", "bienheureuse", "bienheureusement", "bienheureuses",
+            "bienheureux", "biscayens", "bismarckiens", "blende", "blendes", "booléens", "booléiens",
+            "botticelliens", "brens", "browniens", "byroniens", "cardiocentèse", "carpiens", "caspiens",
+            "chérifiens", "chondrichtyens", "citoyens", "coïncidaient", "coïncidassent", "coïncidence",
+            "coïncidences", "coïncident", "coïncident", "coïncidente", "coïncidentes", "coïncidents",
+            "coïncideraient", "coïncidèrent", "compendium", "compendiums", "concitoyens", "confucéiens",
+            "consensus", "constringent",
+            "contingent", "dengue", "dengues", "diagnosticiens", "dibromobenzène", "diffringent",
+            "dostoïevskiens", "doyens", "efendi", "efendis", "effendi", "effendis", "éthiopiens",
+            "flaubertiens", "halobenthos", "hégéliens", "hertziens", "himalayens", "hollywoodiens",
+            "hornblende", "hornblendes", "kentrophylle", "kentrophylles", "labadens", "lacertiens",
+            "leibniziens", "lépidodendron", "lépidodendrons", "libripens", "libyens", "magenta",
+            "magentas", "marengo", "marengos", "mayens", "memento", "mémento", "mementos", "mémentos",
+            "memnoniens", "mendélévium", "mendéléviums", "mendélienne", "mendéliennes", "mendéliens",
+            "mendélisme", "mendélismes", "mendéliste", "mendélistes", "menthane", "menthanes",
+            "menthanol", "menthanols", "menthanone", "menthanones", "métacarpiens", "mitoyens",
+            "monobromobenzène", "monochlorobenzène", "monodébenzylation", "montiens", "montparnassiens",
+            "moyens", "nancéiens", "népenthès", "newtoniens", "nietzschéens", "nitrobenzène",
+            "nitrobenzènes", "nitrobenzine", "nitrobenzines", "nitrobenzol", "oedipiens", "olympiens",
+            "orthosulfamidobenzoïque", "ostéichthyens", "oxybenzène", "oxybenzoïque", "paracentèse",
+            "paracentèses", "paradichlorobenzène", "paradichlorobenzènes", "parkinsoniens", "pechblende",
+            "pechblendes", "pélasgiens", "pensum", "pensums", "pentacle", "pentacles", "pentacorde",
+            "pentacordes", "pentacrinidés", "pentacrinus", "pentadyname", "pentagonal", "pentagonale",
+            "pentagonales", "pentagonaux", "pentagone", "pentagones", "pentagynie", "pentalpha",
+            "pentamères", "pentamètre", "pentamètres", "pentandrie", "pentapétalé", "pentapyle",
+            "pentarchie", "pentarchies", "pentarhombique", "pentateuque", "pentateuques", "pentathle",
+            "pentathles", "pentathlienne", "pentathlon", "pentathlons", "pentatomidés", "pentélique",
+            "pentéliques", "pentosane", "perfringens", "périappendiculaire", "phellodendron",
+            "philodendron", "philodendrons", "pithécanthropiens", "placenta", "placentaire", "placentaires",
+            "placentas", "placentation", "placentations", "plébéiens", "pleurocentèse", "pneumoentérite",
+            "pompéiens", "proenzyme", "propylbenzine", "psychosomaticiens", "réfringent", "rescindaient",
+            "rescindassent", "rescindent", "rescinderaient", "rescindèrent", "restringent", "rhododendron",
+            "rhododendrons", "riemanniens", "sapientiaux", "sempervirens", "séroappendicite",
+            "shakespeariens", "sidérodendron", "succinctement", "sulfobenzoïque", "tarpéiens",
+            "transocéaniens", "tribromobenzène", "tylenchus", "vosgiens", "wagnériens", "wormiens",
+            "würmiens", "xiphoïdiens", "zende", "zoobenthos",
+            "appendice", "appendices", "appendicectomie", "appendicectomies", "appendicite", "appendicites",
+            "appendiculaire", "appendiculaires", "appendiculaire", "appendiculaires", "appendiculé",
+            "appendiculés", "appendiculé", "appendiculés", "appendiculée", "appendiculées", "appendicostomie",
+            "appendicostomies", "addendas", "addendum", "addenda", "addendums",
+        };
+
+        /// <summary>
+        /// Liste des mots où ill se pronoce [il] et non [j] ou [ij]
+        /// </summary>
+        private static HashSet<string> except_ill = new HashSet<string>
+        {
+            "abbevillien", "abbevillienne", "abbevilliennes", "abbevilliens", "abbevillois", "abbevilloise",
+            "abbevilloises", "admaxillaire", "admaxillaires",
+            "achille", "achilles", "achillée", "achillées", "ancillaire", "ancillaires", "armadille", "armadilles", "aspergillose",
+            "aspergilloses", "aspergillus", "axillaire", "axillaires", "bacillaire", "bacillaires",
+            "bellevillois", "bellevilloise", "bellevilloises", "bidonville", "bidonvilles", "bill", "billevesée",
+            "billevesées", "billion", "billions", "bills", "bougainvillée", "bougainvillées", "bougainvillier", "bougainvilliers",
+            "calville", "calvilles", "canetille", "canetilles", "capillaire", "capillaires", "capillarité", "capillarités",
+            "capilliculteur", "capilliculteurs", "caterpillar", "chinchilla", "chinchillas", "cochenille", "cochenilles", "codicille",
+            "codicilles", "cyrillique", "cyrilliques", "défibrillateur", "défibrillateurs",
+            "défibrillation", "défibrillations", "défibriller", "défibrille", "défibrilles", "défibrillons", "défibrillez",
+            "défibrillent", "défibrillé", "défibrillais", "défibrillait", "défibrillions", "défibrilliez", "défibrillaient",
+            "défibrillai", "défibrillas", "défibrilla", "défibrillâmes", "défibrillâtes", "défibrillèrent", "défibrillerai",
+            "défibrilleras", "défibrillera", "défibrillerons", "défibrillerez", "défibrilleront", "défibrillerais", "défibrillerait",
+            "défibrillerions", "défibrilleriez", "défibrilleraient", "défibrillasse", "défibrillasses", "défibrillât",
+            "défibrillassions", "défibrillassiez", "défibrillassent", "défibrillant", "défibrillée", "défibrillées",
+            "désillusion", "désillusionné", "désillusionnés", "désillusionnement", "désillusionnements", "désillusionner",
+            "désillusions", "drill", "fibrillation", "fibrillations",
+            "fringillidé", "fritillaires", "gilles", "grill", "imbécillité", "imbécillités", "killer", "killers", "krill", "krills",
+            "lilliputien", "lilliputienne", "lilliputiennes", "lilliputiens", "lillois", "lilloise", "lilloises", "mandrill",
+            "mandrills", "maxillaire", "maxillaires", "multimilliardaire", "multimilliardaires", "multimillionnaire",
+            "multimillionnaires", "papillaire", "papillaires", "pénicilline", "pénicillines", "pupillaire", "pupillaires",
+            "pupillarité", "pupillarités", "pusillanime", "pusillanimes", "pusillanimité", "pusillanimités", "quatrillion",
+            "quatrillions", "schilling", "schillings", "shilling", "shillings", "sigillaire", "sigillaires", "sigillé", "sigillée",
+            "sigillées", "sigillés", "thrill", "thriller", "thrillers", "thrills", "till", "tills", "transillumination",
+            "transilluminations", "trillion", "trillions", "twill", "vaudeville", "vaudevilles", "vaudevillesque", "vaudevillesques",
+            "verticille", "verticilles", "willaya", "willayas", "william", "williams", "agasillis",
         };
 
     } // class AutomRuleFilter

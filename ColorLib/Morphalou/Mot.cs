@@ -328,6 +328,14 @@ namespace ColorLib.Morphalou
                         if (AreMatch(graphie, ph1.Remove(pos, 1), col.Remove(pos, 1)))
                             return true;
                     }
+
+                    if (pos == col.Length - 1 && pos == ph1.Length - 1
+                        && col[pos] == 'i' && ph1[pos] == 'j')
+                    {
+                        // Morphalou termine par [j] Colorization par [i]...
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col.Remove(pos, 1)))
+                            return true;
+                    }
                 } // if (pos < ph1.Length)
 
                 if (pos > 2 && pos - 1 < ph1.Length
