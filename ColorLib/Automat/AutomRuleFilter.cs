@@ -1079,8 +1079,8 @@ namespace ColorLib
         }
 
         private static Regex rxGnGN = new Regex(
-            @"(gnos|^agnat|^cogn(a|i)|gnath|^gneiss|^gnou|^ign(e|é|i|)|pugna|^magn(a|u)
-                |gnom|^récogni|^stagn|^wagn)", 
+            @"(gnos|^agnat|^cogn(at|it)|gnath|^gneiss|^gnou(s?)$|^ign(e|é|if|i
+ti|ivo)|^(inex?)pugna|^magn(a|u)|gnom(o|e|i[^n]|a)|^récogni|^stagn|^wagn)", 
             RegexOptions.Compiled);
 
         /// <summary>

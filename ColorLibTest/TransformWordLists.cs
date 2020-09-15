@@ -96,7 +96,8 @@ namespace ColorLibTest
         public void PrintExceptFormat()
         {
             string txt = @"
-ageratum
+lignomètre
+lignomètres
 
 
 ";

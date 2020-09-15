@@ -430,8 +430,8 @@ namespace ColorLib
 		's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
 		'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*
 		//'para':[{'-':/^para/i},'s',1], // para quelque chose (parasol, parasismique, ...)
-		'pasZ':[{'-':/(^para|^contre|^mono)/i},'s',1],
-		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
+		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^bi|~tri)/i},'s',1],
+		'z':[{'-':/[(^tran)aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï(hum)]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 		//'sisole':[{'+':/$/i,'-':/^/i},'s',1], // exemple : s'approche
 		//'mars':[{'+':/$/i,'-':/mar/i},'s',1], // mars
 		//'smuet':[{'-':/(e?)/i,'+':/$/i},'_muet',1], // un s en fin de mot éventuellement précédé d'un e ex. : correctes
@@ -485,7 +485,7 @@ namespace ColorLib
 'v' : [['*'],
 		{'*':[{},'v',1]}],
 'w' : [['wurst', '*'],
-		{'wurst':[{'+':/(ur|ag|isi|estp|ei)/i},'v',1], // saucisse [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
+		{'wurst':[{'+':/(ur|agn|rr|lk|isi|estp|ei)/i},'v',1], // saucisse [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
 		'*':[{},'w',1]}], 
 'x' : [['six_dix','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','x_final', '@', '*'],
 		{'six_dix':[{'-':/(s|d)i/i},'s_x',1],

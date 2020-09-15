@@ -169,6 +169,8 @@ namespace ColorLib
             { "lignosité", "li;gn-N;o;s-z;it;é-e" },
             { "hargnosité", "h-#;a-a;r-R;gn-N;o-o;s-z;i-i;t-t;é-e" },
             { "ageratum", "a-a;g-Z;e;r-R;a-a;t-t;u-o;m-m" },
+            { "lignomètre", "l-l;i-i;gn-N;o-o;m-m;è-E;t-t;r-R;e-ç" },
+            { "lignomètres", "l-l;i-i;gn-N;o-o;m-m;è-E;t-t;r-R;e-ç;s-#" },
 
         }; 
     }
