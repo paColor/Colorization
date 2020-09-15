@@ -421,17 +421,17 @@ namespace ColorLib
 		'r':[{'+':/r/i},'R',2],
 		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
-'s' : [['sch','s_final','s','parasit','pasZ','z','h',
+'s' : [['sch','s','s_final','parasit','pasZ','z','h',
 		// 'sisole','smuet','apostrophe', 
 		'@', '*'],
 		{'sch':[{'+':/ch/i},'S',3], // schlem
-		'h':[{'+':/h/i},'S',2],
-		's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
 		's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
+		's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
 		'parasit':[{'-':/(para|tran)/i,'+':/(it|hum)/i},'z_s',1], // parasit*, transhumance
 		//'para':[{'-':/^para/i},'s',1], // para quelque chose (parasol, parasismique, ...)
 		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^bi|^tri|^ultra)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
+		'h':[{'+':/h/i},'S',2],
 		//'sisole':[{'+':/$/i,'-':/^/i},'s',1], // exemple : s'approche
 		//'mars':[{'+':/$/i,'-':/mar/i},'s',1], // mars
 		//'smuet':[{'-':/(e?)/i,'+':/$/i},'_muet',1], // un s en fin de mot éventuellement précédé d'un e ex. : correctes

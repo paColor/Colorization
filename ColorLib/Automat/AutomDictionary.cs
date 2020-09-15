@@ -171,6 +171,7 @@ namespace ColorLib
             { "ageratum", "a-a;g-Z;e;r-R;a-a;t-t;u-o;m-m" },
             { "lignomètre", "l-l;i-i;gn-N;o-o;m-m;è-E;t-t;r-R;e-ç" },
             { "lignomètres", "l-l;i-i;gn-N;o-o;m-m;è-E;t-t;r-R;e-ç;s-#" },
+            { "magnan", "m-m;a-a;gn-N;an-@" }, // Nom propre dans un poème de Victor Hugo
 
         }; 
     }

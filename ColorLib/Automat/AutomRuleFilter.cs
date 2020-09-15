@@ -1056,6 +1056,9 @@ namespace ColorLib
                 (pos < mot.Length - 1 && mot[pos + 1] == 'n' && motsEn5.Contains(mot));
         }
 
+        private static Regex rxGnGN = new Regex(
+            @"(gnos|^agnat|^cogn(at|it)|gnath|^gneiss|^gnou(s?)$|^ign(e|é|if|iti|ivo)|^(inex?)pugna|^magn(a|u)|gnom(o|e|i[^n]|a)|^récogni|^stagn|^wagn)",
+            RegexOptions.Compiled);
 
         /// <summary>
         /// Identifie si les lettres "gn" dans le mot se prononcent [gn]
@@ -1078,10 +1081,28 @@ namespace ColorLib
                 (pos < mot.Length - 1 && mot[pos + 1] == 'n' && rxGnGN.IsMatch(mot));
         }
 
-        private static Regex rxGnGN = new Regex(
-            @"(gnos|^agnat|^cogn(at|it)|gnath|^gneiss|^gnou(s?)$|^ign(e|é|if|i
-ti|ivo)|^(inex?)pugna|^magn(a|u)|gnom(o|e|i[^n]|a)|^récogni|^stagn|^wagn)", 
-            RegexOptions.Compiled);
+        /// <summary>
+        /// Identifie si le 's' de "bis" en début de mot se prononce [s]
+        /// </summary>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">La position du 's' de "bis" dans le mot. Doit être 2.</param>
+        /// <returns><c>true</c> si <paramref name="pos"/> pointe bien sur le 's' de "bis" 
+        /// et qu'il se  prononce [s].</returns>
+        public static bool RegleMotsBisS(string mot, int pos)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "RegleMotsBisS - mot: \'{0}\', pos: {1}", mot, pos);
+            Debug.Assert(mot != null);
+            Debug.Assert(mot[pos] == 's');
+
+            return
+                (pos == 2 && mot[1] == 'i' && mot[0] == 'b'
+                && 
+                (!(mot.Length > 3 
+                    && (mot[3] == 'a' || mot[3] == 'i' || mot[3] == 'o'))
+                ||
+                (mot.Length > 4 && mot[3] == 'e' && mot[4] == 'x')
+                ));
+        }
 
         /// <summary>
         /// Liste des mots contenant 'un' où 'un' se prononce [§]
