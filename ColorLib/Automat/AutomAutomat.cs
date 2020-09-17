@@ -101,7 +101,7 @@ namespace ColorLib
 		'yat':[{'+': /yat/i},'a',1], // (PAE - 10.03.20) ayatollah
 		'y':[{'+':/y/i},'E_comp',1],
 		'u':[{'+':/u/i},'o_comp',2],
-		'il':[{'+':/il($|l)/i},'a',1],
+		'il':[{'+':/il((s?)$|l)/i},'a',1],
 		'in':[{'+':/i[nm]([bcçdfghjklnmpqrstvwxz]|$)/i},'e_tilda',3], // toute succession 'ain' 'aim' suivie d'une consonne ou d'une fin de mot
 		'nc_ai_fin':[this.Regle_nc_ai_final,'E_comp',2],
 		'ai_fin':[{'+':/i$/i},'e_comp',2],
@@ -170,7 +170,7 @@ namespace ColorLib
 		'in','eil','y','iy','ennemi','enn_debut_mot','dessus_dessous','cet',
 		't_final','eclm_final','d_except','drz_final','zen','except_en2','n','adv_emment_a',
 		'femme','lemme','em_gene','nm','tclesmesdes','que_gue_final',
-		'jtcnslemede','jean','ge','eoi','ex','ef','reqquechose','ressu','ress','except_evr',
+		'jtcnslemede','jean','ge','eoi','ex','ef','doubCons','reqquechose','ressu','ress','except_evr',
 		'2consonnes','abbaye','e_muet','e_caduc','e_deb','@','ier_Conj','*'],
 		{
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
@@ -216,7 +216,7 @@ namespace ColorLib
         'n':[{'+':/n[bcdfghjklmpqrstvwxzç]/i},'a_tilda',2],
         'adv_emment_a':[{'+':/mment/i},'a',1], // adverbe avec 'emment' => son [a]
 		'femme':[{'-':/f/i,'+':/mm/i},'a',1], // femme et ses dérivés => son [a]
-		'lemme':[{'-':/l/i,'+':/mm/i},'E_comp',1], // lemme et ses dérivés => son [E]
+		'lemme':[{'-':/[lt]/i,'+':/mm/i},'E_comp',1], // lemme et ses dérivés => son [E]
 		'em_gene':[{'+':/m[bcçdfghjklmnpqrstvwxz]/i},'a_tilda',2], // 'em' cas général => son [a_tilda]
 		'nm':[{'+':/[nm]$/i},'a_tilda',2],
         'tclesmesdes':[{'-':/^[tcslmd]/i,'+':/s$/i},'e_comp', 2], // mes, tes, ces, ses, les
@@ -228,6 +228,7 @@ namespace ColorLib
 		'eoi':[{'+':/oi/i},'_muet',1], // un e suivi de 'oi' ex. : asseoir
 		'ex':[{'+':/x/i},'E_comp',1], // e suivi d'un x se prononce è
 		'ef':[{'+':/[bf](s?)$/i},'E_comp',1], // e suivi d'un f ou d'un b en fin de mot se prononce è
+		'doubCons':[{'+':/(nn|ll)/i},'E_comp',1],
 		'reqquechose':[{'-':/r/i,'+':/[bcçdfghjklmnpqrstvwxz](h|l|r)/i},'q',1], // re-quelque chose : le e se prononce 'e'
 		'ressu':[{'-':/^r/i,'+':/ssu(i|s|y)/i},'E_comp',1],
 		'ress':[{'-':/^r/i,'+':/ss/i},'q',1],
@@ -264,7 +265,7 @@ namespace ColorLib
 		'g_muet_our':[{'-':/ou(r)/i},'_muet',1], // un 'g' précédé de 'our' ou de 'ou(' ne se prononce pas ; ex. : bourg
 		'g_muet_an':[{'-':/(s|^ét|^r)an/i,'+':/(s?)$/i},'_muet',1], // sang, rang, étang
 		'g_muet_fin':[{'-':/lon|haren/i},'_muet',1], // pour traiter les exceptions : long, hareng
-		'aiguille':[{'-':/ai/i,'+':/u/i},'g',1], // encore une exception : aiguille et ses dérivés
+		'aiguille':[{'-':/ai/i,'+':/(u(ill|iér|ï|ité|(s?)$))/i},'g',1], // encore une exception : aiguille, aigu et quelques mots bizarres comme aiguité
 		'vingt':[{'-':/vin/i,'+':/t/i},'_muet',1], // vingt
 		'u_consonne':[{'+':/u[bcçdfghjklmnpqrstvwxz]/i},'g',1], // gu suivi d'une consonne se prononce [g][y]
 		'u':[{'+':/u/i},'g_u',2],
@@ -354,28 +355,22 @@ namespace ColorLib
 		//'nisole':[{'+':/$/i,'-':/^/i},'n',1], // exemple : n'a
 		//'apostrophe':[{'+':/('|’)/i},'n',2] // apostrophe
 		}],
-'o' : [['in','oignon','i','tomn',
-		//'monsieur',
-		'n','m','nm','y1','u','o','oeu_defaut','oe_0','oe_2', 'oe_3',
-		//'voeux','oeufs','noeud',
+'o' : [['in','except_y','i','tomn',
+		'n','m','nm','u','o','oeu_defaut','oe_0','oe_2', 'oe_3',
 		'oe_4','oe_defaut', '*'],
 		{'in':[{'+':/i[nm]([bcçdfghjklpqrstvwxz]|$)/i},'w_e_tilda',3],
-		'oignon':[{'-':/^/i,'+':/ignon/i},'o',2],
+		//'oignon':[{'-':/^/i,'+':/ignon/i},'o',2],
+		'except_y':[this.RegleMotsOYoj,'o',1],
 		'i':[{'+':/(i|î|y)/i},'oi',2], // [PAE 26.02.20] introduction du phonème oi pour pouvoir le marquer dans la convention CERAS
-		'u':[{'+':/[uwûù]/i},'u',2], // son [u] : clou, clown
 		'tomn':[{'-':/t/i,'+':/mn/i},'o',1], // Regle spécifique pour 'automne' et ses dérivés
-		//'monsieur':[{'-':/m/i,'+':/nsieur/i},'q',2],
 		'n':[{'+':/n[bcçdfgjklmpqrstvwxz]/i},'o_tilda',2],
 		'm':[{'+':/m[bcçdfgjklpqrstvwxz]/i},'o_tilda',2], // toute consonne sauf le m
 		'nm':[{'+':/[nm]$/i},'o_tilda',2],
-		'y1':[{'+':/y$/i},'oi',2], // [PAE 26.02.2020] introduction de 'oi' par exemple pour roy
+		'u':[{'+':/[uwûù]/i},'u',2], // son [u] : clou, clown
+		//'y1':[{'+':/y$/i},'oi',2], // [PAE 26.02.2020] introduction de 'oi' par exemple pour roy
 		'o':[{'+':/o/i},'o',2], // exemple : zoo
-		//'voeux':[{'+':/eux/i},'x2',3], // voeux
-		//'noeud':[{'+':/eud/i},'x2',3], // noeud
-		//'oeufs':[{'+':/eufs/i},'x2',3], // traite oeufs et boeufs
 		'oeu_defaut':[{'+':/eu/i},'x2',3], // exemple : oeuf
 		'oe_0':[{'+':/ê/i},'oi',2],  // exemple : poêle [PAE 26.02.2020] remplacé par 'oi'
-		//'oe_1':[{'-':/c/i,'+':/e/i},'o',1], // exemple : coefficient
 		'oe_2':[{'-':/m/i,'+':/e/i},'oi',2], // exemple : moelle [PAE 26.02.2020] remplacé par 'oi'
 		'oe_3':[{'-':/f/i,'+':/e/i},'e',2], // exemple : foetus
 		'oe_4':[{'-':/(gastr|électr|inc|min|c|aér)/i,'+':/e/i},'o',1], // [PAE 26.02.2020] électroencéphalogramme, minoen, coefficient
@@ -421,22 +416,22 @@ namespace ColorLib
 		'r':[{'+':/r/i},'R',2],
 		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
-'s' : [['sch','s','s_final','parasit','pasZ','z','h',
+'s' : [['sch','s','s_final','@','parasit','pasZ','z','h',
 		// 'sisole','smuet','apostrophe', 
-		'@', '*'],
+		'*'],
 		{'sch':[{'+':/ch/i},'S',3], // schlem
 		's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
 		's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
+		'@':[{'+':/$/i},'_muet',1],
 		'parasit':[{'-':/(para|tran)/i,'+':/(it|hum)/i},'z_s',1], // parasit*, transhumance
 		//'para':[{'-':/^para/i},'s',1], // para quelque chose (parasol, parasismique, ...)
-		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^bi|^tri|^ultra)/i},'s',1],
+		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 		'h':[{'+':/h/i},'S',2],
 		//'sisole':[{'+':/$/i,'-':/^/i},'s',1], // exemple : s'approche
 		//'mars':[{'+':/$/i,'-':/mar/i},'s',1], // mars
 		//'smuet':[{'-':/(e?)/i,'+':/$/i},'_muet',1], // un s en fin de mot éventuellement précédé d'un e ex. : correctes
 		//'apostrophe':[{'+':/('|’)/i},'s',2], // apostrophe
-		'@':[{'+':/$/i},'_muet',1],
 		'*':[{},'s',1]}],
 't' : [['t_deb','t','tisole','except_tien','_tien','ex_tie','tie','ex_tiot','tiaot',
 		'verb_tions','tiaos','vingt',
@@ -485,7 +480,7 @@ namespace ColorLib
 'v' : [['*'],
 		{'*':[{},'v',1]}],
 'w' : [['wurst', '*'],
-		{'wurst':[{'+':/(ur|agn|rr|lk|isi|estp|ei)/i},'v',1], // saucisse [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
+		{'wurst':[{'+':/(ur|ag(o|n|uin)|rr|lk|isi|estp|ei)/i},'v',1], // saucisse [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
 		'*':[{},'w',1]}], 
 'x' : [['six_dix','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','x_final', '@', '*'],
 		{'six_dix':[{'-':/(s|d)i/i},'s_x',1],

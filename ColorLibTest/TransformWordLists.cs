@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "magnan";
+            string txt = "airelle";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -96,7 +96,17 @@ namespace ColorLibTest
         public void PrintExceptFormat()
         {
             string txt = @"
-magnan
+aiguë
+aiguës
+ailhaut
+ailhauts
+alastrim
+alastrims
+albedo
+albedos
+cocktails
+
+
 
 
 ";
@@ -123,10 +133,114 @@ magnan
             
         string words =
         @"
-addendas
-addendum
-addenda
-addendums
+agoyate
+agoyates
+alcoyle
+alcoyles
+arroyo
+arroyos
+benzoyle
+benzoyles
+boy
+boys
+boyard
+boyards
+boycott
+boycotts
+boycottage
+boycottages
+boycotta
+boycottai
+boycottaient
+boycottais
+boycottait
+boycottant
+boycottas
+boycottasse
+boycottassent
+boycottasses
+boycottassiez
+boycottassions
+boycotte
+boycotte
+boycotte
+boycotte
+boycottent
+boycottent
+boycotter
+boycottera
+boycotterai
+boycotteraient
+boycotterais
+boycotterait
+boycotteras
+boycotterez
+boycotteriez
+boycotterions
+boycotterons
+boycotteront
+boycottes
+boycottes
+boycottez
+boycottez
+boycottiez
+boycottiez
+boycottions
+boycottions
+boycottons
+boycottons
+boycottâmes
+boycottât
+boycottâtes
+boycottèrent
+boycottés
+boycotté
+boycottée
+boycottées
+boycotte
+boycottais
+boycotterais
+broyon
+cacaoyer
+cacaoyers
+cacaoyère
+cacaoyères
+caloyère
+caloyères
+caloyer
+caloyers
+coyau
+coyaux
+coyote
+coyotes
+goy
+goys
+goyau
+goyaux
+goyave
+goyaves
+goyavier
+goyaviers
+goyot
+goyots
+halloysite
+halloysites
+oyant
+oyant
+oyants
+oyat
+oyats
+samoyède
+samoyèdes
+samoyède
+samoyèdes
+yoyo
+yoyos
+alcoylé
+hoya
+métahalloysite
+sulfamoyle
+
 
 
 

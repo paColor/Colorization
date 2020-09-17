@@ -58,6 +58,7 @@ namespace ColorLib
             {"RegleMotsQUkw", RegleMotsQUkw },
             {"RegleMotsEn5", RegleMotsEn5 },
             {"RegleMotsGnGN", RegleMotsGnGN },
+            {"RegleMotsOYoj", RegleMotsOYoj }
         };
 
         private CheckRuleFunction crf;
@@ -1082,26 +1083,19 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Identifie si le 's' de "bis" en début de mot se prononce [s]
+        /// Détermine si "oy" dans <paramref name="mot"/> se prononce [oj].
         /// </summary>
         /// <param name="mot">Le mot à analyser.</param>
-        /// <param name="pos">La position du 's' de "bis" dans le mot. Doit être 2.</param>
-        /// <returns><c>true</c> si <paramref name="pos"/> pointe bien sur le 's' de "bis" 
-        /// et qu'il se  prononce [s].</returns>
-        public static bool RegleMotsBisS(string mot, int pos)
+        /// <param name="pos">La position du 'o' de "oy".</param>
+        /// <returns><c>true</c> si <paramref name="pos"/> indique bien "oy" qui se prononce 
+        /// [oj].</returns>
+        public static bool RegleMotsOYoj(string mot, int pos)
         {
-            logger.ConditionalTrace(ConfigBase.cultF, "RegleMotsBisS - mot: \'{0}\', pos: {1}", mot, pos);
+            logger.ConditionalTrace(ConfigBase.cultF, "RegleMotsOYoj - mot: \'{0}\', pos: {1}", mot, pos);
             Debug.Assert(mot != null);
-            Debug.Assert(mot[pos] == 's');
-
+            Debug.Assert(mot[pos] == 'o');
             return
-                (pos == 2 && mot[1] == 'i' && mot[0] == 'b'
-                && 
-                (!(mot.Length > 3 
-                    && (mot[3] == 'a' || mot[3] == 'i' || mot[3] == 'o'))
-                ||
-                (mot.Length > 4 && mot[3] == 'e' && mot[4] == 'x')
-                ));
+                (pos < mot.Length - 1 && mot[pos + 1] == 'y' && motsOYoj.Contains(mot));
         }
 
         /// <summary>
@@ -2030,6 +2024,29 @@ namespace ColorLib
             "sigillées", "sigillés", "thrill", "thriller", "thrillers", "thrills", "till", "tills", "transillumination",
             "transilluminations", "trillion", "trillions", "twill", "vaudeville", "vaudevilles", "vaudevillesque", "vaudevillesques",
             "verticille", "verticilles", "willaya", "willayas", "william", "williams", "agasillis",
+        };
+
+        /// <summary>
+        /// Liste des mots où "oy" se pronoce [oj] et non [waj]
+        /// </summary>
+        private static HashSet<string> motsOYoj = new HashSet<string>
+        {
+            "agoyate", "agoyates", "alcoyle", "alcoyles", "arroyo", "arroyos", "benzoyle", "benzoyles",
+            "boy", "boys", "boyard", "boyards", "boycott", "boycotts", "boycottage", "boycottages",
+            "boycotta", "boycottai", "boycottaient", "boycottais", "boycottait", "boycottant",
+            "boycottas", "boycottasse", "boycottassent", "boycottasses", "boycottassiez", "boycottassions",
+            "boycotte", "boycotte", "boycotte", "boycotte", "boycottent", "boycottent", "boycotter",
+            "boycottera", "boycotterai", "boycotteraient", "boycotterais", "boycotterait", "boycotteras",
+            "boycotterez", "boycotteriez", "boycotterions", "boycotterons", "boycotteront", "boycottes",
+            "boycottes", "boycottez", "boycottez", "boycottiez", "boycottiez", "boycottions",
+            "boycottions", "boycottons", "boycottons", "boycottâmes", "boycottât", "boycottâtes",
+            "boycottèrent", "boycottés", "boycotté", "boycottée", "boycottées", "boycotte", "boycottais",
+            "boycotterais", "broyon", "cacaoyer", "cacaoyers", "cacaoyère", "cacaoyères", "caloyère",
+            "caloyères", "caloyer", "caloyers", "coyau", "coyaux", "coyote", "coyotes", "goy",
+            "goys", "goyau", "goyaux", "goyave", "goyaves", "goyavier", "goyaviers", "goyot",
+            "goyots", "halloysite", "halloysites", "oyant", "oyant", "oyants", "oyat", "oyats",
+            "samoyède", "samoyèdes", "samoyède", "samoyèdes", "yoyo", "yoyos", "alcoylé", "hoya",
+            "métahalloysite", "sulfamoyle",
         };
 
     } // class AutomRuleFilter
