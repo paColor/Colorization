@@ -141,7 +141,8 @@ namespace ColorLib.Morphalou
                 }
                 if (cPh != cCol 
                     && !(cPh == 'ë' && (cCol == 'e' || cCol == 'E'))
-                    && !(cPh == 'ü' && (cCol == 'u' || cCol == 'y')))
+                    && !(cPh == 'ü' && (cCol == 'u' || cCol == 'y'))
+                    )
                 {
                     toReturn = false;
                     diffs.Add(i);
@@ -336,6 +337,14 @@ namespace ColorLib.Morphalou
                         if (AreMatch(graphie, ph1.Remove(pos, 1), col.Remove(pos, 1)))
                             return true;
                     }
+
+                    if (col[pos] == 'u' && ph1[pos] == 'w')
+                    {
+                        // 'w' et 'u' sont équivalents
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col.Remove(pos, 1)))
+                            return true;
+                    }
+
                 } // if (pos < ph1.Length)
 
                 if (pos > 2 && pos - 1 < ph1.Length

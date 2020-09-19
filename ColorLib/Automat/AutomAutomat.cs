@@ -164,7 +164,7 @@ namespace ColorLib
 		'dmuet':[{'+':/(s?)$/i},'_muet',1], // un d suivi éventuellement d'un s ex. : retards
 		//'apostrophe':[{'+':/('|’)/i},'d',2], // apostrophe
 		'*':[{},'d',1]}],
-'e' : [['conj_v_ier','uient','ien_0','ien','ien_2','een','except_en','_ent',//'clef',
+'e' : [['conj_v_ier','uient','ien_0','ien','ien_2','een','except_en','_ent',
 		'adv_emment_fin','ment','imparfait','verbe_3_pluriel','hier','au',
 		'avoir','eu',
 		'in','eil','y','iy','ennemi','enn_debut_mot','dessus_dessous','cet',
@@ -211,7 +211,7 @@ namespace ColorLib
 		//'est':[{'-':/^/i,'+':/st$/i},'E_comp',3],
  		'd_except': [{'-':/(^bl|^ou|^damn)/i, '+':/d(s?)$/i},'E',1], // [PAE 22.02.20] pour covrir oued, bled, damned   
         'drz_final':[{'+':/[drz](s?)$/i},'e_comp',2], // e suivi d'un d,r ou z en fin de mot done le son [e]    
-        'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|acum)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
+        'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|acum|album|^am)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
 		'except_en2':[this.RegleMotsEn5,'e_tilda',2], // mots dont le en se prononce [5]
         'n':[{'+':/n[bcdfghjklmpqrstvwxzç]/i},'a_tilda',2],
         'adv_emment_a':[{'+':/mment/i},'a',1], // adverbe avec 'emment' => son [a]
@@ -350,7 +350,7 @@ namespace ColorLib
 		//'irent':[{'-':/ire/i,'+':/t$/i},'verb_3p',2], // verbes avec terminaisons en -irent
 		//'erent':[{'-':/ère/i,'+':/t$/i},'verb_3p',2], // verbes avec terminaisons en -èrent
 		'ent':[{'-':/e/i,'+':/t$/i},'verb_3p',2],
-		'ing':[{'-':/i/i,'+':/g$/i},'J',2],
+		'ing':[{'-':/i/i,'+':/g(s?)$/i},'J',2],
 		'*':[{},'n',1],
 		//'nisole':[{'+':/$/i,'-':/^/i},'n',1], // exemple : n'a
 		//'apostrophe':[{'+':/('|’)/i},'n',2] // apostrophe
@@ -425,7 +425,7 @@ namespace ColorLib
 		'@':[{'+':/$/i},'_muet',1],
 		'parasit':[{'-':/(para|tran)/i,'+':/(it|hum)/i},'z_s',1], // parasit*, transhumance
 		//'para':[{'-':/^para/i},'s',1], // para quelque chose (parasol, parasismique, ...)
-		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra)/i},'s',1],
+		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 		'h':[{'+':/h/i},'S',2],
 		//'sisole':[{'+':/$/i,'-':/^/i},'s',1], // exemple : s'approche
@@ -480,7 +480,7 @@ namespace ColorLib
 'v' : [['*'],
 		{'*':[{},'v',1]}],
 'w' : [['wurst', '*'],
-		{'wurst':[{'+':/(ur|ag(o|n|uin)|rr|lk|isi|estp|ei)/i},'v',1], // saucisse [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
+		{'wurst':[{'+':/(ur|ag(o|n|uin)|rr|lk|isi|estp|ei|arrant)/i},'v',1], // saucisse [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
 		'*':[{},'w',1]}], 
 'x' : [['six_dix','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','x_final', '@', '*'],
 		{'six_dix':[{'-':/(s|d)i/i},'s_x',1],

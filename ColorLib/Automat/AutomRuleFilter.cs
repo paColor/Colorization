@@ -496,7 +496,7 @@ namespace ColorLib
             "alter", "aster", "fer", "ver", "diver", "perver", "enfer", "traver", "univer", "cuiller", "container",
             "cutter", "révolver", "super", "master",
             "aver", "conver", "dever", "diver", "déver", "enver","obver", "per", "rever", "tier", "traver",
-            "enver", "univer", "water", "acquier"
+            "enver", "univer", "water", "acquier", "amphiaster",
         };
 
         /*
@@ -668,7 +668,7 @@ namespace ColorLib
             "abribus", "airbus", "bus", "microbus", "mortibus", "pédibus", "autofocus", "focus",
             "erectus", "modus", "plus", "liquidus", "versus", "ratus", "burnous", "tous",
             "anubis", "craignos", "tranquillos", "alias", "sensas", "tapas", "gambas", "oups",
-            "williams", "aegilops", "aepyornis", "afficionados", "s", // "s" isolé se prononce [s]
+            "williams", "aegilops", "aepyornis", "afficionados", "bambinos", "s", // "s" isolé se prononce [s]
             // sans accents
             "agnes", "alkermes", "aloes", "anacampseros", "angelus", "anthemis", "antinous", "asclepias",
             "-asperges", "cacatoes", "-callais", "catoblepas", "-coleus", "cortes", "coreopsis",
@@ -1527,7 +1527,7 @@ namespace ColorLib
             "remboiter", "renfaiter", "rûter", "schmecter", "teseter", "télédicter", "anecdoter", "autocomplimenter",
             "autorecruter", "autoréglementer", "blaster", "choucrouter", "concomiter", "démater", "désinventer",
             "entreciter", "entruster", "exhalter", "hyperdilater", "osculter", "réapparenter", "réditer",
-            "régimenter", "surassister", "surcommenter",
+            "régimenter", "surassister", "surcommenter", "amisoter",
             // sans accents
             "accrediter", "acqueter", "admoneter", "affreter", "agreanter", "agrementer", "apleter",
             "appresenter", "appreter", "appater", "appeter", "arreter", "budgeter", "bater", "becoter",
@@ -1864,7 +1864,7 @@ namespace ColorLib
             "trochantériens", "trochanters", "trochile", "trochiles", "trochilidés", "trochlée",
             "trochlées", "tylenchus", "ultrabrachycéphale", "varech", "varechs", "vichnouisme",
             "vichnouismes", "yachmak", "yachmaks","orchiectomie", "orchiépididymite", "trichodesmium",
-            "aechmalotarque", "aechmalotarques", "aechmalote", "aechmalotes",
+            "aechmalotarque", "aechmalotarques", "aechmalote", "aechmalotes", "allochirie", "allochiries",
         };
 
         /// <summary>
@@ -1990,7 +1990,7 @@ namespace ColorLib
             "appendice", "appendices", "appendicectomie", "appendicectomies", "appendicite", "appendicites",
             "appendiculaire", "appendiculaires", "appendiculaire", "appendiculaires", "appendiculé",
             "appendiculés", "appendiculé", "appendiculés", "appendiculée", "appendiculées", "appendicostomie",
-            "appendicostomies", "addendas", "addendum", "addenda", "addendums",
+            "appendicostomies", "addendas", "addendum", "addenda", "addendums", "algonkien", "algonkiens"
         };
 
         /// <summary>
