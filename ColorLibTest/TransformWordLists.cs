@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "audience";
+            string txt = "automatie";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -98,8 +98,18 @@ namespace ColorLibTest
             string txt = @"
 
 auburn
-
-
+aulnage
+aulnages
+aulnaie
+aulnaies
+aulne
+aulnes
+aulnette
+aulnettes
+aulx
+austers
+auster
+outrigger
 
 
 

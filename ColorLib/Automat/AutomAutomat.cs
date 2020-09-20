@@ -244,9 +244,10 @@ namespace ColorLib
 		{'f':[{'+':/f/i},'f',2],
 			'oeufs':[{'-':/(oeu|œu)/i,'+':/s/i},'_muet',1], // oeufs et boeufs
 			'*':[{},'f',1]}],
-'g' : [['g','ao','eiy','aiguille','u_consonne','u','except_n','n','vingt','g_muet_oin',
+'g' : [['sugg','g','ao','eiy','aiguille','u_consonne','u','except_n','n','vingt','g_muet_oin',
 		'g_muet_our','g_muet_an','g_muet_fin', '*'],
-		{'g':[{'+':/g/i},'g',2],
+		{'sugg':[{'-':/su/i,'+':/g(e|é)/i},'g',1], // suggérer et sa famille
+		'g':[{'+':/g/i},'g',2],
 		'except_n':[this.RegleMotsGnGN,'g',1],
 		'n':[{'+':/n/i},'N',2],
 		'ao':[{'+':/(a|o)/i},'g',1],
@@ -427,7 +428,7 @@ namespace ColorLib
 		'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
 		'_tien':[{'+':/ien/i},'s_t',1],
 		'ex_tie':[{'-':/minu/i,'+':/ie(r|z)/i},'t',1],
-		'tie':[{'-':/(ambi|albu|cra|lvi|^essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu)/i,'+':/ie/i},'s_t',1],
+		'tie':[{'-':/(ambi|albu|cra|lvi|^essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa)/i,'+':/ie/i},'s_t',1],
 		'ex_tiot':[{'-':/(cré|plé|jé)/i,'+':/i[ao]/i},'s_t',1],
 		'tiaot':[{'-':/([eéèêës]|[sc]en|an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io])/i,'+':/i[ao]/i},'t',1],
 		'verb_tions':[this.Regle_VerbesTer,'t',1], // verbes en ter à l'imparfait - nous
