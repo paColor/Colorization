@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "airelle";
+            string txt = "audience";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -96,67 +96,10 @@ namespace ColorLibTest
         public void PrintExceptFormat()
         {
             string txt = @"
-amœbocytes
-amphiaster
-amschir
-amschirs
-campings
-champlevé
-champlevée
-champlevées
-champlevés
-clamp
-hamburger
-hamburgers
-landamman
-landammans
-shampooina
-shampooinai
-shampooinaient
-shampooinais
-shampooinait
-shampooinâmes
-shampooinant
-shampooinas
-shampooinasse
-shampooinassent
-shampooinasses
-shampooinassiez
-shampooinassions
-shampooinât
-shampooinâtes
-shampooine
-shampooiné
-shampooinée
-shampooinées
-shampooinent
-shampooiner
-shampooinera
-shampooinerai
-shampooineraient
-shampooinerais
-shampooinerait
-shampooineras
-shampooinèrent
-shampooinerez
-shampooineriez
-shampooinerions
-shampooinerons
-shampooineront
-shampooines
-shampooinés
-shampooineur
-shampooineurs
-shampooineuse
-shampooineuses
-shampooinez
-shampooing
-shampooings
-shampooiniez
-shampooinions
-shampooinons
-tramps
-vamps
+
+auburn
+
+
 
 
 
@@ -169,6 +112,7 @@ vamps
             foreach (PhonWord pw in pws)
             {
                 Console.WriteLine(pw.PourExceptDictionary());
+                Console.Write("            ");
             }
         }
 

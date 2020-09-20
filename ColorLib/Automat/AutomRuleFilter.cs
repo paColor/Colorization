@@ -405,7 +405,7 @@ namespace ColorLib
             "indéhiscent", "marcescent", "négrescent", "photoluminescent", "pubescent", "quiescent",
             "rarescent", "recrudescent", "résipiscent", "reviviscent", "réviviscent", "rubescent",
             "sénescent", "somnolescent", "spinescent", "thermoluminescent","adent", "affident",
-            "affluent"
+            "affluent", "appétent", "attingent", "attingents"
 
         };
 
@@ -593,7 +593,7 @@ namespace ColorLib
             "amadis", "amaryllis", "ambesas", "ambitus", "amnios", "amorphophallus", "amphioxus",
             "anacampséros", "anagyris", "anchilops", "angélus", "anis", "anschluss", "anthyllis",
             "anthémis", "antinoüs", "antitragus", "anus", "apios", "apis", "apus", "argus", "arsis",
-            "artocarpus", "as", "ascaris", "asclépias", "asparagus", "aspergillus", "aspergès",
+            "artocarpus", "-as", "ascaris", "asclépias", "asparagus", "aspergillus", "aspergès",
             "atlas", "attacus", "autobus", "axis", "azygos", "azygos", "bacchus", "basileus",
             "bellis", "benedictus", "benthos", "bibliobus", "bibus", "biceps", "bis", "bis", "bis",
             "bisness", "blaps", "blockhaus", "blocus", "bonus", "boss", "business", "byblos",
@@ -776,6 +776,10 @@ namespace ColorLib
         static Regex rTien = new Regex(".+[beéfhns]tien.*", RegexOptions.Compiled);
         // hypothèse: il n'existe pas de mot contenant deux fois "tien"
 
+        static Regex rTien2 = new Regex(
+            "(^chré|^sou|^appar|^dé|^ap|^ar|^astar)tien", 
+            RegexOptions.Compiled);
+
         /// <summary>
         /// Recherche si <paramref name="mot"/> se termine par tien(*) où le t se prononce [t]
         /// </summary>
@@ -793,29 +797,29 @@ namespace ColorLib
             Debug.Assert((pos_mot >= 0) && (pos_mot < mot.Length));
             Debug.Assert(mot[pos_mot] == 't'); // pas vraiment nécessaire, mais autre chose n'a pas de sens.
 
-            string mSing = SansSFinal(mot);
             bool toReturn = false;
 
             // vérifions que le 't' se trouve bien au début de "tien"
-            if ((mSing.Length - pos_mot >= 4)
-                && (mSing[pos_mot + 1] == 'i')
-                && (mSing[pos_mot + 2] == 'e')
-                && (mSing[pos_mot + 3] == 'n')) {
+            if ((mot.Length - pos_mot >= 4)
+                && (mot[pos_mot + 1] == 'i')
+                && (mot[pos_mot + 2] == 'e')
+                && (mot[pos_mot + 3] == 'n')) {
 
                 // vérifions si le 'tien se trouve  au début du mot
                 if (pos_mot == 0)
                     toReturn = true; // tous les mots commençant par 'tien' ---> 't'
                 else
                 {
-                    if (rTien.IsMatch(mSing) 
+                    if (rTien.IsMatch(mot) 
                         && !mot.StartsWith("capétien")
                         && !mot.StartsWith("lutétien")
                         )
                         toReturn = true;
                     else
                     {
-                        // il reste les exceptions qui commencent par "chrétien","soutien", "appartien", "détien"
-                        toReturn = (mot.StartsWith("chré") || mot.StartsWith("sou") || mot.StartsWith("appar") || mot.StartsWith("dé"));
+                        // il reste les exceptions qui commencent par "chrétien","soutien",
+                        // "appartien", "détien", aptien (oui, oui ça semble exister...)
+                        toReturn = rTien2.IsMatch(mot);
                     }
                 }
             }
@@ -1024,19 +1028,21 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Identifie si "qu" dans <paramref name="mot"/> se prononce [qw]
+        /// Identifie si "qua" (ou "qui") dans <paramref name="mot"/> se prononce [qwa] (ou [qwi])
         /// </summary>
         /// <param name="mot">Le mot à analyser.</param>
-        /// <param name="pos">La position du 'q' ou du 'u' de "qu".</param>
+        /// <param name="pos">La position du 'q' ou du 'u' de "qua" (ou "qui").</param>
         /// <returns><c>true</c> si "qu" se prononce [qw].</returns>
         public static bool RegleMotsQUkw(string mot, int pos)
         {
             logger.ConditionalTrace(ConfigBase.cultF, "RegleMotsQUkw - mot: \'{0}\', pos: {1}", mot, pos);
             Debug.Assert(mot != null);
             return 
-                ((pos < mot.Length - 1 && mot[pos] == 'q' && mot[pos + 1] == 'u') 
+                ((pos < mot.Length - 2 && mot[pos] == 'q' && mot[pos + 1] == 'u'
+                && (mot[pos + 2] == 'a' || mot[pos + 2] == 'i')) 
                 || 
-                (pos > 0 && mot[pos - 1] == 'q' && mot[pos] == 'u'))
+                (pos > 0 && pos < mot.Length - 1 && mot[pos - 1] == 'q' && mot[pos] == 'u') 
+                && (mot[pos + 1] == 'a' || mot[pos + 1] == 'i'))
                 &&
                 motsQUkw.Contains(mot);
         }
@@ -1527,7 +1533,7 @@ namespace ColorLib
             "remboiter", "renfaiter", "rûter", "schmecter", "teseter", "télédicter", "anecdoter", "autocomplimenter",
             "autorecruter", "autoréglementer", "blaster", "choucrouter", "concomiter", "démater", "désinventer",
             "entreciter", "entruster", "exhalter", "hyperdilater", "osculter", "réapparenter", "réditer",
-            "régimenter", "surassister", "surcommenter", "amisoter",
+            "régimenter", "surassister", "surcommenter", "amisoter", "amusoter","apléter",
             // sans accents
             "accrediter", "acqueter", "admoneter", "affreter", "agreanter", "agrementer", "apleter",
             "appresenter", "appreter", "appater", "appeter", "arreter", "budgeter", "bater", "becoter",
@@ -1930,7 +1936,8 @@ namespace ColorLib
             "adéquateront", "adéquates", "adéquates", "adéquatez", "adéquatez", "adéquatiez",
             "adéquatiez", "adéquations", "adéquations", "adéquatons", "adéquatons", "adéquatâmes",
             "adéquatât", "adéquatâtes", "adéquatèrent", "adéquatés", "adéquaté", "adéquatée",
-            "adéquatées", "adéquation", "adéquations",
+            "adéquatées", "adéquation", "adéquations", "aquicole", "aquicoles", "aquiculture",
+            "aquicultures", "aquifère", "aquifères"
         };
 
         /// <summary>
@@ -2000,7 +2007,7 @@ namespace ColorLib
         {
             "abbevillien", "abbevillienne", "abbevilliennes", "abbevilliens", "abbevillois", "abbevilloise",
             "abbevilloises", "admaxillaire", "admaxillaires",
-            "achille", "achilles", "achillée", "achillées", "ancillaire", "ancillaires", "armadille", "armadilles", "aspergillose",
+            "achille", "achilles", "achillée", "achillées", "ancillaire", "ancillaires", "aspergillose",
             "aspergilloses", "aspergillus", "axillaire", "axillaires", "bacillaire", "bacillaires",
             "bellevillois", "bellevilloise", "bellevilloises", "bidonville", "bidonvilles", "bill", "billevesée",
             "billevesées", "billion", "billions", "bills", "bougainvillée", "bougainvillées", "bougainvillier", "bougainvilliers",
@@ -2024,6 +2031,8 @@ namespace ColorLib
             "sigillées", "sigillés", "thrill", "thriller", "thrillers", "thrills", "till", "tills", "transillumination",
             "transilluminations", "trillion", "trillions", "twill", "vaudeville", "vaudevilles", "vaudevillesque", "vaudevillesques",
             "verticille", "verticilles", "willaya", "willayas", "william", "williams", "agasillis",
+            "archimillionnaire", "archimillionnaires", "armillaire", "armillaires", "aspergillaire",
+            "aspergillaires", "aspergille", "aspergilles",
         };
 
         /// <summary>

@@ -338,7 +338,9 @@ namespace ColorLib.Morphalou
                             return true;
                     }
 
-                    if (col[pos] == 'u' && ph1[pos] == 'w')
+                    if ((col[pos] == 'u' && ph1[pos] == 'w')
+                        || (col[pos] == 'j' && ph1[pos] == 'i')
+                        )
                     {
                         // 'w' et 'u' sont équivalents
                         if (AreMatch(graphie, ph1.Remove(pos, 1), col.Remove(pos, 1)))
