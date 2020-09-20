@@ -97,7 +97,7 @@ namespace ColorLib
 		'adam':[{'-':/^ad/i,'+':/m(s?)$/i},'a_tilda',2],
 		'nm':[{'+':/n(s?)$/i},'a_tilda',2],
 		'y_except':[{'-':/(^b|cob|cip|^k|^m|^f|mal)/i,'+':/y/i},'a',1], // exception : baye, cobaye, kayac, maya, mayonnaise, fayot (PAE - 10.03.20)
-		'y_fin':[{'+':/y$/i},'E_comp',2], // (PAE - 10.03.20)
+		'y_fin':[{'+':/y(s?)$/i},'E_comp',2], // (PAE - 10.03.20) - 'pays' est une eexception traitée dans le dico.
 		'yat':[{'+': /yat/i},'a',1], // (PAE - 10.03.20) ayatollah
 		'y':[{'+':/y/i},'E_comp',1],
 		'u':[{'+':/u/i},'o_comp',2],
@@ -128,7 +128,7 @@ namespace ColorLib
 		'psycho':[{'-':/psy/i,'+':/h[oa]/i},'k',2], // tous les ´psycho´ quelque chose
 		'brachio':[{'-':/bra/i,'+':/hio/i},'k',2], // brachiosaure, brachiocéphale
 		'cheo':[{'+':/héo/i},'k',2], // archéo..., trachéo...
-		'chest':[{'+':/hest/i},'k',2], // orchestre et les mots de la même famille
+		'chest':[{'+':/hest(r|i)/i},'k',2], // orchestre et les mots de la même famille
 		'chiro':[{'+':/hiro[p|m]/i},'k',2], // chiroptère, chiromancie
 		'chlo_chlam':[{'+':/hl(o|am)/i},'k',2], // chlorure, chlamyde
 		'chr':[{'+':/hr/i},'k',2], // de chrétien à synchronisé
@@ -202,7 +202,7 @@ namespace ColorLib
 		'eclm_final':[{'+':/[clm](s?)$/i},'E_comp',1], // donne le son [E] et le l ou le c se prononcent (ex. : miel, sec)
  		'd_except': [{'-':/(^bl|^ou|^damn)/i, '+':/d(s?)$/i},'E',1], // [PAE 22.02.20] pour covrir oued, bled, damned   
         'drz_final':[{'+':/[drz](s?)$/i},'e_comp',2], // e suivi d'un d,r ou z en fin de mot done le son [e]    
-        'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|acum|album|^am)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
+        'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|^y|acum|album|^a(m|v)|lum)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
 		'except_en2':[this.RegleMotsEn5,'e_tilda',2], // mots dont le en se prononce [5]
         'n':[{'+':/n[bcdfghjklmpqrstvwxzç]/i},'a_tilda',2],
         'adv_emment_a':[{'+':/mment/i},'a',1], // adverbe avec 'emment' => son [a]
@@ -266,7 +266,7 @@ namespace ColorLib
 'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill2','tranquille',
 		'ill','except_ill','bacille','ill_Ceras', '@ill','@il','ll','@il_Ceras',
 		'll_Ceras','ui','ient_1','ient_2','ie','ier_Conj','i_voyelle', '*'],
-		{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng$/i},'i',1],
+		{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng(s?)$/i},'i',1],
 		'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
 		'm':[{'+':/m[bcçdfghjklnpqrstvwxz]/i},'e_tilda',2],
 		'nm':[{'+':/[n|m]$/i},'e_tilda',2],
@@ -413,7 +413,7 @@ namespace ColorLib
 		'@':[{'+':/$/i},'_muet',1],
 		'parasit':[{'-':/(para|tran)/i,'+':/(it|hum)/i},'z_s',1], // parasit*, transhumance
 		'asept':[{'-':/a/i,'+':/(ep(s|t)i|ex|ocia|y(m|n|s))/i},'s',1],
-		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti)/i},'s',1],
+		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 		'h':[{'+':/h/i},'S',2],
 		'fasci':[{'-':/fa/i,'+':/cis/i},'S',2], // fasciste
@@ -463,11 +463,12 @@ namespace ColorLib
 'v' : [['*'],
 		{'*':[{},'v',1]}],
 'w' : [['wurst', '*'],
-		{'wurst':[{'+':/(ur|ag(o|n|uin)|rr|lk|isi|estp|ei|arrant)/i},'v',1], // saucisse [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
+		{'wurst':[{'+':/((u|ü)r|ag(o|n|uin)|rr|lk|isi|e(stp|rn|l(t|che)|i)|arrant|yando|orm|olfram|ill(é|e)|alky)/i},'v',1], 
+		// [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
 		'*':[{},'w',1]}], 
 'x' : [['six_dix','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','x_final', '@', '*'],
 		{'six_dix':[{'-':/(s|d)i/i},'s_x',1],
-		'gz_1':[{'-':/^/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un x suivi d'une voyelle
+		'gz_1':[{'-':/^/i,'+':/[aeuéèàüëêûù]/i},'gz',1], // mots qui commencent par un x suivi d'une voyelle (sauf 'i' ou 'o')
 		'gz_2':[{'-':/^(h?)e/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'ex' ou 'hex' suivi d'une voyelle
 		'gz_3':[{'-':/^coe/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'coex' suivi d'une voyelle
 		'gz_4':[{'-':/^ine/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'inex' suivi d'une voyelle

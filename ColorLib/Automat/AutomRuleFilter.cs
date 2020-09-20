@@ -371,6 +371,9 @@ namespace ColorLib
         /// <summary>
         /// Liste des mots se terminant par ent et se prononçant a~/@
         /// </summary>
+        /// <remarks>
+        /// Pas besoin que liste contienne les version féminines ou plurielles des mots.
+        /// </remarks>
         private static HashSet<string> mots_ent = new HashSet<string>
         {
             "absent", "abstinent", "accent", "accident", "adhérent", "adjacent",
@@ -405,7 +408,7 @@ namespace ColorLib
             "indéhiscent", "marcescent", "négrescent", "photoluminescent", "pubescent", "quiescent",
             "rarescent", "recrudescent", "résipiscent", "reviviscent", "réviviscent", "rubescent",
             "sénescent", "somnolescent", "spinescent", "thermoluminescent","adent", "affident",
-            "affluent", "appétent", "attingent", "attingents"
+            "affluent", "appétent", "attingent", "avirulent"
 
         };
 
@@ -486,17 +489,28 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Liste des mots se terminant par 'er' et qui se prononcent [ER]. Pour couvrir le pluriel,
-        /// ils sont testés sans un éventuel 's' final.
+        /// Liste des mots se terminant par 'er' et qui se prononcent [ER].
         /// </summary>
+        /// <remarks>
+        /// Attention: sans le 's' final qui est condiéré comme pluriel.
+        /// </remarks>
         private static HashSet<string> exceptions_final_er = new HashSet<string>
         {
-            "amer", "cher", "hier", "mer", "coroner", "charter", "cracker",
-            "chester", "doppler", "cascher", "bulldozer", "cancer", "carter", "geyser", "cocker", "pullover",
-            "alter", "aster", "fer", "ver", "diver", "perver", "enfer", "traver", "univer", "cuiller", "container",
-            "cutter", "révolver", "super", "master",
-            "aver", "conver", "dever", "diver", "déver", "enver","obver", "per", "rever", "tier", "traver",
-            "enver", "univer", "water", "acquier", "amphiaster",
+            "aber", "acquier", "afrikander", "alter", "amer", "amphiaster", "aster", "auster",
+            "aver", "baedeker", "ber", "bitter", "-boxer", "bulldozer", "cancer", "carter",
+            "cascher", "casher", "cathéter", "cawcher", "charter", "cher", "chester", "cocker",
+            "container", "conver", "corner", "coroner", "cracker", "crémaster", "cuiller", "cutter",
+            "dever", "déver", "diver", "docker", "doppler", "eider", "enfer", "entrefer", "enver",
+            "ester", "éther", "fer", "fier", "gangster", "getter", "geyser", "hamster", "hier",
+            "highlifer", "hiver", "inter", "joker", "junker", "khmer", "kirschwasser", "laser",
+            "liber", "loader", "mâchefer", "magister", "manager", "master", "mauser", "mer", "munster",
+            "obver", "outremer", "-palmer", "panzer", "papaver", "partner", "per", "perver", "poker",
+            "polder", "polyester", "poster", "pullover", "-quarter", "quater", "rever", "-reporter",
+            "revolver", "révolver", "roadster", "scanner", "schnauzer", "scooter", "setter", "spencer",
+            "sphincter", "spider", "spinaker", "springer", "sprinter", "starter", "steamer", "super",
+            "-supporter", "sylvaner", "tender", "ter", "thaler", "tier", "traver", "trochanter",
+            "tuner", "ulster", "univer", "ver", "vétiver", "water", "weber", "welter", "winchester",
+            "vomer",
         };
 
         /*
@@ -1419,7 +1433,7 @@ namespace ColorLib
             "-translater", "transmuter", "transplanter", "transporter", "travailloter", "trembloter", "tressauter",
             "tricoter", "tripoter", "trompeter", "truster", "trémater", "turluter", "tuyauter", "tâter",
             "téter", "valeter", "vanter", "velouter", "velter", "venter", "vergeter", "verjuter", "violenter",
-            "virevolter", "visiter", "vivisecter", "vivoter", "voleter", "volter", "voluter", "voter",
+            "virevolter", "visiter", "-vivisecter", "vivoter", "voleter", "volter", "voluter", "voter",
             "voûter", "végéter", "warranter", "zester", "zieuter", "zozoter", "zyeuter", "ébouillanter",
             "ébouter", "ébruiter", "écarter", "éclater", "écoqueter", "écourter", "écouter", "écroûter",
             "écrêter", "édenter", "édicter", "-éditer", "-éjecter", "électrocuter", "éliciter", "émoucheter",
@@ -1871,6 +1885,7 @@ namespace ColorLib
             "trochlées", "tylenchus", "ultrabrachycéphale", "varech", "varechs", "vichnouisme",
             "vichnouismes", "yachmak", "yachmaks","orchiectomie", "orchiépididymite", "trichodesmium",
             "aechmalotarque", "aechmalotarques", "aechmalote", "aechmalotes", "allochirie", "allochiries",
+            "zoopsychiatrie", "zoopsychiatries",
         };
 
         /// <summary>
@@ -2032,7 +2047,10 @@ namespace ColorLib
             "transilluminations", "trillion", "trillions", "twill", "vaudeville", "vaudevilles", "vaudevillesque", "vaudevillesques",
             "verticille", "verticilles", "willaya", "willayas", "william", "williams", "agasillis",
             "archimillionnaire", "archimillionnaires", "armillaire", "armillaires", "aspergillaire",
-            "aspergillaires", "aspergille", "aspergilles",
+            "aspergillaires", "aspergille", "aspergilles", "willemite", "willémite", "willémites",
+            "willi", "williams", "willis", "vexillaire", "vexillaires", "vexille", "vexilles",
+            "vexillum", "vexillums", "verticillaire", "verticillé", "verticillée", "verticillées",
+            "verticillés", "verticilliose",
         };
 
         /// <summary>
