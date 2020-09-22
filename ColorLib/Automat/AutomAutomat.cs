@@ -167,10 +167,13 @@ namespace ColorLib
 'e' : [['conj_v_ier','uient','ien_0','scien','ien','ien_2','een','except_en','_ent',
 		'adv_emment_fin','ment','imparfait','verbe_3_pluriel','hier','au',
 		'avoir','eu',
-		'in','eil','y','iy','ennemi','enn_debut_mot','dessus_dessous','cet',
+		'in','eil','y','iy','ennemi','enn_debut_mot',
+		//'dessus_dessous','cet',
 		't_final','eclm_final','d_except','drz_final','zen','except_en2','n','adv_emment_a',
 		'femme','lemme','em_gene','nm','tclesmesdes','que_gue_final',
-		'jtcnslemede','jean','ge','eoi','ex','ef','doubCons','reqquechose','ressu','ress','except_evr',
+		'jtcnslemede','jean','ge','eoi','ex','ef','reqquechose','entre',
+		//'doubCons','ressu','ress',
+		'except_evr',
 		'2consonnes','abbaye','e_muet','e_caduc','e_deb','@','ier_Conj','*'],
 		{
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
@@ -196,8 +199,8 @@ namespace ColorLib
  		'iy':[{'+':/[iy]/i},'E_comp',2],
         'ennemi':[{'-':/^/i,'+':/nnemi/i},'E_comp',1], // ennemi est l'exception ou 'enn' en début de mot se prononce 'èn' (cf. enn_debut_mot)
         'enn_debut_mot':[{'-':/^/i,'+':/nn/i},'a_tilda',2], // 'enn' en début de mot se prononce 'en'
-        'dessus_dessous':[{'-':/d/i,'+':/ss(o?)us/i},'q',1], // dessus, dessous : 'e' = e
-		'cet':[{'-':/^c/i,'+':/[t]$/i},'E_comp',1], // 'cet'
+        //'dessus_dessous':[{'-':/d/i,'+':/ss(o?)us/i},'q',1], // dessus, dessous : 'e' = e
+		//'cet':[{'-':/^c/i,'+':/[t]$/i},'E_comp',1], // 'cet'
 		't_final':[{'+':/[t]$/i},'E_comp',2], // donne le son [E] et le t ne se prononce pas
 		'eclm_final':[{'+':/[clm](s?)$/i},'E_comp',1], // donne le son [E] et le l ou le c se prononcent (ex. : miel, sec)
  		'd_except': [{'-':/(^bl|^ou|^damn)/i, '+':/d(s?)$/i},'E',1], // [PAE 22.02.20] pour covrir oued, bled, damned   
@@ -218,10 +221,11 @@ namespace ColorLib
 		'eoi':[{'+':/oi/i},'_muet',1], // un e suivi de 'oi' ex. : asseoir
 		'ex':[{'+':/x/i},'E_comp',1], // e suivi d'un x se prononce è
 		'ef':[{'+':/[bf](s?)$/i},'E_comp',1], // e suivi d'un f ou d'un b en fin de mot se prononce è
-		'doubCons':[{'+':/(nn|ll)/i},'E_comp',1],
-		'reqquechose':[{'-':/r/i,'+':/[bcçdfghjklmnpqrstvwxz](h|l|r)/i},'q',1], // re-quelque chose : le e se prononce 'e'
-		'ressu':[{'-':/^r/i,'+':/ssu(i|s|y)/i},'E_comp',1],
-		'ress':[{'-':/^r/i,'+':/ss/i},'q',1],
+		'reqquechose':[this.RegleMotsRe,'q',1], // re-quelque chose : le e se prononce 'e'
+		'entre':[{'-':/(^((ré)?)entr|^contr|^autor|^maugr)/i},'q',1],
+		//'doubCons':[{'+':/(nn|ll)/i},'E_comp',1],
+		//'ressu':[{'-':/^r/i,'+':/ssu(i|s|y)/i},'E_comp',1],
+		//'ress':[{'-':/^r/i,'+':/ss/i},'q',1],
         'except_evr':[{'+':/vr/i},'q',1], // chevrier, chevron, chevreuil
 		'2consonnes':[{'+':/[bcçdfghjklmnpqrstvwxz]{2}/i},'E_comp',1], // e suivi de 2 consonnes se prononce è
         'abbaye':[{'-':/abbay/i,'+':/(s?)$/i},'_muet',1], // ben oui...

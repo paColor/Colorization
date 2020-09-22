@@ -28,7 +28,7 @@ namespace ColorLib
         // Element of the LireCouleur Automata
         // The class provides the basic parsing capabilities
     {        
-        protected string s { get; }
+        protected string automS { get; } // the complete automata
         protected int start; // the first letter of the eléement is s[start], typically a delimiter
         protected int end { get; set; } // the last letter of the element is s[end], typically a delimiter.
 
@@ -37,7 +37,7 @@ namespace ColorLib
         // of the element, i.e. the closing delimiter.
         public AutomElement(string automTxt, int firstLetter)
         {
-            s = automTxt;
+            automS = automTxt;
             start = firstLetter; // It may be that we'll never use the start property... To be checked!!
         }
 
@@ -47,17 +47,22 @@ namespace ColorLib
         // throws an exception if end of string is reached
         public int GetNextChar(int pos)
         {
-            while ((pos < s.Length) && ((s[pos] == ' ' || s[pos] == '\t' || s[pos] == '\r' || s[pos] == '\n' || s[pos] == '/')))
+            while (pos < automS.Length && 
+                (automS[pos] == ' ' 
+                || automS[pos] == '\t' 
+                || automS[pos] == '\r' 
+                || automS[pos] == '\n' 
+                || automS[pos] == '/'))
             {
-                if (s[pos] == '/') 
+                if (automS[pos] == '/') 
                 {
-                    if ((pos < s.Length - 1) && (s[pos + 1] == '/'))
+                    if ((pos < automS.Length - 1) && (automS[pos + 1] == '/'))
                     {
                         // it is a double slash, hence the beginning of a comment
-                        pos = s.IndexOf('\n', pos + 1); // jump to end of line - in the worst case, the second slash is the last char in the string
+                        pos = automS.IndexOf('\n', pos + 1); // jump to end of line - in the worst case, the second slash is the last char in the string
                         if (pos == -1)
                         {
-                            pos = s.Length;
+                            pos = automS.Length;
                         } else
                         {
                             pos++;
@@ -72,7 +77,7 @@ namespace ColorLib
                     pos++;
                 }
             } // while
-            if (pos >= s.Length)
+            if (pos >= automS.Length)
             {
                 throw new ArgumentException(String.Format(
                     "Unexpected end of string in AutomElement.GetNextChar"));
@@ -82,7 +87,36 @@ namespace ColorLib
 
         public override string ToString()
         {
-            return s.Substring(start, (end - start) + 1); 
+            return automS.Substring(start, (end - start) + 1); 
         }
+
+        /// <summary>
+        /// Génère une extrait de 100 caractères du texte de l'automate autour de la position 
+        /// <paramref name="pos"/>. 5 ! sont insérés à la position pour bien marquer l'endroit.
+        /// </summary>
+        /// <param name="pos">La position de l'erreur dans l'automate.</param>
+        /// <param name="msg">Un message à afficher avant l'extrait de l'automate. </param>
+        /// <returns>Un extrait de l'automate autour de <paramref name="pos"/>, précédé de
+        /// <paramref name="msg"/> et "[...]" si <paramref name="msg"/> est non <c>null</c>.
+        /// </returns>
+        protected string ErrorExcerpt(int pos, string msg = null)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (!String.IsNullOrEmpty(msg))
+            {
+                sb.Append(msg);
+                sb.Append(": [...]");
+            }
+            int startPos = Math.Max(0, pos - 50);
+            int stopPos = Math.Min(automS.Length - 1, pos + 50);
+            sb.Append(automS.Substring(startPos, pos + 1 - startPos));
+            sb.Append("<--!!!!!!!!!!! ");
+            if (pos < automS.Length - 1)
+            {
+                sb.Append(automS.Substring(pos + 1, stopPos - pos));
+            }
+            return sb.ToString();
+        }
+
     } // class AutomElement
 }

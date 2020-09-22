@@ -58,7 +58,8 @@ namespace ColorLib
             {"RegleMotsQUkw", RegleMotsQUkw },
             {"RegleMotsEn5", RegleMotsEn5 },
             {"RegleMotsGnGN", RegleMotsGnGN },
-            {"RegleMotsOYoj", RegleMotsOYoj }
+            {"RegleMotsOYoj", RegleMotsOYoj },
+            {"RegleMotsRe", RegleMotsRe },
         };
 
         private CheckRuleFunction crf;
@@ -102,7 +103,9 @@ namespace ColorLib
                 while (s[pos] != '}')
                 {
                     //let's find the '
-                    Debug.Assert(s[pos] == '\'', String.Format(ConfigBase.cultF, "La pos {0} de {1} n'est pas un AutomRuleFilter, on attend un \''\' en début de règle.", pos, s));
+                    Debug.Assert(s[pos] == '\'', String.Format(ConfigBase.cultF, 
+                        "AutomRuleFilter: on attend un \''\' en début de règle. {0}",
+                        ErrorExcerpt(pos)));
                     //let's find the + or -
                     pos = GetNextChar(pos + 1);
                     bool plus;
@@ -115,22 +118,29 @@ namespace ColorLib
                         plus = false;
                     }
                     else
-                        throw new ArgumentException(String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'+\' ou un \'+\'.", pos));
+                        throw new ArgumentException(String.Format(ConfigBase.cultF, 
+                            "AutomRuleFilter: on attend un \'+\' ou un \'+\'. {0}", ErrorExcerpt(pos)));
                     //let's find the '
                     pos = GetNextChar(pos + 1);
-                    Debug.Assert(s[pos] == '\'', String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \''\' après + ou -.", pos));
+                    Debug.Assert(s[pos] == '\'', String.Format(ConfigBase.cultF, 
+                        "AutomRuleFilter: on attend un \''\' après + ou -. {0}", ErrorExcerpt(pos)));
                     //let's find the :
                     pos = GetNextChar(pos + 1);
-                    Debug.Assert(s[pos] == ':', String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \':\' après + ou -.", pos));
+                    Debug.Assert(s[pos] == ':', String.Format(ConfigBase.cultF,
+                        "AutomRuleFilter: on attend un \':\' après + ou -. {0}", ErrorExcerpt(pos)));
                     //let's find the /
                     pos = GetNextChar(pos + 1);
-                    Debug.Assert(s[pos] == '/', String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'/\' avant une regex", pos));
+                    Debug.Assert(s[pos] == '/', String.Format(ConfigBase.cultF, 
+                        "AutomRuleFilter: on attend un \'/\' avant une regex. {0}", ErrorExcerpt(pos)));
                     // let's load the regex
-                    // Let's assume that there is no '/' in the regex itself. Else we would need to handle the escape character that is necessary in .js
+                    // Let's assume that there is no '/' in the regex itself. Else we would need to
+                    // handle the escape character that is necessary in .js
                     pos = GetNextChar(pos + 1);
                     int endOfRegexSlashPos = s.IndexOf('/', pos);
-                    Debug.Assert(endOfRegexSlashPos > pos, String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'/\' pour clore une regex", pos));
-                    Debug.Assert(s[pos - 1] != '\\', String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, le cas d\'un \\ n'est pas traité.", pos));
+                    Debug.Assert(endOfRegexSlashPos > pos, String.Format(ConfigBase.cultF,
+                        "AutomRuleFilter: on attend un \'/\' pour clore une regex. {0}", ErrorExcerpt(pos)));
+                    Debug.Assert(s[pos - 1] != '\\', String.Format(ConfigBase.cultF, 
+                        "AutomRuleFilter: le cas d\'un \\ n'est pas traité. {0}", ErrorExcerpt(pos)));
                     string theExpression = s.Substring(pos, endOfRegexSlashPos - pos).Trim();
                     StringBuilder sb = new StringBuilder(); // Building the regular expression
                     if (plus)
@@ -143,31 +153,40 @@ namespace ColorLib
                         else
                         {
                             if (theExpression[0] != '^')
-                                sb.Append(@"^"); // The match must occur at the start of the string. It is not in the table due to the algorithm of Marie-Pierre
+                                sb.Append(@"^"); 
+                                // The match must occur at the start of the string. It is not in
+                                // the table due to the algorithm of Marie-Pierre
                             sb.Append(theExpression);
                         }
-                        Debug.Assert(follRegEx == null, "prevRegEx must be null");
+                        Debug.Assert(follRegEx == null, String.Format(ConfigBase.cultF,
+                            "AutomRuleFilter:  follRegEx must be null. {0}", ErrorExcerpt(pos)));
                         follRegEx = new Regex(sb.ToString(), RegexOptions.Compiled);
                     }
                     else
                     {
                         sb.Append(theExpression);
                         if ((theExpression[0] == '^') && (theExpression.Length == 1))
-                            // A '^' alone means that the letter must be at the begining of the string - Special semantics defined by Marie-Pierre
+                            // A '^' alone means that the letter must be at the begining of the
+                            // string - Special semantics defined by Marie-Pierre
                             isFirstLetter = true;
                         else if ((theExpression.Length >= 1) && (theExpression[theExpression.Length - 1] != '$'))
-                            sb.Append("$"); // The match must occur at the end of the string. This $ is not in the regexes in the table, but could be there as well.
-                        Debug.Assert(prevRegEx == null, "prevRegEx must be null");
+                            sb.Append("$"); 
+                            // The match must occur at the end of the string. This $ is not in the
+                            // regexes in the table, but could be there as well.
+                        Debug.Assert(prevRegEx == null, String.Format(ConfigBase.cultF,
+                            "AutomRuleFilter:  prevRegEx must be null. {0}", ErrorExcerpt(pos)));
                         prevRegEx = new Regex(sb.ToString(), RegexOptions.Compiled);
                     }
                     // let's find the i
                     pos = GetNextChar(endOfRegexSlashPos + 1);
-                    Debug.Assert(s[pos] == 'i', String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend un \'i\' après une regex", pos));
+                    Debug.Assert(s[pos] == 'i', String.Format(ConfigBase.cultF, 
+                        "AutomRuleFilter: on attend un \'i\' après une regex. {0}", ErrorExcerpt(pos)));
                     // let's find the next character
                     pos = GetNextChar(pos + 1);
                     // it is either ',' or '}'
-                    Debug.Assert(((s[pos] == ',') || (s[pos] == '}')),
-                        String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend une \',\' entre deux DirectionRegex ou un \'}}\'", pos));
+                    Debug.Assert((s[pos] == ',' || s[pos] == '}'), String.Format(ConfigBase.cultF, 
+                        "AutomRuleFilter: on attend une \',\' entre deux DirectionRegex ou un \'}}\'. {0}",
+                        ErrorExcerpt(pos)));
                     if (s[pos] == ',')
                         pos = GetNextChar(pos + 1);
                 } // while
@@ -177,18 +196,23 @@ namespace ColorLib
                 // the "regle" starts with "this."
                 // let's find the dot
                 var endOfThisDot = s.IndexOf('.', pos);
-                Debug.Assert(endOfThisDot > 0, String.Format(ConfigBase.cultF, "AutomRuleFiletr: la pos {0} de {1} doit être suivie d'un \'.\' pour délimiter \'this\'",
-                    pos - start, s.Substring(start, (pos + 1) - start)));
+                Debug.Assert(endOfThisDot > 0, String.Format(ConfigBase.cultF, 
+                    "AutomRuleFiletr: on attend un \'.\' pour délimiter \'this\'. {0}",
+                    ErrorExcerpt(pos)));
                 var thisTxt = s.Substring(pos, endOfThisDot - pos);
-                Debug.Assert(thisTxt == "this", "La référence à une fonction de règle doit commencer par \"this\".");
+                Debug.Assert(thisTxt == "this", String.Format(ConfigBase.cultF,
+                    "AutomRuleFiletr: La référence à une fonction de règle doit commencer par \"this\". {0}",
+                    ErrorExcerpt(pos)));
                 pos = endOfThisDot;
                 // let's find the comma that terminates the name of the regle function
                 pos = GetNextChar(pos + 1);
                 var endOfNameComma = s.IndexOf(',', pos);
                 var thisName = s.Substring(pos, endOfNameComma - (pos)).Trim();
-                Debug.Assert(endOfNameComma > pos, String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, on attend une \',\' après le nom de fonction", pos));
+                Debug.Assert(endOfNameComma > pos, String.Format(ConfigBase.cultF, 
+                    "AutomRuleFilter: on attend une \',\' après le nom de fonction. {0}", ErrorExcerpt(pos)));
                 var found = checkRuleFs.TryGetValue(thisName, out crf);
-                Debug.Assert(found, String.Format(ConfigBase.cultF, "La pos {0} n'est pas un AutomRuleFilter, {1} n'est pas un nom valide", pos, thisName));
+                Debug.Assert(found, String.Format(ConfigBase.cultF, 
+                    "AutomRuleFilter: {0} n'est pas un nom valide. {1}", thisName, ErrorExcerpt(pos)));
                 pos = endOfNameComma - 1; // pos points to the last char before the comma
             }
             end = pos;
@@ -1116,6 +1140,36 @@ namespace ColorLib
             Debug.Assert(mot[pos] == 'o');
             return
                 (pos < mot.Length - 1 && mot[pos + 1] == 'y' && motsOYoj.Contains(mot));
+        }
+
+        /// <summary>
+        /// Détermine si le 'e' de "re" en début de mot se prononce [°]
+        /// </summary>
+        /// <param name="mot">Le mot à analyser.</param>
+        /// <param name="pos">1 (la position du 'e' de "re" en début de mot)</param>
+        /// <returns><c>true</c> si <paramref name="pos"/> est bien la position du 'e' de "re"
+        /// en début de mot et qu'il se pprononce [°].</returns>
+        public static bool RegleMotsRe(string mot, int pos)
+        {
+            logger.ConditionalTrace(ConfigBase.cultF, "RegleMotsRe - mot: \'{0}\', pos: {1}", mot, pos);
+            Debug.Assert(mot != null);
+            Debug.Assert(mot[pos] == 'e');
+
+            bool toReturn = false;
+            if (pos == 1 && mot[0] == 'r')
+            {
+                string pref6;
+                if (mot.Length <= 6)
+                {
+                    pref6 = mot;
+                }
+                else
+                {
+                    pref6 = mot.Substring(0, 6);
+                }
+                return (!motsRe6.Contains(pref6));
+            }
+            return false;
         }
 
         /// <summary>
@@ -2086,7 +2140,7 @@ namespace ColorLib
             "rectid", "rectif", "rectig", "rectil", "rectim", "rectin", "rectio", "rectir", "rectis",
             "rectit", "rectiu", "recto", "rectoc", "rector", "rectos", "rectri", "rectum", "reddit",
             "redowa", "reflex", "reg", "regenc", "reggae", "regs", "reichs", "rein", "reine",
-            "reines", "reinet", "reins", "reinté", "reis", "reïs", "reître", "relaxe", "remake",
+            "reines", "reinet", "reins", "reinté", "reis", "reïs", "reître", "-relaxe", "remake",
             "rembai", "rembal", "rembar", "rembla", "rembob", "remboî", "rembou", "rembra", "rembru",
             "rembuc", "rembûc", "remmai", "remman", "remmen", "remmèn", "rempai", "rempar", "rempié",
             "rempiè", "rempil", "rempla", "rempli", "remplî", "remplo", "remplu", "rempoc", "rempoi",
@@ -2102,31 +2156,12 @@ namespace ColorLib
             "rentio", "rentoi", "renton", "rentra", "rentrâ", "rentre", "rentré", "rentrè", "rentri",
             "rentro", "rentru", "renver", "renvi", "renvia", "renviâ", "renvid", "renvie", "renvié",
             "renviè", "renvii", "renvio", "renvis", "renvoi", "renvoy", "reps", "reptat", "reptif",
-            "reptil", "requie", "rescap", "rescin", "rescis", "rescou", "rescri", "respec", "respir",
-            "resple", "respon", "resqui", "ressai", "ressem", "ressou", "ressui", "ressus", "ressuy",
+            "reptil", "-requie", "rescap", "rescis", "rescou", "rescri", "respec", "respir",
+            "resple", "respon", "resqui", "ressui", "ressus", "ressuy",
             "resta", "restag", "restai", "restâm", "restan", "restas", "restât", "restau", "reste",
             "resté", "restée", "resten", "rester", "restèr", "restes", "restés", "restez", "restie",
             "restio", "restit", "reston", "restre", "restri", "rets", "revolv", "rewrit", "rexism",
             "rez", "rezzou",
-        };
-
-        /// <summary>
-        /// Liste des groupes de 5 lettres (ou moins) au début des mots commençant par "re" et où
-        /// le 'e' ne se prononce pas [°].
-        /// </summary>
-        public static HashSet<string> motsRe5 = new HashSet<string>
-        {
-            "reali", "recta", "recte", "recti", "recto", "rectr", "rectu", "reddi", "redow", "refle",
-            "reg", "regen", "regga", "regs", "reich", "rein", "reine", "reins", "reint", "reis",
-            "reïs", "reîtr", "relax", "remak", "remba", "rembl", "rembo", "rembr", "rembu", "rembû",
-            "remma", "remme", "remmè", "rempa", "rempi", "rempl", "rempo", "renca", "rench", "rencl",
-            "renco", "rend", "renda", "rende", "rendi", "rendî", "rendo", "rendr", "rends", "rendu",
-            "renfa", "renfe", "renfi", "renfl", "renfo", "renfr", "renga", "rengo", "rengr", "renne",
-            "renqu", "rense", "renta", "rentâ", "rente", "renté", "rentè", "renti", "rento", "rentr",
-            "renve", "renvi", "renvo", "reps", "repta", "repti", "requi", "resca", "resci", "resco",
-            "rescr", "respe", "respi", "respl", "respo", "resqu", "ressa", "resse", "resso", "ressu",
-            "resta", "restâ", "reste", "resté", "restè", "resti", "resto", "restr", "rets", "revol",
-            "rewri", "rexis", "rez", "rezzo",
         };
 
     } // class AutomRuleFilter
