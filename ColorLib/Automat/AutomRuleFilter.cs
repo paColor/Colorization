@@ -2076,5 +2076,58 @@ namespace ColorLib
             "métahalloysite", "sulfamoyle",
         };
 
+        /// <summary>
+        /// Liste des groupes de 6 lettres (ou moins) au début des mots commençant par "re" et où
+        /// le 'e' ne se prononce pas [°].
+        /// </summary>
+        public static HashSet<string> motsRe6 = new HashSet<string>
+        {
+            "realia", "recta", "rectal", "rectan", "rectas", "rectau", "rectem", "recteu", "rectic",
+            "rectid", "rectif", "rectig", "rectil", "rectim", "rectin", "rectio", "rectir", "rectis",
+            "rectit", "rectiu", "recto", "rectoc", "rector", "rectos", "rectri", "rectum", "reddit",
+            "redowa", "reflex", "reg", "regenc", "reggae", "regs", "reichs", "rein", "reine",
+            "reines", "reinet", "reins", "reinté", "reis", "reïs", "reître", "relaxe", "remake",
+            "rembai", "rembal", "rembar", "rembla", "rembob", "remboî", "rembou", "rembra", "rembru",
+            "rembuc", "rembûc", "remmai", "remman", "remmen", "remmèn", "rempai", "rempar", "rempié",
+            "rempiè", "rempil", "rempla", "rempli", "remplî", "remplo", "remplu", "rempoc", "rempoi",
+            "rempor", "rempot", "rencai", "rencar", "rencha", "renché", "renclo", "renclô", "rencog",
+            "rencoi", "rencon", "rencou", "rend", "rendai", "rendan", "rende", "rendem", "renden",
+            "rendes", "rendeu", "rendez", "rendie", "rendîm", "rendio", "rendir", "rendis", "rendit",
+            "rendît", "rendon", "rendor", "rendra", "rendre", "rendri", "rendro", "rends", "rendu",
+            "rendue", "rendus", "renfaî", "renfer", "renfié", "renfil", "renfla", "renflâ", "renfle",
+            "renflé", "renflè", "renfli", "renflo", "renflu", "renfon", "renfor", "renfro", "rengag",
+            "rengai", "rengor", "rengra", "rengré", "rengrè", "renne", "rennes", "renqui", "rensei",
+            "renta", "rentab", "rentai", "rentâm", "rentan", "rentas", "rentât", "rente", "renté",
+            "rentée", "renten", "renter", "rentèr", "rentes", "rentés", "rentez", "rentie", "rentiè",
+            "rentio", "rentoi", "renton", "rentra", "rentrâ", "rentre", "rentré", "rentrè", "rentri",
+            "rentro", "rentru", "renver", "renvi", "renvia", "renviâ", "renvid", "renvie", "renvié",
+            "renviè", "renvii", "renvio", "renvis", "renvoi", "renvoy", "reps", "reptat", "reptif",
+            "reptil", "requie", "rescap", "rescin", "rescis", "rescou", "rescri", "respec", "respir",
+            "resple", "respon", "resqui", "ressai", "ressem", "ressou", "ressui", "ressus", "ressuy",
+            "resta", "restag", "restai", "restâm", "restan", "restas", "restât", "restau", "reste",
+            "resté", "restée", "resten", "rester", "restèr", "restes", "restés", "restez", "restie",
+            "restio", "restit", "reston", "restre", "restri", "rets", "revolv", "rewrit", "rexism",
+            "rez", "rezzou",
+        };
+
+        /// <summary>
+        /// Liste des groupes de 5 lettres (ou moins) au début des mots commençant par "re" et où
+        /// le 'e' ne se prononce pas [°].
+        /// </summary>
+        public static HashSet<string> motsRe5 = new HashSet<string>
+        {
+            "reali", "recta", "recte", "recti", "recto", "rectr", "rectu", "reddi", "redow", "refle",
+            "reg", "regen", "regga", "regs", "reich", "rein", "reine", "reins", "reint", "reis",
+            "reïs", "reîtr", "relax", "remak", "remba", "rembl", "rembo", "rembr", "rembu", "rembû",
+            "remma", "remme", "remmè", "rempa", "rempi", "rempl", "rempo", "renca", "rench", "rencl",
+            "renco", "rend", "renda", "rende", "rendi", "rendî", "rendo", "rendr", "rends", "rendu",
+            "renfa", "renfe", "renfi", "renfl", "renfo", "renfr", "renga", "rengo", "rengr", "renne",
+            "renqu", "rense", "renta", "rentâ", "rente", "renté", "rentè", "renti", "rento", "rentr",
+            "renve", "renvi", "renvo", "reps", "repta", "repti", "requi", "resca", "resci", "resco",
+            "rescr", "respe", "respi", "respl", "respo", "resqu", "ressa", "resse", "resso", "ressu",
+            "resta", "restâ", "reste", "resté", "restè", "resti", "resto", "restr", "rets", "revol",
+            "rewri", "rexis", "rez", "rezzo",
+        };
+
     } // class AutomRuleFilter
 } // namespace ColorLib
