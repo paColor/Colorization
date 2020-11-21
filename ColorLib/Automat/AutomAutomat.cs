@@ -91,7 +91,7 @@ namespace ColorLib
 		static private string theAutomat =
 @"{
 
-'a' : [['u','il','in','nc_ai_fin','ai_fin','fais','i','n','m','adam','nm','y_except','y_fin','yat','y','ae_e','*'],
+'a' : [['u','il','in','nc_ai_fin','ai_fin','fais','i','n','m','adam','nm','y_except','y_fin','yat','taylor','y','ae_e','*'],
 		{'n':[{'+':/n[bcçdfgjklmpqrstvwxz]/i},'a_tilda',2],
 		'm':[{'+':/m[bp]/i},'a_tilda',2], // règle du m devant b, p
 		'adam':[{'-':/^ad/i,'+':/m(s?)$/i},'a_tilda',2],
@@ -99,6 +99,7 @@ namespace ColorLib
 		'y_except':[{'-':/(^b|cob|cip|^k|^m|^f|mal)/i,'+':/y/i},'a',1], // exception : baye, cobaye, kayac, maya, mayonnaise, fayot (PAE - 10.03.20)
 		'y_fin':[{'+':/y(s?)$/i},'E_comp',2], // (PAE - 10.03.20) - 'pays' est une eexception traitée dans le dico.
 		'yat':[{'+': /yat/i},'a',1], // (PAE - 10.03.20) ayatollah
+		'taylor':[{'-':/t/i,'+':/ylor/i},'E_comp', 2],
 		'y':[{'+':/y/i},'E_comp',1],
 		'u':[{'+':/u/i},'o_comp',2],
 		'il':[{'+':/il((s?)$|l)/i},'a',1],
@@ -308,21 +309,19 @@ namespace ColorLib
 'k' : [['*'],
 		{'*':[{},'k',1]}],
 'l' : [['vill','mill','tranquille','illdeb','except_ill_l','bacille','ill','eil','ll','excep_il', 
-		//'apostrophe',
-		'lisole', '*'],
+		// 'lisole', 
+		'*'],
 		{'vill':[{'-':/^vi/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
-		//'mill':[{'-':/^mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
 		'mill':[{'-':/mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
 		'tranquille':[{'-':/(achi|tranqui)/i,'+':/l/i},'l',2], // tranquille => son [l]
 		'illdeb':[{'-':/^i/i,'+':/l/i},'l',2], // 'ill' en début de mot = son [l] ; exemple : illustration
 		'except_ill_l':[this.Regle_ill,'l',2],
 		'bacille':[{'-':/(baci|disti|insti)/i,'+':/l/i},'l',2],
-		'lisole':[{'+':/$/i,'-':/^/i},'l',1], // exemple : l'animal
 		'ill':[{'-':/.i/i,'+':/l/i},'j',2], // par défaut, 'ill' donne le son [j]
-		'll':[{'+':/l/i},'l',2], // à défaut de l'application d'une autre règle, 'll' donne le son [l]
-		'excep_il':[{'-':/fusi|outi|genti|sourci|persi/i,'+':/(s?)$/i},'_muet',1], // les exceptions trouvées ou le 'l' à la fin ne se prononce pas : fusil, gentil, outil
 		'eil':[{'-':/e(u?)i/i},'j',1], // les mots terminés en 'eil' ou 'ueil' => son [j]
-		//'apostrophe':[{'+':/('|’)/i},'l',2], // apostrophe
+		'll':[{'+':/l/i},'l',2], // à défaut de l'application d'une autre règle, 'll' donne le son [l]
+		'excep_il':[{'-':/fusi|outi|genti|sourci|persi/i,'+':/(s?)$/i},'_muet',1], // les exceptions trouvées où le 'l' à la fin ne se prononce pas : fusil, gentil, outil
+		//'lisole':[{'+':/$/i,'-':/^/i},'l',1], // exemple : l'animal
 		'*':[{},'l',1]}],
 'm' : [['m','tomn','damn',
 		//'misole','apostrophe', 
@@ -335,11 +334,12 @@ namespace ColorLib
 		// 'apostrophe':[{'+':/('|’)/i},'m',2] // apostrophe
 		}],
 'n' : [[
-		//'n','ment','urent','irent','erent',
+		'n',
+		//'ment','urent','irent','erent',
 		'ent','ing',
 		// 'nisole','apostrophe', 
 		'*'],
-		{// 'n':[{'+':/n/i},'n',2],
+		{'n':[{'+':/n/i},'n',2],
 		//'ment':[this.Regle_verbe_mer,'verb_3p',2], // on considère que les verbes terminés par 'ment' se prononcent [_muet]
 		//'urent':[{'-':/ure/i,'+':/t$/i},'verb_3p',2], // verbes avec terminaisons en -urent
 		//'irent':[{'-':/ire/i,'+':/t$/i},'verb_3p',2], // verbes avec terminaisons en -irent
@@ -352,7 +352,7 @@ namespace ColorLib
 		}],
 'o' : [['in','except_y','i','tomn',
 		'n','m','nm','u','o','oeu_defaut','oe_0','oe_2', 'oe_3',
-		'oe_4','oe_defaut', '*'],
+		'oe_4','oe_defaut','toast','*'],
 		{'in':[{'+':/i[nm]([bcçdfghjklpqrstvwxz]|$)/i},'w_e_tilda',3],
 		'except_y':[this.RegleMotsOYoj,'o',1],
 		'i':[{'+':/(i|î|y)/i},'oi',2], // [PAE 26.02.20] introduction du phonème oi pour pouvoir le marquer dans la convention CERAS
@@ -368,6 +368,7 @@ namespace ColorLib
 		'oe_3':[{'-':/f/i,'+':/e/i},'e',2], // exemple : foetus
 		'oe_4':[{'-':/(gastr|électr|inc|min|c|aér|angi)/i,'+':/e/i},'o',1], // [PAE 26.02.2020] électroencéphalogramme, minoen, coefficient
 		'oe_defaut':[{'+':/e/i},'x2',2], // exemple : oeil
+		'toast':[{'-':/t/i,'+':/ast/i},'o',2], // toast, toaster et toutes ses formes
 		'*':[{},'o',1]
 		}],
 'œ' : [['oeu', '*'],
@@ -409,13 +410,14 @@ namespace ColorLib
 		'r':[{'+':/r/i},'R',2],
 		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
-'s' : [['sch','s','s_final','@','parasit','asept','pasZ','z','h','fasci',
+'s' : [['sch','s','s_final','@','parasit','balsa','asept','pasZ','z','h','fasci',
 		'*'],
 		{'sch':[{'+':/ch/i},'S',3], // schlem
 		's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
 		's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
 		'@':[{'+':/$/i},'_muet',1],
-		'parasit':[{'-':/(para|tran)/i,'+':/(it|hum)/i},'z_s',1], // parasit*, transhumance
+		'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*,
+		'balsa':[{'-':/(tran|bal)/i,'+':/(it|hum|a)/i},'z_s',1], // transhumance, transit, balsa,...
 		'asept':[{'-':/a/i,'+':/(ep(s|t)i|ex|ocia|y(m|n|s))/i},'s',1],
 		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
@@ -432,7 +434,7 @@ namespace ColorLib
 		'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
 		'_tien':[{'+':/ien/i},'s_t',1],
 		'ex_tie':[{'-':/minu/i,'+':/ie(r|z)/i},'t',1],
-		'tie':[{'-':/(ambi|albu|cra|lvi|^essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa)/i,'+':/ie/i},'s_t',1],
+		'tie':[{'-':/(ambi|albu|cra|lvi|^essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu)/i,'+':/i(e|é)/i},'s_t',1],
 		'ex_tiot':[{'-':/(cré|plé|jé)/i,'+':/i[ao]/i},'s_t',1],
 		'tiaot':[{'-':/([eéèêës]|[sc]en|an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io])/i,'+':/i[ao]/i},'t',1],
 		'verb_tions':[this.Regle_VerbesTer,'t',1], // verbes en ter à l'imparfait - nous
@@ -519,11 +521,11 @@ namespace ColorLib
 '9' : [['*'],
 		{'*':[{},'chiffre',1]}],
 ''' : [['*'],
-		{'*':[{},'_muet',1]}],
+		{'*':[{},'chiffre',1]}], // 20.11.2020 mis à 'chiffre' plutôt que '_muet'. ça se discute...
 '’' : [['*'],
-		{'*':[{},'_muet',1]}],
+		{'*':[{},'chiffre',1]}], // 20.11.2020 mis à 'chiffre' plutôt que '_muet'. ça se discute...
 '*' : [['*'],
-		{'*':[{},'_muet',1]}]
+		{'*':[{},'chiffre',1]}]  // 20.11.2020 mis à 'chiffre' plutôt que '_muet'. ça se discute...
 
 }";
 

@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "rescindais";
+            string txt = "antiextrémiste";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,7 +97,14 @@ namespace ColorLibTest
         {
             string txt = @"
 
-reflex
+balbutiions
+balbutiiez
+initiions
+initiiez
+différentiions
+différentiiez
+
+
 
 
 
