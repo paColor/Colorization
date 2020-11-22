@@ -432,7 +432,8 @@ namespace ColorLib
             "indéhiscent", "marcescent", "négrescent", "photoluminescent", "pubescent", "quiescent",
             "rarescent", "recrudescent", "résipiscent", "reviviscent", "réviviscent", "rubescent",
             "sénescent", "somnolescent", "spinescent", "thermoluminescent","adent", "affident",
-            "affluent", "appétent", "attingent", "avirulent"
+            "affluent", "appétent", "attingent", "avirulent", "bénéolent", "bénévolent", "bident",
+            "bivalent"
 
         };
 
@@ -2026,15 +2027,15 @@ namespace ColorLib
             "benzocarbonique", "benzoène", "benzoestrol", "benzoïque", "benzoïques", "benzol",
             "benzolé", "benzolée", "benzolées", "benzolés", "benzols", "benzone", "benzosulfate",
             "benzosulfurique", "benzoyle", "benzoyles", "benzyle", "benzyles", "berkeleyens",
+            "berkeleyen","ben",
             "bibendum", "bibendums", "bienfaisance", "bienfaisances", "bienfaisant", "bienfaisante",
             "bienfaisantes", "bienfaisants", "bienheureuse", "bienheureusement", "bienheureuses",
             "bienheureux", "biscayens", "bismarckiens", "blende", "blendes", "booléens", "booléiens",
             "botticelliens", "brens", "browniens", "byroniens", "cardiocentèse", "carpiens", "caspiens",
-            "chérifiens", "chondrichtyens", "citoyens", "coïncidaient", "coïncidassent", "coïncidence",
-            "coïncidences", "coïncident", "coïncident", "coïncidente", "coïncidentes", "coïncidents",
-            "coïncideraient", "coïncidèrent", "compendium", "compendiums", "concitoyens", "confucéiens",
-            "consensus", "constringent",
-            "contingent", "dengue", "dengues", "diagnosticiens", "dibromobenzène", "diffringent",
+            "chérifiens", "chondrichtyens", "citoyens", 
+            "compendium", "compendiums", "concitoyens", "confucéiens",
+            "consensus", 
+            "dengue", "dengues", "diagnosticiens", "dibromobenzène",
             "dostoïevskiens", "doyens", "efendi", "efendis", "effendi", "effendis", "éthiopiens",
             "flaubertiens", "halobenthos", "hégéliens", "hertziens", "himalayens", "hollywoodiens",
             "hornblende", "hornblendes", "kentrophylle", "kentrophylles", "labadens", "lacertiens",
@@ -2054,13 +2055,12 @@ namespace ColorLib
             "pentamères", "pentamètre", "pentamètres", "pentandrie", "pentapétalé", "pentapyle",
             "pentarchie", "pentarchies", "pentarhombique", "pentateuque", "pentateuques", "pentathle",
             "pentathles", "pentathlienne", "pentathlon", "pentathlons", "pentatomidés", "pentélique",
-            "pentéliques", "pentosane", "perfringens", "périappendiculaire", "phellodendron",
+            "pentéliques", "pentosane", "périappendiculaire", "phellodendron",
             "philodendron", "philodendrons", "pithécanthropiens", "placenta", "placentaire", "placentaires",
             "placentas", "placentation", "placentations", "plébéiens", "pleurocentèse", "pneumoentérite",
-            "pompéiens", "proenzyme", "propylbenzine", "psychosomaticiens", "réfringent", "rescindaient",
-            "rescindassent", "rescindent", "rescinderaient", "rescindèrent", "restringent", "rhododendron",
+            "pompéiens", "proenzyme", "propylbenzine", "psychosomaticiens", "rhododendron",
             "rhododendrons", "riemanniens", "sapientiaux", "sempervirens", "séroappendicite",
-            "shakespeariens", "sidérodendron", "succinctement", "sulfobenzoïque", "tarpéiens",
+            "shakespeariens", "sidérodendron", "sulfobenzoïque", "tarpéiens",
             "transocéaniens", "tribromobenzène", "tylenchus", "vosgiens", "wagnériens", "wormiens",
             "würmiens", "xiphoïdiens", "zende", "zoobenthos",
             "appendice", "appendices", "appendicectomie", "appendicectomies", "appendicite", "appendicites",
@@ -2104,7 +2104,7 @@ namespace ColorLib
             "aspergillaires", "aspergille", "aspergilles", "willemite", "willémite", "willémites",
             "willi", "williams", "willis", "vexillaire", "vexillaires", "vexille", "vexilles",
             "vexillum", "vexillums", "verticillaire", "verticillé", "verticillée", "verticillées",
-            "verticillés", "verticilliose",
+            "verticillés", "verticilliose", "bimillénaire", "bimillénaires"
         };
 
         /// <summary>

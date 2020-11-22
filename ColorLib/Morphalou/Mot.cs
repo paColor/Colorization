@@ -107,8 +107,8 @@ namespace ColorLib.Morphalou
         }
 
         /// <summary>
-        /// Compare les deux strings. retourne dans <paramref name="diffs"/> un flag 
-        /// <c>true</c> pour chaque position différente.
+        /// Compare les deux strings. retourne dans <paramref name="diffs"/> la liste des positions
+        /// où une différence a été trouvée.
         /// </summary>
         /// <param name="ph">premier <c>string</c> à comparer.</param>
         /// <param name="col">deuxième <c>string</c> à comparer.</param>
@@ -142,6 +142,7 @@ namespace ColorLib.Morphalou
                 if (cPh != cCol 
                     && !(cPh == 'ë' && (cCol == 'e' || cCol == 'E'))
                     && !(cPh == 'ü' && (cCol == 'u' || cCol == 'y'))
+                    && !(cPh == 'ê' && (cCol == '2' || cCol == '°'))
                     )
                 {
                     toReturn = false;
@@ -197,12 +198,14 @@ namespace ColorLib.Morphalou
         }
 
         /// <summary>
-        /// 
+        /// Compare deux représentations phonétiques du mot s'écrivant <paramref name="graphie"/>.
         /// </summary>
-        /// <param name="graphie"></param>
+        /// <param name="graphie">le mot dont il faut comparer les deux représentations
+        /// phonétiques.</param>
         /// <param name="ph1">La représentation phonétique morphalou</param>
         /// <param name="col">La représentation phonétique de colorization</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> si les deux représentations phonétiques sont équivalentes.
+        /// <c>false</c> dans le cas contraire</returns>
         private static bool AreMatch(string graphie, string ph1, string col)
         {
             if (String.IsNullOrEmpty(ph1))
@@ -344,6 +347,39 @@ namespace ColorLib.Morphalou
                     {
                         // 'w' et 'u' sont équivalents
                         if (AreMatch(graphie, ph1.Remove(pos, 1), col.Remove(pos, 1)))
+                            return true;
+                    }
+
+                    if (col[pos] == 'Z' && ph1[pos] == 'd' 
+                        && pos < ph1.Length - 1 && ph1[pos + 1] == 'Z')
+                    {
+                        // Morphalou a le son [dZ] et Colorization [Z]. ça peut venir d'une lettre
+                        // 'j' qui se prononce [dZ] comme dans "banjo". Comme Colorization n'est
+                        // pas capable d'attribuer plusieurs sons à une seule lettre, on considère 
+                        // que tout est bon. --> Comparer les deux strings sans le [d] de ph1.
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col))
+                            return true;
+                    }
+
+                    if (col[pos] == 'u' && ph1[pos] == 'j'
+                        && pos > 0 && col[pos -1] == 'k' && ph1[pos - 1] == 'k'
+                        && pos < ph1.Length - 1 && ph1[pos + 1] == 'u')
+                    {
+                        // col a 'ku' et Morphalou 'kju'
+                        // Un mot comme "barbecue" donne ce résultat. Colorization ne pouvant pas
+                        // traiter deux sons pour une lettre, on doit oublier ce [j] supplémentaire...
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col))
+                            return true;
+                    }
+
+                    if (col[pos] == '2' && ph1[pos] == 'n'
+                        && pos > 0 && col[pos - 1] == '5' && ph1[pos - 1] == '5'
+                        && pos < ph1.Length - 1 && (ph1[pos + 1] == '2' || ph1[pos + 1] == 'ê'))
+                    {
+                        // col a '52' et Morphalou '5n2'
+                        // Morphalou marque une liaison comme dans "bienheureux"
+                        // Supprimons ce [n] et voyons ce que ça donne
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col))
                             return true;
                     }
 

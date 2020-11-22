@@ -30,17 +30,23 @@ namespace ColorLib.Morphalou
     ///     "%" pour ill
     ///     "/" pour ij
     /// </para>
+    /// De plus, pour permttre une traduction SAMPA (Morphalou) vers Colorization nous utilisons
+    /// les deux cas spéciaux suivants:
+    /// <para>
+    ///     "ë" qui est équivalent à [e] ou à [E]. En fait le son se situe entre les deux...
+    ///     "ê" qui est équivalent à [2] ou à [°]. En fait le son est entre les deux...
+    /// </para>
     ///   3 - SAMPA, utilisé par Morphalou
     ///
     /// Notre but est de pouvoir comparer les différentes bases de données avec ce que produit
-    ///   le moteur de Colorization. Il nous faut donc des tables de traduction Lexique --> Col
+    /// le moteur de Colorization. Il nous faut donc des tables de traduction Lexique --> Col
     /// et SAMPA --> Col.
     ///
     /// Le but de cette classe est de fournir ces fonctions de conversion.
     /// </summary>
     public static class NotationsPhon
     {
-        // La notation exacte utilisés par Colorization dans la production d'une visualisation phonétique
+        // Les notations exactes utilisées par Colorization dans la production d'une visualisation phonétique
         // d'un mot, sont spécifiés dans PhonInW.cs
 
         private static Dictionary<string, string> Lex2ColSimpl = new Dictionary<string, string>()
@@ -108,7 +114,7 @@ namespace ColorLib.Morphalou
             { "l", "l" },
             { "R", "R" },
             { "w", "w" },
-            { "H", "ü" },
+            { "H", "ü" }, // entre [u] et [y]
             { "i", "i" },
             { "e", "e" },
             { "E", "E" },
@@ -120,14 +126,14 @@ namespace ColorLib.Morphalou
             { "y", "y" },
             { "2", "2" },
             { "9", "2" },
-            { "6", "2" }, // 6 est parfois utilisé autrement :-(
+            { "6", "ê" }, // entre [2] et [°]
             { "@", "°" },
             { "e~", "5" },
             { "a~", "@" },
             { "o~", "§" },
             { "9~", "1" },
-            { "E/", "ë" },
-            { "O/", "o" },
+            { "E/", "ë" }, // 'ë' est équivalent soit à 'e' soit à 'E'
+            { "O/", "o" }, // il s'agit du o entre ouvert et fermé...
         };
 
         
