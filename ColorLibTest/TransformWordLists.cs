@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "cœlacanthe";
+            string txt = "susciter";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,12 +97,46 @@ namespace ColorLibTest
         {
             string txt = @"
 
-cerf
-cerfs
-hirocerf
-hirocerfs
-nerf
-nerfs
+blues
+alderman
+atman
+barman
+bochiman
+boschiman
+bosseman
+brahman
+bruman
+businessman
+caméraman
+chairman
+chaman
+clergyman
+clubman
+coachman
+dan
+drogman
+fan
+gentleman
+jean
+jerrican
+jerrycan
+karman
+landamman
+midshipman
+mufleman
+policeman
+pullman
+recordman
+recordwoman
+rugbyman
+sportman
+sportsman
+sportwoman
+wattman
+yachtman
+yachtsman
+yeoman
+
 
 
 

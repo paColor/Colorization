@@ -144,7 +144,6 @@ namespace ColorLib
 'ç' : [['*'],
 		{'*':[{},'s',1]}],
 'd' : [['d','aujourdhui','disole','except','dmuet',
-		// 'apostrophe', 
 		'*'],
 		{'d':[{'+':/d/i},'d',2],
 		//'except':[{'-':/(aï|oue)/i, '+':/(s?)$/i},'d',1], // aïd, caïd, oued
@@ -152,19 +151,15 @@ namespace ColorLib
 		'aujourdhui':[{'-':/aujour/i},'d',1], // aujourd'hui
 		'disole':[{'+':/$/i,'-':/^/i},'d',1], // exemple : d'abord
 		'dmuet':[{'+':/(s?)$/i},'_muet',1], // un d suivi éventuellement d'un s ex. : retards
-		//'apostrophe':[{'+':/('|’)/i},'d',2], // apostrophe
 		'*':[{},'d',1]}],
 'e' : [['conj_v_ier','uient','ien_0','scien','ien',
-		//'ien_2','een',
 		'zen','except_en','_ent',
 		'adv_emment_fin','ment','imparfait','verbe_3_pluriel','hier','au',
 		'avoir','eu',
 		'in','eil','y','iy','ennemi','enn_debut_mot',
-		//'dessus_dessous','cet',
 		't_final','eclm_final','d_except','drz_final','except_en2','n','adv_emment_a',
 		'femme','lemme','em_gene','nm','tclesmesdes','que_gue_final',
 		'jtcnslemede','jean','ge','eoi','ex','ef','reqquechose','entre',
-		//'doubCons','ressu','ress',
 		'except_evr',
 		'2consonnes','abbaye','e_muet','e_caduc','e_deb','@','ier_Conj','*'],
 		{
@@ -173,8 +168,6 @@ namespace ColorLib
         'ien_0':[{'-':/ni/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient
 		'scien':[{'-':/(aud|sc)i/i,'+':/n/i},'a_tilda',2], // science...
         'ien':[{'-':/([bcdgklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
-		//'ien_2':[{'-':/ï/i,'+':/n([bcçdfghjklpqrstvwxz]|$)/i},'e_tilda',2], // mots avec 'ïen' => son [e_tilda]
-        //'een':[{'-':/é/i,'+':/n(s?)$/i},'e_tilda',2], // les mots qui se terminent par 'éen'
         'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|^y|acum|album|^a(m|v)|lum|bigoud)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
 		'except_en':[{'-':/(exam|mino|édu|apexi|^api|loqui|y|é|^b(r?))/i,'+':/n(s?)$/i},'e_tilda',2], // exceptions des mots où le 'en' final se prononce [e_tilda] (héritage latin)
         '_ent':[this.Regle_mots_ent,'a_tilda',2], // quelques mots (adverbes ou noms) terminés par ent
@@ -193,12 +186,10 @@ namespace ColorLib
  		'iy':[{'+':/[iy]/i},'E_comp',2],
         'ennemi':[{'-':/^/i,'+':/nnemi/i},'E_comp',1], // ennemi est l'exception ou 'enn' en début de mot se prononce 'èn' (cf. enn_debut_mot)
         'enn_debut_mot':[{'-':/^/i,'+':/nn/i},'a_tilda',2], // 'enn' en début de mot se prononce 'en'
-        //'dessus_dessous':[{'-':/d/i,'+':/ss(o?)us/i},'q',1], // dessus, dessous : 'e' = e
-		//'cet':[{'-':/^c/i,'+':/[t]$/i},'E_comp',1], // 'cet'
 		't_final':[{'+':/[t]$/i},'E_comp',2], // donne le son [E] et le t ne se prononce pas
 		'eclm_final':[{'+':/[clm](s?)$/i},'E_comp',1], // donne le son [E] et le l ou le c se prononcent (ex. : miel, sec)
  		'd_except': [{'-':/(^bl|^ou|^damn)/i, '+':/d(s?)$/i},'E',1], // [PAE 22.02.20] pour covrir oued, bled, damned   
-        'drz_final':[{'+':/[drz](s?)$/i},'e_comp',2], // e suivi d'un d,r ou z en fin de mot done le son [e]    
+        'drz_final':[{'+':/[drz](s?)$/i},'e_comp',2], // e suivi d'un d,r ou z en fin de mot done le son [e] 
         'except_en2':[this.RegleMotsEn5,'e_tilda',2], // mots dont le en se prononce [5]
         'n':[{'+':/n[bcdfghjklmpqrstvwxzç]/i},'a_tilda',2],
         'adv_emment_a':[{'+':/mment/i},'a',1], // adverbe avec 'emment' => son [a]
@@ -216,9 +207,6 @@ namespace ColorLib
 		'ef':[{'+':/[bf](s?)$/i},'E_comp',1], // e suivi d'un f ou d'un b en fin de mot se prononce è
 		'reqquechose':[this.RegleMotsRe,'q',1], // re-quelque chose : le e se prononce 'e'
 		'entre':[{'-':/(^((ré)?)entr|^contr|^autor|^maugr)/i},'q',1],
-		//'doubCons':[{'+':/(nn|ll)/i},'E_comp',1],
-		//'ressu':[{'-':/^r/i,'+':/ssu(i|s|y)/i},'E_comp',1],
-		//'ress':[{'-':/^r/i,'+':/ss/i},'q',1],
         'except_evr':[{'+':/vr/i},'q',1], // chevrier, chevron, chevreuil
 		'2consonnes':[{'+':/[bcçdfghjklmnpqrstvwxz]{2}/i},'E_comp',1], // e suivi de 2 consonnes se prononce è
         'abbaye':[{'-':/abbay/i,'+':/(s?)$/i},'_muet',1], // ben oui...
@@ -317,35 +305,20 @@ namespace ColorLib
 		'excep_il':[{'-':/fusi|outi|genti|sourci|persi/i,'+':/(s?)$/i},'_muet',1], // les exceptions trouvées où le 'l' à la fin ne se prononce pas : fusil, gentil, outil
 		//'lisole':[{'+':/$/i,'-':/^/i},'l',1], // exemple : l'animal
 		'*':[{},'l',1]}],
-'m' : [['m','tomn','damn',
-		//'misole','apostrophe', 
-		'*'],
+'m' : [['m','tomn','damn','*'],
 		{'m':[{'+':/m/i},'m',2],
 		'damn':[{'-':/da/i,'+':/n/i},'_muet',1], // Regle spécifique pour 'damné' et ses dérivés
 		'tomn':[{'-':/to/i,'+':/n/i},'_muet',1], // Regle spécifique pour 'automne' et ses dérivés
 		'*':[{},'m',1],
-		// 'misole':[{'+':/$/i,'-':/^/i},'m',1], // exemple : m'a
-		// 'apostrophe':[{'+':/('|’)/i},'m',2] // apostrophe
 		}],
-'n' : [[
-		'n',
-		//'ment','urent','irent','erent',
-		'ent','ing',
-		// 'nisole','apostrophe', 
-		'*'],
+'n' : [['n','ent','ing','*'],
 		{'n':[{'+':/n/i},'n',2],
-		//'ment':[this.Regle_verbe_mer,'verb_3p',2], // on considère que les verbes terminés par 'ment' se prononcent [_muet]
-		//'urent':[{'-':/ure/i,'+':/t$/i},'verb_3p',2], // verbes avec terminaisons en -urent
-		//'irent':[{'-':/ire/i,'+':/t$/i},'verb_3p',2], // verbes avec terminaisons en -irent
-		//'erent':[{'-':/ère/i,'+':/t$/i},'verb_3p',2], // verbes avec terminaisons en -èrent
 		'ent':[{'-':/e/i,'+':/t$/i},'verb_3p',2],
 		'ing':[{'-':/i/i,'+':/g(s?)$/i},'J',2],
 		'*':[{},'n',1],
-		//'nisole':[{'+':/$/i,'-':/^/i},'n',1], // exemple : n'a
-		//'apostrophe':[{'+':/('|’)/i},'n',2] // apostrophe
 		}],
 'o' : [['in','except_y','i','tomn',
-		'n','m','nm','u','o','oeu_defaut','oe_0','oe_2', 'oe_3',
+		'n','m','nm','u','boo','zoom','alcool','oeu_defaut','oe_0','oe_2', 'oe_3',
 		'oe_4','oe_defaut','toast','*'],
 		{'in':[{'+':/i[nm]([bcçdfghjklpqrstvwxz]|$)/i},'w_e_tilda',3],
 		'except_y':[this.RegleMotsOYoj,'o',1],
@@ -355,7 +328,9 @@ namespace ColorLib
 		'm':[{'+':/m[bcçdfgjklpqrstvwxz]/i},'o_tilda',2], // toute consonne sauf le m
 		'nm':[{'+':/[nm]$/i},'o_tilda',2],
 		'u':[{'+':/[uwûù]/i},'u',2], // son [u] : clou, clown
-		'o':[{'+':/o/i},'o',2], // exemple : zoo
+		'boo':[{'-':/(al|b|bl|baz|f|gl|gr|lm|pr|^r|sc|sh|sl|w)/i,'+':/o/i},'u',2], // exemple : booléen, boom, sloop, ...
+		'zoom':[{'-':/z/i,'+':/om/i},'u',2],
+		'alcool':[{'-':/(alc|hyper|waterl|witl)/i,'+':/o/i},'o',2],
 		'oeu_defaut':[{'+':/eu/i},'x2',3], // exemple : oeuf
 		'oe_0':[{'+':/ê/i},'oi',2],  // exemple : poêle [PAE 26.02.2020] remplacé par 'oi'
 		'oe_2':[{'-':/m/i,'+':/e/i},'oi',2], // exemple : moelle [PAE 26.02.2020] remplacé par 'oi'
@@ -378,7 +353,6 @@ namespace ColorLib
 		{'*':[{},'o',1]
 			}],
 'p' : [['h','oup','drap','trop','sculpt','sirop','sgalop','rps','amp',
-		//'compt',
 		'bapt','sept','p', '*'],
 		{'h':[{'+':/h/i},'f_ph',2],
 		'oup':[{'-':/[cl]ou/i,'+':/$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : loup, coup
@@ -389,7 +363,6 @@ namespace ColorLib
 		'sgalop':[{'-':/[gs]alo/i,'+':/$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : galop
 		'rps':[{'-':/[rm]/i,'+':/s$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : corps, camp
 		'amp':[{'-':/c(h?)am/i,'+':/$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : camp, champ
-		//'compt':[{'-':/com/i,'+':/t/i},'_muet',1], // les exceptions avec un p muet : les mots en *compt*
 		'bapt':[{'-':/(ba|com)/i,'+':/t/i},'_muet',1], // les exceptions avec un p muet : les mots en *bapt* ou *compt*
 		'sept':[{'-':/^se/i,'+':/t(s?)$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : sept
 		'p':[{'+':/p/i},'p',2],
@@ -417,7 +390,7 @@ namespace ColorLib
 		'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*,
 		'balsa':[{'-':/(tran|bal)/i,'+':/(it|hum|a)/i},'z_s',1], // transhumance, transit, balsa,...
 		'asept':[{'-':/a/i,'+':/(ep(s|t)i|ex|ocia|y(m|n|s))/i},'s',1],
-		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio)/i},'s',1],
+		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 		'h':[{'+':/h/i},'S',2],
 		'fasci':[{'-':/fa/i,'+':/cis/i},'S',2], // fasciste
@@ -484,19 +457,21 @@ namespace ColorLib
 		'*':[{},'ks',1],
 		'@':[{'+':/$/i},'_muet',1]}],
 'y' : [['m','n','nm','abbaye','y_voyelle', '*'],
-		{'y_voyelle':[{'+':/[aâeiouéèàüëöêîôûù]/i},'j',1], // y suivi d'une voyelle donne [j]
-		'abbaye':[{'-':/abba/i,'+':/e/i},'i', 1], // abbaye... bien irrégulier
+		{'m':[{'+':/m[mpb]/i},'e_tilda',2],
 		'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
-		'm':[{'+':/m[mpb]/i},'e_tilda',2],
 		'nm':[{'+':/[n|m]$/i},'e_tilda',2],
+		'abbaye':[{'-':/abba/i,'+':/e/i},'i', 1], // abbaye... bien irrégulier
+		'y_voyelle':[{'+':/[aâeiouéèàüëöêîôûù]/i},'j',1], // y suivi d'une voyelle donne [j]
 		'*':[{},'i',1]}],
-'z' : [['riz', 'iz', 'gaz', 'razzia','@', '*'],
-		{'riz':[{'-':/i/i,'+':/$/i},'_muet',1], // y suivi d'une voyelle donne [j]
-		'iz':[{'-':/i/i,'+':/$/i},'z',1],
-		'gaz':[{'-':/a/i,'+':/$/i},'z',1],
+'z' : [['riz', 'aio_z','razzia','zsch','tz','@', '*'],
+		{'riz':[{'-':/^r(i|a)/i,'+':/$/i},'_muet',1], 
+		'aio_z':[{'-':/(a|i|o)/i,'+':/$/i},'z',1],
+		//'gaz':[{'-':/a/i,'+':/$/i},'z',1],
 		'razzia':[{'+':/z/i},'d',1],
-		'*':[{},'z',1],
-		'@':[{'+':/$/i},'_muet',1]}],
+		'zsch':[{'+':/sch/i},'S',4], // nietzschéen...
+		'tz':[{'-':/t/i},'s',1],
+		'@':[{'+':/$/i},'_muet',1],
+		'*':[{},'z',1]}],
 'æ' : [['*'],
 		{'*':[{},'e',1]}], // les autres cas sont traités dans les exceptions. [ae] n'est cependant pas possible...
 '0' : [['*'],
