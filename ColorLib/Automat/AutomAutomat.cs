@@ -158,7 +158,7 @@ namespace ColorLib
 		'avoir','eu',
 		'in','eil','y','iy','ennemi','enn_debut_mot',
 		't_final','eclm_final','d_except','drz_final','except_en2','n','adv_emment_a',
-		'femme','lemme','em_gene','nm','tclesmesdes','que_gue_final',
+		'lemme','em_gene','nm','tclesmesdes','que_gue_final',
 		'jtcnslemede','jean','ge','eoi','ex','ef','reqquechose','entre',
 		'except_evr',
 		'2consonnes','abbaye','e_muet','e_caduc','e_deb','@','ier_Conj','*'],
@@ -167,7 +167,7 @@ namespace ColorLib
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
         'ien_0':[{'-':/ni/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient
 		'scien':[{'-':/(aud|sc)i/i,'+':/n/i},'a_tilda',2], // science...
-        'ien':[{'-':/([bcdgklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
+        'ien':[{'-':/([bcdégklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
         'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|^y|acum|album|^a(m|v)|lum|bigoud)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
 		'except_en':[{'-':/(exam|mino|édu|apexi|^api|loqui|y|é|^b(r?))/i,'+':/n(s?)$/i},'e_tilda',2], // exceptions des mots où le 'en' final se prononce [e_tilda] (héritage latin)
         '_ent':[this.Regle_mots_ent,'a_tilda',2], // quelques mots (adverbes ou noms) terminés par ent
@@ -193,7 +193,6 @@ namespace ColorLib
         'except_en2':[this.RegleMotsEn5,'e_tilda',2], // mots dont le en se prononce [5]
         'n':[{'+':/n[bcdfghjklmpqrstvwxzç]/i},'a_tilda',2],
         'adv_emment_a':[{'+':/mment/i},'a',1], // adverbe avec 'emment' => son [a]
-		'femme':[{'-':/f/i,'+':/mm/i},'a',1], // femme et ses dérivés => son [a]
 		'lemme':[{'-':/[lt]/i,'+':/mm/i},'E_comp',1], // lemme et ses dérivés => son [E]
 		'em_gene':[{'+':/m[bcçdfghjklmnpqrstvwxz]/i},'a_tilda',2], // 'em' cas général => son [a_tilda]
 		'nm':[{'+':/[nm]$/i},'a_tilda',2], // en fin de mot...
@@ -229,7 +228,7 @@ namespace ColorLib
 		{'f':[{'+':/f/i},'f',2],
 			'oeufs':[{'-':/(oeu|œu)/i,'+':/s/i},'_muet',1], // oeufs et boeufs
 			'*':[{},'f',1]}],
-'g' : [['sugg','g','ao','eiy','aiguille','u_consonne','u','except_n','n','vingt','g_muet_oin',
+'g' : [['sugg','g','ao','eiy','aiguille','u_consonne','ngui','u','except_n','n','vingt','g_muet_oin',
 		'g_muet_our','g_muet_an','g_muet_fin', '*'],
 		{'sugg':[{'-':/su/i,'+':/g(e|é)/i},'g',1], // suggérer et sa famille
 		'g':[{'+':/g/i},'g',2],
@@ -244,6 +243,7 @@ namespace ColorLib
 		'aiguille':[{'-':/ai/i,'+':/(u(ill|iér|ï|ité|(s?)$))/i},'g',1], // encore une exception : aiguille, aigu et quelques mots bizarres comme aiguité
 		'vingt':[{'-':/vin/i,'+':/t/i},'_muet',1], // vingt
 		'u_consonne':[{'+':/u[bcçdfghjklmnpqrstvwxz]/i},'g',1], // gu suivi d'une consonne se prononce [g][y]
+		'ngui':[{'-':/n/i,'+':/ui(st|sm|fè|cu)/i},'g',1], // linguiste, inguinal, unguifère, onguiculé...
 		'u':[{'+':/u/i},'g_u',2],
 		'*':[{},'g',1]}],
 'h' : [['*'],
@@ -381,7 +381,7 @@ namespace ColorLib
 		'r':[{'+':/r/i},'R',2],
 		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
-'s' : [['sch','s','s_final','@','parasit','balsa','asept','pasZ','z','h','fasci',
+'s' : [['sch','s','s_final','@','parasit','balsa','asept','pasZ','z','dés','h','fasci',
 		'*'],
 		{'sch':[{'+':/ch/i},'S',3], // schlem
 		's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
@@ -392,6 +392,7 @@ namespace ColorLib
 		'asept':[{'-':/a/i,'+':/(ep(s|t)i|ex|ocia|y(m|n|s))/i},'s',1],
 		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
+		'dés':[{'-':/(^dé|^di|^dy|^e|^phy|^tran)/i,'+':/h/i},'z_s',1], // déshonneur, esherbeur (si si), transhumance...
 		'h':[{'+':/h/i},'S',2],
 		'fasci':[{'-':/fa/i,'+':/cis/i},'S',2], // fasciste
 		'*':[{},'s',1]}],

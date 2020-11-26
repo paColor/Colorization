@@ -2080,15 +2080,9 @@ namespace ColorLib
             "aspergilloses", "aspergillus", "axillaire", "axillaires", "bacillaire", "bacillaires",
             "bellevillois", "bellevilloise", "bellevilloises", "bidonville", "bidonvilles", "bill", "billevesée",
             "billevesées", "billion", "billions", "bills", "bougainvillée", "bougainvillées", "bougainvillier", "bougainvilliers",
-            "calville", "calvilles", "canetille", "canetilles", "capillaire", "capillaires", "capillarité", "capillarités",
-            "capilliculteur", "capilliculteurs", "caterpillar", "chinchilla", "chinchillas", "cochenille", "cochenilles", "codicille",
-            "codicilles", "cyrillique", "cyrilliques", "défibrillateur", "défibrillateurs",
-            "défibrillation", "défibrillations", "défibriller", "défibrille", "défibrilles", "défibrillons", "défibrillez",
-            "défibrillent", "défibrillé", "défibrillais", "défibrillait", "défibrillions", "défibrilliez", "défibrillaient",
-            "défibrillai", "défibrillas", "défibrilla", "défibrillâmes", "défibrillâtes", "défibrillèrent", "défibrillerai",
-            "défibrilleras", "défibrillera", "défibrillerons", "défibrillerez", "défibrilleront", "défibrillerais", "défibrillerait",
-            "défibrillerions", "défibrilleriez", "défibrilleraient", "défibrillasse", "défibrillasses", "défibrillât",
-            "défibrillassions", "défibrillassiez", "défibrillassent", "défibrillant", "défibrillée", "défibrillées",
+            "calville", "calvilles", "capillaire", "capillaires", "capillarité", "capillarités",
+            "capilliculteur", "capilliculteurs", "caterpillar", "chinchilla", "chinchillas", "codicille",
+            "codicilles", "cyrillique", "cyrilliques",
             "désillusion", "désillusionné", "désillusionnés", "désillusionnement", "désillusionnements", "désillusionner",
             "désillusions", "drill", "fibrillation", "fibrillations",
             "fringillidé", "fritillaires", "gilles", "grill", "imbécillité", "imbécillités", "killer", "killers", "krill", "krills",
@@ -2104,7 +2098,10 @@ namespace ColorLib
             "aspergillaires", "aspergille", "aspergilles", "willemite", "willémite", "willémites",
             "willi", "williams", "willis", "vexillaire", "vexillaires", "vexille", "vexilles",
             "vexillum", "vexillums", "verticillaire", "verticillé", "verticillée", "verticillées",
-            "verticillés", "verticilliose", "bimillénaire", "bimillénaires"
+            "verticillés", "verticilliose", "verticillioses", "bimillénaire", "bimillénaires", "branchille",
+            "branchilles", "branchillon", "branchillons", "boutillier", "boutilliers", "cabecilla", "cabécilla",
+            "cabecillas", "cabécillas", "capillacé", "capillacés", "capillacée", "capillacées", "coutillier",
+            "coutilliers", "dégobillis"
         };
 
         /// <summary>
