@@ -158,10 +158,11 @@ namespace ColorLib
 		'avoir','eu',
 		'in','eil','y','iy','ennemi','enn_debut_mot',
 		't_final','eclm_final','d_except','drz_final','except_en2','n','adv_emment_a',
-		'lemme','em_gene','nm','tclesmesdes','que_gue_final',
+		'lemme','em_gene','nm','tclesmesdes',// 'que_gue_final',
 		'jtcnslemede','jean','ge','eoi','ex','ef','reqquechose','entre',
 		'except_evr',
-		'2consonnes','abbaye','e_muet','e_caduc','e_deb','@','ier_Conj','*'],
+		'2consonnes','abbaye','que_gue_final','e_muet','e_deb',
+		'@','ier_Conj','*'],
 		{
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
@@ -175,7 +176,6 @@ namespace ColorLib
         'ment':[this.Regle_ment,'a_tilda',2], // on considère que les mots terminés par 'ment' se prononcent [a_tilda] sauf s'il s'agit d'un verbe
 		'imparfait':[{'-':/ai/i,'+':/nt$/i},'verb_3p',3], // imparfait à la 3ème personne du pluriel
 		'verbe_3_pluriel':[{'+':/nt$/i},'q_caduc',1], // normalement, pratiquement tout le temps verbe à la 3eme personne du pluriel
-
 		'hier':[this.Regle_er,'E_comp',1], // encore des exceptions avec les mots terminés par 'er' prononcés 'R'        
 		'au':[{'+':/au/i},'o_comp',3],
         'avoir':[this.Regle_avoir,'y',2],
@@ -210,9 +210,8 @@ namespace ColorLib
 		'2consonnes':[{'+':/[bcçdfghjklmnpqrstvwxz]{2}/i},'E_comp',1], // e suivi de 2 consonnes se prononce è
         'abbaye':[{'-':/abbay/i,'+':/(s?)$/i},'_muet',1], // ben oui...
 		'e_muet':[{'-':/[aeiouéèêà]/i,'+':/(s?)$/i},'_muet',1], // un e suivi éventuellement d'un 's' et précédé d'une voyelle ou d'un 'g' ex. : pie, geai
-		'e_caduc':[{'-':/[bcçdfghjklmnpqrstvwxzy]/i,'+':/(s?)$/i},'q_caduc',1], // un e suivi éventuellement d'un 's' et précédé d'une consonne ex. : correctes
-        'e_deb':[{'-':/^/i},'q',1], // par défaut, un 'e' en début de mot se prononce [q]
-        '@':[{'+':/$/i},'q_caduc',1],
+		'e_deb':[{'-':/^/i},'q',1], // par défaut, un 'e' en début de mot se prononce [q]
+        '@':[{'+':/(s?)$/i},'q_caduc',1],
 		'ier_Conj':[this.Regle_ierConjE,'_muet',1], // verbes en ier conjugués au futur ou au conditionnel
 		'*':[{},'q',1],
 		}],
@@ -348,24 +347,15 @@ namespace ColorLib
 		}],
 'ô' : [['*'],
 		{'*':[{},'o',1]
-			}],
+		}],
 'ö' : [['*'],
 		{'*':[{},'o',1]
-			}],
-'p' : [['h','oup','drap','trop','sculpt','sirop','sgalop','rps','amp',
-		'bapt','sept','p', '*'],
-		{'h':[{'+':/h/i},'f_ph',2],
-		'oup':[{'-':/[cl]ou/i,'+':/$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : loup, coup
-		'drap':[{'-':/dra/i,'+':/$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : drap
-		'trop':[{'-':/tro/i,'+':/$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : trop
-		'sculpt':[{'-':/scul/i,'+':/t/i},'_muet',1], // les exceptions avec un p muet : sculpter et les mots de la même famille
-		'sirop':[{'-':/siro/i,'+':/$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : sirop
-		'sgalop':[{'-':/[gs]alo/i,'+':/$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : galop
-		'rps':[{'-':/[rm]/i,'+':/s$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : corps, camp
-		'amp':[{'-':/c(h?)am/i,'+':/$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : camp, champ
-		'bapt':[{'-':/(ba|com)/i,'+':/t/i},'_muet',1], // les exceptions avec un p muet : les mots en *bapt* ou *compt*
-		'sept':[{'-':/^se/i,'+':/t(s?)$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : sept
-		'p':[{'+':/p/i},'p',2],
+		}],
+'p' : [['p','h','oup','sculpt','*'],
+		{'p':[{'+':/p/i},'p',2],
+		'h':[{'+':/h/i},'f_ph',2],
+		'oup':[{'-':/([cl]ou|dra|[ti]ro|alo|[rm])/i,'+':/(s?)$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : loup, coup, galop, sirop
+		'sculpt':[{'-':/(scul|ba|com)/i,'+':/t/i},'_muet',1], // les exceptions avec un p muet : sculpter, baptême, compter et les mots de la même famille
 		'*':[{},'p',1]}],
 'q' : [['qua_w','qu','k', '*'],
 		{'qua_w':[this.RegleMotsQUkw,'k',1], 

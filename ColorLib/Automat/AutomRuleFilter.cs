@@ -308,7 +308,7 @@ namespace ColorLib
         }
 
 
-        private static Regex rxConsIent = new Regex("[bcçdfghjklnmpqrstvwxz]ient$", RegexOptions.Compiled);
+        private static Regex rxConsIent = new Regex("[bcçdéfghjklnmpqrstvwxz]ient$", RegexOptions.Compiled);
 
         /// <summary>
         /// Cherche si <paramref name="mot"/> se termine par "ient" et est la forme conjuguée au
@@ -328,7 +328,7 @@ namespace ColorLib
             bool toReturn = false;
             if (pos >= mot.Length - 4) // checking i or e from the "ient" any previous letter in the word would not fit.
             {
-                if (rxConsIent.IsMatch(mot)) // le mot doit se terminer par 'ient' (précédé d'une consonne)
+                if (rxConsIent.IsMatch(mot)) // le mot doit se terminer par 'ient' (précédé d'une consonne ou d'un é)
                 {
                     // il faut savoir si le mot est un verbe dont l'infinitif se termine par 'ier' ou non
                     StringBuilder sb = new StringBuilder(mot.Length);

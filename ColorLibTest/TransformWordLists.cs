@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "défibrilla";
+            string txt = "loup";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,24 +97,10 @@ namespace ColorLibTest
         {
             string txt = @"
 
-bookmaker
-bookmakers
-bootlegger
-bootleggers
-bossemans
-botticellien
-botticelliens
-botticellienne
-botticelliennes
-bourgmestre
-bourgmestres
-boxers
-cancoillotte
-cancoillottes
-caudillo
-caudillos
-degré
-degrés
+tramp
+tramps
+vamp
+vamps
 
 
 

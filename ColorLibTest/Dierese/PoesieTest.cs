@@ -189,7 +189,7 @@ Sont bru-yants dans leurs faits et vains dans leurs pa-roles
 De leurs pro-grès sans cesse on les voit se tar-guer
 Ils n'ont point de fa-veurs qu'ils n'a-illent di-vul-guer
 Et leur langue in-dis-crète en qui l'on se con-fie
-Dé-sho-no-re l'au-tel où leur coeur sa-cri-fie
+Dés-ho-no-re l'au-tel où leur coeur sa-cri-fie
 Mais les gens com-me nous brû-lent d'un feu dis-cret
 A-vec qui pour tou-jours on est sûr du se-cret
 Le soin que nous pre-nons de no-tre re-nom-mée
@@ -226,7 +226,7 @@ Sont bru-yants dans leurs faits et vains dans leurs pa-roles
 De leurs pro-grès sans cesse on les voit se tar-guer
 Ils n'ont point de fa-veurs qu'ils n'a-illent di-vul-guer
 Et leur langue in-dis-crète en qui l'on se con-fie
-Dé-sho-no-re l'au-tel où leur coeur sa-cri-fie
+Dés-ho-no-re l'au-tel où leur coeur sa-cri-fie
 Mais les gens com-me nous brû-lent d'un feu dis-cret
 A-vec qui pour tou-jours on est sûr du se-cret
 Le soin que nous pre-nons de no-tre re-nom-mée
@@ -263,7 +263,7 @@ Sont bru-yants dans leurs faits et vains dans leurs pa-ro-les
 De leurs pro-grès sans ces-se on les voit se tar-guer
 Ils n'ont point de fa-veurs qu'ils n'a-illent di-vul-guer
 Et leur lan-gue in-dis-crè-te en qui l'on se con-fie
-Dé-sho-no-re l'au-tel où leur coeur sa-cri-fie
+Dés-ho-no-re l'au-tel où leur coeur sa-cri-fie
 Mais les gens com-me nous brû-lent d'un feu dis-cret
 A-vec qui pour tou-jours on est sûr du se-cret
 Le soin que nous pre-nons de no-tre re-nom-mée

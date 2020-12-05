@@ -247,11 +247,11 @@ namespace ColorLibTest
 		{
 			TheText.Init();
 			string txt =
-				@"abeille, accueillant, vrai, caecum, suspect, instinct";
+				@"abeille, accueillant, vrai, caecum, suspect, instinct, stewards, rewriterez";
 
 			string[] phonetique = new string[]
 			{
-				"abEj", "ak2j@", "vRE", "sekOm", "syspE", "5st5"
+				"abEj", "ak2j@", "vRE", "sekOm", "syspE", "5st5", "stuwaRd", "RiwRat°Re"
 			};
 
 			CheckTextVsPhonetique(txt, phonetique, ColConfWin.IllRule.ceras);
