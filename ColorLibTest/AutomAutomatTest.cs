@@ -192,7 +192,7 @@ namespace ColorLibTest
 
 			string[] phonetique = new string[]
 			{
-				"Ej§", "balEja", "ajatOla", "kajak", "tOkE", "majOnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
+				"Ej§", "balEja", "ajatOla", "kajak", "tOkaj", "majOnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
 				"dilEm", "5pEkabl", "S°vRije", "kaRamEl", "b°dOn@", "f°z§", "afEs°RE", "R°f°zE", "tR@kil", "ilegal°m@",
 				"lilipysj5", "milimetRe", "distil°RE", "tR@kiliz", "tR@kilite", "tR@kiliz@t", "tR@kilOs", "dezilyzjOne",
 				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnER",
@@ -226,7 +226,7 @@ namespace ColorLibTest
 
 			string[] phonetique = new string[]
 			{
-				"Ej§", "balEja", "ajatOla", "kajak", "tOkE", "majOnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
+				"Ej§", "balEja", "ajatOla", "kajak", "tOkaj", "majOnEz", "fajO", "maja", "imalaja", "kREj2", "paREs", "abEs",
 				"dilEm", "5pEkabl", "S°vRije", "kaRamEl", "b°dOn@", "f°z§", "afEs°RE", "R°f°zE", "tR@kil", "ilegal°m@",
 				"lilipysj5", "milimetRe", "distil°RE", "tR@kiliz", "tR@kilite", "tR@kiliz@t", "tR@kilOs", "dezilyzjOne",
 				"distile", "ilOZism", "ilystRE", "ilegal°m@", "ilymin°R§", "5besilite", "5stilasje", "milezim", "miljOnER",

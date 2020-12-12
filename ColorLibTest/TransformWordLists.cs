@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "loup";
+            string txt = "énantiomorphe";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,10 +97,8 @@ namespace ColorLibTest
         {
             string txt = @"
 
-tramp
-tramps
-vamp
-vamps
+longtemps
+
 
 
 

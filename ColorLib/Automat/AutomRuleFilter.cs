@@ -816,7 +816,7 @@ namespace ColorLib
         // hypothèse: il n'existe pas de mot contenant deux fois "tien"
 
         static Regex rTien2 = new Regex(
-            "(^chré|^sou|^appar|^dé|^ap|^ar|^astar)tien", 
+            "(^chré|^sou|^appar|^dé|^ap|^ar|^astar|ch(a|â))tien", 
             RegexOptions.Compiled);
 
         /// <summary>
@@ -824,7 +824,7 @@ namespace ColorLib
         /// </summary>
         /// <param name="mot">Le mot à analyser.</param>
         /// <param name="pos_mot">La position du 't' de "tien" dans <paramref name="mot"/>.</param>
-        /// <returns><c>true</c> si le tide "tien" se prononce [t].</returns>
+        /// <returns><c>true</c> si le t de "tien" se prononce [t].</returns>
         public static bool Regle_tien(string mot, int pos_mot)
         // pos_mot pointe sur un 't'
         // Cette fonnction n'est pas tout à fait dans la philosophie de l'automate.
@@ -857,7 +857,7 @@ namespace ColorLib
                     else
                     {
                         // il reste les exceptions qui commencent par "chrétien","soutien",
-                        // "appartien", "détien", aptien (oui, oui ça semble exister...)
+                        // "appartien", "détien", "aptien" (oui, oui ça semble exister...)
                         toReturn = rTien2.IsMatch(mot);
                     }
                 }
@@ -988,22 +988,27 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Vérifie si le mot est un verbe en ter à la 1e personne du pluriel de l'imparfait.
+        /// Vérifie si le mot est un verbe en ter à la 1e ou 2e personne du pluriel de l'imparfait.
         /// Par ex. "nous formations". Le but est de découvrir que "ti" se prononce ti et non si.
         /// </summary>
         /// <remarks>Utilise la liste <c>verbesTer</c> qui se trouve à la fin du fichier.</remarks>
         /// <param name="mot">Mot à analyser.</param>
-        /// <param name="pos">Position du t de tions dans le mot.</param>
-        /// <returns><c>true</c> si tions est utilisé pour conjuguer un verbe.</returns>
+        /// <param name="pos">Position du t de 'tions' ou 'tiez' dans le mot.</param>
+        /// <returns><c>true</c> si 'tions' ou 'tiez' est utilisé pour conjuguer un verbe.
+        /// <c>false</c> si <paramref name="pos"/> ne correspond pas au 't' de 'tions' ou 'tiez', 
+        /// ou s'il ne s'agit pas d'un verbe à l'imparfait.</returns>
         public static bool Regle_VerbesTer(string mot, int pos)
         {
             Debug.Assert(mot != null);
             bool toReturn = false;
-            if (pos == mot.Length - 5
+            if ((pos == mot.Length - 5
                 && mot.EndsWith("tions"))
+                ||
+                (pos == mot.Length - 4
+                && mot.EndsWith("tiez")))
             {
                 StringBuilder sb = new StringBuilder(mot.Length);
-                sb.Append(mot.Substring(0, mot.Length - 4));
+                sb.Append(mot.Substring(0, pos + 1));
                 sb.Append("er");
                 toReturn = verbesTer.Contains(sb.ToString());
             }
@@ -1328,7 +1333,7 @@ namespace ColorLib
             "adénoépithélium", "adiantum", "adytum", "aérium", "ageratum", "album", "allopalladium", "aluminium",
             "alyssum", "américium", "ammonium", "ancylothérium", "anoplothérium", "aquarium", "arboretum", "arum",
             "atrium", "auditorium", "barathrum", "barnum", "baryum", "bégum", "béryllium", "bibendum", "blastophyllium",
-            "cadmium", "caecum", "caffardum", "calcanéum", "calcium", "caldarium", "cambium", "capsicum", "carborundum",
+            "cadmium", "caecum", "caffardum", "calcanéum", "calcium", "caldarium", "cambium","capsicum", "carborundum",
             "castoréum", "cérium", "césium", "coagulum", "cœcum", "colostrum", "columbarium", "compendium",
             "componium", "condominium", "consortium", "continuum", "coronium", "critérium", "cryptosepalum",
             "cuprammonium", "cuprosilicium", "curriculum", "cymbalum", "cypripedium", "décorum", "delirium",
@@ -1364,7 +1369,7 @@ namespace ColorLib
             "ytterbium", "yttrium", "zirconium", "zygantrum", "zygopetalum", "zygophyllum", "zythum", "ageratum",
             // sans accents
             "aceratherium", "acerotherium", "acetabulum", "acroterium", "adenoepithelium", "aerium",
-            "americium", "ancylotherium", "anoplotherium", "begum", "beryllium", "calcaneum",
+            "americium", "ancylotherium", "anoplotherium", "begum", "beryllium", "calcaneum", "capharnaum",
             "castoreum", "cerium", "cesium", "criterium", "decorum", "deuterium", "duodenum",
             "electrum", "endothelium", "epithelium", "erodium", "flammeum", "geranium", "gerontocomium",
             "helium", "hymenium", "ileum", "jejunum", "leontopodium", "leucanthemum", "linoleum",
@@ -1824,7 +1829,7 @@ namespace ColorLib
             "brachysome", "brachytype", "branchial", "branchiale", "branchiales", "branchiaux",
             "broncholithe", "bronchopneumonique", "bronchopneumoniques", "bronchoscope", "bronchoscopes",
             "bronchoscopie", "bronchoscopies", "bronchotomie", "bronchotomies", "callichte", "callichtes",
-            "carachs", "carchésion", "carchésions", "catéchuménat", "catéchuménats", "catéchumène",
+            "carach", "carachs", "carchésion", "carchésions", "catéchuménat", "catéchuménats", "catéchumène",
             "catéchumènes", "chaetodon", "chaetodons", "chalaze", "chalazes", "chalcaspide", "chalcaspides",
             "chalcogènes", "chalcographie", "chalcographies", "chaldaïque", "chaldaïques", "chaldaïsme",
             "chaldaïsmes", "chaldéen", "chaldéenne", "chaldéennes", "chaldéens", "chaos", "chaotique",
