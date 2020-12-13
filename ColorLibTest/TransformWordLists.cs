@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "énantiomorphe";
+            string txt = "compétent";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -96,11 +96,11 @@ namespace ColorLibTest
         public void PrintExceptFormat()
         {
             string txt = @"
-
-longtemps
-
-
-
+compound
+condottiere
+condottieres
+confiteor
+confiteors
 
 
 ";
@@ -162,7 +162,92 @@ longtemps
 
         string words =
         @"
-
+compétent
+concurrent
+conférent
+confluent
+congruent
+connivent
+consent
+conséquent
+constringent
+continent
+contingent
+contrevent
+convent
+convergent
+corpulent
+couvent
+covalent
+crément
+décurrent
+déponent
+diffluent
+diffringent
+efférent
+émergent
+émollient
+émulgent
+équipollent
+équipotent
+équivalent
+esculent
+excellent
+expédient
+ferment
+floculent
+fluent
+gradient
+gravéolent
+immergent
+impatient
+inapparent
+inexpérient
+influent
+infravalent
+ingrédient
+insurgent
+intercurrent
+irrévérent
+jacent
+magnificent
+maléolent
+maltalent
+mellifluent
+métalent
+monovalent
+munificent
+négligent
+obédient
+orient
+patient
+pestilent
+plurivalent
+précellent
+prééminent
+prépotent
+prominent
+pulvérulent
+pustulent
+quadrivalent
+quotient
+réfringent
+rémittent
+rénitent
+résilient
+restringent
+résurgent
+révérent
+sapient
+sempervirent
+silent
+similargent
+subjacent
+suréminent
+taillevent
+talent
+trivalent
+univalent
 
 
         ";

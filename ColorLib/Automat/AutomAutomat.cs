@@ -91,24 +91,26 @@ namespace ColorLib
 		static private string theAutomat =
 @"{
 
-'a' : [['u','il','in','nc_ai_fin','ai_fin','fais','i','n','m','adam','nm','y_except','y_fin','yat','taylor','y','ae_e','*'],
-		{'n':[{'+':/n[bcçdfgjklmpqrstvwxz]/i},'a_tilda',2],
-		'm':[{'+':/m[bp]/i},'a_tilda',2], // règle du m devant b, p
-		'adam':[{'-':/^ad/i,'+':/m(s?)$/i},'a_tilda',2],
-		'nm':[{'+':/n(s?)$/i},'a_tilda',2],
-		'y_except':[{'-':/(^b|cob|cip|^k|^m|^f|mal|bat|^bisc)/i,'+':/y/i},'a',1], // exception : baye, cobaye, kayac, maya, mayonnaise, fayot (PAE - 10.03.20)
-		'y_fin':[{'+':/y(s?)$/i},'E_comp',2], // (PAE - 10.03.20) - 'pays' est une eexception traitée dans le dico.
-		'yat':[{'+': /yat/i},'a',1], // (PAE - 10.03.20) ayatollah
-		'taylor':[{'-':/t/i,'+':/ylor/i},'E_comp', 2],
-		'y':[{'+':/y/i},'E_comp',1],
-		'u':[{'+':/u/i},'o_comp',2],
+'a' : [['u','il','in','nc_ai_fin','ai_fin','fais','i','n','m','adam','nm','y_except','y_fin','yat',
+		'taylor','y','ae_e','coach','*'],
+		{'u':[{'+':/u/i},'o_comp',2],
 		'il':[{'+':/il((s?)$|l)/i},'a',1],
 		'in':[{'+':/i[nm]([bcçdfghjklnmpqrstvwxz]|$)/i},'e_tilda',3], // toute succession 'ain' 'aim' suivie d'une consonne ou d'une fin de mot
 		'nc_ai_fin':[this.Regle_nc_ai_final,'E_comp',2],
 		'ai_fin':[{'+':/i$/i},'e_comp',2],
 		'fais':[{'-':/f/i,'+':/is[aeiouy]/i},'q', 2], // (PAE - 30.04.20) faisais et toutes les variations
 		'i':[{'+':/[iî]/i},'E_comp',2],
+		'n':[{'+':/n[bcçdfgjklmpqrstvwxz]/i},'a_tilda',2],
+		'm':[{'+':/m[bp]/i},'a_tilda',2], // règle du m devant b, p
+		'adam':[{'-':/^ad/i,'+':/m(s?)$/i},'a_tilda',2],
+		'nm':[{'+':/n(s?)$/i},'a_tilda',2],
+		'y_except':[{'-':/(^b|cob|cip|^k|^m|^f|mal|bat|^bisc)/i,'+':/y/i},'a',1], // exception : baye, cobaye, kayac, maya, mayonnaise, fayot (PAE - 10.03.20)
+		'y_fin':[{'+':/y(s?)$/i},'E_comp',2], // (PAE - 10.03.20) - 'pays' est une eexception traitée dans AutomDictionary.
+		'yat':[{'+': /yat/i},'a',1], // (PAE - 10.03.20) ayatollah
+		'taylor':[{'-':/t/i,'+':/ylor/i},'E_comp', 2],
+		'y':[{'+':/y/i},'E_comp',1],
 		'ae_e': [{'+':/e/i},'e',2],
+		'coach':[{'-':/co/i,'+':/(ch|lt)/i},'_muet', 1],
 		'*':[{},'a',1]}],
 'â' : [['*'],
 		{'*':[{},'a',1]}],
@@ -119,8 +121,8 @@ namespace ColorLib
 		'plomb':[{'-':/plom/i,'+':/(s?)$/i},'_muet',1], // le ´b´ à la fin de plomb ne se prononce pas
 		'*':[{},'b',1]}],
 'c' : [['eiy','choeur','psycho','brachio','tech','tachy','batra','chK','h',
-		'cciey','cc','ck','c_muet_fin','c_k_fin','@',
-		'ct_fin','cisole','apostrophe','coe','*'],
+		'cciey','cc','c_muet_fin','c_k_fin','@',
+		'ct_fin','cisole','apostrophe','coe','seconde','*'],
 		{'eiy':[{'+':/([eiyéèêëîï]|ae)/i},'s_c',1],
 		'choeur':[{'+':/h(oe|œ|or|éo|r|estr|esti|irop|irom|lo|lam)/i},'k',2],
 		'psycho':[{'-':/psy/i,'+':/h[oa]/i},'k',2], // tous les ´psycho´ quelque chose
@@ -131,8 +133,8 @@ namespace ColorLib
 		'chK':[this.Regle_ChK,'k',2], // pour les cas qui n'ont pas été reconnus par les règles précédentes
 		'h':[{'+':/h/i},'S',2],
 		'cciey':[{'+':/c[eiyéèêëîï]/i},'k',1], // accident, accepter, coccyx
-		'cc':[{'+':/c/i},'k',2], // accorder, accompagner
-		'ck':[{'+':/k/i},'k',2], // docks
+		'cc':[{'+':/[ck]/i},'k',2], // accorder, accompagner
+		//'ck':[{'+':/k/i},'k',2], // docks
 		'c_muet_fin':[{'-':/taba|accro|estoma|bro|capo|cro|escro|raccro|caoutchou|mar/i,'+':/(s?)$/i},'_muet',1], // exceptions traitées : tabac, accroc [PAE 20.02.20 ajouté les autres]
 		'c_k_fin':[{'-':/([aeiouïé]|^on|don|ar|ur|s|l)/i,'+':/(s?)$/i}, 'k', 1], // [PAE 20.02.20 ajouté la règle]
 		'@':[{'+':/(s?)$/i},'_muet',1],
@@ -140,13 +142,13 @@ namespace ColorLib
 		'cisole':[{'+':/$/i,'-':/^/i},'s_c',1], // exemple : c'est
 		'apostrophe':[{'+':/('|’)/i},'s_c',2], // il faut aussi cette règle car l'appostrophe n'est pas toujours filtrée.
 		'coe':[{'+':/(œ)(l|n|c)/i},'s_c',1],
+		'seconde':[{'-':/se/i,'+':/cond/i},'g',1],
 		'*':[{},'k',1]}], 
 'ç' : [['*'],
 		{'*':[{},'s',1]}],
 'd' : [['d','aujourdhui','disole','except','dmuet',
 		'*'],
 		{'d':[{'+':/d/i},'d',2],
-		//'except':[{'-':/(aï|oue)/i, '+':/(s?)$/i},'d',1], // aïd, caïd, oued
 		'except':[this.Regle_finD,'d',1], // aïd, caïd, oued
 		'aujourdhui':[{'-':/aujour/i},'d',1], // aujourd'hui
 		'disole':[{'+':/$/i,'-':/^/i},'d',1], // exemple : d'abord
@@ -166,11 +168,11 @@ namespace ColorLib
 		{
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
-        'ien_0':[{'-':/ni/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient
-		'scien':[{'-':/(aud|sc)i/i,'+':/n/i},'a_tilda',2], // science...
+        'ien_0':[{'-':/(fic|n)i/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient, coefficient,...
+		'scien':[{'-':/(aud|sc|cl)i/i,'+':/n/i},'a_tilda',2], // science...
         'ien':[{'-':/([bcdégklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 		'ien2':[{'-':/pi/i,'+':/n(s?)$/i},'e_tilda',2], // carpien, olympien, ...
-        'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|^y|acum|album|^a(m|v)|lum|bigoud|cérum)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
+        'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|^y|acum|album|^a(m|v)|lum|bigoud|cérum|coh)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
 		'except_en':[{'-':/(exam|mino|édu|apexi|^api|loqui|y|é|^b(r?))/i,'+':/n(s?)$/i},'e_tilda',2], // exceptions des mots où le 'en' final se prononce [e_tilda] (héritage latin)
         '_ent':[this.Regle_mots_ent,'a_tilda',2], // quelques mots (adverbes ou noms) terminés par ent
         'adv_emment_fin':[{'-':/emm/i,'+':/nt/i},'a_tilda',2], // adverbe avec 'emment' => se termine par le son [a_tilda]
@@ -377,16 +379,16 @@ namespace ColorLib
 's' : [['sch','transs','s','s_final','@','parasit','balsa','asept','pasZ','z','dés','h','fasci',
 		'*'],
 		{'sch':[{'+':/ch/i},'S',3], // schlem
-		'transs':[{'-':/trans/i, '+':/s/i},'s',1],
+		'transs':[{'-':/tran/i, '+':/s/i},'s',1],
 		's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
 		's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
 		'@':[{'+':/$/i},'_muet',1],
 		'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*
 		'balsa':[{'-':/(tran|bal)/i,'+':/(i|hum|a)/i},'z_s',1], // transhumance, transit, balsa,...
 		'asept':[{'-':/a/i,'+':/(ep(s|t)i|ex|ocia|y(m|n|s))/i},'s',1],
-		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo)/i},'s',1],
+		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
-		'dés':[{'-':/(^dé|^di|^dy|^e|^phy|^tran)/i,'+':/h/i},'z_s',1], // déshonneur, esherbeur (si si), transhumance...
+		'dés':[{'-':/(^dé|^di|^dy|^e|^phy|^tran)/i,'+':/[aiyouéèàâüûùëöêîôïh]/i},'z_s',1], // déshonneur, esherbeur (si si), transhumance...
 		'h':[{'+':/h/i},'S',2],
 		'fasci':[{'-':/fa/i,'+':/cis/i},'S',2], // fasciste
 		'*':[{},'s',1]}],
@@ -400,8 +402,8 @@ namespace ColorLib
 		'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
 		'_tien':[{'+':/ien/i},'s_t',1],
 		'ex_tie':[{'-':/minu/i,'+':/ie(r|z)/i},'t',1],
-		'tie':[{'-':/(ambi|albu|cra|lvi|^essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan)/i,'+':/i(e|é)/i},'s_t',1],
-		'ex_tiot':[{'-':/(cré|plé|jé)/i,'+':/i[ao]/i},'s_t',1],
+		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan)/i,'+':/i(e|é)/i},'s_t',1],
+		'ex_tiot':[{'-':/(cré|plé|jé|[^r]essen)/i,'+':/i[ao]/i},'s_t',1],
 		'tiaot':[{'-':/([eéèêës]|[sc]en|(^|h|n)an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io]|^ca)/i,'+':/i[aâo]/i},'t',1],
 		'verb_tions':[this.Regle_VerbesTer,'t',1], // verbes en ter à l'imparfait - nous
 		'tiaos':[{'+':/i[aâo]/i},'s_t',1],
@@ -417,8 +419,9 @@ namespace ColorLib
 		'_tiel':[{'+':/iel((le)?)(s?)/i},'s_t',1],
 		'*':[{},'t',1],							
 		'@':[{'+':/$/i},'_muet',1]}],
-'u' : [['um','n_on','n','nm','ueil','trust','bluff','qua_w','*'],
+'u' : [['um','circum','n_on','n','nm','ueil','trust','bluff','qua_w','umb','*'],
 		{'um':[this.Regle_MotsUM,'o',1],
+		'circum':[{'-':/(circ|^cent)/i,'+':/m/i},'o',1],
 		'n_on':[this.Regle_MotsUN_ON,'o_tilda',2],
 		'n':[{'+':/n[bcçdfgjklmpqrstvwxz]/i},'x_tilda',2],
 		'nm':[{'+':/[nm]$/i},'x_tilda',2],
@@ -426,6 +429,7 @@ namespace ColorLib
 		'trust':[{'-':/tr/i,'+':/st/i},'x2',1],
 		'bluff':[{'-':/bl/i,'+':/ff/i},'x2',1],
 		'qua_w':[this.RegleMotsQUkw,'w',1],
+		'umb':[{'-':/(l|rh|^)/i,'+':/mb([aio]|ra|(s?)$)/i},'o_tilda',2],
 		'*':[{},'y',1]}],
 'û' : [['*'],
 		{'*':[{},'y',1]}],

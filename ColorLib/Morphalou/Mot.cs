@@ -96,6 +96,24 @@ namespace ColorLib.Morphalou
             sw.WriteLine(@"};");
         }
 
+        public static void DumpDoublons(StreamWriter sw)
+        {
+            Dictionary<string, Mot> uniqueMots = new Dictionary<string, Mot>(396000);
+            foreach (Mot m in mots)
+            {
+                if (uniqueMots.ContainsKey(m.graphie))
+                {
+                    // Doublon!
+                    m.WriteToFile(sw, sw);
+                    uniqueMots[m.graphie].WriteToFile(sw, sw);
+                }
+                else
+                {
+                    uniqueMots.Add(m.graphie, m);
+                }
+            }
+        }
+
         /// <summary>
         /// Écrit l'en-tête du fichier csv.
         /// </summary>
@@ -235,9 +253,12 @@ namespace ColorLib.Morphalou
                 if (pos < ph1.Length)
                 {
                     if (pos < graphie.Length
-                        && graphie[pos] == 'b' // il est clair que l'index dans grpahie peut vite diverger
                         && ph1[pos] == 'p'
-                        && col[pos] == 'b')
+                        && col[pos] == 'b'
+                        &&  (graphie[pos] == 'b' // il est clair que l'index dans grpahie peut vite diverger
+                            ||
+                            (pos < col.Length-2 && col[pos+1] == 's' && col[pos+2] == 't')
+                            )) 
                     {
                         // lettre 'b' dans le texte, son [p] morphalou et [b] colorization
                         return true;

@@ -19,6 +19,7 @@ namespace ConsoleApp___Test
         const string fullName = path + @"morphalou.csv";
         const string fullOutFName = path + @"morphalouFiltre.csv";
         const string fullFilteredOutFN = path + @"morphalouExclus.csv";
+        const string fullDoublonsFN = path + @"morphalou_Doublons.csv";
 
         private static void ExclutMotsComposes()
         {
@@ -265,6 +266,16 @@ namespace ConsoleApp___Test
                         Config conf = new Config();
                         Mot.EnsureCompleteness(conf, recompute, true);
                         Mot.DumpMotsFiltered(excludedFile, outFile);
+
+                        if (File.Exists(fullDoublonsFN))
+                        {
+                            File.Delete(fullDoublonsFN);
+                        }
+                        using (System.IO.StreamWriter doublonFile
+                            = new System.IO.StreamWriter(fullDoublonsFN))
+                        {
+                            Mot.DumpDoublons(doublonFile);
+                        }
                     }
                 }
             }
