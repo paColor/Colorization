@@ -121,8 +121,8 @@ namespace ColorLib
 		'plomb':[{'-':/plom/i,'+':/(s?)$/i},'_muet',1], // le ´b´ à la fin de plomb ne se prononce pas
 		'*':[{},'b',1]}],
 'c' : [['eiy','choeur','psycho','brachio','tech','tachy','batra','chK','h',
-		'cciey','cc','c_muet_fin','c_k_fin','@',
-		'ct_fin','cisole','apostrophe','coe','seconde','*'],
+		'cciey','cc','cisole','c_muet_fin','c_k_fin','@',
+		'ct_fin','apostrophe','coe','seconde','*'],
 		{'eiy':[{'+':/([eiyéèêëîï]|ae)/i},'s_c',1],
 		'choeur':[{'+':/h(oe|œ|or|éo|r|estr|esti|irop|irom|lo|lam)/i},'k',2],
 		'psycho':[{'-':/psy/i,'+':/h[oa]/i},'k',2], // tous les ´psycho´ quelque chose
@@ -134,12 +134,11 @@ namespace ColorLib
 		'h':[{'+':/h/i},'S',2],
 		'cciey':[{'+':/c[eiyéèêëîï]/i},'k',1], // accident, accepter, coccyx
 		'cc':[{'+':/[ck]/i},'k',2], // accorder, accompagner
-		//'ck':[{'+':/k/i},'k',2], // docks
+		'cisole':[{'+':/$/i,'-':/^/i},'s_c',1], // exemple : c'est
 		'c_muet_fin':[{'-':/taba|accro|estoma|bro|capo|cro|escro|raccro|caoutchou|mar/i,'+':/(s?)$/i},'_muet',1], // exceptions traitées : tabac, accroc [PAE 20.02.20 ajouté les autres]
 		'c_k_fin':[{'-':/([aeiouïé]|^on|don|ar|ur|s|l)/i,'+':/(s?)$/i}, 'k', 1], // [PAE 20.02.20 ajouté la règle]
 		'@':[{'+':/(s?)$/i},'_muet',1],
 		'ct_fin':[{'-':/(spe|in)/i,'+':/t(s?)$/i},'_muet',1], // respect, suspect, aspect
-		'cisole':[{'+':/$/i,'-':/^/i},'s_c',1], // exemple : c'est
 		'apostrophe':[{'+':/('|’)/i},'s_c',2], // il faut aussi cette règle car l'appostrophe n'est pas toujours filtrée.
 		'coe':[{'+':/(œ)(l|n|c)/i},'s_c',1],
 		'seconde':[{'-':/se/i,'+':/cond/i},'g',1],
@@ -443,7 +442,7 @@ namespace ColorLib
 		{'wurst':[{'+':/((u|ü)r|ag(o|n|uin)|rr|lk|isi|e(stp|rn|l(t|che)|i)|arrant|yando|orm|olfram|ill(é|e)|alky)/i},'v',1], 
 		// [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
 		'*':[{},'w',1]}], 
-'x' : [['six_dix','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','x_final', '@', '*'],
+'x' : [['six_dix','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','xisole','x_final', '@', '*'],
 		{'six_dix':[{'-':/(s|d)i/i},'s_x',1],
 		'gz_1':[{'-':/^/i,'+':/[aeuéèàüëêûù]/i},'gz',1], // mots qui commencent par un x suivi d'une voyelle (sauf 'i' ou 'o')
 		'gz_2':[{'-':/^(h?)e/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'ex' ou 'hex' suivi d'une voyelle
@@ -452,6 +451,7 @@ namespace ColorLib
 		'gz_5':[{'-':/^(p?)rée/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'réex' ou 'préex' suivi d'une voyelle
 		'_aeox':[{'-':/[aeo]/i},'ks',1],
 		'fix':[{'-':/fi/i},'ks',1],
+		'xisole':[{'-':/^/i,'+':/$/i},'ks',1],
 		'x_final':[this.Regle_X_Final,'ks',1],
 		'*':[{},'ks',1],
 		'@':[{'+':/$/i},'_muet',1]}],
@@ -462,13 +462,14 @@ namespace ColorLib
 		'abbaye':[{'-':/abba/i,'+':/e/i},'i', 1], // abbaye... bien irrégulier
 		'y_voyelle':[{'+':/[aâeiouéèàüëöêîôûù]/i},'j',1], // y suivi d'une voyelle donne [j]
 		'*':[{},'i',1]}],
-'z' : [['riz', 'aio_z','razzia','zsch','tz','@', '*'],
+'z' : [['riz', 'aio_z','razzia','zsch','tz','zisole','@', '*'],
 		{'riz':[{'-':/^r(i|a)/i,'+':/$/i},'_muet',1], 
 		'aio_z':[{'-':/(a|i|o)/i,'+':/$/i},'z',1],
 		//'gaz':[{'-':/a/i,'+':/$/i},'z',1],
 		'razzia':[{'+':/z/i},'d',1],
 		'zsch':[{'+':/sch/i},'S',4], // nietzschéen...
 		'tz':[{'-':/t/i},'s',1],
+		'zisole':[{'-':/^/i,'+':/$/i},'z',1],
 		'@':[{'+':/$/i},'_muet',1],
 		'*':[{},'z',1]}],
 'æ' : [['*'],
