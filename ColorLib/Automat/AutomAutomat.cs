@@ -376,7 +376,7 @@ namespace ColorLib
 		'r':[{'+':/r/i},'R',2],
 		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
-'s' : [['schizo','sch','transs','s','s_final','@','parasit','balsa','asept','pasZ','z','dés','h','fasci',
+'s' : [['schizo','sch','transs','s','s_final','@','parasit','balsa','subside','asept','pasZ','z','dés','h','fasci',
 		'*'],
 		{'schizo':[{'+':/chi[aoz]/i},'s',1],
 		'sch':[{'+':/ch/i},'S',3], // schlem
@@ -386,6 +386,7 @@ namespace ColorLib
 		'@':[{'+':/$/i},'_muet',1],
 		'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*
 		'balsa':[{'-':/(tran|bal)/i,'+':/(i|hum|a)/i},'z_s',1], // transhumance, transit, balsa,...
+		'subside':[{'-':/sub/i,'+':/i/i},'z_s',1], // subsidiaire
 		'asept':[{'-':/a/i,'+':/(ep(s|t)i|ex|ocia|y(m|n|s))/i},'s',1],
 		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
@@ -447,7 +448,7 @@ namespace ColorLib
 'x' : [['six_dix','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','xisole','x_final', '@', '*'],
 		{'six_dix':[{'-':/(s|d)i/i},'s_x',1],
 		'gz_1':[{'-':/^/i,'+':/[aeuéèàüëêûù]/i},'gz',1], // mots qui commencent par un x suivi d'une voyelle (sauf 'i' ou 'o')
-		'gz_2':[{'-':/^(h?)e/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'ex' ou 'hex' suivi d'une voyelle
+		'gz_2':[{'-':/^(h?)e/i,'+':/(h?)[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'ex' ou 'hex' suivi d'une voyelle
 		'gz_3':[{'-':/^coe/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'coex' suivi d'une voyelle
 		'gz_4':[{'-':/^ine/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'inex' suivi d'une voyelle
 		'gz_5':[{'-':/^(p?)rée/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'réex' ou 'préex' suivi d'une voyelle

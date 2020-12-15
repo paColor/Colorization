@@ -935,12 +935,14 @@ namespace ColorLib
         
 
         /// <summary>
-        /// Vérifie si le mot est une exception pour les lettres ill qui se prononcent [il]. La méthode peut
-        /// être appelée pour le i de "ill" et pour le prmier 'l' de "ill"
+        /// Vérifie si le mot est une exception pour les lettres ill qui se prononcent [il]. La 
+        /// méthode peut être appelée pour le i de "ill" et pour le prmier 'l' de "ill"
         /// </summary>
         /// <param name="mot">Le mot à vérifier</param>
-        /// <param name="pos_mot">la position (basée sur zéro) de la lettre dans le mot qu'on est en train d'étudier</param>
-        /// <returns></returns>
+        /// <param name="pos_mot">la position (basée sur zéro) de la lettre dans le mot qu'on est
+        /// en train d'étudier</param>
+        /// <returns><c>true</c> si on trouve bien 'ill' à la position donnée et qu'il se prononce
+        /// [il]</returns>
         public static bool Regle_ill(string mot, int pos_mot)
         {
             logger.ConditionalTrace(ConfigBase.cultF, "Regle_ill - mot: \'{0}\', pos: {1}", mot, pos_mot);
@@ -2124,7 +2126,14 @@ namespace ColorLib
             "verticillés", "verticilliose", "verticillioses", "bimillénaire", "bimillénaires", "branchille",
             "branchilles", "branchillon", "branchillons", "boutillier", "boutilliers", "cabecilla", "cabécilla",
             "cabecillas", "cabécillas", "capillacé", "capillacés", "capillacée", "capillacées", "coutillier",
-            "coutilliers", "dégobillis"
+            "coutilliers", "dégobillis",
+            "stilla", "stillai", "stillaient", "stillais", "stillait", "stillâmes", "stillant",
+            "stillas", "stillasse", "stillassent", "stillasses", "stillassiez", "stillassions",
+            "stillât", "stillâtes", "stillation", "stillations", "stille", "stillé", "stillée",
+            "stillées", "stillent", "stiller", "stillera", "stillerai", "stilleraient", "stillerais",
+            "stillerait", "stilleras", "stillèrent", "stillerez", "stilleriez", "stillerions",
+            "stillerons", "stilleront", "stilles", "stillés", "stillez", "stilligoutte", "stilligouttes",
+            "stillons",
         };
 
         /// <summary>
