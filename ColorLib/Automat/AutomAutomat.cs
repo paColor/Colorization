@@ -120,13 +120,14 @@ namespace ColorLib
 		{'b':[{'+':/b/i},'b',2],
 		'plomb':[{'-':/plom/i,'+':/(s?)$/i},'_muet',1], // le ´b´ à la fin de plomb ne se prononce pas
 		'*':[{},'b',1]}],
-'c' : [['eiy','choeur','psycho','brachio','tech','tachy','batra','chK','h',
+'c' : [['eiy','choeur','psycho','brachio','schizo','tech','tachy','batra','chK','h',
 		'cciey','cc','cisole','c_muet_fin','c_k_fin','@',
 		'ct_fin','apostrophe','coe','seconde','*'],
 		{'eiy':[{'+':/([eiyéèêëîï]|ae)/i},'s_c',1],
 		'choeur':[{'+':/h(oe|œ|or|éo|r|estr|esti|irop|irom|lo|lam)/i},'k',2],
 		'psycho':[{'-':/psy/i,'+':/h[oa]/i},'k',2], // tous les ´psycho´ quelque chose
 		'brachio':[{'-':/bra/i,'+':/hio/i},'k',2], // brachiosaure, brachiocéphale
+		'schizo':[{'-':/s/i,'+':/hi[aoz]/i},'k',2], // schizo
 		'tech':[{'-':/te/i,'+':/hn/i},'k',2], // technique et tous ses dérivés
 		'tachy':[{'-':/ta/i,'+':/hy/i},'k',2],
 		'batra':[{'-':/batra/i,'+':/h/i},'k',2],
@@ -168,7 +169,7 @@ namespace ColorLib
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
         'ien_0':[{'-':/(fic|n)i/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient, coefficient,...
-		'scien':[{'-':/(aud|sc|cl)i/i,'+':/n/i},'a_tilda',2], // science...
+		'scien':[{'-':/(aud|sc|cl|fa)[iï]/i,'+':/n/i},'a_tilda',2], // science, faïence...
         'ien':[{'-':/([bcdégklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 		'ien2':[{'-':/pi/i,'+':/n(s?)$/i},'e_tilda',2], // carpien, olympien, ...
         'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|^y|acum|album|^a(m|v)|lum|bigoud|cérum|coh)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
@@ -178,7 +179,7 @@ namespace ColorLib
         'ment':[this.Regle_ment,'a_tilda',2], // on considère que les mots terminés par 'ment' se prononcent [a_tilda] sauf s'il s'agit d'un verbe
 		'imparfait':[{'-':/ai/i,'+':/nt$/i},'verb_3p',3], // imparfait à la 3ème personne du pluriel
 		'verbe_3_pluriel':[{'+':/nt$/i},'q_caduc',1], // normalement, pratiquement tout le temps verbe à la 3eme personne du pluriel
-		'hier':[this.Regle_er,'E_comp',1], // encore des exceptions avec les mots terminés par 'er' prononcés 'R'        
+		'hier':[this.Regle_er,'E_comp',1], // encore des exceptions avec les mots terminés par 'er' prononcés 'E R'        
 		'au':[{'+':/au/i},'o_comp',3],
         'avoir':[this.Regle_avoir,'y',2],
 		'eu':[{'+':/(u|û)/i},'x2',2],
@@ -196,7 +197,7 @@ namespace ColorLib
         'n':[{'+':/n[bcdfghjklmpqrstvwxzç]/i},'a_tilda',2],
         'adv_emment_a':[{'+':/mment/i},'a',1], // adverbe avec 'emment' => son [a]
 		'lemme':[{'-':/[lt]/i,'+':/mm/i},'E_comp',1], // lemme et ses dérivés => son [E]
-		'em_gene':[{'+':/m[bcçdfghjklmnpqrstvwxz]/i},'a_tilda',2], // 'em' cas général => son [a_tilda]
+		'em_gene':[{'+':/m[bcçdfghjklmpqrstvwxz]/i},'a_tilda',2], // 'em' cas général => son [a_tilda]
 		'nm':[{'+':/[nm]$/i},'a_tilda',2], // en fin de mot...
         'tclesmesdes':[{'-':/^[tcslmd]/i,'+':/s$/i},'e_comp', 2], // mes, tes, ces, ses, les
 		'que_gue_final':[{'-':/[gq]u/i,'+':/(s?)$/i},'q_caduc',1], // que ou gue final
@@ -305,7 +306,7 @@ namespace ColorLib
 		'ill':[{'-':/.i/i,'+':/l/i},'j',2], // par défaut, 'ill' donne le son [j]
 		'eil':[{'-':/e(u?)i/i},'j',1], // les mots terminés en 'eil' ou 'ueil' => son [j]
 		'll':[{'+':/l/i},'l',2], // à défaut de l'application d'une autre règle, 'll' donne le son [l]
-		'excep_il':[{'-':/fusi|outi|genti|sourci|persi/i,'+':/(s?)$/i},'_muet',1], // les exceptions trouvées où le 'l' à la fin ne se prononce pas : fusil, gentil, outil
+		'excep_il':[{'-':/(fusi|outi|genti|sourci|persi)/i,'+':/(s?)$/i},'_muet',1], // les exceptions trouvées où le 'l' à la fin ne se prononce pas : fusil, gentil, outil
 		//'lisole':[{'+':/$/i,'-':/^/i},'l',1], // exemple : l'animal
 		'*':[{},'l',1]}],
 'm' : [['m','tomn','damn','*'],
@@ -375,9 +376,10 @@ namespace ColorLib
 		'r':[{'+':/r/i},'R',2],
 		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
-'s' : [['sch','transs','s','s_final','@','parasit','balsa','asept','pasZ','z','dés','h','fasci',
+'s' : [['schizo','sch','transs','s','s_final','@','parasit','balsa','asept','pasZ','z','dés','h','fasci',
 		'*'],
-		{'sch':[{'+':/ch/i},'S',3], // schlem
+		{'schizo':[{'+':/chi[aoz]/i},'s',1],
+		'sch':[{'+':/ch/i},'S',3], // schlem
 		'transs':[{'-':/tran/i, '+':/s/i},'s',1],
 		's':[{'+':/s/i},'s',2], // un s suivi d'un autre s se prononce [s]
 		's_final':[this.Regle_s_final,'s',1], // quelques mots terminés par -us, -is, -os, -as
@@ -385,7 +387,7 @@ namespace ColorLib
 		'parasit':[{'-':/para/i,'+':/it/i},'z_s',1], // parasit*
 		'balsa':[{'-':/(tran|bal)/i,'+':/(i|hum|a)/i},'z_s',1], // transhumance, transit, balsa,...
 		'asept':[{'-':/a/i,'+':/(ep(s|t)i|ex|ocia|y(m|n|s))/i},'s',1],
-		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno)/i},'s',1],
+		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 		'dés':[{'-':/(^dé|^di|^dy|^e|^phy|^tran)/i,'+':/[aiyouéèàâüûùëöêîôïh]/i},'z_s',1], // déshonneur, esherbeur (si si), transhumance...
 		'h':[{'+':/h/i},'S',2],
@@ -401,11 +403,11 @@ namespace ColorLib
 		'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
 		'_tien':[{'+':/ien/i},'s_t',1],
 		'ex_tie':[{'-':/minu/i,'+':/ie(r|z)/i},'t',1],
-		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan)/i,'+':/i(e|é)/i},'s_t',1],
+		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan|conten)/i,'+':/i(e|é)/i},'s_t',1],
 		'ex_tiot':[{'-':/(cré|plé|jé|[^r]essen)/i,'+':/i[ao]/i},'s_t',1],
-		'tiaot':[{'-':/([eéèêës]|[sc]en|(^|h|n)an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io]|^ca)/i,'+':/i[aâo]/i},'t',1],
+		'tiaot':[{'-':/([eéèêës]|[sc]en|(^|h|n)an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io]|^ca|^tri)/i,'+':/i[aâou]/i},'t',1],
 		'verb_tions':[this.Regle_VerbesTer,'t',1], // verbes en ter à l'imparfait - nous
-		'tiaos':[{'+':/i[aâo]/i},'s_t',1],
+		'tiaos':[{'+':/i[aâou]/i},'s_t',1],
 		'vingt':[{'-':/ving/i,'+':/$/i},'t',1], // vingt mais pas vingts
 		'ourt':[{'-':/(a|h|g)our/i,'+':/$/i},'t',1], // exemple : yaourt, yoghourt, yogourt
 		'_inct':[{'-':/inc/i,'+':/(s?)$/i},'_muet',1], // instinct, succinct, distinct

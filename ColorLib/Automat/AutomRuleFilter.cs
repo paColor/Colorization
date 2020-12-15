@@ -550,6 +550,10 @@ namespace ColorLib
             "-supporter", "sylvaner", "tender", "ter", "thaler", "tier", "traver", "trochanter",
             "tuner", "ulster", "univer", "ver", "vétiver", "water", "weber", "welter", "winchester",
             "vomer",
+            "contrefer", "desser", "driver", "dulcimer", "enquier", "er", "ferouer", "ferver",
+            "frater", "gaster", "keuper", "maser", "masséter", "messer", "néper", "palmer", "pater",
+            "porter", "quarter", "reconquier", "requier", "resser", "ser", "spalter",
+            "stathouder", "suber", "ulster", "vétyver",
         };
 
         /*
