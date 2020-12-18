@@ -1237,6 +1237,22 @@ namespace ColorLib
             { "shintoïstes", "sh-S;in;t-t;o-o;ï-i;s-s;t-t;e-ç;s-#" },
             { "supporters", "s-s;u-y;pp-p;o-o;r-R;t-t;e-E;r-R;s-#" },
             { "reporters", "r-R;e-°;p-p;o-o;r-R;t-t;e-E;r-R;s-#" },
+            { "herschions", "h-#;e-E;r-R;sch-S;i-j;on-§;s-#" },
+            { "orthose", "o-o;r-R;t-t;h-#;o-o;s-z;e-ç" },
+            { "orthoses", "o-o;r-R;t-t;h-#;o-o;s-z;e-ç;s-#" },
+            { "copyright", "c-k;o-o;p-p;y-i;r-R;i-a;g-j;h-#;t-t" },
+            { "copyrights", "c-k;o-o;p-p;y-i;r-R;i-a;g-j;h-#;t-t;s-#" },
+            { "coroner", "c-k;o-o;r-R;o-o;n-n;e-2;r-R" },
+            { "coroners", "c-k;o-o;r-R;o-o;n-n;e-2;r-R;s-#" },
+            { "corregidor", "c-k;o-o;rr-R;e-E;g-Z;i-i;d-d;o-o;r-R" },
+            { "corregidors", "c-k;o-o;rr-R;e-E;g-Z;i-i;d-d;o-o;r-R;s-#" },
+            { "cortile", "c-k;o-o;r-R;t-t;i-i;l-l;e" },
+            { "cortiles", "c-k;o-o;r-R;t-t;i-i;l-l;e;s-#" },
+            { "cosy", "c-k;o-o;s-z;y-i" },
+            { "cosys", "c-k;o-o;s-z;y-i;s-#" },
+            { "cottage", "c-k;o-o;tt-t;a-E;g-Z;e-ç" },
+            { "cottages", "c-k;o-o;tt-t;a-E;g-Z;e-ç;s-#" },
+            { "coufieh", "c-k;ou-u;f-f;i-j;e;h-#" },
         }; 
     }
 }

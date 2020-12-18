@@ -551,8 +551,8 @@ namespace ColorLib
             "tuner", "ulster", "univer", "ver", "vétiver", "water", "weber", "welter", "winchester",
             "vomer",
             "contrefer", "desser", "driver", "dulcimer", "enquier", "er", "ferouer", "ferver",
-            "frater", "gaster", "keuper", "maser", "masséter", "messer", "néper", "palmer", "pater",
-            "porter", "quarter", "reconquier", "requier", "resser", "ser", "spalter",
+            "frater", "gaster", "keuper", "maser", "masséter", "messer", "néper", "pater",
+            "quarter", "reconquier", "requier", "resser", "ser", "spalter",
             "stathouder", "suber", "ulster", "vétyver",
         };
 
@@ -1008,7 +1008,8 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Vérifie si le mot est un verbe en ter à la 1e ou 2e personne du pluriel de l'imparfait.
+        /// Vérifie si le mot est un verbe à la 1e ou 2e personne du pluriel de l'imparfait (fin
+        /// en 'tions' ou 'tiez').
         /// Par ex. "nous formations". Le but est de découvrir que "ti" se prononce ti et non si.
         /// </summary>
         /// <remarks>Utilise la liste <c>verbesTer</c> qui se trouve à la fin du fichier.</remarks>
@@ -1403,7 +1404,9 @@ namespace ColorLib
         };
 
         /// <summary>
-        /// Liste des verbes en "ter"
+        /// Liste des verbes en "ter", plus une forme en ter des verbes d'autres groupes qui se 
+        /// conjuguent en 'tions' ou 'tiez' comme démentir qui est présent dans la liste 
+        /// comme 'démenter'... 
         /// </summary>
         private static HashSet<string> verbesTer = new HashSet<string>
         {
@@ -1628,6 +1631,11 @@ namespace ColorLib
             "autorecruter", "autoréglementer", "blaster", "choucrouter", "concomiter", "démater", "désinventer",
             "entreciter", "entruster", "exhalter", "hyperdilater", "osculter", "réapparenter", "réditer",
             "régimenter", "surassister", "surcommenter", "amisoter", "amusoter","apléter",
+            "décompléter", "décréter", "démixter",
+            // formes spéciales uniquement pour identifier la pronociations [t] de la conjugaison;
+            // par exemple 'fouter' pour identifier que le t de foutions se prononce [t]. Il s'agit
+            // typiquement de verbes d'un autre groupe.
+            "contrefouter", "démenter", "fouter", "refouter", "repenter", "ressorter", "sorter", 
             // sans accents
             "accrediter", "acqueter", "admoneter", "affreter", "agreanter", "agrementer", "apleter",
             "appresenter", "appreter", "appater", "appeter", "arreter", "budgeter", "bater", "becoter",

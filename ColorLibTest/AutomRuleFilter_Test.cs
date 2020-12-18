@@ -107,7 +107,7 @@ namespace ColorLibTest
             Assert.AreEqual(true, AutomRuleFilter.Regle_er("révolvers", 6));
             Assert.AreEqual(false, AutomRuleFilter.Regle_er("revolvers", 1));
             Assert.AreEqual(false, AutomRuleFilter.Regle_er("alemers", 2));
-            Assert.AreEqual(false, AutomRuleFilter.Regle_er("er", 0));
+            Assert.AreEqual(true, AutomRuleFilter.Regle_er("er", 0));
             Assert.AreEqual(false, AutomRuleFilter.Regle_er("aimer", 3));
             Assert.AreEqual(false, AutomRuleFilter.Regle_er("longer", 4));
             Assert.AreEqual(false, AutomRuleFilter.Regle_er("impertinent", 3));

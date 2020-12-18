@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "revolvers";
+            string txt = "agrafaient";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -96,8 +96,9 @@ namespace ColorLibTest
         public void PrintExceptFormat()
         {
             string txt = @"
-supporters
-reporters
+cottage
+cottages
+coufieh
 
 
 

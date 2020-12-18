@@ -118,7 +118,7 @@ namespace ColorLib
 		{'*':[{},'a',1]}],
 'b' : [['b','plomb', '*'],
 		{'b':[{'+':/b/i},'b',2],
-		'plomb':[{'-':/plom/i,'+':/(s?)$/i},'_muet',1], // le ´b´ à la fin de plomb ne se prononce pas
+		'plomb':[{'-':/om/i,'+':/(s?)$/i},'_muet',1], // le ´b´ à la fin de plomb ne se prononce pas
 		'*':[{},'b',1]}],
 'c' : [['eiy','choeur','psycho','brachio','schizo','tech','tachy','batra','chK','h',
 		'cciey','cc','cisole','c_muet_fin','c_k_fin','@',
@@ -169,7 +169,7 @@ namespace ColorLib
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
         'ien_0':[{'-':/(fic|n)i/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient, coefficient,...
-		'scien':[{'-':/(aud|sc|cl|fa)[iï]/i,'+':/n/i},'a_tilda',2], // science, faïence...
+		'scien':[{'-':/(aud|sc|cl|^fa)[iï]/i,'+':/n/i},'a_tilda',2], // science, faïence...
         'ien':[{'-':/([bcdégklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 		'ien2':[{'-':/pi/i,'+':/n(s?)$/i},'e_tilda',2], // carpien, olympien, ...
         'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|^y|acum|album|^a(m|v)|lum|bigoud|cérum|coh)/i,'+':/n(s?)$/i},'E',1], // pas sûr que gentlemen ait un sens ici
@@ -246,7 +246,7 @@ namespace ColorLib
 		'vingt':[{'-':/vin/i,'+':/t/i},'_muet',1], // vingt
 		'g_muet_oin':[{'-':/oi(n?)/i},'_muet',1], // un 'g' précédé de 'oin' ou de 'oi' ne se prononce pas ; ex. : poing, doigt
 		'g_muet_our':[{'-':/ou(r)/i},'_muet',1], // un 'g' précédé de 'our' ou de 'ou(' ne se prononce pas ; ex. : bourg
-		'g_muet_an':[{'-':/((s|^ét|^r)an|lon|haren)/i,'+':/(s?)$/i},'_muet',1], // sang, rang, étang, long, hareng
+		'g_muet_an':[{'-':/((s|^ét|^r|^harf|^il)an|lon|haren|ein)/i,'+':/(s?)$/i},'_muet',1], // sang, rang, étang, long, hareng
 		//'g_muet_fin':[{'-':/(lon|haren)/i,'+':/(s?)$/i},'_muet',1], // pour traiter les exceptions : long, hareng
 		'*':[{},'g',1]}],
 'h' : [['*'],
@@ -360,7 +360,7 @@ namespace ColorLib
 		{'p':[{'+':/p/i},'p',2],
 		'h':[{'+':/h/i},'f_ph',2],
 		'oup':[{'-':/([cl]ou|dra|[ti]ro|alo|[rm])/i,'+':/(s?)$/i},'_muet',1], // les exceptions avec un p muet en fin de mot : loup, coup, galop, sirop
-		'sculpt':[{'-':/(scul|ba|com)/i,'+':/t/i},'_muet',1], // les exceptions avec un p muet : sculpter, baptême, compter et les mots de la même famille
+		'sculpt':[{'-':/(scul|ba|com|corrom)/i,'+':/t/i},'_muet',1], // les exceptions avec un p muet : sculpter, baptême, compter et les mots de la même famille
 		'*':[{},'p',1]}],
 'q' : [['qua_w','qu','k', '*'],
 		{'qua_w':[this.RegleMotsQUkw,'k',1], 
@@ -376,7 +376,7 @@ namespace ColorLib
 		'r':[{'+':/r/i},'R',2],
 		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
-'s' : [['schizo','sch','transs','s','s_final','@','parasit','balsa','subside','asept','pasZ','z','dés','h','fasci',
+'s' : [['schizo','sch','transs','s','s_final','@','parasit','balsa','subside','asept','pasZ','déss','z','dész','h','fasci',
 		'*'],
 		{'schizo':[{'+':/chi[aoz]/i},'s',1],
 		'sch':[{'+':/ch/i},'S',3], // schlem
@@ -388,16 +388,18 @@ namespace ColorLib
 		'balsa':[{'-':/(tran|bal)/i,'+':/(i|hum|a)/i},'z_s',1], // transhumance, transit, balsa,...
 		'subside':[{'-':/sub/i,'+':/i/i},'z_s',1], // subsidiaire
 		'asept':[{'-':/a/i,'+':/(ep(s|t)i|ex|ocia|y(m|n|s))/i},'s',1],
-		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho)/i},'s',1],
-		'z':[{'-':/[aeiyouéèàâüûùëöêîôï]/i,'+':/[aeiyouéèàâüûùëöêîôï]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
-		'dés':[{'-':/(^dé|^di|^dy|^e|^phy|^tran)/i,'+':/[aiyouéèàâüûùëöêîôïh]/i},'z_s',1], // déshonneur, esherbeur (si si), transhumance...
+		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho
+					|^bio|^su|^carbo|^chéno|^ortho|^déca|^co)/i},'s',1],
+		'déss':[{'-':/^dé/i,'+':/(acra|ensibi|olida)/i},'s',1], // désacraliser
+		'z':[{'-':/[aeiyouéèàâüûùëöêîôïœ]/i,'+':/[aeiyouéèàâüûùëöêîôïœ]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
+		'dész':[{'-':/(^dé|^di|^dy|^e|^phy|^tran)/i,'+':/[aiyouéèàâüûùëöêîôïh]/i},'z_s',1], // déshonneur, esherbeur (si si), transhumance...
 		'h':[{'+':/h/i},'S',2],
 		'fasci':[{'-':/fa/i,'+':/cis/i},'S',2], // fasciste
 		'*':[{},'s',1]}],
 't' : [['t_deb','t','tisole','except_tien','_tien','ex_tiot','verb_tions','ex_tie','tie','tiaot',
 		'tiaos','vingt',
 		'ourt','_inct','_spect','_ct','_est','t_final','tmuet',
-		'ex_tiel','_tiel','@','*'],
+		'ex_tiel','_tiel','courtci','@','*'],
 		{'t_deb':[{'-':/^/i},'t',1],
 		't':[{'+':/t/i},'t',2],
 		'tisole':[{'+':/$/i,'-':/^/i},'t',1], // exemple : demande-t-il
@@ -419,6 +421,7 @@ namespace ColorLib
 		'tmuet':[{'+':/(s?)$/i},'_muet',1], // un t suivi éventuellement d'un s ex. : marrants
 		'ex_tiel':[{'-':/céles/i},'t',1],
 		'_tiel':[{'+':/iel((le)?)(s?)/i},'s_t',1],
+		'courtci':[{'-':/^cour/i,'+':/circ/i},'_muet',1], // une règle pour courtcircuiter...
 		'*':[{},'t',1],							
 		'@':[{'+':/$/i},'_muet',1]}],
 'u' : [['um','circum','n_on','n','nm','ueil','trust','bluff','qua_w','umb','*'],
