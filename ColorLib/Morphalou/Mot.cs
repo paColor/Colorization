@@ -404,6 +404,15 @@ namespace ColorLib.Morphalou
                             return true;
                     }
 
+                    if(ph1[pos] == 'n' && col[pos] == 'N' 
+                        && pos < ph1.Length - 1 && ph1[pos + 1] == 'j')
+                    {
+                        // A ce stade de l'analyse, 'nj' morphalou peut être considéré comme 
+                        // équivalent à 'N' colorization. 
+                        if (AreMatch(graphie, ph1.Remove(pos, 2), col.Remove(pos, 1)))
+                            return true;
+                    }
+
                 } // if (pos < ph1.Length)
 
                 if (pos > 2 && pos - 1 < ph1.Length

@@ -1631,7 +1631,8 @@ namespace ColorLib
             "autorecruter", "autoréglementer", "blaster", "choucrouter", "concomiter", "démater", "désinventer",
             "entreciter", "entruster", "exhalter", "hyperdilater", "osculter", "réapparenter", "réditer",
             "régimenter", "surassister", "surcommenter", "amisoter", "amusoter","apléter",
-            "décompléter", "décréter", "démixter",
+            "décompléter", "décréter", "démixter","décréter",
+
             // formes spéciales uniquement pour identifier la pronociations [t] de la conjugaison;
             // par exemple 'fouter' pour identifier que le t de foutions se prononce [t]. Il s'agit
             // typiquement de verbes d'un autre groupe.
@@ -1973,7 +1974,7 @@ namespace ColorLib
             "trochlées", "tylenchus", "ultrabrachycéphale", "varech", "varechs", "vichnouisme",
             "vichnouismes", "yachmak", "yachmaks","orchiectomie", "orchiépididymite", "trichodesmium",
             "aechmalotarque", "aechmalotarques", "aechmalote", "aechmalotes", "allochirie", "allochiries",
-            "zoopsychiatrie", "zoopsychiatries",
+            "zoopsychiatrie", "zoopsychiatries", "cromlech", "cromlechs",
         };
 
         /// <summary>
@@ -2117,7 +2118,21 @@ namespace ColorLib
             "capilliculteur", "capilliculteurs", "caterpillar", "chinchilla", "chinchillas", "codicille",
             "codicilles", "cyrillique", "cyrilliques",
             "désillusion", "désillusionné", "désillusionnés", "désillusionnement", "désillusionnements", "désillusionner",
-            "désillusions", "drill", "fibrillation", "fibrillations",
+            "désillusions", "désillusionna", "désillusionnai", "désillusionnaient", "désillusionnais", "désillusionnait",
+            "désillusionnâmes", "désillusionnant", "désillusionnas", "désillusionnasse", "désillusionnassent",
+            "désillusionnasses", "désillusionnassiez", "désillusionnassions", "désillusionnât",
+            "désillusionnâtes", "désillusionne", "désillusionnée", "désillusionnées", "désillusionnent",
+            "désillusionnera", "désillusionnerai", "désillusionneraient", "désillusionnerais",
+            "désillusionnerait", "désillusionneras", "désillusionnèrent", "désillusionnerez",
+            "désillusionneriez", "désillusionnerions", "désillusionnerons", "désillusionneront",
+            "désillusionnes", "désillusionnez", "désillusionniez", "désillusionnions", "désillusionnons",
+            "drill", "égorgilla", "égorgillai", "égorgillaient", "égorgillais", "égorgillait", "égorgillâmes",
+            "égorgillant", "égorgillas", "égorgillasse", "égorgillasses", "égorgillassiez", "égorgillassions",
+            "égorgillât", "égorgillâtes", "égorgille", "égorgillé", "égorgillée", "égorgillées",
+            "égorgiller", "égorgillera", "égorgillerai", "égorgilleraient", "égorgillerais", "égorgillerait",
+            "égorgilleras", "égorgillèrent", "égorgillerez", "égorgilleriez", "égorgillerions",
+            "égorgillerons", "égorgilleront", "égorgilles", "égorgillés", "égorgillez", "égorgillons",
+            "fibrillation", "fibrillations",
             "fringillidé", "fritillaires", "gilles", "grill", "imbécillité", "imbécillités", "killer", "killers", "krill", "krills",
             "lilliputien", "lilliputienne", "lilliputiennes", "lilliputiens", "lillois", "lilloise", "lilloises", "mandrill",
             "mandrills", "maxillaire", "maxillaires", "multimilliardaire", "multimilliardaires", "multimillionnaire",

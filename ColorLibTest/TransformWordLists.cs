@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "agrafaient";
+            string txt = "désorienta";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -96,10 +96,44 @@ namespace ColorLibTest
         public void PrintExceptFormat()
         {
             string txt = @"
-cottage
-cottages
-coufieh
 
+encoigna
+encoignai
+encoignaient
+encoignais
+encoignait
+encoignâmes
+encoignant
+encoignas
+encoignasse
+encoignassent
+encoignasses
+encoignassiez
+encoignassions
+encoignât
+encoignâtes
+encoigne
+encoigné
+encoignée
+encoignées
+encoignent
+encoignera
+encoignerai
+encoigneraient
+encoignerais
+encoignerait
+encoigneras
+encoignèrent
+encoignerez
+encoigneriez
+encoignerions
+encoignerons
+encoigneront
+encoignes
+encoignés
+encoignez
+encoignions
+encoignons
 
 
 
@@ -162,47 +196,42 @@ coufieh
 
         string words =
         @"
-stilla
-stillai
-stillaient
-stillais
-stillait
-stillâmes
-stillant
-stillas
-stillasse
-stillassent
-stillasses
-stillassiez
-stillassions
-stillât
-stillâtes
-stillation
-stillations
-stille
-stillé
-stillée
-stillées
-stillent
-stiller
-stillera
-stillerai
-stilleraient
-stillerais
-stillerait
-stilleras
-stillèrent
-stillerez
-stilleriez
-stillerions
-stillerons
-stilleront
-stilles
-stillés
-stillez
-stilligoutte
-stilligouttes
-stillons
+égorgilla
+égorgillai
+égorgillaient
+égorgillais
+égorgillait
+égorgillâmes
+égorgillant
+égorgillas
+égorgillasse
+égorgillasses
+égorgillassiez
+égorgillassions
+égorgillât
+égorgillâtes
+égorgille
+égorgillé
+égorgillée
+égorgillées
+égorgiller
+égorgillera
+égorgillerai
+égorgilleraient
+égorgillerais
+égorgillerait
+égorgilleras
+égorgillèrent
+égorgillerez
+égorgilleriez
+égorgillerions
+égorgillerons
+égorgilleront
+égorgilles
+égorgillés
+égorgillez
+égorgillons
+
 
 
         ";
