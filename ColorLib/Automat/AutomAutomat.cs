@@ -375,6 +375,7 @@ namespace ColorLib
 		{
 		//'monsieur':[{'-':/monsieu/i},'_muet',1],
 		//'messieurs':[{'-':/messieu/i},'_muet',1],
+
 		'r':[{'+':/r/i},'R',2],
 		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
@@ -390,8 +391,9 @@ namespace ColorLib
 		'balsa':[{'-':/(tran|bal)/i,'+':/(i|hum|a)/i},'z_s',1], // transhumance, transit, balsa,...
 		'subside':[{'-':/sub/i,'+':/i/i},'z_s',1], // subsidiaire
 		'asept':[{'-':/a/i,'+':/(ep(s|t)i|ex|ocia|y(m|n|s))/i},'s',1],
-		'pasZ':[{'-':/(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho
-					|^bio|^su|^carbo|^chéno|^ortho|^déca|^co|^soubre|^crypto|^cupro|^cyno)/i},'s',1],
+		'pasZ':[{'-':/
+			(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho|^déca|^co|^soubre|^crypto|^cupro|^cyno)
+			/i},'s',1],
 		'déss':[{'-':/^dé/i,'+':/(acra|ensibi|olida)/i},'s',1], // désacraliser
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôïœ]/i,'+':/[aeiyouéèàâüûùëöêîôïœ]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 		'dész':[{'-':/(^dé|^di|^dy|^e|^phy|^tran)/i,'+':/[aiyouéèàâüûùëöêîôïh]/i},'z_s',1], // déshonneur, esherbeur (si si), transhumance...

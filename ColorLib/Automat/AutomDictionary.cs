@@ -1398,6 +1398,10 @@ namespace ColorLib
             { "encoignez", "en-@;c-k;o-o;i-#;gn-N;ez-e" },
             { "encoignions", "en-@;c-k;o-o;i-#;gn-N;i-j;on-§;s-#" },
             { "encoignons", "en-@;c-k;o-o;i-#;gn-N;on-§;s-#" },
+            { "cosaque", "c-k;o-o;s-z;a-a;qu-k;e-ç" },
+            { "cosaques", "c-k;o-o;s-z;a-a;qu-k;e-ç;s-#" },
+            { "cryptosepalum", "c-k;r-R;y-i;p-p;t-t;o-o;s-s;e-e;p-p;a-a;l-l;u-o;m-m" },
+            { "cuprose", "c-k;u-y;p-p;r-R;o-o;s-z;e-ç" },
         }; 
     }
 }

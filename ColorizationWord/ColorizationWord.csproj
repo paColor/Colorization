@@ -33,7 +33,7 @@
     <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\Publishing\Word\</PublishUrl>
     <InstallUrl>https://colorization.ch/publish/Word/</InstallUrl>
     <TargetCulture>fr</TargetCulture>
-    <ApplicationVersion>0.9.3.3</ApplicationVersion>
+    <ApplicationVersion>0.9.9.1</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>3</UpdateInterval>

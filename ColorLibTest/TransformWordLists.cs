@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "désorienta";
+            string txt = "batrachoseps";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,43 +97,11 @@ namespace ColorLibTest
         {
             string txt = @"
 
-encoigna
-encoignai
-encoignaient
-encoignais
-encoignait
-encoignâmes
-encoignant
-encoignas
-encoignasse
-encoignassent
-encoignasses
-encoignassiez
-encoignassions
-encoignât
-encoignâtes
-encoigne
-encoigné
-encoignée
-encoignées
-encoignent
-encoignera
-encoignerai
-encoigneraient
-encoignerais
-encoignerait
-encoigneras
-encoignèrent
-encoignerez
-encoigneriez
-encoignerions
-encoignerons
-encoigneront
-encoignes
-encoignés
-encoignez
-encoignions
-encoignons
+cosaque
+cosaques
+cryptosepalum
+cuprose
+
 
 
 
