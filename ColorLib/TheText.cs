@@ -956,7 +956,9 @@ namespace ColorLib
             // Progress notification principles: We consider that BeginPercent of the work was done
             // before we start here. The job here represents 100% - BeginPercent. We inform about
             // progress every ProgressIncrement.
-            const float BeginPercent = 5.0f; 
+            const float BeginPercent = 8.0f; 
+            // PAE 26.12.20 - chagé de 5 à 8 en raison de 
+            // l'augmentation du temps de traitement dans le coeur avec les cas Morphalou.
             const float ProgressIncrement = 2.0f;
 
             float stepIncr = ((100 - BeginPercent) / formatsMgmt.formats.Count) - 0.001f;

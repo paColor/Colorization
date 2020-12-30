@@ -200,18 +200,34 @@ namespace ColorizationWord
                     {
                         foreach (Rectangle r in p.Rectangles)
                         {
-                            if (r.RectangleType == WdRectangleType.wdTextRectangle)
+                            try
                             {
-                                foreach (Line l in r.Lines)
+                                if (r.RectangleType == WdRectangleType.wdTextRectangle)
                                 {
-                                    Range lineRange = l.Range;
-                                    if (lineRange.InRange(range))
+                                    foreach (Line l in r.Lines)
                                     {
-                                        // linerange est dans la région sélectionnée.
-                                        // linerange.End est toujours sur le caractère qui suit le range
-                                        finDeLignes.Add(GetSPosForRangePos(lineRange.End - 1));
+                                        Range lineRange = l.Range;
+                                        if (lineRange.InRange(range))
+                                        {
+                                            // linerange est dans la région sélectionnée.
+                                            // linerange.End est toujours sur le caractère qui suit le range
+                                            finDeLignes.Add(GetSPosForRangePos(lineRange.End - 1));
+                                        }
                                     }
                                 }
+                            }
+                            catch (Exception e)
+                            {
+                                StringBuilder sb = new StringBuilder();
+                                sb.AppendLine("Il semblerait qu'il y a ait un nouveau bug dans Word et ");
+                                sb.AppendLine("qu'il est parfois impossioble d'accéder à r.RectangleType ");
+                                sb.AppendLine("sans qu'il y ait un moyen de tester avant l'appel si ce ");
+                                sb.AppendLine("sera possible ou non... ");
+                                sb.AppendLine("Voici donc du contrôle de flux par try catch.");
+                                sb.AppendLine("Tout ce qu'il ne faudrait pas faire- Mais je ne vois pas comment faire autrement...");
+                                sb.AppendLine(e.Message);
+                                sb.AppendLine(e.StackTrace);
+                                logger.Error(sb.ToString());
                             }
                         }
                     }

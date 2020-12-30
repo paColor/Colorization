@@ -142,35 +142,48 @@ namespace Colorization
         private static void ActOnSelectedText(ActOnPPTText act, Config conf)
         {
             logger.ConditionalDebug("ActOnSelectedText");
-            ProgressNotifier.thePN.Start();
-            if (ColorizationPPT.thisAddIn.Application.Presentations.Count > 0)
+            try
             {
-                ColorizationPPT.thisAddIn.Application.StartNewUndoEntry();
-                var sel = ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection;
-                if (sel.Type == PpSelectionType.ppSelectionText)
+                ProgressNotifier.thePN.Start();
+                if (ColorizationPPT.thisAddIn.Application.Presentations.Count > 0)
                 {
-                    act(new PPTText(ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection.TextRange), conf);
-                }
-                else if (sel.Type == PpSelectionType.ppSelectionShapes)
-                {
-                    // bool textFound = false;
-                    foreach (Shape sh in sel.ShapeRange)
+                    ColorizationPPT.thisAddIn.Application.StartNewUndoEntry();
+                    var sel = ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection;
+                    if (sel.Type == PpSelectionType.ppSelectionText)
                     {
-                        ActOnShape(sh, act, sel.ShapeRange.Count, conf);
-                    } // foreach
-                } // else no text selected
-                else if (sel.Type == PpSelectionType.ppSelectionSlides)
-                {
-                    foreach (Slide s in sel.SlideRange)
+                        act(new PPTText(ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection.TextRange), conf);
+                    }
+                    else if (sel.Type == PpSelectionType.ppSelectionShapes)
                     {
-                        foreach (Shape sh in s.Shapes)
+                        // bool textFound = false;
+                        foreach (Shape sh in sel.ShapeRange)
                         {
-                            ActOnShape(sh, act, s.Shapes.Count, conf);
+                            ActOnShape(sh, act, sel.ShapeRange.Count, conf);
+                        } // foreach
+                    } // else no text selected
+                    else if (sel.Type == PpSelectionType.ppSelectionSlides)
+                    {
+                        foreach (Slide s in sel.SlideRange)
+                        {
+                            foreach (Shape sh in s.Shapes)
+                            {
+                                ActOnShape(sh, act, s.Shapes.Count, conf);
+                            }
                         }
                     }
                 }
+                ProgressNotifier.thePN.Completed();
             }
-            ProgressNotifier.thePN.Completed();
+            catch (Exception e)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("Ouups. Une vilaine erreur s'est produite. Désolé. N'hésitez pas à nous ");
+                sb.AppendLine("envoyer une description de votre problème à info@colorization.ch.");
+                sb.AppendLine(e.Message);
+                sb.AppendLine(e.StackTrace);
+                logger.Error(sb.ToString());
+                MessageBox.Show(sb.ToString(), ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             logger.ConditionalDebug("EXIT ActOnSelectedText");
         } // void ColorizeSelectedPhons()
 

@@ -141,47 +141,60 @@ namespace ColorizationWord
         private static void ActOnSelectedText(ActOnMSWText act, string undoTxt, Config conf)
         {
             logger.ConditionalDebug("ActOnSelectedText");
-            ProgressNotifier.thePN.Start();
-            if (ColorizationMSW.thisAddIn.Application.Documents.Count > 0)
+            try
             {
-                UndoRecord objUndo = ColorizationMSW.thisAddIn.Application.UndoRecord;
-                objUndo.StartCustomRecord(undoTxt);
-                ColorizationMSW.thisAddIn.Application.ScreenUpdating = false;
-
-                Selection sel = ColorizationMSW.thisAddIn.Application.ActiveWindow.Selection;
-
-                switch (sel.Type)
+                ProgressNotifier.thePN.Start();
+                if (ColorizationMSW.thisAddIn.Application.Documents.Count > 0)
                 {
-                    case WdSelectionType.wdSelectionInlineShape:
-                    case WdSelectionType.wdNoSelection:
-                    case WdSelectionType.wdSelectionIP: // IP: Insertion Point
-                        // rien à faire ...
-                        break;
-                    case WdSelectionType.wdSelectionFrame:
-                        foreach (Frame f in sel.Frames)
-                            act(new MSWText(f.Range), conf);
-                        break;
-                    case WdSelectionType.wdSelectionShape:
-                        foreach (Shape sh in sel.ShapeRange)
-                            ActOnShape(sh, act, conf);
-                        break;
-                    case WdSelectionType.wdSelectionColumn:
-                    case WdSelectionType.wdSelectionRow:
-                    case WdSelectionType.wdSelectionBlock:
-                    case WdSelectionType.wdSelectionNormal:
-                        act(new MSWText(sel.Range), conf);
-                        foreach (Shape sh in sel.Range.ShapeRange)
-                            ActOnShape(sh, act, conf);
-                        break;
-                    default:
-                        throw new ArgumentException(String.Format("Type de sélection non traitée: {0}", sel.Type.ToString()));
-                        break;
-                }
+                    UndoRecord objUndo = ColorizationMSW.thisAddIn.Application.UndoRecord;
+                    objUndo.StartCustomRecord(undoTxt);
+                    ColorizationMSW.thisAddIn.Application.ScreenUpdating = false;
 
-                ColorizationMSW.thisAddIn.Application.ScreenUpdating = true;
-                objUndo.EndCustomRecord();
+                    Selection sel = ColorizationMSW.thisAddIn.Application.ActiveWindow.Selection;
+
+                    switch (sel.Type)
+                    {
+                        case WdSelectionType.wdSelectionInlineShape:
+                        case WdSelectionType.wdNoSelection:
+                        case WdSelectionType.wdSelectionIP: // IP: Insertion Point
+                                                            // rien à faire ...
+                            break;
+                        case WdSelectionType.wdSelectionFrame:
+                            foreach (Frame f in sel.Frames)
+                                act(new MSWText(f.Range), conf);
+                            break;
+                        case WdSelectionType.wdSelectionShape:
+                            foreach (Shape sh in sel.ShapeRange)
+                                ActOnShape(sh, act, conf);
+                            break;
+                        case WdSelectionType.wdSelectionColumn:
+                        case WdSelectionType.wdSelectionRow:
+                        case WdSelectionType.wdSelectionBlock:
+                        case WdSelectionType.wdSelectionNormal:
+                            act(new MSWText(sel.Range), conf);
+                            foreach (Shape sh in sel.Range.ShapeRange)
+                                ActOnShape(sh, act, conf);
+                            break;
+                        default:
+                            throw new ArgumentException(String.Format("Type de sélection non traitée: {0}", sel.Type.ToString()));
+                            break;
+                    }
+
+                    ColorizationMSW.thisAddIn.Application.ScreenUpdating = true;
+                    objUndo.EndCustomRecord();
+                }
+                ProgressNotifier.thePN.Completed();
             }
-            ProgressNotifier.thePN.Completed();
+            catch (Exception e)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("Ouups. Une vilaine erreur s'est produite. Désolé. N'hésitez pas à nous ");
+                sb.AppendLine("envoyer une description de votre problème à info@colorization.ch.");
+                sb.AppendLine(e.Message);
+                sb.AppendLine(e.StackTrace);
+                logger.Error(sb.ToString());
+                MessageBox.Show(sb.ToString(), ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             logger.ConditionalDebug("EXIT ActOnSelectedText");
         }
 
