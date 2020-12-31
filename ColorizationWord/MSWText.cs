@@ -223,8 +223,8 @@ namespace ColorizationWord
                                 sb.AppendLine("qu'il est parfois impossioble d'accéder à r.RectangleType ");
                                 sb.AppendLine("sans qu'il y ait un moyen de tester avant l'appel si ce ");
                                 sb.AppendLine("sera possible ou non... ");
-                                sb.AppendLine("Voici donc du contrôle de flux par try catch.");
-                                sb.AppendLine("Tout ce qu'il ne faudrait pas faire- Mais je ne vois pas comment faire autrement...");
+                                sb.AppendLine("Voici donc du contrôle de flux par try / catch.");
+                                sb.AppendLine("Tout ce qu'il faudrait éviter - Mais je ne vois pas comment faire autrement...");
                                 sb.AppendLine(e.Message);
                                 sb.AppendLine(e.StackTrace);
                                 logger.Error(sb.ToString());

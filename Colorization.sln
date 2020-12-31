@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorizationPPT", "Coloriza
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColorLib", "ColorLib\ColorLib.csproj", "{1CAACC00-1139-4FAD-8B01-59F74845932C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp - Test", "ConsoleApp - Test\ConsoleApp - Test.csproj", "{D98A332D-255B-4ABC-9FAD-387071BC3C28}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morphalou", "ConsoleApp - Test\Morphalou.csproj", "{D98A332D-255B-4ABC-9FAD-387071BC3C28}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1CAACC00-1139-4FAD-8B01-59F74845932C} = {1CAACC00-1139-4FAD-8B01-59F74845932C}
 	EndProjectSection

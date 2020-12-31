@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "batrachoseps";
+            string txt = "dixième";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,12 +97,41 @@ namespace ColorLibTest
         {
             string txt = @"
 
-cosaque
-cosaques
-cryptosepalum
-cuprose
-
-
+drifter
+drifters
+drink
+drinks
+drogman
+drogmans
+drosera
+droseras
+drugstore
+drugstores
+drummer
+drummers
+duce
+duces
+duffelcoat
+duffelcoats
+dundee
+dundees
+duumvir
+duumvirat
+duumvirats
+dyschromatopsie
+dyschromatopsies
+dyschronie
+dyschronies
+dysentérique
+dysentériques
+dysharmonie
+dysharmonies
+dysharmonique
+dysharmoniques
+dyshidrosiforme
+dyshidrosiformes
+dyshydrose
+dyshydroses
 
 
 ";

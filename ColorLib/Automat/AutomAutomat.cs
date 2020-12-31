@@ -168,12 +168,13 @@ namespace ColorLib
 		{
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
-        'ien_0':[{'-':/(fic|n)i/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient, coefficient,...
-		'scien':[{'-':/((aud|sc|cl|^fa|([éf]fic))[iï])/i,'+':/n/i},'a_tilda',2], // science, faïence...
+        'ien_0':[{'-':/(fic|n|quot)i/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient, coefficient,...
+		'scien':[{'-':/(aud|sc|cl|^fa|([éf]fic)|pat[iï])/i,'+':/n/i},'a_tilda',2], // science, faïence...
 		'orient':[{'-':/ori/i,'+':/nt/i},'a_tilda',2],
         'ien':[{'-':/([bcdégklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 		'ien2':[{'-':/pi/i,'+':/n(s?)$/i},'e_tilda',2], // carpien, olympien, ...
-        'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|^y|acum|album|^a(m|v)|lum|bigoud|cérum|coh|^culm|^cyclam)/i,'+':/n(s?)$/i},'E_comp',1], // pas sûr que gentlemen ait un sens ici
+        'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|^y|acum|album|^a(m|v)|lum|bigoud|cérum|coh|^culm|^cyclam|dictam)/i,
+			'+':/n(s?)$/i},'E_comp',1], // pas sûr que gentlemen ait un sens ici, qui l'utilise en français?
 		'except_en':[{'-':/(exam|mino|édu|apexi|^api|loqui|y|é|^b(r?))/i,'+':/n(s?)$/i},'e_tilda',2], // exceptions des mots où le 'en' final se prononce [e_tilda] (héritage latin)
         '_ent':[this.Regle_mots_ent,'a_tilda',2], // quelques mots (adverbes ou noms) terminés par ent
         'adv_emment_fin':[{'-':/emm/i,'+':/nt/i},'a_tilda',2], // adverbe avec 'emment' => se termine par le son [a_tilda]
@@ -253,10 +254,11 @@ namespace ColorLib
 		'*':[{},'g',1]}],
 'h' : [['*'],
 		{'*':[{},'_muet',1]}],
-'i' : [['ing','n','m','nm','prec_2cons','lldeb','vill','mill2','tranquille',
+'i' : [['ing','inh','n','m','nm','prec_2cons','lldeb','vill','mill2','tranquille',
 		'ill','except_ill','bacille','ill_Ceras', '@ill','@il','ll','@il_Ceras',
 		'll_Ceras','ui','ient_1','ient_2','ie','ier_Conj','i_voyelle','flirt','*'],
 		{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng(s?)$/i},'i',1],
+		'inh':[{'-':/^/i,'+':/nh/i},'i',1],
 		'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
 		'm':[{'+':/m[bcçdfghjklnpqrstvwxz]/i},'e_tilda',2],
 		'nm':[{'+':/[n|m]$/i},'e_tilda',2],
@@ -392,7 +394,7 @@ namespace ColorLib
 		'subside':[{'-':/sub/i,'+':/i/i},'z_s',1], // subsidiaire
 		'asept':[{'-':/a/i,'+':/(ep(s|t)i|ex|ocia|y(m|n|s))/i},'s',1],
 		'pasZ':[{'-':/
-			(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho|^déca|^co|^soubre|^crypto|^cupro|^cyno)
+			(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho|^déca|^co|^soubre|^crypto|^cupro|^cyno|^deuto|^dodéca)
 			/i},'s',1],
 		'déss':[{'-':/^dé/i,'+':/(acra|ensibi|olida)/i},'s',1], // désacraliser
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôïœ]/i,'+':/[aeiyouéèàâüûùëöêîôïœ]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
@@ -410,8 +412,9 @@ namespace ColorLib
 		'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
 		'_tien':[{'+':/ien/i},'s_t',1],
 		'ex_tie':[{'-':/minu/i,'+':/ie(r|z)/i},'t',1],
-		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan|conten)/i,'+':/i(e|é)/i},'s_t',1],
-		'ex_tiot':[{'-':/(cré|plé|jé|[^r]essen)/i,'+':/i[ao]/i},'s_t',1],
+		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan|conten|dévo|féren|yodon|ploma)/i,
+			'+':/i(e|é)/i},'s_t',1],
+		'ex_tiot':[{'-':/(cré|plé|jé|[^r]essen|^dui)/i,'+':/i[ao]/i},'s_t',1],
 		'tiaot':[{'-':/([eéèêës]|[sc]en|(^|h|n)an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io]|^ca|^tri)/i,'+':/i[aâou]/i},'t',1],
 		'verb_tions':[this.Regle_VerbesTer,'t',1], // verbes en ter à l'imparfait - nous
 		'tiaos':[{'+':/i[aâou]/i},'s_t',1],
@@ -452,8 +455,9 @@ namespace ColorLib
 		{'wurst':[{'+':/((u|ü)r|ag(o|n|uin)|rr|lk|isi|e(stp|rn|l(t|che)|i)|arrant|yando|orm|olfram|ill(é|e)|alky)/i},'v',1], 
 		// [PAE 23.02.20] modifié pour couvrir tous les cas de Lexique. Une règle complexe vaut-elle mieux que cinq simples?????
 		'*':[{},'w',1]}], 
-'x' : [['six_dix','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','xisole','x_final', '@', '*'],
-		{'six_dix':[{'-':/(s|d)i/i},'s_x',1],
+'x' : [['six_dix','dixième','gz_1','gz_2','gz_3','gz_4','gz_5','_aeox','fix','xisole','x_final', '@', '*'],
+		{'six_dix':[{'-':/(s|d)i/i,'+':/$/i},'s_x',1],
+		'dixième':[{'-':/(s|d)i/i,'+':/iè/i},'z',1],
 		'gz_1':[{'-':/^/i,'+':/[aeuéèàüëêûù]/i},'gz',1], // mots qui commencent par un x suivi d'une voyelle (sauf 'i' ou 'o')
 		'gz_2':[{'-':/^(h?)e/i,'+':/(h?)[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'ex' ou 'hex' suivi d'une voyelle
 		'gz_3':[{'-':/^coe/i,'+':/[aeiouéèàüëöêîôûù]/i},'gz',1], // mots qui commencent par un 'coex' suivi d'une voyelle

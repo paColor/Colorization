@@ -834,7 +834,7 @@ namespace ColorLib
         // hypothèse: il n'existe pas de mot contenant deux fois "tien"
 
         static Regex rTien2 = new Regex(
-            "(^chré|^sou|^appar|^dé|^ap|^ar|^astar|ch(a|â))tien", 
+            "(^chré|^sou|^appar|^dé|^ap|^ar|^astar|ch(a|â)|flauber|lacer)tien", 
             RegexOptions.Compiled);
 
         /// <summary>
