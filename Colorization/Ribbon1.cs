@@ -199,13 +199,33 @@ namespace Colorization
             return toReturn;
         }
 
+        /// <summary>
+        /// Initialise les "handlers" (comment on dit ça en français?) pour le traitement du
+        /// changement de sélection et la fermeture de document. 
+        /// </summary>
+        /// <param name="app">L'application Word dans laquelle ceci est exécuté. Ne peut pas
+        /// être <c>null</c></param>
+        public void InitHandlers(Microsoft.Office.Interop.PowerPoint.Application app)
+        {
+            app.PresentationClose += new EApplication_PresentationCloseEventHandler(PresentationClosed);
+            app.WindowSelectionChange += new EApplication_WindowSelectionChangeEventHandler(SelChanged_Event);
+        }
+
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             logger.ConditionalDebug("Ribbon1_Load");
-            ColorizationPPT.thisAddIn.Application.PresentationClose
-                += new EApplication_PresentationCloseEventHandler(PresentationClosed);
-            ColorizationPPT.thisAddIn.Application.WindowSelectionChange
-                += new EApplication_WindowSelectionChangeEventHandler(SelChanged_Event);
+            // On a rencontré un problème dans Word avec l'ordre de démarrage du ruban et
+            // de l'"add in". Par principe de précaution on met en oeuvre le même mécanisme
+            // de protection ici aussi.
+            if (ColorizationPPT.thisAddIn != null)
+            {
+                InitHandlers(ColorizationPPT.thisAddIn.Application);
+            }
+            else
+            {
+                ColorizationPPT.RegisterRibbon(this);
+            }
+            
         }
 
         private void SelChanged_Event(Selection sel)

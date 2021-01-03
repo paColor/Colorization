@@ -40,6 +40,8 @@ namespace ColorizationWord
         // the AddIn is instantiatied only once
 
         private static List<WordRibbon> wRibbonL = new List<WordRibbon>();
+        // A priori il n'y a qu'un ruban d'instancié, mais je n'arrive pas à être 100% sûr.
+        // Donc une liste :-)
 
         public static void RegisterRibbon(WordRibbon wr)
         {

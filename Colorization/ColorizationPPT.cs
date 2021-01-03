@@ -35,9 +35,23 @@ namespace Colorization
     public partial class ColorizationPPT
     {
         public static ColorizationPPT thisAddIn { get; private set; }
-            // the AddIn is instantiatied only once
+        // the AddIn is instantiatied only once
+
+        private static List<Ribbon1> ribbon1L = new List<Ribbon1>();
+        // A priori il n'y a qu'un ruban d'instancié, mais je n'arrive pas à être 100% sûr.
+        // Donc une liste :-)
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+        /// <summary>
+        /// Enregistre le ruban <paramref name="r1"/> afin que la méthode <c>InitHandlers</c>
+        /// soit exécutée une fois que l'add in est démarré.
+        /// </summary>
+        /// <param name="r1">Le ruban qui a été instancié.</param>
+        public static void RegisterRibbon(Ribbon1 r1)
+        {
+            ribbon1L.Add(r1);
+        }
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
@@ -49,6 +63,11 @@ namespace Colorization
             Ribbon1.Init();
 
             thisAddIn = this;
+
+            foreach (Ribbon1 r1 in ribbon1L)
+            {
+                r1.InitHandlers(this.Application);
+            }
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
