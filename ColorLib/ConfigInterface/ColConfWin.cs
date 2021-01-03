@@ -956,6 +956,10 @@ namespace ColorLib
                 SetChkSon("47", false);
                 logger.ConditionalDebug("Son \"47\" initialisé.");
             }
+            if (cfPhon[(int)Phonemes.ji] == null)
+            {
+                cfPhon[(int)Phonemes.ji] = CharFormatting.BlackCF;
+            }
         }
 
         // ------------------------------------------------------- Rule Flags ---------------------------------------------------

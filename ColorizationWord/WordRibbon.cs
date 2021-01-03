@@ -28,6 +28,7 @@ using Microsoft.Office.Tools;
 using Microsoft.Office.Interop.Word;
 using ColorLib;
 using ColorizationControls;
+using System.Threading;
 
 namespace ColorizationWord
 {
@@ -204,13 +205,33 @@ namespace ColorizationWord
             ConfigPane.DocClosed(inDoc);
         }
 
+        /// <summary>
+        /// Initialise les "handlers" (comment on dit ça en français?) pour le traitement du changement
+        /// de sélection et la fermeture de document. 
+        /// </summary>
+        /// <param name="app">L'application Word dans laquelle ceci est exécuté.</param>
+        public void InitHandlers (Microsoft.Office.Interop.Word.Application app)
+        {
+            app.DocumentBeforeClose += new ApplicationEvents4_DocumentBeforeCloseEventHandler(DocClosed);
+            app.WindowSelectionChange += new ApplicationEvents4_WindowSelectionChangeEventHandler(SelChanged_Event);
+        }
+
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             logger.ConditionalDebug("Ribbon1_Load");
-            ColorizationMSW.thisAddIn.Application.DocumentBeforeClose 
-                += new ApplicationEvents4_DocumentBeforeCloseEventHandler(DocClosed);
-            ColorizationMSW.thisAddIn.Application.WindowSelectionChange
-                += new ApplicationEvents4_WindowSelectionChangeEventHandler(SelChanged_Event);
+            if (ColorizationMSW.thisAddIn != null)
+            {
+                // Il semblerait que l'ordre de création de thisAddIn et du ruban ne soit pas fixe ??
+                // Pour parer à toute éventualité, on effectue donc le test. Je ne suis pas sûr qu'il
+                // n'y ait qu'une instance du ruban, même si je ne comprendrais pas comment ça marche
+                // autrement... 
+                InitHandlers(ColorizationMSW.thisAddIn.Application);
+            }
+            else
+            {
+                ColorizationMSW.RegisterRibbon(this);
+            }
+            EnableButtons(false);
         }
 
         private void SelChanged_Event(Selection sel)

@@ -58,32 +58,48 @@ namespace Colorization
             finsDeLigne = null;
         }
 
+        /// <summary>
+        /// Applique le formatage <paramref name="cf"/> aux caractères dans le <see cref="TextRange"/>
+        /// <paramref name="tRange"/> en utilisant la <see cref="Config"/> <paramref name="inConf"/>.
+        /// </summary>
+        /// <param name="cf">Le <see cref="CharFormatting"/> à appliquer. Attention: peut être 
+        /// <c>null</c>.</param>
+        /// <param name="tRange">Le <see cref="TextRange"/> à formater.</param>
+        /// <param name="inConf">La <see cref="Config"/> à utiliser le cas échéant.</param>
         private static void ApplyCFToRange(CharFormatting cf, TextRange tRange, Config inConf)
         {
-            if (cf.bold)
-                tRange.Font.Bold = Microsoft.Office.Core.MsoTriState.msoTrue;
-            else if (cf.ForceNonBold(inConf))
-                tRange.Font.Bold = Microsoft.Office.Core.MsoTriState.msoFalse;
+            if (cf != null)
+            {
+                if (cf.bold)
+                    tRange.Font.Bold = Microsoft.Office.Core.MsoTriState.msoTrue;
+                else if (cf.ForceNonBold(inConf))
+                    tRange.Font.Bold = Microsoft.Office.Core.MsoTriState.msoFalse;
 
-            if (cf.italic)
-                tRange.Font.Italic = Microsoft.Office.Core.MsoTriState.msoTrue;
-            else if (cf.ForceNonItalic(inConf))
-                tRange.Font.Italic = Microsoft.Office.Core.MsoTriState.msoFalse;
+                if (cf.italic)
+                    tRange.Font.Italic = Microsoft.Office.Core.MsoTriState.msoTrue;
+                else if (cf.ForceNonItalic(inConf))
+                    tRange.Font.Italic = Microsoft.Office.Core.MsoTriState.msoFalse;
 
-            if (cf.underline)
-                tRange.Font.Underline = Microsoft.Office.Core.MsoTriState.msoTrue;
-            else if (cf.ForceNonUnderline(inConf))
-                tRange.Font.Underline = Microsoft.Office.Core.MsoTriState.msoFalse;
+                if (cf.underline)
+                    tRange.Font.Underline = Microsoft.Office.Core.MsoTriState.msoTrue;
+                else if (cf.ForceNonUnderline(inConf))
+                    tRange.Font.Underline = Microsoft.Office.Core.MsoTriState.msoFalse;
 
-            //if (cf.caps) // capitalize
-            //    tRange.Text = tRange.Text.ToUpper(BaseConfig.cultF);
-            //else if (Config.ActiveConf().unsetBeh.CbuVal(Ucbx.caps))
-            //    tRange.Text = tRange.Text.ToLower(BaseConfig.cultF);
+                //if (cf.caps) // capitalize
+                //    tRange.Text = tRange.Text.ToUpper(BaseConfig.cultF);
+                //else if (Config.ActiveConf().unsetBeh.CbuVal(Ucbx.caps))
+                //    tRange.Text = tRange.Text.ToLower(BaseConfig.cultF);
 
-            if (cf.changeColor) // set new color
-                tRange.Font.Color.RGB = cf.color;
-            else if (cf.ForceBlackColor(inConf))
-                tRange.Font.Color.RGB = ColConfWin.predefinedColors[(int)PredefCol.black];
+                if (cf.changeColor) // set new color
+                    tRange.Font.Color.RGB = cf.color;
+                else if (cf.ForceBlackColor(inConf))
+                    tRange.Font.Color.RGB = ColConfWin.predefinedColors[(int)PredefCol.black];
+            }
+            else
+            {
+                logger.Error("ApplyCFToRange with cf == null");
+                Debug.Assert(false);
+            }
         }
 
         /// <summary>

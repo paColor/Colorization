@@ -32,115 +32,115 @@ namespace ColorLib
         firstPhon,
 
         // Voyelles
-        /// <summary>--> 'a'  bat, plat -> A | A de X-Sampa</summary>
-        a,
-        /// <summary>le e de je, te, me, le , se... --> schwa '°', le e de abordera, schwa élidable | @ de X-Sampa</summary>
-        q,
-        /// <summary>e final p. ex de correctes --> schwa '°', le e de abordera, schwa élidable | @ de X-Sampa</summary>
+        /// <summary>1 --> 'a'  bat, plat -> A | A de X-Sampa</summary>
+        a, 
+        /// <summary>2 le e de je, te, me, le , se... --> schwa '°', le e de abordera, schwa élidable | @ de X-Sampa</summary>
+        q, 
+        /// <summary>3 e final p. ex de correctes --> schwa '°', le e de abordera, schwa élidable | @ de X-Sampa</summary>
         q_caduc,
-        /// <summary>--> --> 'i'  lit, émis -> I</summary>
-        i,
-        /// <summary>sot, coefficient, automne --> 'O' éloge, fort --> o ouvert</summary>
+        /// <summary>4 --> 'i'  lit, émis -> I</summary>
+        i, 
+        /// <summary>5 sot, coefficient, automne --> 'O' éloge, fort --> o ouvert</summary>
         o,
-        /// <summary>eau, au, --> 'o' peau --> o fermé</summary>
+        /// <summary>6 eau, au, --> 'o' peau --> o fermé</summary>
         o_comp,
-        /// <summary>ou --> 'u' roue --> Ou</summary>
+        /// <summary>7 ou --> 'u' roue --> Ou</summary>
         u,
-        /// <summary>u --> 'y' lu --> U</summary>
+        /// <summary>8 u --> 'y' lu --> U</summary>
         y,
-        /// <summary>é --> 'e' été --> e-fermé</summary>
+        /// <summary>9 é --> 'e' été --> e-fermé</summary>
         e,
-        /// <summary>è --> 'E' paire, treize --> e-ouvert</summary>
+        /// <summary>10 è --> 'E' paire, treize --> e-ouvert</summary>
         E,
-        /// <summary>è --> 'E' paire, treize --> e-ouvert</summary>
+        /// <summary>11 è --> 'E' paire, treize --> e-ouvert</summary>
         E_comp,
-        /// <summary>é --> 'e' clef, nez --> e-fermé</summary>
+        /// <summary>12 é --> 'e' clef, nez --> e-fermé</summary>
         e_comp,
-        /// <summary>in --> cinq  '5', cinq, linge --> in (voy. nasale) | e~ de X-Sampa</summary>
+        /// <summary>13 in --> cinq  '5', cinq, linge --> in (voy. nasale) | e~ de X-Sampa</summary>
         e_tilda,
-        /// <summary>an --> an '@', ange --> an (voy. nasale) | a~ de X-Sampa</summary>
+        /// <summary>14 an --> an '@', ange --> an (voy. nasale) | a~ de X-Sampa</summary>
         a_tilda,
-        /// <summary>on --> on '§', on, savon --> on (voy. nasale) | o~ de X-Sampa</summary>
+        /// <summary>15 on --> on '§', on, savon --> on (voy. nasale) | o~ de X-Sampa</summary>
         o_tilda,
-        /// <summary>un --> un '1', un, parfum --> un (voy. nasale) | 9~ de X-Sampa</summary>
+        /// <summary>16 un --> un '1', un, parfum --> un (voy. nasale) | 9~ de X-Sampa</summary>
         x_tilda,
-        /// <summary>eu --> deux '2', deux, oeuf nous renonçons à distinguer x2 et x9</summary>
+        /// <summary>17 eu --> deux '2', deux, oeuf nous renonçons à distinguer x2 et x9</summary>
         x2,
                      // x9,      // oeil, oeuf --> neuf  '9', oeuf, peur --> e-ouvert Nous renonçons à distinguer x2 et x9
-        /// <summary>Spécialement introduit pour identifier des deux lettres qui donnent --> 'wa'</summary>
+        /// <summary>18 Spécialement introduit pour identifier des deux lettres qui donnent --> 'wa'</summary>
         oi,
-        /// <summary>oin de poing, oint --> 'w5'</summary>
+        /// <summary>19 oin de poing, oint --> 'w5'</summary>
         w_e_tilda,  
                      // w_E_comp,   // oue de ouest, oued --> 'wE' Le cas particulier crée plus de confusion qu'il n'aide
                      // w_i,        // oui, kiwi --> 'wi' Nous renonçons à ce cas particulier. kiwi donnera 'kiwi' en phonétique :-)
 
         // Semi-voyelles
-        /// <summary>kiwi, sanwich, steward  --> 'w' pour le lexique.</summary>
+        /// <summary>20 kiwi, sanwich, steward  --> 'w' pour le lexique.</summary>
         w,
-        /// <summary>paille, ail, thaï, païen --> 'j' yeux, paille --> y (semi-voyelle)</summary>
+        /// <summary>21 paille, ail, thaï, païen --> 'j' yeux, paille --> y (semi-voyelle)</summary>
         j,
-        /// <summary>ng en fin de mot, prononcé à l'anglaise (string) --> 'iG'</summary>
+        /// <summary>22 ng en fin de mot, prononcé à l'anglaise (string) --> 'iG'</summary>
         J,
-        /// <summary>le son [ij] de affrioler -->´'ij'</summary>
+        /// <summary>23 le son [ij] de affrioler -->´'ij'</summary>
         i_j,
-        /// <summary>gn --> 'N' agneau, vigne --> gn (c. nasale palatine)  | J de X-Sampa</summary>
+        /// <summary>24 gn --> 'N' agneau, vigne --> gn (c. nasale palatine)  | J de X-Sampa</summary>
         N,
 
         // Consonnes
-        /// <summary>p --> 'p' père, soupe --> p (occlusive)</summary>
+        /// <summary>25 p --> 'p' père, soupe --> p (occlusive)</summary>
         p,
-        /// <summary>b --> 'b' bon, robe --> b (occlusive)</summary>
+        /// <summary>26 b --> 'b' bon, robe --> b (occlusive)</summary>
         b,
-        /// <summary>t --> 't' terre, vite --> t (occlusive)</summary>
+        /// <summary>27 t --> 't' terre, vite --> t (occlusive)</summary>
         t,
-        /// <summary>d --> 'd' dans aide --> d (occlusive)</summary>
+        /// <summary>28 d --> 'd' dans aide --> d (occlusive)</summary>
         d,
-        /// <summary>k --> 'k' carré, laque --> k (occlusive)</summary>
+        /// <summary>29 k --> 'k' carré, laque --> k (occlusive)</summary>
         k,
-        /// <summary>g --> 'g' gare, bague --> g (occlusive)</summary>
+        /// <summary>30 g --> 'g' gare, bague --> g (occlusive)</summary>
         g,
-        /// <summary>f --> 'f' feu, neuf --> f (fricative)</summary>
+        /// <summary>31 f --> 'f' feu, neuf --> f (fricative)</summary>
         f,
-        /// <summary>v --> 'v' vous, rêve --> v (fricative)</summary>
+        /// <summary>32 v --> 'v' vous, rêve --> v (fricative)</summary>
         v,
-        /// <summary>s --> 's' sale, dessous --> s (fricative)</summary>
+        /// <summary>33 s --> 's' sale, dessous --> s (fricative)</summary>
         s,
-        /// <summary>z --> 'z' zéro, maison --> z (fricative)</summary>
+        /// <summary>34 z --> 'z' zéro, maison --> z (fricative)</summary>
         z,
-        /// <summary>ch --> 'S' chat, tâche --> ch (fricative)</summary>
+        /// <summary>35 ch --> 'S' chat, tâche --> ch (fricative)</summary>
         S,
-        /// <summary>j --> 'Z' gilet, mijoter --> ge (fricative)</summary>
+        /// <summary>36 j --> 'Z' gilet, mijoter --> ge (fricative)</summary>
         Z,
-        /// <summary>m --> 'm' main, ferme --> m (cons. nasale)</summary>
+        /// <summary>37 m --> 'm' main, ferme --> m (cons. nasale)</summary>
         m,
-        /// <summary>n --> 'n' nous, tonne --> n (cons. nasale</summary>
+        /// <summary>38 n --> 'n' nous, tonne --> n (cons. nasale</summary>
         n,
-        /// <summary>l --> 'l' lent, sol --> l (liquide)</summary>
+        /// <summary>39 l --> 'l' lent, sol --> l (liquide)</summary>
         l,
-        /// <summary>R --> 'R' rue, venir --> R</summary>
+        /// <summary>40 R --> 'R' rue, venir --> R</summary>
         R,
-        /// <summary>ph de philosophie --> 'f'</summary>
+        /// <summary>41 ph de philosophie --> 'f'</summary>
         f_ph,
-        /// <summary>qu de quel --> 'k'</summary>
+        /// <summary>42 qu de quel --> 'k'</summary>
         k_qu,
-        /// <summary>g de gueule ou de guignol --> 'g'</summary>
+        /// <summary>43 g de gueule ou de guignol --> 'g'</summary>
         g_u,
-        /// <summary>son s dans ceci --> 's'</summary>
+        /// <summary>44 son s dans ceci --> 's'</summary>
         s_c,
-        /// <summary>son s dans partition --> 's'</summary>
+        /// <summary>45 son s dans partition --> 's'</summary>
         s_t,
-        /// <summary>sons s dans six, dix --> 's'</summary>
+        /// <summary>46 sons s dans six, dix --> 's'</summary>
         s_x,
-        /// <summary>s se prononce z raser --> 'z'</summary>
+        /// <summary>47 s se prononce z raser --> 'z'</summary>
         z_s,
-        /// <summary>son x de rixe --> 'ks'</summary>
+        /// <summary>48 son x de rixe --> 'ks'</summary>
         ks,
-        /// <summary>son x de examiner, exact --> 'gz'</summary>
+        /// <summary>49 son x de examiner, exact --> 'gz'</summary>
         gz,
 
-        /// <summary>nt ou ent des verbes conjugués --> muet ""</summary>
+        /// <summary>50 nt ou ent des verbes conjugués --> muet ""</summary>
         verb_3p,
-        /// <summary>--> muet ""</summary>
+        /// <summary>51 --> muet ""</summary>
         _muet,
 
         // o_ouvert,
@@ -154,16 +154,16 @@ namespace ColorLib
         // Les tests semblent prouver que la taille de cet enum n'a pas d'impact sur la compatibilité des sauvegardes...
         // comme ça ne mange presque pas de pain, gardons-les quand même.
 
-        /// <summary>utilisé dans la version CERAS des règles pour "ill" et "il" correspond au son 'j'</summary>
+        /// <summary>52 utilisé dans la version CERAS des règles pour "ill" et "il" correspond au son 'j'</summary>
         j_ill,
-        /// <summary>utilisé dans la version CERAS des règles pour "ill" (et "il") correspond au son 'ij'</summary>
+        /// <summary>53 utilisé dans la version CERAS des règles pour "ill" (et "il") correspond au son 'ij'</summary>
         i_j_ill,
-        /// <summary>le son [j] quand il est produit par la lettre i seule devant une voyelle. 
+        /// <summary>54 le son [j] quand il est produit par la lettre i seule devant une voyelle. 
         /// --> 'j'</summary>
         ji,
-        /// <summary>pour les chiffres 0 .. 9.</summary>
+        /// <summary>55 pour les chiffres 0 .. 9.</summary>
         chiffre,
-        /// <summary>réserve, comme le nom l'indique :-)</summary>
+        /// <summary>56 réserve, comme le nom l'indique :-)</summary>
         reserve5,
 
         /// <summary>used to iterate through all values. We could avoid this by using a Dictionary, 

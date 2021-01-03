@@ -115,39 +115,55 @@ namespace ColorizationWord
             HilightForm.hiliColors = hilightColors;
         }
 
-        public static void ApplyCFToRange(CharFormatting cf, Range toR, Config inConf)
+        /// <summary>
+        /// Applique le formatage <paramref name="cf"/> aux caractères dans le <see cref="Range"/>
+        /// <paramref name="toR"/> en utilisant la <see cref="Config"/> <paramref name="inConf"/>.
+        /// </summary>
+        /// <param name="cf">Le <see cref="CharFormatting"/> à appliquer. Attention: ne devrait pas
+        /// l'être, mais il y a eu des cas où <paramref name="cf"/> était <c>null</c>.</param>
+        /// <param name="toR">Le <see cref="Range"/> à formater.</param>
+        /// <param name="inConf">La <see cref="Config"/> à utiliser le cas échéant.</param>
+        private static void ApplyCFToRange(CharFormatting cf, Range toR, Config inConf)
         {
-            if (cf.bold)
-                toR.Bold = (int)Microsoft.Office.Core.MsoTriState.msoTrue;
-            else if (cf.ForceNonBold(inConf))
-                toR.Bold = (int)Microsoft.Office.Core.MsoTriState.msoFalse;
-
-            if (cf.italic)
-                toR.Italic = (int)Microsoft.Office.Core.MsoTriState.msoTrue;
-            else if (cf.ForceNonItalic(inConf))
-                toR.Italic = (int)Microsoft.Office.Core.MsoTriState.msoFalse;
-
-            if (cf.underline)
-                toR.Underline = WdUnderline.wdUnderlineSingle;
-            else if (cf.ForceNonUnderline(inConf))
-                toR.Underline = WdUnderline.wdUnderlineNone;
-
-            // if (cte.cf.caps) // capitalize
-            // TBD
-
-            if (cf.changeColor) // set new color
-                toR.Font.Fill.ForeColor.RGB = cf.color;
-            else if (cf.ForceBlackColor(inConf))
-                toR.Font.Fill.ForeColor.RGB = ColConfWin.predefinedColors[(int)PredefCol.black];
-
-            if (cf.changeHilight)
+            if (cf != null)
             {
-                WdColorIndex wdCi;
-                if (mapRGBtoColI.TryGetValue(cf.hilightColor, out wdCi))
-                    toR.HighlightColorIndex = wdCi;
+                if (cf.bold)
+                    toR.Bold = (int)Microsoft.Office.Core.MsoTriState.msoTrue;
+                else if (cf.ForceNonBold(inConf))
+                    toR.Bold = (int)Microsoft.Office.Core.MsoTriState.msoFalse;
+
+                if (cf.italic)
+                    toR.Italic = (int)Microsoft.Office.Core.MsoTriState.msoTrue;
+                else if (cf.ForceNonItalic(inConf))
+                    toR.Italic = (int)Microsoft.Office.Core.MsoTriState.msoFalse;
+
+                if (cf.underline)
+                    toR.Underline = WdUnderline.wdUnderlineSingle;
+                else if (cf.ForceNonUnderline(inConf))
+                    toR.Underline = WdUnderline.wdUnderlineNone;
+
+                // if (cte.cf.caps) // capitalize
+                // TBD
+
+                if (cf.changeColor) // set new color
+                    toR.Font.Fill.ForeColor.RGB = cf.color;
+                else if (cf.ForceBlackColor(inConf))
+                    toR.Font.Fill.ForeColor.RGB = ColConfWin.predefinedColors[(int)PredefCol.black];
+
+                if (cf.changeHilight)
+                {
+                    WdColorIndex wdCi;
+                    if (mapRGBtoColI.TryGetValue(cf.hilightColor, out wdCi))
+                        toR.HighlightColorIndex = wdCi;
+                }
+                else if (cf.ForceHilightClear(inConf))
+                    toR.HighlightColorIndex = WdColorIndex.wdNoHighlight;
             }
-            else if (cf.ForceHilightClear(inConf))
-                toR.HighlightColorIndex = WdColorIndex.wdNoHighlight;
+            else
+            {
+                logger.Error("ApplyCFToRange with cf == null");
+                Debug.Assert(false);
+            }
         }
 
         public MSWText(Range rge)

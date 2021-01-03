@@ -39,6 +39,13 @@ namespace ColorizationWord
         public static ColorizationMSW thisAddIn { get; private set; }
         // the AddIn is instantiatied only once
 
+        private static List<WordRibbon> wRibbonL = new List<WordRibbon>();
+
+        public static void RegisterRibbon(WordRibbon wr)
+        {
+            wRibbonL.Add(wr);
+        }
+
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
@@ -51,6 +58,10 @@ namespace ColorizationWord
 
             thisAddIn = this;
 
+            foreach (WordRibbon wr in wRibbonL)
+            {
+                wr.InitHandlers(this.Application);
+            }
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
