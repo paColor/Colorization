@@ -334,7 +334,7 @@ namespace ColorLibTest
                 "nO", "d2", "oROR", "a", "la", "lyt", "a", "l", "ORaZ", "o",
                 "aREn", "sOnOR", "a", "l", "aR", "nuvo", "ki", "s", "OfR", "o",
                 "p2pl", "kRij@", "ui", "Z", "ekut", "s°", "gR@", "v@", "syblim", "evanui",
-                "fils", "d°", "la", "gREs", "@tik", "e", "d°", "la", "Z2n", "fR@s",
+                "fis", "d°", "la", "gREs", "@tik", "e", "d°", "la", "Z2n", "fR@s",
                 "t§", "fjER", "REspE", "de", "mOR", "fy", "R@pli", "d", "EspeR@s", "ZamE",
                 "ty", "n°", "fERma", "le", "j2", "a", "l", "av°niR", "maZ", "a",
                 "tEb", "dRyid", "o", "pje", "dy", "nwaR", "m@iR", "flamin", "o", "bOR",

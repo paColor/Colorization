@@ -413,6 +413,21 @@ namespace ColorLib.Morphalou
                             return true;
                     }
 
+                    if (ph1[pos] == 'n' && pos > 0 && ph1[pos-1] == '@')
+                    {
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col))
+                            return true;
+                    }
+
+                    if (ph1[pos] == 'ü' && pos > 0 && ph1[pos - 1] == 'k' && col[pos] == 'i')
+                    {
+                        // par exemple equidistance: eküidist@s° contre ekidist@s
+                        // Le 'u' de 'qu' sera montré comme faisonat partie du son 'k'. C'est OK.
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col))
+                            return true;
+                    }
+
+
                 } // if (pos < ph1.Length)
 
                 if (pos > 2 && pos - 1 < ph1.Length

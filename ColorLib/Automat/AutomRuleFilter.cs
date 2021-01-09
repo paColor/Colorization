@@ -1818,7 +1818,7 @@ namespace ColorLib
             "reintimer", "reetamer", "teleimprimer", "echaumer", "egermer", "epilamer", "autolegitimer",
             "preprogrammer", "acaremer",
             // "dormer" est là pour intercepter le cas de ils/elles dorment
-            "dormer"
+            "dormer", "endormer", "rendormer",
         };
 
         /// <summary>
@@ -2104,7 +2104,8 @@ namespace ColorLib
         };
 
         /// <summary>
-        /// Liste des mots où ill se pronoce [il] et non [j] ou [ij]
+        /// Liste des mots où ill se pronoce [il] et non [j] ou [ij]. Les pluriels doivent être
+        /// dans la liste.
         /// </summary>
         private static HashSet<string> except_ill = new HashSet<string>
         {
@@ -2126,7 +2127,7 @@ namespace ColorLib
             "désillusionnerait", "désillusionneras", "désillusionnèrent", "désillusionnerez",
             "désillusionneriez", "désillusionnerions", "désillusionnerons", "désillusionneront",
             "désillusionnes", "désillusionnez", "désillusionniez", "désillusionnions", "désillusionnons",
-            "drill", "égorgilla", "égorgillai", "égorgillaient", "égorgillais", "égorgillait", "égorgillâmes",
+            "drill", "drills", "égorgilla", "égorgillai", "égorgillaient", "égorgillais", "égorgillait", "égorgillâmes",
             "égorgillant", "égorgillas", "égorgillasse", "égorgillasses", "égorgillassiez", "égorgillassions",
             "égorgillât", "égorgillâtes", "égorgille", "égorgillé", "égorgillée", "égorgillées",
             "égorgiller", "égorgillera", "égorgillerai", "égorgilleraient", "égorgillerais", "égorgillerait",
@@ -2156,7 +2157,32 @@ namespace ColorLib
             "stillées", "stillent", "stiller", "stillera", "stillerai", "stilleraient", "stillerais",
             "stillerait", "stilleras", "stillèrent", "stillerez", "stilleriez", "stillerions",
             "stillerons", "stilleront", "stilles", "stillés", "stillez", "stilligoutte", "stilligouttes",
-            "stillons",
+            "stillons","filliole", "fillioles",
+            "fritillaire", "gille", "gillotage", "gillotages", "grills", "imbécillifié", "imbécilliser",
+            "intermaxillaire", "intermaxillaires", "lapilli", "lapillis", "mamillaire", "mamillaires",
+            "maxille", "maxilles", "maxillifère", "maxilliforme", "mille", "millefeuille", "millefeuilles",
+            "millepertuis", "milleraies", "millerandage", "millerandages", "millerole", "milleroles",
+            "millerolle", "millerolles", "milles", "multimillénaire", "oscilla", "oscillai", "oscillaient",
+            "oscillais", "oscillait", "oscillâmes", "oscillant", "oscillante", "oscillantes",
+            "oscillants", "oscillas", "oscillasse", "oscillassent", "oscillasses", "oscillassiez",
+            "oscillassions", "oscillât", "oscillâtes", "oscillateur", "oscillateurs", "oscillation",
+            "oscillations", "oscillatoire", "oscillatoires", "oscillatrice", "oscillatrices",
+            "oscille", "oscillé", "oscillée", "oscillées", "oscillement", "oscillent", "osciller",
+            "oscillera", "oscillerai", "oscilleraient", "oscillerais", "oscillerait", "oscilleras",
+            "oscillèrent", "oscillerez", "oscilleriez", "oscillerions", "oscillerons", "oscilleront",
+            "oscilles", "oscillés", "oscillez", "oscilliez", "oscillions", "oscillogramme", "oscillogrammes",
+            "oscillographe", "oscillographes", "oscillographie", "oscillographique", "oscillomètre",
+            "oscillomètres", "oscillons", "oscilloscope", "oscilloscopes", "papillite", "papillites",
+            "papillomateuse", "papillomateuses", "papillomateux", "papillome", "papillomes", "pénicille",
+            "pénicillé", "pénicillée", "pénicillées", "pénicilles", "pénicillés", "pénicillinase",
+            "pénicillinases", "pénicillium", "pénicilliums", "phosphovanillique", "précapillaire",
+            "prémaxillaire", "quadrillion", "quadrillions", "quintillion", "réilluminer", "saxillaire",
+            "saxillaires", "scillarène", "scille", "scilles", "scillitique", "scillitiques", "scintillatrice",
+            "scintillatrices", "septillion", "sigillographe", "sigillographes", "sigillographie",
+            "sigillographies", "sigillographique", "sigillographiques", "spirillose", "spirilloses",
+            "spongille", "spongilles", "sugillation", "sugillations", "tefillin", "téfillin",
+            "téfillins", "thriller", "thrillers", "tillodontes", "trillionnaire", "twills", "vanilline",
+            "vanillines", "vanillisme", "vanillismes",
         };
 
         /// <summary>

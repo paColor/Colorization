@@ -174,7 +174,7 @@ De vos re-gards di-vins l'i-nef-fa-ble dou-ceur
 For-ça la ré-sis-tance où s'ob-sti-nait mon coeur
 El-le sur-mon-ta tout jeû-nes pri-è-res larmes
 Et tour-na tous mes voeux du cô-té de vos charmes
-Mes yeux et mes sou-pirs vous l'ont dit mill-e fois
+Mes yeux et mes sou-pirs vous l'ont dit mil-le fois
 Et pour mieux m'ex-pli-quer j'em-ploie i-ci la voix
 Que si vous con-tem-plez d'une âme un peu bé-nigne
 Les tri-bu-la-ti-ons de votre es-clave in-digne
@@ -211,7 +211,7 @@ De vos re-gards di-vins l'i-nef-fa-ble dou-ceur
 For-ça la ré-sis-tance où s'ob-sti-nait mon coeur
 El-le sur-mon-ta tout jeû-nes pri-è-res larmes
 Et tour-na tous mes voeux du cô-té de vos charmes
-Mes yeux et mes sou-pirs vous l'ont dit mill-e fois
+Mes yeux et mes sou-pirs vous l'ont dit mil-le fois
 Et pour mieux m'ex-pli-quer j'em-ploie i-ci la voix
 Que si vous con-tem-plez d'une âme un peu bé-nigne
 Les tri-bu-la-tions de votre es-clave in-digne
@@ -248,7 +248,7 @@ De vos re-gards di-vins l'i-nef-fa-ble dou-ceur
 For-ça la ré-sis-tan-ce où s'ob-sti-nait mon coeur
 El-le sur-mon-ta tout jeû-nes pri-è-res lar-mes
 Et tour-na tous mes voeux du cô-té de vos char-mes
-Mes yeux et mes sou-pirs vous l'ont dit mill-e fois
+Mes yeux et mes sou-pirs vous l'ont dit mil-le fois
 Et pour mieux m'ex-pli-quer j'em-ploie i-ci la voix
 Que si vous con-tem-plez d'u-ne â-me un peu bé-ni-gne
 Les tri-bu-la-tions de vo-tre es-cla-ve in-di-gne
