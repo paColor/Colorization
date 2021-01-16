@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "examen";
+            string txt = "noyau";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,18 +97,22 @@ namespace ColorLibTest
         {
             string txt = @"
 
-foehn
-foehns
-foène
-foènes
-football
-footballs
-footballeur
-footballeurs
-footballeuse
-footballeuses
-foramen
-foramen
+highlandais
+highlander
+highlanders
+highlifer
+highlifers
+highlifeur
+highlifeurs
+hindi
+hindis
+hinterland
+hinterlands
+homespun
+homespuns
+homoionique
+hotus
+
 
 ";
             TheText tt = new TheText(txt);

@@ -427,6 +427,13 @@ namespace ColorLib.Morphalou
                             return true;
                     }
 
+                    if (ph1[pos] == 'w' && pos > 0 && ph1[pos - 1] == 'u' && col[pos] == 'a')
+                    {
+                        // par exemple fouaillassent fuwajas°;;fuajas
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col))
+                            return true;
+                    }
+
 
                 } // if (pos < ph1.Length)
 

@@ -164,13 +164,13 @@ namespace ColorLib
 		'jtcnslemede','jean','ge','eoi','ex','ef','reqquechose','entre',
 		'except_evr',
 		'2consonnes','abbaye','que_gue_final','e_muet','e_deb',
-		'@','ier_Conj','*'],
+		'@','ier_Conj','hyper','*'],
 		{
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
         'ien_0':[{'-':/(fic|n|quot)i/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient, coefficient,...
 		'scien':[{'-':/((aud|sc|cl|^fa|([éf]fic)|pat|émoll|expé[dr]|^farn)[iï])/i,'+':/n/i},'a_tilda',2], // science, faïence...
-		'orient':[{'-':/ori/i,'+':/nt/i},'a_tilda',2],
+		'orient':[{'-':/(ori|gradi)/i,'+':/nt/i},'a_tilda',2],
         'ien':[{'-':/([bcdégklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 		'ien2':[{'-':/pi/i,'+':/n(s?)$/i},'e_tilda',2], // carpien, olympien, ...
 		'examen':[{'-':/(exam|mino|édu|apexi|^api|loqui|\wy|é|^b(r?))/i,'+':/n(s?)$/i},'e_tilda',2],
@@ -224,6 +224,7 @@ namespace ColorLib
 		'e_deb':[{'-':/^/i},'q',1], // par défaut, un 'e' en début de mot se prononce [q]
         '@':[{'+':/(s?)$/i},'q_caduc',1],
 		'ier_Conj':[this.Regle_ierConjE,'_muet',1], // verbes en ier conjugués au futur ou au conditionnel
+		'hyper':[{'-':/(hyp|^int)/i,'+':/r/i},'E_comp',1],
 		'*':[{},'q',1],
 		}],
 'é' : [['*'],
@@ -263,7 +264,8 @@ namespace ColorLib
 		'ill','except_ill','bacille','ill_Ceras', '@ill','@il','ll','@il_Ceras',
 		'll_Ceras','ui','ient_1','ient_2','ie','ier_Conj','i_voyelle','flirt','*'],
 		{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng(s?)$/i},'i',1],
-		'inh':[{'-':/^/i,'+':/nh/i},'i',1],
+		//'inh':[{'-':/^/i,'+':/nh/i},'i',1],
+		'inh':[{'+':/nh/i},'i',1],
 		'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
 		'm':[{'+':/m[bcçdfghjklnpqrstvwxz]/i},'e_tilda',2],
 		'nm':[{'+':/[n|m]$/i},'e_tilda',2],
@@ -348,7 +350,7 @@ namespace ColorLib
 		'oeu_defaut':[{'+':/eu/i},'x2',3], // exemple : oeuf
 		'oe_0':[{'+':/ê/i},'oi',2],  // exemple : poêle [PAE 26.02.2020] remplacé par 'oi'
 		'oe_2':[{'-':/m/i,'+':/e/i},'oi',2], // exemple : moelle [PAE 26.02.2020] remplacé par 'oi'
-		'oe_3':[{'-':/f/i,'+':/e/i},'e',2], // exemple : foetus
+		'oe_3':[{'-':/f/i,'+':/et/i},'e',2], // exemple : foetus
 		'oe_4':[{'-':/(gastr|électr|inc|min|c|aér|angi|benz)/i,'+':/e/i},'o',1], // [PAE 26.02.2020] électroencéphalogramme, minoen, coefficient
 		'oe_defaut':[{'+':/e/i},'x2',2], // exemple : oeil
 		'toast':[{'-':/t/i,'+':/ast/i},'o',2], // toast, toaster et toutes ses formes
@@ -403,7 +405,7 @@ namespace ColorLib
 			(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho|^déca|^co|^soubre|^crypto|^cupro|^cyno|^deuto|^dodéca|^écho|(^[ée]qui))
 			/i},'s',1],
 		'pasZ2':[{'-':/
-			(^énnéa|^entre)
+			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro)
 			/i},'s',1],		
 		'déss':[{'-':/^dé/i,'+':/(acra|ensibi|olida)/i},'s',1], // désacraliser
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôïœ]/i,'+':/[aeiyouéèàâüûùëöêîôïœ]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
@@ -421,7 +423,7 @@ namespace ColorLib
 		'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
 		'_tien':[{'+':/ien/i},'s_t',1],
 		'ex_tie':[{'-':/minu/i,'+':/ie(r|z)/i},'t',1],
-		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan|conten|dévo|féren|ploma|facé|^fac)/i,
+		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan|conten|dévo|féren|ploma|facé|^fac|^goé|thé)/i,
 			'+':/i(e|é|èr)/i},'s_t',1],
 		'ex_tiot':[{'-':/(cré|plé|jé|([^r]|^)essen|^dui)/i,'+':/i[ao]/i},'s_t',1],
 		'tiaot':[{'-':/([eéèêës]|[sc]en|(^|h|n)an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io]|^ca|^tri)/i,'+':/i[aâou]/i},'t',1],
