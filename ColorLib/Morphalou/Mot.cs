@@ -160,7 +160,8 @@ namespace ColorLib.Morphalou
                 if (cPh != cCol 
                     && !(cPh == 'ë' && (cCol == 'e' || cCol == 'E'))
                     && !(cPh == 'ü' && (cCol == 'u' || cCol == 'y'))
-                    && !(cPh == 'ê' && (cCol == '2' || cCol == '°'))
+                    && !(cPh == 'ê' && (cCol == '2' || cCol == '°' || cCol == 'E')) 
+                    // le 'E' est un peu exagéré, mais dans les cas qui restent c'est acceptable, par exemple sprinters
                     )
                 {
                     toReturn = false;
@@ -428,6 +429,14 @@ namespace ColorLib.Morphalou
                     }
 
                     if (ph1[pos] == 'w' && pos > 0 && ph1[pos - 1] == 'u' && col[pos] == 'a')
+                    {
+                        // par exemple fouaillassent fuwajas°;;fuajas
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col))
+                            return true;
+                    }
+
+                    if (ph1[pos] == 'j' && pos > 1 && ph1[pos - 1] == 'a' && ph1[pos - 2] == 'w' 
+                        && (col[pos] == 'a' || col[pos] == 'o'))
                     {
                         // par exemple fouaillassent fuwajas°;;fuajas
                         if (AreMatch(graphie, ph1.Remove(pos, 1), col))

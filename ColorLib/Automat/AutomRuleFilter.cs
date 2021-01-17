@@ -553,7 +553,7 @@ namespace ColorLib
             "contrefer", "desser", "driver", "dulcimer", "enquier", "er", "ferouer", "ferver",
             "frater", "gaster", "keuper", "maser", "masséter", "messer", "néper", "pater",
             "quarter", "reconquier", "requier", "resser", "ser", "spalter",
-            "stathouder", "suber", "ulster", "vétyver",
+            "stathouder", "suber", "ulster", "vétyver", "traminer",
         };
 
         /*

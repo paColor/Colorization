@@ -126,7 +126,7 @@ namespace ColorLib.Morphalou
             { "y", "y" },
             { "2", "2" },
             { "9", "2" },
-            { "6", "ê" }, // entre [2] et [°]
+            { "6", "ê" }, // entre [2] et [°], 16.01.21: j'ai fini par rajouter [E]
             { "@", "°" },
             { "e~", "5" },
             { "a~", "@" },

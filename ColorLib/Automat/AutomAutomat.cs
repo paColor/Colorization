@@ -92,7 +92,7 @@ namespace ColorLib
 @"{
 
 'a' : [['u','il','in','nc_ai_fin','ai_fin','fais','i','n','m','adam','nm','y_except','y_fin','yat',
-		'taylor','y','ae_e','coach','*'],
+		'taylor','y','ae_e','coach','saoul','*'],
 		{'u':[{'+':/u/i},'o_comp',2],
 		'il':[{'+':/il((s?)$|l)/i},'a',1],
 		'in':[{'+':/i[nm]([bcçdfghjklnmpqrstvwxz]|$)/i},'e_tilda',3], // toute succession 'ain' 'aim' suivie d'une consonne ou d'une fin de mot
@@ -111,6 +111,7 @@ namespace ColorLib
 		'y':[{'+':/y/i},'E_comp',1],
 		'ae_e': [{'+':/e/i},'e',2],
 		'coach':[{'-':/co/i,'+':/(ch|lt)/i},'_muet', 1],
+		'saoul':[{'-':/s/i,'+':/oul/i},'_muet', 1],
 		'*':[{},'a',1]}],
 'â' : [['*'],
 		{'*':[{},'a',1]}],
@@ -169,18 +170,13 @@ namespace ColorLib
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
         'ien_0':[{'-':/(fic|n|quot)i/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient, coefficient,...
-		'scien':[{'-':/((aud|sc|cl|^fa|([éf]fic)|pat|émoll|expé[dr]|^farn)[iï])/i,'+':/n/i},'a_tilda',2], // science, faïence...
+		'scien':[{'-':/((aud|sc|cl|^fa|([éf]fic)|pat|émoll|expé[dr]|^farn|^résil)[iï])/i,'+':/n/i},'a_tilda',2], // science, faïence...
 		'orient':[{'-':/(ori|gradi)/i,'+':/nt/i},'a_tilda',2],
         'ien':[{'-':/([bcdégklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 		'ien2':[{'-':/pi/i,'+':/n(s?)$/i},'e_tilda',2], // carpien, olympien, ...
 		'examen':[{'-':/(exam|mino|édu|apexi|^api|loqui|\wy|é|^b(r?))/i,'+':/n(s?)$/i},'e_tilda',2],
 		'zen':[{'-':/([a-z]m|gold|poll|^[yz]|^av|bigoud|coh|^éd)/i,'+':/n(s?)$/i},'E_comp',1],
-
-        //'zen':[{'-':/(abdom|dolm|gentlem|gold|poll|spécim|^z|^y|acum|album|^a(m|v)|lum|bigoud|cérum|coh|^culm|^cyclam|dictam|^éd)/i,
-		//			'+':/n(s?)$/i},'E_comp',1], // pas sûr que gentlemen ait un sens ici, qui l'utilise en français?
-
-		//'except_en':[{'-':/(exam|mino|édu|apexi|^api|loqui|y|é|^b(r?))/i,'+':/n(s?)$/i},'e_tilda',2], // exceptions des mots où le 'en' final se prononce [e_tilda] (héritage latin)
-        '_ent':[this.Regle_mots_ent,'a_tilda',2], // quelques mots (adverbes ou noms) terminés par ent
+		'_ent':[this.Regle_mots_ent,'a_tilda',2], // quelques mots (adverbes ou noms) terminés par ent
         'adv_emment_fin':[{'-':/emm/i,'+':/nt/i},'a_tilda',2], // adverbe avec 'emment' => se termine par le son [a_tilda]
         'ment':[this.Regle_ment,'a_tilda',2], // on considère que les mots terminés par 'ment' se prononcent [a_tilda] sauf s'il s'agit d'un verbe
 		'imparfait':[{'-':/ai/i,'+':/nt$/i},'verb_3p',3], // imparfait à la 3ème personne du pluriel
@@ -260,12 +256,12 @@ namespace ColorLib
 		'*':[{},'g',1]}],
 'h' : [['*'],
 		{'*':[{},'_muet',1]}],
-'i' : [['ing','inh','n','m','nm','prec_2cons','lldeb','vill','mill2','tranquille',
+'i' : [['ing','inh','sprint','n','m','nm','prec_2cons','lldeb','vill','mill2','tranquille',
 		'ill','except_ill','bacille','ill_Ceras', '@ill','@il','ll','@il_Ceras',
 		'll_Ceras','ui','ient_1','ient_2','ie','ier_Conj','i_voyelle','flirt','*'],
 		{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng(s?)$/i},'i',1],
-		//'inh':[{'-':/^/i,'+':/nh/i},'i',1],
 		'inh':[{'+':/nh/i},'i',1],
+		'sprint':[{'-':/(^spr|^sw|^tram|^sp|^sh|^pidg|^park|^muezz|^ingu)/i,'+':/n/i},'i',1],
 		'n':[{'+':/n[bcçdfghjklmpqrstvwxz]/i},'e_tilda',2],
 		'm':[{'+':/m[bcçdfghjklnpqrstvwxz]/i},'e_tilda',2],
 		'nm':[{'+':/[n|m]$/i},'e_tilda',2],
@@ -333,7 +329,7 @@ namespace ColorLib
 		'*':[{},'n',1],
 		}],
 'o' : [['in','except_y','i','tomn','faonner',
-		'n','m','nm','u','boo','zoom','alcool','oeu_defaut','oe_0','oe_2', 'oe_3',
+		'n','m','nm','u','boo','alcool','oeu_defaut','oe_0','oe_2', 'oe_3',
 		'oe_4','oe_defaut','toast','*'],
 		{'in':[{'+':/i[nm]([bcçdfghjklpqrstvwxz]|$)/i},'w_e_tilda',3],
 		'except_y':[this.RegleMotsOYoj,'o',1],
@@ -345,7 +341,6 @@ namespace ColorLib
 		'nm':[{'+':/[nm]$/i},'o_tilda',2],
 		'u':[{'+':/[uwûù]/i},'u',2], // son [u] : clou, clown
 		'boo':[{'-':/(al|b|bl|baz|f|gl|gr|lm|pr|^r|sc|sh|sl|w)/i,'+':/o/i},'u',2], // exemple : booléen, boom, sloop, ...
-		'zoom':[{'-':/z/i,'+':/om/i},'u',2],
 		'alcool':[{'-':/(alc|hyper|waterl|witl)/i,'+':/o/i},'o',2],
 		'oeu_defaut':[{'+':/eu/i},'x2',3], // exemple : oeuf
 		'oe_0':[{'+':/ê/i},'oi',2],  // exemple : poêle [PAE 26.02.2020] remplacé par 'oi'
@@ -389,7 +384,8 @@ namespace ColorLib
 		'r':[{'+':/r/i},'R',2],
 		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
-'s' : [['schizo','sch','transs','s','s_final','@','parasit','balsa','subside','asept','pasZ','pasZ2','déss','z','dész','h','fasci',
+'s' : [['schizo','sch','transs','s','s_final','@','parasit','balsa','subside','asept','pasZ','pasZ2',
+		'déss','prés_s','z','dész','h','fasci',
 		'*'],
 		{'schizo':[{'+':/(chi[aoz]|chato)/i},'s',1],
 		'sch':[{'+':/ch/i},'S',3], // schlem
@@ -405,9 +401,10 @@ namespace ColorLib
 			(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho|^déca|^co|^soubre|^crypto|^cupro|^cyno|^deuto|^dodéca|^écho|(^[ée]qui))
 			/i},'s',1],
 		'pasZ2':[{'-':/
-			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro)
+			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro|^hypo|^pré|^poly|^psycho|^quadri|^prime|^psycho|^radio|^tourne|^péri|^impari)
 			/i},'s',1],		
 		'déss':[{'-':/^dé/i,'+':/(acra|ensibi|olida)/i},'s',1], // désacraliser
+		'prés_s':[{'-':/^pré/i,'+':/(éanc|échoir|élect|ériel|exu|uppo|ylvi|yndic)/i},'s',1],
 		'z':[{'-':/[aeiyouéèàâüûùëöêîôïœ]/i,'+':/[aeiyouéèàâüûùëöêîôïœ]/i},'z_s',1], // un s entre 2 voyelles se prononce [z]
 		'dész':[{'-':/(^dé|^di|^dy|^e|^phy|^tran)/i,'+':/[aiyouéèàâüûùëöêîôïh]/i},'z_s',1], // déshonneur, esherbeur (si si), transhumance...
 		'h':[{'+':/h/i},'S',2],
@@ -423,7 +420,7 @@ namespace ColorLib
 		'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
 		'_tien':[{'+':/ien/i},'s_t',1],
 		'ex_tie':[{'-':/minu/i,'+':/ie(r|z)/i},'t',1],
-		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan|conten|dévo|féren|ploma|facé|^fac|^goé|thé)/i,
+		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan|conten|dévo|féren|ploma|facé|^fac|^goé|thé|^inep)/i,
 			'+':/i(e|é|èr)/i},'s_t',1],
 		'ex_tiot':[{'-':/(cré|plé|jé|([^r]|^)essen|^dui)/i,'+':/i[ao]/i},'s_t',1],
 		'tiaot':[{'-':/([eéèêës]|[sc]en|(^|h|n)an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io]|^ca|^tri)/i,'+':/i[aâou]/i},'t',1],
