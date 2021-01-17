@@ -401,7 +401,7 @@ namespace ColorLib
 			(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho|^déca|^co|^soubre|^crypto|^cupro|^cyno|^deuto|^dodéca|^écho|(^[ée]qui))
 			/i},'s',1],
 		'pasZ2':[{'-':/
-			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro|^hypo|^pré|^poly|^psycho|^quadri|^prime|^psycho|^radio|^tourne|^péri|^impari)
+			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro|^hypo|^poly|^psycho|^prime|^psycho|^radio|^tourne|^péri|^impari|^idio|^hydrogéno)
 			/i},'s',1],		
 		'déss':[{'-':/^dé/i,'+':/(acra|ensibi|olida)/i},'s',1], // désacraliser
 		'prés_s':[{'-':/^pré/i,'+':/(éanc|échoir|élect|ériel|exu|uppo|ylvi|yndic)/i},'s',1],
@@ -423,7 +423,7 @@ namespace ColorLib
 		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan|conten|dévo|féren|ploma|facé|^fac|^goé|thé|^inep)/i,
 			'+':/i(e|é|èr)/i},'s_t',1],
 		'ex_tiot':[{'-':/(cré|plé|jé|([^r]|^)essen|^dui)/i,'+':/i[ao]/i},'s_t',1],
-		'tiaot':[{'-':/([eéèêës]|[sc]en|(^|h|n)an|f(l?)[uû]|ar|(ch|^str|galim|fum)[aâ]|rb[io]|^ca|^tri)/i,'+':/i[aâou]/i},'t',1],
+		'tiaot':[{'-':/([eéèêës]|[sc]en|(^|h|n)an|f(l?)[uû]|(ch|^str|galim|fum)[aâ]|rb[io]|^ca|^tri)/i,'+':/i[aâou]/i},'t',1],
 		'verb_tions':[this.Regle_VerbesTer,'t',1], // verbes en ter à l'imparfait - nous
 		'tiaos':[{'+':/i[aâou]/i},'s_t',1],
 		'vingt':[{'-':/ving/i,'+':/$/i},'t',1], // vingt mais pas vingts

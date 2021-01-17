@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "zoo";
+            string txt = "impartial";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,8 +97,14 @@ namespace ColorLibTest
         {
             string txt = @"
 
-zoom
-zooms
+immangeable
+immangeables
+immanquable
+immanquablement
+immanquables
+immariable
+immariables
+
 
 
 ";

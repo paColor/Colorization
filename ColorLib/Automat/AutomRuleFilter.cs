@@ -1388,6 +1388,7 @@ namespace ColorLib
             "trivium", "ultimatum", "unicum", "uranium", "vacuum", "vanadium", "vasothélium", "velarium", "vélarium",
             "velum", "vélum", "verumontanum", "vérumontanum", "vexillum", "viburnum", "vivarium", "xiphisternum",
             "ytterbium", "yttrium", "zirconium", "zygantrum", "zygopetalum", "zygophyllum", "zythum", "ageratum",
+
             // sans accents
             "aceratherium", "acerotherium", "acetabulum", "acroterium", "adenoepithelium", "aerium",
             "americium", "ancylotherium", "anoplotherium", "begum", "beryllium", "calcaneum", "capharnaum",
@@ -1637,6 +1638,8 @@ namespace ColorLib
             // par exemple 'fouter' pour identifier que le t de foutions se prononce [t]. Il s'agit
             // typiquement de verbes d'un autre groupe.
             "contrefouter", "démenter", "fouter", "refouter", "repenter", "ressorter", "sorter", 
+            "départer", "essarter", "parter", "quarter","reparter", "sarter",
+
             // sans accents
             "accrediter", "acqueter", "admoneter", "affreter", "agreanter", "agrementer", "apleter",
             "appresenter", "appreter", "appater", "appeter", "arreter", "budgeter", "bater", "becoter",
