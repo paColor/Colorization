@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "impartial";
+            string txt = "recruter";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,13 +97,38 @@ namespace ColorLibTest
         {
             string txt = @"
 
-immangeable
-immangeables
-immanquable
-immanquablement
-immanquables
-immariable
-immariables
+squattassiez
+squattassions
+squattât
+squattâtes
+squatte
+squatté
+squattée
+squattées
+squattent
+squatter
+squattera
+squatterai
+squatteraient
+squatterais
+squatterait
+squatteras
+squattèrent
+squatterez
+squatteriez
+squatterions
+squattérisation
+squatterons
+squatteront
+squatters
+squattes
+squattés
+squattez
+squattiez
+squattions
+squattons
+
+
 
 
 

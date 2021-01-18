@@ -443,6 +443,14 @@ namespace ColorLib.Morphalou
                             return true;
                     }
 
+                    if (ph1[pos] == 'N' && col[pos] == 'n' 
+                        && pos < col.Length - 1 && col[pos+1] == 'j')
+                    {
+                        // ingéniorat;5ZeNoRa;5ZëNoRa;5ZenjoRa
+                        if (AreMatch(graphie, ph1.Remove(pos, 1), col.Remove(pos, 2)))
+                            return true;
+                    }
+
 
                 } // if (pos < ph1.Length)
 

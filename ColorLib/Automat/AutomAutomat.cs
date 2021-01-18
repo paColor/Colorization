@@ -169,7 +169,7 @@ namespace ColorLib
 		{
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
-        'ien_0':[{'-':/(fic|n|quot)i/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient, coefficient,...
+        'ien_0':[{'-':/(fic|n|quot|ingréd)i/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient, coefficient,...
 		'scien':[{'-':/((aud|sc|cl|^fa|([éf]fic)|pat|émoll|expé[dr]|^farn|^résil)[iï])/i,'+':/n/i},'a_tilda',2], // science, faïence...
 		'orient':[{'-':/(ori|gradi)/i,'+':/nt/i},'a_tilda',2],
         'ien':[{'-':/([bcdégklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
@@ -190,7 +190,6 @@ namespace ColorLib
 		'eil':[{'+':/il/i},'E_comp',1],
 		'y':[{'+':/y[aeiouéèêààäôâ]/i},'E_comp',1],
  		'iy':[{'+':/[iy]/i},'E_comp',2],
-        // 'ennemi':[{'-':/^/i,'+':/nnemi/i},'E_comp',1], // ennemi est l'exception ou 'enn' en début de mot se prononce 'èn' (cf. enn_debut_mot)
         'enn_debut_mot':[{'-':/(^|dés)/i,'+':/nn[^ié]/i},'a_tilda',2], // 'enn' en début de mot se prononce 'en'
 		't_final':[{'+':/[t]$/i},'E_comp',2], // donne le son [E] et le t ne se prononce pas
 		'eclm_final':[{'+':/[clm](s?)$/i},'E_comp',1], // donne le son [E] et le l ou le c se prononcent (ex. : miel, sec)
@@ -213,7 +212,7 @@ namespace ColorLib
 		'ef':[{'+':/[bf](s?)$/i},'E_comp',1], // e suivi d'un f ou d'un b en fin de mot se prononce è
 		'reqquechose':[this.RegleMotsRe,'q',1], // re-quelque chose : le e se prononce 'e'
 		'entre':[{'-':/(^((ré)?)entr|^contr|^autor|^maugr)/i},'q',1],
-        'except_evr':[{'+':/vr/i},'q',1], // chevrier, chevron, chevreuil
+        'except_evr':[{'+':/([cv]r)/i},'q',1], // chevrier, chevron, chevreuil, secret
 		'2consonnes':[{'+':/[bcçdfghjklmnpqrstvwxz]{2}/i},'E_comp',1], // e suivi de 2 consonnes se prononce è
         'abbaye':[{'-':/abbay/i,'+':/(s?)$/i},'_muet',1], // ben oui...
 		'e_muet':[{'-':/[aeiouéèêà]/i,'+':/(s?)$/i},'_muet',1], // un e suivi éventuellement d'un 's' et précédé d'une voyelle ou d'un 'g' ex. : pie, geai
@@ -401,7 +400,7 @@ namespace ColorLib
 			(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho|^déca|^co|^soubre|^crypto|^cupro|^cyno|^deuto|^dodéca|^écho|(^[ée]qui))
 			/i},'s',1],
 		'pasZ2':[{'-':/
-			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro|^hypo|^poly|^psycho|^prime|^psycho|^radio|^tourne|^péri|^impari|^idio|^hydrogéno)
+			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro|^hypo|^poly|^psycho|^prime|^psycho|^radio|^tourne|^péri|^impari|^idio|^hydrogéno|^invrai)
 			/i},'s',1],		
 		'déss':[{'-':/^dé/i,'+':/(acra|ensibi|olida)/i},'s',1], // désacraliser
 		'prés_s':[{'-':/^pré/i,'+':/(éanc|échoir|élect|ériel|exu|uppo|ylvi|yndic)/i},'s',1],
@@ -420,9 +419,9 @@ namespace ColorLib
 		'except_tien':[this.Regle_tien,'t',1], // quelques mots où 'tien' se prononce [t]
 		'_tien':[{'+':/ien/i},'s_t',1],
 		'ex_tie':[{'-':/minu/i,'+':/ie(r|z)/i},'t',1],
-		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan|conten|dévo|féren|ploma|facé|^fac|^goé|thé|^inep)/i,
+		'tie':[{'-':/(ambi|albu|cra|lvi|[^r]essen|idio|iner|ini|minu|ipé|oten|phé|oba|iaba|argu|automa|balbu|^cani|cap|tan|conten|dévo|féren|ploma|facé|^fac|^goé|thé|^inep|^impa|^impéri|^infec|sat)/i,
 			'+':/i(e|é|èr)/i},'s_t',1],
-		'ex_tiot':[{'-':/(cré|plé|jé|([^r]|^)essen|^dui)/i,'+':/i[ao]/i},'s_t',1],
+		'ex_tiot':[{'-':/(cré|plé|jé|([^r]|^)essen|^dui|intui)/i,'+':/i[ao]/i},'s_t',1],
 		'tiaot':[{'-':/([eéèêës]|[sc]en|(^|h|n)an|f(l?)[uû]|(ch|^str|galim|fum)[aâ]|rb[io]|^ca|^tri)/i,'+':/i[aâou]/i},'t',1],
 		'verb_tions':[this.Regle_VerbesTer,'t',1], // verbes en ter à l'imparfait - nous
 		'tiaos':[{'+':/i[aâou]/i},'s_t',1],
