@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "recruter";
+            string txt = "artiodactyles";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,38 +97,46 @@ namespace ColorLibTest
         {
             string txt = @"
 
-squattassiez
-squattassions
-squattât
-squattâtes
-squatte
-squatté
-squattée
-squattées
-squattent
-squatter
-squattera
-squatterai
-squatteraient
-squatterais
-squatterait
-squatteras
-squattèrent
-squatterez
-squatteriez
-squatterions
-squattérisation
-squatterons
-squatteront
-squatters
-squattes
-squattés
-squattez
-squattiez
-squattions
-squattons
-
-
+mangeure
+mangeures
+marchantiales
+maremmatique
+maremmatiques
+maremme
+maremme
+maroilles
+marsault
+marsaults
+marylands
+mathesis
+meeting
+meetings
+memento
+mementos
+menchevick
+menchevicks
+menchevik
+mencheviks
+mencheviste
+mendélien
+mendéliens
+mendélienne
+mendéliennes
+menhir
+menhirs
+merguez
+mesa
+mesas
+mesdames
+mesdemoiselles
+michelangelesque
+michelangelesques
+michelangesque
+michelangesques
+microorchidie
+microwatt
+milady
+miladys
 
 
 

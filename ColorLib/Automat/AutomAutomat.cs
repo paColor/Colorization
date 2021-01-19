@@ -212,7 +212,7 @@ namespace ColorLib
 		'ef':[{'+':/[bf](s?)$/i},'E_comp',1], // e suivi d'un f ou d'un b en fin de mot se prononce è
 		'reqquechose':[this.RegleMotsRe,'q',1], // re-quelque chose : le e se prononce 'e'
 		'entre':[{'-':/(^((ré)?)entr|^contr|^autor|^maugr)/i},'q',1],
-        'except_evr':[{'+':/([cv]r)/i},'q',1], // chevrier, chevron, chevreuil, secret
+        'except_evr':[{'+':/([cfv]r)/i},'q',1], // chevrier, chevron, chevreuil, secret
 		'2consonnes':[{'+':/[bcçdfghjklmnpqrstvwxz]{2}/i},'E_comp',1], // e suivi de 2 consonnes se prononce è
         'abbaye':[{'-':/abbay/i,'+':/(s?)$/i},'_muet',1], // ben oui...
 		'e_muet':[{'-':/[aeiouéèêà]/i,'+':/(s?)$/i},'_muet',1], // un e suivi éventuellement d'un 's' et précédé d'une voyelle ou d'un 'g' ex. : pie, geai
@@ -400,7 +400,7 @@ namespace ColorLib
 			(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho|^déca|^co|^soubre|^crypto|^cupro|^cyno|^deuto|^dodéca|^écho|(^[ée]qui))
 			/i},'s',1],
 		'pasZ2':[{'-':/
-			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro|^hypo|^poly|^psycho|^prime|^psycho|^radio|^tourne|^péri|^impari|^idio|^hydrogéno|^invrai)
+			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro|^hypo|^poly|^psycho|^prime|^psycho|^radio|^tourne|^péri|^impari|^idio|^hydrogéno|^invrai|^micro)
 			/i},'s',1],		
 		'déss':[{'-':/^dé/i,'+':/(acra|ensibi|olida)/i},'s',1], // désacraliser
 		'prés_s':[{'-':/^pré/i,'+':/(éanc|échoir|élect|ériel|exu|uppo|ylvi|yndic)/i},'s',1],
