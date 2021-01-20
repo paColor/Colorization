@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "artiodactyles";
+            string txt = "millefeuille";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             List<PhonWord> pws = tt.GetPhonWordList(conf);
@@ -97,46 +97,12 @@ namespace ColorLibTest
         {
             string txt = @"
 
-mangeure
-mangeures
-marchantiales
-maremmatique
-maremmatiques
-maremme
-maremme
-maroilles
-marsault
-marsaults
-marylands
-mathesis
-meeting
-meetings
-memento
-mementos
-menchevick
-menchevicks
-menchevik
-mencheviks
-mencheviste
-mendélien
-mendéliens
-mendélienne
-mendéliennes
-menhir
-menhirs
-merguez
-mesa
-mesas
-mesdames
-mesdemoiselles
-michelangelesque
-michelangelesques
-michelangesque
-michelangesques
-microorchidie
-microwatt
-milady
-miladys
+moere
+moeres
+moère
+moères
+
+
 
 
 

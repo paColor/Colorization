@@ -2163,7 +2163,7 @@ namespace ColorLib
             "stillons","filliole", "fillioles",
             "fritillaire", "gille", "gillotage", "gillotages", "grills", "imbécillifié", "imbécilliser",
             "intermaxillaire", "intermaxillaires", "lapilli", "lapillis", "mamillaire", "mamillaires",
-            "maxille", "maxilles", "maxillifère", "maxilliforme", "mille", "millefeuille", "millefeuilles",
+            "maxille", "maxilles", "maxillifère", "maxilliforme", "mille", "millefeuille-", "millefeuilles-",
             "millepertuis", "milleraies", "millerandage", "millerandages", "millerole", "milleroles",
             "millerolle", "millerolles", "milles", "multimillénaire", "oscilla", "oscillai", "oscillaient",
             "oscillais", "oscillait", "oscillâmes", "oscillant", "oscillante", "oscillantes",

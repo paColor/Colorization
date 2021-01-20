@@ -30,6 +30,7 @@ namespace ColorLib.Morphalou
     ///     "%" pour ill
     ///     "/" pour ij
     /// </para>
+    /// voir <see cref="PhonInW"/>.
     /// De plus, pour permttre une traduction SAMPA (Morphalou) vers Colorization nous utilisons
     /// les deux cas spéciaux suivants:
     /// <para>

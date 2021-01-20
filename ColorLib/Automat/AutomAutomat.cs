@@ -170,7 +170,7 @@ namespace ColorLib
         'conj_v_ier':[this.Regle_ient,'_muet',3], // verbe du 1er groupe terminé par 'ier' conjugué à la 3ème pers du pluriel
         'uient':[{'-':/ui/i,'+':/nt$/i},'_muet',3], // enfuient, appuient, fuient, ennuient, essuient
         'ien_0':[{'-':/(fic|n|quot|ingréd)i/i,'+':/nt(s?)$/i},'a_tilda',2], // incovénient, coefficient,...
-		'scien':[{'-':/((aud|sc|cl|^fa|([éf]fic)|pat|émoll|expé[dr]|^farn|^résil)[iï])/i,'+':/n/i},'a_tilda',2], // science, faïence...
+		'scien':[{'-':/((aud|sc|cl|^fa|([éf]fic)|pat|émoll|expé[dr]|^farn|^résil|obéd)[iï])/i,'+':/n/i},'a_tilda',2], // science, faïence...
 		'orient':[{'-':/(ori|gradi)/i,'+':/nt/i},'a_tilda',2],
         'ien':[{'-':/([bcdégklmnrstvhz]i|ï)/i,'+':/n([bcçdfghjklpqrstvwxz]|(s?)$)/i},'e_tilda',2], // certains mots avec 'ien' => son [e_tilda]
 		'ien2':[{'-':/pi/i,'+':/n(s?)$/i},'e_tilda',2], // carpien, olympien, ...
@@ -267,7 +267,7 @@ namespace ColorLib
 		'prec_2cons':[{'-':/[ptkcbdgfv][lr]/i, '+':/[aäâeéèêëoôöuù]/i},'i_j',1], // précédé de 2 consonnes (en position 3), doit apparaître comme [ij] [PAE 20.02.20: rajouté les voyelles]
 		'lldeb':[{'-':/^/i,'+':/ll/i},'i',1],
 		'vill':[{'-':/v/i,'+':/ll/i},'i',1,IllCeras],
-		'mill2':[{'-':/^m/i,'+':/ll[^(et)]/i},'i',1,IllCeras],
+		'mill2':[{'-':/^m/i,'+':/ll/i},'i',1,IllCeras],
 		'tranquille' : [{'-':/(ach|tranqu)/i,'+':/ll/i},'i',1,IllCeras],
 		'ill':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i',1,IllLireCouleur], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
 		'except_ill':[this.Regle_ill,'i',1], // PAE - 07.05.20
@@ -304,7 +304,7 @@ namespace ColorLib
 		// 'lisole', 
 		'*'],
 		{'vill':[{'-':/(^v|vaudev|banv|^ov|bougainv|interv|cav)i/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
-		'mill':[{'-':/mi/i,'+':/l[^(et)]/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
+		'mill':[{'-':/mi/i,'+':/l/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
 		'tranquille':[{'-':/(achi|tranqui)/i,'+':/l/i},'l',2], // tranquille => son [l]
 		'illdeb':[{'-':/^i/i,'+':/l/i},'l',2], // 'ill' en début de mot = son [l] ; exemple : illustration
 		'except_ill_l':[this.Regle_ill,'l',2],
@@ -400,7 +400,7 @@ namespace ColorLib
 			(^para|^contre|^mono|^vrai|^vivi|^uni|^ultra|^alcoo|^antidy|^anti|^auto|batracho|^bio|^su|^carbo|^chéno|^ortho|^déca|^co|^soubre|^crypto|^cupro|^cyno|^deuto|^dodéca|^écho|(^[ée]qui))
 			/i},'s',1],
 		'pasZ2':[{'-':/
-			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro|^hypo|^poly|^psycho|^prime|^psycho|^radio|^tourne|^péri|^impari|^idio|^hydrogéno|^invrai|^micro)
+			(^énnéa|^entre|^géo|^gira|^gymno|^hélio|^hendéca|^hétéro|^homo|^hydro|^hypo|^poly|^psycho|^prime|^psycho|^radio|^tourne|^péri|^impari|^idio|^hydrogéno|^invrai|^micro|^octo|^photo|^proto)
 			/i},'s',1],		
 		'déss':[{'-':/^dé/i,'+':/(acra|ensibi|olida)/i},'s',1], // désacraliser
 		'prés_s':[{'-':/^pré/i,'+':/(éanc|échoir|élect|ériel|exu|uppo|ylvi|yndic)/i},'s',1],
