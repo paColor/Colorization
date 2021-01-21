@@ -97,11 +97,27 @@ namespace ColorLibTest
         {
             string txt = @"
 
-moere
-moeres
-moère
-moères
-
+quaker
+quakereresse
+quakereresses
+quakerien
+quakerisme
+quakerismes
+quakeriste
+quakers
+quarters
+quattrocentiste
+quattrocentistes
+quattrocento
+quattrocentos
+québracho
+quia
+quiescent
+quiescente
+quiescentes
+quiescents
+quinquagone
+quotientmètre
 
 
 
