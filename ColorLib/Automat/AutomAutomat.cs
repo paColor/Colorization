@@ -255,7 +255,7 @@ namespace ColorLib
 		'*':[{},'g',1]}],
 'h' : [['*'],
 		{'*':[{},'_muet',1]}],
-'i' : [['ing','inh','sprint','n','m','nm','prec_2cons','lldeb','vill','mill2','tranquille',
+'i' : [['ing','inh','sprint','n','m','nm','prec_2cons','lldeb','vill','tranquille',
 		'ill','except_ill','bacille','ill_Ceras', '@ill','@il','ll','@il_Ceras',
 		'll_Ceras','ui','ient_1','ient_2','ie','ier_Conj','i_voyelle','flirt','*'],
 		{'ing':[{'-':/[bcçdfghjklmnpqrstvwxz]/i,'+':/ng(s?)$/i},'i',1],
@@ -266,8 +266,7 @@ namespace ColorLib
 		'nm':[{'+':/[n|m]$/i},'e_tilda',2],
 		'prec_2cons':[{'-':/[ptkcbdgfv][lr]/i, '+':/[aäâeéèêëoôöuù]/i},'i_j',1], // précédé de 2 consonnes (en position 3), doit apparaître comme [ij] [PAE 20.02.20: rajouté les voyelles]
 		'lldeb':[{'-':/^/i,'+':/ll/i},'i',1],
-		'vill':[{'-':/v/i,'+':/ll/i},'i',1,IllCeras],
-		'mill2':[{'-':/^m/i,'+':/ll/i},'i',1,IllCeras],
+		'vill':[{'-':/(v|^m)/i,'+':/ll/i},'i',1,IllCeras],
 		'tranquille' : [{'-':/(ach|tranqu)/i,'+':/ll/i},'i',1,IllCeras],
 		'ill':[{'+':/ll/i,'-':/[bcçdfghjklmnpqrstvwxz](u?)/i},'i',1,IllLireCouleur], // précédé éventuellement d'un u et d'une consonne, donne le son [i]
 		'except_ill':[this.Regle_ill,'i',1], // PAE - 07.05.20
@@ -300,11 +299,9 @@ namespace ColorLib
 		{'*':[{},'Z',1]}],
 'k' : [['*'],
 		{'*':[{},'k',1]}],
-'l' : [['vill','mill','tranquille','illdeb','except_ill_l','bacille','ill','eil','ll','excep_il', 
-		// 'lisole', 
+'l' : [['vill','tranquille','illdeb','except_ill_l','bacille','ill','eil','ll','excep_il', 
 		'*'],
-		{'vill':[{'-':/(^v|vaudev|banv|^ov|bougainv|interv|cav)i/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
-		'mill':[{'-':/mi/i,'+':/l/i},'l',2], // mille, million, etc. => son [l] mais pas 'millet'
+		{'vill':[{'-':/(^v|vaudev|banv|^ov|bougainv|interv|cav|m)i/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
 		'tranquille':[{'-':/(achi|tranqui)/i,'+':/l/i},'l',2], // tranquille => son [l]
 		'illdeb':[{'-':/^i/i,'+':/l/i},'l',2], // 'ill' en début de mot = son [l] ; exemple : illustration
 		'except_ill_l':[this.Regle_ill,'l',2],
@@ -313,7 +310,6 @@ namespace ColorLib
 		'eil':[{'-':/e(u?)i/i},'j',1], // les mots terminés en 'eil' ou 'ueil' => son [j]
 		'll':[{'+':/l/i},'l',2], // à défaut de l'application d'une autre règle, 'll' donne le son [l]
 		'excep_il':[{'-':/(fusi|outi|genti|sourci|persi)/i,'+':/(s?)$/i},'_muet',1], // les exceptions trouvées où le 'l' à la fin ne se prononce pas : fusil, gentil, outil
-		//'lisole':[{'+':/$/i,'-':/^/i},'l',1], // exemple : l'animal
 		'*':[{},'l',1]}],
 'm' : [['m','tomn','damn','*'],
 		{'m':[{'+':/m/i},'m',2],
