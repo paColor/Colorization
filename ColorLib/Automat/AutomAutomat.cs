@@ -301,7 +301,7 @@ namespace ColorLib
 		{'*':[{},'k',1]}],
 'l' : [['vill','tranquille','illdeb','except_ill_l','bacille','ill','eil','ll','excep_il', 
 		'*'],
-		{'vill':[{'-':/(^v|vaudev|banv|^ov|bougainv|interv|cav|m)i/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
+		{'vill':[{'-':/(^v|vaudev|banv|^ov|bougainv|interv|cav|^m)i/i,'+':/l/i},'l',2], // ville, village etc. => son [l]
 		'tranquille':[{'-':/(achi|tranqui)/i,'+':/l/i},'l',2], // tranquille => son [l]
 		'illdeb':[{'-':/^i/i,'+':/l/i},'l',2], // 'ill' en début de mot = son [l] ; exemple : illustration
 		'except_ill_l':[this.Regle_ill,'l',2],

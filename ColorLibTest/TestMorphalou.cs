@@ -21,7 +21,18 @@ namespace ColorLibTest
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void TestIllCeras()
+        {
+            ValideFichierRef(ColConfWin.IllRule.ceras);
+        }
+
+        [TestMethod]
+        public void TestIllLireCouleur()
+        {
+            ValideFichierRef(ColConfWin.IllRule.lirecouleur);
+        }
+
+        private void ValideFichierRef(ColConfWin.IllRule illRuleToUse)
         {
             bool success = true;
             if (File.Exists(fullName))
@@ -39,6 +50,8 @@ namespace ColorLibTest
                         Mot m = new Mot(csvParser.ReadFields());
                     }
                     Config conf = new Config();
+                    conf.colors[PhonConfType.phonemes].IllRuleToUse = illRuleToUse;
+
                     Mot.EnsureCompleteness(conf, true);
 
                     foreach (Mot m in Mot.mots)
@@ -53,5 +66,6 @@ namespace ColorLibTest
             }
             Assert.IsTrue(success);
         }
+
     }
 }
