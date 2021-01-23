@@ -776,22 +776,31 @@ namespace ColorLibTest.ConfigTest
 
             ttt.ColorizePhons(conf, PhonConfType.phonemes);
             int index = ttt.S.IndexOf("1867");
-            ttt.AssertCF(index, 4, son2CF["47"]);
+            ttt.AssertCF(index, son2CF["mil"]);
+            ttt.AssertCF(index + 1, son2CF["cen"]);
+            ttt.AssertCF(index + 2, son2CF["diz"]);
+            ttt.AssertCF(index + 3, son2CF["uni"]);
 
             index = ttt.S.IndexOf("Rênal");
-            ttt.AssertCF(index + 5, son2CF["47"]);
+            ttt.AssertCF(index + 5, son2CF["uni"]);
 
             index = ttt.S.IndexOf("reme35rciant");
-            ttt.AssertCF(index + 4, 2, son2CF["47"]);
+            ttt.AssertCF(index + 4, son2CF["diz"]);
+            ttt.AssertCF(index + 5, son2CF["uni"]);
 
             index = ttt.S.IndexOf("23femme");
-            ttt.AssertCF(index, 2, son2CF["47"]);
+            ttt.AssertCF(index, son2CF["diz"]);
+            ttt.AssertCF(index + 1, son2CF["uni"]);
 
             index = ttt.S.IndexOf("p45ar");
-            ttt.AssertCF(index + 1, 2, son2CF["47"]);
+            ttt.AssertCF(index + 1, son2CF["diz"]);
 
             index = ttt.S.IndexOf("déc0123456789idé");
-            ttt.AssertCF(index + 3, 10, son2CF["47"]);
+            ttt.AssertCF(index + 3, 6, son2CF["47"]);
+            ttt.AssertCF(index + 9, son2CF["mil"]);
+            ttt.AssertCF(index + 10, son2CF["cen"]);
+            ttt.AssertCF(index + 11, son2CF["diz"]);
+            ttt.AssertCF(index + 12, son2CF["uni"]);
         }
 
         [TestMethod]

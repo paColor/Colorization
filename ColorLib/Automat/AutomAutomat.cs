@@ -491,26 +491,96 @@ namespace ColorLib
 		'*':[{},'z',1]}],
 'æ' : [['*'],
 		{'*':[{},'e',1]}], // les autres cas sont traités dans les exceptions. [ae] n'est cependant pas possible...
-'0' : [['*'],
-		{'*':[{},'chiffre',1]}],
-'1' : [['*'],
-		{'*':[{},'chiffre',1]}],
-'2' : [['*'],
-		{'*':[{},'chiffre',1]}],
-'3' : [['*'],
-		{'*':[{},'chiffre',1]}],
-'4' : [['*'],
-		{'*':[{},'chiffre',1]}],
-'5' : [['*'],
-		{'*':[{},'chiffre',1]}],
-'6' : [['*'],
-		{'*':[{},'chiffre',1]}],
-'7' : [['*'],
-		{'*':[{},'chiffre',1]}],
-'8' : [['*'],
-		{'*':[{},'chiffre',1]}],
-'9' : [['*'],
-		{'*':[{},'chiffre',1]}],
+'0' : [['unité','dizaine','centaine', 'mil','*'],
+		{
+		'unité':[{'+':/($|[^\d])/i},'unité',1],
+		'dizaine':[{'+':/\d($|[^\d])/i},'dizaine',1],
+		'centaine':[{'+':/\d\d($|[^\d])/i},'centaine',1],
+		'mil':[{'+':/\d\d\d($|[^\d])/i},'milliers',1],
+		'*':[{},'chiffre',1]
+		}
+	   ],
+'1' : [['unité','dizaine','centaine', 'mil','*'],
+		{
+		'unité':[{'+':/($|[^\d])/i},'unité',1],
+		'dizaine':[{'+':/\d($|[^\d])/i},'dizaine',1],
+		'centaine':[{'+':/\d\d($|[^\d])/i},'centaine',1],
+		'mil':[{'+':/\d\d\d($|[^\d])/i},'milliers',1],
+		'*':[{},'chiffre',1]
+		}
+	   ],
+'2' : [['unité','dizaine','centaine', 'mil','*'],
+		{
+		'unité':[{'+':/($|[^\d])/i},'unité',1],
+		'dizaine':[{'+':/\d($|[^\d])/i},'dizaine',1],
+		'centaine':[{'+':/\d\d($|[^\d])/i},'centaine',1],
+		'mil':[{'+':/\d\d\d($|[^\d])/i},'milliers',1],
+		'*':[{},'chiffre',1]
+		}
+	   ],
+'3' : [['unité','dizaine','centaine', 'mil','*'],
+		{
+		'unité':[{'+':/($|[^\d])/i},'unité',1],
+		'dizaine':[{'+':/\d($|[^\d])/i},'dizaine',1],
+		'centaine':[{'+':/\d\d($|[^\d])/i},'centaine',1],
+		'mil':[{'+':/\d\d\d($|[^\d])/i},'milliers',1],
+		'*':[{},'chiffre',1]
+		}
+	   ],
+'4' : [['unité','dizaine','centaine', 'mil','*'],
+		{
+		'unité':[{'+':/($|[^\d])/i},'unité',1],
+		'dizaine':[{'+':/\d($|[^\d])/i},'dizaine',1],
+		'centaine':[{'+':/\d\d($|[^\d])/i},'centaine',1],
+		'mil':[{'+':/\d\d\d($|[^\d])/i},'milliers',1],
+		'*':[{},'chiffre',1]
+		}
+	   ],
+'5' : [['unité','dizaine','centaine', 'mil','*'],
+		{
+		'unité':[{'+':/($|[^\d])/i},'unité',1],
+		'dizaine':[{'+':/\d($|[^\d])/i},'dizaine',1],
+		'centaine':[{'+':/\d\d($|[^\d])/i},'centaine',1],
+		'mil':[{'+':/\d\d\d($|[^\d])/i},'milliers',1],
+		'*':[{},'chiffre',1]
+		}
+	   ],
+'6' : [['unité','dizaine','centaine', 'mil','*'],
+		{
+		'unité':[{'+':/($|[^\d])/i},'unité',1],
+		'dizaine':[{'+':/\d($|[^\d])/i},'dizaine',1],
+		'centaine':[{'+':/\d\d($|[^\d])/i},'centaine',1],
+		'mil':[{'+':/\d\d\d($|[^\d])/i},'milliers',1],
+		'*':[{},'chiffre',1]
+		}
+	   ],
+'7' : [['unité','dizaine','centaine', 'mil','*'],
+		{
+		'unité':[{'+':/($|[^\d])/i},'unité',1],
+		'dizaine':[{'+':/\d($|[^\d])/i},'dizaine',1],
+		'centaine':[{'+':/\d\d($|[^\d])/i},'centaine',1],
+		'mil':[{'+':/\d\d\d($|[^\d])/i},'milliers',1],
+		'*':[{},'chiffre',1]
+		}
+	   ],
+'8' : [['unité','dizaine','centaine', 'mil','*'],
+		{
+		'unité':[{'+':/($|[^\d])/i},'unité',1],
+		'dizaine':[{'+':/\d($|[^\d])/i},'dizaine',1],
+		'centaine':[{'+':/\d\d($|[^\d])/i},'centaine',1],
+		'mil':[{'+':/\d\d\d($|[^\d])/i},'milliers',1],
+		'*':[{},'chiffre',1]
+		}
+	   ],
+'9' : [['unité','dizaine','centaine', 'mil','*'],
+		{
+		'unité':[{'+':/($|[^\d])/i},'unité',1],
+		'dizaine':[{'+':/\d($|[^\d])/i},'dizaine',1],
+		'centaine':[{'+':/\d\d($|[^\d])/i},'centaine',1],
+		'mil':[{'+':/\d\d\d($|[^\d])/i},'milliers',1],
+		'*':[{},'chiffre',1]
+		}
+	   ],
 ''' : [['*'],
 		{'*':[{},'chiffre',1]}], // 20.11.2020 mis à 'chiffre' plutôt que '_muet'. ça se discute...
 '’' : [['*'],

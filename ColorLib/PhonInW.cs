@@ -161,10 +161,16 @@ namespace ColorLib
         /// <summary>54 le son [j] quand il est produit par la lettre i seule devant une voyelle. 
         /// --> 'j'</summary>
         ji,
-        /// <summary>55 pour les chiffres 0 .. 9.</summary>
+        /// <summary>55 pour les chiffres 0 .. 9 qui ne correspondent pas aux autres critères</summary>
         chiffre,
-        /// <summary>56 réserve, comme le nom l'indique :-)</summary>
-        reserve5,
+        /// <summary>56 pour les chiffres, quand ils sont en position d'unité dans un nombre</summary>
+        unité,
+        /// <summary>57 pour les chiffres, quand ils sont en position de dizaine dans un nombre</summary>
+        dizaine,
+        /// <summary>58 pour les chiffres, quand ils sont en position de centaine dans un nombre</summary>
+        centaine,
+        /// <summary>59 pour les chiffres, quand ils sont en position de milliers dans un nombre</summary>
+        milliers,
 
         /// <summary>used to iterate through all values. We could avoid this by using a Dictionary, 
         /// but the advantage seems limited...</summary>
@@ -298,6 +304,10 @@ namespace ColorLib
             { Phonemes.i_j_ill,     "ij" },
             { Phonemes.ji,          "j" },
             { Phonemes.chiffre,     "" },
+            { Phonemes.unité,       "" },
+            { Phonemes.dizaine,     "" },
+            { Phonemes.centaine,    "" },
+            { Phonemes.milliers,    "" },
             { Phonemes.firstPhon,   "FIRSTPHON" },
             { Phonemes.lastPhon,    "LASTPHON" }
         };

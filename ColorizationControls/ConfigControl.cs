@@ -1511,6 +1511,5 @@ namespace ColorizationControls
             }
             UpdateAllSoundCbxAndButtons();
         }
-
     }
 }

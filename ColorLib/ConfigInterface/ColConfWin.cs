@@ -134,6 +134,10 @@ namespace ColorLib
     ///     {"ij",  new string[2] {"[ij]",  "pria"      } },
     ///     {"47",  new string[2] {"[47]",  "0..9"      } },
     ///     {"oin", new string[2] {"[oin]", "soin"      } },
+    ///     {"uni", new string[2] {"[uni]", "0001"      } },
+    ///     {"diz", new string[2] {"[diz]", "0010"      } },
+    ///     {"cen", new string[2] {"[cen]", "0100"      } },
+    ///     {"mil", new string[2] {"[mil]", "1000"      } },
     ///     {"_muet", new string[2] {"[#]", "\'muet\'"  } },
     ///     {"q_caduc", new string[2] {"[-]", "e caduc" } }, 
     /// </code>
@@ -246,7 +250,7 @@ namespace ColorLib
         /// <summary>
         /// Nombre de sons
         /// </summary>
-        public const int nrSons = 42; // don't forget to increase in case...
+        public const int nrSons = 46; // don't forget to increase in case...
 
         
         /// <summary>
@@ -375,6 +379,10 @@ namespace ColorLib
             {"ij",  new List<Phonemes> (1) {Phonemes.i_j}},
             {"oin", new List<Phonemes> (1) {Phonemes.w_e_tilda}},
             {"47",  new List<Phonemes> (1) {Phonemes.chiffre}},
+            {"uni", new List<Phonemes> (1) {Phonemes.unité}},
+            {"diz", new List<Phonemes> (1) {Phonemes.dizaine}},
+            {"cen", new List<Phonemes> (1) {Phonemes.centaine}},
+            {"mil", new List<Phonemes> (1) {Phonemes.milliers}},
             {"_muet",   new List<Phonemes> (2) {Phonemes.verb_3p, Phonemes._muet}},
             {"q_caduc", new List<Phonemes> (1) {Phonemes.q_caduc}}
         };
@@ -421,6 +429,10 @@ namespace ColorLib
             {"ij",  new string[2] {"[ij]",  "pria"      } },
             {"47",  new string[2] {"[47]",  "0..9"      } },
             {"oin", new string[2] {"[oin]", "soin"      } },
+            {"uni", new string[2] {"[uni]", "0001"      } },
+            {"diz", new string[2] {"[diz]", "0010"      } },
+            {"cen", new string[2] {"[cen]", "0100"      } },
+            {"mil", new string[2] {"[mil]", "1000"      } },
             {"_muet", new string[2] {"[#]", "\'muet\'"  } },
             {"q_caduc", new string[2] {"[-]", "e caduc" } }, 
         };
@@ -955,6 +967,30 @@ namespace ColorLib
                 SetCFSon("47", CharFormatting.BlackCF);
                 SetChkSon("47", false);
                 logger.ConditionalDebug("Son \"47\" initialisé.");
+            }
+            if (!cfSon.ContainsKey("uni"))
+            {
+                SetCFSon("uni", CharFormatting.BlackCF);
+                SetChkSon("uni", false);
+                logger.ConditionalDebug("Son \"uni\" initialisé.");
+            }
+            if (!cfSon.ContainsKey("diz"))
+            {
+                SetCFSon("diz", CharFormatting.BlackCF);
+                SetChkSon("diz", false);
+                logger.ConditionalDebug("Son \"diz\" initialisé.");
+            }
+            if (!cfSon.ContainsKey("cen"))
+            {
+                SetCFSon("cen", CharFormatting.BlackCF);
+                SetChkSon("cen", false);
+                logger.ConditionalDebug("Son \"cen\" initialisé.");
+            }
+            if (!cfSon.ContainsKey("mil"))
+            {
+                SetCFSon("mil", CharFormatting.BlackCF);
+                SetChkSon("mil", false);
+                logger.ConditionalDebug("Son \"mil\" initialisé.");
             }
             if (cfPhon[(int)Phonemes.ji] == null)
             {

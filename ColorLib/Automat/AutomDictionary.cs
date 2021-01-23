@@ -157,7 +157,7 @@ namespace ColorLib
             { "grizzly", "g-g;r-R;i-i;zz-z;l-l;y-i" }, // évite un règle pour un seul mot
             { "grizzlys", "g-g;r-R;i-i;zz-z;l-l;y-i;s-#" }, // évite un règle pour un seul mot
             { "monsieur", "m-m;on-°;s-s;i-j;eu-2;r-#" },
-            { "messieurs", "m-m;e-E;ss-s;i-j;eu-2;r-#;s-#" },
+            { "messieurs", "m-m;e-e;ss-s;i-j;eu-2;r-#;s-#" },
             { "gars", "g-g;a-a;rs-#" },
             { "aeschne", "ae-e;s;ch-k;n-n;e-e" },
             { "aeschnes", "ae-e;s;ch-k;n-n;e-e;s-#" },
@@ -2955,7 +2955,27 @@ namespace ColorLib
             { "synœkie", "s-s;y-i;n-n;œ-e;k-k;i-i;e-#" },
             { "synœque", "s-s;y-i;n-n;œ-e;qu-k;e-ç" },
             { "syssitie", "s-s;y-i;ss-s;i-i;t-s;i-i;e-#" },
-            
+            { "metz", "m-m;e-E;t-#;z-s" },
+            { "acupunctrice", "a-a;c-k;u-y;p-p;un-§;c-k;t-t;r-R;i-i;c-s;e-ç" },
+            { "zeus", "z-z;eu-2;s-s" },
+            { "arès", "a-a;r-R;è-E;s-s" },
+            { "artémis", "a-a;r-R;t-t;é-e;m-m;i-i;s-s" },
+            { "cronos", "c-k;r-R;o-o;n-n;o-o;s-s" },
+            { "hadès", "h-#;a-a;d-d;è-E;s-s" },
+            { "déméter", "d-d;é-e;m-m;é-e;t-t;e-E;r-R" },
+            { "dionysos", "d-d;i-j;o-o;n-n;y-i;s-z;o-o;s-s" },
+            { "héphaïstos", "h-#;é-e;ph-f;a-a;ï-i;s-s;t-t;o-o;s-s" },
+            { "ouranos", "ou-u;r-R;a-a;n-n;o-o;s-s" },
+            { "héraclès", "h-#;é-e;r-R;a-a;c-k;l-l;è-E;s-s" },
+            { "midas", "m-m;i-i;d-d;a-a;s-s" },
+            { "francis", "f-f;r-R;an-@;c-s;i-i;s-s" },
+            { "pétiole", "p-p;é-e;t-s;i-j;o-o;l-l;e-ç" },
+            { "pétioles", "p-p;é-e;t-s;i-j;o-o;l-l;e-ç;s-#" },
+            { "pétiolé", "p-p;é-e;t-s;i-j;o-o;l-l;é-e" },
+            { "pétiolés", "p-p;é-e;t-s;i-j;o-o;l-l;é-e;s-#" },
+            { "pétiolée", "p-p;é-e;t-s;i-j;o-o;l-l;é-e;e-#" },
+            { "pétiolées", "p-p;é-e;t-s;i-j;o-o;l-l;é-e;e-#;s-#" },
+
         }; 
     }
 }
