@@ -76,6 +76,14 @@ namespace ColorizationWord
             { hilightColors[15] , WdColorIndex.wdBlack },
         };
 
+        /// <summary>
+        /// pour le stockage intermédiaire de la liste, 
+        /// lors de la construction du MSWText. Assez bizarre. Je me demande s'il y a une façon plus
+        /// élégante de faire ça.
+        /// </summary>
+        private static List<MultipleCharInfo> tmpMultipleChars;
+
+
         private struct MultipleCharInfo
         {
             public int pos; // position dans le texte traité par TheText, cad dans S.
@@ -97,12 +105,6 @@ namespace ColorizationWord
         /// </summary>
         private List<MultipleCharInfo> multipleChars;
 
-        /// <summary>
-        /// pour le stockage intermédiaire de la liste, 
-        /// lors de la construction du MSWText. Assez bizarre. Je me demande s'il y a une façon plus
-        /// élégante de faire ça.
-        /// </summary>
-        private static List<MultipleCharInfo> tmpMultipleChars;
 
         public static void Initialize()
         {
@@ -115,6 +117,25 @@ namespace ColorizationWord
             HilightForm.hiliColors = hilightColors;
         }
 
+        private static void ErrorMsgACTR(CharFormatting cf, Range toR, string msg, Exception e)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Ouups, désolé. Un problème vient de se produire avec la mise en ");
+            sb.Append(msg);
+            sb.AppendLine(".");
+            sb.Append("Texte: \'");
+            sb.Append(toR.Text);
+            sb.Append("\' cf: ");
+            sb.AppendLine(cf.ToString());
+            sb.Append("N'hésitez pas à nous ");
+            sb.AppendLine("envoyer une description de votre problème à info@colorization.ch.");
+            sb.AppendLine(e.Message);
+            sb.AppendLine(e.StackTrace);
+            logger.Error(sb.ToString());
+            MessageBox.Show(sb.ToString(), ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Debug.Assert(false);
+        }
+
         /// <summary>
         /// Applique le formatage <paramref name="cf"/> aux caractères dans le <see cref="Range"/>
         /// <paramref name="toR"/> en utilisant la <see cref="Config"/> <paramref name="inConf"/>.
@@ -123,41 +144,99 @@ namespace ColorizationWord
         /// l'être, mais il y a eu des cas où <paramref name="cf"/> était <c>null</c>.</param>
         /// <param name="toR">Le <see cref="Range"/> à formater.</param>
         /// <param name="inConf">La <see cref="Config"/> à utiliser le cas échéant.</param>
-        private static void ApplyCFToRange(CharFormatting cf, Range toR, Config inConf)
+        private void ApplyCFToRange(CharFormatting cf, Range toR, Config inConf)
         {
+            // 24.01.2021: J'ai reçu une copie d'écran d'une erreur qui provenait visiblement de 
+            // l'incapacité de Word à appliquer une couleur. J'ai donc décidé d'intercepter de
+            // telles erreurs directement ici.
+            // 31.01.2021: Entre temps, j'ai une explication possible et j'ai changé la façon de
+            // mettre en couleur. Je laisse quand même les try / catch. 
             if (cf != null)
             {
-                if (cf.bold)
-                    toR.Bold = (int)Microsoft.Office.Core.MsoTriState.msoTrue;
-                else if (cf.ForceNonBold(inConf))
-                    toR.Bold = (int)Microsoft.Office.Core.MsoTriState.msoFalse;
+                // **************************** GRAS ********************************
+                try
+                {
+                    if (cf.bold)
+                        toR.Bold = (int)Microsoft.Office.Core.MsoTriState.msoTrue;
+                    else if (cf.ForceNonBold(inConf))
+                        toR.Bold = (int)Microsoft.Office.Core.MsoTriState.msoFalse;
+                }
+                catch (Exception e)
+                {
+                    ErrorMsgACTR(cf, toR, "gras", e);
+                }
 
-                if (cf.italic)
-                    toR.Italic = (int)Microsoft.Office.Core.MsoTriState.msoTrue;
-                else if (cf.ForceNonItalic(inConf))
-                    toR.Italic = (int)Microsoft.Office.Core.MsoTriState.msoFalse;
+                // **************************** ITALIQUE ********************************
+                try
+                {
+                    if (cf.italic)
+                        toR.Italic = (int)Microsoft.Office.Core.MsoTriState.msoTrue;
+                    else if (cf.ForceNonItalic(inConf))
+                        toR.Italic = (int)Microsoft.Office.Core.MsoTriState.msoFalse;
+                }
+                catch (Exception e)
+                {
+                    ErrorMsgACTR(cf, toR, "italique", e);
+                }
 
-                if (cf.underline)
-                    toR.Underline = WdUnderline.wdUnderlineSingle;
-                else if (cf.ForceNonUnderline(inConf))
-                    toR.Underline = WdUnderline.wdUnderlineNone;
+                // **************************** SOULIGNÉ ********************************
+                try
+                {
+                    if (cf.underline)
+                        toR.Underline = WdUnderline.wdUnderlineSingle;
+                    else if (cf.ForceNonUnderline(inConf))
+                        toR.Underline = WdUnderline.wdUnderlineNone;
+                }
+                catch (Exception e)
+                {
+                    ErrorMsgACTR(cf, toR, "souligné", e);
+                }
 
                 // if (cte.cf.caps) // capitalize
                 // TBD
 
-                if (cf.changeColor) // set new color
-                    toR.Font.Fill.ForeColor.RGB = cf.color;
-                else if (cf.ForceBlackColor(inConf))
-                    toR.Font.Fill.ForeColor.RGB = ColConfWin.predefinedColors[(int)PredefCol.black];
-
-                if (cf.changeHilight)
+                // **************************** COULEUR ********************************
+                try
                 {
-                    WdColorIndex wdCi;
-                    if (mapRGBtoColI.TryGetValue(cf.hilightColor, out wdCi))
-                        toR.HighlightColorIndex = wdCi;
+                    if (cf.changeColor) // set new 
+                    {
+                        toR.Font.Color = (WdColor)(int)cf.color;
+                        // On peut aussi coloriser en utilisant Font.Fill:
+                        // toR.Font.Fill.ForeColor.RGB = cf.color;
+                        // L'avantage c'est qu'il s'agit d'un remplissage des caractères et qu'on peut 
+                        // par exemple faire des fondus. L'inconvénient c'est que ça plante avec les anciens
+                        // fichiers .doc et que c'est plus lent.
+                        // J'ai d'abord fait une distinction entre les deux modes, en interceptant
+                        // l'exception, mais ça ne vaut pas la peine tant qu'on n'offre pas plus de 
+                        // possibilités de formater.
+                    }
+                    else if (cf.ForceBlackColor(inConf))
+                    {
+                        toR.Font.Color = (WdColor)(int)ColConfWin.predefinedColors[(int)PredefCol.black];
+                    }
                 }
-                else if (cf.ForceHilightClear(inConf))
-                    toR.HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                catch (Exception e)
+                {
+                    ErrorMsgACTR(cf, toR, "mise en couleur", e);
+                }
+
+                // **************************** SURLIGNAGE ********************************
+                try
+                {
+                    if (cf.changeHilight)
+                    {
+                        WdColorIndex wdCi;
+                        if (mapRGBtoColI.TryGetValue(cf.hilightColor, out wdCi))
+                            toR.HighlightColorIndex = wdCi;
+                    }
+                    else if (cf.ForceHilightClear(inConf))
+                        toR.HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                }
+                catch (Exception e)
+                {
+                    ErrorMsgACTR(cf, toR, "surlignage", e);
+                }
+
             }
             else
             {

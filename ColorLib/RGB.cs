@@ -34,6 +34,7 @@ namespace ColorLib
         public static implicit operator Int32(RGB r) => r.color;
         public static implicit operator System.Drawing.Color(RGB r) => System.Drawing.Color.FromArgb(r.R, r.G, r.B);
         public static implicit operator RGB(System.Drawing.Color col) => new RGB(col.R, col.G, col.B);
+        public static implicit operator RGB(Int32 i) => new RGB(i);
 
         public override bool Equals(object obj)
         {
@@ -101,6 +102,15 @@ namespace ColorLib
         /// <param name="green">la valeur pour "vert" entre 0 et 255</param>
         /// <param name="blue">la valeur pour "bleu" entre 0 et 255</param>
         public RGB(byte red, byte green, byte blue) => color = red + (256 * green) + 65536 * blue;
+
+        /// <summary>
+        /// Créé un objet RGB sur la base d'un nombre entier représentant les 3 codes RGB
+        /// </summary>
+        /// <param name="inColor">La couleur</param>
+        public RGB(Int32 inColor)
+        {
+            color = inColor;
+        }
 
         /// <summary>
         /// La valeur "rouge" de la couleur (entre 0 et 255)
