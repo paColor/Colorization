@@ -209,6 +209,16 @@ namespace ColorizationWord
                         // J'ai d'abord fait une distinction entre les deux modes, en interceptant
                         // l'exception, mais ça ne vaut pas la peine tant qu'on n'offre pas plus de 
                         // possibilités de formater.
+                        float[,] thePoints = new float[4, 2]
+                        {
+                            {  0.0f,  0.0f },
+                            {  7.0f, 10.0f },
+                            { 13.0f, 10.0f },
+                            { 20.0f,  0.0f },
+                        };
+                        Shape s = 
+                            ColorizationMSW.thisAddIn.Application.ActiveDocument.Shapes.AddCurve(
+                            thePoints, toR);
                     }
                     else if (cf.ForceBlackColor(inConf))
                     {
