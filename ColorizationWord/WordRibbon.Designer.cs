@@ -39,14 +39,16 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.buttonGroup3 = this.Factory.CreateRibbonButtonGroup();
+            this.buttonGroup1 = this.Factory.CreateRibbonButtonGroup();
+            this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.btnPhonemes = this.Factory.CreateRibbonButton();
             this.btnMuettes = this.Factory.CreateRibbonButton();
             this.btnSyls = this.Factory.CreateRibbonButton();
-            this.buttonGroup1 = this.Factory.CreateRibbonButtonGroup();
+            this.btnArcs = this.Factory.CreateRibbonButton();
             this.btnMots = this.Factory.CreateRibbonButton();
             this.btnLignes = this.Factory.CreateRibbonButton();
             this.btnBPDQ = this.Factory.CreateRibbonButton();
-            this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
+            this.btnNettoyageArcs = this.Factory.CreateRibbonButton();
             this.btnVoyCons = this.Factory.CreateRibbonButton();
             this.btnDuo = this.Factory.CreateRibbonButton();
             this.btnNoir = this.Factory.CreateRibbonButton();
@@ -82,7 +84,23 @@
             this.buttonGroup3.Items.Add(this.btnPhonemes);
             this.buttonGroup3.Items.Add(this.btnMuettes);
             this.buttonGroup3.Items.Add(this.btnSyls);
+            this.buttonGroup3.Items.Add(this.btnArcs);
             this.buttonGroup3.Name = "buttonGroup3";
+            // 
+            // buttonGroup1
+            // 
+            this.buttonGroup1.Items.Add(this.btnMots);
+            this.buttonGroup1.Items.Add(this.btnLignes);
+            this.buttonGroup1.Items.Add(this.btnBPDQ);
+            this.buttonGroup1.Items.Add(this.btnNettoyageArcs);
+            this.buttonGroup1.Name = "buttonGroup1";
+            // 
+            // buttonGroup2
+            // 
+            this.buttonGroup2.Items.Add(this.btnVoyCons);
+            this.buttonGroup2.Items.Add(this.btnDuo);
+            this.buttonGroup2.Items.Add(this.btnNoir);
+            this.buttonGroup2.Name = "buttonGroup2";
             // 
             // btnPhonemes
             // 
@@ -117,12 +135,14 @@
             this.btnSyls.SuperTip = "Colorise les syllabes dans le texte sélectionné.";
             this.btnSyls.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSyl_Click);
             // 
-            // buttonGroup1
+            // btnArcs
             // 
-            this.buttonGroup1.Items.Add(this.btnMots);
-            this.buttonGroup1.Items.Add(this.btnLignes);
-            this.buttonGroup1.Items.Add(this.btnBPDQ);
-            this.buttonGroup1.Name = "buttonGroup1";
+            this.btnArcs.Image = global::ColorizationWord.Properties.Resources.syll_26;
+            this.btnArcs.Label = "Arcs";
+            this.btnArcs.Name = "btnArcs";
+            this.btnArcs.ShowImage = true;
+            this.btnArcs.ShowLabel = false;
+            this.btnArcs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnArcs_Click);
             // 
             // btnMots
             // 
@@ -157,12 +177,14 @@
             this.btnBPDQ.SuperTip = "Colorise les lettres choisies dans le texte sélectionné.";
             this.btnBPDQ.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnBDPQ_Click);
             // 
-            // buttonGroup2
+            // btnNettoyageArcs
             // 
-            this.buttonGroup2.Items.Add(this.btnVoyCons);
-            this.buttonGroup2.Items.Add(this.btnDuo);
-            this.buttonGroup2.Items.Add(this.btnNoir);
-            this.buttonGroup2.Name = "buttonGroup2";
+            this.btnNettoyageArcs.Image = global::ColorizationWord.Properties.Resources.cleaner_26;
+            this.btnNettoyageArcs.Label = "NettoyageArcs";
+            this.btnNettoyageArcs.Name = "btnNettoyageArcs";
+            this.btnNettoyageArcs.ShowImage = true;
+            this.btnNettoyageArcs.ShowLabel = false;
+            this.btnNettoyageArcs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNettoyageArcs_Click);
             // 
             // btnVoyCons
             // 
@@ -233,6 +255,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnVoyCons;
         internal Microsoft.Office.Tools.Ribbon.RibbonButtonGroup buttonGroup3;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDuo;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnArcs;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnNettoyageArcs;
     }
 
     partial class ThisRibbonCollection

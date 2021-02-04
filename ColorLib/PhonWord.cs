@@ -413,6 +413,21 @@ namespace ColorLib
             }
         }
 
+        public void FormatArcs(Config conf)
+        {
+            logger.ConditionalDebug("FormatArcs");
+            if (syls != null)
+            {
+                // Mettre les syllabes en couleur
+                foreach (SylInW s in syls)
+                    s.PutArc(conf)
+            }
+            else
+            {
+                logger.Error("FormatArcs called when syls is null.");
+            }
+        }
+
         // returns the phonetical representation of the PhonWord (notation from lexique.org)
         public string Phonetique()
         {

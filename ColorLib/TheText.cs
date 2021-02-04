@@ -903,6 +903,36 @@ namespace ColorLib
             logger.ConditionalTrace("MarkDuo EXIT");
         }
 
+        /// <summary>
+        /// Marque un arc sous chaque syllabe. Les syllabes sont séparées en fonction des paramètres
+        /// de <paramref name="conf"/>.
+        /// </summary>
+        /// <param name="conf">Configuration à utiliser pour le traçage d'arcs.</param>
+        public void MarkArcs(Config conf)
+        {
+            logger.ConditionalDebug("MarkArcs");
+            if (conf != null)
+            {
+                formatsMgmt.ClearFormats();
+                // on prend une liste ordonnée, car l'alternance de couleur pour les syllabes s'étend
+                // au-delà de la frontière du mot.
+                List<PhonWord> pws = GetPhonWordList(conf, true);
+                ComputeSyls(pws);
+                if (conf.sylConf.mode == SylConfig.Mode.poesie && conf.sylConf.chercherDierese)
+                {
+                    _ = AnalyseDierese.ChercheDierese(this, pws, conf.sylConf.nbrPieds);
+                }
+
+
+                ColorizeSyls(pws, conf);
+                ApplyFormatting(conf);
+            }
+            else
+            {
+                logger.Error("conf == null. Impossible de coloriser les syllabes sans une configuration vallable.");
+                throw new ArgumentException("conf == null. Impossible de coloriser les syllabes sans une configuration valable.");
+            }
+        }
         public void AddFTE(FormattedTextEl fte) => formatsMgmt.Add(fte);
 
         // ****************************************************************************************
@@ -1076,6 +1106,14 @@ namespace ColorLib
             conf.sylConf.ResetCounter();
             foreach (PhonWord pw in pws)
                 pw.ColorizeSyls(conf);
+        }
+
+        private void FormatArcs(List<PhonWord> pws, Config conf)
+        {
+            logger.ConditionalDebug("DrawArcs");
+            conf.sylConf.ResetCounterArcs();
+            foreach (PhonWord pw in pws)
+                pw.FormatArcs(conf);
         }
 
         /// <summary>

@@ -197,6 +197,8 @@
     <Compile Include="WordRibbon.Designer.cs">
       <DependentUpon>WordRibbon.cs</DependentUpon>
     </Compile>
+    <None Include="Resources\cleaner_26.png" />
+    <None Include="Resources\syll_26.png" />
     <None Include="Resources\2-16.png" />
     <None Include="Resources\phon-carré 30.png" />
     <EmbeddedResource Include="Properties\Resources.resx">

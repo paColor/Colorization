@@ -110,6 +110,7 @@ namespace ColorizationWord
         /// séquentiellement, le texte est décalé de ce nombre de caractères...
         /// </summary>
         private int nrArcs;
+        private int lastPage;
 
         public static void Initialize()
         {
@@ -151,6 +152,7 @@ namespace ColorizationWord
         /// <param name="inConf">La <see cref="Config"/> à utiliser le cas échéant.</param>
         private void ApplyCFToRange(CharFormatting cf, Range toR, Config inConf)
         {
+            logger.ConditionalTrace("ApplyCFToRange");
             // 24.01.2021: J'ai reçu une copie d'écran d'une erreur qui provenait visiblement de 
             // l'incapacité de Word à appliquer une couleur. J'ai donc décidé d'intercepter de
             // telles erreurs directement ici.
@@ -215,16 +217,43 @@ namespace ColorizationWord
                         // l'exception, mais ça ne vaut pas la peine tant qu'on n'offre pas plus de 
                         // possibilités de formater.
 
+                        float pageOffset = 0;
+                        int pageNr = toR.Information[WdInformation.wdActiveEndPageNumber];
+                        if (lastPage == 0)
+                        {
+                            lastPage = pageNr;
+                        }
+                        else if (pageNr > lastPage)
+                        {
+                            lastPage = pageNr;
+                            toR.Select();
+                        }
+
                         float x0 = toR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
                         float y0 = toR.Information[WdInformation.wdVerticalPositionRelativeToPage];
-                        float lineHeight = toR.Paragraphs.LineSpacing;
+                        y0 += pageOffset;
+                        // float lineHeight = toR.Paragraphs.LineSpacing;
+                        float lineHeight = toR.Font.Size;
                         y0 += lineHeight;
-                        
-                        float w = 15.0f; // width
+                        float corrV = 0;
+                        y0 += corrV;
                         float h = 0.25f * lineHeight;
-                        float x1 = x0 + w;
-                        float y1 = y0;
+
                         
+                        Range folR = toR.Duplicate;
+                        folR.Start = folR.End;
+                        folR.MoveEnd(WdUnits.wdCharacter, 1);
+
+                        float x1 = folR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                        float lineHeight2 = folR.Paragraphs.LineSpacing;
+                        float y1 = y0;
+
+                        float w = x1 - x0;
+
+                        
+                        logger.ConditionalTrace("Page Number {0}", pageNr);
+                        
+
                         float[,] thePoints0 = new float[4, 2]
                         {
                             { x0, y0 },
@@ -235,7 +264,7 @@ namespace ColorizationWord
 
                         Shape s = 
                             ColorizationMSW.thisAddIn.Application.ActiveDocument.Shapes.AddCurve(
-                            thePoints0, this.range);
+                            thePoints0, toR);
 
                         nrArcs++;
                     }
@@ -283,6 +312,7 @@ namespace ColorizationWord
             rgeWork = range.Duplicate;
             finDeLignes = null;
             nrArcs = 0;
+            lastPage = 0;
 
 #if DEBUG
             // Debugging help

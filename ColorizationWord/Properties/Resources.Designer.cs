@@ -93,6 +93,16 @@ namespace ColorizationWord.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cleaner_26 {
+            get {
+                object obj = ResourceManager.GetObject("cleaner_26", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap l_muettes_26 {
             get {
                 object obj = ResourceManager.GetObject("l_muettes_26", resourceCulture);
@@ -136,6 +146,16 @@ namespace ColorizationWord.Properties {
         internal static System.Drawing.Bitmap phon_carré_30 {
             get {
                 object obj = ResourceManager.GetObject("phon-carré 30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap syll_26 {
+            get {
+                object obj = ResourceManager.GetObject("syll_26", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
