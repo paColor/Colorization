@@ -105,6 +105,11 @@ namespace ColorizationWord
         /// </summary>
         private List<MultipleCharInfo> multipleChars;
 
+        /// <summary>
+        /// Nombre d'arcs dessinés jusqu'à maintenant. A condition qu'ils soient dessinés 
+        /// séquentiellement, le texte est décalé de ce nombre de caractères...
+        /// </summary>
+        private int nrArcs;
 
         public static void Initialize()
         {
@@ -209,16 +214,30 @@ namespace ColorizationWord
                         // J'ai d'abord fait une distinction entre les deux modes, en interceptant
                         // l'exception, mais ça ne vaut pas la peine tant qu'on n'offre pas plus de 
                         // possibilités de formater.
-                        float[,] thePoints = new float[4, 2]
+
+                        float x0 = toR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                        float y0 = toR.Information[WdInformation.wdVerticalPositionRelativeToPage];
+                        float lineHeight = toR.Paragraphs.LineSpacing;
+                        y0 += lineHeight;
+                        
+                        float w = 15.0f; // width
+                        float h = 0.25f * lineHeight;
+                        float x1 = x0 + w;
+                        float y1 = y0;
+                        
+                        float[,] thePoints0 = new float[4, 2]
                         {
-                            {  0.0f,  0.0f },
-                            {  7.0f, 10.0f },
-                            { 13.0f, 10.0f },
-                            { 20.0f,  0.0f },
+                            { x0, y0 },
+                            { x0 + (0.4f * w), y0 + h },
+                            { x0+(0.6f * w), y0 + h },
+                            { x1, y1 },
                         };
+
                         Shape s = 
                             ColorizationMSW.thisAddIn.Application.ActiveDocument.Shapes.AddCurve(
-                            thePoints, toR);
+                            thePoints0, this.range);
+
+                        nrArcs++;
                     }
                     else if (cf.ForceBlackColor(inConf))
                     {
@@ -263,6 +282,7 @@ namespace ColorizationWord
             rgStart = rge.Start;
             rgeWork = range.Duplicate;
             finDeLignes = null;
+            nrArcs = 0;
 
 #if DEBUG
             // Debugging help
@@ -282,7 +302,8 @@ namespace ColorizationWord
         /// <param name="conf">La <see cref="Config"/> à prendre en compte pour l'application du formatage.</param>
         protected override void SetChars(FormattedTextEl fte, Config conf)
         {
-            rgeWork.SetRange(rgStart + fte.First, rgStart + fte.Last + 1); // End pointe sur le caractère qui suit le range...
+            rgeWork.SetRange(rgStart + nrArcs + fte.First, 
+                rgStart + nrArcs + fte.Last + 1); // End doit pointer sur le caractère qui suit le range...
             ApplyCFToRange(fte.cf, rgeWork, conf);
         }
 
