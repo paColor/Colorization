@@ -33,7 +33,7 @@
     <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\Publishing\Word\</PublishUrl>
     <InstallUrl>https://colorization.ch/publish/Word/</InstallUrl>
     <TargetCulture>fr</TargetCulture>
-    <ApplicationVersion>1.0.1.2</ApplicationVersion>
+    <ApplicationVersion>1.0.2.1</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>3</UpdateInterval>
@@ -288,7 +288,7 @@
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4ED1205C30F0E730E05027546590059D7CF82128</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>57A0E6A280F79B0C6FAB85F19A17F269197F9335</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
