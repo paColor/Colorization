@@ -420,7 +420,7 @@ namespace ColorLib
             {
                 // Mettre les syllabes en couleur
                 foreach (SylInW s in syls)
-                    s.PutArc(conf)
+                    s.PutArc(conf);
             }
             else
             {

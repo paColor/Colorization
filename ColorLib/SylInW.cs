@@ -99,7 +99,7 @@ namespace ColorLib
 
         public void PutArc(Config conf)
         {
-            SetCharFormat(conf.sylConf.NextArcCF());
+            SetCharFormat(conf.arcConf.NextCF());
         }
 
         public override string AllStringInfo()

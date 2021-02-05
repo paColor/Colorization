@@ -924,7 +924,7 @@ namespace ColorLib
                 }
 
 
-                ColorizeSyls(pws, conf);
+                FormatArcs(pws, conf);
                 ApplyFormatting(conf);
             }
             else
@@ -933,6 +933,27 @@ namespace ColorLib
                 throw new ArgumentException("conf == null. Impossible de coloriser les syllabes sans une configuration valable.");
             }
         }
+
+        public void RemoveArcs(Config conf)
+        {
+            logger.ConditionalDebug("RemoveArcs");
+            if (conf != null)
+            {
+                if (S.Length > 0)
+                {
+                    formatsMgmt.ClearFormats();
+                    CharFormatting removeArcsCF = new CharFormatting(true);
+                    formatsMgmt.Add(new FormattedTextEl(this, 0, S.Length - 1, removeArcsCF));
+                    ApplyFormatting(conf);
+                }
+            }
+            else
+            {
+                logger.Error("conf == null. Impossible d'effacer les arcs sans une configuration vallable.");
+                throw new ArgumentException("conf == null. Impossible d'effacer les arcs sans une configuration valable.");
+            }
+        }
+
         public void AddFTE(FormattedTextEl fte) => formatsMgmt.Add(fte);
 
         // ****************************************************************************************
@@ -1111,7 +1132,7 @@ namespace ColorLib
         private void FormatArcs(List<PhonWord> pws, Config conf)
         {
             logger.ConditionalDebug("DrawArcs");
-            conf.sylConf.ResetCounterArcs();
+            conf.arcConf.ResetCounter();
             foreach (PhonWord pw in pws)
                 pw.FormatArcs(conf);
         }

@@ -527,11 +527,20 @@ namespace ColorLib
             }
         }
 
+        public ArcConfig arcConf
+        {
+            get { return _arcConf; }
+            set { _arcConf = value; }
+        }
+
         [OptionalField(VersionAdded = 2)]
         private string configName;
 
         [OptionalField(VersionAdded = 3)]
         private DuoConfig _duoConf;
+
+        [OptionalField(VersionAdded = 5)]
+        private ArcConfig _arcConf;
 
         /// <summary>
         /// indique s'il s'agit d'une 'subConfig? c-à-d attachée à une <c>DuoConfig</c>.
@@ -560,6 +569,7 @@ namespace ColorLib
             colors[PhonConfType.muettes] = new ColConfWin(PhonConfType.muettes);
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
             _duoConf = null;
+            _arcConf = new ArcConfig();
         }
 
         /// <summary>
@@ -618,6 +628,7 @@ namespace ColorLib
                 _duoConf?.Reset(); // on ne fait le reset que si la duoConf existe
                 SetConfigName(DefaultConfigName);
             }
+            _arcConf.Reset();
         }
 
         /// <summary>
@@ -780,6 +791,7 @@ namespace ColorLib
             _duoConf = null;
             isSubConfig = false;
             subConfNr = 0;
+            _arcConf = new ArcConfig();
         }
 
         /// <summary>
@@ -807,6 +819,7 @@ namespace ColorLib
             sylConf.PostLoadInitOptionalFields();
             unsetBeh.PostLoadInitOptionalFields();
             _duoConf?.PostLoadInitOptionalFields();
+            _arcConf.PostLoadInitOptionalFields();
         }
 
         // ------------------------------------------------- Events --------------------------------------------

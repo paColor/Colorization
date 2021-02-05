@@ -217,56 +217,7 @@ namespace ColorizationWord
                         // l'exception, mais ça ne vaut pas la peine tant qu'on n'offre pas plus de 
                         // possibilités de formater.
 
-                        float pageOffset = 0;
-                        int pageNr = toR.Information[WdInformation.wdActiveEndPageNumber];
-                        if (lastPage == 0)
-                        {
-                            lastPage = pageNr;
-                        }
-                        else if (pageNr > lastPage)
-                        {
-                            lastPage = pageNr;
-                            toR.Select();
-                        }
-
-                        float x0 = toR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
-                        float y0 = toR.Information[WdInformation.wdVerticalPositionRelativeToPage];
-                        y0 += pageOffset;
-                        // float lineHeight = toR.Paragraphs.LineSpacing;
-                        float lineHeight = toR.Font.Size;
-                        y0 += lineHeight;
-                        float corrV = 0;
-                        y0 += corrV;
-                        float h = 0.25f * lineHeight;
-
                         
-                        Range folR = toR.Duplicate;
-                        folR.Start = folR.End;
-                        folR.MoveEnd(WdUnits.wdCharacter, 1);
-
-                        float x1 = folR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
-                        float lineHeight2 = folR.Paragraphs.LineSpacing;
-                        float y1 = y0;
-
-                        float w = x1 - x0;
-
-                        
-                        logger.ConditionalTrace("Page Number {0}", pageNr);
-                        
-
-                        float[,] thePoints0 = new float[4, 2]
-                        {
-                            { x0, y0 },
-                            { x0 + (0.4f * w), y0 + h },
-                            { x0+(0.6f * w), y0 + h },
-                            { x1, y1 },
-                        };
-
-                        Shape s = 
-                            ColorizationMSW.thisAddIn.Application.ActiveDocument.Shapes.AddCurve(
-                            thePoints0, toR);
-
-                        nrArcs++;
                     }
                     else if (cf.ForceBlackColor(inConf))
                     {
@@ -293,6 +244,86 @@ namespace ColorizationWord
                 catch (Exception e)
                 {
                     ErrorMsgACTR(cf, toR, "surlignage", e);
+                }
+
+                // **************************** ARC ********************************
+                try
+                {
+                    if (cf.drawArc)
+                    {
+                        int pageNr = toR.Information[WdInformation.wdActiveEndPageNumber];
+                        logger.ConditionalTrace("Page Number {0}", pageNr);
+                        if (lastPage == 0)
+                        {
+                            lastPage = pageNr;
+                        }
+                        else if (pageNr > lastPage)
+                        {
+                            lastPage = pageNr;
+                            toR.Select();
+                        }
+
+                        Range firstLetter = toR.Duplicate;
+                        firstLetter.End = firstLetter.Start + 1;
+                        firstLetter.Start = firstLetter.End - 1;
+                        float x0 = firstLetter.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                        float y0 = firstLetter.Information[WdInformation.wdVerticalPositionRelativeToPage];
+                        float lineHeight = firstLetter.Font.Size;
+                        y0 += lineHeight;
+                        y0 += inConf.arcConf.Decalage;
+                        float h = ((float)inConf.arcConf.Hauteur/100.0f) * lineHeight;
+
+                        Range nextLetter = toR.Duplicate;
+                        nextLetter.Start = nextLetter.End;
+                        nextLetter.MoveEnd(WdUnits.wdCharacter, 1);
+
+                        float x1 = nextLetter.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                        float w = x1 - x0; // width
+
+                        float[,] thePoints0 = new float[4, 2]
+                        {
+                            { x0, y0 },
+                            { x0 + (((float)(100 - inConf.arcConf.Ecartement) / 200.0f) * w), y0 + h },
+                            { x0 + (((float)(100 + inConf.arcConf.Ecartement) / 200.0f) * w), y0 + h },
+                            { x1, y0 },
+                        };
+
+                        Shape s =
+                            ColorizationMSW.thisAddIn.Application.ActiveDocument.Shapes.AddCurve(
+                            thePoints0);
+                        s.Line.ForeColor.RGB = cf.arcColor;
+                        s.Line.Weight = inConf.arcConf.Epaisseur;
+                        s.Name = "arc";
+                        nrArcs++;
+                    }
+                }
+                catch (Exception e)
+                {
+                    ErrorMsgACTR(cf, toR, "arcs", e);
+                }
+
+                // **************************** EEFACER ARCS ********************************
+                try
+                {
+                    if (cf.removeArcs)
+                    {
+                        List<Shape> toRemoveShapes = new List<Shape>(toR.ShapeRange.Count);
+                        foreach (Shape s in toR.ShapeRange)
+                        {
+                            if (s.Name == "arc") {
+                                toRemoveShapes.Add(s);
+                            }
+                        }
+                        foreach (Shape s in toRemoveShapes)
+                        {
+                            s.Delete();
+                        }
+                    }
+                   
+                }
+                catch (Exception e)
+                {
+                    ErrorMsgACTR(cf, toR, "effecer arcs", e);
                 }
 
             }

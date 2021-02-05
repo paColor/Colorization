@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace ColorLib
@@ -79,7 +80,7 @@ namespace ColorLib
         public bool changeColor { get; private set; }
 
         /// <summary>
-        /// RGB color
+        /// Couleur à utiliser pour la colorisation des lettres
         /// </summary>
         public RGB color { get; private set; }
 
@@ -117,6 +118,23 @@ namespace ColorLib
         /// newSize = (1 + incrFontSize) * currentSize
         /// </summary>
         public int percIncrFontSize { get; private set; }
+
+        /// <summary>
+        /// Indique si un arc doit être tracé sous le groupe de letres. La couleur
+        /// est donnée pas <see cref="arcColor"/>
+        /// </summary>
+        public bool drawArc { get; private set; }
+
+        /// <summary>
+        /// La couleur de l'arc.
+        /// </summary>
+        public RGB arcColor { get; private set; }
+
+        /// <summary>
+        /// Indique si les arcs liés au groupe de lettres doivent être effacés.
+        /// </summary>
+        public bool removeArcs { get; private set; }
+
 
         // ****************************************************************************************
         // *                                   FORCE METHODS                                      *
@@ -217,6 +235,24 @@ namespace ColorLib
             InitNeutral();
         } // constructor
 
+        /// <summary>
+        /// Constructeur permettant de définir tous les champs d'un <see cref="CharFormatting"/>
+        /// </summary>
+        /// <param name="inBold"></param>
+        /// <param name="inItalic"></param>
+        /// <param name="inUnderline"></param>
+        /// <param name="inCaps"></param>
+        /// <param name="inChangeColor"></param>
+        /// <param name="inColor"></param>
+        /// <param name="inChangeHilight"></param>
+        /// <param name="inHilightColor"></param>
+        /// <param name="inContour"></param>
+        /// <param name="inSerif"></param>
+        /// <param name="inChangeFontSize"></param>
+        /// <param name="inPercIncrFontSize"></param>
+        /// <param name="inDrawArc"></param>
+        /// <param name="inArcColor"></param>
+        /// <param name="inRemoveArcs"></param>
         public CharFormatting(
                                 bool inBold,
                                 bool inItalic,
@@ -229,7 +265,10 @@ namespace ColorLib
                                 bool inContour,
                                 bool inSerif,
                                 bool inChangeFontSize,
-                                int inPercIncrFontSize
+                                int inPercIncrFontSize,
+                                bool inDrawArc,
+                                RGB inArcColor,
+                                bool inRemoveArcs
                              )
         {
             // default values
@@ -245,6 +284,9 @@ namespace ColorLib
             serif = inSerif;
             changeFontSize = inChangeFontSize;
             percIncrFontSize = inPercIncrFontSize;
+            drawArc = inDrawArc;
+            arcColor = inArcColor;
+            removeArcs = inRemoveArcs;
         } // constructor
 
         /// <summary>
@@ -258,6 +300,18 @@ namespace ColorLib
             color = inColor;
         } // CharFormatting(RGB inColor)
 
+        /// <summary>
+        /// Crée un <see cref="CharFormatting"/> avec les paramètres que l'utilisateur peut configurer dans
+        /// la fenêtre de définition du formatage.
+        /// </summary>
+        /// <param name="inBold"></param>
+        /// <param name="inItalic"></param>
+        /// <param name="inUnderline"></param>
+        /// <param name="inCaps"></param>
+        /// <param name="inChangeColor"></param>
+        /// <param name="inColor"></param>
+        /// <param name="inChangeHilight"></param>
+        /// <param name="inHilightColor"></param>
         public CharFormatting(
                                 bool inBold,
                                 bool inItalic,
@@ -280,6 +334,12 @@ namespace ColorLib
             changeHilight = inChangeHilight;
         } // constructor
 
+        /// <summary>
+        /// Création d'un <see cref="CharFormatting"/> avec les trois caractéristiques d'un caractère
+        /// </summary>
+        /// <param name="inBold"></param>
+        /// <param name="inItalic"></param>
+        /// <param name="inUnderline"></param>
         public CharFormatting(
                                 bool inBold,
                                 bool inItalic,
@@ -319,6 +379,8 @@ namespace ColorLib
             serif = cfToCopy.serif;
             changeFontSize = cfToCopy.changeFontSize;
             percIncrFontSize = cfToCopy.percIncrFontSize;
+            drawArc = cfToCopy.drawArc;
+            arcColor = cfToCopy.arcColor;
         }
 
         /// <summary>
@@ -344,6 +406,36 @@ namespace ColorLib
             serif = cfToCopy.serif;
             changeFontSize = cfToCopy.changeFontSize;
             percIncrFontSize = cfToCopy.percIncrFontSize;
+            drawArc = cfToCopy.drawArc;
+            arcColor = cfToCopy.arcColor;
+        }
+
+        /// <summary>
+        /// Créé un <c>CharFormatting</c> pour la colorisation d'arcs.
+        /// </summary>
+        /// <remarks><paramref name="inDrawArc"/> doit être <c>true</c>. La seule raison de sa
+        /// présence est la nécessité d'avoir une signature de fonction différente.</remarks>
+        /// <param name="inDrawArc">La valeur du champ <c>drawArc</c>. Doit être <c>true</c>.</param>
+        /// <param name="inArcColor">La couleur de l'arc.</param>
+        public CharFormatting(
+                                bool inDrawArc,
+                                RGB inArcColor  
+                             )
+        {
+            Debug.Assert(inDrawArc);
+            InitNeutral();
+            drawArc = inDrawArc;
+            arcColor = inArcColor;
+        }
+
+        /// <summary>
+        /// Crée un <see cref="CharFormatting"/> pour l'effacement des arcs.
+        /// </summary>
+        /// <param name="inRemoveArcs">Doit être <c>true</c></param>
+        public CharFormatting(bool inRemoveArcs)
+        {
+            Debug.Assert(inRemoveArcs);
+            removeArcs = inRemoveArcs;
         }
 
         // ****************************************************************************************
@@ -468,6 +560,8 @@ namespace ColorLib
             serif = false;
             changeFontSize = false;
             percIncrFontSize = 0;
+            drawArc = false;
+            arcColor = ColConfWin.predefinedColors[(int)PredefCol.white];
         }
 
         private int ShiftAndWrap(int value, int positions)

@@ -53,8 +53,8 @@ namespace ColorizationWord
         private static void MarkLignes(MSWText t, Config conf) => t.MarkLignes(conf);
         private static void MarkDuo(MSWText t, Config conf) => t.MarkDuo(conf);
         private static void MarkArcs(MSWText t, Config conf) => t.MarkArcs(conf);
-
-
+        private static void RemoveArcs(MSWText t, Config conf) => t.RemoveArcs(conf);
+ 
         public static void Init()
         {
             logger.ConditionalDebug("Init");
@@ -127,6 +127,12 @@ namespace ColorizationWord
         {
             logger.Info("ColorSelectedArcs");
             ActOnSelectedText(MarkArcs, "Arcs", conf);
+        }
+
+        public static void RemoveSelectedArcs(Config conf)
+        {
+            logger.Info("RemoveSelectedArcs");
+            ActOnSelectedText(RemoveArcs, "Effacer arcs", conf);
         }
 
         private static void ActOnShape(Shape sh, ActOnMSWText act, Config conf)
@@ -362,6 +368,7 @@ namespace ColorizationWord
         private void btnNettoyageArcs_Click(object sender, RibbonControlEventArgs e)
         {
             logger.ConditionalDebug("btnNettoyageArcs_Click");
+            RemoveSelectedArcs(GetConfigForActiveWindow());
         }
     }
 }
