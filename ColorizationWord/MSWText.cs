@@ -263,21 +263,23 @@ namespace ColorizationWord
                             toR.Select();
                         }
 
-                        Range firstLetter = toR.Duplicate;
-                        firstLetter.End = firstLetter.Start + 1;
-                        firstLetter.Start = firstLetter.End - 1;
-                        float x0 = firstLetter.Information[WdInformation.wdHorizontalPositionRelativeToPage];
-                        float y0 = firstLetter.Information[WdInformation.wdVerticalPositionRelativeToPage];
-                        float lineHeight = firstLetter.Font.Size;
-                        y0 += lineHeight;
+                        _ = toR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                        // Ne me demandez pas pourquoi il faut le faire deux fois... Mais seul le
+                        // 2e appel donne le bon résultat... PAE 06.02.2021
+
+                        float x0 = toR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                        float y0 = toR.Information[WdInformation.wdVerticalPositionRelativeToPage];
+                        float fontHeight = toR.Font.Size;
+                        y0 += fontHeight;
                         y0 += inConf.arcConf.Decalage;
-                        float h = ((float)inConf.arcConf.Hauteur/100.0f) * lineHeight;
+                        float lineheight = toR.ParagraphFormat.LineSpacing;
+                        float h = (inConf.arcConf.Hauteur/100.0f) * 
+                            (float)Math.Sqrt(25.0f*(lineheight - fontHeight));
 
-                        Range nextLetter = toR.Duplicate;
-                        nextLetter.Start = nextLetter.End;
-                        nextLetter.MoveEnd(WdUnits.wdCharacter, 1);
-
-                        float x1 = nextLetter.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                        
+                        Range endPosition = toR.Duplicate;
+                        endPosition.Collapse(WdCollapseDirection.wdCollapseEnd);
+                        float x1 = endPosition.Information[WdInformation.wdHorizontalPositionRelativeToPage];
                         float w = x1 - x0; // width
 
                         float[,] thePoints0 = new float[4, 2]
@@ -294,7 +296,12 @@ namespace ColorizationWord
                         s.Line.ForeColor.RGB = cf.arcColor;
                         s.Line.Weight = inConf.arcConf.Epaisseur;
                         s.Name = "arc";
-                        nrArcs++;
+
+                        if (s.Anchor.InRange(this.range))
+                        {
+                            nrArcs++;
+                        }
+                            
                     }
                 }
                 catch (Exception e)
@@ -342,7 +349,6 @@ namespace ColorizationWord
             rgStart = rge.Start;
             rgeWork = range.Duplicate;
             finDeLignes = null;
-            nrArcs = 0;
             lastPage = 0;
 
 #if DEBUG
