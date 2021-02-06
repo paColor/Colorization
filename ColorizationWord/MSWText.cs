@@ -297,7 +297,7 @@ namespace ColorizationWord
                         s.Line.Weight = inConf.arcConf.Epaisseur;
                         s.Name = "arc";
 
-                        if (s.Anchor.InRange(this.range))
+                        if (s.Anchor.Start <= toR.End)
                         {
                             nrArcs++;
                         }

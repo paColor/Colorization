@@ -67,6 +67,8 @@ namespace ColorizationWord
             ConfigControl.colNoirSelText = WordRibbon.ColorSelectedNoir;
             ConfigControl.colMuettesSelText = WordRibbon.ColorSelectedMuettes;
             ConfigControl.colDuoSelText = WordRibbon.ColorSelectedDuo;
+            ConfigControl.drawArcs = WordRibbon.ColorSelectedArcs;
+            ConfigControl.removeArcs = WordRibbon.RemoveSelectedArcs;
         }
 
         public static void ColorSelectedPhons(Config conf)

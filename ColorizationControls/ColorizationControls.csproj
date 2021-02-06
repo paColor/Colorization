@@ -338,5 +338,11 @@
   <ItemGroup>
     <None Include="Resources\LogoColorization_64.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\syll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cleaner.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

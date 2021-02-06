@@ -49,6 +49,10 @@ namespace ColorizationControls
         public static ExecuteCommand colMuettesSelText { set; private get; }
         public static ExecuteCommand markSelLetters { set; private get; }
         public static ExecuteCommand colDuoSelText { set; private get; }
+        public static ExecuteCommand drawArcs { set; private get; }
+        public static ExecuteCommand removeArcs { set; private get; }
+
+
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -111,7 +115,6 @@ namespace ColorizationControls
         private PictureBox[] sylPictureBoxes;
         private RGB defaultSylButtonCol;
         private Dictionary<string, SonInfo> sonInfos;
-        private MyColorDialog mcd4Syls;
 
         private PhonConfType pct;
         private string cmsButType; // type of button, that was right clicked e.g. "btSC", "btL", "btn", ...
@@ -120,6 +123,11 @@ namespace ColorizationControls
         private CharFormatting cmsCF; // contient le CharFormatting du bouton cliqué droit.
         private int countPasteLetters; // pour itérer à traver lettersToPaste quand on colle sur une lettre vide.
         private const string lettersToPaste = @"ƨ$@#<>*%()?![]{},.;:/\-_§°~¦|";
+
+        private MyColorDialog mcd4Arcs; // pour les couleurs des arcs
+        private Button[] arcButtons;
+        private RGB defaultArcButtonCol;
+        private int cmsArcButNr; // Le numéro du bouton arc cliqué droit.
 
         /// <summary>
         /// Ordonne au <c>ConfigControl</c> d'éditer une autre <c>Config</c>. Ajuste les affichages aux nouvelles valeurs.
@@ -333,6 +341,30 @@ namespace ColorizationControls
             sylPictureBoxes[butNr].Enabled = sbC.buttonClickable;
         }
 
+        private void UpdateArcButtons()
+        {
+            logger.ConditionalDebug("UpdatArclButtons");
+            SuspendLayout();
+            for (int i = 0; i < ArcConfig.NrArcButtons; i++)
+                UpdateArcButton(i);
+            ResumeLayout();
+        }
+
+        private void UpdateArcButton(int butNr)
+        {
+            logger.ConditionalTrace("UpdateArcButton buttonNr: {0}", butNr);
+
+            RGB wishedCol = theConf.arcConf.GetABColor(butNr);
+            Button theButton = arcButtons[butNr];
+            RGB theButtonCol = defaultArcButtonCol;
+            if (wishedCol != ColConfWin.predefinedColors[(int)PredefCol.white])
+            {
+                theButtonCol = wishedCol;
+            }
+            theButton.BackColor = theButtonCol;
+            theButton.Enabled = theConf.arcConf.GetABClickable(butNr);
+        }
+
 
         private void UpdateUcheckBoxes()
         {
@@ -376,6 +408,7 @@ namespace ColorizationControls
             UpdateLetterButtons();
             UpdateUcheckBoxes();
             UpdateSylButtons();
+            UpdateArcButtons();
             UpdateIllRadioB();
             UpdateConfigName();
         }
@@ -407,6 +440,7 @@ namespace ColorizationControls
             theConf.sylConf.MarquerMuettesModified += MarquerMuettesModified;
             theConf.sylConf.ChercherDiereseModified += HandleChercherDiereseModified;
             theConf.sylConf.NbrPiedsModified += HandleNbrPiedsModified;
+            theConf.arcConf.ArcButtonModified += ArcButtonModifiedHandler;
             theConf.unsetBeh.CheckboxUnsetModifiedEvent += CheckboxUnsetModified;
         }
 
@@ -487,10 +521,14 @@ namespace ColorizationControls
             sylButtons = new Button[SylConfig.NrButtons];
             sylPictureBoxes = new PictureBox[SylConfig.NrButtons];
             defaultSylButtonCol = btSC0.BackColor;
-            mcd4Syls = new MyColorDialog();
-            mcd4Syls.CustomColors = StaticColorizControls.customColors;
-            mcd4Syls.AnyColor = true;
-            mcd4Syls.FullOpen = true;
+
+            // Arcs
+            arcButtons = new Button[ArcConfig.NrArcButtons];
+            defaultArcButtonCol = btAR0.BackColor;
+            mcd4Arcs = new MyColorDialog();
+            mcd4Arcs.CustomColors = StaticColorizControls.customColors;
+            mcd4Arcs.AnyColor = true;
+            mcd4Arcs.FullOpen = true;
 
             // pct
             pct = PhonConfType.phonemes; //  par défaut on édite la configration des phonèmes
@@ -505,7 +543,6 @@ namespace ColorizationControls
             // set by the higher level, which corresponds to the assembly version.
 
             lblVersion.Text = "Version: " + version;
-
         }
 
         private void ConfigControl_Load(object sender, EventArgs e)
@@ -550,6 +587,14 @@ namespace ColorizationControls
                     int butNr = int.Parse(butNrTxt);
                     sylButtons[butNr] = theBtn;
                     theBtn.ContextMenuStrip = this.cmsEffacerCopier; // ça nous évite de les mettre à la main
+                }
+                else if (c.Name.StartsWith("btAR"))
+                {
+                    Button theBtn = (Button)c;
+                    string butNrTxt = theBtn.Name.Substring(4, theBtn.Name.Length - 4);
+                    int butNr = int.Parse(butNrTxt);
+                    arcButtons[butNr] = theBtn;
+                    theBtn.ContextMenuStrip = this.cmsArcButtons; // ça nous évite de les mettre à la main
                 }
                 else if (c.Name.StartsWith("btL"))
                 {
@@ -982,6 +1027,68 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("butExecuteDuo_Click");
             colDuoSelText(theConf);
+        }
+
+        //--------------------------------------------------------------------------------------------
+        // ---------------------------------------  Onglet Arcs --------------------------------------
+        //--------------------------------------------------------------------------------------------
+
+        private void btcArcs_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btcArcs_Click");
+            drawArcs(theConf);
+        }
+
+        private void btcRemoveArcs_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btcRemoveArcs_Click");
+            removeArcs(theConf);
+        }
+
+        private void btcIniArcBleu_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btcIniArcBleu_Click");
+            theConf.arcConf.Reset();
+        }
+
+        private void ArcButton_Click(object sender, EventArgs e)
+        // peut être appelé pour les 6 boutons de couleurs d'arc.
+        {
+            Button theBtn = (Button)sender;
+            logger.ConditionalDebug("ArcButton_Click {0}", theBtn.Name);
+            Debug.Assert(theBtn.Name.StartsWith("btAR"));
+            string bNrTxt = theBtn.Name.Substring(4, theBtn.Name.Length - 4);
+            int bNr = int.Parse(bNrTxt);
+            mcd4Arcs.Color = theBtn.BackColor;
+            Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
+            p.Offset(-450, -100);
+            mcd4Arcs.SetPos(p);
+            if (mcd4Arcs.ShowDialog() == DialogResult.OK)
+            {
+                theConf.arcConf.SetArcButtonCol(bNr, mcd4Arcs.Color);
+                StaticColorizControls.customColors = mcd4Arcs.CustomColors;
+            }
+        }
+
+        private void ArcButtonModifiedHandler(object sender, ArcButtonModifiedEventArgs e)
+        {
+            logger.ConditionalDebug("ArcButtonModified, bouton \'{0}\'", e.buttonNr);
+            Debug.Assert((ArcConfig)sender == theConf.arcConf);
+            UpdateArcButton(e.buttonNr);
+        }
+
+        private void cmsArcButtons_Opening(object sender, CancelEventArgs e)
+        {
+            string bName = cmsArcButtons.SourceControl.Name;
+            logger.ConditionalDebug("cmsArcButtons_Opening {0}", bName);
+            Debug.Assert(bName.StartsWith("btAR"));
+            cmsArcButNr = int.Parse(bName.Substring(4, bName.Length - 4));
+            tsmEffacerCoulArc.Enabled = theConf.arcConf.ButtonIsLastActive(cmsArcButNr);
+        }
+
+        private void tsmEffacerCoulArc_Click(object sender, EventArgs e)
+        {
+            theConf.arcConf.ClearButton(cmsArcButNr);
         }
 
         //--------------------------------------------------------------------------------------------
@@ -1511,5 +1618,7 @@ namespace ColorizationControls
             }
             UpdateAllSoundCbxAndButtons();
         }
+
+        
     }
 }

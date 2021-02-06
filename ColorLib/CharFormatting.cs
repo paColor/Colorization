@@ -542,7 +542,7 @@ namespace ColorLib
         }
 
         // ****************************************************************************************
-        // *                                    PRIVATE MEMBERS                                   *
+        // *                                    PRIVATE METHODS                                   *
         // ****************************************************************************************
 
         private void InitNeutral()
@@ -562,6 +562,7 @@ namespace ColorLib
             percIncrFontSize = 0;
             drawArc = false;
             arcColor = ColConfWin.predefinedColors[(int)PredefCol.white];
+            removeArcs = false;
         }
 
         private int ShiftAndWrap(int value, int positions)
