@@ -274,7 +274,7 @@ namespace ColorizationWord
                         y0 += inConf.arcConf.Decalage;
                         float lineheight = toR.ParagraphFormat.LineSpacing;
                         float h = (inConf.arcConf.Hauteur/100.0f) * 
-                            (float)Math.Sqrt(20.0f*(lineheight - fontHeight));
+                            (float)Math.Sqrt(20.0f*(Math.Max(1, lineheight - fontHeight)));
 
                         
                         Range endPosition = toR.Duplicate;

@@ -62,7 +62,7 @@ namespace ColorizationControls
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "ColorLib.PhonWord*");
 
             // ------------------------------------ Office ------------------------------------------
-            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationWord.*");
+            //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Fatal, dc, "ColorizationWord.*");
             //nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, dc, "Colorization.*");
 
            

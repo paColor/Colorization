@@ -127,15 +127,11 @@
             this.cbuBold = new System.Windows.Forms.CheckBox();
             this.cbuHilight = new System.Windows.Forms.CheckBox();
             this.tabSauv = new System.Windows.Forms.TabPage();
-            this.btSauvDefaut = new System.Windows.Forms.Button();
-            this.btSauvEffacer = new System.Windows.Forms.Button();
-            this.btSauvCharger = new System.Windows.Forms.Button();
             this.lblCharger = new System.Windows.Forms.Label();
             this.lbConfigs = new System.Windows.Forms.ListBox();
             this.lblTitreSauv = new System.Windows.Forms.Label();
             this.lblNomConfig = new System.Windows.Forms.Label();
             this.txtBNomConfig = new System.Windows.Forms.TextBox();
-            this.btSauvSauv = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCouleurs = new System.Windows.Forms.TabPage();
             this.label6 = new System.Windows.Forms.Label();
@@ -151,12 +147,8 @@
             this.cbx47 = new System.Windows.Forms.CheckBox();
             this.btnill = new System.Windows.Forms.Button();
             this.cbxill = new System.Windows.Forms.CheckBox();
-            this.btcLNoir2 = new System.Windows.Forms.Button();
-            this.btcPhons = new System.Windows.Forms.Button();
             this.cmsPhonVSMuettes = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.configMuettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabAutres = new System.Windows.Forms.TabPage();
-            this.label8 = new System.Windows.Forms.Label();
             this.btSC5 = new System.Windows.Forms.Button();
             this.btSC4 = new System.Windows.Forms.Button();
             this.btcInitSyls = new System.Windows.Forms.Button();
@@ -168,10 +160,6 @@
             this.btCPBDQ = new System.Windows.Forms.Button();
             this.btL7 = new System.Windows.Forms.Button();
             this.cmsEffacerCopier = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiCouper = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiCopier = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiColler = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiEffacer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiGras = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiItalique = new System.Windows.Forms.ToolStripMenuItem();
@@ -199,31 +187,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbnStandard = new System.Windows.Forms.RadioButton();
             this.rbnAv2Cons = new System.Windows.Forms.RadioButton();
-            this.butExecuteDuo = new System.Windows.Forms.Button();
-            this.butConfigDuo = new System.Windows.Forms.Button();
-            this.btcLNoir = new System.Windows.Forms.Button();
-            this.btSVoyCons = new System.Windows.Forms.Button();
-            this.pbHL5 = new System.Windows.Forms.PictureBox();
-            this.pbHL4 = new System.Windows.Forms.PictureBox();
-            this.pbHL3 = new System.Windows.Forms.PictureBox();
-            this.pbHL2 = new System.Windows.Forms.PictureBox();
-            this.pbHL1 = new System.Windows.Forms.PictureBox();
-            this.pbHL0 = new System.Windows.Forms.PictureBox();
-            this.btZeLignes = new System.Windows.Forms.Button();
-            this.btcLbpdq = new System.Windows.Forms.Button();
-            this.btSMots = new System.Windows.Forms.Button();
-            this.btSAppliquer = new System.Windows.Forms.Button();
             this.tabArcs = new System.Windows.Forms.TabPage();
-            this.lblArcs = new System.Windows.Forms.Label();
-            this.btcRemoveArcs = new System.Windows.Forms.Button();
-            this.btcArcs = new System.Windows.Forms.Button();
-            this.btAR5 = new System.Windows.Forms.Button();
-            this.btAR4 = new System.Windows.Forms.Button();
-            this.btcIniArcBleu = new System.Windows.Forms.Button();
-            this.btAR3 = new System.Windows.Forms.Button();
-            this.btAR2 = new System.Windows.Forms.Button();
-            this.btAR1 = new System.Windows.Forms.Button();
-            this.btAR0 = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
             this.tabAvancé = new System.Windows.Forms.TabPage();
             this.groupBoxIll = new System.Windows.Forms.GroupBox();
             this.rbnIllCeras = new System.Windows.Forms.RadioButton();
@@ -244,20 +209,55 @@
             this.linkLireCouleur = new System.Windows.Forms.LinkLabel();
             this.lblVersion = new System.Windows.Forms.Label();
             this.lblText = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
             this.cmsArcButtons = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblHauteur = new System.Windows.Forms.Label();
-            this.nudHauteur = new System.Windows.Forms.NumericUpDown();
-            this.nudEcartement = new System.Windows.Forms.NumericUpDown();
-            this.lblEcartement = new System.Windows.Forms.Label();
+            this.lblArcs = new System.Windows.Forms.Label();
+            this.btAR5 = new System.Windows.Forms.Button();
+            this.btAR4 = new System.Windows.Forms.Button();
+            this.btcIniArcBleu = new System.Windows.Forms.Button();
+            this.btAR3 = new System.Windows.Forms.Button();
+            this.btAR2 = new System.Windows.Forms.Button();
+            this.btAR1 = new System.Windows.Forms.Button();
+            this.btAR0 = new System.Windows.Forms.Button();
+            this.lblFormeArc = new System.Windows.Forms.Label();
             this.nudDecalage = new System.Windows.Forms.NumericUpDown();
             this.lblDecalage = new System.Windows.Forms.Label();
             this.nudEpaisseur = new System.Windows.Forms.NumericUpDown();
             this.lblEpaisseur = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.nudEcartement = new System.Windows.Forms.NumericUpDown();
+            this.lblEcartement = new System.Windows.Forms.Label();
+            this.nudHauteur = new System.Windows.Forms.NumericUpDown();
+            this.lblHauteur = new System.Windows.Forms.Label();
+            this.btcLNoir2 = new System.Windows.Forms.Button();
+            this.btcPhons = new System.Windows.Forms.Button();
+            this.btcRemoveArcs = new System.Windows.Forms.Button();
+            this.btcArcs = new System.Windows.Forms.Button();
+            this.tsmiCouper = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCopier = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiColler = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiEffacer = new System.Windows.Forms.ToolStripMenuItem();
+            this.btcLNoir = new System.Windows.Forms.Button();
+            this.btSVoyCons = new System.Windows.Forms.Button();
+            this.pbHL5 = new System.Windows.Forms.PictureBox();
+            this.pbHL4 = new System.Windows.Forms.PictureBox();
+            this.pbHL3 = new System.Windows.Forms.PictureBox();
+            this.pbHL2 = new System.Windows.Forms.PictureBox();
+            this.pbHL1 = new System.Windows.Forms.PictureBox();
+            this.pbHL0 = new System.Windows.Forms.PictureBox();
+            this.btZeLignes = new System.Windows.Forms.Button();
+            this.btcLbpdq = new System.Windows.Forms.Button();
+            this.btSMots = new System.Windows.Forms.Button();
+            this.btSAppliquer = new System.Windows.Forms.Button();
+            this.butConfigDuo = new System.Windows.Forms.Button();
+            this.butExecuteDuo = new System.Windows.Forms.Button();
+            this.btSauvDefaut = new System.Windows.Forms.Button();
+            this.btSauvEffacer = new System.Windows.Forms.Button();
+            this.btSauvCharger = new System.Windows.Forms.Button();
+            this.btSauvSauv = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.configMuettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -268,23 +268,23 @@
             this.groupBoxPoesie.SuspendLayout();
             this.grpBEcritOral.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabArcs.SuspendLayout();
+            this.tabAvancé.SuspendLayout();
+            this.groupBoxIll.SuspendLayout();
+            this.tabAPropos.SuspendLayout();
+            this.cmsArcButtons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDecalage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEpaisseur)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEcartement)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHauteur)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).BeginInit();
-            this.tabArcs.SuspendLayout();
-            this.tabAvancé.SuspendLayout();
-            this.groupBoxIll.SuspendLayout();
-            this.tabAPropos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.cmsArcButtons.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHauteur)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudEcartement)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDecalage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudEpaisseur)).BeginInit();
             this.SuspendLayout();
             // 
             // cbxa
@@ -1400,51 +1400,6 @@
             this.ttpPhonEnNoir.SetToolTip(this.tabSauv, "Sauvegarder et charger des configurations");
             this.tabSauv.Enter += new System.EventHandler(this.tabSauv_Enter);
             // 
-            // btSauvDefaut
-            // 
-            this.btSauvDefaut.Image = global::ColorizationControls.Properties.Resources.Défaut_161;
-            this.btSauvDefaut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btSauvDefaut.Location = new System.Drawing.Point(213, 408);
-            this.btSauvDefaut.Name = "btSauvDefaut";
-            this.btSauvDefaut.Size = new System.Drawing.Size(110, 29);
-            this.btSauvDefaut.TabIndex = 8;
-            this.btSauvDefaut.TabStop = false;
-            this.btSauvDefaut.Text = "Par défaut";
-            this.ttipLettreEnNoir.SetToolTip(this.btSauvDefaut, "Charge la configuration par défaut.\r\nAttention, impossible d\'annuler.");
-            this.btSauvDefaut.UseVisualStyleBackColor = true;
-            this.btSauvDefaut.Click += new System.EventHandler(this.btSauvDefaut_Click);
-            // 
-            // btSauvEffacer
-            // 
-            this.btSauvEffacer.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btSauvEffacer.Image = global::ColorizationControls.Properties.Resources.Effacer15_noir;
-            this.btSauvEffacer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btSauvEffacer.Location = new System.Drawing.Point(213, 339);
-            this.btSauvEffacer.Name = "btSauvEffacer";
-            this.btSauvEffacer.Size = new System.Drawing.Size(110, 29);
-            this.btSauvEffacer.TabIndex = 7;
-            this.btSauvEffacer.TabStop = false;
-            this.btSauvEffacer.Text = "Effacer";
-            this.ttipLettreEnNoir.SetToolTip(this.btSauvEffacer, "Cliquez pour effacer la configuration\r\nsélectionnée dans la liste");
-            this.btSauvEffacer.UseVisualStyleBackColor = false;
-            this.btSauvEffacer.Click += new System.EventHandler(this.btSauvEffacer_Click);
-            // 
-            // btSauvCharger
-            // 
-            this.btSauvCharger.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btSauvCharger.Image = global::ColorizationControls.Properties.Resources.Classeur_nb_16;
-            this.btSauvCharger.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btSauvCharger.Location = new System.Drawing.Point(213, 270);
-            this.btSauvCharger.Name = "btSauvCharger";
-            this.btSauvCharger.Size = new System.Drawing.Size(110, 29);
-            this.btSauvCharger.TabIndex = 6;
-            this.btSauvCharger.Text = "Charger";
-            this.ttipLettreEnNoir.SetToolTip(this.btSauvCharger, "Cliquez pour charger la configuration \r\nsélectionnée dans la liste.\r\nImpossible d" +
-        "\'annuler.");
-            this.btSauvCharger.UseVisualStyleBackColor = false;
-            this.btSauvCharger.Click += new System.EventHandler(this.btSauvCharger_Click);
-            this.btSauvCharger.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.btSauvCharger_KeyPress);
-            // 
             // lblCharger
             // 
             this.lblCharger.AutoSize = true;
@@ -1496,21 +1451,6 @@
             this.ttipLettreEnNoir.SetToolTip(this.txtBNomConfig, "Entrez le nom de votre configuration.");
             this.txtBNomConfig.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBNomConfig_KeyPress);
             this.txtBNomConfig.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBNomConfig_KeyUp);
-            // 
-            // btSauvSauv
-            // 
-            this.btSauvSauv.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btSauvSauv.Image = global::ColorizationControls.Properties.Resources.disquette_blanc_14;
-            this.btSauvSauv.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btSauvSauv.Location = new System.Drawing.Point(95, 93);
-            this.btSauvSauv.Name = "btSauvSauv";
-            this.btSauvSauv.Size = new System.Drawing.Size(152, 27);
-            this.btSauvSauv.TabIndex = 2;
-            this.btSauvSauv.Text = "Sauvegarder";
-            this.ttipLettreEnNoir.SetToolTip(this.btSauvSauv, "Cliquez pour sauvegarder votre\r\nconfiguration sous le nom indiqué\r\nau-dessus.");
-            this.btSauvSauv.UseVisualStyleBackColor = false;
-            this.btSauvSauv.Click += new System.EventHandler(this.btSauvSauv_Click);
-            this.btSauvSauv.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.btSauvSauv_KeyPress);
             // 
             // tabControl1
             // 
@@ -1797,31 +1737,6 @@
             this.cbxill.UseVisualStyleBackColor = true;
             this.cbxill.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
-            // btcLNoir2
-            // 
-            this.btcLNoir2.BackColor = System.Drawing.SystemColors.Control;
-            this.btcLNoir2.Image = global::ColorizationControls.Properties.Resources.black2_30;
-            this.btcLNoir2.Location = new System.Drawing.Point(290, 6);
-            this.btcLNoir2.Name = "btcLNoir2";
-            this.btcLNoir2.Size = new System.Drawing.Size(38, 38);
-            this.btcLNoir2.TabIndex = 165;
-            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir2, "Colorise en noir et enlève les\r\ngras, italique et souligné.");
-            this.btcLNoir2.UseVisualStyleBackColor = false;
-            this.btcLNoir2.Click += new System.EventHandler(this.btcLNoir_Click);
-            // 
-            // btcPhons
-            // 
-            this.btcPhons.BackColor = System.Drawing.SystemColors.Control;
-            this.btcPhons.ContextMenuStrip = this.cmsPhonVSMuettes;
-            this.btcPhons.Image = global::ColorizationControls.Properties.Resources.phon;
-            this.btcPhons.Location = new System.Drawing.Point(6, 6);
-            this.btcPhons.Name = "btcPhons";
-            this.btcPhons.Size = new System.Drawing.Size(38, 38);
-            this.btcPhons.TabIndex = 110;
-            this.ttipLettreEnNoir.SetToolTip(this.btcPhons, "Coloriser les phonèmes");
-            this.btcPhons.UseVisualStyleBackColor = false;
-            this.btcPhons.Click += new System.EventHandler(this.btcPhons_Click);
-            // 
             // cmsPhonVSMuettes
             // 
             this.cmsPhonVSMuettes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1829,18 +1744,28 @@
             this.cmsPhonVSMuettes.Name = "cmsPhonVSMuettes";
             this.cmsPhonVSMuettes.Size = new System.Drawing.Size(157, 26);
             // 
-            // configMuettesToolStripMenuItem
-            // 
-            this.configMuettesToolStripMenuItem.Image = global::ColorizationControls.Properties.Resources.l_muettes_16;
-            this.configMuettesToolStripMenuItem.Name = "configMuettesToolStripMenuItem";
-            this.configMuettesToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.configMuettesToolStripMenuItem.Text = "Config Muettes";
-            this.configMuettesToolStripMenuItem.Click += new System.EventHandler(this.configMuettesToolStripMenuItem_Click);
-            // 
             // tabAutres
             // 
             this.tabAutres.BackColor = System.Drawing.SystemColors.Control;
-            this.tabAutres.Controls.Add(this.label8);
+            this.tabAutres.Controls.Add(this.lblFormeArc);
+            this.tabAutres.Controls.Add(this.nudDecalage);
+            this.tabAutres.Controls.Add(this.lblDecalage);
+            this.tabAutres.Controls.Add(this.nudEpaisseur);
+            this.tabAutres.Controls.Add(this.lblEpaisseur);
+            this.tabAutres.Controls.Add(this.nudEcartement);
+            this.tabAutres.Controls.Add(this.lblEcartement);
+            this.tabAutres.Controls.Add(this.nudHauteur);
+            this.tabAutres.Controls.Add(this.lblHauteur);
+            this.tabAutres.Controls.Add(this.btAR5);
+            this.tabAutres.Controls.Add(this.btAR4);
+            this.tabAutres.Controls.Add(this.btcIniArcBleu);
+            this.tabAutres.Controls.Add(this.btAR3);
+            this.tabAutres.Controls.Add(this.btAR2);
+            this.tabAutres.Controls.Add(this.btAR1);
+            this.tabAutres.Controls.Add(this.btAR0);
+            this.tabAutres.Controls.Add(this.lblArcs);
+            this.tabAutres.Controls.Add(this.btcRemoveArcs);
+            this.tabAutres.Controls.Add(this.btcArcs);
             this.tabAutres.Controls.Add(this.btSC5);
             this.tabAutres.Controls.Add(this.btSC4);
             this.tabAutres.Controls.Add(this.btcInitSyls);
@@ -1860,8 +1785,6 @@
             this.tabAutres.Controls.Add(this.btL0);
             this.tabAutres.Controls.Add(this.lblLetters);
             this.tabAutres.Controls.Add(this.groupBoxSyllabes);
-            this.tabAutres.Controls.Add(this.butExecuteDuo);
-            this.tabAutres.Controls.Add(this.butConfigDuo);
             this.tabAutres.Controls.Add(this.btcLNoir);
             this.tabAutres.Controls.Add(this.btSVoyCons);
             this.tabAutres.Controls.Add(this.pbHL5);
@@ -1881,18 +1804,6 @@
             this.tabAutres.TabIndex = 3;
             this.tabAutres.Text = "Autres";
             this.ttipLettreEnNoir.SetToolTip(this.tabAutres, "Configuration pour la colorisation de lettres, syllabes, mots, lignes");
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(11, 379);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(318, 32);
-            this.label8.TabIndex = 171;
-            this.label8.Text = "La fonction \"Duo\" permet de formater en alternance \r\ndes mots ou des lignes pour " +
-    "deux lecteurs différents.";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btSC5
             // 
@@ -2025,38 +1936,6 @@
             this.cmsEffacerCopier.Size = new System.Drawing.Size(131, 208);
             this.cmsEffacerCopier.Text = "Choix";
             this.cmsEffacerCopier.Opening += new System.ComponentModel.CancelEventHandler(this.cmsEffacerCopier_Opening);
-            // 
-            // tsmiCouper
-            // 
-            this.tsmiCouper.Image = global::ColorizationControls.Properties.Resources.Couper;
-            this.tsmiCouper.Name = "tsmiCouper";
-            this.tsmiCouper.Size = new System.Drawing.Size(130, 22);
-            this.tsmiCouper.Text = "Couper";
-            this.tsmiCouper.Click += new System.EventHandler(this.tsmiCouper_Click);
-            // 
-            // tsmiCopier
-            // 
-            this.tsmiCopier.Image = global::ColorizationControls.Properties.Resources.Copier;
-            this.tsmiCopier.Name = "tsmiCopier";
-            this.tsmiCopier.Size = new System.Drawing.Size(130, 22);
-            this.tsmiCopier.Text = "Copier";
-            this.tsmiCopier.Click += new System.EventHandler(this.tsmiCopier_Click);
-            // 
-            // tsmiColler
-            // 
-            this.tsmiColler.Image = global::ColorizationControls.Properties.Resources.Coller;
-            this.tsmiColler.Name = "tsmiColler";
-            this.tsmiColler.Size = new System.Drawing.Size(130, 22);
-            this.tsmiColler.Text = "Coller";
-            this.tsmiColler.Click += new System.EventHandler(this.tsmiColler_Click);
-            // 
-            // tsmiEffacer
-            // 
-            this.tsmiEffacer.Image = global::ColorizationControls.Properties.Resources.Effacer15;
-            this.tsmiEffacer.Name = "tsmiEffacer";
-            this.tsmiEffacer.Size = new System.Drawing.Size(130, 22);
-            this.tsmiEffacer.Text = "Effacer";
-            this.tsmiEffacer.Click += new System.EventHandler(this.tsmiEffacer_Click);
             // 
             // toolStripSeparator1
             // 
@@ -2377,304 +2256,30 @@
             this.ttipLettreEnNoir.SetToolTip(this.rbnAv2Cons, "Les syllabes sont coupées avant\r\ndeux consonnes répétées.\r\n");
             this.rbnAv2Cons.UseVisualStyleBackColor = true;
             // 
-            // butExecuteDuo
-            // 
-            this.butExecuteDuo.AutoSize = true;
-            this.butExecuteDuo.Image = global::ColorizationControls.Properties.Resources._2_32;
-            this.butExecuteDuo.Location = new System.Drawing.Point(65, 418);
-            this.butExecuteDuo.Name = "butExecuteDuo";
-            this.butExecuteDuo.Size = new System.Drawing.Size(88, 55);
-            this.butExecuteDuo.TabIndex = 170;
-            this.butExecuteDuo.Text = "Exécuter Duo";
-            this.butExecuteDuo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.butExecuteDuo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.ttipLettreEnNoir.SetToolTip(this.butExecuteDuo, "Exécute la fonction \"Duo\" sur le texte sélectionné.");
-            this.butExecuteDuo.UseVisualStyleBackColor = true;
-            this.butExecuteDuo.Click += new System.EventHandler(this.butExecuteDuo_Click);
-            // 
-            // butConfigDuo
-            // 
-            this.butConfigDuo.AutoSize = true;
-            this.butConfigDuo.Image = global::ColorizationControls.Properties.Resources._2Config_32;
-            this.butConfigDuo.Location = new System.Drawing.Point(173, 418);
-            this.butConfigDuo.Name = "butConfigDuo";
-            this.butConfigDuo.Size = new System.Drawing.Size(88, 55);
-            this.butConfigDuo.TabIndex = 169;
-            this.butConfigDuo.Text = "Configurer Duo";
-            this.butConfigDuo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.butConfigDuo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.ttipLettreEnNoir.SetToolTip(this.butConfigDuo, "Ouvre la fenêtre de configuration\r\nde la fonction \"Duo\".");
-            this.butConfigDuo.UseVisualStyleBackColor = true;
-            this.butConfigDuo.Click += new System.EventHandler(this.butConfigDuo_Click);
-            // 
-            // btcLNoir
-            // 
-            this.btcLNoir.BackColor = System.Drawing.SystemColors.Control;
-            this.btcLNoir.Image = global::ColorizationControls.Properties.Resources.black2_30;
-            this.btcLNoir.Location = new System.Drawing.Point(262, 152);
-            this.btcLNoir.Name = "btcLNoir";
-            this.btcLNoir.Size = new System.Drawing.Size(38, 38);
-            this.btcLNoir.TabIndex = 164;
-            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir, "Mettre le texte sélectionnée en \r\nnoir sans autre formatage.");
-            this.btcLNoir.UseVisualStyleBackColor = false;
-            this.btcLNoir.Click += new System.EventHandler(this.btcLNoir_Click);
-            // 
-            // btSVoyCons
-            // 
-            this.btSVoyCons.BackColor = System.Drawing.SystemColors.Control;
-            this.btSVoyCons.Image = global::ColorizationControls.Properties.Resources.voycons_30;
-            this.btSVoyCons.Location = new System.Drawing.Point(207, 152);
-            this.btSVoyCons.Name = "btSVoyCons";
-            this.btSVoyCons.Size = new System.Drawing.Size(38, 38);
-            this.btSVoyCons.TabIndex = 163;
-            this.ttipLettreEnNoir.SetToolTip(this.btSVoyCons, "Coloriser les voyelles et les consonnes.");
-            this.btSVoyCons.UseVisualStyleBackColor = false;
-            this.btSVoyCons.Click += new System.EventHandler(this.btSVoyCons_Click);
-            // 
-            // pbHL5
-            // 
-            this.pbHL5.Location = new System.Drawing.Point(307, 312);
-            this.pbHL5.Name = "pbHL5";
-            this.pbHL5.Size = new System.Drawing.Size(17, 13);
-            this.pbHL5.TabIndex = 162;
-            this.pbHL5.TabStop = false;
-            this.pbHL5.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // pbHL4
-            // 
-            this.pbHL4.Location = new System.Drawing.Point(253, 312);
-            this.pbHL4.Name = "pbHL4";
-            this.pbHL4.Size = new System.Drawing.Size(17, 13);
-            this.pbHL4.TabIndex = 161;
-            this.pbHL4.TabStop = false;
-            this.pbHL4.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // pbHL3
-            // 
-            this.pbHL3.Location = new System.Drawing.Point(199, 312);
-            this.pbHL3.Name = "pbHL3";
-            this.pbHL3.Size = new System.Drawing.Size(17, 13);
-            this.pbHL3.TabIndex = 160;
-            this.pbHL3.TabStop = false;
-            this.pbHL3.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // pbHL2
-            // 
-            this.pbHL2.Location = new System.Drawing.Point(145, 312);
-            this.pbHL2.Name = "pbHL2";
-            this.pbHL2.Size = new System.Drawing.Size(17, 13);
-            this.pbHL2.TabIndex = 159;
-            this.pbHL2.TabStop = false;
-            this.pbHL2.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // pbHL1
-            // 
-            this.pbHL1.Location = new System.Drawing.Point(91, 312);
-            this.pbHL1.Name = "pbHL1";
-            this.pbHL1.Size = new System.Drawing.Size(17, 13);
-            this.pbHL1.TabIndex = 158;
-            this.pbHL1.TabStop = false;
-            this.pbHL1.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // pbHL0
-            // 
-            this.pbHL0.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.pbHL0.Location = new System.Drawing.Point(38, 312);
-            this.pbHL0.Name = "pbHL0";
-            this.pbHL0.Size = new System.Drawing.Size(17, 13);
-            this.pbHL0.TabIndex = 157;
-            this.pbHL0.TabStop = false;
-            this.pbHL0.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // btZeLignes
-            // 
-            this.btZeLignes.BackColor = System.Drawing.SystemColors.Control;
-            this.btZeLignes.Image = global::ColorizationControls.Properties.Resources.lines_30;
-            this.btZeLignes.Location = new System.Drawing.Point(153, 152);
-            this.btZeLignes.Name = "btZeLignes";
-            this.btZeLignes.Size = new System.Drawing.Size(38, 38);
-            this.btZeLignes.TabIndex = 154;
-            this.ttipLettreEnNoir.SetToolTip(this.btZeLignes, "Coloriser les lignes. ");
-            this.btZeLignes.UseVisualStyleBackColor = false;
-            this.btZeLignes.Click += new System.EventHandler(this.btZeLignes_Click);
-            // 
-            // btcLbpdq
-            // 
-            this.btcLbpdq.BackColor = System.Drawing.SystemColors.Control;
-            this.btcLbpdq.Image = global::ColorizationControls.Properties.Resources.bdpq;
-            this.btcLbpdq.Location = new System.Drawing.Point(7, 6);
-            this.btcLbpdq.Name = "btcLbpdq";
-            this.btcLbpdq.Size = new System.Drawing.Size(38, 38);
-            this.btcLbpdq.TabIndex = 150;
-            this.ttipLettreEnNoir.SetToolTip(this.btcLbpdq, "Coloriser les lettres");
-            this.btcLbpdq.UseVisualStyleBackColor = false;
-            this.btcLbpdq.Click += new System.EventHandler(this.btcLbpdq_Click);
-            // 
-            // btSMots
-            // 
-            this.btSMots.BackColor = System.Drawing.SystemColors.Control;
-            this.btSMots.Image = global::ColorizationControls.Properties.Resources.mots_30;
-            this.btSMots.Location = new System.Drawing.Point(87, 152);
-            this.btSMots.Name = "btSMots";
-            this.btSMots.Size = new System.Drawing.Size(47, 38);
-            this.btSMots.TabIndex = 145;
-            this.ttipLettreEnNoir.SetToolTip(this.btSMots, "Coloriser les mots");
-            this.btSMots.UseVisualStyleBackColor = false;
-            this.btSMots.Click += new System.EventHandler(this.btSMots_Click);
-            // 
-            // btSAppliquer
-            // 
-            this.btSAppliquer.BackColor = System.Drawing.SystemColors.Control;
-            this.btSAppliquer.Image = global::ColorizationControls.Properties.Resources.syll_dys_30;
-            this.btSAppliquer.Location = new System.Drawing.Point(29, 152);
-            this.btSAppliquer.Name = "btSAppliquer";
-            this.btSAppliquer.Size = new System.Drawing.Size(38, 38);
-            this.btSAppliquer.TabIndex = 143;
-            this.ttipLettreEnNoir.SetToolTip(this.btSAppliquer, "Coloriser les syllabes");
-            this.btSAppliquer.UseVisualStyleBackColor = false;
-            this.btSAppliquer.Click += new System.EventHandler(this.btSAppliquer_Click);
-            // 
             // tabArcs
             // 
             this.tabArcs.BackColor = System.Drawing.SystemColors.Control;
-            this.tabArcs.Controls.Add(this.label9);
-            this.tabArcs.Controls.Add(this.nudDecalage);
-            this.tabArcs.Controls.Add(this.lblDecalage);
-            this.tabArcs.Controls.Add(this.nudEpaisseur);
-            this.tabArcs.Controls.Add(this.lblEpaisseur);
-            this.tabArcs.Controls.Add(this.nudEcartement);
-            this.tabArcs.Controls.Add(this.lblEcartement);
-            this.tabArcs.Controls.Add(this.nudHauteur);
-            this.tabArcs.Controls.Add(this.lblHauteur);
-            this.tabArcs.Controls.Add(this.lblArcs);
-            this.tabArcs.Controls.Add(this.btcRemoveArcs);
-            this.tabArcs.Controls.Add(this.btcArcs);
-            this.tabArcs.Controls.Add(this.btAR5);
-            this.tabArcs.Controls.Add(this.btAR4);
-            this.tabArcs.Controls.Add(this.btcIniArcBleu);
-            this.tabArcs.Controls.Add(this.btAR3);
-            this.tabArcs.Controls.Add(this.btAR2);
-            this.tabArcs.Controls.Add(this.btAR1);
-            this.tabArcs.Controls.Add(this.btAR0);
+            this.tabArcs.Controls.Add(this.butConfigDuo);
+            this.tabArcs.Controls.Add(this.butExecuteDuo);
+            this.tabArcs.Controls.Add(this.label8);
             this.tabArcs.Location = new System.Drawing.Point(4, 22);
             this.tabArcs.Name = "tabArcs";
             this.tabArcs.Padding = new System.Windows.Forms.Padding(3);
             this.tabArcs.Size = new System.Drawing.Size(337, 557);
             this.tabArcs.TabIndex = 5;
-            this.tabArcs.Text = "Arcs";
+            this.tabArcs.Text = "Duo";
             // 
-            // lblArcs
+            // label8
             // 
-            this.lblArcs.AutoSize = true;
-            this.lblArcs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblArcs.Location = new System.Drawing.Point(91, 20);
-            this.lblArcs.Name = "lblArcs";
-            this.lblArcs.Size = new System.Drawing.Size(187, 30);
-            this.lblArcs.TabIndex = 172;
-            this.lblArcs.Text = "Configurer les couleurs des \r\narcs sous les syllabes";
-            this.lblArcs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btcRemoveArcs
-            // 
-            this.btcRemoveArcs.BackgroundImage = global::ColorizationControls.Properties.Resources.cleaner;
-            this.btcRemoveArcs.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btcRemoveArcs.Location = new System.Drawing.Point(291, 17);
-            this.btcRemoveArcs.Name = "btcRemoveArcs";
-            this.btcRemoveArcs.Size = new System.Drawing.Size(38, 38);
-            this.btcRemoveArcs.TabIndex = 171;
-            this.ttipLettreEnNoir.SetToolTip(this.btcRemoveArcs, "Efface les arcs dont le point\r\nd\'ancrage est sélectionné.");
-            this.btcRemoveArcs.UseVisualStyleBackColor = true;
-            this.btcRemoveArcs.Click += new System.EventHandler(this.btcRemoveArcs_Click);
-            // 
-            // btcArcs
-            // 
-            this.btcArcs.AutoSize = true;
-            this.btcArcs.Image = global::ColorizationControls.Properties.Resources.syll;
-            this.btcArcs.Location = new System.Drawing.Point(12, 17);
-            this.btcArcs.Name = "btcArcs";
-            this.btcArcs.Size = new System.Drawing.Size(70, 38);
-            this.btcArcs.TabIndex = 170;
-            this.ttipLettreEnNoir.SetToolTip(this.btcArcs, "Dessine des arcs sous les syllabes\r\ndu texte sélectionné");
-            this.btcArcs.UseVisualStyleBackColor = true;
-            this.btcArcs.Click += new System.EventHandler(this.btcArcs_Click);
-            // 
-            // btAR5
-            // 
-            this.btAR5.Location = new System.Drawing.Point(281, 69);
-            this.btAR5.Name = "btAR5";
-            this.btAR5.Size = new System.Drawing.Size(48, 23);
-            this.btAR5.TabIndex = 169;
-            this.btAR5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btAR5, "6e couleur pour les arcs");
-            this.btAR5.UseVisualStyleBackColor = true;
-            this.btAR5.Click += new System.EventHandler(this.ArcButton_Click);
-            // 
-            // btAR4
-            // 
-            this.btAR4.Location = new System.Drawing.Point(227, 69);
-            this.btAR4.Name = "btAR4";
-            this.btAR4.Size = new System.Drawing.Size(48, 23);
-            this.btAR4.TabIndex = 168;
-            this.btAR4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btAR4, "5e couleur pour les arcs");
-            this.btAR4.UseVisualStyleBackColor = true;
-            this.btAR4.Click += new System.EventHandler(this.ArcButton_Click);
-            // 
-            // btcIniArcBleu
-            // 
-            this.btcIniArcBleu.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btcIniArcBleu.Location = new System.Drawing.Point(94, 98);
-            this.btcIniArcBleu.Name = "btcIniArcBleu";
-            this.btcIniArcBleu.Size = new System.Drawing.Size(150, 23);
-            this.btcIniArcBleu.TabIndex = 167;
-            this.btcIniArcBleu.Text = "Configuration par défaut";
-            this.ttipLettreEnNoir.SetToolTip(this.btcIniArcBleu, "Réinitialise le formatage des arcs à la \r\nconfiguration par défaut.");
-            this.btcIniArcBleu.UseVisualStyleBackColor = false;
-            this.btcIniArcBleu.Click += new System.EventHandler(this.btcIniArcBleu_Click);
-            // 
-            // btAR3
-            // 
-            this.btAR3.Location = new System.Drawing.Point(173, 69);
-            this.btAR3.Name = "btAR3";
-            this.btAR3.Size = new System.Drawing.Size(48, 23);
-            this.btAR3.TabIndex = 166;
-            this.btAR3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btAR3, "4e couleur pour les arcs");
-            this.btAR3.UseVisualStyleBackColor = true;
-            this.btAR3.Click += new System.EventHandler(this.ArcButton_Click);
-            // 
-            // btAR2
-            // 
-            this.btAR2.Location = new System.Drawing.Point(119, 69);
-            this.btAR2.Name = "btAR2";
-            this.btAR2.Size = new System.Drawing.Size(48, 23);
-            this.btAR2.TabIndex = 165;
-            this.btAR2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btAR2, "3e couleur pour les arcs");
-            this.btAR2.UseVisualStyleBackColor = true;
-            this.btAR2.Click += new System.EventHandler(this.ArcButton_Click);
-            // 
-            // btAR1
-            // 
-            this.btAR1.Location = new System.Drawing.Point(65, 69);
-            this.btAR1.Name = "btAR1";
-            this.btAR1.Size = new System.Drawing.Size(48, 23);
-            this.btAR1.TabIndex = 164;
-            this.btAR1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btAR1, "2e couleur pour les arcs");
-            this.btAR1.UseVisualStyleBackColor = true;
-            this.btAR1.Click += new System.EventHandler(this.ArcButton_Click);
-            // 
-            // btAR0
-            // 
-            this.btAR0.Location = new System.Drawing.Point(12, 69);
-            this.btAR0.Name = "btAR0";
-            this.btAR0.Size = new System.Drawing.Size(48, 23);
-            this.btAR0.TabIndex = 163;
-            this.btAR0.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btAR0, "1e couleur pour les arcs");
-            this.btAR0.UseVisualStyleBackColor = true;
-            this.btAR0.Click += new System.EventHandler(this.ArcButton_Click);
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(10, 11);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(318, 32);
+            this.label8.TabIndex = 182;
+            this.label8.Text = "La fonction \"Duo\" permet de formater en alternance \r\ndes mots ou des lignes pour " +
+    "deux lecteurs différents.";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tabAvancé
             // 
@@ -2925,6 +2530,546 @@
             this.lblText.TabIndex = 2;
             this.lblText.Text = resources.GetString("lblText.Text");
             // 
+            // ttipLettreEnNoir
+            // 
+            this.ttipLettreEnNoir.AutoPopDelay = 6000;
+            this.ttipLettreEnNoir.InitialDelay = 500;
+            this.ttipLettreEnNoir.ReshowDelay = 100;
+            // 
+            // cmsArcButtons
+            // 
+            this.cmsArcButtons.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.cmsArcButtons.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmEffacerCoulArc});
+            this.cmsArcButtons.Name = "cmsArcButtons";
+            this.cmsArcButtons.Size = new System.Drawing.Size(111, 26);
+            this.cmsArcButtons.Opening += new System.ComponentModel.CancelEventHandler(this.cmsArcButtons_Opening);
+            // 
+            // lblArcs
+            // 
+            this.lblArcs.AutoSize = true;
+            this.lblArcs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblArcs.Location = new System.Drawing.Point(97, 392);
+            this.lblArcs.Name = "lblArcs";
+            this.lblArcs.Size = new System.Drawing.Size(147, 30);
+            this.lblArcs.TabIndex = 179;
+            this.lblArcs.Text = "Couleurs des \r\narcs sous les syllabes";
+            this.lblArcs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btAR5
+            // 
+            this.btAR5.Location = new System.Drawing.Point(280, 433);
+            this.btAR5.Name = "btAR5";
+            this.btAR5.Size = new System.Drawing.Size(48, 23);
+            this.btAR5.TabIndex = 186;
+            this.btAR5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btAR5, "6e couleur pour les arcs");
+            this.btAR5.UseVisualStyleBackColor = true;
+            this.btAR5.Click += new System.EventHandler(this.ArcButton_Click);
+            // 
+            // btAR4
+            // 
+            this.btAR4.Location = new System.Drawing.Point(226, 433);
+            this.btAR4.Name = "btAR4";
+            this.btAR4.Size = new System.Drawing.Size(48, 23);
+            this.btAR4.TabIndex = 185;
+            this.btAR4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btAR4, "5e couleur pour les arcs");
+            this.btAR4.UseVisualStyleBackColor = true;
+            this.btAR4.Click += new System.EventHandler(this.ArcButton_Click);
+            // 
+            // btcIniArcBleu
+            // 
+            this.btcIniArcBleu.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.btcIniArcBleu.Location = new System.Drawing.Point(120, 462);
+            this.btcIniArcBleu.Name = "btcIniArcBleu";
+            this.btcIniArcBleu.Size = new System.Drawing.Size(208, 27);
+            this.btcIniArcBleu.TabIndex = 184;
+            this.btcIniArcBleu.Text = "Configuration par défaut pour le arcs";
+            this.ttipLettreEnNoir.SetToolTip(this.btcIniArcBleu, "Réinitialise le formatage des arcs à la \r\nconfiguration par défaut.");
+            this.btcIniArcBleu.UseVisualStyleBackColor = false;
+            this.btcIniArcBleu.Click += new System.EventHandler(this.btcIniArcBleu_Click);
+            // 
+            // btAR3
+            // 
+            this.btAR3.Location = new System.Drawing.Point(172, 433);
+            this.btAR3.Name = "btAR3";
+            this.btAR3.Size = new System.Drawing.Size(48, 23);
+            this.btAR3.TabIndex = 183;
+            this.btAR3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btAR3, "4e couleur pour les arcs");
+            this.btAR3.UseVisualStyleBackColor = true;
+            this.btAR3.Click += new System.EventHandler(this.ArcButton_Click);
+            // 
+            // btAR2
+            // 
+            this.btAR2.Location = new System.Drawing.Point(118, 433);
+            this.btAR2.Name = "btAR2";
+            this.btAR2.Size = new System.Drawing.Size(48, 23);
+            this.btAR2.TabIndex = 182;
+            this.btAR2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btAR2, "3e couleur pour les arcs");
+            this.btAR2.UseVisualStyleBackColor = true;
+            this.btAR2.Click += new System.EventHandler(this.ArcButton_Click);
+            // 
+            // btAR1
+            // 
+            this.btAR1.Location = new System.Drawing.Point(64, 433);
+            this.btAR1.Name = "btAR1";
+            this.btAR1.Size = new System.Drawing.Size(48, 23);
+            this.btAR1.TabIndex = 181;
+            this.btAR1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btAR1, "2e couleur pour les arcs");
+            this.btAR1.UseVisualStyleBackColor = true;
+            this.btAR1.Click += new System.EventHandler(this.ArcButton_Click);
+            // 
+            // btAR0
+            // 
+            this.btAR0.Location = new System.Drawing.Point(11, 433);
+            this.btAR0.Name = "btAR0";
+            this.btAR0.Size = new System.Drawing.Size(48, 23);
+            this.btAR0.TabIndex = 180;
+            this.btAR0.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btAR0, "1e couleur pour les arcs");
+            this.btAR0.UseVisualStyleBackColor = true;
+            this.btAR0.Click += new System.EventHandler(this.ArcButton_Click);
+            // 
+            // lblFormeArc
+            // 
+            this.lblFormeArc.AutoSize = true;
+            this.lblFormeArc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFormeArc.Location = new System.Drawing.Point(14, 467);
+            this.lblFormeArc.Name = "lblFormeArc";
+            this.lblFormeArc.Size = new System.Drawing.Size(100, 15);
+            this.lblFormeArc.TabIndex = 195;
+            this.lblFormeArc.Text = "Forme de l\'arc";
+            this.lblFormeArc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nudDecalage
+            // 
+            this.nudDecalage.DecimalPlaces = 2;
+            this.nudDecalage.Increment = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            this.nudDecalage.Location = new System.Drawing.Point(264, 523);
+            this.nudDecalage.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudDecalage.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.nudDecalage.Name = "nudDecalage";
+            this.nudDecalage.Size = new System.Drawing.Size(52, 20);
+            this.nudDecalage.TabIndex = 194;
+            this.ttipLettreEnNoir.SetToolTip(this.nudDecalage, "Décale l\'arc vers le bas (valeur positive) \r\nou vers le haut (valeur négative).");
+            this.nudDecalage.ValueChanged += new System.EventHandler(this.nudDecalage_ValueChanged);
+            // 
+            // lblDecalage
+            // 
+            this.lblDecalage.AutoSize = true;
+            this.lblDecalage.Location = new System.Drawing.Point(180, 525);
+            this.lblDecalage.Name = "lblDecalage";
+            this.lblDecalage.Size = new System.Drawing.Size(76, 13);
+            this.lblDecalage.TabIndex = 193;
+            this.lblDecalage.Text = "Décalage (pts)";
+            // 
+            // nudEpaisseur
+            // 
+            this.nudEpaisseur.DecimalPlaces = 2;
+            this.nudEpaisseur.Increment = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            this.nudEpaisseur.Location = new System.Drawing.Point(103, 523);
+            this.nudEpaisseur.Maximum = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            this.nudEpaisseur.Minimum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            this.nudEpaisseur.Name = "nudEpaisseur";
+            this.nudEpaisseur.Size = new System.Drawing.Size(52, 20);
+            this.nudEpaisseur.TabIndex = 192;
+            this.ttipLettreEnNoir.SetToolTip(this.nudEpaisseur, "Épaisseur de l\'arc en points.");
+            this.nudEpaisseur.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            this.nudEpaisseur.ValueChanged += new System.EventHandler(this.nudEpaisseur_ValueChanged);
+            // 
+            // lblEpaisseur
+            // 
+            this.lblEpaisseur.AutoSize = true;
+            this.lblEpaisseur.Location = new System.Drawing.Point(23, 525);
+            this.lblEpaisseur.Name = "lblEpaisseur";
+            this.lblEpaisseur.Size = new System.Drawing.Size(76, 13);
+            this.lblEpaisseur.TabIndex = 191;
+            this.lblEpaisseur.Text = "Épaisseur (pts)";
+            // 
+            // nudEcartement
+            // 
+            this.nudEcartement.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nudEcartement.Location = new System.Drawing.Point(264, 497);
+            this.nudEcartement.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.nudEcartement.Name = "nudEcartement";
+            this.nudEcartement.Size = new System.Drawing.Size(52, 20);
+            this.nudEcartement.TabIndex = 190;
+            this.ttipLettreEnNoir.SetToolTip(this.nudEcartement, "Définit l\'angle de la tangente \r\nà l\'extrémité de l\'arc.");
+            this.nudEcartement.ValueChanged += new System.EventHandler(this.nudEcartement_ValueChanged);
+            // 
+            // lblEcartement
+            // 
+            this.lblEcartement.AutoSize = true;
+            this.lblEcartement.Location = new System.Drawing.Point(180, 499);
+            this.lblEcartement.Name = "lblEcartement";
+            this.lblEcartement.Size = new System.Drawing.Size(78, 13);
+            this.lblEcartement.TabIndex = 189;
+            this.lblEcartement.Text = "Écartement (%)";
+            // 
+            // nudHauteur
+            // 
+            this.nudHauteur.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nudHauteur.Location = new System.Drawing.Point(103, 497);
+            this.nudHauteur.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            this.nudHauteur.Name = "nudHauteur";
+            this.nudHauteur.Size = new System.Drawing.Size(52, 20);
+            this.nudHauteur.TabIndex = 188;
+            this.ttipLettreEnNoir.SetToolTip(this.nudHauteur, "définit la hateur de l\'arc en\r\npourcents de la valeur calculée.");
+            this.nudHauteur.ValueChanged += new System.EventHandler(this.nudHauteur_ValueChanged);
+            // 
+            // lblHauteur
+            // 
+            this.lblHauteur.AutoSize = true;
+            this.lblHauteur.Location = new System.Drawing.Point(37, 499);
+            this.lblHauteur.Name = "lblHauteur";
+            this.lblHauteur.Size = new System.Drawing.Size(62, 13);
+            this.lblHauteur.TabIndex = 187;
+            this.lblHauteur.Text = "Hauteur (%)";
+            // 
+            // btcLNoir2
+            // 
+            this.btcLNoir2.BackColor = System.Drawing.SystemColors.Control;
+            this.btcLNoir2.Image = global::ColorizationControls.Properties.Resources.black2_30;
+            this.btcLNoir2.Location = new System.Drawing.Point(290, 6);
+            this.btcLNoir2.Name = "btcLNoir2";
+            this.btcLNoir2.Size = new System.Drawing.Size(38, 38);
+            this.btcLNoir2.TabIndex = 165;
+            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir2, "Colorise en noir et enlève les\r\ngras, italique et souligné.");
+            this.btcLNoir2.UseVisualStyleBackColor = false;
+            this.btcLNoir2.Click += new System.EventHandler(this.btcLNoir_Click);
+            // 
+            // btcPhons
+            // 
+            this.btcPhons.BackColor = System.Drawing.SystemColors.Control;
+            this.btcPhons.ContextMenuStrip = this.cmsPhonVSMuettes;
+            this.btcPhons.Image = global::ColorizationControls.Properties.Resources.phon;
+            this.btcPhons.Location = new System.Drawing.Point(6, 6);
+            this.btcPhons.Name = "btcPhons";
+            this.btcPhons.Size = new System.Drawing.Size(38, 38);
+            this.btcPhons.TabIndex = 110;
+            this.ttipLettreEnNoir.SetToolTip(this.btcPhons, "Coloriser les phonèmes");
+            this.btcPhons.UseVisualStyleBackColor = false;
+            this.btcPhons.Click += new System.EventHandler(this.btcPhons_Click);
+            // 
+            // btcRemoveArcs
+            // 
+            this.btcRemoveArcs.BackgroundImage = global::ColorizationControls.Properties.Resources.cleaner;
+            this.btcRemoveArcs.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btcRemoveArcs.Location = new System.Drawing.Point(290, 389);
+            this.btcRemoveArcs.Name = "btcRemoveArcs";
+            this.btcRemoveArcs.Size = new System.Drawing.Size(38, 38);
+            this.btcRemoveArcs.TabIndex = 178;
+            this.ttipLettreEnNoir.SetToolTip(this.btcRemoveArcs, "Efface les arcs dont le point\r\nd\'ancrage est sélectionné.");
+            this.btcRemoveArcs.UseVisualStyleBackColor = true;
+            this.btcRemoveArcs.Click += new System.EventHandler(this.btcRemoveArcs_Click);
+            // 
+            // btcArcs
+            // 
+            this.btcArcs.AutoSize = true;
+            this.btcArcs.Image = global::ColorizationControls.Properties.Resources.syll_32;
+            this.btcArcs.Location = new System.Drawing.Point(12, 389);
+            this.btcArcs.Name = "btcArcs";
+            this.btcArcs.Size = new System.Drawing.Size(38, 38);
+            this.btcArcs.TabIndex = 177;
+            this.ttipLettreEnNoir.SetToolTip(this.btcArcs, "Dessine des arcs sous les syllabes\r\ndu texte sélectionné");
+            this.btcArcs.UseVisualStyleBackColor = true;
+            this.btcArcs.Click += new System.EventHandler(this.btcArcs_Click);
+            // 
+            // tsmiCouper
+            // 
+            this.tsmiCouper.Image = global::ColorizationControls.Properties.Resources.Couper;
+            this.tsmiCouper.Name = "tsmiCouper";
+            this.tsmiCouper.Size = new System.Drawing.Size(130, 22);
+            this.tsmiCouper.Text = "Couper";
+            this.tsmiCouper.Click += new System.EventHandler(this.tsmiCouper_Click);
+            // 
+            // tsmiCopier
+            // 
+            this.tsmiCopier.Image = global::ColorizationControls.Properties.Resources.Copier;
+            this.tsmiCopier.Name = "tsmiCopier";
+            this.tsmiCopier.Size = new System.Drawing.Size(130, 22);
+            this.tsmiCopier.Text = "Copier";
+            this.tsmiCopier.Click += new System.EventHandler(this.tsmiCopier_Click);
+            // 
+            // tsmiColler
+            // 
+            this.tsmiColler.Image = global::ColorizationControls.Properties.Resources.Coller;
+            this.tsmiColler.Name = "tsmiColler";
+            this.tsmiColler.Size = new System.Drawing.Size(130, 22);
+            this.tsmiColler.Text = "Coller";
+            this.tsmiColler.Click += new System.EventHandler(this.tsmiColler_Click);
+            // 
+            // tsmiEffacer
+            // 
+            this.tsmiEffacer.Image = global::ColorizationControls.Properties.Resources.Effacer15;
+            this.tsmiEffacer.Name = "tsmiEffacer";
+            this.tsmiEffacer.Size = new System.Drawing.Size(130, 22);
+            this.tsmiEffacer.Text = "Effacer";
+            this.tsmiEffacer.Click += new System.EventHandler(this.tsmiEffacer_Click);
+            // 
+            // btcLNoir
+            // 
+            this.btcLNoir.BackColor = System.Drawing.SystemColors.Control;
+            this.btcLNoir.Image = global::ColorizationControls.Properties.Resources.black2_30;
+            this.btcLNoir.Location = new System.Drawing.Point(262, 152);
+            this.btcLNoir.Name = "btcLNoir";
+            this.btcLNoir.Size = new System.Drawing.Size(38, 38);
+            this.btcLNoir.TabIndex = 164;
+            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir, "Mettre le texte sélectionnée en \r\nnoir sans autre formatage.");
+            this.btcLNoir.UseVisualStyleBackColor = false;
+            this.btcLNoir.Click += new System.EventHandler(this.btcLNoir_Click);
+            // 
+            // btSVoyCons
+            // 
+            this.btSVoyCons.BackColor = System.Drawing.SystemColors.Control;
+            this.btSVoyCons.Image = global::ColorizationControls.Properties.Resources.voycons_30;
+            this.btSVoyCons.Location = new System.Drawing.Point(207, 152);
+            this.btSVoyCons.Name = "btSVoyCons";
+            this.btSVoyCons.Size = new System.Drawing.Size(38, 38);
+            this.btSVoyCons.TabIndex = 163;
+            this.ttipLettreEnNoir.SetToolTip(this.btSVoyCons, "Coloriser les voyelles et les consonnes.");
+            this.btSVoyCons.UseVisualStyleBackColor = false;
+            this.btSVoyCons.Click += new System.EventHandler(this.btSVoyCons_Click);
+            // 
+            // pbHL5
+            // 
+            this.pbHL5.Location = new System.Drawing.Point(307, 312);
+            this.pbHL5.Name = "pbHL5";
+            this.pbHL5.Size = new System.Drawing.Size(17, 13);
+            this.pbHL5.TabIndex = 162;
+            this.pbHL5.TabStop = false;
+            this.pbHL5.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // pbHL4
+            // 
+            this.pbHL4.Location = new System.Drawing.Point(253, 312);
+            this.pbHL4.Name = "pbHL4";
+            this.pbHL4.Size = new System.Drawing.Size(17, 13);
+            this.pbHL4.TabIndex = 161;
+            this.pbHL4.TabStop = false;
+            this.pbHL4.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // pbHL3
+            // 
+            this.pbHL3.Location = new System.Drawing.Point(199, 312);
+            this.pbHL3.Name = "pbHL3";
+            this.pbHL3.Size = new System.Drawing.Size(17, 13);
+            this.pbHL3.TabIndex = 160;
+            this.pbHL3.TabStop = false;
+            this.pbHL3.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // pbHL2
+            // 
+            this.pbHL2.Location = new System.Drawing.Point(145, 312);
+            this.pbHL2.Name = "pbHL2";
+            this.pbHL2.Size = new System.Drawing.Size(17, 13);
+            this.pbHL2.TabIndex = 159;
+            this.pbHL2.TabStop = false;
+            this.pbHL2.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // pbHL1
+            // 
+            this.pbHL1.Location = new System.Drawing.Point(91, 312);
+            this.pbHL1.Name = "pbHL1";
+            this.pbHL1.Size = new System.Drawing.Size(17, 13);
+            this.pbHL1.TabIndex = 158;
+            this.pbHL1.TabStop = false;
+            this.pbHL1.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // pbHL0
+            // 
+            this.pbHL0.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.pbHL0.Location = new System.Drawing.Point(38, 312);
+            this.pbHL0.Name = "pbHL0";
+            this.pbHL0.Size = new System.Drawing.Size(17, 13);
+            this.pbHL0.TabIndex = 157;
+            this.pbHL0.TabStop = false;
+            this.pbHL0.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // btZeLignes
+            // 
+            this.btZeLignes.BackColor = System.Drawing.SystemColors.Control;
+            this.btZeLignes.Image = global::ColorizationControls.Properties.Resources.lines_30;
+            this.btZeLignes.Location = new System.Drawing.Point(153, 152);
+            this.btZeLignes.Name = "btZeLignes";
+            this.btZeLignes.Size = new System.Drawing.Size(38, 38);
+            this.btZeLignes.TabIndex = 154;
+            this.ttipLettreEnNoir.SetToolTip(this.btZeLignes, "Coloriser les lignes. ");
+            this.btZeLignes.UseVisualStyleBackColor = false;
+            this.btZeLignes.Click += new System.EventHandler(this.btZeLignes_Click);
+            // 
+            // btcLbpdq
+            // 
+            this.btcLbpdq.BackColor = System.Drawing.SystemColors.Control;
+            this.btcLbpdq.Image = global::ColorizationControls.Properties.Resources.bdpq;
+            this.btcLbpdq.Location = new System.Drawing.Point(7, 6);
+            this.btcLbpdq.Name = "btcLbpdq";
+            this.btcLbpdq.Size = new System.Drawing.Size(38, 38);
+            this.btcLbpdq.TabIndex = 150;
+            this.ttipLettreEnNoir.SetToolTip(this.btcLbpdq, "Coloriser les lettres");
+            this.btcLbpdq.UseVisualStyleBackColor = false;
+            this.btcLbpdq.Click += new System.EventHandler(this.btcLbpdq_Click);
+            // 
+            // btSMots
+            // 
+            this.btSMots.BackColor = System.Drawing.SystemColors.Control;
+            this.btSMots.Image = global::ColorizationControls.Properties.Resources.mots_30;
+            this.btSMots.Location = new System.Drawing.Point(87, 152);
+            this.btSMots.Name = "btSMots";
+            this.btSMots.Size = new System.Drawing.Size(47, 38);
+            this.btSMots.TabIndex = 145;
+            this.ttipLettreEnNoir.SetToolTip(this.btSMots, "Coloriser les mots");
+            this.btSMots.UseVisualStyleBackColor = false;
+            this.btSMots.Click += new System.EventHandler(this.btSMots_Click);
+            // 
+            // btSAppliquer
+            // 
+            this.btSAppliquer.BackColor = System.Drawing.SystemColors.Control;
+            this.btSAppliquer.Image = global::ColorizationControls.Properties.Resources.syll_dys_30;
+            this.btSAppliquer.Location = new System.Drawing.Point(29, 152);
+            this.btSAppliquer.Name = "btSAppliquer";
+            this.btSAppliquer.Size = new System.Drawing.Size(38, 38);
+            this.btSAppliquer.TabIndex = 143;
+            this.ttipLettreEnNoir.SetToolTip(this.btSAppliquer, "Coloriser les syllabes");
+            this.btSAppliquer.UseVisualStyleBackColor = false;
+            this.btSAppliquer.Click += new System.EventHandler(this.btSAppliquer_Click);
+            // 
+            // butConfigDuo
+            // 
+            this.butConfigDuo.AutoSize = true;
+            this.butConfigDuo.Image = global::ColorizationControls.Properties.Resources._2Config_32;
+            this.butConfigDuo.Location = new System.Drawing.Point(170, 62);
+            this.butConfigDuo.Name = "butConfigDuo";
+            this.butConfigDuo.Size = new System.Drawing.Size(88, 55);
+            this.butConfigDuo.TabIndex = 184;
+            this.butConfigDuo.Text = "Configurer Duo";
+            this.butConfigDuo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.butConfigDuo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.ttipLettreEnNoir.SetToolTip(this.butConfigDuo, "Ouvre la fenêtre de configuration\r\nde la fonction \"Duo\".");
+            this.butConfigDuo.UseVisualStyleBackColor = true;
+            // 
+            // butExecuteDuo
+            // 
+            this.butExecuteDuo.AutoSize = true;
+            this.butExecuteDuo.Image = global::ColorizationControls.Properties.Resources._2_32;
+            this.butExecuteDuo.Location = new System.Drawing.Point(66, 62);
+            this.butExecuteDuo.Name = "butExecuteDuo";
+            this.butExecuteDuo.Size = new System.Drawing.Size(88, 55);
+            this.butExecuteDuo.TabIndex = 183;
+            this.butExecuteDuo.Text = "Exécuter Duo";
+            this.butExecuteDuo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.butExecuteDuo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.ttipLettreEnNoir.SetToolTip(this.butExecuteDuo, "Exécute la fonction \"Duo\" sur le texte sélectionné.");
+            this.butExecuteDuo.UseVisualStyleBackColor = true;
+            // 
+            // btSauvDefaut
+            // 
+            this.btSauvDefaut.Image = global::ColorizationControls.Properties.Resources.Défaut_161;
+            this.btSauvDefaut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btSauvDefaut.Location = new System.Drawing.Point(213, 408);
+            this.btSauvDefaut.Name = "btSauvDefaut";
+            this.btSauvDefaut.Size = new System.Drawing.Size(110, 29);
+            this.btSauvDefaut.TabIndex = 8;
+            this.btSauvDefaut.TabStop = false;
+            this.btSauvDefaut.Text = "Par défaut";
+            this.ttipLettreEnNoir.SetToolTip(this.btSauvDefaut, "Charge la configuration par défaut.\r\nAttention, impossible d\'annuler.");
+            this.btSauvDefaut.UseVisualStyleBackColor = true;
+            this.btSauvDefaut.Click += new System.EventHandler(this.btSauvDefaut_Click);
+            // 
+            // btSauvEffacer
+            // 
+            this.btSauvEffacer.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btSauvEffacer.Image = global::ColorizationControls.Properties.Resources.Effacer15_noir;
+            this.btSauvEffacer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btSauvEffacer.Location = new System.Drawing.Point(213, 339);
+            this.btSauvEffacer.Name = "btSauvEffacer";
+            this.btSauvEffacer.Size = new System.Drawing.Size(110, 29);
+            this.btSauvEffacer.TabIndex = 7;
+            this.btSauvEffacer.TabStop = false;
+            this.btSauvEffacer.Text = "Effacer";
+            this.ttipLettreEnNoir.SetToolTip(this.btSauvEffacer, "Cliquez pour effacer la configuration\r\nsélectionnée dans la liste");
+            this.btSauvEffacer.UseVisualStyleBackColor = false;
+            this.btSauvEffacer.Click += new System.EventHandler(this.btSauvEffacer_Click);
+            // 
+            // btSauvCharger
+            // 
+            this.btSauvCharger.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btSauvCharger.Image = global::ColorizationControls.Properties.Resources.Classeur_nb_16;
+            this.btSauvCharger.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btSauvCharger.Location = new System.Drawing.Point(213, 270);
+            this.btSauvCharger.Name = "btSauvCharger";
+            this.btSauvCharger.Size = new System.Drawing.Size(110, 29);
+            this.btSauvCharger.TabIndex = 6;
+            this.btSauvCharger.Text = "Charger";
+            this.ttipLettreEnNoir.SetToolTip(this.btSauvCharger, "Cliquez pour charger la configuration \r\nsélectionnée dans la liste.\r\nImpossible d" +
+        "\'annuler.");
+            this.btSauvCharger.UseVisualStyleBackColor = false;
+            this.btSauvCharger.Click += new System.EventHandler(this.btSauvCharger_Click);
+            this.btSauvCharger.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.btSauvCharger_KeyPress);
+            // 
+            // btSauvSauv
+            // 
+            this.btSauvSauv.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btSauvSauv.Image = global::ColorizationControls.Properties.Resources.disquette_blanc_14;
+            this.btSauvSauv.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btSauvSauv.Location = new System.Drawing.Point(95, 93);
+            this.btSauvSauv.Name = "btSauvSauv";
+            this.btSauvSauv.Size = new System.Drawing.Size(152, 27);
+            this.btSauvSauv.TabIndex = 2;
+            this.btSauvSauv.Text = "Sauvegarder";
+            this.ttipLettreEnNoir.SetToolTip(this.btSauvSauv, "Cliquez pour sauvegarder votre\r\nconfiguration sous le nom indiqué\r\nau-dessus.");
+            this.btSauvSauv.UseVisualStyleBackColor = false;
+            this.btSauvSauv.Click += new System.EventHandler(this.btSauvSauv_Click);
+            this.btSauvSauv.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.btSauvSauv_KeyPress);
+            // 
             // pictureBox2
             // 
             this.pictureBox2.BackgroundImage = global::ColorizationControls.Properties.Resources.Coloriƨation;
@@ -2945,20 +3090,13 @@
             this.pictureBox1.TabIndex = 11;
             this.pictureBox1.TabStop = false;
             // 
-            // ttipLettreEnNoir
+            // configMuettesToolStripMenuItem
             // 
-            this.ttipLettreEnNoir.AutoPopDelay = 6000;
-            this.ttipLettreEnNoir.InitialDelay = 500;
-            this.ttipLettreEnNoir.ReshowDelay = 100;
-            // 
-            // cmsArcButtons
-            // 
-            this.cmsArcButtons.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.cmsArcButtons.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmEffacerCoulArc});
-            this.cmsArcButtons.Name = "cmsArcButtons";
-            this.cmsArcButtons.Size = new System.Drawing.Size(111, 26);
-            this.cmsArcButtons.Opening += new System.ComponentModel.CancelEventHandler(this.cmsArcButtons_Opening);
+            this.configMuettesToolStripMenuItem.Image = global::ColorizationControls.Properties.Resources.l_muettes_16;
+            this.configMuettesToolStripMenuItem.Name = "configMuettesToolStripMenuItem";
+            this.configMuettesToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.configMuettesToolStripMenuItem.Text = "Config Muettes";
+            this.configMuettesToolStripMenuItem.Click += new System.EventHandler(this.configMuettesToolStripMenuItem_Click);
             // 
             // tsmEffacerCoulArc
             // 
@@ -2968,146 +3106,6 @@
             this.tsmEffacerCoulArc.Size = new System.Drawing.Size(110, 22);
             this.tsmEffacerCoulArc.Text = "Effacer";
             this.tsmEffacerCoulArc.Click += new System.EventHandler(this.tsmEffacerCoulArc_Click);
-            // 
-            // lblHauteur
-            // 
-            this.lblHauteur.AutoSize = true;
-            this.lblHauteur.Location = new System.Drawing.Point(26, 165);
-            this.lblHauteur.Name = "lblHauteur";
-            this.lblHauteur.Size = new System.Drawing.Size(62, 13);
-            this.lblHauteur.TabIndex = 173;
-            this.lblHauteur.Text = "Hauteur (%)";
-            // 
-            // nudHauteur
-            // 
-            this.nudHauteur.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.nudHauteur.Location = new System.Drawing.Point(92, 163);
-            this.nudHauteur.Maximum = new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-            this.nudHauteur.Name = "nudHauteur";
-            this.nudHauteur.Size = new System.Drawing.Size(52, 20);
-            this.nudHauteur.TabIndex = 174;
-            this.ttipLettreEnNoir.SetToolTip(this.nudHauteur, "définit la hateur de l\'arc en\r\npourcents de la valeur calculée.");
-            this.nudHauteur.ValueChanged += new System.EventHandler(this.nudHauteur_ValueChanged);
-            // 
-            // nudEcartement
-            // 
-            this.nudEcartement.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.nudEcartement.Location = new System.Drawing.Point(254, 163);
-            this.nudEcartement.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.nudEcartement.Name = "nudEcartement";
-            this.nudEcartement.Size = new System.Drawing.Size(52, 20);
-            this.nudEcartement.TabIndex = 176;
-            this.ttipLettreEnNoir.SetToolTip(this.nudEcartement, "Définit l\'angle de la tangente \r\nà l\'extrémité de l\'arc.");
-            this.nudEcartement.ValueChanged += new System.EventHandler(this.nudEcartement_ValueChanged);
-            // 
-            // lblEcartement
-            // 
-            this.lblEcartement.AutoSize = true;
-            this.lblEcartement.Location = new System.Drawing.Point(170, 165);
-            this.lblEcartement.Name = "lblEcartement";
-            this.lblEcartement.Size = new System.Drawing.Size(78, 13);
-            this.lblEcartement.TabIndex = 175;
-            this.lblEcartement.Text = "Écartement (%)";
-            // 
-            // nudDecalage
-            // 
-            this.nudDecalage.DecimalPlaces = 2;
-            this.nudDecalage.Increment = new decimal(new int[] {
-            25,
-            0,
-            0,
-            131072});
-            this.nudDecalage.Location = new System.Drawing.Point(254, 189);
-            this.nudDecalage.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nudDecalage.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            -2147483648});
-            this.nudDecalage.Name = "nudDecalage";
-            this.nudDecalage.Size = new System.Drawing.Size(52, 20);
-            this.nudDecalage.TabIndex = 180;
-            this.ttipLettreEnNoir.SetToolTip(this.nudDecalage, "Décale l\'arc vers le bas (valeur positive) \r\nou vers le haut (valeur négative).");
-            this.nudDecalage.ValueChanged += new System.EventHandler(this.nudDecalage_ValueChanged);
-            // 
-            // lblDecalage
-            // 
-            this.lblDecalage.AutoSize = true;
-            this.lblDecalage.Location = new System.Drawing.Point(170, 191);
-            this.lblDecalage.Name = "lblDecalage";
-            this.lblDecalage.Size = new System.Drawing.Size(76, 13);
-            this.lblDecalage.TabIndex = 179;
-            this.lblDecalage.Text = "Décalage (pts)";
-            // 
-            // nudEpaisseur
-            // 
-            this.nudEpaisseur.DecimalPlaces = 2;
-            this.nudEpaisseur.Increment = new decimal(new int[] {
-            25,
-            0,
-            0,
-            131072});
-            this.nudEpaisseur.Location = new System.Drawing.Point(92, 189);
-            this.nudEpaisseur.Maximum = new decimal(new int[] {
-            7,
-            0,
-            0,
-            0});
-            this.nudEpaisseur.Minimum = new decimal(new int[] {
-            25,
-            0,
-            0,
-            131072});
-            this.nudEpaisseur.Name = "nudEpaisseur";
-            this.nudEpaisseur.Size = new System.Drawing.Size(52, 20);
-            this.nudEpaisseur.TabIndex = 178;
-            this.ttipLettreEnNoir.SetToolTip(this.nudEpaisseur, "Épaisseur de l\'arc en points.");
-            this.nudEpaisseur.Value = new decimal(new int[] {
-            25,
-            0,
-            0,
-            131072});
-            this.nudEpaisseur.ValueChanged += new System.EventHandler(this.nudEpaisseur_ValueChanged);
-            // 
-            // lblEpaisseur
-            // 
-            this.lblEpaisseur.AutoSize = true;
-            this.lblEpaisseur.Location = new System.Drawing.Point(12, 191);
-            this.lblEpaisseur.Name = "lblEpaisseur";
-            this.lblEpaisseur.Size = new System.Drawing.Size(76, 13);
-            this.lblEpaisseur.TabIndex = 177;
-            this.lblEpaisseur.Text = "Épaisseur (pts)";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(125, 131);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(100, 15);
-            this.label9.TabIndex = 181;
-            this.label9.Text = "Forme de l\'arc";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ConfigControl
             // 
@@ -3137,12 +3135,6 @@
             this.grpBEcritOral.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHL5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHL4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHL2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).EndInit();
             this.tabArcs.ResumeLayout(false);
             this.tabArcs.PerformLayout();
             this.tabAvancé.ResumeLayout(false);
@@ -3151,13 +3143,19 @@
             this.groupBoxIll.PerformLayout();
             this.tabAPropos.ResumeLayout(false);
             this.tabAPropos.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.cmsArcButtons.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nudHauteur)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudEcartement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDecalage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEpaisseur)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEcartement)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHauteur)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHL5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHL4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHL2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -3349,9 +3347,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton rbnStandard;
         private System.Windows.Forms.RadioButton rbnAv2Cons;
-        private System.Windows.Forms.Button butConfigDuo;
-        private System.Windows.Forms.Button butExecuteDuo;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox cbMuettesSyl;
         private System.Windows.Forms.RadioButton rbnPoesie;
         private System.Windows.Forms.GroupBox groupBoxSyllabes;
@@ -3371,6 +3366,18 @@
         private System.Windows.Forms.CheckBox cbxmil;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TabPage tabArcs;
+        private System.Windows.Forms.ContextMenuStrip cmsArcButtons;
+        private System.Windows.Forms.ToolStripMenuItem tsmEffacerCoulArc;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblFormeArc;
+        private System.Windows.Forms.NumericUpDown nudDecalage;
+        private System.Windows.Forms.Label lblDecalage;
+        private System.Windows.Forms.NumericUpDown nudEpaisseur;
+        private System.Windows.Forms.Label lblEpaisseur;
+        private System.Windows.Forms.NumericUpDown nudEcartement;
+        private System.Windows.Forms.Label lblEcartement;
+        private System.Windows.Forms.NumericUpDown nudHauteur;
+        private System.Windows.Forms.Label lblHauteur;
         private System.Windows.Forms.Button btAR5;
         private System.Windows.Forms.Button btAR4;
         private System.Windows.Forms.Button btcIniArcBleu;
@@ -3378,19 +3385,10 @@
         private System.Windows.Forms.Button btAR2;
         private System.Windows.Forms.Button btAR1;
         private System.Windows.Forms.Button btAR0;
-        private System.Windows.Forms.Button btcArcs;
-        private System.Windows.Forms.Button btcRemoveArcs;
         private System.Windows.Forms.Label lblArcs;
-        private System.Windows.Forms.ContextMenuStrip cmsArcButtons;
-        private System.Windows.Forms.ToolStripMenuItem tsmEffacerCoulArc;
-        private System.Windows.Forms.NumericUpDown nudEcartement;
-        private System.Windows.Forms.Label lblEcartement;
-        private System.Windows.Forms.NumericUpDown nudHauteur;
-        private System.Windows.Forms.Label lblHauteur;
-        private System.Windows.Forms.NumericUpDown nudDecalage;
-        private System.Windows.Forms.Label lblDecalage;
-        private System.Windows.Forms.NumericUpDown nudEpaisseur;
-        private System.Windows.Forms.Label lblEpaisseur;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button btcRemoveArcs;
+        private System.Windows.Forms.Button btcArcs;
+        private System.Windows.Forms.Button butConfigDuo;
+        private System.Windows.Forms.Button butExecuteDuo;
     }
 }
