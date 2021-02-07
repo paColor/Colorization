@@ -453,6 +453,7 @@ namespace ColorLib
         public static void Init(List<string> errMsgs = null)
         {
             logger.ConditionalDebug("Init");
+            CharFormatting.Init();
             ConfigBase.Init(errMsgs);
             AutomAutomat.InitAutomat();
             SylInW.Init();
@@ -878,6 +879,26 @@ namespace ColorLib
                         ColorizeSyls(pwList1, dConf.subConfig1);
                         ColorizeSyls(pwList2, dConf.subConfig2);
                         break;
+                    case DuoConfig.ColorisFunction.arcs:
+                        List<PhonWord> arcPwList1, arcPwList2, arcCompleteList;
+                        dc.GetPhonWordLists(GetWords(true), dConf, GetLastLinesPos, out arcPwList1,
+                            out arcPwList2, out arcCompleteList, true);
+                        ComputeSyls(arcCompleteList);
+                        if (dConf.subConfig1.sylConf.mode == SylConfig.Mode.poesie
+                            && dConf.subConfig2.sylConf.mode == SylConfig.Mode.poesie
+                            && dConf.subConfig1.sylConf.chercherDierese
+                            && dConf.subConfig2.sylConf.chercherDierese)
+                        {
+                            int nbrPieds = 0;
+                            if (dConf.subConfig1.sylConf.nbrPieds == dConf.subConfig2.sylConf.nbrPieds)
+                            {
+                                nbrPieds = dConf.subConfig1.sylConf.nbrPieds;
+                            }
+                            _ = AnalyseDierese.ChercheDierese(this, arcCompleteList, nbrPieds);
+                        }
+                        FormatArcs(arcPwList1, dConf.subConfig1);
+                        FormatArcs(arcPwList2, dConf.subConfig2);
+                        break;
                     case DuoConfig.ColorisFunction.muettes:
                         dc.GetPhonWordBags(GetWords(false), dConf, GetLastLinesPos, out pwBag1, out pwBag2, false);
                         FormatPhons(pwBag1, dConf.subConfig1, PhonConfType.muettes);
@@ -901,6 +922,57 @@ namespace ColorLib
                 throw new ArgumentException("conf == null. Impossible de coloriser en \'Duo\' sans une configuration valable.");
             }
             logger.ConditionalTrace("MarkDuo EXIT");
+        }
+
+        /// <summary>
+        /// Marque un arc sous chaque syllabe. Les syllabes sont séparées en fonction des paramètres
+        /// de <paramref name="conf"/>.
+        /// </summary>
+        /// <param name="conf">Configuration à utiliser pour le traçage d'arcs.</param>
+        public void MarkArcs(Config conf)
+        {
+            logger.ConditionalDebug("MarkArcs");
+            if (conf != null)
+            {
+                formatsMgmt.ClearFormats();
+                // on prend une liste ordonnée, car l'alternance de couleur pour les syllabes s'étend
+                // au-delà de la frontière du mot.
+                List<PhonWord> pws = GetPhonWordList(conf, true);
+                ComputeSyls(pws);
+                if (conf.sylConf.mode == SylConfig.Mode.poesie && conf.sylConf.chercherDierese)
+                {
+                    _ = AnalyseDierese.ChercheDierese(this, pws, conf.sylConf.nbrPieds);
+                }
+
+
+                FormatArcs(pws, conf);
+                ApplyFormatting(conf);
+            }
+            else
+            {
+                logger.Error("conf == null. Impossible de coloriser les syllabes sans une configuration vallable.");
+                throw new ArgumentException("conf == null. Impossible de coloriser les syllabes sans une configuration valable.");
+            }
+        }
+
+        public void RemoveArcs(Config conf)
+        {
+            logger.ConditionalDebug("RemoveArcs");
+            if (conf != null)
+            {
+                if (S.Length > 0)
+                {
+                    formatsMgmt.ClearFormats();
+                    CharFormatting removeArcsCF = new CharFormatting(true);
+                    formatsMgmt.Add(new FormattedTextEl(this, 0, S.Length - 1, removeArcsCF));
+                    ApplyFormatting(conf);
+                }
+            }
+            else
+            {
+                logger.Error("conf == null. Impossible d'effacer les arcs sans une configuration vallable.");
+                throw new ArgumentException("conf == null. Impossible d'effacer les arcs sans une configuration valable.");
+            }
         }
 
         public void AddFTE(FormattedTextEl fte) => formatsMgmt.Add(fte);
@@ -1076,6 +1148,14 @@ namespace ColorLib
             conf.sylConf.ResetCounter();
             foreach (PhonWord pw in pws)
                 pw.ColorizeSyls(conf);
+        }
+
+        private void FormatArcs(List<PhonWord> pws, Config conf)
+        {
+            logger.ConditionalDebug("DrawArcs");
+            conf.arcConf.ResetCounter();
+            foreach (PhonWord pw in pws)
+                pw.FormatArcs(conf);
         }
 
         /// <summary>

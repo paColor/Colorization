@@ -143,6 +143,9 @@ namespace ColorizationControls
                 case DuoConfig.ColorisFunction.syllabes:
                     rbtnSyylabes.Checked = true;
                     break;
+                case DuoConfig.ColorisFunction.arcs:
+                    rbtnArcs.Checked = true;
+                    break;
                 case DuoConfig.ColorisFunction.mots:
                     rbtnColorMots.Checked = true;
                     break;
@@ -356,6 +359,15 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("nudNbreAlt_ValueChanged, val: \'{0}\'", nudNbreAlt.Value);
             duoConfCopy.nbreAlt = (int)nudNbreAlt.Value;
+        }
+
+        private void rbtnArcs_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("rbtnArcs_CheckedChanged, chk: \'{0}\'", rbtnArcs.Checked);
+            if (rbtnArcs.Checked)
+            {
+                duoConfCopy.colorisFunction = DuoConfig.ColorisFunction.arcs;
+            }
         }
     }
 }

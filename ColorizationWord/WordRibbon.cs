@@ -52,8 +52,9 @@ namespace ColorizationWord
         private static void MarkVoyCons(MSWText t, Config conf) => t.MarkVoyCons(conf);
         private static void MarkLignes(MSWText t, Config conf) => t.MarkLignes(conf);
         private static void MarkDuo(MSWText t, Config conf) => t.MarkDuo(conf);
-
-
+        private static void MarkArcs(MSWText t, Config conf) => t.MarkArcs(conf);
+        private static void RemoveArcs(MSWText t, Config conf) => t.RemoveArcs(conf);
+ 
         public static void Init()
         {
             logger.ConditionalDebug("Init");
@@ -66,6 +67,8 @@ namespace ColorizationWord
             ConfigControl.colNoirSelText = WordRibbon.ColorSelectedNoir;
             ConfigControl.colMuettesSelText = WordRibbon.ColorSelectedMuettes;
             ConfigControl.colDuoSelText = WordRibbon.ColorSelectedDuo;
+            ConfigControl.drawArcs = WordRibbon.ColorSelectedArcs;
+            ConfigControl.removeArcs = WordRibbon.RemoveSelectedArcs;
         }
 
         public static void ColorSelectedPhons(Config conf)
@@ -120,6 +123,18 @@ namespace ColorizationWord
         {
             logger.Info("ColorSelectedDuo");
             ActOnSelectedText(MarkDuo, "Duo", conf);
+        }
+
+        public static void ColorSelectedArcs(Config conf)
+        {
+            logger.Info("ColorSelectedArcs");
+            ActOnSelectedText(MarkArcs, "Arcs", conf);
+        }
+
+        public static void RemoveSelectedArcs(Config conf)
+        {
+            logger.Info("RemoveSelectedArcs");
+            ActOnSelectedText(RemoveArcs, "Effacer arcs", conf);
         }
 
         private static void ActOnShape(Shape sh, ActOnMSWText act, Config conf)
@@ -266,6 +281,8 @@ namespace ColorizationWord
                 btnSyls.Enabled = enable;
                 btnVoyCons.Enabled = enable;
                 btnDuo.Enabled = enable;
+                btnArcs.Enabled = enable;
+                btnNettoyageArcs.Enabled = enable;
             }
         }
 
@@ -342,6 +359,18 @@ namespace ColorizationWord
                 ConfigPane.MakePaneVisibleInWin(activeWin, activeWin.Document, ColorizationMSW.thisAddIn.CustomTaskPanes,
                     typeof(ColorizationMSW).Assembly.GetName().Version.ToString());
             }
+        }
+
+        private void btnArcs_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalDebug("btnArcs_Click");
+            ColorSelectedArcs(GetConfigForActiveWindow());
+        }
+
+        private void btnNettoyageArcs_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalDebug("btnNettoyageArcs_Click");
+            RemoveSelectedArcs(GetConfigForActiveWindow());
         }
     }
 }

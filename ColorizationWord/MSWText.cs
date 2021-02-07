@@ -105,6 +105,12 @@ namespace ColorizationWord
         /// </summary>
         private List<MultipleCharInfo> multipleChars;
 
+        /// <summary>
+        /// Nombre d'arcs dessinés jusqu'à maintenant. A condition qu'ils soient dessinés 
+        /// séquentiellement, le texte est décalé de ce nombre de caractères...
+        /// </summary>
+        private int nrArcs;
+        private int lastPage;
 
         public static void Initialize()
         {
@@ -146,6 +152,7 @@ namespace ColorizationWord
         /// <param name="inConf">La <see cref="Config"/> à utiliser le cas échéant.</param>
         private void ApplyCFToRange(CharFormatting cf, Range toR, Config inConf)
         {
+            logger.ConditionalTrace("ApplyCFToRange");
             // 24.01.2021: J'ai reçu une copie d'écran d'une erreur qui provenait visiblement de 
             // l'incapacité de Word à appliquer une couleur. J'ai donc décidé d'intercepter de
             // telles erreurs directement ici.
@@ -209,6 +216,8 @@ namespace ColorizationWord
                         // J'ai d'abord fait une distinction entre les deux modes, en interceptant
                         // l'exception, mais ça ne vaut pas la peine tant qu'on n'offre pas plus de 
                         // possibilités de formater.
+
+                        
                     }
                     else if (cf.ForceBlackColor(inConf))
                     {
@@ -237,6 +246,93 @@ namespace ColorizationWord
                     ErrorMsgACTR(cf, toR, "surlignage", e);
                 }
 
+                // **************************** ARC ********************************
+                try
+                {
+                    if (cf.drawArc)
+                    {
+                        int pageNr = toR.Information[WdInformation.wdActiveEndPageNumber];
+                        logger.ConditionalTrace("Page Number {0}", pageNr);
+                        if (lastPage == 0)
+                        {
+                            lastPage = pageNr;
+                        }
+                        else if (pageNr > lastPage)
+                        {
+                            lastPage = pageNr;
+                            toR.Select();
+                        }
+
+                        _ = toR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                        // Ne me demandez pas pourquoi il faut le faire deux fois... Mais seul le
+                        // 2e appel donne le bon résultat... PAE 06.02.2021
+
+                        float x0 = toR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                        float y0 = toR.Information[WdInformation.wdVerticalPositionRelativeToPage];
+                        float fontHeight = toR.Font.Size;
+                        y0 += fontHeight;
+                        y0 += inConf.arcConf.Decalage;
+                        float lineheight = toR.ParagraphFormat.LineSpacing;
+                        float h = (inConf.arcConf.Hauteur/100.0f) * 
+                            (float)Math.Sqrt(20.0f*(lineheight - fontHeight));
+
+                        
+                        Range endPosition = toR.Duplicate;
+                        endPosition.Collapse(WdCollapseDirection.wdCollapseEnd);
+                        float x1 = endPosition.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                        float w = x1 - x0; // width
+
+                        float[,] thePoints0 = new float[4, 2]
+                        {
+                            { x0, y0 },
+                            { x0 + (((float)(100 - inConf.arcConf.Ecartement) / 200.0f) * w), y0 + h },
+                            { x0 + (((float)(100 + inConf.arcConf.Ecartement) / 200.0f) * w), y0 + h },
+                            { x1, y0 },
+                        };
+
+                        Shape s =
+                            ColorizationMSW.thisAddIn.Application.ActiveDocument.Shapes.AddCurve(
+                            thePoints0);
+                        s.Line.ForeColor.RGB = cf.arcColor;
+                        s.Line.Weight = inConf.arcConf.Epaisseur;
+                        s.Name = "arc";
+
+                        if (s.Anchor.Start <= toR.End)
+                        {
+                            nrArcs++;
+                        }
+                            
+                    }
+                }
+                catch (Exception e)
+                {
+                    ErrorMsgACTR(cf, toR, "arcs", e);
+                }
+
+                // **************************** EEFACER ARCS ********************************
+                try
+                {
+                    if (cf.removeArcs)
+                    {
+                        List<Shape> toRemoveShapes = new List<Shape>(toR.ShapeRange.Count);
+                        foreach (Shape s in toR.ShapeRange)
+                        {
+                            if (s.Name == "arc") {
+                                toRemoveShapes.Add(s);
+                            }
+                        }
+                        foreach (Shape s in toRemoveShapes)
+                        {
+                            s.Delete();
+                        }
+                    }
+                   
+                }
+                catch (Exception e)
+                {
+                    ErrorMsgACTR(cf, toR, "effecer arcs", e);
+                }
+
             }
             else
             {
@@ -253,6 +349,7 @@ namespace ColorizationWord
             rgStart = rge.Start;
             rgeWork = range.Duplicate;
             finDeLignes = null;
+            lastPage = 0;
 
 #if DEBUG
             // Debugging help
@@ -272,7 +369,8 @@ namespace ColorizationWord
         /// <param name="conf">La <see cref="Config"/> à prendre en compte pour l'application du formatage.</param>
         protected override void SetChars(FormattedTextEl fte, Config conf)
         {
-            rgeWork.SetRange(rgStart + fte.First, rgStart + fte.Last + 1); // End pointe sur le caractère qui suit le range...
+            rgeWork.SetRange(rgStart + nrArcs + fte.First, 
+                rgStart + nrArcs + fte.Last + 1); // End doit pointer sur le caractère qui suit le range...
             ApplyCFToRange(fte.cf, rgeWork, conf);
         }
 

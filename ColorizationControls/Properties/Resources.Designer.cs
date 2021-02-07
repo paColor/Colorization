@@ -213,6 +213,16 @@ namespace ColorizationControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cleaner {
+            get {
+                object obj = ResourceManager.GetObject("cleaner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Coller {
             get {
                 object obj = ResourceManager.GetObject("Coller", resourceCulture);
@@ -506,6 +516,26 @@ namespace ColorizationControls.Properties {
         internal static System.Drawing.Bitmap phon_carré_30 {
             get {
                 object obj = ResourceManager.GetObject("phon-carré 30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap syll {
+            get {
+                object obj = ResourceManager.GetObject("syll", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap syll_26 {
+            get {
+                object obj = ResourceManager.GetObject("syll_26", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
