@@ -160,6 +160,11 @@ namespace ColorizationControls
             butExecuteDuo.Visible = false;
             butExecuteDuo.Enabled = false;
 
+            nudHauteur.Enabled = false;
+            nudEcartement.Enabled = false;
+            nudEpaisseur.Enabled = false;
+            nudDecalage.Enabled = false;
+
             // Les commandes fonctionnent depuis un ConfiControl qui correspond à une "subConfig".
             // Mais... Comme nous ouvrons la fenêtre "DuoConfForm" dans un "dialogue modal" le résultat 
             // n'est appliqué au texte qu'un fois la fenêtre "DuoConfForm" fermée. C'est trop perturbant
@@ -313,7 +318,7 @@ namespace ColorizationControls
 
         private void UpdateSylButton(int butNr)
         {
-            logger.ConditionalTrace("UpdateSylButton buttonNr: {0}", butNr);
+            logger.ConditionalDebug("UpdateSylButton buttonNr: {0}", butNr);
             const string filledBtnTxt = "Txt";
             const string emptyBtnTxt = "";
             SylConfig.SylButtonConf sbC = theConf.sylConf.GetSylButtonConfFor(butNr);
@@ -347,23 +352,52 @@ namespace ColorizationControls
             SuspendLayout();
             for (int i = 0; i < ArcConfig.NrArcButtons; i++)
                 UpdateArcButton(i);
+            UpdateHauteur();
+            UpdateEcartement();
+            UpdateEpaisseur();
+            UpdateDecalage();
             ResumeLayout();
         }
 
         private void UpdateArcButton(int butNr)
         {
-            logger.ConditionalTrace("UpdateArcButton buttonNr: {0}", butNr);
+            logger.ConditionalDebug("UpdateArcButton buttonNr: {0}", butNr);
 
             RGB wishedCol = theConf.arcConf.GetABColor(butNr);
             Button theButton = arcButtons[butNr];
             RGB theButtonCol = defaultArcButtonCol;
-            if (wishedCol != ColConfWin.predefinedColors[(int)PredefCol.white])
+            if (wishedCol != CharFormatting.neutralArcsCol)
             {
                 theButtonCol = wishedCol;
             }
             theButton.BackColor = theButtonCol;
             theButton.Enabled = theConf.arcConf.GetABClickable(butNr);
         }
+
+        private void UpdateHauteur()
+        {
+            logger.ConditionalDebug("UpdateHauteur");
+            nudHauteur.Value = theConf.arcConf.Hauteur;
+        }
+
+        private void UpdateEcartement()
+        {
+            logger.ConditionalDebug("UpdateEcartement");
+            nudEcartement.Value = theConf.arcConf.Ecartement;
+        }
+
+        private void UpdateEpaisseur()
+        {
+            logger.ConditionalDebug("UpdateEpaisseur");
+            nudEpaisseur.Value = (decimal)theConf.arcConf.Epaisseur;
+        }
+
+        private void UpdateDecalage()
+        {
+            logger.ConditionalDebug("UpdateDecalage");
+            nudDecalage.Value = (decimal)theConf.arcConf.Decalage;
+        }
+
 
 
         private void UpdateUcheckBoxes()
@@ -441,6 +475,10 @@ namespace ColorizationControls
             theConf.sylConf.ChercherDiereseModified += HandleChercherDiereseModified;
             theConf.sylConf.NbrPiedsModified += HandleNbrPiedsModified;
             theConf.arcConf.ArcButtonModified += ArcButtonModifiedHandler;
+            theConf.arcConf.HauteurModified += HauteurModifiedHandler;
+            theConf.arcConf.EcartementModified += EcartementModifiedHandler;
+            theConf.arcConf.EpaisseurModified += EpaisseurModifiedHandler;
+            theConf.arcConf.DecalageModified += DecalageModifiedHandler;
             theConf.unsetBeh.CheckboxUnsetModifiedEvent += CheckboxUnsetModified;
         }
 
@@ -1090,6 +1128,64 @@ namespace ColorizationControls
         {
             theConf.arcConf.ClearButton(cmsArcButNr);
         }
+
+        // - - - - - - - - - - - - - - - -  Hauteur - - - - - - - - - - - - - - - - - - - - - - - -
+
+        private void HauteurModifiedHandler(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("HauteurModifiedHandler");
+            UpdateHauteur();
+        }
+
+        private void nudHauteur_ValueChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("nudHauteur_ValueChanged");
+            theConf.arcConf.Hauteur = (int)nudHauteur.Value;
+        }
+
+        // - - - - - - - - - - - - - - - -  Ecartement - - - - - - - - - - - - - - - - - - - - - - 
+
+        private void EcartementModifiedHandler(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("EcartementModifiedHandler");
+            UpdateEcartement();
+        }
+
+        private void nudEcartement_ValueChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("nudEcartement_ValueChanged");
+            theConf.arcConf.Ecartement = (int)nudEcartement.Value;
+        }
+
+        // - - - - - - - - - - - - - - - -  Epaisseur - - - - - - - - - - - - - - - -- - - - - - -
+
+        private void EpaisseurModifiedHandler(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("EpaisseurModifiedHandler");
+            UpdateEpaisseur();
+        }
+
+        private void nudEpaisseur_ValueChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("nudEpaisseur_ValueChanged");
+            theConf.arcConf.Epaisseur = (float)nudEpaisseur.Value;
+        }
+
+        // - - - - - - - - - - - - - - - -  Décalage - - - - - - - - - - - - - - - - - - - - - - -
+
+        private void DecalageModifiedHandler(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("DecalageModifiedHandler");
+            UpdateDecalage();
+        }
+
+
+        private void nudDecalage_ValueChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("nudDecalage_ValueChanged");
+            theConf.arcConf.Decalage = (float)nudDecalage.Value;
+        }
+
 
         //--------------------------------------------------------------------------------------------
         // --------------------------------------  Onglet Sauv. --------------------------------------

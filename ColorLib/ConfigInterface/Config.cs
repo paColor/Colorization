@@ -619,6 +619,7 @@ namespace ColorLib
             }
             sylConf.Reset();
             unsetBeh.Reset();
+            arcConf.Reset();
             if (isSubConfig)
             {
                 ResetSubConfig(subConfNr);
@@ -628,7 +629,6 @@ namespace ColorLib
                 _duoConf?.Reset(); // on ne fait le reset que si la duoConf existe
                 SetConfigName(DefaultConfigName);
             }
-            _arcConf.Reset();
         }
 
         /// <summary>
@@ -769,12 +769,14 @@ namespace ColorLib
                 SetConfigName(DefaultSubConf1Name);
                 sylConf.SetSylButtonCF(0, ColConfWin.coloredCF[(int)PredefCol.pureBlue]);
                 sylConf.SetSylButtonCF(1, ColConfWin.coloredCF[(int)PredefCol.lightBlue]);
+                arcConf.SetArcButtonCol(0, ColConfWin.predefinedColors[(int)PredefCol.darkBlue]);
             }
             else if (theSubConfigNr == 2)
             {
                 SetConfigName(DefaultSubConf2Name);
                 sylConf.SetSylButtonCF(0, ColConfWin.coloredCF[(int)PredefCol.darkRed]);
                 sylConf.SetSylButtonCF(1, ColConfWin.coloredCF[(int)PredefCol.pink]);
+                arcConf.SetArcButtonCol(0, ColConfWin.predefinedColors[(int)PredefCol.darkRed]);
             }
             else
             {

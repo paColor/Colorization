@@ -453,6 +453,7 @@ namespace ColorLib
         public static void Init(List<string> errMsgs = null)
         {
             logger.ConditionalDebug("Init");
+            CharFormatting.Init();
             ConfigBase.Init(errMsgs);
             AutomAutomat.InitAutomat();
             SylInW.Init();
@@ -877,6 +878,26 @@ namespace ColorLib
                         }
                         ColorizeSyls(pwList1, dConf.subConfig1);
                         ColorizeSyls(pwList2, dConf.subConfig2);
+                        break;
+                    case DuoConfig.ColorisFunction.arcs:
+                        List<PhonWord> arcPwList1, arcPwList2, arcCompleteList;
+                        dc.GetPhonWordLists(GetWords(true), dConf, GetLastLinesPos, out arcPwList1,
+                            out arcPwList2, out arcCompleteList, true);
+                        ComputeSyls(arcCompleteList);
+                        if (dConf.subConfig1.sylConf.mode == SylConfig.Mode.poesie
+                            && dConf.subConfig2.sylConf.mode == SylConfig.Mode.poesie
+                            && dConf.subConfig1.sylConf.chercherDierese
+                            && dConf.subConfig2.sylConf.chercherDierese)
+                        {
+                            int nbrPieds = 0;
+                            if (dConf.subConfig1.sylConf.nbrPieds == dConf.subConfig2.sylConf.nbrPieds)
+                            {
+                                nbrPieds = dConf.subConfig1.sylConf.nbrPieds;
+                            }
+                            _ = AnalyseDierese.ChercheDierese(this, arcCompleteList, nbrPieds);
+                        }
+                        FormatArcs(arcPwList1, dConf.subConfig1);
+                        FormatArcs(arcPwList2, dConf.subConfig2);
                         break;
                     case DuoConfig.ColorisFunction.muettes:
                         dc.GetPhonWordBags(GetWords(false), dConf, GetLastLinesPos, out pwBag1, out pwBag2, false);

@@ -249,6 +249,15 @@
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
             this.cmsArcButtons = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblHauteur = new System.Windows.Forms.Label();
+            this.nudHauteur = new System.Windows.Forms.NumericUpDown();
+            this.nudEcartement = new System.Windows.Forms.NumericUpDown();
+            this.lblEcartement = new System.Windows.Forms.Label();
+            this.nudDecalage = new System.Windows.Forms.NumericUpDown();
+            this.lblDecalage = new System.Windows.Forms.Label();
+            this.nudEpaisseur = new System.Windows.Forms.NumericUpDown();
+            this.lblEpaisseur = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -272,6 +281,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.cmsArcButtons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHauteur)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEcartement)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDecalage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEpaisseur)).BeginInit();
             this.SuspendLayout();
             // 
             // cbxa
@@ -2524,6 +2537,15 @@
             // tabArcs
             // 
             this.tabArcs.BackColor = System.Drawing.SystemColors.Control;
+            this.tabArcs.Controls.Add(this.label9);
+            this.tabArcs.Controls.Add(this.nudDecalage);
+            this.tabArcs.Controls.Add(this.lblDecalage);
+            this.tabArcs.Controls.Add(this.nudEpaisseur);
+            this.tabArcs.Controls.Add(this.lblEpaisseur);
+            this.tabArcs.Controls.Add(this.nudEcartement);
+            this.tabArcs.Controls.Add(this.lblEcartement);
+            this.tabArcs.Controls.Add(this.nudHauteur);
+            this.tabArcs.Controls.Add(this.lblHauteur);
             this.tabArcs.Controls.Add(this.lblArcs);
             this.tabArcs.Controls.Add(this.btcRemoveArcs);
             this.tabArcs.Controls.Add(this.btcArcs);
@@ -2544,12 +2566,12 @@
             // lblArcs
             // 
             this.lblArcs.AutoSize = true;
-            this.lblArcs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblArcs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblArcs.Location = new System.Drawing.Point(91, 20);
             this.lblArcs.Name = "lblArcs";
-            this.lblArcs.Size = new System.Drawing.Size(182, 30);
+            this.lblArcs.Size = new System.Drawing.Size(187, 30);
             this.lblArcs.TabIndex = 172;
-            this.lblArcs.Text = "Configurer les couleurs des arcs\r\nsous les syllabes";
+            this.lblArcs.Text = "Configurer les couleurs des \r\narcs sous les syllabes";
             this.lblArcs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btcRemoveArcs
@@ -2935,7 +2957,7 @@
             this.cmsArcButtons.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmEffacerCoulArc});
             this.cmsArcButtons.Name = "cmsArcButtons";
-            this.cmsArcButtons.Size = new System.Drawing.Size(181, 48);
+            this.cmsArcButtons.Size = new System.Drawing.Size(111, 26);
             this.cmsArcButtons.Opening += new System.ComponentModel.CancelEventHandler(this.cmsArcButtons_Opening);
             // 
             // tsmEffacerCoulArc
@@ -2943,9 +2965,149 @@
             this.tsmEffacerCoulArc.Image = global::ColorizationControls.Properties.Resources.Effacer15;
             this.tsmEffacerCoulArc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tsmEffacerCoulArc.Name = "tsmEffacerCoulArc";
-            this.tsmEffacerCoulArc.Size = new System.Drawing.Size(180, 22);
+            this.tsmEffacerCoulArc.Size = new System.Drawing.Size(110, 22);
             this.tsmEffacerCoulArc.Text = "Effacer";
             this.tsmEffacerCoulArc.Click += new System.EventHandler(this.tsmEffacerCoulArc_Click);
+            // 
+            // lblHauteur
+            // 
+            this.lblHauteur.AutoSize = true;
+            this.lblHauteur.Location = new System.Drawing.Point(26, 165);
+            this.lblHauteur.Name = "lblHauteur";
+            this.lblHauteur.Size = new System.Drawing.Size(62, 13);
+            this.lblHauteur.TabIndex = 173;
+            this.lblHauteur.Text = "Hauteur (%)";
+            // 
+            // nudHauteur
+            // 
+            this.nudHauteur.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nudHauteur.Location = new System.Drawing.Point(92, 163);
+            this.nudHauteur.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            this.nudHauteur.Name = "nudHauteur";
+            this.nudHauteur.Size = new System.Drawing.Size(52, 20);
+            this.nudHauteur.TabIndex = 174;
+            this.ttipLettreEnNoir.SetToolTip(this.nudHauteur, "définit la hateur de l\'arc en\r\npourcents de la valeur calculée.");
+            this.nudHauteur.ValueChanged += new System.EventHandler(this.nudHauteur_ValueChanged);
+            // 
+            // nudEcartement
+            // 
+            this.nudEcartement.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nudEcartement.Location = new System.Drawing.Point(254, 163);
+            this.nudEcartement.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.nudEcartement.Name = "nudEcartement";
+            this.nudEcartement.Size = new System.Drawing.Size(52, 20);
+            this.nudEcartement.TabIndex = 176;
+            this.ttipLettreEnNoir.SetToolTip(this.nudEcartement, "Définit l\'angle de la tangente \r\nà l\'extrémité de l\'arc.");
+            this.nudEcartement.ValueChanged += new System.EventHandler(this.nudEcartement_ValueChanged);
+            // 
+            // lblEcartement
+            // 
+            this.lblEcartement.AutoSize = true;
+            this.lblEcartement.Location = new System.Drawing.Point(170, 165);
+            this.lblEcartement.Name = "lblEcartement";
+            this.lblEcartement.Size = new System.Drawing.Size(78, 13);
+            this.lblEcartement.TabIndex = 175;
+            this.lblEcartement.Text = "Écartement (%)";
+            // 
+            // nudDecalage
+            // 
+            this.nudDecalage.DecimalPlaces = 2;
+            this.nudDecalage.Increment = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            this.nudDecalage.Location = new System.Drawing.Point(254, 189);
+            this.nudDecalage.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudDecalage.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.nudDecalage.Name = "nudDecalage";
+            this.nudDecalage.Size = new System.Drawing.Size(52, 20);
+            this.nudDecalage.TabIndex = 180;
+            this.ttipLettreEnNoir.SetToolTip(this.nudDecalage, "Décale l\'arc vers le bas (valeur positive) \r\nou vers le haut (valeur négative).");
+            this.nudDecalage.ValueChanged += new System.EventHandler(this.nudDecalage_ValueChanged);
+            // 
+            // lblDecalage
+            // 
+            this.lblDecalage.AutoSize = true;
+            this.lblDecalage.Location = new System.Drawing.Point(170, 191);
+            this.lblDecalage.Name = "lblDecalage";
+            this.lblDecalage.Size = new System.Drawing.Size(76, 13);
+            this.lblDecalage.TabIndex = 179;
+            this.lblDecalage.Text = "Décalage (pts)";
+            // 
+            // nudEpaisseur
+            // 
+            this.nudEpaisseur.DecimalPlaces = 2;
+            this.nudEpaisseur.Increment = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            this.nudEpaisseur.Location = new System.Drawing.Point(92, 189);
+            this.nudEpaisseur.Maximum = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            this.nudEpaisseur.Minimum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            this.nudEpaisseur.Name = "nudEpaisseur";
+            this.nudEpaisseur.Size = new System.Drawing.Size(52, 20);
+            this.nudEpaisseur.TabIndex = 178;
+            this.ttipLettreEnNoir.SetToolTip(this.nudEpaisseur, "Épaisseur de l\'arc en points.");
+            this.nudEpaisseur.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            this.nudEpaisseur.ValueChanged += new System.EventHandler(this.nudEpaisseur_ValueChanged);
+            // 
+            // lblEpaisseur
+            // 
+            this.lblEpaisseur.AutoSize = true;
+            this.lblEpaisseur.Location = new System.Drawing.Point(12, 191);
+            this.lblEpaisseur.Name = "lblEpaisseur";
+            this.lblEpaisseur.Size = new System.Drawing.Size(76, 13);
+            this.lblEpaisseur.TabIndex = 177;
+            this.lblEpaisseur.Text = "Épaisseur (pts)";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(125, 131);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(100, 15);
+            this.label9.TabIndex = 181;
+            this.label9.Text = "Forme de l\'arc";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ConfigControl
             // 
@@ -2992,6 +3154,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.cmsArcButtons.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudHauteur)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEcartement)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDecalage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEpaisseur)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -3217,5 +3383,14 @@
         private System.Windows.Forms.Label lblArcs;
         private System.Windows.Forms.ContextMenuStrip cmsArcButtons;
         private System.Windows.Forms.ToolStripMenuItem tsmEffacerCoulArc;
+        private System.Windows.Forms.NumericUpDown nudEcartement;
+        private System.Windows.Forms.Label lblEcartement;
+        private System.Windows.Forms.NumericUpDown nudHauteur;
+        private System.Windows.Forms.Label lblHauteur;
+        private System.Windows.Forms.NumericUpDown nudDecalage;
+        private System.Windows.Forms.Label lblDecalage;
+        private System.Windows.Forms.NumericUpDown nudEpaisseur;
+        private System.Windows.Forms.Label lblEpaisseur;
+        private System.Windows.Forms.Label label9;
     }
 }

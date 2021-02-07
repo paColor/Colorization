@@ -39,22 +39,23 @@
             this.rbtnLignes = new System.Windows.Forms.RadioButton();
             this.lblColoriser = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.rtbUlysse = new System.Windows.Forms.RichTextBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.nudNbreAlt = new System.Windows.Forms.NumericUpDown();
+            this.lblNombre = new System.Windows.Forms.Label();
+            this.btnValider = new System.Windows.Forms.Button();
+            this.btnAnnuler = new System.Windows.Forms.Button();
+            this.btnDefConf2 = new System.Windows.Forms.Button();
+            this.btnDefConf1 = new System.Windows.Forms.Button();
+            this.btnDefaut = new System.Windows.Forms.Button();
+            this.rbtnArcs = new System.Windows.Forms.RadioButton();
             this.rbtnMuettes = new System.Windows.Forms.RadioButton();
             this.rbtnPhonemes = new System.Windows.Forms.RadioButton();
             this.rbtnVoyCons = new System.Windows.Forms.RadioButton();
             this.rbtnLettres = new System.Windows.Forms.RadioButton();
             this.rbtnSyylabes = new System.Windows.Forms.RadioButton();
             this.rbtnColorMots = new System.Windows.Forms.RadioButton();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.rtbUlysse = new System.Windows.Forms.RichTextBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.nudNbreAlt = new System.Windows.Forms.NumericUpDown();
-            this.btnDefConf2 = new System.Windows.Forms.Button();
-            this.btnDefConf1 = new System.Windows.Forms.Button();
-            this.btnDefaut = new System.Windows.Forms.Button();
-            this.lblNombre = new System.Windows.Forms.Label();
-            this.btnAnnuler = new System.Windows.Forms.Button();
-            this.btnValider = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudNbreAlt)).BeginInit();
@@ -146,6 +147,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.rbtnArcs);
             this.panel3.Controls.Add(this.rbtnMuettes);
             this.panel3.Controls.Add(this.rbtnPhonemes);
             this.panel3.Controls.Add(this.rbtnVoyCons);
@@ -154,131 +156,8 @@
             this.panel3.Controls.Add(this.rbtnColorMots);
             this.panel3.Location = new System.Drawing.Point(387, 232);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(112, 259);
+            this.panel3.Size = new System.Drawing.Size(112, 299);
             this.panel3.TabIndex = 11;
-            // 
-            // rbtnMuettes
-            // 
-            this.rbtnMuettes.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rbtnMuettes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.rbtnMuettes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.rbtnMuettes.Image = global::ColorizationControls.Properties.Resources.l_muettes_26;
-            this.rbtnMuettes.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.rbtnMuettes.Location = new System.Drawing.Point(12, 214);
-            this.rbtnMuettes.Margin = new System.Windows.Forms.Padding(0);
-            this.rbtnMuettes.Name = "rbtnMuettes";
-            this.rbtnMuettes.Size = new System.Drawing.Size(88, 37);
-            this.rbtnMuettes.TabIndex = 14;
-            this.rbtnMuettes.TabStop = true;
-            this.rbtnMuettes.Text = "Muettes";
-            this.rbtnMuettes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.rbtnMuettes, "La commande \"2\" colorisera les muettes\r\navec les formatages choisis appliqués en\r" +
-        "\nalternance.\r\n");
-            this.rbtnMuettes.UseVisualStyleBackColor = true;
-            this.rbtnMuettes.CheckedChanged += new System.EventHandler(this.rbtnMuettes_CheckedChanged);
-            // 
-            // rbtnPhonemes
-            // 
-            this.rbtnPhonemes.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rbtnPhonemes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.rbtnPhonemes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.rbtnPhonemes.Image = global::ColorizationControls.Properties.Resources.phon_carré_26;
-            this.rbtnPhonemes.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.rbtnPhonemes.Location = new System.Drawing.Point(12, 172);
-            this.rbtnPhonemes.Margin = new System.Windows.Forms.Padding(0);
-            this.rbtnPhonemes.Name = "rbtnPhonemes";
-            this.rbtnPhonemes.Size = new System.Drawing.Size(88, 37);
-            this.rbtnPhonemes.TabIndex = 13;
-            this.rbtnPhonemes.TabStop = true;
-            this.rbtnPhonemes.Text = "Pho-\r\nnèmes";
-            this.rbtnPhonemes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.rbtnPhonemes, "La commande \"2\" colorisera les phonèmes\r\navec les formatages choisis appliqués en" +
-        "\r\nalternance.");
-            this.rbtnPhonemes.UseVisualStyleBackColor = true;
-            this.rbtnPhonemes.CheckedChanged += new System.EventHandler(this.rbtnPhonemes_CheckedChanged);
-            // 
-            // rbtnVoyCons
-            // 
-            this.rbtnVoyCons.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rbtnVoyCons.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.rbtnVoyCons.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.rbtnVoyCons.Image = global::ColorizationControls.Properties.Resources.voycons_26;
-            this.rbtnVoyCons.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.rbtnVoyCons.Location = new System.Drawing.Point(12, 130);
-            this.rbtnVoyCons.Margin = new System.Windows.Forms.Padding(0);
-            this.rbtnVoyCons.Name = "rbtnVoyCons";
-            this.rbtnVoyCons.Size = new System.Drawing.Size(88, 37);
-            this.rbtnVoyCons.TabIndex = 12;
-            this.rbtnVoyCons.TabStop = true;
-            this.rbtnVoyCons.Text = "Voy. /\r\nCons.";
-            this.rbtnVoyCons.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.rbtnVoyCons, "La commande \"2\" colorisera les voyelles\r\net le consonnes avec les formatages\r\ncho" +
-        "isis appliqués en alternance.\r\n");
-            this.rbtnVoyCons.UseVisualStyleBackColor = true;
-            this.rbtnVoyCons.CheckedChanged += new System.EventHandler(this.rbtnVoyCons_CheckedChanged);
-            // 
-            // rbtnLettres
-            // 
-            this.rbtnLettres.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rbtnLettres.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.rbtnLettres.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.rbtnLettres.Image = global::ColorizationControls.Properties.Resources.bdpq_26;
-            this.rbtnLettres.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.rbtnLettres.Location = new System.Drawing.Point(12, 88);
-            this.rbtnLettres.Margin = new System.Windows.Forms.Padding(0);
-            this.rbtnLettres.Name = "rbtnLettres";
-            this.rbtnLettres.Size = new System.Drawing.Size(88, 37);
-            this.rbtnLettres.TabIndex = 11;
-            this.rbtnLettres.TabStop = true;
-            this.rbtnLettres.Text = "Lettres";
-            this.rbtnLettres.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.rbtnLettres.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.rbtnLettres, "La commande \"2\" colorisera les lettres\r\navec les formatages choisis appliqués en\r" +
-        "\nalternance.\r\n");
-            this.rbtnLettres.UseVisualStyleBackColor = true;
-            this.rbtnLettres.CheckedChanged += new System.EventHandler(this.rbtnLettres_CheckedChanged);
-            // 
-            // rbtnSyylabes
-            // 
-            this.rbtnSyylabes.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rbtnSyylabes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.rbtnSyylabes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.rbtnSyylabes.Image = global::ColorizationControls.Properties.Resources.syll_dys_26;
-            this.rbtnSyylabes.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.rbtnSyylabes.Location = new System.Drawing.Point(12, 4);
-            this.rbtnSyylabes.Margin = new System.Windows.Forms.Padding(0);
-            this.rbtnSyylabes.Name = "rbtnSyylabes";
-            this.rbtnSyylabes.Size = new System.Drawing.Size(88, 37);
-            this.rbtnSyylabes.TabIndex = 9;
-            this.rbtnSyylabes.TabStop = true;
-            this.rbtnSyylabes.Text = "Syllabes";
-            this.rbtnSyylabes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.rbtnSyylabes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.rbtnSyylabes, "La commande \"2\" colorisera les syllabes\r\navec les formatages choisis appliqués en" +
-        "\r\nalternance.");
-            this.rbtnSyylabes.UseVisualStyleBackColor = true;
-            this.rbtnSyylabes.CheckedChanged += new System.EventHandler(this.rbtnSyylabes_CheckedChanged);
-            // 
-            // rbtnColorMots
-            // 
-            this.rbtnColorMots.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rbtnColorMots.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.rbtnColorMots.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.rbtnColorMots.Image = global::ColorizationControls.Properties.Resources.mots_26;
-            this.rbtnColorMots.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.rbtnColorMots.Location = new System.Drawing.Point(12, 46);
-            this.rbtnColorMots.Margin = new System.Windows.Forms.Padding(0);
-            this.rbtnColorMots.Name = "rbtnColorMots";
-            this.rbtnColorMots.Size = new System.Drawing.Size(88, 37);
-            this.rbtnColorMots.TabIndex = 10;
-            this.rbtnColorMots.TabStop = true;
-            this.rbtnColorMots.Text = "Mots";
-            this.rbtnColorMots.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.rbtnColorMots.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip1.SetToolTip(this.rbtnColorMots, "La commande \"2\" colorisera les mots\r\navec les formatages choisis appliqués en\r\nal" +
-        "ternance.\r\n");
-            this.rbtnColorMots.UseVisualStyleBackColor = true;
-            this.rbtnColorMots.CheckedChanged += new System.EventHandler(this.rbtnColorMots_CheckedChanged);
             // 
             // panel2
             // 
@@ -330,6 +209,42 @@
             0});
             this.nudNbreAlt.ValueChanged += new System.EventHandler(this.nudNbreAlt_ValueChanged);
             // 
+            // lblNombre
+            // 
+            this.lblNombre.AutoSize = true;
+            this.lblNombre.Location = new System.Drawing.Point(393, 142);
+            this.lblNombre.Name = "lblNombre";
+            this.lblNombre.Size = new System.Drawing.Size(99, 26);
+            this.lblNombre.TabIndex = 20;
+            this.lblNombre.Text = "Nombre de mots ou\r\nlignes à regrouper";
+            this.lblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnValider
+            // 
+            this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnValider.Image = global::ColorizationControls.Properties.Resources.OK_b_16;
+            this.btnValider.Location = new System.Drawing.Point(706, 614);
+            this.btnValider.Name = "btnValider";
+            this.btnValider.Size = new System.Drawing.Size(75, 23);
+            this.btnValider.TabIndex = 13;
+            this.btnValider.Text = "Valider";
+            this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnValider.UseVisualStyleBackColor = true;
+            this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
+            // 
+            // btnAnnuler
+            // 
+            this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnAnnuler.Image = global::ColorizationControls.Properties.Resources.Effacer15;
+            this.btnAnnuler.Location = new System.Drawing.Point(706, 643);
+            this.btnAnnuler.Name = "btnAnnuler";
+            this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
+            this.btnAnnuler.TabIndex = 14;
+            this.btnAnnuler.Text = "Annuler";
+            this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnAnnuler.UseVisualStyleBackColor = true;
+            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
+            // 
             // btnDefConf2
             // 
             this.btnDefConf2.Image = global::ColorizationControls.Properties.Resources.Défaut_bleu_16;
@@ -369,41 +284,149 @@
             this.btnDefaut.UseVisualStyleBackColor = true;
             this.btnDefaut.Click += new System.EventHandler(this.btnDefaut_Click);
             // 
-            // lblNombre
+            // rbtnArcs
             // 
-            this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(393, 142);
-            this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(99, 26);
-            this.lblNombre.TabIndex = 20;
-            this.lblNombre.Text = "Nombre de mots ou\r\nlignes à regrouper";
-            this.lblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rbtnArcs.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbtnArcs.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rbtnArcs.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.rbtnArcs.Image = global::ColorizationControls.Properties.Resources.syll_26;
+            this.rbtnArcs.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.rbtnArcs.Location = new System.Drawing.Point(12, 46);
+            this.rbtnArcs.Margin = new System.Windows.Forms.Padding(0);
+            this.rbtnArcs.Name = "rbtnArcs";
+            this.rbtnArcs.Size = new System.Drawing.Size(88, 37);
+            this.rbtnArcs.TabIndex = 15;
+            this.rbtnArcs.TabStop = true;
+            this.rbtnArcs.Text = "Arcs";
+            this.rbtnArcs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rbtnArcs.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.rbtnArcs, "La commande \"2\" colorisera les syllabes\r\navec les formatages choisis appliqués en" +
+        "\r\nalternance.");
+            this.rbtnArcs.UseVisualStyleBackColor = true;
+            this.rbtnArcs.CheckedChanged += new System.EventHandler(this.rbtnArcs_CheckedChanged);
             // 
-            // btnAnnuler
+            // rbtnMuettes
             // 
-            this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnAnnuler.Image = global::ColorizationControls.Properties.Resources.Effacer15;
-            this.btnAnnuler.Location = new System.Drawing.Point(706, 643);
-            this.btnAnnuler.Name = "btnAnnuler";
-            this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
-            this.btnAnnuler.TabIndex = 14;
-            this.btnAnnuler.Text = "Annuler";
-            this.btnAnnuler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnAnnuler.UseVisualStyleBackColor = true;
-            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
+            this.rbtnMuettes.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbtnMuettes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rbtnMuettes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.rbtnMuettes.Image = global::ColorizationControls.Properties.Resources.l_muettes_26;
+            this.rbtnMuettes.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.rbtnMuettes.Location = new System.Drawing.Point(12, 256);
+            this.rbtnMuettes.Margin = new System.Windows.Forms.Padding(0);
+            this.rbtnMuettes.Name = "rbtnMuettes";
+            this.rbtnMuettes.Size = new System.Drawing.Size(88, 37);
+            this.rbtnMuettes.TabIndex = 14;
+            this.rbtnMuettes.TabStop = true;
+            this.rbtnMuettes.Text = "Muettes";
+            this.rbtnMuettes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.rbtnMuettes, "La commande \"2\" colorisera les muettes\r\navec les formatages choisis appliqués en\r" +
+        "\nalternance.\r\n");
+            this.rbtnMuettes.UseVisualStyleBackColor = true;
+            this.rbtnMuettes.CheckedChanged += new System.EventHandler(this.rbtnMuettes_CheckedChanged);
             // 
-            // btnValider
+            // rbtnPhonemes
             // 
-            this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnValider.Image = global::ColorizationControls.Properties.Resources.OK_b_16;
-            this.btnValider.Location = new System.Drawing.Point(706, 614);
-            this.btnValider.Name = "btnValider";
-            this.btnValider.Size = new System.Drawing.Size(75, 23);
-            this.btnValider.TabIndex = 13;
-            this.btnValider.Text = "Valider";
-            this.btnValider.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnValider.UseVisualStyleBackColor = true;
-            this.btnValider.Click += new System.EventHandler(this.btnValider_Click);
+            this.rbtnPhonemes.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbtnPhonemes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rbtnPhonemes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.rbtnPhonemes.Image = global::ColorizationControls.Properties.Resources.phon_carré_26;
+            this.rbtnPhonemes.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.rbtnPhonemes.Location = new System.Drawing.Point(12, 214);
+            this.rbtnPhonemes.Margin = new System.Windows.Forms.Padding(0);
+            this.rbtnPhonemes.Name = "rbtnPhonemes";
+            this.rbtnPhonemes.Size = new System.Drawing.Size(88, 37);
+            this.rbtnPhonemes.TabIndex = 13;
+            this.rbtnPhonemes.TabStop = true;
+            this.rbtnPhonemes.Text = "Pho-\r\nnèmes";
+            this.rbtnPhonemes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.rbtnPhonemes, "La commande \"2\" colorisera les phonèmes\r\navec les formatages choisis appliqués en" +
+        "\r\nalternance.");
+            this.rbtnPhonemes.UseVisualStyleBackColor = true;
+            this.rbtnPhonemes.CheckedChanged += new System.EventHandler(this.rbtnPhonemes_CheckedChanged);
+            // 
+            // rbtnVoyCons
+            // 
+            this.rbtnVoyCons.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbtnVoyCons.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rbtnVoyCons.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.rbtnVoyCons.Image = global::ColorizationControls.Properties.Resources.voycons_26;
+            this.rbtnVoyCons.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.rbtnVoyCons.Location = new System.Drawing.Point(12, 172);
+            this.rbtnVoyCons.Margin = new System.Windows.Forms.Padding(0);
+            this.rbtnVoyCons.Name = "rbtnVoyCons";
+            this.rbtnVoyCons.Size = new System.Drawing.Size(88, 37);
+            this.rbtnVoyCons.TabIndex = 12;
+            this.rbtnVoyCons.TabStop = true;
+            this.rbtnVoyCons.Text = "Voy. /\r\nCons.";
+            this.rbtnVoyCons.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.rbtnVoyCons, "La commande \"2\" colorisera les voyelles\r\net le consonnes avec les formatages\r\ncho" +
+        "isis appliqués en alternance.\r\n");
+            this.rbtnVoyCons.UseVisualStyleBackColor = true;
+            this.rbtnVoyCons.CheckedChanged += new System.EventHandler(this.rbtnVoyCons_CheckedChanged);
+            // 
+            // rbtnLettres
+            // 
+            this.rbtnLettres.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbtnLettres.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rbtnLettres.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.rbtnLettres.Image = global::ColorizationControls.Properties.Resources.bdpq_26;
+            this.rbtnLettres.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.rbtnLettres.Location = new System.Drawing.Point(12, 130);
+            this.rbtnLettres.Margin = new System.Windows.Forms.Padding(0);
+            this.rbtnLettres.Name = "rbtnLettres";
+            this.rbtnLettres.Size = new System.Drawing.Size(88, 37);
+            this.rbtnLettres.TabIndex = 11;
+            this.rbtnLettres.TabStop = true;
+            this.rbtnLettres.Text = "Lettres";
+            this.rbtnLettres.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rbtnLettres.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.rbtnLettres, "La commande \"2\" colorisera les lettres\r\navec les formatages choisis appliqués en\r" +
+        "\nalternance.\r\n");
+            this.rbtnLettres.UseVisualStyleBackColor = true;
+            this.rbtnLettres.CheckedChanged += new System.EventHandler(this.rbtnLettres_CheckedChanged);
+            // 
+            // rbtnSyylabes
+            // 
+            this.rbtnSyylabes.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbtnSyylabes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rbtnSyylabes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.rbtnSyylabes.Image = global::ColorizationControls.Properties.Resources.syll_dys_26;
+            this.rbtnSyylabes.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.rbtnSyylabes.Location = new System.Drawing.Point(12, 4);
+            this.rbtnSyylabes.Margin = new System.Windows.Forms.Padding(0);
+            this.rbtnSyylabes.Name = "rbtnSyylabes";
+            this.rbtnSyylabes.Size = new System.Drawing.Size(88, 37);
+            this.rbtnSyylabes.TabIndex = 9;
+            this.rbtnSyylabes.TabStop = true;
+            this.rbtnSyylabes.Text = "Syllabes";
+            this.rbtnSyylabes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rbtnSyylabes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.rbtnSyylabes, "La commande \"2\" colorisera les syllabes\r\navec les formatages choisis appliqués en" +
+        "\r\nalternance.");
+            this.rbtnSyylabes.UseVisualStyleBackColor = true;
+            this.rbtnSyylabes.CheckedChanged += new System.EventHandler(this.rbtnSyylabes_CheckedChanged);
+            // 
+            // rbtnColorMots
+            // 
+            this.rbtnColorMots.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbtnColorMots.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rbtnColorMots.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.rbtnColorMots.Image = global::ColorizationControls.Properties.Resources.mots_26;
+            this.rbtnColorMots.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.rbtnColorMots.Location = new System.Drawing.Point(12, 88);
+            this.rbtnColorMots.Margin = new System.Windows.Forms.Padding(0);
+            this.rbtnColorMots.Name = "rbtnColorMots";
+            this.rbtnColorMots.Size = new System.Drawing.Size(88, 37);
+            this.rbtnColorMots.TabIndex = 10;
+            this.rbtnColorMots.TabStop = true;
+            this.rbtnColorMots.Text = "Mots";
+            this.rbtnColorMots.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rbtnColorMots.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.rbtnColorMots, "La commande \"2\" colorisera les mots\r\navec les formatages choisis appliqués en\r\nal" +
+        "ternance.\r\n");
+            this.rbtnColorMots.UseVisualStyleBackColor = true;
+            this.rbtnColorMots.CheckedChanged += new System.EventHandler(this.rbtnColorMots_CheckedChanged);
             // 
             // DuoConfForm
             // 
@@ -468,5 +491,6 @@
         private System.Windows.Forms.Button btnDefConf2;
         private System.Windows.Forms.NumericUpDown nudNbreAlt;
         private System.Windows.Forms.Label lblNombre;
+        private System.Windows.Forms.RadioButton rbtnArcs;
     }
 }

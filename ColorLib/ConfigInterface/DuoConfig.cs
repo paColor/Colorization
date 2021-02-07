@@ -96,7 +96,7 @@ namespace ColorLib
         /// <summary>
         /// Type utilisé pour définir quelle fonction doit être appliquée par la commande "duo"
         /// </summary>
-        public enum ColorisFunction { syllabes, mots, lettres, voyCons, phonemes, muettes, undefined }
+        public enum ColorisFunction { syllabes, mots, lettres, voyCons, phonemes, muettes, undefined, arcs }
 
         /// <summary>
         /// Inidique quelle fonction doit être exécutée en alternance par la commande "duo" ou "2"

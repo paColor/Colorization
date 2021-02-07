@@ -228,9 +228,8 @@ namespace ColorLib
         public bool GetABClickable(int butNr) => arcButtons[butNr].buttonClickable;
 
         /// <summary>
-        /// Donne la couleur pour le bouton <paramref name="butNr"/>. Blanc ou plus précisémment
-        /// <c>ColConfWin.predefinedColors[(int)PredefCol.white]</c> correspond à un boton qui n'a 
-        /// pas été configuré.
+        /// Donne la couleur pour le bouton <paramref name="butNr"/>. <c>CharFormatting.neutralArcsCol</c>
+        /// correspond à un boton qui n'a pas été configuré.
         /// </summary>
         /// <param name="butNr">Le numéro du bouton.</param>
         /// <returns></returns>
@@ -339,10 +338,10 @@ namespace ColorLib
             nrSetArcButtons = 0;
             SetArcButtonCol(0, ColConfWin.predefinedColors[(int)PredefCol.darkBlue]);
             ResetCounter();
-            _hauteur = 40;
-            _ecartement = 75;
-            _epaisseur = 0.5f;
-            _decalage = 0.0f;
+            Hauteur = 35;
+            Ecartement = 75;
+            Epaisseur = 0.5f;
+            Decalage = 0.0f;
         }
 
         // --------------------------------------- Serialization ----------------------------------
