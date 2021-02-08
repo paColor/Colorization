@@ -179,6 +179,8 @@ namespace ColorizationControls
             btZeLignes.Enabled = false;
             btSVoyCons.Enabled = false;
             btcLNoir.Enabled = false;
+            btcArcs.Enabled = false;
+            btcRemoveArcs.Enabled = false;
 
             tabControl1.SelectTab(tabAutres);
             logger.ConditionalDebug("ConfigControl - EXIT constructeur avec subConf");
@@ -1714,7 +1716,5 @@ namespace ColorizationControls
             }
             UpdateAllSoundCbxAndButtons();
         }
-
-        
     }
 }

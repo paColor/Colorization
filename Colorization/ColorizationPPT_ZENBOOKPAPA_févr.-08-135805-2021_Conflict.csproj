@@ -1,4 +1,9 @@
 ﻿<Project ToolsVersion="16.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.8\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.8\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
+  <Import Project="..\packages\Microsoft.NetFramework.Analyzers.2.9.8\build\Microsoft.NetFramework.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetFramework.Analyzers.2.9.8\build\Microsoft.NetFramework.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.NetCore.Analyzers.2.9.8\build\Microsoft.NetCore.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetCore.Analyzers.2.9.8\build\Microsoft.NetCore.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\build\Microsoft.CodeQuality.Analyzers.props" Condition="Exists('..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\build\Microsoft.CodeQuality.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.8\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.8\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--
     This section defines project-level properties.
@@ -21,27 +26,29 @@
     <ProjectTypeGuids>{BAA0C2D2-18E2-41B9-852F-F413020CAA33};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DB00A780-D368-46B5-AC93-A40E886A3263}</ProjectGuid>
+    <ProjectGuid>{F7BBD087-4059-4413-BFE2-E5A389A36F7C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <RootNamespace>ColorizationWord</RootNamespace>
-    <AssemblyName>ColorizationWord</AssemblyName>
+    <RootNamespace>Colorization</RootNamespace>
+    <AssemblyName>Colorization</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <IsWebBootstrapper>True</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\Publishing\Word\</PublishUrl>
-    <InstallUrl>https://colorization.ch/publish/Word/</InstallUrl>
+    <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\Publishing\PowerPoint\</PublishUrl>
+    <InstallUrl>https://colorization.ch/publish/PowerPoint/</InstallUrl>
     <TargetCulture>fr</TargetCulture>
-    <ApplicationVersion>1.1.0.1</ApplicationVersion>
+    <ApplicationVersion>0.9.3.3</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>3</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
-    <ProductName>Coloriƨation Word</ProductName>
+    <ProductName>Coloriƨation PowerPoint</ProductName>
     <PublisherName>Pierre-Alain Etique</PublisherName>
-    <SupportUrl>https://colorization.ch</SupportUrl>
-    <FriendlyName>ColorizationWord</FriendlyName>
+    <SupportUrl>http://colorization.ch/</SupportUrl>
+    <FriendlyName>Colorization</FriendlyName>
     <OfficeApplicationDescription />
     <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
@@ -67,7 +74,7 @@
       OfficeApplication
         Add-in host application
     -->
-    <OfficeApplication>Word</OfficeApplication>
+    <OfficeApplication>PowerPoint</OfficeApplication>
   </PropertyGroup>
   <!--
     This section defines properties that are set when the "Debug" configuration is selected.
@@ -91,7 +98,7 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;VSTO40</DefineConstants>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <!--
@@ -115,7 +122,7 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineConstants>TRACE;VSTO40</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <!--
@@ -133,6 +140,7 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -154,9 +162,6 @@
     <Reference Include="Microsoft.Office.Tools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Office.Tools.Word, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Tools.Common.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -168,7 +173,7 @@
       <Private>False</Private>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+    <Reference Include="Microsoft.Office.Interop.PowerPoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <Private>False</Private>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </Reference>
@@ -187,20 +192,11 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="MSWText.cs" />
+    <Compile Include="PPTText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="WordRibbon.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="WordRibbon.Designer.cs">
-      <DependentUpon>WordRibbon.cs</DependentUpon>
-    </Compile>
-    <None Include="Resources\cleaner_26.png" />
-    <None Include="Resources\syll_26.png" />
     <None Include="Resources\2-16.png" />
-    <None Include="Resources\phon-carré 30.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -211,8 +207,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="WordRibbon.resx">
-      <DependentUpon>WordRibbon.cs</DependentUpon>
+    <EmbeddedResource Include="Ribbon1.resx">
+      <DependentUpon>Ribbon1.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -229,25 +225,38 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ColorizationMSW.cs">
+    <Compile Include="Ribbon1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ribbon1.Designer.cs">
+      <DependentUpon>Ribbon1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorizationPPT.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="ColorizationMSW.Designer.xml">
-      <DependentUpon>ColorizationMSW.cs</DependentUpon>
+    <None Include="ColorizationPPT.Designer.xml">
+      <DependentUpon>ColorizationPPT.cs</DependentUpon>
     </None>
-    <Compile Include="ColorizationMSW.Designer.cs">
-      <DependentUpon>ColorizationMSW.Designer.xml</DependentUpon>
+    <Compile Include="ColorizationPPT.Designer.cs">
+      <DependentUpon>ColorizationPPT.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.8\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.8\analyzers\dotnet\Microsoft.CodeAnalysis.VersionCheckAnalyzer.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Humanizer.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.CodeQuality.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.NetCore.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.NetCore.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ColorizationControls\ColorizationControls.csproj">
       <Project>{ff793611-8430-4b94-82ee-bae5bfed155d}</Project>
       <Name>ColorizationControls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Colorization\ColorizationPPT.csproj">
-      <Project>{f7bbd087-4059-4413-bfe2-e5a389a36f7c}</Project>
-      <Name>ColorizationPPT</Name>
     </ProjectReference>
     <ProjectReference Include="..\ColorLib\ColorLib.csproj">
       <Project>{1caacc00-1139-4fad-8b01-59f74845932c}</Project>
@@ -256,6 +265,48 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\phon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bdpq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BoldSet.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bold.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BoldPressed.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BoldSetMouseOn.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BoldSetMouseOn1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Italic.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItalicSet.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItalicPressed.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItalicSetOver.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Underscore.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnderscoreSet.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnderscorePressed.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnderscoreSetOver.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\bdpq1.png" />
@@ -267,16 +318,22 @@
     <None Include="Resources\mots_30.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\l_muettes.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\l_muettes_26.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\black_26.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\lines_26.png" />
+    <None Include="Resources\config_26.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\voycons_26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lines_30.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -290,7 +347,7 @@
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4ED1205C30F0E730E05027546590059D7CF82128</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>57A0E6A280F79B0C6FAB85F19A17F269197F9335</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -307,11 +364,21 @@
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
-        <ProjectProperties HostName="Word" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Word" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\Word\InstallRoot\Path#WINWORD.EXE" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
-        <Host Name="Word" GeneratedCodeNamespace="ColorizationWord" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
-          <HostItem Name="ThisAddIn" Code="ColorizationMSW.cs" CanonicalName="AddIn" PublishedHash="0751F1426B4FDF9F201C4FFF6E39CABBDA15EFB1" CanActivate="false" IconIndex="1" Blueprint="ColorizationMSW.Designer.xml" GeneratedCode="ColorizationMSW.Designer.cs" />
+        <ProjectProperties HostName="PowerPoint" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="PowerPoint" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\PowerPoint\InstallRoot\Path#powerpnt.exe" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
+        <Host Name="PowerPoint" GeneratedCodeNamespace="Colorization" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
+          <HostItem Name="ThisAddIn" Code="ColorizationPPT.cs" CanonicalName="AddIn" PublishedHash="EF577FB4EB0E2425180304DAC45344CBF55B247B" CanActivate="false" IconIndex="1" Blueprint="ColorizationPPT.Designer.xml" GeneratedCode="ColorizationPPT.Designer.cs" />
         </Host>
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.8\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.8\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\build\Microsoft.CodeQuality.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\build\Microsoft.CodeQuality.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.NetCore.Analyzers.2.9.8\build\Microsoft.NetCore.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetCore.Analyzers.2.9.8\build\Microsoft.NetCore.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.NetFramework.Analyzers.2.9.8\build\Microsoft.NetFramework.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetFramework.Analyzers.2.9.8\build\Microsoft.NetFramework.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.8\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.8\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props'))" />
+  </Target>
 </Project>

@@ -2995,6 +2995,7 @@
             this.butConfigDuo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.ttipLettreEnNoir.SetToolTip(this.butConfigDuo, "Ouvre la fenêtre de configuration\r\nde la fonction \"Duo\".");
             this.butConfigDuo.UseVisualStyleBackColor = true;
+            this.butConfigDuo.Click += new System.EventHandler(this.butConfigDuo_Click);
             // 
             // butExecuteDuo
             // 
@@ -3009,6 +3010,7 @@
             this.butExecuteDuo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.ttipLettreEnNoir.SetToolTip(this.butExecuteDuo, "Exécute la fonction \"Duo\" sur le texte sélectionné.");
             this.butExecuteDuo.UseVisualStyleBackColor = true;
+            this.butExecuteDuo.Click += new System.EventHandler(this.butExecuteDuo_Click);
             // 
             // btSauvDefaut
             // 

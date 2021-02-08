@@ -34,7 +34,7 @@ namespace ColorLibTest.ConfigTest
         // CharFormattings
         public static CharFormatting cfOI = new CharFormatting(true, false, false, false, true, cNoir,
                                                         false, cGrisNeutre);
-        public static CharFormatting cfBlack = CharFormatting.BlackCF;
+        public static CharFormatting cfBlack = new CharFormatting(cNoir);
         public static CharFormatting cfO = new CharFormatting(cJaune);
         public static CharFormatting cfAN = new CharFormatting(cOrange);
         public static CharFormatting cf5 = new CharFormatting(cVertSapin);
