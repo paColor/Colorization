@@ -196,6 +196,8 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="Resources\cleaner_26.png" />
+    <None Include="Resources\syll_26.png" />
     <None Include="Resources\2-16.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

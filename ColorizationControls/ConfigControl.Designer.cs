@@ -1902,7 +1902,7 @@
             // 
             this.lblFormeArc.AutoSize = true;
             this.lblFormeArc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFormeArc.Location = new System.Drawing.Point(14, 467);
+            this.lblFormeArc.Location = new System.Drawing.Point(9, 467);
             this.lblFormeArc.Name = "lblFormeArc";
             this.lblFormeArc.Size = new System.Drawing.Size(106, 15);
             this.lblFormeArc.TabIndex = 195;
@@ -2063,9 +2063,9 @@
             // btcIniArcBleu
             // 
             this.btcIniArcBleu.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btcIniArcBleu.Location = new System.Drawing.Point(132, 462);
+            this.btcIniArcBleu.Location = new System.Drawing.Point(119, 462);
             this.btcIniArcBleu.Name = "btcIniArcBleu";
-            this.btcIniArcBleu.Size = new System.Drawing.Size(196, 27);
+            this.btcIniArcBleu.Size = new System.Drawing.Size(209, 27);
             this.btcIniArcBleu.TabIndex = 184;
             this.btcIniArcBleu.Text = "Configuration par défaut pour le arcs";
             this.ttipLettreEnNoir.SetToolTip(this.btcIniArcBleu, "Réinitialise le formatage des arcs à la \r\nconfiguration par défaut.");

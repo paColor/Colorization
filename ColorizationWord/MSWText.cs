@@ -321,8 +321,14 @@ namespace ColorizationWord
                                 toRemoveShapes.Add(s);
                             }
                         }
+                        int i = 0;
                         foreach (Shape s in toRemoveShapes)
                         {
+                            if (i%30 == 0)
+                            {
+                                ProgressNotifier.thePN.InProgress((int)(((float)i / (float)toRemoveShapes.Count) * 100.0f));
+                            }
+                            i++;
                             s.Delete();
                         }
                     }

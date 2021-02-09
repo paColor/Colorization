@@ -36,7 +36,8 @@ namespace ColorizationControls
         {
             logger.ConditionalTrace("HandleProgressEvent e: {0}", e.ToString());
             wf.progressBar1.Value = e.progress;
-            if (!wf.Visible && e.remainingMilliseconds > AffordableRemainingTime)
+            if (!wf.Visible && e.remainingMilliseconds > AffordableRemainingTime
+                || e.elapsedMilliseconds > 1500)
             {
                 wf.Visible = true;
                 wf.Enabled = true;

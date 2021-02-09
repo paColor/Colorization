@@ -100,12 +100,38 @@ namespace Colorization
                     float x0 = tRange.BoundLeft;
                     float y0 = tRange.BoundTop;
                     float fontHeight = tRange.Font.Size;
-                    y0 += fontHeight;
+                    // Chercher l'interligne
+                    if (tRange.ParagraphFormat.LineRuleWithin == Microsoft.Office.Core.MsoTriState.msoTrue)
+                    {
+                        // il s'agit de lignes
+                        y0 += (fontHeight * tRange.ParagraphFormat.SpaceWithin);
+                    }
+                    else if (tRange.ParagraphFormat.LineRuleWithin == Microsoft.Office.Core.MsoTriState.msoFalse)
+                    {
+                        // il s'agit de points...
+                        y0 += fontHeight;
+                        float delta = tRange.ParagraphFormat.SpaceWithin - fontHeight;
+                        if (delta > 0.0f)
+                        {
+                            y0 += (float)Math.Pow(Math.Abs(delta), 1.7d) / (1.2f * fontHeight); // empirique
+                        }
+                        else
+                        {
+                            y0 -= 4 + (Math.Abs(delta) / 2); // empirique
+                        }
+                    }
+                    else
+                    {
+                        // ça ne peut pas arriver (en théorie :-))
+                        logger.Error("Interligne ni en points ni en lignes...");
+                    }
+
                     y0 += inConf.arcConf.Decalage;
                     float h = 3.0f;
                     float w = tRange.BoundWidth; // width
                     float x1 = x0 + w;
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
                     float[,] thePoints0 = new float[4, 2]
                        {
                             { x0, y0 },
@@ -113,8 +139,17 @@ namespace Colorization
                             { x0 + (((float)(100 + inConf.arcConf.Ecartement) / 200.0f) * w), y0 + h },
                             { x1, y0 },
                        };
+#pragma warning restore CA1814 // Prefer jagged arrays over multidimensional
 
-                    //tRange.Application.ActivePresentation.Slides
+                    TextFrame tFrame = tRange.Parent;
+                    Shape tShape = tFrame.Parent;
+                    Debug.Assert(tShape is Shape);
+                    Slide tSlide = tShape.Parent;
+                    Debug.Assert(tSlide is Slide);
+                    Shape s = tSlide.Shapes.AddCurve(thePoints0);
+                    s.Line.ForeColor.RGB = cf.arcColor;
+                    s.Line.Weight = inConf.arcConf.Epaisseur;
+                    s.Name = "arc";
                 }
             }
             else

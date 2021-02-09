@@ -153,6 +153,16 @@ namespace Colorization.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cleaner_26 {
+            get {
+                object obj = ResourceManager.GetObject("cleaner_26", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap config_26 {
             get {
                 object obj = ResourceManager.GetObject("config_26", resourceCulture);
@@ -246,6 +256,16 @@ namespace Colorization.Properties {
         internal static System.Drawing.Bitmap phon {
             get {
                 object obj = ResourceManager.GetObject("phon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap syll_26 {
+            get {
+                object obj = ResourceManager.GetObject("syll_26", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

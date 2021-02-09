@@ -46,7 +46,8 @@ namespace Colorization
         private static void MarkVoyCons(PPTText t, Config conf) => t.MarkVoyCons(conf);
         private static void MarkLignes(PPTText t, Config conf) => t.MarkLignes(conf);
         private static void MarkDuo(PPTText t, Config conf) => t.MarkDuo(conf);
-        
+        private static void MarkArcs(PPTText t, Config conf) => t.MarkArcs(conf);
+
 
         public static void Init()
         {
@@ -60,6 +61,8 @@ namespace Colorization
             ConfigControl.colNoirSelText = Ribbon1.ColorSelectedNoir;
             ConfigControl.colMuettesSelText = Ribbon1.ColorSelectedMuettes;
             ConfigControl.colDuoSelText = Ribbon1.ColorSelectedDuo;
+            ConfigControl.drawArcs = Ribbon1.ColorSelectedArcs;
+            ConfigControl.removeArcs = Ribbon1.RemoveSelectedArcs;
         }
 
         public static void ColorizeSelectedPhons(Config conf)
@@ -114,6 +117,78 @@ namespace Colorization
         {
             logger.ConditionalDebug("ColorSelectedDuo");
             ActOnSelectedText(MarkDuo, conf);
+        }
+
+        public static void ColorSelectedArcs(Config conf)
+        {
+            logger.Info("ColorSelectedArcs");
+            ActOnSelectedText(MarkArcs, conf);
+        }
+
+        /// <summary>
+        /// Efface <paramref name="sh"/> s'il s'agit d'un arc généré par Colorization. Dans
+        /// le cas où il s'agit d'un groupe de Shpaes, descend dans l'arbre pour trouver les arcs.
+        /// </summary>
+        /// <remarks>Les arcs sont normalement rattachés directement au Slide. Pas besoin de traiter
+        /// les tableaux...</remarks>
+        /// <param name="sh">Le <c>Shape</c> à effacer s'il s'agit d'un arc.</param>
+        private static void RemoveArcShape(Shape sh)
+        {
+            if (sh.Name == "arc")
+            {
+                sh.Delete();
+            }
+            else if (sh.Type == Microsoft.Office.Core.MsoShapeType.msoGroup)
+            {
+                List<Shape> toRemoveShapes = new List<Shape>(sh.GroupItems.Count);
+                foreach (Shape descSh in sh.GroupItems)
+                    toRemoveShapes.Add(sh);
+
+                foreach (Shape sh2 in toRemoveShapes)
+                {
+                    RemoveArcShape(sh2);
+                }
+            }
+                
+        } 
+
+        public static void RemoveSelectedArcs(Config conf)
+        {
+            logger.Info("RemoveSelectedArcs");
+            ProgressNotifier.thePN.Start();
+            if (ColorizationPPT.thisAddIn.Application.Presentations.Count > 0)
+            {
+                ColorizationPPT.thisAddIn.Application.StartNewUndoEntry();
+                var sel = ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection;
+                if (sel.Type == PpSelectionType.ppSelectionShapes)
+                {
+                    List<Shape> toRemoveShapes = new List<Shape>(sel.ShapeRange.Count);
+                    // bool textFound = false;
+                    foreach (Shape sh in sel.ShapeRange)
+                    {
+                        toRemoveShapes.Add(sh); 
+                    }
+                    foreach (Shape sh in toRemoveShapes)
+                    {
+                        RemoveArcShape(sh);
+                    }
+                } 
+                else if (sel.Type == PpSelectionType.ppSelectionSlides)
+                {
+                    foreach (Slide s in sel.SlideRange)
+                    {
+                        List<Shape> toRemoveShapes = new List<Shape>(s.Shapes.Count);
+                        foreach (Shape sh in s.Shapes)
+                        {
+                            toRemoveShapes.Add(sh);
+                        }
+                        foreach (Shape sh in toRemoveShapes)
+                        {
+                            RemoveArcShape(sh);
+                        }
+                    }
+                }
+            }
         }
 
         private static void ActOnShape(Shape sh, ActOnPPTText act, int nrObjSelected, Config conf)
@@ -246,6 +321,8 @@ namespace Colorization
                 btnPhon.Enabled = enable;
                 btnVoyCons.Enabled = enable;
                 btnDuo.Enabled = enable;
+                btnArcs.Enabled = enable;
+                btnRemoveArcs.Enabled = enable;
             }
         }
 
@@ -312,6 +389,18 @@ namespace Colorization
         {
             logger.ConditionalDebug("btnDuo_Click");
             ColorSelectedDuo(GetConfigForActiveWindow());
+        }
+
+        private void btnArcs_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalDebug("btnArcs_Click");
+            ColorSelectedArcs(GetConfigForActiveWindow());
+        }
+
+        private void btnRemoveArcs_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalDebug("btnRemoveArcs_Click");
+            RemoveSelectedArcs(GetConfigForActiveWindow());
         }
     }
 }

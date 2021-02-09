@@ -41,18 +41,20 @@ namespace Colorization
             this.tab1 = this.Factory.CreateRibbonTab();
             this.grpConfiguration = this.Factory.CreateRibbonGroup();
             this.buttonGroup1 = this.Factory.CreateRibbonButtonGroup();
+            this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
+            this.buttonGroup3 = this.Factory.CreateRibbonButtonGroup();
+            this.serviceController1 = new System.ServiceProcess.ServiceController();
             this.btnPhon = this.Factory.CreateRibbonButton();
             this.btnMuettes = this.Factory.CreateRibbonButton();
             this.btnSyl = this.Factory.CreateRibbonButton();
-            this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
+            this.btnArcs = this.Factory.CreateRibbonButton();
             this.btnMots = this.Factory.CreateRibbonButton();
             this.btnLignes = this.Factory.CreateRibbonButton();
             this.btnBPDQ = this.Factory.CreateRibbonButton();
-            this.buttonGroup3 = this.Factory.CreateRibbonButtonGroup();
+            this.btnRemoveArcs = this.Factory.CreateRibbonButton();
             this.btnVoyCons = this.Factory.CreateRibbonButton();
             this.btnDuo = this.Factory.CreateRibbonButton();
             this.btnNoir = this.Factory.CreateRibbonButton();
-            this.serviceController1 = new System.ServiceProcess.ServiceController();
             this.tab1.SuspendLayout();
             this.grpConfiguration.SuspendLayout();
             this.buttonGroup1.SuspendLayout();
@@ -85,7 +87,23 @@ namespace Colorization
             this.buttonGroup1.Items.Add(this.btnPhon);
             this.buttonGroup1.Items.Add(this.btnMuettes);
             this.buttonGroup1.Items.Add(this.btnSyl);
+            this.buttonGroup1.Items.Add(this.btnArcs);
             this.buttonGroup1.Name = "buttonGroup1";
+            // 
+            // buttonGroup2
+            // 
+            this.buttonGroup2.Items.Add(this.btnMots);
+            this.buttonGroup2.Items.Add(this.btnLignes);
+            this.buttonGroup2.Items.Add(this.btnBPDQ);
+            this.buttonGroup2.Items.Add(this.btnRemoveArcs);
+            this.buttonGroup2.Name = "buttonGroup2";
+            // 
+            // buttonGroup3
+            // 
+            this.buttonGroup3.Items.Add(this.btnVoyCons);
+            this.buttonGroup3.Items.Add(this.btnDuo);
+            this.buttonGroup3.Items.Add(this.btnNoir);
+            this.buttonGroup3.Name = "buttonGroup3";
             // 
             // btnPhon
             // 
@@ -127,12 +145,17 @@ namespace Colorization
             this.btnSyl.SuperTip = "Coloriser les syllabes sélectionnées";
             this.btnSyl.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSyl_Click);
             // 
-            // buttonGroup2
+            // btnArcs
             // 
-            this.buttonGroup2.Items.Add(this.btnMots);
-            this.buttonGroup2.Items.Add(this.btnLignes);
-            this.buttonGroup2.Items.Add(this.btnBPDQ);
-            this.buttonGroup2.Name = "buttonGroup2";
+            this.btnArcs.Enabled = false;
+            this.btnArcs.Image = global::Colorization.Properties.Resources.syll_26;
+            this.btnArcs.Label = "Arcs";
+            this.btnArcs.Name = "btnArcs";
+            this.btnArcs.ScreenTip = "Arcs";
+            this.btnArcs.ShowImage = true;
+            this.btnArcs.ShowLabel = false;
+            this.btnArcs.SuperTip = "Dessine des arcs sous les syllabes du texte sélectionné.";
+            this.btnArcs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnArcs_Click);
             // 
             // btnMots
             // 
@@ -172,12 +195,17 @@ namespace Colorization
             this.btnBPDQ.SuperTip = "Coloriser les lettres choisies (par exemple bdpq) dans le texte sélectionné";
             this.btnBPDQ.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnBDPQ_Click);
             // 
-            // buttonGroup3
+            // btnRemoveArcs
             // 
-            this.buttonGroup3.Items.Add(this.btnVoyCons);
-            this.buttonGroup3.Items.Add(this.btnDuo);
-            this.buttonGroup3.Items.Add(this.btnNoir);
-            this.buttonGroup3.Name = "buttonGroup3";
+            this.btnRemoveArcs.Enabled = false;
+            this.btnRemoveArcs.Image = global::Colorization.Properties.Resources.cleaner_26;
+            this.btnRemoveArcs.Label = "RemoveArcs";
+            this.btnRemoveArcs.Name = "btnRemoveArcs";
+            this.btnRemoveArcs.ScreenTip = "Effacer les arcs";
+            this.btnRemoveArcs.ShowImage = true;
+            this.btnRemoveArcs.ShowLabel = false;
+            this.btnRemoveArcs.SuperTip = "Efface les arcs qui se trouvent dans la sélection.";
+            this.btnRemoveArcs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnRemoveArcs_Click);
             // 
             // btnVoyCons
             // 
@@ -256,6 +284,8 @@ namespace Colorization
         internal RibbonButton btnLignes;
         internal RibbonButtonGroup buttonGroup3;
         internal RibbonButton btnDuo;
+        internal RibbonButton btnArcs;
+        internal RibbonButton btnRemoveArcs;
     }
 
     partial class ThisRibbonCollection
