@@ -94,6 +94,28 @@ namespace Colorization
                     tRange.Font.Color.RGB = cf.color;
                 else if (cf.ForceBlackColor(inConf))
                     tRange.Font.Color.RGB = ColConfWin.predefinedColors[(int)PredefCol.black];
+
+                if (cf.drawArc)
+                {
+                    float x0 = tRange.BoundLeft;
+                    float y0 = tRange.BoundTop;
+                    float fontHeight = tRange.Font.Size;
+                    y0 += fontHeight;
+                    y0 += inConf.arcConf.Decalage;
+                    float h = 3.0f;
+                    float w = tRange.BoundWidth; // width
+                    float x1 = x0 + w;
+
+                    float[,] thePoints0 = new float[4, 2]
+                       {
+                            { x0, y0 },
+                            { x0 + (((float)(100 - inConf.arcConf.Ecartement) / 200.0f) * w), y0 + h },
+                            { x0 + (((float)(100 + inConf.arcConf.Ecartement) / 200.0f) * w), y0 + h },
+                            { x1, y0 },
+                       };
+
+                    //tRange.Application.ActivePresentation.Slides
+                }
             }
             else
             {
