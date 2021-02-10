@@ -338,9 +338,9 @@ namespace ColorLib
             nrSetArcButtons = 0;
             SetArcButtonCol(0, ColConfWin.predefinedColors[(int)PredefCol.darkBlue]);
             ResetCounter();
-            Hauteur = 35;
-            Ecartement = 75;
-            Epaisseur = 0.5f;
+            Hauteur = 45;
+            Ecartement = 80;
+            Epaisseur = 0.75f;
             Decalage = 0.0f;
         }
 
