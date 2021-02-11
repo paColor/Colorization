@@ -129,6 +129,8 @@ namespace ColorizationWord
             sb.Append("Ouups, désolé. Un problème vient de se produire avec la mise en ");
             sb.Append(msg);
             sb.AppendLine(".");
+            sb.Append("Si vous utilisez un ancien format de fichier (par ex. \'.doc\"), il est ");
+            sb.AppendLine("possible que la fonctionalité ne soit pas disponible.");
             sb.Append("Texte: \'");
             sb.Append(toR.Text);
             sb.Append("\' cf: ");
