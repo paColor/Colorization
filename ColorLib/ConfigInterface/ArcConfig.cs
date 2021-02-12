@@ -324,7 +324,7 @@ namespace ColorLib
         public void ResetCounter() => counter = 0;
 
         /// <summary>
-        /// Réinitialise à la configuration par défaut (rouge et noir)
+        /// Réinitialise à la configuration par défaut (bleu foncé)
         /// </summary>
         public override void Reset()
         {
