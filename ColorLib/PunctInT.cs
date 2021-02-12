@@ -15,63 +15,93 @@ namespace ColorLib
         virgule,            // ,
         deuxPoints,         // :
         pointVirgule,       // ;
-        paranthèse,         // ()[]{}
+        paranthese,         // ()[]{}
         pointDExclamation,  // !
         pointDInterrogation,// ?
         guillemets,         // " 
-        apostrophe,         // ' ´ `
+        apostrophe,         // ' 
         maths,              // + - / * % < > = ¬ | ° 
         monnaie,            // $ £ €
-        divers,             // & _ § ¦ @ # ¢ ~ \
+        espace,             // " ", tab
+        divers,             // & _ § ¦ @ # ~ \
         autres,             // tout ce qui n'est pas entré dans une catégorie précédente
 
         lastP // Pour avoir un délimiteur clair
     }
 
-
-    class PunctInT : TextEl
+    /// <summary>
+    /// Un signe de ponctuation dans une <see cref="TheText"/>.
+    /// </summary>
+    /// <remarks>Tout caractère qui n'est pas reconnu comme faisant partie d'un mot (expression
+    /// régulière \w) est considéré comme de la ponctuation.</remarks>
+    public class PunctInT : TextEl
     {
-        private static HashSet<char> carPoint = new HashSet<char>
+        private static Dictionary<char, Ponctuation> ponctu = new Dictionary<char, Ponctuation>()
         {
-            '.'
+            { '.',  Ponctuation.point },
+            { ',',  Ponctuation.virgule },
+            { ':',  Ponctuation.deuxPoints },
+            { ';',  Ponctuation.pointVirgule },
+            { '(',  Ponctuation.paranthese },
+            { ')',  Ponctuation.paranthese },
+            { '{',  Ponctuation.paranthese },
+            { '}',  Ponctuation.paranthese },
+            { '[',  Ponctuation.paranthese },
+            { ']',  Ponctuation.paranthese },
+            { '!',  Ponctuation.pointDExclamation },
+            { '?',  Ponctuation.pointDInterrogation },
+            { '"',  Ponctuation.guillemets },
+            { '«',  Ponctuation.guillemets },
+            { '»',  Ponctuation.guillemets },
+            { 'ʹ',  Ponctuation.guillemets },
+            { 'ʺ',  Ponctuation.guillemets },
+            { 'ʻ',  Ponctuation.guillemets },
+            { 'ʼ',  Ponctuation.guillemets },
+            { '“',  Ponctuation.guillemets },
+            { '”',  Ponctuation.guillemets },
+            { '„',  Ponctuation.guillemets },
+            { '‟',  Ponctuation.guillemets },
+            { '′',  Ponctuation.guillemets },
+            { '″',  Ponctuation.guillemets },
+            { '‚',  Ponctuation.guillemets },
+            { '‛',  Ponctuation.guillemets },
+            { '\'', Ponctuation.apostrophe },
+            { '’',  Ponctuation.apostrophe },
+            { '+',  Ponctuation.maths },
+            { '-',  Ponctuation.maths },
+            { '/',  Ponctuation.maths },
+            { '*',  Ponctuation.maths },
+            { '%',  Ponctuation.maths },
+            { '>',  Ponctuation.maths },
+            { '<',  Ponctuation.maths },
+            { '=',  Ponctuation.maths },
+            { '¬',  Ponctuation.maths },
+            { '|',  Ponctuation.maths },
+            { '°',  Ponctuation.maths },
+            { '$',  Ponctuation.monnaie },
+            { '£',  Ponctuation.monnaie },
+            { '€',  Ponctuation.monnaie },
+            { '¢',  Ponctuation.monnaie },
+            { '¥',  Ponctuation.monnaie },
+            { ' ',  Ponctuation.espace },
+            { '\t', Ponctuation.espace },
+            { '\r', Ponctuation.espace },
+            { '\n', Ponctuation.espace },
+            { '&',  Ponctuation.divers },
+            { '_',  Ponctuation.divers },
+            { '§',  Ponctuation.divers },
+            { '¦',  Ponctuation.divers },
+            { '@',  Ponctuation.divers },
+            { '#',  Ponctuation.divers },
+            { '~',  Ponctuation.divers },
+            { '\\', Ponctuation.divers },
+
         };
 
-        private static HashSet<char> carCirgule = new HashSet<char>
-        {
-            ','
-        };
-
-        private static HashSet<char> carDeuxPoints = new HashSet<char>
-        {
-            ':'
-        };
-
-        private static HashSet<char> carPointVirgule = new HashSet<char>
-        {
-            ';'
-        };
-
-        private static HashSet<char> carParanthèse = new HashSet<char>
-        {
-            '(', ')', '[', ']', '{', '}',
-        };
-
-        private static HashSet<char> carPointDExclamation = new HashSet<char>
-        {
-            '!'
-        };
-
-        private static HashSet<char> carPointDInterrogation = new HashSet<char>
-        {
-            '?'
-        };
-
-        private static HashSet<char> carGuillemets = new HashSet<char>
-        {
-            '?'
-        };
-
-
+        /// <summary>
+        /// Le signe de ponctuation pour l'objet.
+        /// </summary>
+        public Ponctuation ponct { get; private set; }
 
 
         /// <summary>
@@ -89,9 +119,42 @@ namespace ColorLib
         public PunctInT(TheText tt, int pos)
             : base(tt, pos, pos)
         {
-            char c = tt.S[pos];
-            string s;
-            s.
+            Ponctuation p;
+            if (ponctu.TryGetValue(tt.S[pos], out p))
+            {
+                ponct = p;
+            }
+            else
+            {
+                ponct = Ponctuation.autres;
+            }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(base.ToString());
+            sb.Append("-");
+            sb.Append(ponct.ToString());
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Retourne tous les memmbres de l'objet.
+        /// </summary>
+        /// <returns>un string donnant la valeur de tous ls membres de l'objet.</returns>
+        public override string AllStringInfo()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(base.AllStringInfo());
+            sb.Append(", ponctuation: ");
+            sb.Append(ponct.ToString());
+            return sb.ToString();
+        }
+
+        public override void PutColor(Config conf)
+        {
+            base.SetCharFormat(conf.ponctConf.GetCF(ponct));
         }
     }
 }

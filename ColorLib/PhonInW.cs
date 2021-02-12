@@ -600,6 +600,11 @@ namespace ColorLib
                 base.AllStringInfo(), firedRuleName, P, Phon2String());
         }
 
+        /// <summary>
+        /// Retourne le texte correspondant au phonème, et sa représentation phonétique séparés
+        /// par '-'
+        /// </summary>
+        /// <returns></returns>
         public string ExceptDict()
         {
             return String.Format(ConfigBase.cultF, "{0}-{1}", ToLowerString(),phon2colSE[P]);
