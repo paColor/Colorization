@@ -45,7 +45,7 @@ namespace ColorLib
     /// de les définir tous. Ce dernier peut être dans les états master ou off.</para>
     /// </summary>
     [Serializable]
-    class PonctConfig : ConfigBase
+    public class PonctConfig : ConfigBase
     {
         [Serializable]
         public enum State { master, off, undef}

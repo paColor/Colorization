@@ -533,6 +533,12 @@ namespace ColorLib
             set { _arcConf = value; }
         }
 
+        public PonctConfig ponctConf
+        {
+            get { return _ponctConf; }
+            set { _ponctConf = value; }
+        }
+
         [OptionalField(VersionAdded = 2)]
         private string configName;
 
@@ -541,6 +547,10 @@ namespace ColorLib
 
         [OptionalField(VersionAdded = 5)]
         private ArcConfig _arcConf;
+
+        [OptionalField(VersionAdded = 6)]
+        private PonctConfig _ponctConf;
+
 
         /// <summary>
         /// indique s'il s'agit d'une 'subConfig? c-à-d attachée à une <c>DuoConfig</c>.
@@ -570,6 +580,7 @@ namespace ColorLib
             colors[PhonConfType.phonemes] = new ColConfWin(PhonConfType.phonemes);
             _duoConf = null;
             _arcConf = new ArcConfig();
+            _ponctConf = new PonctConfig();
         }
 
         /// <summary>
@@ -620,6 +631,7 @@ namespace ColorLib
             sylConf.Reset();
             unsetBeh.Reset();
             arcConf.Reset();
+            ponctConf.Reset();
             if (isSubConfig)
             {
                 ResetSubConfig(subConfNr);
@@ -794,6 +806,7 @@ namespace ColorLib
             isSubConfig = false;
             subConfNr = 0;
             _arcConf = new ArcConfig();
+            _ponctConf = new PonctConfig();
         }
 
         /// <summary>
@@ -822,6 +835,7 @@ namespace ColorLib
             unsetBeh.PostLoadInitOptionalFields();
             _duoConf?.PostLoadInitOptionalFields();
             _arcConf.PostLoadInitOptionalFields();
+            ponctConf.PostLoadInitOptionalFields();
         }
 
         // ------------------------------------------------- Events --------------------------------------------
