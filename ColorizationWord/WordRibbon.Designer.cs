@@ -39,19 +39,20 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.buttonGroup3 = this.Factory.CreateRibbonButtonGroup();
+            this.buttonGroup1 = this.Factory.CreateRibbonButtonGroup();
+            this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.btnPhonemes = this.Factory.CreateRibbonButton();
             this.btnMuettes = this.Factory.CreateRibbonButton();
             this.btnSyls = this.Factory.CreateRibbonButton();
             this.btnArcs = this.Factory.CreateRibbonButton();
-            this.buttonGroup1 = this.Factory.CreateRibbonButtonGroup();
             this.btnMots = this.Factory.CreateRibbonButton();
             this.btnLignes = this.Factory.CreateRibbonButton();
             this.btnBPDQ = this.Factory.CreateRibbonButton();
             this.btnNettoyageArcs = this.Factory.CreateRibbonButton();
-            this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.btnVoyCons = this.Factory.CreateRibbonButton();
             this.btnDuo = this.Factory.CreateRibbonButton();
             this.btnNoir = this.Factory.CreateRibbonButton();
+            this.btnPonct = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.buttonGroup3.SuspendLayout();
@@ -86,6 +87,22 @@
             this.buttonGroup3.Items.Add(this.btnSyls);
             this.buttonGroup3.Items.Add(this.btnArcs);
             this.buttonGroup3.Name = "buttonGroup3";
+            // 
+            // buttonGroup1
+            // 
+            this.buttonGroup1.Items.Add(this.btnMots);
+            this.buttonGroup1.Items.Add(this.btnLignes);
+            this.buttonGroup1.Items.Add(this.btnBPDQ);
+            this.buttonGroup1.Items.Add(this.btnNettoyageArcs);
+            this.buttonGroup1.Name = "buttonGroup1";
+            // 
+            // buttonGroup2
+            // 
+            this.buttonGroup2.Items.Add(this.btnVoyCons);
+            this.buttonGroup2.Items.Add(this.btnDuo);
+            this.buttonGroup2.Items.Add(this.btnNoir);
+            this.buttonGroup2.Items.Add(this.btnPonct);
+            this.buttonGroup2.Name = "buttonGroup2";
             // 
             // btnPhonemes
             // 
@@ -131,14 +148,6 @@
             this.btnArcs.SuperTip = "Trace un arc sous chaque syllabe du texte sélectionné.";
             this.btnArcs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnArcs_Click);
             // 
-            // buttonGroup1
-            // 
-            this.buttonGroup1.Items.Add(this.btnMots);
-            this.buttonGroup1.Items.Add(this.btnLignes);
-            this.buttonGroup1.Items.Add(this.btnBPDQ);
-            this.buttonGroup1.Items.Add(this.btnNettoyageArcs);
-            this.buttonGroup1.Name = "buttonGroup1";
-            // 
             // btnMots
             // 
             this.btnMots.Image = global::ColorizationWord.Properties.Resources.mots_30;
@@ -183,13 +192,6 @@
             this.btnNettoyageArcs.SuperTip = "Efface les arcs dont le point d\'ancrage est sélectionné.";
             this.btnNettoyageArcs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNettoyageArcs_Click);
             // 
-            // buttonGroup2
-            // 
-            this.buttonGroup2.Items.Add(this.btnVoyCons);
-            this.buttonGroup2.Items.Add(this.btnDuo);
-            this.buttonGroup2.Items.Add(this.btnNoir);
-            this.buttonGroup2.Name = "buttonGroup2";
-            // 
             // btnVoyCons
             // 
             this.btnVoyCons.Image = global::ColorizationWord.Properties.Resources.voycons_26;
@@ -222,6 +224,17 @@
             this.btnNoir.ShowLabel = false;
             this.btnNoir.SuperTip = "Met le texte sélectionné en noir, sans gras, italique ou souligné.";
             this.btnNoir.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNoir_Click);
+            // 
+            // btnPonct
+            // 
+            this.btnPonct.Image = global::ColorizationWord.Properties.Resources.phrase_16;
+            this.btnPonct.Label = "Ponctuation";
+            this.btnPonct.Name = "btnPonct";
+            this.btnPonct.ScreenTip = "Ponctuation";
+            this.btnPonct.ShowImage = true;
+            this.btnPonct.ShowLabel = false;
+            this.btnPonct.SuperTip = "Coloriƨe les caractères spéciaux";
+            this.btnPonct.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnPonct_Click);
             // 
             // WordRibbon
             // 
@@ -261,6 +274,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDuo;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnArcs;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnNettoyageArcs;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnPonct;
     }
 
     partial class ThisRibbonCollection

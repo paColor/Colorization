@@ -51,6 +51,7 @@ namespace ColorizationControls
         public static ExecuteCommand colDuoSelText { set; private get; }
         public static ExecuteCommand drawArcs { set; private get; }
         public static ExecuteCommand removeArcs { set; private get; }
+        public static ExecuteCommand colPonctuation { set; private get; }
 
 
 
@@ -90,6 +91,10 @@ namespace ColorizationControls
             WaitingForm.Init();
         }
 
+        /// <summary>
+        /// groupe les infos concernant un son (checkbox et bouton).
+        /// </summary>
+        /// <remarks>Nous l'utilisons également pour la ponctuation.</remarks>
         private class SonInfo
         {
             public CheckBox cbx { get; set; }
@@ -129,6 +134,9 @@ namespace ColorizationControls
         private RGB defaultArcButtonCol;
         private int cmsArcButNr; // Le numéro du bouton arc cliqué droit.
 
+        private Dictionary<string, SonInfo> ponctInfos;
+        private RGB defaultPonctMasterButCol;
+
         /// <summary>
         /// Ordonne au <c>ConfigControl</c> d'éditer une autre <c>Config</c>. Ajuste les affichages aux nouvelles valeurs.
         /// </summary>
@@ -165,7 +173,7 @@ namespace ColorizationControls
             nudEpaisseur.Enabled = false;
             nudDecalage.Enabled = false;
 
-            // Les commandes fonctionnent depuis un ConfiControl qui correspond à une "subConfig".
+            // Les commandes fonctionnent depuis un ConfigControl qui correspond à une "subConfig".
             // Mais... Comme nous ouvrons la fenêtre "DuoConfForm" dans un "dialogue modal" le résultat 
             // n'est appliqué au texte qu'un fois la fenêtre "DuoConfForm" fermée. C'est trop perturbant
             // pour un utilisateur lambda. Il faut donc soit ouvrir "DuoConfForm" dans un dialogue non
@@ -181,6 +189,8 @@ namespace ColorizationControls
             btcLNoir.Enabled = false;
             btcArcs.Enabled = false;
             btcRemoveArcs.Enabled = false;
+            btPAponctuation.Enabled = false;
+            btcLnoir3.Enabled = false;
 
             tabControl1.SelectTab(tabAutres);
             logger.ConditionalDebug("ConfigControl - EXIT constructeur avec subConf");
@@ -198,6 +208,8 @@ namespace ColorizationControls
                 MessageBox.Show(errMsg, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             logger.ConditionalDebug("ConfigControl - EXIT constructeur avec win et doc");
         }
+
+        // -------------------------------------- Update sons -------------------------------------
 
         private void UpdateSonButton(string son)
         {
@@ -234,13 +246,83 @@ namespace ColorizationControls
             foreach (string son in sonInfos.Keys)
             {
                 // checkbox
-                UpdateCbxSon(son);
+                UpdateCbxSon(son); // exécute UpdateSonButton
                 // button
-                UpdateSonButton(son);
+                // UpdateSonButton(son);
             }
             cbSBlackPhons.Checked = (theConf.colors[pct].defBeh == ColConfWin.DefBeh.noir);
             ResumeLayout();
         }
+
+        // -------------------------------------- Update ponct ------------------------------------
+
+        private void UpdatePonctButton(string ponct)
+        {
+            logger.ConditionalTrace("UpdatePonctButton ponct: {0}", ponct);
+            SonInfo si = ponctInfos[ponct];
+            RGB btnColor = si.btnOrigColor;
+            if (si.cbx.Checked)
+            {
+                CharFormatting cf = theConf.ponctConf.GetCF(ponct);
+                SetButtonFont(si.btn, cf);
+                if (cf.changeColor)
+                    btnColor = cf.color;
+            }
+            else
+            {
+                SetButtonFontStandard(si.btn);
+            }
+            SetButtonColor(si.btn, btnColor);
+        }
+
+        private void UpdateCBPonct(string ponct)
+        {
+            logger.ConditionalTrace("UpdateCBPonct ponct: {0}", ponct);
+            ponctInfos[ponct].cbx.Checked = theConf.ponctConf.GetCB(ponct);
+            UpdatePonctButton(ponct);
+        }
+        
+        private void UpdatePonctMaitreBut()
+        {
+            logger.ConditionalTrace("UpdatePonctMaitreBut");
+
+            if (cbPMmaitre.Checked && theConf.ponctConf.MasterState == PonctConfig.State.master)
+            {
+                btPMmaitre.Text = "Tous";
+                CharFormatting cf = theConf.ponctConf.MasterCF;
+                SetButtonFont(btPMmaitre, cf);
+                if (cf.changeColor)
+                {
+                    SetButtonColor(btPMmaitre, cf.color);
+                }
+            }
+            else
+            {
+                btPMmaitre.Text = "";
+                SetButtonColor(btPMmaitre, defaultPonctMasterButCol);
+            }
+        }
+
+        private void UpdateCBmaitre()
+        {
+            logger.ConditionalTrace("UpdateCBmaitre");
+            cbPMmaitre.Checked = theConf.ponctConf.MasterCheckBox;
+            UpdatePonctMaitreBut();
+        }
+
+        private void UpdateAllPonctCBandButtons()
+        {
+            logger.ConditionalDebug("UpdateAllPonctCBandButtons");
+            SuspendLayout();
+            foreach (string ponct in ponctInfos.Keys)
+            {
+                UpdateCBPonct(ponct); // exécute UpdatePonctButton
+            }
+            UpdateCBmaitre(); // exécute UpdatePonctMaitreBut
+            ResumeLayout();
+        }
+
+        // -------------------------------------- Update lettres ----------------------------------
 
         private void UpdateLetterButtons()
         {
@@ -269,6 +351,8 @@ namespace ColorizationControls
             }
             SetButtonColor(letterButtons[buttonNr], theButtonCol);
         }
+
+        // -------------------------------------- Update syllabes ---------------------------------
 
         private void UpdateSylModeButtons()
         {
@@ -348,6 +432,8 @@ namespace ColorizationControls
             sylPictureBoxes[butNr].Enabled = sbC.buttonClickable;
         }
 
+        // -------------------------------------- Update arcs -------------------------------------
+
         private void UpdateArcButtons()
         {
             logger.ConditionalDebug("UpdatArclButtons");
@@ -400,7 +486,7 @@ namespace ColorizationControls
             nudDecalage.Value = (decimal)theConf.arcConf.Decalage;
         }
 
-
+        // -------------------------------------- Update avancé -----------------------------------
 
         private void UpdateUcheckBoxes()
         {
@@ -437,6 +523,8 @@ namespace ColorizationControls
             }
         }
 
+        // -------------------------------------- Update all --------------------------------------
+
         public void UpdateAll()
         {
             logger.ConditionalDebug("UpdateAll");
@@ -447,6 +535,7 @@ namespace ColorizationControls
             UpdateArcButtons();
             UpdateIllRadioB();
             UpdateConfigName();
+            UpdateAllPonctCBandButtons();
         }
 
         /// <summary>
@@ -554,6 +643,14 @@ namespace ColorizationControls
             foreach (string theSon in ColConfWin.GetListOfSons())
                 sonInfos.Add(theSon, new SonInfo());
 
+            // ponctuation
+            ponctInfos = new Dictionary<string, SonInfo>((int)Ponctuation.lastP);
+            for (Ponctuation p = Ponctuation.firstP; p < Ponctuation.lastP; p++)
+            {
+                ponctInfos.Add(p.ToString(), new SonInfo());
+            }
+            defaultPonctMasterButCol = btPMmaitre.BackColor;
+
             // UCheckBoxes
             formattingCheckBoxes = new Dictionary<string, CheckBox>(6); // 6 is just an estimation. Currently the correct number is 5
 
@@ -591,6 +688,12 @@ namespace ColorizationControls
             UpdateAll();
         }
 
+        /// <summary>
+        /// est appelé pour chaque^<c>Control</c>. Si nécessaire remplit les tables qui permettent
+        /// de retrouver le <c>control</c>, par ex. un bouton dans son contexte (p. ex. avec un son
+        /// comme identifiant.
+        /// </summary>
+        /// <param name="c">Le contrôle à analyser.</param>
         private void SetLocalTablesForControl(Control c)
         {
             logger.ConditionalTrace("SetLocalTablesForControl");
@@ -609,8 +712,13 @@ namespace ColorizationControls
                     cNameFin = c.Name.Substring(3, c.Name.Length - 3);
                     formattingCheckBoxes[cNameFin] = (CheckBox)c;
                 }
+                else if (c.Name.StartsWith("cbPN"))
+                {
+                    cNameFin = c.Name.Substring(4, c.Name.Length - 4);
+                    ponctInfos[cNameFin].cbx = (CheckBox)c;
+                }
             }
-            else if (c.GetType().Equals(typeof(Button)))
+            else if (c.GetType().Equals(typeof(Button))) // c is Button
             {
                 if (c.Name.StartsWith("btn")) // Caution the name of other Buttons has to begin differently
                 {
@@ -644,6 +752,13 @@ namespace ColorizationControls
                     letterButtons[butNr] = theBtn;
                     // Le ContextMenuStrip est mis dans le designer
                 }
+                else if (c.Name.StartsWith("btPN"))
+                {
+                    Button theBtn = (Button)c;
+                    string butPonctTxt = theBtn.Name.Substring(4, theBtn.Name.Length - 4);
+                    ponctInfos[butPonctTxt].btn = theBtn;
+                    ponctInfos[butPonctTxt].btnOrigColor = theBtn.BackColor;
+                }
             }
             else if (c.GetType().Equals(typeof(PictureBox)))
             {
@@ -659,6 +774,8 @@ namespace ColorizationControls
             foreach (Control subC in c.Controls)
                 SetLocalTablesForControl(subC);
         }
+
+        // ---------------------------- formatage des boutons -------------------------------------
 
         private void SetButtonColor (Button b, RGB color)
         {
@@ -1051,26 +1168,8 @@ namespace ColorizationControls
             UpdateNrPieds();
         }
 
-
         //--------------------------------------------------------------------------------------------
-        // --------------------------------------- Boutons Duo ---------------------------------------
-        //--------------------------------------------------------------------------------------------
-
-        private void butConfigDuo_Click(object sender, EventArgs e)
-        {
-            logger.ConditionalDebug("butConfigDuo_Click");
-            DuoConfForm dcf = new DuoConfForm(theConf);
-            dcf.ShowDialog();
-        }
-
-        private void butExecuteDuo_Click(object sender, EventArgs e)
-        {
-            logger.ConditionalDebug("butExecuteDuo_Click");
-            colDuoSelText(theConf);
-        }
-
-        //--------------------------------------------------------------------------------------------
-        // ---------------------------------------  Onglet Arcs --------------------------------------
+        // ---------------------------------------  Boutons Arcs -------------------------------------
         //--------------------------------------------------------------------------------------------
 
         private void btcArcs_Click(object sender, EventArgs e)
@@ -1188,6 +1287,81 @@ namespace ColorizationControls
             theConf.arcConf.Decalage = (float)nudDecalage.Value;
         }
 
+        //--------------------------------------------------------------------------------------------
+        // --------------------------------------- Boutons Duo ---------------------------------------
+        //--------------------------------------------------------------------------------------------
+
+        private void butConfigDuo_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("butConfigDuo_Click");
+            DuoConfForm dcf = new DuoConfForm(theConf);
+            dcf.ShowDialog();
+        }
+
+        private void butExecuteDuo_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("butExecuteDuo_Click");
+            colDuoSelText(theConf);
+        }
+
+        //-----------------------------------------------------------------------------------------
+        // ------------------------------------  Boutons Ponct. -----------------------------------
+        //-----------------------------------------------------------------------------------------
+
+        private void btPAponctuation_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btPAponctuation_Click");
+            colPonctuation(theConf);
+        }
+
+        private void PonctCheckBox_CheckedChanged(Object sender, EventArgs e)
+        {
+            CheckBox cbPN = (CheckBox)sender;
+            logger.ConditionalDebug("PonctCheckBox_CheckedChanged {0}", cbPN.Name);
+            Debug.Assert(cbPN.Name.StartsWith("cbPN"));
+            string ponct = cbPN.Name.Substring(4, cbPN.Name.Length - 4);
+            theConf.ponctConf.SetCB(ponct, cbPN.Checked);
+        }
+
+        private void PonctButton_Click(object sender, EventArgs e)
+        {
+            Button theBtn = (Button)sender;
+            logger.ConditionalDebug("PonctButton_Click {0}", theBtn.Name);
+            Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
+            Debug.Assert(theBtn.Name.StartsWith("btPN"));
+            string ponct = theBtn.Name.Substring(4, theBtn.Name.Length - 4);
+            CharFormatForm form = new CharFormatForm(theConf.ponctConf.GetCF(ponct), ponct,
+                theConf.ponctConf.SetCF);
+            p.Offset(-form.Width, -(form.Height / 2));
+            form.Location = p;
+            _ = form.ShowDialog();
+            form.Dispose();
+        }
+
+        private void cbPMmaitre_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("cbPMmaitre_CheckedChanged");
+            theConf.ponctConf.MasterCheckBox = cbPMmaitre.Checked;
+        }
+
+        private void btPMmaitre_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btPMmaitre_Click");
+            Button theBtn = (Button)sender;
+            Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
+            CharFormatForm form = new CharFormatForm(theConf.ponctConf.MasterCF, "Tous",
+                theConf.ponctConf.SetMasterCF);
+            p.Offset(-form.Width, -(form.Height / 2));
+            form.Location = p;
+            _ = form.ShowDialog();
+            form.Dispose();
+        }
+
+        private void btPAreset_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btPAreset_Click");
+            theConf.ponctConf.Reset();
+        }
 
         //--------------------------------------------------------------------------------------------
         // --------------------------------------  Onglet Sauv. --------------------------------------
@@ -1716,5 +1890,6 @@ namespace ColorizationControls
             }
             UpdateAllSoundCbxAndButtons();
         }
+
     }
 }

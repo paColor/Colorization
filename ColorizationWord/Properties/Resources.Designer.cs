@@ -153,6 +153,16 @@ namespace ColorizationWord.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap phrase_16 {
+            get {
+                object obj = ResourceManager.GetObject("phrase_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap syll_26 {
             get {
                 object obj = ResourceManager.GetObject("syll_26", resourceCulture);

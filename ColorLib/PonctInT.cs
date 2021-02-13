@@ -34,7 +34,7 @@ namespace ColorLib
     /// </summary>
     /// <remarks>Tout caractère qui n'est pas reconnu comme faisant partie d'un mot (expression
     /// régulière \w) est considéré comme de la ponctuation.</remarks>
-    public class PunctInT : TextEl
+    public class PonctInT : TextEl
     {
         private static Dictionary<char, Ponctuation> ponctu = new Dictionary<char, Ponctuation>()
         {
@@ -116,7 +116,7 @@ namespace ColorLib
         /// <param name="pos">La position du signe de pnctuation dans <paramref name="tt"/>
         /// </param>
         /// <param name="inLast"></param>
-        public PunctInT(TheText tt, int pos)
+        public PonctInT(TheText tt, int pos)
             : base(tt, pos, pos)
         {
             Ponctuation p;

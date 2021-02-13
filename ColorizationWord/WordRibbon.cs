@@ -69,6 +69,7 @@ namespace ColorizationWord
             ConfigControl.colDuoSelText = WordRibbon.ColorSelectedDuo;
             ConfigControl.drawArcs = WordRibbon.ColorSelectedArcs;
             ConfigControl.removeArcs = WordRibbon.RemoveSelectedArcs;
+            ConfigControl.colPonctuation = WordRibbon.ColorPonctuation;
         }
 
         public static void ColorSelectedPhons(Config conf)
@@ -135,6 +136,11 @@ namespace ColorizationWord
         {
             logger.Info("RemoveSelectedArcs");
             ActOnSelectedText(RemoveArcs, "Effacer arcs", conf);
+        }
+
+        public static void ColorPonctuation(Config conf)
+        {
+            logger.Info("ColorPonctuation");
         }
 
         private static void ActOnShape(Shape sh, ActOnMSWText act, Config conf)
@@ -283,6 +289,7 @@ namespace ColorizationWord
                 btnDuo.Enabled = enable;
                 btnArcs.Enabled = enable;
                 btnNettoyageArcs.Enabled = enable;
+                btnPonct.Enabled = enable;
             }
         }
 
@@ -371,6 +378,12 @@ namespace ColorizationWord
         {
             logger.ConditionalDebug("btnNettoyageArcs_Click");
             RemoveSelectedArcs(GetConfigForActiveWindow());
+        }
+
+        private void btnPonct_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalDebug("btnPonct_Click");
+            ColorPonctuation(GetConfigForActiveWindow());
         }
     }
 }

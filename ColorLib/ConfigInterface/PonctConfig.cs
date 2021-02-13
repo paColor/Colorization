@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -29,10 +30,12 @@ namespace ColorLib
     public class PonctModifiedEventArgs : EventArgs
     {
         public Ponctuation p;
+        public string pName;
 
         public PonctModifiedEventArgs(Ponctuation inPonct)
         {
             p = inPonct;
+            pName = p.ToString();
         }
     }
 
@@ -40,7 +43,7 @@ namespace ColorLib
 
     /// <summary>
     /// Contient la configuration pour chacune des familles de symboles de ponctuation définies
-    /// dans <see cref="PunctInT"/>.
+    /// dans <see cref="PonctInT"/>.
     /// <para>On considère qu'il existe un bouton pour chacune des familles et un bouton général qui permet
     /// de les définir tous. Ce dernier peut être dans les états master ou off.</para>
     /// </summary>
@@ -214,7 +217,23 @@ namespace ColorLib
             _masterCheckBox = false;
         }
 
+        /// <summary>
+        /// Retourne le <see cref="CharFormatting"/> pour la famille de caractères
+        /// <paramref name="p"/>.
+        /// </summary>
+        /// <param name="p">La famille de caractères de ponctuation dont on veut le CF.</param>
+        /// <returns>Le <see cref="CharFormatting"/> souhaité.</returns>
         public CharFormatting GetCF(Ponctuation p) => charFormats[p];
+
+        /// <summary>
+        /// Retourne le <see cref="CharFormatting"/> pour la famille de caractères identifiée par
+        /// son nom <paramref name="ponct"/>. Le nom doit correspondre exactement à la valeur de
+        /// l'énuméré dans <see cref="Ponctuation"/>.
+        /// </summary>
+        /// <param name="ponct">Le nom de la famille de caractères tel que défini dans 
+        /// <see cref="Ponctuation"/>.</param>
+        /// <returns></returns>
+        public CharFormatting GetCF(string ponct) => GetCF(Ponct4String(ponct));
 
         public void SetCF(Ponctuation p, CharFormatting toCF)
         {
@@ -229,7 +248,11 @@ namespace ColorLib
             }
         }
 
+        public void SetCF(string ponct, CharFormatting toCF) => SetCF(Ponct4String(ponct), toCF);
+
         public bool GetCB(Ponctuation p) => checkBoxes[p];
+
+        public bool GetCB(string ponct) => GetCB(Ponct4String(ponct));
 
         public void SetCB(Ponctuation p, bool toCB)
         {
@@ -244,6 +267,23 @@ namespace ColorLib
             }
         }
 
+        public void SetCB(string ponct, bool toCB) => SetCB(Ponct4String(ponct), toCB);
+
+        public void SetMasterCF(string dummy, CharFormatting cf) => MasterCF = cf;
+
+        private Ponctuation Ponct4String(string s)
+        {
+            try
+            {
+                return (Ponctuation)Enum.Parse(typeof(Ponctuation), s, true);
+            }
+            catch (ArgumentException)
+            {
+                logger.Error("{0} n'est pas un type de ponctuation.");
+                Debug.Assert(false);
+                return Ponctuation.firstP;
+            }
+        }
 
         // --------------------------------------- Serialization ----------------------------------
 

@@ -173,8 +173,6 @@
             this.btAR1 = new System.Windows.Forms.Button();
             this.btAR0 = new System.Windows.Forms.Button();
             this.lblArcs = new System.Windows.Forms.Label();
-            this.btcRemoveArcs = new System.Windows.Forms.Button();
-            this.btcArcs = new System.Windows.Forms.Button();
             this.btSC5 = new System.Windows.Forms.Button();
             this.btSC4 = new System.Windows.Forms.Button();
             this.btcInitSyls = new System.Windows.Forms.Button();
@@ -217,6 +215,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbnStandard = new System.Windows.Forms.RadioButton();
             this.rbnAv2Cons = new System.Windows.Forms.RadioButton();
+            this.btcRemoveArcs = new System.Windows.Forms.Button();
+            this.btcArcs = new System.Windows.Forms.Button();
             this.btcLNoir = new System.Windows.Forms.Button();
             this.btSVoyCons = new System.Windows.Forms.Button();
             this.pbHL5 = new System.Windows.Forms.PictureBox();
@@ -230,6 +230,41 @@
             this.btSMots = new System.Windows.Forms.Button();
             this.btSAppliquer = new System.Windows.Forms.Button();
             this.tabArcs = new System.Windows.Forms.TabPage();
+            this.btcLnoir3 = new System.Windows.Forms.Button();
+            this.lblTitrePonct = new System.Windows.Forms.Label();
+            this.btPAponctuation = new System.Windows.Forms.Button();
+            this.lblPonct = new System.Windows.Forms.Label();
+            this.btPAreset = new System.Windows.Forms.Button();
+            this.btPMmaitre = new System.Windows.Forms.Button();
+            this.cbPMmaitre = new System.Windows.Forms.CheckBox();
+            this.btPNautres = new System.Windows.Forms.Button();
+            this.cbPNpoint = new System.Windows.Forms.CheckBox();
+            this.cbPNpointVirgule = new System.Windows.Forms.CheckBox();
+            this.btPNpoint = new System.Windows.Forms.Button();
+            this.btPNpointVirgule = new System.Windows.Forms.Button();
+            this.cbPNpointDInterrogation = new System.Windows.Forms.CheckBox();
+            this.btPNpointDInterrogation = new System.Windows.Forms.Button();
+            this.cbPNvirgule = new System.Windows.Forms.CheckBox();
+            this.btPNvirgule = new System.Windows.Forms.Button();
+            this.cbPNmaths = new System.Windows.Forms.CheckBox();
+            this.cbPNparanthese = new System.Windows.Forms.CheckBox();
+            this.btPNmaths = new System.Windows.Forms.Button();
+            this.btPNespace = new System.Windows.Forms.Button();
+            this.btPNparanthese = new System.Windows.Forms.Button();
+            this.cbPNespace = new System.Windows.Forms.CheckBox();
+            this.cbPNguillemets = new System.Windows.Forms.CheckBox();
+            this.btPNdivers = new System.Windows.Forms.Button();
+            this.btPNguillemets = new System.Windows.Forms.Button();
+            this.cbPNdivers = new System.Windows.Forms.CheckBox();
+            this.cbPNmonnaie = new System.Windows.Forms.CheckBox();
+            this.btPNmonnaie = new System.Windows.Forms.Button();
+            this.cbPNautres = new System.Windows.Forms.CheckBox();
+            this.btPNdeuxPoints = new System.Windows.Forms.Button();
+            this.cbPNdeuxPoints = new System.Windows.Forms.CheckBox();
+            this.btPNapostrophe = new System.Windows.Forms.Button();
+            this.cbPNpointDExclamation = new System.Windows.Forms.CheckBox();
+            this.cbPNapostrophe = new System.Windows.Forms.CheckBox();
+            this.btPNpointDExclamation = new System.Windows.Forms.Button();
             this.butConfigDuo = new System.Windows.Forms.Button();
             this.butExecuteDuo = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
@@ -258,36 +293,6 @@
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
             this.cmsArcButtons = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
-            this.cbPNpoint = new System.Windows.Forms.CheckBox();
-            this.cbPNpointVirgule = new System.Windows.Forms.CheckBox();
-            this.btPNpoint = new System.Windows.Forms.Button();
-            this.btPNpointVirgule = new System.Windows.Forms.Button();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.cbPNvirugule = new System.Windows.Forms.CheckBox();
-            this.btPNvirgule = new System.Windows.Forms.Button();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.btPNparanthese = new System.Windows.Forms.CheckBox();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
-            this.checkBox10 = new System.Windows.Forms.CheckBox();
-            this.button11 = new System.Windows.Forms.Button();
-            this.checkBox11 = new System.Windows.Forms.CheckBox();
-            this.button12 = new System.Windows.Forms.Button();
-            this.checkBox12 = new System.Windows.Forms.CheckBox();
-            this.btPNdeuxPoints = new System.Windows.Forms.Button();
-            this.cbPNdeuxPoints = new System.Windows.Forms.CheckBox();
-            this.button14 = new System.Windows.Forms.Button();
-            this.checkBox14 = new System.Windows.Forms.CheckBox();
-            this.checkBox15 = new System.Windows.Forms.CheckBox();
-            this.button15 = new System.Windows.Forms.Button();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -1887,8 +1892,6 @@
             this.tabAutres.Controls.Add(this.btAR1);
             this.tabAutres.Controls.Add(this.btAR0);
             this.tabAutres.Controls.Add(this.lblArcs);
-            this.tabAutres.Controls.Add(this.btcRemoveArcs);
-            this.tabAutres.Controls.Add(this.btcArcs);
             this.tabAutres.Controls.Add(this.btSC5);
             this.tabAutres.Controls.Add(this.btSC4);
             this.tabAutres.Controls.Add(this.btcInitSyls);
@@ -1908,6 +1911,8 @@
             this.tabAutres.Controls.Add(this.btL0);
             this.tabAutres.Controls.Add(this.lblLetters);
             this.tabAutres.Controls.Add(this.groupBoxSyllabes);
+            this.tabAutres.Controls.Add(this.btcRemoveArcs);
+            this.tabAutres.Controls.Add(this.btcArcs);
             this.tabAutres.Controls.Add(this.btcLNoir);
             this.tabAutres.Controls.Add(this.btSVoyCons);
             this.tabAutres.Controls.Add(this.pbHL5);
@@ -2156,30 +2161,6 @@
             this.lblArcs.TabIndex = 179;
             this.lblArcs.Text = "Couleurs des \r\narcs sous les syllabes";
             this.lblArcs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btcRemoveArcs
-            // 
-            this.btcRemoveArcs.BackgroundImage = global::ColorizationControls.Properties.Resources.cleaner;
-            this.btcRemoveArcs.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btcRemoveArcs.Location = new System.Drawing.Point(290, 389);
-            this.btcRemoveArcs.Name = "btcRemoveArcs";
-            this.btcRemoveArcs.Size = new System.Drawing.Size(38, 38);
-            this.btcRemoveArcs.TabIndex = 178;
-            this.ttipLettreEnNoir.SetToolTip(this.btcRemoveArcs, "Efface les arcs dont le point\r\nd\'ancrage est sélectionné.");
-            this.btcRemoveArcs.UseVisualStyleBackColor = true;
-            this.btcRemoveArcs.Click += new System.EventHandler(this.btcRemoveArcs_Click);
-            // 
-            // btcArcs
-            // 
-            this.btcArcs.AutoSize = true;
-            this.btcArcs.Image = global::ColorizationControls.Properties.Resources.syll_32;
-            this.btcArcs.Location = new System.Drawing.Point(12, 389);
-            this.btcArcs.Name = "btcArcs";
-            this.btcArcs.Size = new System.Drawing.Size(38, 38);
-            this.btcArcs.TabIndex = 177;
-            this.ttipLettreEnNoir.SetToolTip(this.btcArcs, "Dessine des arcs sous les syllabes\r\ndu texte sélectionné");
-            this.btcArcs.UseVisualStyleBackColor = true;
-            this.btcArcs.Click += new System.EventHandler(this.btcArcs_Click);
             // 
             // btSC5
             // 
@@ -2664,6 +2645,30 @@
             this.ttipLettreEnNoir.SetToolTip(this.rbnAv2Cons, "Les syllabes sont coupées avant\r\ndeux consonnes répétées.\r\n");
             this.rbnAv2Cons.UseVisualStyleBackColor = true;
             // 
+            // btcRemoveArcs
+            // 
+            this.btcRemoveArcs.BackgroundImage = global::ColorizationControls.Properties.Resources.cleaner;
+            this.btcRemoveArcs.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btcRemoveArcs.Location = new System.Drawing.Point(290, 389);
+            this.btcRemoveArcs.Name = "btcRemoveArcs";
+            this.btcRemoveArcs.Size = new System.Drawing.Size(38, 38);
+            this.btcRemoveArcs.TabIndex = 178;
+            this.ttipLettreEnNoir.SetToolTip(this.btcRemoveArcs, "Efface les arcs dont le point\r\nd\'ancrage est sélectionné.");
+            this.btcRemoveArcs.UseVisualStyleBackColor = true;
+            this.btcRemoveArcs.Click += new System.EventHandler(this.btcRemoveArcs_Click);
+            // 
+            // btcArcs
+            // 
+            this.btcArcs.AutoSize = true;
+            this.btcArcs.Image = global::ColorizationControls.Properties.Resources.syll_32;
+            this.btcArcs.Location = new System.Drawing.Point(12, 389);
+            this.btcArcs.Name = "btcArcs";
+            this.btcArcs.Size = new System.Drawing.Size(38, 38);
+            this.btcArcs.TabIndex = 177;
+            this.ttipLettreEnNoir.SetToolTip(this.btcArcs, "Dessine des arcs sous les syllabes\r\ndu texte sélectionné");
+            this.btcArcs.UseVisualStyleBackColor = true;
+            this.btcArcs.Click += new System.EventHandler(this.btcArcs_Click);
+            // 
             // btcLNoir
             // 
             this.btcLNoir.BackColor = System.Drawing.SystemColors.Control;
@@ -2672,7 +2677,7 @@
             this.btcLNoir.Name = "btcLNoir";
             this.btcLNoir.Size = new System.Drawing.Size(38, 38);
             this.btcLNoir.TabIndex = 164;
-            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir, "Mettre le texte sélectionnée en \r\nnoir sans autre formatage.");
+            this.ttipLettreEnNoir.SetToolTip(this.btcLNoir, "Mettre le texte sélectionné en \r\nnoir, sans autre formatage.");
             this.btcLNoir.UseVisualStyleBackColor = false;
             this.btcLNoir.Click += new System.EventHandler(this.btcLNoir_Click);
             // 
@@ -2794,36 +2799,41 @@
             // tabArcs
             // 
             this.tabArcs.BackColor = System.Drawing.SystemColors.Control;
-            this.tabArcs.Controls.Add(this.button1);
+            this.tabArcs.Controls.Add(this.btcLnoir3);
+            this.tabArcs.Controls.Add(this.lblTitrePonct);
+            this.tabArcs.Controls.Add(this.btPAponctuation);
+            this.tabArcs.Controls.Add(this.lblPonct);
+            this.tabArcs.Controls.Add(this.btPAreset);
+            this.tabArcs.Controls.Add(this.btPMmaitre);
+            this.tabArcs.Controls.Add(this.cbPMmaitre);
+            this.tabArcs.Controls.Add(this.btPNautres);
             this.tabArcs.Controls.Add(this.cbPNpoint);
             this.tabArcs.Controls.Add(this.cbPNpointVirgule);
             this.tabArcs.Controls.Add(this.btPNpoint);
             this.tabArcs.Controls.Add(this.btPNpointVirgule);
-            this.tabArcs.Controls.Add(this.checkBox3);
-            this.tabArcs.Controls.Add(this.button4);
-            this.tabArcs.Controls.Add(this.cbPNvirugule);
+            this.tabArcs.Controls.Add(this.cbPNpointDInterrogation);
+            this.tabArcs.Controls.Add(this.btPNpointDInterrogation);
+            this.tabArcs.Controls.Add(this.cbPNvirgule);
             this.tabArcs.Controls.Add(this.btPNvirgule);
-            this.tabArcs.Controls.Add(this.checkBox5);
+            this.tabArcs.Controls.Add(this.cbPNmaths);
+            this.tabArcs.Controls.Add(this.cbPNparanthese);
+            this.tabArcs.Controls.Add(this.btPNmaths);
+            this.tabArcs.Controls.Add(this.btPNespace);
             this.tabArcs.Controls.Add(this.btPNparanthese);
-            this.tabArcs.Controls.Add(this.button6);
-            this.tabArcs.Controls.Add(this.button7);
-            this.tabArcs.Controls.Add(this.button8);
-            this.tabArcs.Controls.Add(this.checkBox7);
-            this.tabArcs.Controls.Add(this.checkBox8);
-            this.tabArcs.Controls.Add(this.button9);
-            this.tabArcs.Controls.Add(this.button10);
-            this.tabArcs.Controls.Add(this.checkBox9);
-            this.tabArcs.Controls.Add(this.checkBox10);
-            this.tabArcs.Controls.Add(this.button11);
-            this.tabArcs.Controls.Add(this.checkBox11);
-            this.tabArcs.Controls.Add(this.button12);
-            this.tabArcs.Controls.Add(this.checkBox12);
+            this.tabArcs.Controls.Add(this.cbPNespace);
+            this.tabArcs.Controls.Add(this.cbPNguillemets);
+            this.tabArcs.Controls.Add(this.btPNdivers);
+            this.tabArcs.Controls.Add(this.btPNguillemets);
+            this.tabArcs.Controls.Add(this.cbPNdivers);
+            this.tabArcs.Controls.Add(this.cbPNmonnaie);
+            this.tabArcs.Controls.Add(this.btPNmonnaie);
+            this.tabArcs.Controls.Add(this.cbPNautres);
             this.tabArcs.Controls.Add(this.btPNdeuxPoints);
             this.tabArcs.Controls.Add(this.cbPNdeuxPoints);
-            this.tabArcs.Controls.Add(this.button14);
-            this.tabArcs.Controls.Add(this.checkBox14);
-            this.tabArcs.Controls.Add(this.checkBox15);
-            this.tabArcs.Controls.Add(this.button15);
+            this.tabArcs.Controls.Add(this.btPNapostrophe);
+            this.tabArcs.Controls.Add(this.cbPNpointDExclamation);
+            this.tabArcs.Controls.Add(this.cbPNapostrophe);
+            this.tabArcs.Controls.Add(this.btPNpointDExclamation);
             this.tabArcs.Controls.Add(this.butConfigDuo);
             this.tabArcs.Controls.Add(this.butExecuteDuo);
             this.tabArcs.Controls.Add(this.label8);
@@ -2833,6 +2843,427 @@
             this.tabArcs.Size = new System.Drawing.Size(337, 557);
             this.tabArcs.TabIndex = 5;
             this.tabArcs.Text = "Duo";
+            // 
+            // btcLnoir3
+            // 
+            this.btcLnoir3.BackColor = System.Drawing.SystemColors.Control;
+            this.btcLnoir3.Image = global::ColorizationControls.Properties.Resources.black2_30;
+            this.btcLnoir3.Location = new System.Drawing.Point(290, 164);
+            this.btcLnoir3.Name = "btcLnoir3";
+            this.btcLnoir3.Size = new System.Drawing.Size(38, 38);
+            this.btcLnoir3.TabIndex = 221;
+            this.ttipLettreEnNoir.SetToolTip(this.btcLnoir3, "Mettre tous les caractères sélectionnés en \r\nnoir, sans autre formatage.");
+            this.btcLnoir3.UseVisualStyleBackColor = false;
+            this.btcLnoir3.Click += new System.EventHandler(this.btcLNoir_Click);
+            // 
+            // lblTitrePonct
+            // 
+            this.lblTitrePonct.AutoSize = true;
+            this.lblTitrePonct.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitrePonct.Location = new System.Drawing.Point(109, 138);
+            this.lblTitrePonct.Name = "lblTitrePonct";
+            this.lblTitrePonct.Size = new System.Drawing.Size(119, 17);
+            this.lblTitrePonct.TabIndex = 220;
+            this.lblTitrePonct.Text = "PONCTUATION";
+            // 
+            // btPAponctuation
+            // 
+            this.btPAponctuation.BackColor = System.Drawing.SystemColors.Control;
+            this.btPAponctuation.Image = global::ColorizationControls.Properties.Resources.phrase_26;
+            this.btPAponctuation.Location = new System.Drawing.Point(8, 164);
+            this.btPAponctuation.Name = "btPAponctuation";
+            this.btPAponctuation.Size = new System.Drawing.Size(38, 38);
+            this.btPAponctuation.TabIndex = 219;
+            this.ttipLettreEnNoir.SetToolTip(this.btPAponctuation, "Coloriser ponctuation et caractères spéciaux");
+            this.btPAponctuation.UseVisualStyleBackColor = false;
+            this.btPAponctuation.Click += new System.EventHandler(this.btPAponctuation_Click);
+            // 
+            // lblPonct
+            // 
+            this.lblPonct.AutoSize = true;
+            this.lblPonct.Location = new System.Drawing.Point(59, 163);
+            this.lblPonct.Name = "lblPonct";
+            this.lblPonct.Size = new System.Drawing.Size(218, 39);
+            this.lblPonct.TabIndex = 218;
+            this.lblPonct.Text = "La commande ponctuation couvre tous les \r\ncaractères qui ne font pas partie des m" +
+    "ots: \r\nponctuation, mais aussi caractères spéciaux.";
+            // 
+            // btPAreset
+            // 
+            this.btPAreset.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.btPAreset.Location = new System.Drawing.Point(108, 416);
+            this.btPAreset.Name = "btPAreset";
+            this.btPAreset.Size = new System.Drawing.Size(150, 23);
+            this.btPAreset.TabIndex = 217;
+            this.btPAreset.Text = "réinitialiser";
+            this.ttipLettreEnNoir.SetToolTip(this.btPAreset, "Réinitialise aux valeurs par défaut:\r\naucune coloriƨation.");
+            this.btPAreset.UseVisualStyleBackColor = false;
+            this.btPAreset.Click += new System.EventHandler(this.btPAreset_Click);
+            // 
+            // btPMmaitre
+            // 
+            this.btPMmaitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPMmaitre.Location = new System.Drawing.Point(147, 221);
+            this.btPMmaitre.Name = "btPMmaitre";
+            this.btPMmaitre.Size = new System.Drawing.Size(96, 31);
+            this.btPMmaitre.TabIndex = 216;
+            this.btPMmaitre.Text = "Tous";
+            this.ttipLettreEnNoir.SetToolTip(this.btPMmaitre, "contrôle le formatage de tous\r\nles caractères considérés. ");
+            this.btPMmaitre.UseVisualStyleBackColor = true;
+            this.btPMmaitre.Click += new System.EventHandler(this.btPMmaitre_Click);
+            // 
+            // cbPMmaitre
+            // 
+            this.cbPMmaitre.AutoSize = true;
+            this.cbPMmaitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPMmaitre.Location = new System.Drawing.Point(92, 227);
+            this.cbPMmaitre.Name = "cbPMmaitre";
+            this.cbPMmaitre.Size = new System.Drawing.Size(54, 21);
+            this.cbPMmaitre.TabIndex = 215;
+            this.cbPMmaitre.Text = "tous";
+            this.cbPMmaitre.UseVisualStyleBackColor = true;
+            this.cbPMmaitre.CheckedChanged += new System.EventHandler(this.cbPMmaitre_CheckedChanged);
+            // 
+            // btPNautres
+            // 
+            this.btPNautres.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNautres.Location = new System.Drawing.Point(156, 378);
+            this.btPNautres.Margin = new System.Windows.Forms.Padding(0);
+            this.btPNautres.Name = "btPNautres";
+            this.btPNautres.Size = new System.Drawing.Size(61, 25);
+            this.btPNautres.TabIndex = 202;
+            this.btPNautres.Text = "autres";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNautres, "Autres:\r\ncaractères qui ne se trouvent \r\nhabituellement pas sur le clavier. ");
+            this.btPNautres.UseVisualStyleBackColor = true;
+            this.btPNautres.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // cbPNpoint
+            // 
+            this.cbPNpoint.AutoSize = true;
+            this.cbPNpoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNpoint.Location = new System.Drawing.Point(8, 262);
+            this.cbPNpoint.Name = "cbPNpoint";
+            this.cbPNpoint.Size = new System.Drawing.Size(35, 19);
+            this.cbPNpoint.TabIndex = 185;
+            this.cbPNpoint.Text = "\'.\'";
+            this.cbPNpoint.UseVisualStyleBackColor = true;
+            this.cbPNpoint.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // cbPNpointVirgule
+            // 
+            this.cbPNpointVirgule.AutoSize = true;
+            this.cbPNpointVirgule.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNpointVirgule.Location = new System.Drawing.Point(8, 292);
+            this.cbPNpointVirgule.Name = "cbPNpointVirgule";
+            this.cbPNpointVirgule.Size = new System.Drawing.Size(35, 19);
+            this.cbPNpointVirgule.TabIndex = 186;
+            this.cbPNpointVirgule.Text = "\';\'";
+            this.cbPNpointVirgule.UseVisualStyleBackColor = true;
+            this.cbPNpointVirgule.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // btPNpoint
+            // 
+            this.btPNpoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNpoint.Location = new System.Drawing.Point(47, 258);
+            this.btPNpoint.Margin = new System.Windows.Forms.Padding(2);
+            this.btPNpoint.Name = "btPNpoint";
+            this.btPNpoint.Size = new System.Drawing.Size(61, 25);
+            this.btPNpoint.TabIndex = 187;
+            this.btPNpoint.Text = "point";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNpoint, "Point");
+            this.btPNpoint.UseVisualStyleBackColor = true;
+            this.btPNpoint.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // btPNpointVirgule
+            // 
+            this.btPNpointVirgule.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNpointVirgule.Location = new System.Drawing.Point(47, 288);
+            this.btPNpointVirgule.Name = "btPNpointVirgule";
+            this.btPNpointVirgule.Size = new System.Drawing.Size(61, 25);
+            this.btPNpointVirgule.TabIndex = 188;
+            this.btPNpointVirgule.Text = "pt virgle";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNpointVirgule, "Point virgule");
+            this.btPNpointVirgule.UseVisualStyleBackColor = true;
+            this.btPNpointVirgule.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // cbPNpointDInterrogation
+            // 
+            this.cbPNpointDInterrogation.AutoSize = true;
+            this.cbPNpointDInterrogation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNpointDInterrogation.Location = new System.Drawing.Point(117, 292);
+            this.cbPNpointDInterrogation.Name = "cbPNpointDInterrogation";
+            this.cbPNpointDInterrogation.Size = new System.Drawing.Size(39, 19);
+            this.cbPNpointDInterrogation.TabIndex = 189;
+            this.cbPNpointDInterrogation.Text = "\'?\'";
+            this.cbPNpointDInterrogation.UseVisualStyleBackColor = true;
+            this.cbPNpointDInterrogation.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // btPNpointDInterrogation
+            // 
+            this.btPNpointDInterrogation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNpointDInterrogation.Location = new System.Drawing.Point(156, 288);
+            this.btPNpointDInterrogation.Name = "btPNpointDInterrogation";
+            this.btPNpointDInterrogation.Size = new System.Drawing.Size(61, 25);
+            this.btPNpointDInterrogation.TabIndex = 190;
+            this.btPNpointDInterrogation.Text = "pt interr.";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNpointDInterrogation, "Point d\'interrogation");
+            this.btPNpointDInterrogation.UseVisualStyleBackColor = true;
+            this.btPNpointDInterrogation.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // cbPNvirgule
+            // 
+            this.cbPNvirgule.AutoSize = true;
+            this.cbPNvirgule.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNvirgule.Location = new System.Drawing.Point(118, 262);
+            this.cbPNvirgule.Name = "cbPNvirgule";
+            this.cbPNvirgule.Size = new System.Drawing.Size(35, 19);
+            this.cbPNvirgule.TabIndex = 191;
+            this.cbPNvirgule.Text = "\',\'";
+            this.cbPNvirgule.UseVisualStyleBackColor = true;
+            this.cbPNvirgule.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // btPNvirgule
+            // 
+            this.btPNvirgule.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNvirgule.Location = new System.Drawing.Point(156, 258);
+            this.btPNvirgule.Name = "btPNvirgule";
+            this.btPNvirgule.Size = new System.Drawing.Size(61, 25);
+            this.btPNvirgule.TabIndex = 192;
+            this.btPNvirgule.Text = "virgule";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNvirgule, "Virgule");
+            this.btPNvirgule.UseVisualStyleBackColor = true;
+            this.btPNvirgule.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // cbPNmaths
+            // 
+            this.cbPNmaths.AutoSize = true;
+            this.cbPNmaths.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNmaths.Location = new System.Drawing.Point(8, 352);
+            this.cbPNmaths.Name = "cbPNmaths";
+            this.cbPNmaths.Size = new System.Drawing.Size(39, 19);
+            this.cbPNmaths.TabIndex = 193;
+            this.cbPNmaths.Text = "\'+\'";
+            this.cbPNmaths.UseVisualStyleBackColor = true;
+            this.cbPNmaths.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // cbPNparanthese
+            // 
+            this.cbPNparanthese.AutoSize = true;
+            this.cbPNparanthese.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNparanthese.Location = new System.Drawing.Point(9, 322);
+            this.cbPNparanthese.Name = "cbPNparanthese";
+            this.cbPNparanthese.Size = new System.Drawing.Size(40, 19);
+            this.cbPNparanthese.TabIndex = 194;
+            this.cbPNparanthese.Text = "\'()\'";
+            this.cbPNparanthese.UseVisualStyleBackColor = true;
+            this.cbPNparanthese.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // btPNmaths
+            // 
+            this.btPNmaths.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNmaths.Location = new System.Drawing.Point(47, 348);
+            this.btPNmaths.Margin = new System.Windows.Forms.Padding(2);
+            this.btPNmaths.Name = "btPNmaths";
+            this.btPNmaths.Size = new System.Drawing.Size(61, 25);
+            this.btPNmaths.TabIndex = 195;
+            this.btPNmaths.Text = "maths";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNmaths, "Maths:\r\nopérateurs mathématiques comme\r\n+, -, *, /, <, >, |, ¬ ou =, %");
+            this.btPNmaths.UseVisualStyleBackColor = true;
+            this.btPNmaths.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // btPNespace
+            // 
+            this.btPNespace.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNespace.Location = new System.Drawing.Point(268, 348);
+            this.btPNespace.Name = "btPNespace";
+            this.btPNespace.Size = new System.Drawing.Size(61, 25);
+            this.btPNespace.TabIndex = 214;
+            this.btPNespace.Text = "espace";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNespace, "Espace: \r\nles caractères qu\'on ne voit pas:\r\nespace, tabulation, ...");
+            this.btPNespace.UseVisualStyleBackColor = true;
+            this.btPNespace.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // btPNparanthese
+            // 
+            this.btPNparanthese.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNparanthese.Location = new System.Drawing.Point(47, 318);
+            this.btPNparanthese.Name = "btPNparanthese";
+            this.btPNparanthese.Size = new System.Drawing.Size(61, 25);
+            this.btPNparanthese.TabIndex = 196;
+            this.btPNparanthese.Text = "prthèse";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNparanthese, "Paranthèse");
+            this.btPNparanthese.UseVisualStyleBackColor = true;
+            this.btPNparanthese.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // cbPNespace
+            // 
+            this.cbPNespace.AutoSize = true;
+            this.cbPNespace.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNespace.Location = new System.Drawing.Point(229, 352);
+            this.cbPNespace.Name = "cbPNespace";
+            this.cbPNespace.Size = new System.Drawing.Size(35, 19);
+            this.cbPNespace.TabIndex = 213;
+            this.cbPNespace.Text = "\' \'";
+            this.cbPNespace.UseVisualStyleBackColor = true;
+            this.cbPNespace.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // cbPNguillemets
+            // 
+            this.cbPNguillemets.AutoSize = true;
+            this.cbPNguillemets.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNguillemets.Location = new System.Drawing.Point(118, 322);
+            this.cbPNguillemets.Name = "cbPNguillemets";
+            this.cbPNguillemets.Size = new System.Drawing.Size(36, 19);
+            this.cbPNguillemets.TabIndex = 197;
+            this.cbPNguillemets.Text = "\'\"\'";
+            this.cbPNguillemets.UseVisualStyleBackColor = true;
+            this.cbPNguillemets.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // btPNdivers
+            // 
+            this.btPNdivers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNdivers.Location = new System.Drawing.Point(47, 378);
+            this.btPNdivers.Name = "btPNdivers";
+            this.btPNdivers.Size = new System.Drawing.Size(61, 25);
+            this.btPNdivers.TabIndex = 212;
+            this.btPNdivers.Text = "divers";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNdivers, "Divers: \r\ncaractères non couverts plus haut,\r\nmais qu\'on trouve sur le clavier co" +
+        "mme\r\n&, _, §, ¦, @, #, ~, \\");
+            this.btPNdivers.UseVisualStyleBackColor = true;
+            this.btPNdivers.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // btPNguillemets
+            // 
+            this.btPNguillemets.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNguillemets.Location = new System.Drawing.Point(156, 318);
+            this.btPNguillemets.Name = "btPNguillemets";
+            this.btPNguillemets.Size = new System.Drawing.Size(61, 25);
+            this.btPNguillemets.TabIndex = 198;
+            this.btPNguillemets.Text = "g\'mets";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNguillemets, "Guillemets");
+            this.btPNguillemets.UseVisualStyleBackColor = true;
+            this.btPNguillemets.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // cbPNdivers
+            // 
+            this.cbPNdivers.AutoSize = true;
+            this.cbPNdivers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNdivers.Location = new System.Drawing.Point(9, 381);
+            this.cbPNdivers.Name = "cbPNdivers";
+            this.cbPNdivers.Size = new System.Drawing.Size(39, 19);
+            this.cbPNdivers.TabIndex = 211;
+            this.cbPNdivers.Text = "\'§\'";
+            this.cbPNdivers.UseVisualStyleBackColor = true;
+            this.cbPNdivers.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // cbPNmonnaie
+            // 
+            this.cbPNmonnaie.AutoSize = true;
+            this.cbPNmonnaie.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNmonnaie.Location = new System.Drawing.Point(118, 352);
+            this.cbPNmonnaie.Name = "cbPNmonnaie";
+            this.cbPNmonnaie.Size = new System.Drawing.Size(39, 19);
+            this.cbPNmonnaie.TabIndex = 199;
+            this.cbPNmonnaie.Text = "\'€\'";
+            this.cbPNmonnaie.UseVisualStyleBackColor = true;
+            this.cbPNmonnaie.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // btPNmonnaie
+            // 
+            this.btPNmonnaie.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNmonnaie.Location = new System.Drawing.Point(156, 348);
+            this.btPNmonnaie.Name = "btPNmonnaie";
+            this.btPNmonnaie.Size = new System.Drawing.Size(61, 25);
+            this.btPNmonnaie.TabIndex = 200;
+            this.btPNmonnaie.Text = "m\'nnaie";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNmonnaie, "Monnaie:\r\ncaractères comme $, € ou £");
+            this.btPNmonnaie.UseVisualStyleBackColor = true;
+            this.btPNmonnaie.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // cbPNautres
+            // 
+            this.cbPNautres.AutoSize = true;
+            this.cbPNautres.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNautres.Location = new System.Drawing.Point(118, 382);
+            this.cbPNautres.Name = "cbPNautres";
+            this.cbPNautres.Size = new System.Drawing.Size(41, 19);
+            this.cbPNautres.TabIndex = 201;
+            this.cbPNautres.Text = "\'©\'";
+            this.cbPNautres.UseVisualStyleBackColor = true;
+            this.cbPNautres.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // btPNdeuxPoints
+            // 
+            this.btPNdeuxPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNdeuxPoints.Location = new System.Drawing.Point(268, 258);
+            this.btPNdeuxPoints.Name = "btPNdeuxPoints";
+            this.btPNdeuxPoints.Size = new System.Drawing.Size(61, 25);
+            this.btPNdeuxPoints.TabIndex = 208;
+            this.btPNdeuxPoints.Text = "2 points";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNdeuxPoints, "Deux points");
+            this.btPNdeuxPoints.UseVisualStyleBackColor = true;
+            this.btPNdeuxPoints.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // cbPNdeuxPoints
+            // 
+            this.cbPNdeuxPoints.AutoSize = true;
+            this.cbPNdeuxPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNdeuxPoints.Location = new System.Drawing.Point(229, 262);
+            this.cbPNdeuxPoints.Name = "cbPNdeuxPoints";
+            this.cbPNdeuxPoints.Size = new System.Drawing.Size(35, 19);
+            this.cbPNdeuxPoints.TabIndex = 207;
+            this.cbPNdeuxPoints.Text = "\':\'";
+            this.cbPNdeuxPoints.UseVisualStyleBackColor = true;
+            this.cbPNdeuxPoints.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // btPNapostrophe
+            // 
+            this.btPNapostrophe.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNapostrophe.Location = new System.Drawing.Point(268, 318);
+            this.btPNapostrophe.Margin = new System.Windows.Forms.Padding(2);
+            this.btPNapostrophe.Name = "btPNapostrophe";
+            this.btPNapostrophe.Size = new System.Drawing.Size(61, 25);
+            this.btPNapostrophe.TabIndex = 206;
+            this.btPNapostrophe.Text = "a\'strphe";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNapostrophe, "Apostrophe");
+            this.btPNapostrophe.UseVisualStyleBackColor = true;
+            this.btPNapostrophe.Click += new System.EventHandler(this.PonctButton_Click);
+            // 
+            // cbPNpointDExclamation
+            // 
+            this.cbPNpointDExclamation.AutoSize = true;
+            this.cbPNpointDExclamation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNpointDExclamation.Location = new System.Drawing.Point(229, 292);
+            this.cbPNpointDExclamation.Name = "cbPNpointDExclamation";
+            this.cbPNpointDExclamation.Size = new System.Drawing.Size(35, 19);
+            this.cbPNpointDExclamation.TabIndex = 203;
+            this.cbPNpointDExclamation.Text = "\'!\'";
+            this.cbPNpointDExclamation.UseVisualStyleBackColor = true;
+            this.cbPNpointDExclamation.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // cbPNapostrophe
+            // 
+            this.cbPNapostrophe.AutoSize = true;
+            this.cbPNapostrophe.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNapostrophe.Location = new System.Drawing.Point(229, 322);
+            this.cbPNapostrophe.Name = "cbPNapostrophe";
+            this.cbPNapostrophe.Size = new System.Drawing.Size(29, 19);
+            this.cbPNapostrophe.TabIndex = 205;
+            this.cbPNapostrophe.Text = "\'";
+            this.cbPNapostrophe.UseVisualStyleBackColor = true;
+            this.cbPNapostrophe.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            // 
+            // btPNpointDExclamation
+            // 
+            this.btPNpointDExclamation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNpointDExclamation.Location = new System.Drawing.Point(268, 288);
+            this.btPNpointDExclamation.Name = "btPNpointDExclamation";
+            this.btPNpointDExclamation.Size = new System.Drawing.Size(61, 25);
+            this.btPNpointDExclamation.TabIndex = 204;
+            this.btPNpointDExclamation.Text = "pt excl.";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNpointDExclamation, "Point d\'exclamation");
+            this.btPNpointDExclamation.UseVisualStyleBackColor = true;
+            this.btPNpointDExclamation.Click += new System.EventHandler(this.PonctButton_Click);
             // 
             // butConfigDuo
             // 
@@ -3169,325 +3600,6 @@
             this.tsmEffacerCoulArc.Text = "Effacer";
             this.tsmEffacerCoulArc.Click += new System.EventHandler(this.tsmEffacerCoulArc_Click);
             // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(156, 326);
-            this.button1.Margin = new System.Windows.Forms.Padding(0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(61, 25);
-            this.button1.TabIndex = 202;
-            this.button1.Text = "grand";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // cbPNpoint
-            // 
-            this.cbPNpoint.AutoSize = true;
-            this.cbPNpoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbPNpoint.Location = new System.Drawing.Point(8, 210);
-            this.cbPNpoint.Name = "cbPNpoint";
-            this.cbPNpoint.Size = new System.Drawing.Size(35, 19);
-            this.cbPNpoint.TabIndex = 185;
-            this.cbPNpoint.Text = "[.]";
-            this.cbPNpoint.UseVisualStyleBackColor = true;
-            // 
-            // cbPNpointVirgule
-            // 
-            this.cbPNpointVirgule.AutoSize = true;
-            this.cbPNpointVirgule.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbPNpointVirgule.Location = new System.Drawing.Point(8, 240);
-            this.cbPNpointVirgule.Name = "cbPNpointVirgule";
-            this.cbPNpointVirgule.Size = new System.Drawing.Size(35, 19);
-            this.cbPNpointVirgule.TabIndex = 186;
-            this.cbPNpointVirgule.Text = "[;]";
-            this.cbPNpointVirgule.UseVisualStyleBackColor = true;
-            // 
-            // btPNpoint
-            // 
-            this.btPNpoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btPNpoint.Location = new System.Drawing.Point(47, 206);
-            this.btPNpoint.Margin = new System.Windows.Forms.Padding(2);
-            this.btPNpoint.Name = "btPNpoint";
-            this.btPNpoint.Size = new System.Drawing.Size(61, 25);
-            this.btPNpoint.TabIndex = 187;
-            this.btPNpoint.Text = "point";
-            this.btPNpoint.UseVisualStyleBackColor = true;
-            // 
-            // btPNpointVirgule
-            // 
-            this.btPNpointVirgule.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btPNpointVirgule.Location = new System.Drawing.Point(47, 236);
-            this.btPNpointVirgule.Name = "btPNpointVirgule";
-            this.btPNpointVirgule.Size = new System.Drawing.Size(61, 25);
-            this.btPNpointVirgule.TabIndex = 188;
-            this.btPNpointVirgule.Text = "pt virgle";
-            this.btPNpointVirgule.UseVisualStyleBackColor = true;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox3.Location = new System.Drawing.Point(8, 270);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(35, 19);
-            this.checkBox3.TabIndex = 189;
-            this.checkBox3.Text = "[i]";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(47, 266);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(61, 25);
-            this.button4.TabIndex = 190;
-            this.button4.Text = "il, lit";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // cbPNvirugule
-            // 
-            this.cbPNvirugule.AutoSize = true;
-            this.cbPNvirugule.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbPNvirugule.Location = new System.Drawing.Point(118, 210);
-            this.cbPNvirugule.Name = "cbPNvirugule";
-            this.cbPNvirugule.Size = new System.Drawing.Size(35, 19);
-            this.cbPNvirugule.TabIndex = 191;
-            this.cbPNvirugule.Text = "[,]";
-            this.cbPNvirugule.UseVisualStyleBackColor = true;
-            // 
-            // btPNvirgule
-            // 
-            this.btPNvirgule.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btPNvirgule.Location = new System.Drawing.Point(156, 206);
-            this.btPNvirgule.Name = "btPNvirgule";
-            this.btPNvirgule.Size = new System.Drawing.Size(61, 25);
-            this.btPNvirgule.TabIndex = 192;
-            this.btPNvirgule.Text = "virgule";
-            this.btPNvirgule.UseVisualStyleBackColor = true;
-            // 
-            // checkBox5
-            // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox5.Location = new System.Drawing.Point(8, 300);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(37, 19);
-            this.checkBox5.TabIndex = 193;
-            this.checkBox5.Text = "[y]";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            // 
-            // btPNparanthese
-            // 
-            this.btPNparanthese.AutoSize = true;
-            this.btPNparanthese.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btPNparanthese.Location = new System.Drawing.Point(118, 240);
-            this.btPNparanthese.Name = "btPNparanthese";
-            this.btPNparanthese.Size = new System.Drawing.Size(40, 19);
-            this.btPNparanthese.TabIndex = 194;
-            this.btPNparanthese.Text = "[()]";
-            this.btPNparanthese.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(47, 296);
-            this.button6.Margin = new System.Windows.Forms.Padding(2);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(61, 25);
-            this.button6.TabIndex = 195;
-            this.button6.Text = "tu, lu";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Location = new System.Drawing.Point(268, 296);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(61, 25);
-            this.button7.TabIndex = 214;
-            this.button7.Text = "noix";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
-            // button8
-            // 
-            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Location = new System.Drawing.Point(156, 236);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(61, 25);
-            this.button8.TabIndex = 196;
-            this.button8.Text = "né, été";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // checkBox7
-            // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox7.Location = new System.Drawing.Point(229, 300);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(42, 19);
-            this.checkBox7.TabIndex = 213;
-            this.checkBox7.Text = "[oi]";
-            this.checkBox7.UseVisualStyleBackColor = true;
-            // 
-            // checkBox8
-            // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox8.Location = new System.Drawing.Point(118, 270);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(39, 19);
-            this.checkBox8.TabIndex = 197;
-            this.checkBox8.Text = "[o]";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            // 
-            // button9
-            // 
-            this.button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button9.Location = new System.Drawing.Point(47, 326);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(61, 25);
-            this.button9.TabIndex = 212;
-            this.button9.Text = "pria";
-            this.button9.UseVisualStyleBackColor = true;
-            // 
-            // button10
-            // 
-            this.button10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button10.Location = new System.Drawing.Point(156, 266);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(61, 25);
-            this.button10.TabIndex = 198;
-            this.button10.Text = "mot eau";
-            this.button10.UseVisualStyleBackColor = true;
-            // 
-            // checkBox9
-            // 
-            this.checkBox9.AutoSize = true;
-            this.checkBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox9.Location = new System.Drawing.Point(9, 329);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(38, 19);
-            this.checkBox9.TabIndex = 211;
-            this.checkBox9.Text = "[ij]";
-            this.checkBox9.UseVisualStyleBackColor = true;
-            // 
-            // checkBox10
-            // 
-            this.checkBox10.AutoSize = true;
-            this.checkBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox10.Location = new System.Drawing.Point(118, 300);
-            this.checkBox10.Name = "checkBox10";
-            this.checkBox10.Size = new System.Drawing.Size(39, 19);
-            this.checkBox10.TabIndex = 199;
-            this.checkBox10.Text = "[è]";
-            this.checkBox10.UseVisualStyleBackColor = true;
-            // 
-            // button11
-            // 
-            this.button11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button11.Location = new System.Drawing.Point(156, 296);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(61, 25);
-            this.button11.TabIndex = 200;
-            this.button11.Text = "sel";
-            this.button11.UseVisualStyleBackColor = true;
-            // 
-            // checkBox11
-            // 
-            this.checkBox11.AutoSize = true;
-            this.checkBox11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox11.Location = new System.Drawing.Point(118, 330);
-            this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(44, 19);
-            this.checkBox11.TabIndex = 201;
-            this.checkBox11.Text = "[@]";
-            this.checkBox11.UseVisualStyleBackColor = true;
-            // 
-            // button12
-            // 
-            this.button12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button12.Location = new System.Drawing.Point(268, 326);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(61, 25);
-            this.button12.TabIndex = 210;
-            this.button12.Text = "parfum";
-            this.button12.UseVisualStyleBackColor = true;
-            // 
-            // checkBox12
-            // 
-            this.checkBox12.AutoSize = true;
-            this.checkBox12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox12.Location = new System.Drawing.Point(229, 330);
-            this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(39, 19);
-            this.checkBox12.TabIndex = 209;
-            this.checkBox12.Text = "[1]";
-            this.checkBox12.UseVisualStyleBackColor = true;
-            // 
-            // btPNdeuxPoints
-            // 
-            this.btPNdeuxPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btPNdeuxPoints.Location = new System.Drawing.Point(268, 206);
-            this.btPNdeuxPoints.Name = "btPNdeuxPoints";
-            this.btPNdeuxPoints.Size = new System.Drawing.Size(61, 25);
-            this.btPNdeuxPoints.TabIndex = 208;
-            this.btPNdeuxPoints.Text = "2 points";
-            this.btPNdeuxPoints.UseVisualStyleBackColor = true;
-            // 
-            // cbPNdeuxPoints
-            // 
-            this.cbPNdeuxPoints.AutoSize = true;
-            this.cbPNdeuxPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbPNdeuxPoints.Location = new System.Drawing.Point(229, 210);
-            this.cbPNdeuxPoints.Name = "cbPNdeuxPoints";
-            this.cbPNdeuxPoints.Size = new System.Drawing.Size(35, 19);
-            this.cbPNdeuxPoints.TabIndex = 207;
-            this.cbPNdeuxPoints.Text = "[:]";
-            this.cbPNdeuxPoints.UseVisualStyleBackColor = true;
-            // 
-            // button14
-            // 
-            this.button14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button14.Location = new System.Drawing.Point(268, 266);
-            this.button14.Margin = new System.Windows.Forms.Padding(2);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(61, 25);
-            this.button14.TabIndex = 206;
-            this.button14.Text = "fin";
-            this.button14.UseVisualStyleBackColor = true;
-            // 
-            // checkBox14
-            // 
-            this.checkBox14.AutoSize = true;
-            this.checkBox14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox14.Location = new System.Drawing.Point(229, 240);
-            this.checkBox14.Name = "checkBox14";
-            this.checkBox14.Size = new System.Drawing.Size(39, 19);
-            this.checkBox14.TabIndex = 203;
-            this.checkBox14.Text = "[2]";
-            this.checkBox14.UseVisualStyleBackColor = true;
-            // 
-            // checkBox15
-            // 
-            this.checkBox15.AutoSize = true;
-            this.checkBox15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox15.Location = new System.Drawing.Point(229, 270);
-            this.checkBox15.Name = "checkBox15";
-            this.checkBox15.Size = new System.Drawing.Size(39, 19);
-            this.checkBox15.TabIndex = 205;
-            this.checkBox15.Text = "[5]";
-            this.checkBox15.UseVisualStyleBackColor = true;
-            // 
-            // button15
-            // 
-            this.button15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button15.Location = new System.Drawing.Point(268, 236);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(61, 25);
-            this.button15.TabIndex = 204;
-            this.button15.Text = "feu, oeuf";
-            this.button15.UseVisualStyleBackColor = true;
-            // 
             // ConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3771,35 +3883,40 @@
         private System.Windows.Forms.Button btcArcs;
         private System.Windows.Forms.Button butConfigDuo;
         private System.Windows.Forms.Button butExecuteDuo;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btPNautres;
         private System.Windows.Forms.CheckBox cbPNpoint;
         private System.Windows.Forms.CheckBox cbPNpointVirgule;
         private System.Windows.Forms.Button btPNpoint;
         private System.Windows.Forms.Button btPNpointVirgule;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.CheckBox cbPNvirugule;
+        private System.Windows.Forms.CheckBox cbPNpointDInterrogation;
+        private System.Windows.Forms.Button btPNpointDInterrogation;
+        private System.Windows.Forms.CheckBox cbPNvirgule;
         private System.Windows.Forms.Button btPNvirgule;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox btPNparanthese;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox8;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.CheckBox checkBox9;
-        private System.Windows.Forms.CheckBox checkBox10;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.CheckBox checkBox11;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.CheckBox checkBox12;
+        private System.Windows.Forms.CheckBox cbPNmaths;
+        private System.Windows.Forms.CheckBox cbPNparanthese;
+        private System.Windows.Forms.Button btPNmaths;
+        private System.Windows.Forms.Button btPNespace;
+        private System.Windows.Forms.Button btPNparanthese;
+        private System.Windows.Forms.CheckBox cbPNespace;
+        private System.Windows.Forms.CheckBox cbPNguillemets;
+        private System.Windows.Forms.Button btPNdivers;
+        private System.Windows.Forms.Button btPNguillemets;
+        private System.Windows.Forms.CheckBox cbPNdivers;
+        private System.Windows.Forms.CheckBox cbPNmonnaie;
+        private System.Windows.Forms.Button btPNmonnaie;
+        private System.Windows.Forms.CheckBox cbPNautres;
         private System.Windows.Forms.Button btPNdeuxPoints;
         private System.Windows.Forms.CheckBox cbPNdeuxPoints;
-        private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.CheckBox checkBox14;
-        private System.Windows.Forms.CheckBox checkBox15;
-        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button btPNapostrophe;
+        private System.Windows.Forms.CheckBox cbPNpointDExclamation;
+        private System.Windows.Forms.CheckBox cbPNapostrophe;
+        private System.Windows.Forms.Button btPNpointDExclamation;
+        private System.Windows.Forms.Label lblTitrePonct;
+        private System.Windows.Forms.Button btPAponctuation;
+        private System.Windows.Forms.Label lblPonct;
+        private System.Windows.Forms.Button btPAreset;
+        private System.Windows.Forms.Button btPMmaitre;
+        private System.Windows.Forms.CheckBox cbPMmaitre;
+        private System.Windows.Forms.Button btcLnoir3;
     }
 }
