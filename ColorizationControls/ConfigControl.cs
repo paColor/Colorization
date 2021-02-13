@@ -1,5 +1,5 @@
 ﻿/********************************************************************************
- *  Copyright 2020, Pierre-Alain Etique                                         *
+ *  Copyright 2020 - 2021, Pierre-Alain Etique                                  *
  *                                                                              *
  *  This file is part of Coloriƨation.                                          *
  *                                                                              *
@@ -645,7 +645,7 @@ namespace ColorizationControls
 
             // ponctuation
             ponctInfos = new Dictionary<string, SonInfo>((int)Ponctuation.lastP);
-            for (Ponctuation p = Ponctuation.firstP; p < Ponctuation.lastP; p++)
+            for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
             {
                 ponctInfos.Add(p.ToString(), new SonInfo());
             }
@@ -1330,7 +1330,7 @@ namespace ColorizationControls
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
             Debug.Assert(theBtn.Name.StartsWith("btPN"));
             string ponct = theBtn.Name.Substring(4, theBtn.Name.Length - 4);
-            CharFormatForm form = new CharFormatForm(theConf.ponctConf.GetCF(ponct), ponct,
+            CharFormatForm form = new CharFormatForm(theConf.ponctConf.GetCF(ponct), ponct, ponct,
                 theConf.ponctConf.SetCF);
             p.Offset(-form.Width, -(form.Height / 2));
             form.Location = p;
@@ -1349,7 +1349,7 @@ namespace ColorizationControls
             logger.ConditionalDebug("btPMmaitre_Click");
             Button theBtn = (Button)sender;
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
-            CharFormatForm form = new CharFormatForm(theConf.ponctConf.MasterCF, "Tous",
+            CharFormatForm form = new CharFormatForm(theConf.ponctConf.MasterCF, "Tous", "Tous",
                 theConf.ponctConf.SetMasterCF);
             p.Offset(-form.Width, -(form.Height / 2));
             form.Location = p;

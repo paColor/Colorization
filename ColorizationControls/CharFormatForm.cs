@@ -1,5 +1,5 @@
 ﻿/********************************************************************************
- *  Copyright 2020, Pierre-Alain Etique                                         *
+ *  Copyright 2020 - 2021, Pierre-Alain Etique                                  *
  *                                                                              *
  *  This file is part of Coloriƨation.                                          *
  *                                                                              *
@@ -54,9 +54,44 @@ namespace ColorizationControls
 
         private FormatButtonHandler2 bHandler, iHandler, uHandler;
 
+        /// <summary>
+        /// Ouvre une fenêtre pour le choix des paramètres de formatage des caractères.
+        /// </summary>
+        /// <param name="cf">La configuration de départ à afficher.</param>
+        /// <param name="theSon">Le nom du son à formater. Ne doit pas obligatoirement être un son.
+        /// Est utilisé lors de l'appel de la méthode pour stocker le résultat.</param>
+        /// <param name="displayText">Le texte à afficher comme titre de la fenêtre.</param>
+        /// <param name="inCharFormResult">La méthode à appeler pour communiquer le nouveau
+        /// <see cref="CharFormatting"/>. <paramref name="theSon"/> est passé également lors de cet
+        /// appel.</param>
+        public CharFormatForm(CharFormatting cf, string theSon, 
+            string displayText, SetCharFormResult inCharFormResult)
+        {
+            logger.ConditionalDebug("CTOR CharFormatForm");
+            InitCtor(cf, theSon, displayText, inCharFormResult);
+        }
+
+        /// <summary>
+        /// Constructeur où il est connu que <paramref name="theSon"/> est effectivement un son.
+        /// Le titre de la fenêtre est alors calculé automatiquement en utilisant les possibilités
+        /// de <see cref="ColConfWin"/>.
+        /// </summary>
+        /// <param name="cf">Le formatage initial.</param>
+        /// <param name="theSon">Le son (au sens <see cref="ColConfWin"/> pour lequel le formatage
+        /// est édité.</param>
+        /// <param name="inCharFormResult">La méthode à appeler pour communiquer le nouveau
+        /// <see cref="CharFormatting"/>. A noter que <paramref name="theSon"/> est également 
+        /// transmis à cette méthode.</param>
         public CharFormatForm(CharFormatting cf, string theSon, SetCharFormResult inCharFormResult)
         {
-            logger.ConditionalDebug("CTOR CharFormatting");
+            logger.ConditionalDebug("CTOR CharFormatForm");
+            InitCtor(cf, theSon, FormName(son), inCharFormResult);
+        }
+
+        private void InitCtor(CharFormatting cf, string theSon,
+            string displayText, SetCharFormResult inCharFormResult)
+        {
+            logger.ConditionalDebug("InitCtor");
 
             InitializeComponent();
             if (!HilightForm.CanOperate())
@@ -74,7 +109,7 @@ namespace ColorizationControls
             colorSet = true; // Si le bouton "valider" est cliqué, la couleur doit être la couleur mise.
             theColor = cf.color;
             hilightSet = cf.changeHilight;
-            theHilightColor = cf.hilightColor; 
+            theHilightColor = cf.hilightColor;
             bold = cf.bold;
             italic = cf.italic;
             underscore = cf.underline;
@@ -82,14 +117,14 @@ namespace ColorizationControls
 
             bHandler = new FormatButtonHandler2(pbxBold, Properties.Resources.Bold, Properties.Resources.BoldSet,
                 Properties.Resources.BoldPressed, Properties.Resources.BoldSetMouseOn1, SetBold, UnsetBold, bold);
-            iHandler = new FormatButtonHandler2(pbxItalic, Properties.Resources.Italic, Properties.Resources.ItalicSet, 
+            iHandler = new FormatButtonHandler2(pbxItalic, Properties.Resources.Italic, Properties.Resources.ItalicSet,
                 Properties.Resources.ItalicPressed, Properties.Resources.ItalicSetOver, SetItalic, UnsetItalic, italic);
-            uHandler = new FormatButtonHandler2(pbxUnderscore, Properties.Resources.Underscore, Properties.Resources.UnderscoreSet, 
+            uHandler = new FormatButtonHandler2(pbxUnderscore, Properties.Resources.Underscore, Properties.Resources.UnderscoreSet,
                 Properties.Resources.UnderscorePressed, Properties.Resources.UnderscoreSetOver, SetUnderscore, UnsetUnderscore, underscore);
-            
+
             btnCouleur.BackColor = theColor;
             btnSurl.BackColor = theHilightColor;
-            this.Text = FormName(son);
+            this.Text = displayText;
             charFormResult = inCharFormResult;
         }
 

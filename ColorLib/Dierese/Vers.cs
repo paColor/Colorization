@@ -1,5 +1,5 @@
 ﻿/********************************************************************************
- *  Copyright 2020, Pierre-Alain Etique                                         *
+ *  Copyright 2020 - 2021, Pierre-Alain Etique                                  *
  *                                                                              *
  *  This file is part of Coloriƨation.                                          *
  *                                                                              *

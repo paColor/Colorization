@@ -75,7 +75,7 @@ namespace ColorLib
                 if (_masterCF != value)
                 {
                     _masterCF = value;
-                    for (Ponctuation p = Ponctuation.firstP; p < Ponctuation.lastP; p++)
+                    for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
                     {
                         SetCF(p, value);
                     }
@@ -99,7 +99,7 @@ namespace ColorLib
                     _masterState = value;
                     if (value == State.master)
                     {
-                        for (Ponctuation p = Ponctuation.firstP; p < Ponctuation.lastP; p++)
+                        for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
                         {
                             SetCF(p, MasterCF);
                         }
@@ -109,7 +109,7 @@ namespace ColorLib
                     {
                         MasterCheckBox = false;
                         OnMasterCBModified();
-                        for (Ponctuation p = Ponctuation.firstP; p < Ponctuation.lastP; p++)
+                        for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
                         {
                             SetCB(p, false);
                         }
@@ -127,10 +127,10 @@ namespace ColorLib
 
             set
             {
-                if (MasterCheckBox != value)
+                if (_masterCheckBox != value)
                 {
                     _masterCheckBox = value;
-                    for (Ponctuation p = Ponctuation.firstP; p < Ponctuation.lastP; p++)
+                    for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
                     {
                         SetCB(p, value);
                     }
@@ -207,7 +207,7 @@ namespace ColorLib
         /// </summary>
         public override void Reset()
         {
-            for (Ponctuation p = Ponctuation.firstP; p < Ponctuation.lastP; p++)
+            for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
             {
                 charFormats[p] = CharFormatting.NeutralCF;
                 checkBoxes[p] = false;
@@ -281,7 +281,7 @@ namespace ColorLib
             {
                 logger.Error("{0} n'est pas un type de ponctuation.");
                 Debug.Assert(false);
-                return Ponctuation.firstP;
+                return Ponctuation.point; // il faut bien une valeur...
             }
         }
 
