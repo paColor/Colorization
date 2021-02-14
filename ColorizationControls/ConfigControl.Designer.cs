@@ -236,7 +236,6 @@
             this.lblPonct = new System.Windows.Forms.Label();
             this.btPAreset = new System.Windows.Forms.Button();
             this.btPMmaitre = new System.Windows.Forms.Button();
-            this.cbPMmaitre = new System.Windows.Forms.CheckBox();
             this.btPNautres = new System.Windows.Forms.Button();
             this.cbPNpoint = new System.Windows.Forms.CheckBox();
             this.cbPNpointVirgule = new System.Windows.Forms.CheckBox();
@@ -293,6 +292,7 @@
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
             this.cmsArcButtons = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblTous = new System.Windows.Forms.Label();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -2799,13 +2799,13 @@
             // tabArcs
             // 
             this.tabArcs.BackColor = System.Drawing.SystemColors.Control;
+            this.tabArcs.Controls.Add(this.lblTous);
             this.tabArcs.Controls.Add(this.btcLnoir3);
             this.tabArcs.Controls.Add(this.lblTitrePonct);
             this.tabArcs.Controls.Add(this.btPAponctuation);
             this.tabArcs.Controls.Add(this.lblPonct);
             this.tabArcs.Controls.Add(this.btPAreset);
             this.tabArcs.Controls.Add(this.btPMmaitre);
-            this.tabArcs.Controls.Add(this.cbPMmaitre);
             this.tabArcs.Controls.Add(this.btPNautres);
             this.tabArcs.Controls.Add(this.cbPNpoint);
             this.tabArcs.Controls.Add(this.cbPNpointVirgule);
@@ -2842,7 +2842,7 @@
             this.tabArcs.Padding = new System.Windows.Forms.Padding(3);
             this.tabArcs.Size = new System.Drawing.Size(337, 557);
             this.tabArcs.TabIndex = 5;
-            this.tabArcs.Text = "Duo";
+            this.tabArcs.Text = "Duo/Ponct";
             // 
             // btcLnoir3
             // 
@@ -2860,11 +2860,11 @@
             // 
             this.lblTitrePonct.AutoSize = true;
             this.lblTitrePonct.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitrePonct.Location = new System.Drawing.Point(109, 138);
+            this.lblTitrePonct.Location = new System.Drawing.Point(29, 137);
             this.lblTitrePonct.Name = "lblTitrePonct";
-            this.lblTitrePonct.Size = new System.Drawing.Size(119, 17);
+            this.lblTitrePonct.Size = new System.Drawing.Size(273, 17);
             this.lblTitrePonct.TabIndex = 220;
-            this.lblTitrePonct.Text = "PONCTUATION";
+            this.lblTitrePonct.Text = "PONCTUATION ET AUTRES SIGNES";
             // 
             // btPAponctuation
             // 
@@ -2902,8 +2902,9 @@
             // 
             // btPMmaitre
             // 
+            this.btPMmaitre.ContextMenuStrip = this.cmsEffacerCopier;
             this.btPMmaitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btPMmaitre.Location = new System.Drawing.Point(147, 221);
+            this.btPMmaitre.Location = new System.Drawing.Point(141, 221);
             this.btPMmaitre.Name = "btPMmaitre";
             this.btPMmaitre.Size = new System.Drawing.Size(96, 31);
             this.btPMmaitre.TabIndex = 216;
@@ -2911,18 +2912,6 @@
             this.ttipLettreEnNoir.SetToolTip(this.btPMmaitre, "contrôle le formatage de tous\r\nles caractères considérés. ");
             this.btPMmaitre.UseVisualStyleBackColor = true;
             this.btPMmaitre.Click += new System.EventHandler(this.btPMmaitre_Click);
-            // 
-            // cbPMmaitre
-            // 
-            this.cbPMmaitre.AutoSize = true;
-            this.cbPMmaitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbPMmaitre.Location = new System.Drawing.Point(92, 227);
-            this.cbPMmaitre.Name = "cbPMmaitre";
-            this.cbPMmaitre.Size = new System.Drawing.Size(54, 21);
-            this.cbPMmaitre.TabIndex = 215;
-            this.cbPMmaitre.Text = "tous";
-            this.cbPMmaitre.UseVisualStyleBackColor = true;
-            this.cbPMmaitre.CheckedChanged += new System.EventHandler(this.cbPMmaitre_CheckedChanged);
             // 
             // btPNautres
             // 
@@ -3600,6 +3589,16 @@
             this.tsmEffacerCoulArc.Text = "Effacer";
             this.tsmEffacerCoulArc.Click += new System.EventHandler(this.tsmEffacerCoulArc_Click);
             // 
+            // lblTous
+            // 
+            this.lblTous.AutoSize = true;
+            this.lblTous.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTous.Location = new System.Drawing.Point(95, 228);
+            this.lblTous.Name = "lblTous";
+            this.lblTous.Size = new System.Drawing.Size(40, 17);
+            this.lblTous.TabIndex = 222;
+            this.lblTous.Text = "Tous";
+            // 
             // ConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3916,7 +3915,7 @@
         private System.Windows.Forms.Label lblPonct;
         private System.Windows.Forms.Button btPAreset;
         private System.Windows.Forms.Button btPMmaitre;
-        private System.Windows.Forms.CheckBox cbPMmaitre;
         private System.Windows.Forms.Button btcLnoir3;
+        private System.Windows.Forms.Label lblTous;
     }
 }

@@ -950,8 +950,8 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de coloriser les syllabes sans une configuration vallable.");
-                throw new ArgumentException("conf == null. Impossible de coloriser les syllabes sans une configuration valable.");
+                logger.Error("conf == null. Impossible de coloriser les arcs sans une configuration vallable.");
+                throw new ArgumentException("conf == null. Impossible de coloriser les arcs sans une configuration valable.");
             }
         }
 
@@ -972,6 +972,29 @@ namespace ColorLib
             {
                 logger.Error("conf == null. Impossible d'effacer les arcs sans une configuration vallable.");
                 throw new ArgumentException("conf == null. Impossible d'effacer les arcs sans une configuration valable.");
+            }
+        }
+
+        public void MarkPonct(Config conf)
+        {
+            logger.ConditionalDebug("MarkPonct");
+            if (conf != null)
+            {
+                formatsMgmt.ClearFormats();
+                ConcurrentBag<PonctInT> signesP = new ConcurrentBag<PonctInT>();
+                Regex rx = new Regex(@"\W", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                MatchCollection matches = rx.Matches(S);
+                foreach (Match m in matches)
+                {
+                    signesP.Add(new PonctInT(this, m.Index));
+                }
+                Parallel.ForEach<PonctInT>(signesP, (p) => { p.PutColor(conf); });
+                ApplyFormatting(conf);
+            }
+            else
+            {
+                logger.Error("conf == null. Impossible de coloriser la ponctuation sans une configuration vallable.");
+                throw new ArgumentException("conf == null. Impossible de coloriser la ponctuation sans une configuration valable.");
             }
         }
 

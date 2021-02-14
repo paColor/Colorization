@@ -85,7 +85,7 @@ namespace ColorizationControls
         public CharFormatForm(CharFormatting cf, string theSon, SetCharFormResult inCharFormResult)
         {
             logger.ConditionalDebug("CTOR CharFormatForm");
-            InitCtor(cf, theSon, FormName(son), inCharFormResult);
+            InitCtor(cf, theSon, FormName(theSon), inCharFormResult);
         }
 
         private void InitCtor(CharFormatting cf, string theSon,

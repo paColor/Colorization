@@ -54,6 +54,7 @@ namespace ColorizationWord
         private static void MarkDuo(MSWText t, Config conf) => t.MarkDuo(conf);
         private static void MarkArcs(MSWText t, Config conf) => t.MarkArcs(conf);
         private static void RemoveArcs(MSWText t, Config conf) => t.RemoveArcs(conf);
+        private static void MarkPonct(MSWText t, Config conf) => t.MarkPonct(conf);
  
         public static void Init()
         {
@@ -141,6 +142,7 @@ namespace ColorizationWord
         public static void ColorPonctuation(Config conf)
         {
             logger.Info("ColorPonctuation");
+            ActOnSelectedText(MarkPonct, "Ponctuation", conf);
         }
 
         private static void ActOnShape(Shape sh, ActOnMSWText act, Config conf)

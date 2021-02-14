@@ -70,7 +70,7 @@ namespace ColorLib
     [Serializable]
     public enum PredefCol { black, darkYellow, orange, darkGreen, violet, darkBlue, red,
         brown, blue, turquoise, grey, pink, frogGreen, cerasUn,
-        neutral, pureBlue, lightBlue, darkRed, white
+        neutral, pureBlue, lightBlue, darkRed, white, pinky
     }
 
     /// <summary>
@@ -278,6 +278,7 @@ namespace ColorLib
             new RGB(091, 215, 255), // bleu clair   --> bleu clair
             new RGB(175, 000, 000), // rouge foncé  --> rouge foncé
             new RGB(255, 255, 255), // blanc        --> blanc
+            new RGB(255, 000, 128), // pinky        --> rose foncé
         };
 
         /// <summary>

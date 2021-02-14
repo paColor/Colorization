@@ -72,14 +72,17 @@ namespace ColorLib
 
             set
             {
-                if (_masterCF != value)
+                if (_masterCF != value || MasterState == State.off)
                 {
                     _masterCF = value;
+                    MasterState = State.master;
                     for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
                     {
-                        SetCF(p, value);
+                        charFormats[p] = MasterCF;
+                        OnPonctFormattingModified(p);
+                        checkBoxes[p] = true;
+                        OnPonctCBModified(p);
                     }
-                    MasterState = State.master;
                     OnMasterCFModified();
                 }
             }
@@ -97,53 +100,10 @@ namespace ColorLib
                 if (_masterState != value)
                 {
                     _masterState = value;
-                    if (value == State.master)
-                    {
-                        for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
-                        {
-                            SetCF(p, MasterCF);
-                        }
-                        MasterCheckBox = true;
-                    }
-                    else if (value == State.off)
-                    {
-                        MasterCheckBox = false;
-                        OnMasterCBModified();
-                        for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
-                        {
-                            SetCB(p, false);
-                        }
-                    }
                     OnMasterStateModified();
                 }
             }
         }
-
-        public bool MasterCheckBox { 
-            get
-            {
-                return _masterCheckBox;
-            } 
-
-            set
-            {
-                if (_masterCheckBox != value)
-                {
-                    _masterCheckBox = value;
-                    for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
-                    {
-                        SetCB(p, value);
-                    }
-                    MasterState = State.master;
-                    OnMasterCBModified();
-                }
-            }
-        }
-
-
-
-
-
 
         // ----------------------------------------------------------------------------------------
         // -----------------------------------  Private Members  ----------------------------------
@@ -156,7 +116,6 @@ namespace ColorLib
 
         private CharFormatting _masterCF;
         private State _masterState;
-        private bool _masterCheckBox;
 
         // ----------------------------------------------------------------------------------------
         // ------------------------------------  Event Handlers -----------------------------------
@@ -187,18 +146,19 @@ namespace ColorLib
         [field: NonSerialized]
         public event EventHandler MasterStateModified;
 
-        /// <summary>
-        /// Evènement déclenché quand la checkbox maître est modifiée.
-        /// </summary>
-        [field: NonSerialized]
-        public event EventHandler MasterCBModified;
-
         // ----------------------------------------------------------------------------------------
         // ------------------------------------  Public Methods -----------------------------------
         // ----------------------------------------------------------------------------------------
 
         public PonctConfig()
         {
+            for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
+            {
+                charFormats[p] = CharFormatting.NeutralCF;
+                OnPonctFormattingModified(p);
+                checkBoxes[p] = false;
+                OnPonctCBModified(p);
+            }
             Reset();
         }
 
@@ -207,14 +167,8 @@ namespace ColorLib
         /// </summary>
         public override void Reset()
         {
-            for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
-            {
-                charFormats[p] = CharFormatting.NeutralCF;
-                checkBoxes[p] = false;
-            }
-            _masterCF = CharFormatting.NeutralCF;
-            _masterState = State.master;
-            _masterCheckBox = false;
+            logger.ConditionalDebug("Reset");
+            MasterCF = new CharFormatting(ColConfWin.coloredCF[(int)PredefCol.pinky], true, false, false);
         }
 
         /// <summary>
@@ -224,6 +178,27 @@ namespace ColorLib
         /// <param name="p">La famille de caractères de ponctuation dont on veut le CF.</param>
         /// <returns>Le <see cref="CharFormatting"/> souhaité.</returns>
         public CharFormatting GetCF(Ponctuation p) => charFormats[p];
+
+        /// <summary>
+        /// Retourne le <see cref="CharFormatting"/> à utiliser pour le formatage des caractères.
+        /// Tient compte de la checkbox pour déterminer le <see cref="CharFormatting"/> retourné.
+        /// </summary>
+        /// <remarks>Retourne <see cref="CharFormatting.NeutralCF"/> si la checkbox correspondante
+        /// est à <c>false</c>.</remarks>
+        /// <param name="p">La famille de signes pour laquelle on veut le 
+        /// <see cref="CharFormatting"/></param>
+        /// <returns>le <see cref="CharFormatting"/> à utiliser.</returns>
+        public CharFormatting GetCFtoApply(Ponctuation p)
+        {
+            if (checkBoxes[p])
+            {
+                return charFormats[p];
+            }
+            else
+            {
+                return CharFormatting.NeutralCF;
+            }
+        }
 
         /// <summary>
         /// Retourne le <see cref="CharFormatting"/> pour la famille de caractères identifiée par
@@ -237,14 +212,12 @@ namespace ColorLib
 
         public void SetCF(Ponctuation p, CharFormatting toCF)
         {
+            logger.ConditionalDebug("SetCF {0} to {1}", p.ToString(), toCF.ToString());
             if (toCF != charFormats[p])
             {
                 charFormats[p] = toCF;
                 OnPonctFormattingModified(p);
-                if (MasterState == State.master && MasterCF != toCF)
-                {
-                    MasterState = State.off;
-                }
+                MasterState = State.off;
             }
         }
 
@@ -256,14 +229,12 @@ namespace ColorLib
 
         public void SetCB(Ponctuation p, bool toCB)
         {
+            logger.ConditionalDebug("SetCF {0} to {1}", p.ToString(), toCB);
             if (toCB != checkBoxes[p])
             {
                 checkBoxes[p] = toCB;
                 OnPonctCBModified(p);
-                if (MasterState == State.master && MasterCheckBox != toCB)
-                {
-                    MasterState = State.off;
-                }
+                MasterState = State.off;
             }
         }
 
@@ -323,11 +294,5 @@ namespace ColorLib
             eventHandler?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual void OnMasterCBModified()
-        {
-            logger.ConditionalDebug("OnMasterCBModified");
-            EventHandler eventHandler = MasterCBModified;
-            eventHandler?.Invoke(this, EventArgs.Empty);
-        }
     }
 }

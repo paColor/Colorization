@@ -85,8 +85,6 @@ namespace ColorLib
             { '¥',  Ponctuation.monnaie },
             { ' ',  Ponctuation.espace },
             { '\t', Ponctuation.espace },
-            { '\r', Ponctuation.espace },
-            { '\n', Ponctuation.espace },
             { '&',  Ponctuation.divers },
             { '_',  Ponctuation.divers },
             { '§',  Ponctuation.divers },
@@ -154,7 +152,7 @@ namespace ColorLib
 
         public override void PutColor(Config conf)
         {
-            base.SetCharFormat(conf.ponctConf.GetCF(ponct));
+            base.SetCharFormat(conf.ponctConf.GetCFtoApply(ponct));
         }
     }
 }

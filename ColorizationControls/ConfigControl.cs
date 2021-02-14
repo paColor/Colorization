@@ -125,6 +125,7 @@ namespace ColorizationControls
         private string cmsButType; // type of button, that was right clicked e.g. "btSC", "btL", "btn", ...
         private int cmsButNr; // le numéro du bouton cliqué droit
         private string cmsButSon = ""; // contient le son du bouton cliqué droit
+        private string cmsButPonct = ""; // la ponctuation du bouton cliqué droit
         private CharFormatting cmsCF; // contient le CharFormatting du bouton cliqué droit.
         private int countPasteLetters; // pour itérer à traver lettersToPaste quand on colle sur une lettre vide.
         private const string lettersToPaste = @"ƨ$@#<>*%()?![]{},.;:/\-_§°~¦|";
@@ -286,7 +287,7 @@ namespace ColorizationControls
         {
             logger.ConditionalTrace("UpdatePonctMaitreBut");
 
-            if (cbPMmaitre.Checked && theConf.ponctConf.MasterState == PonctConfig.State.master)
+            if (theConf.ponctConf.MasterState == PonctConfig.State.master)
             {
                 btPMmaitre.Text = "Tous";
                 CharFormatting cf = theConf.ponctConf.MasterCF;
@@ -303,13 +304,6 @@ namespace ColorizationControls
             }
         }
 
-        private void UpdateCBmaitre()
-        {
-            logger.ConditionalTrace("UpdateCBmaitre");
-            cbPMmaitre.Checked = theConf.ponctConf.MasterCheckBox;
-            UpdatePonctMaitreBut();
-        }
-
         private void UpdateAllPonctCBandButtons()
         {
             logger.ConditionalDebug("UpdateAllPonctCBandButtons");
@@ -318,7 +312,7 @@ namespace ColorizationControls
             {
                 UpdateCBPonct(ponct); // exécute UpdatePonctButton
             }
-            UpdateCBmaitre(); // exécute UpdatePonctMaitreBut
+            UpdatePonctMaitreBut();
             ResumeLayout();
         }
 
@@ -571,6 +565,10 @@ namespace ColorizationControls
             theConf.arcConf.EpaisseurModified += EpaisseurModifiedHandler;
             theConf.arcConf.DecalageModified += DecalageModifiedHandler;
             theConf.unsetBeh.CheckboxUnsetModifiedEvent += CheckboxUnsetModified;
+            theConf.ponctConf.MasterCFModified += MasterCFModifiedHandler;
+            theConf.ponctConf.MasterStateModified += MasterStateModifiedHandler;
+            theConf.ponctConf.PonctCBModified += PonctCBModifiedHandler;
+            theConf.ponctConf.PonctFormattingModified += PonctFormattingModifiedHandler;
         }
 
         private void ConfigReplaced(object sender, ConfigReplacedEventArgs e)
@@ -595,7 +593,16 @@ namespace ColorizationControls
             theConf.sylConf.MarquerMuettesModified -= MarquerMuettesModified;
             theConf.sylConf.ChercherDiereseModified -= HandleChercherDiereseModified;
             theConf.sylConf.NbrPiedsModified -= HandleNbrPiedsModified;
+            theConf.arcConf.ArcButtonModified -= ArcButtonModifiedHandler;
+            theConf.arcConf.HauteurModified -= HauteurModifiedHandler;
+            theConf.arcConf.EcartementModified -= EcartementModifiedHandler;
+            theConf.arcConf.EpaisseurModified -= EpaisseurModifiedHandler;
+            theConf.arcConf.DecalageModified -= DecalageModifiedHandler;
             theConf.unsetBeh.CheckboxUnsetModifiedEvent -= CheckboxUnsetModified;
+            theConf.ponctConf.MasterCFModified -= MasterCFModifiedHandler;
+            theConf.ponctConf.MasterStateModified -= MasterStateModifiedHandler;
+            theConf.ponctConf.PonctCBModified -= PonctCBModifiedHandler;
+            theConf.ponctConf.PonctFormattingModified -= PonctFormattingModifiedHandler;
 
             // Initialiser les handlers
             InitializeTheConf(e.newConfig);
@@ -758,6 +765,7 @@ namespace ColorizationControls
                     string butPonctTxt = theBtn.Name.Substring(4, theBtn.Name.Length - 4);
                     ponctInfos[butPonctTxt].btn = theBtn;
                     ponctInfos[butPonctTxt].btnOrigColor = theBtn.BackColor;
+                    theBtn.ContextMenuStrip = this.cmsEffacerCopier; // ça nous évite de les mettre à la main
                 }
             }
             else if (c.GetType().Equals(typeof(PictureBox)))
@@ -812,7 +820,7 @@ namespace ColorizationControls
         private void SetButtonFontStandard(Button b) => b.Font = fonts[(int)FontFormat.standard];
 
         //--------------------------------------------------------------------------------------------
-        // -------------------------- Boutons généraux phonèmes---------------------------------------
+        // --------------------------------- Boutons généraux phonèmes--------------------------------
         //--------------------------------------------------------------------------------------------
 
         private void btnCERAS_Click(object sender, EventArgs e)
@@ -1338,12 +1346,6 @@ namespace ColorizationControls
             form.Dispose();
         }
 
-        private void cbPMmaitre_CheckedChanged(object sender, EventArgs e)
-        {
-            logger.ConditionalDebug("cbPMmaitre_CheckedChanged");
-            theConf.ponctConf.MasterCheckBox = cbPMmaitre.Checked;
-        }
-
         private void btPMmaitre_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btPMmaitre_Click");
@@ -1361,6 +1363,30 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("btPAreset_Click");
             theConf.ponctConf.Reset();
+        }
+
+        private void PonctFormattingModifiedHandler(object sender, PonctModifiedEventArgs e)
+        {
+            logger.ConditionalTrace("PonctFormattingModifiedHandler {0}",e.pName);
+            UpdatePonctButton(e.pName);
+        }
+
+        private void PonctCBModifiedHandler(object sender, PonctModifiedEventArgs e)
+        {
+            logger.ConditionalTrace("PonctCBModifiedHandler {0}", e.pName);
+            UpdateCBPonct(e.pName);
+        }
+
+        private void MasterCFModifiedHandler(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("MasterCFModifiedHandler");
+            UpdatePonctMaitreBut();
+        }
+
+        private void MasterStateModifiedHandler(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("MasterStateModifiedHandler");
+            UpdatePonctMaitreBut();
         }
 
         //--------------------------------------------------------------------------------------------
@@ -1712,7 +1738,8 @@ namespace ColorizationControls
                 {
                     tsmiColler.Enabled = false;
                 }
-            } else if (cName.StartsWith("btn"))
+            } 
+            else if (cName.StartsWith("btn"))
             {
                 cmsButType = "btn";
                 cmsButSon = cName.Substring(3, cName.Length - 3);
@@ -1724,6 +1751,31 @@ namespace ColorizationControls
                 }
                 cmsCF = theConf.colors[pct].GetCF(cmsButSon);
                 SetTsmiGISforCF(cmsCF,ColConfWin.ExampleText(cmsButSon));
+            }
+            else if (cName.StartsWith("btPN"))
+            {
+                cmsButType = "btPN";
+                cmsButPonct = cName.Substring(4, cName.Length - 4);
+                if (theConf.ponctConf.GetCB(cmsButPonct))
+                {
+                    tsmiCouper.Enabled = true;
+                    tsmiCopier.Enabled = true;
+                    tsmiEffacer.Enabled = true;
+                }
+                cmsCF = theConf.ponctConf.GetCF(cmsButPonct);
+                SetTsmiGISforCF(cmsCF, cmsButPonct);
+            }
+            else if (cName.StartsWith("btPM"))
+            {
+                cmsButType = "btPM";
+                if (theConf.ponctConf.MasterState == PonctConfig.State.master)
+                {
+                    tsmiCouper.Enabled = true;
+                    tsmiCopier.Enabled = true;
+                    tsmiEffacer.Enabled = true;
+                }
+                cmsCF = theConf.ponctConf.MasterCF;
+                SetTsmiGISforCF(cmsCF, "Tous");
             }
         }
 
