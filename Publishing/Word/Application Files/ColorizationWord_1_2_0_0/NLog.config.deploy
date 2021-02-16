@@ -8,15 +8,13 @@
 
   <!-- optional, add some variables
   https://github.com/nlog/NLog/wiki/Configuration-file#variables
-
-  <variable name="myvar" value="myvalue"/>
   -->
-  
+  <variable name="myvar" value="myvalue"/>
+
   <!--
   See https://github.com/nlog/nlog/wiki/Configuration-file
   for information on customizing logging rules and outputs.
    -->
-
   <targets async="true">
 
     <!--
@@ -24,10 +22,10 @@
     See https://github.com/nlog/NLog/wiki/Targets for possible targets.
     See https://github.com/nlog/NLog/wiki/Layout-Renderers for the possible layout renderers.
     -->
-    
+
     <target xsi:type="File" name="f" fileName="${tempdir}/ColorizationLogs/${shortdate}.log"
             layout="${longdate} ${uppercase:${level}} ${logger} ${message}" />
-    
+
   </targets>
 
   <rules>
