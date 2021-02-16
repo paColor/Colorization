@@ -39,6 +39,7 @@ namespace ColorLib
         private static Dictionary<char, Ponctuation> ponctu = new Dictionary<char, Ponctuation>()
         {
             { '.',  Ponctuation.point },
+            { '…',  Ponctuation.point },
             { ',',  Ponctuation.virgule },
             { ':',  Ponctuation.deuxPoints },
             { ';',  Ponctuation.pointVirgule },

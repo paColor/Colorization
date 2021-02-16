@@ -241,7 +241,13 @@ namespace ColorizationWord
                             toR.HighlightColorIndex = wdCi;
                     }
                     else if (cf.ForceHilightClear(inConf))
+                    {
+                        // il y a un bug sur les espaces, on met donc d'abord du blanc partout
+                        // avant d'effacer. 
+                        toR.HighlightColorIndex = WdColorIndex.wdWhite;
                         toR.HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                    }
+                        
                 }
                 catch (Exception e)
                 {
@@ -373,10 +379,18 @@ namespace ColorizationWord
         /// <summary>
         /// Applique le formatage voulu au <see cref="FormattedTextEl"/> sur l'affichage.
         /// </summary>
+        /// <exception cref="ArgumentNullException"> si <paramref name="fte"/> est <c>null</c>.
+        /// </exception>
         /// <param name="fte">Le <see cref="FormattedTextEl"/> qui doit être formaté.</param>
-        /// <param name="conf">La <see cref="Config"/> à prendre en compte pour l'application du formatage.</param>
+        /// <param name="conf">La <see cref="Config"/> à prendre en compte pour l'application du
+        /// formatage.</param>
         protected override void SetChars(FormattedTextEl fte, Config conf)
         {
+            if (fte == null)
+            {
+                logger.Error("fte est null.");
+                throw new ArgumentNullException(nameof(fte));
+            }
             rgeWork.SetRange(rgStart + nrArcs + fte.First, 
                 rgStart + nrArcs + fte.Last + 1); // End doit pointer sur le caractère qui suit le range...
             ApplyCFToRange(fte.cf, rgeWork, conf);

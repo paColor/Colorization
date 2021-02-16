@@ -55,6 +55,7 @@ namespace Colorization
             this.btnVoyCons = this.Factory.CreateRibbonButton();
             this.btnDuo = this.Factory.CreateRibbonButton();
             this.btnNoir = this.Factory.CreateRibbonButton();
+            this.btnPonct = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.grpConfiguration.SuspendLayout();
             this.buttonGroup1.SuspendLayout();
@@ -103,6 +104,7 @@ namespace Colorization
             this.buttonGroup3.Items.Add(this.btnVoyCons);
             this.buttonGroup3.Items.Add(this.btnDuo);
             this.buttonGroup3.Items.Add(this.btnNoir);
+            this.buttonGroup3.Items.Add(this.btnPonct);
             this.buttonGroup3.Name = "buttonGroup3";
             // 
             // btnPhon
@@ -246,6 +248,18 @@ namespace Colorization
     "ligné sont annulés)";
             this.btnNoir.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNoir_Click);
             // 
+            // btnPonct
+            // 
+            this.btnPonct.Image = global::Colorization.Properties.Resources.phrase_16;
+            this.btnPonct.Label = "Ponctuation";
+            this.btnPonct.Name = "btnPonct";
+            this.btnPonct.ScreenTip = "Ponctuation et car. spéciaux";
+            this.btnPonct.ShowImage = true;
+            this.btnPonct.ShowLabel = false;
+            this.btnPonct.SuperTip = "Coloriƨe les signes de ponctuation et les caractères spéciaux dans le texte sélec" +
+    "tionné";
+            this.btnPonct.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnPonct_Click);
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -286,6 +300,7 @@ namespace Colorization
         internal RibbonButton btnDuo;
         internal RibbonButton btnArcs;
         internal RibbonButton btnRemoveArcs;
+        internal RibbonButton btnPonct;
     }
 
     partial class ThisRibbonCollection

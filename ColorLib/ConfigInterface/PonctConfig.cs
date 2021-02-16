@@ -223,6 +223,19 @@ namespace ColorLib
 
         public void SetCF(string ponct, CharFormatting toCF) => SetCF(Ponct4String(ponct), toCF);
 
+        /// <summary>
+        /// Définit le <see cref="CharFormatting"/> pour la famille de signes donnée et met
+        /// également la Checkbox corrspondante à <c>true</c>.
+        /// </summary>
+        /// <param name="ponctS">La famille de signes visée.</param>
+        /// <param name="toCF">Le nouveau <see cref="CharFormatting"/>.</param>
+        public void SetCFandCB(string ponctS, CharFormatting toCF)
+        {
+            Ponctuation p = Ponct4String(ponctS);
+            SetCF(p, toCF);
+            SetCB(p, true);
+        }
+
         public bool GetCB(Ponctuation p) => checkBoxes[p];
 
         public bool GetCB(string ponct) => GetCB(Ponct4String(ponct));
@@ -240,7 +253,40 @@ namespace ColorLib
 
         public void SetCB(string ponct, bool toCB) => SetCB(Ponct4String(ponct), toCB);
 
+        /// <summary>
+        /// Est utilisé par <see cref="CharFormatForm"/> qui réclame une fonction (delegate) avec
+        /// cette signature.
+        /// </summary>
+        /// <param name="dummy">N'est pas utilisé.</param>
+        /// <param name="cf">le <see cref="CharFormatting"/> auquel <c>MasterCF</c> doit être
+        /// mis.</param>
         public void SetMasterCF(string dummy, CharFormatting cf) => MasterCF = cf;
+
+        /// <summary>
+        /// Efface le CharFormatting pour la famille de signes indiquée. La checkbox correspondante
+        /// est également mise à <c>false</c>.
+        /// </summary>
+        /// <param name="ponctS">La famille de signes à effacer.</param>
+        public void ClearPonct(string ponctS)
+        {
+            Ponctuation p = Ponct4String(ponctS);
+            SetCF(p, CharFormatting.NeutralCF);
+            SetCB(p, false);
+        }
+
+        /// <summary>
+        /// Efface le maître. Désactive tout formatage des signes.
+        /// </summary>
+        public void ClearMaster()
+        {
+            MasterCF = CharFormatting.NeutralCF;
+            MasterState = State.off;
+            for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
+            {
+                checkBoxes[p] = false;
+                OnPonctCBModified(p);
+            }
+        }
 
         private Ponctuation Ponct4String(string s)
         {

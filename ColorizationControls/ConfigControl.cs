@@ -1802,6 +1802,12 @@ namespace ColorizationControls
                 case "btn":
                     clipboard = theConf.colors[pct].GetCF(cmsButSon);
                     break;
+                case "btPN":
+                    clipboard = theConf.ponctConf.GetCF(cmsButPonct);
+                    break;
+                case "btpM":
+                    clipboard = theConf.ponctConf.MasterCF;
+                    break;
             }
         }
 
@@ -1826,6 +1832,12 @@ namespace ColorizationControls
                 case "btn":
                     theConf.colors[pct].SetCbxAndCF(cmsButSon, clipboard);
                     break;
+                case "btPN":
+                    theConf.ponctConf.SetCFandCB(cmsButPonct, clipboard);
+                    break;
+                case "btPM":
+                    theConf.ponctConf.MasterCF = clipboard;
+                    break;
             }
         }
 
@@ -1845,6 +1857,12 @@ namespace ColorizationControls
                 case "btn":
                     theConf.colors[pct].ClearSon(cmsButSon);
                     break;
+                case "btPN":
+                    theConf.ponctConf.ClearPonct(cmsButPonct);
+                    break;
+                case "btPM":
+                    theConf.ponctConf.ClearMaster();
+                    break;
             }
         }
 
@@ -1861,6 +1879,12 @@ namespace ColorizationControls
                     break;
                 case "btn":
                     theConf.colors[pct].SetCbxAndCF(cmsButSon, cf);
+                    break;
+                case "btPN":
+                    theConf.ponctConf.SetCF(cmsButPonct, cf);
+                    break;
+                case "btPM":
+                    theConf.ponctConf.MasterCF = cf;
                     break;
             }
         }

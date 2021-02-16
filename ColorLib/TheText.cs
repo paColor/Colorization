@@ -986,9 +986,9 @@ namespace ColorLib
                 MatchCollection matches = rx.Matches(S);
                 foreach (Match m in matches)
                 {
-                    signesP.Add(new PonctInT(this, m.Index));
+                    PonctInT p = new PonctInT(this, m.Index);
+                    p.PutColor(conf);
                 }
-                Parallel.ForEach<PonctInT>(signesP, (p) => { p.PutColor(conf); });
                 ApplyFormatting(conf);
             }
             else
@@ -998,7 +998,21 @@ namespace ColorLib
             }
         }
 
-        public void AddFTE(FormattedTextEl fte) => formatsMgmt.Add(fte);
+        /// <summary>
+        /// Ajoute le <see cref="FormattedTextEl"/> à la liste des éléments formatés pour le texte.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"> si <paramref name="fte"/> est <c>null</c>
+        /// </exception>
+        /// <param name="fte">L'élément formaté à ajouter.</param>
+        public void AddFTE(FormattedTextEl fte)
+        {
+            if (fte == null)
+            {
+                logger.Error("fte est null.");
+                throw new ArgumentNullException(nameof(fte));
+            }
+            formatsMgmt.Add(fte);
+        }
 
         // ****************************************************************************************
         // *                                   protected methods                                  *

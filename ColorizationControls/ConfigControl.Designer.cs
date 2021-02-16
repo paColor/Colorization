@@ -230,6 +230,7 @@
             this.btSMots = new System.Windows.Forms.Button();
             this.btSAppliquer = new System.Windows.Forms.Button();
             this.tabArcs = new System.Windows.Forms.TabPage();
+            this.lblTous = new System.Windows.Forms.Label();
             this.btcLnoir3 = new System.Windows.Forms.Button();
             this.lblTitrePonct = new System.Windows.Forms.Label();
             this.btPAponctuation = new System.Windows.Forms.Button();
@@ -292,7 +293,6 @@
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
             this.cmsArcButtons = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblTous = new System.Windows.Forms.Label();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -2844,6 +2844,16 @@
             this.tabArcs.TabIndex = 5;
             this.tabArcs.Text = "Duo/Ponct";
             // 
+            // lblTous
+            // 
+            this.lblTous.AutoSize = true;
+            this.lblTous.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTous.Location = new System.Drawing.Point(95, 228);
+            this.lblTous.Name = "lblTous";
+            this.lblTous.Size = new System.Drawing.Size(40, 17);
+            this.lblTous.TabIndex = 222;
+            this.lblTous.Text = "Tous";
+            // 
             // btcLnoir3
             // 
             this.btcLnoir3.BackColor = System.Drawing.SystemColors.Control;
@@ -2896,7 +2906,7 @@
             this.btPAreset.Size = new System.Drawing.Size(150, 23);
             this.btPAreset.TabIndex = 217;
             this.btPAreset.Text = "réinitialiser";
-            this.ttipLettreEnNoir.SetToolTip(this.btPAreset, "Réinitialise aux valeurs par défaut:\r\naucune coloriƨation.");
+            this.ttipLettreEnNoir.SetToolTip(this.btPAreset, "Réinitialise aux valeurs par défaut.");
             this.btPAreset.UseVisualStyleBackColor = false;
             this.btPAreset.Click += new System.EventHandler(this.btPAreset_Click);
             // 
@@ -2959,7 +2969,7 @@
             this.btPNpoint.Size = new System.Drawing.Size(61, 25);
             this.btPNpoint.TabIndex = 187;
             this.btPNpoint.Text = "point";
-            this.ttipLettreEnNoir.SetToolTip(this.btPNpoint, "Point");
+            this.ttipLettreEnNoir.SetToolTip(this.btPNpoint, "Point: \'.\', \'...\'");
             this.btPNpoint.UseVisualStyleBackColor = true;
             this.btPNpoint.Click += new System.EventHandler(this.PonctButton_Click);
             // 
@@ -3068,7 +3078,7 @@
             this.btPNespace.Size = new System.Drawing.Size(61, 25);
             this.btPNespace.TabIndex = 214;
             this.btPNespace.Text = "espace";
-            this.ttipLettreEnNoir.SetToolTip(this.btPNespace, "Espace: \r\nles caractères qu\'on ne voit pas:\r\nespace, tabulation, ...");
+            this.ttipLettreEnNoir.SetToolTip(this.btPNespace, "Espace: \r\nespace, tabulation, ...");
             this.btPNespace.UseVisualStyleBackColor = true;
             this.btPNespace.Click += new System.EventHandler(this.PonctButton_Click);
             // 
@@ -3588,16 +3598,6 @@
             this.tsmEffacerCoulArc.Size = new System.Drawing.Size(110, 22);
             this.tsmEffacerCoulArc.Text = "Effacer";
             this.tsmEffacerCoulArc.Click += new System.EventHandler(this.tsmEffacerCoulArc_Click);
-            // 
-            // lblTous
-            // 
-            this.lblTous.AutoSize = true;
-            this.lblTous.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTous.Location = new System.Drawing.Point(95, 228);
-            this.lblTous.Name = "lblTous";
-            this.lblTous.Size = new System.Drawing.Size(40, 17);
-            this.lblTous.TabIndex = 222;
-            this.lblTous.Text = "Tous";
             // 
             // ConfigControl
             // 

@@ -47,6 +47,8 @@ namespace Colorization
         private static void MarkLignes(PPTText t, Config conf) => t.MarkLignes(conf);
         private static void MarkDuo(PPTText t, Config conf) => t.MarkDuo(conf);
         private static void MarkArcs(PPTText t, Config conf) => t.MarkArcs(conf);
+        private static void MarkPonct(PPTText t, Config conf) => t.MarkPonct(conf);
+
 
 
         public static void Init()
@@ -63,6 +65,7 @@ namespace Colorization
             ConfigControl.colDuoSelText = Ribbon1.ColorSelectedDuo;
             ConfigControl.drawArcs = Ribbon1.ColorSelectedArcs;
             ConfigControl.removeArcs = Ribbon1.RemoveSelectedArcs;
+            ConfigControl.colPonctuation = Ribbon1.ColorPonctuation;
         }
 
         public static void ColorizeSelectedPhons(Config conf)
@@ -189,6 +192,12 @@ namespace Colorization
                     }
                 }
             }
+        }
+
+        public static void ColorPonctuation(Config conf)
+        {
+            logger.Info("ColorPonctuation");
+            ActOnSelectedText(MarkPonct, conf);
         }
 
         private static void ActOnShape(Shape sh, ActOnPPTText act, int nrObjSelected, Config conf)
@@ -401,6 +410,12 @@ namespace Colorization
         {
             logger.ConditionalDebug("btnRemoveArcs_Click");
             RemoveSelectedArcs(GetConfigForActiveWindow());
+        }
+
+        private void btnPonct_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalDebug("btnPonct_Click");
+            ColorPonctuation(GetConfigForActiveWindow());
         }
     }
 }

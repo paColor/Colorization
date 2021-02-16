@@ -196,6 +196,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="Resources\phrase_16.png" />
     <None Include="Resources\cleaner_26.png" />
     <None Include="Resources\syll_26.png" />
     <None Include="Resources\2-16.png" />
