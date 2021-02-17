@@ -1338,7 +1338,7 @@ namespace ColorizationControls
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
             Debug.Assert(theBtn.Name.StartsWith("btPN"));
             string ponct = theBtn.Name.Substring(4, theBtn.Name.Length - 4);
-            CharFormatForm form = new CharFormatForm(theConf.ponctConf.GetCF(ponct), ponct, ponct,
+            CharFormatForm form = new CharFormatForm(theConf.ponctConf.GetCF(ponct), ponct, PonctInT.GetTexte(ponct),
                 theConf.ponctConf.SetCF);
             p.Offset(-form.Width, -(form.Height / 2));
             form.Location = p;

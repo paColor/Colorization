@@ -29,6 +29,7 @@ using Microsoft.Office.Interop.Word;
 using ColorLib;
 using ColorizationControls;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ColorizationWord
 {
@@ -218,6 +219,7 @@ namespace ColorizationWord
                 sb.AppendLine(e.StackTrace);
                 logger.Error(sb.ToString());
                 MessageBox.Show(sb.ToString(), ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Debug.Assert(false);
             }
             logger.ConditionalDebug("EXIT ActOnSelectedText");
         }

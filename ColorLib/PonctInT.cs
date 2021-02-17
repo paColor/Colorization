@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace ColorLib
@@ -15,7 +16,7 @@ namespace ColorLib
         virgule,            // ,
         deuxPoints,         // :
         pointVirgule,       // ;
-        paranthese,         // ()[]{}
+        parenthese,         // ()[]{}
         pointDExclamation,  // !
         pointDInterrogation,// ?
         guillemets,         // " 
@@ -36,6 +37,8 @@ namespace ColorLib
     /// régulière \w) est considéré comme de la ponctuation.</remarks>
     public class PonctInT : TextEl
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         private static Dictionary<char, Ponctuation> ponctu = new Dictionary<char, Ponctuation>()
         {
             { '.',  Ponctuation.point },
@@ -43,12 +46,12 @@ namespace ColorLib
             { ',',  Ponctuation.virgule },
             { ':',  Ponctuation.deuxPoints },
             { ';',  Ponctuation.pointVirgule },
-            { '(',  Ponctuation.paranthese },
-            { ')',  Ponctuation.paranthese },
-            { '{',  Ponctuation.paranthese },
-            { '}',  Ponctuation.paranthese },
-            { '[',  Ponctuation.paranthese },
-            { ']',  Ponctuation.paranthese },
+            { '(',  Ponctuation.parenthese },
+            { ')',  Ponctuation.parenthese },
+            { '{',  Ponctuation.parenthese },
+            { '}',  Ponctuation.parenthese },
+            { '[',  Ponctuation.parenthese },
+            { ']',  Ponctuation.parenthese },
             { '!',  Ponctuation.pointDExclamation },
             { '?',  Ponctuation.pointDInterrogation },
             { '"',  Ponctuation.guillemets },
@@ -86,8 +89,8 @@ namespace ColorLib
             { '¥',  Ponctuation.monnaie },
             { ' ',  Ponctuation.espace },
             { '\t', Ponctuation.espace },
+            { '\u00A0', Ponctuation.espace }, // espace insécable
             { '&',  Ponctuation.divers },
-            { '_',  Ponctuation.divers },
             { '§',  Ponctuation.divers },
             { '¦',  Ponctuation.divers },
             { '@',  Ponctuation.divers },
@@ -97,11 +100,31 @@ namespace ColorLib
 
         };
 
+        private static Dictionary<Ponctuation, string> texte = new Dictionary<Ponctuation, string>
+        {
+            { Ponctuation.firstP, "Indéfini" },
+            { Ponctuation.apostrophe, "Apostrophe" },
+            { Ponctuation.autres, "Autres" },
+            { Ponctuation.deuxPoints, "Deux-points" },
+            { Ponctuation.divers, "Divers" },
+            { Ponctuation.espace, "Espace" },
+            { Ponctuation.guillemets, "Guillemets" },
+            { Ponctuation.maths, "Maths" },
+            { Ponctuation.monnaie, "Monnaie" },
+            { Ponctuation.parenthese, "Parenthèse" },
+            { Ponctuation.point, "Point" },
+            { Ponctuation.pointDExclamation, @"Point d'exclamation" },
+            { Ponctuation.pointDInterrogation, @"Point d'interrogation" },
+            { Ponctuation.pointVirgule, "Point-virgule" },
+            { Ponctuation.virgule, "Virgule" },
+            { Ponctuation.lastP, "Indéfini" },
+
+        };
+
         /// <summary>
         /// Le signe de ponctuation pour l'objet.
         /// </summary>
         public Ponctuation ponct { get; private set; }
-
 
         /// <summary>
         /// Représente un signe de ponctuation dans <paramref name="tt"/>. il ne s'agit par définition
@@ -126,6 +149,29 @@ namespace ColorLib
             else
             {
                 ponct = Ponctuation.autres;
+            }
+        }
+
+        /// <summary>
+        /// Retourne le nom de la famille de signes 
+        /// </summary>
+        /// <param name="p">La famille de signes</param>
+        /// <returns>Le nom en français de la famille de signes.</returns>
+        public static string GetTexte(Ponctuation p) => texte[p];
+
+        public static string GetTexte(string ponct) => GetTexte(Ponct4String(ponct));
+
+        public static Ponctuation Ponct4String(string s)
+        {
+            try
+            {
+                return (Ponctuation)Enum.Parse(typeof(Ponctuation), s, true);
+            }
+            catch (ArgumentException)
+            {
+                logger.Error("{0} n'est pas un type de ponctuation.");
+                Debug.Assert(false);
+                return Ponctuation.point; // il faut bien une valeur...
             }
         }
 

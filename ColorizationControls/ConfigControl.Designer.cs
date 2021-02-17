@@ -247,10 +247,10 @@
             this.cbPNvirgule = new System.Windows.Forms.CheckBox();
             this.btPNvirgule = new System.Windows.Forms.Button();
             this.cbPNmaths = new System.Windows.Forms.CheckBox();
-            this.cbPNparanthese = new System.Windows.Forms.CheckBox();
+            this.cbPNparenthese = new System.Windows.Forms.CheckBox();
             this.btPNmaths = new System.Windows.Forms.Button();
             this.btPNespace = new System.Windows.Forms.Button();
-            this.btPNparanthese = new System.Windows.Forms.Button();
+            this.btPNparenthese = new System.Windows.Forms.Button();
             this.cbPNespace = new System.Windows.Forms.CheckBox();
             this.cbPNguillemets = new System.Windows.Forms.CheckBox();
             this.btPNdivers = new System.Windows.Forms.Button();
@@ -2816,10 +2816,10 @@
             this.tabArcs.Controls.Add(this.cbPNvirgule);
             this.tabArcs.Controls.Add(this.btPNvirgule);
             this.tabArcs.Controls.Add(this.cbPNmaths);
-            this.tabArcs.Controls.Add(this.cbPNparanthese);
+            this.tabArcs.Controls.Add(this.cbPNparenthese);
             this.tabArcs.Controls.Add(this.btPNmaths);
             this.tabArcs.Controls.Add(this.btPNespace);
-            this.tabArcs.Controls.Add(this.btPNparanthese);
+            this.tabArcs.Controls.Add(this.btPNparenthese);
             this.tabArcs.Controls.Add(this.cbPNespace);
             this.tabArcs.Controls.Add(this.cbPNguillemets);
             this.tabArcs.Controls.Add(this.btPNdivers);
@@ -3045,17 +3045,17 @@
             this.cbPNmaths.UseVisualStyleBackColor = true;
             this.cbPNmaths.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
             // 
-            // cbPNparanthese
+            // cbPNparenthese
             // 
-            this.cbPNparanthese.AutoSize = true;
-            this.cbPNparanthese.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbPNparanthese.Location = new System.Drawing.Point(9, 322);
-            this.cbPNparanthese.Name = "cbPNparanthese";
-            this.cbPNparanthese.Size = new System.Drawing.Size(40, 19);
-            this.cbPNparanthese.TabIndex = 194;
-            this.cbPNparanthese.Text = "\'()\'";
-            this.cbPNparanthese.UseVisualStyleBackColor = true;
-            this.cbPNparanthese.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
+            this.cbPNparenthese.AutoSize = true;
+            this.cbPNparenthese.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPNparenthese.Location = new System.Drawing.Point(9, 322);
+            this.cbPNparenthese.Name = "cbPNparenthese";
+            this.cbPNparenthese.Size = new System.Drawing.Size(40, 19);
+            this.cbPNparenthese.TabIndex = 194;
+            this.cbPNparenthese.Text = "\'()\'";
+            this.cbPNparenthese.UseVisualStyleBackColor = true;
+            this.cbPNparenthese.CheckedChanged += new System.EventHandler(this.PonctCheckBox_CheckedChanged);
             // 
             // btPNmaths
             // 
@@ -3082,17 +3082,17 @@
             this.btPNespace.UseVisualStyleBackColor = true;
             this.btPNespace.Click += new System.EventHandler(this.PonctButton_Click);
             // 
-            // btPNparanthese
+            // btPNparenthese
             // 
-            this.btPNparanthese.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btPNparanthese.Location = new System.Drawing.Point(47, 318);
-            this.btPNparanthese.Name = "btPNparanthese";
-            this.btPNparanthese.Size = new System.Drawing.Size(61, 25);
-            this.btPNparanthese.TabIndex = 196;
-            this.btPNparanthese.Text = "prthèse";
-            this.ttipLettreEnNoir.SetToolTip(this.btPNparanthese, "Paranthèse");
-            this.btPNparanthese.UseVisualStyleBackColor = true;
-            this.btPNparanthese.Click += new System.EventHandler(this.PonctButton_Click);
+            this.btPNparenthese.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPNparenthese.Location = new System.Drawing.Point(47, 318);
+            this.btPNparenthese.Name = "btPNparenthese";
+            this.btPNparenthese.Size = new System.Drawing.Size(61, 25);
+            this.btPNparenthese.TabIndex = 196;
+            this.btPNparenthese.Text = "prthèse";
+            this.ttipLettreEnNoir.SetToolTip(this.btPNparenthese, "Parenthèse");
+            this.btPNparenthese.UseVisualStyleBackColor = true;
+            this.btPNparenthese.Click += new System.EventHandler(this.PonctButton_Click);
             // 
             // cbPNespace
             // 
@@ -3127,7 +3127,7 @@
             this.btPNdivers.TabIndex = 212;
             this.btPNdivers.Text = "divers";
             this.ttipLettreEnNoir.SetToolTip(this.btPNdivers, "Divers: \r\ncaractères non couverts plus haut,\r\nmais qu\'on trouve sur le clavier co" +
-        "mme\r\n&, _, §, ¦, @, #, ~, \\");
+        "mme\r\n&, §, ¦, @, #, ~, \\");
             this.btPNdivers.UseVisualStyleBackColor = true;
             this.btPNdivers.Click += new System.EventHandler(this.PonctButton_Click);
             // 
@@ -3892,10 +3892,10 @@
         private System.Windows.Forms.CheckBox cbPNvirgule;
         private System.Windows.Forms.Button btPNvirgule;
         private System.Windows.Forms.CheckBox cbPNmaths;
-        private System.Windows.Forms.CheckBox cbPNparanthese;
+        private System.Windows.Forms.CheckBox cbPNparenthese;
         private System.Windows.Forms.Button btPNmaths;
         private System.Windows.Forms.Button btPNespace;
-        private System.Windows.Forms.Button btPNparanthese;
+        private System.Windows.Forms.Button btPNparenthese;
         private System.Windows.Forms.CheckBox cbPNespace;
         private System.Windows.Forms.CheckBox cbPNguillemets;
         private System.Windows.Forms.Button btPNdivers;
