@@ -999,6 +999,15 @@ namespace ColorLib
         }
 
         /// <summary>
+        /// Marque les majuscules des débuts de phrase.
+        /// </summary>
+        /// <param name="conf">La config à appliquer.</param>
+        public void MarkMajDebut(Config conf)
+        {
+
+        }
+
+        /// <summary>
         /// Ajoute le <see cref="FormattedTextEl"/> à la liste des éléments formatés pour le texte.
         /// </summary>
         /// <exception cref="ArgumentNullException"> si <paramref name="fte"/> est <c>null</c>

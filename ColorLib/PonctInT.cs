@@ -122,6 +122,29 @@ namespace ColorLib
         };
 
         /// <summary>
+        /// Retourne le nom de la famille de signes 
+        /// </summary>
+        /// <param name="p">La famille de signes</param>
+        /// <returns>Le nom en français de la famille de signes.</returns>
+        public static string GetTexte(Ponctuation p) => texte[p];
+
+        public static string GetTexte(string ponct) => GetTexte(Ponct4String(ponct));
+
+        public static Ponctuation Ponct4String(string s)
+        {
+            try
+            {
+                return (Ponctuation)Enum.Parse(typeof(Ponctuation), s, true);
+            }
+            catch (ArgumentException)
+            {
+                logger.Error("{0} n'est pas un type de ponctuation.");
+                Debug.Assert(false);
+                return Ponctuation.point; // il faut bien une valeur...
+            }
+        }
+
+        /// <summary>
         /// Le signe de ponctuation pour l'objet.
         /// </summary>
         public Ponctuation ponct { get; private set; }
@@ -149,29 +172,6 @@ namespace ColorLib
             else
             {
                 ponct = Ponctuation.autres;
-            }
-        }
-
-        /// <summary>
-        /// Retourne le nom de la famille de signes 
-        /// </summary>
-        /// <param name="p">La famille de signes</param>
-        /// <returns>Le nom en français de la famille de signes.</returns>
-        public static string GetTexte(Ponctuation p) => texte[p];
-
-        public static string GetTexte(string ponct) => GetTexte(Ponct4String(ponct));
-
-        public static Ponctuation Ponct4String(string s)
-        {
-            try
-            {
-                return (Ponctuation)Enum.Parse(typeof(Ponctuation), s, true);
-            }
-            catch (ArgumentException)
-            {
-                logger.Error("{0} n'est pas un type de ponctuation.");
-                Debug.Assert(false);
-                return Ponctuation.point; // il faut bien une valeur...
             }
         }
 

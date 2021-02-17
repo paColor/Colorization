@@ -39,8 +39,6 @@ namespace ColorLib
         }
     }
 
-
-
     /// <summary>
     /// Contient la configuration pour chacune des familles de symboles de ponctuation définies
     /// dans <see cref="PonctInT"/>.
@@ -105,6 +103,39 @@ namespace ColorLib
             }
         }
 
+        public CharFormatting MajDebCF
+        {
+            get
+            {
+                return _majDebCF;
+            }
+            set
+            {
+                if (_majDebCF != value)
+                {
+                    _majDebCF = value;
+                    OnMajDebCFModified();
+                }
+            }
+        }
+
+        public bool MajDebCB
+        {
+            get
+            {
+                return _majDebCB;
+            }
+            set
+            {
+                if (_majDebCB != value)
+                {
+                    _majDebCB = value;
+                    OnMajDebCBModified();
+                }
+            }
+        }
+
+
         // ----------------------------------------------------------------------------------------
         // -----------------------------------  Private Members  ----------------------------------
         // ----------------------------------------------------------------------------------------
@@ -116,6 +147,12 @@ namespace ColorLib
 
         private CharFormatting _masterCF;
         private State _masterState;
+
+        [OptionalField(VersionAdded = 7)]
+        private CharFormatting _majDebCF;
+
+        [OptionalField(VersionAdded = 7)]
+        private bool _majDebCB;
 
         // ----------------------------------------------------------------------------------------
         // ------------------------------------  Event Handlers -----------------------------------
@@ -169,6 +206,8 @@ namespace ColorLib
         {
             logger.ConditionalDebug("Reset");
             MasterCF = new CharFormatting(ColConfWin.coloredCF[(int)PredefCol.pinky], true, false, false);
+            MajDebCF = MasterCF;
+            MajDebCB = false;
         }
 
         /// <summary>
@@ -208,7 +247,7 @@ namespace ColorLib
         /// <param name="ponct">Le nom de la famille de caractères tel que défini dans 
         /// <see cref="Ponctuation"/>.</param>
         /// <returns></returns>
-        public CharFormatting GetCF(string ponct) => GetCF(Ponct4String(ponct));
+        public CharFormatting GetCF(string ponct) => GetCF(PonctInT.Ponct4String(ponct));
 
         public void SetCF(Ponctuation p, CharFormatting toCF)
         {
@@ -221,7 +260,7 @@ namespace ColorLib
             }
         }
 
-        public void SetCF(string ponct, CharFormatting toCF) => SetCF(Ponct4String(ponct), toCF);
+        public void SetCF(string ponct, CharFormatting toCF) => SetCF(PonctInT.Ponct4String(ponct), toCF);
 
         /// <summary>
         /// Définit le <see cref="CharFormatting"/> pour la famille de signes donnée et met
@@ -231,14 +270,14 @@ namespace ColorLib
         /// <param name="toCF">Le nouveau <see cref="CharFormatting"/>.</param>
         public void SetCFandCB(string ponctS, CharFormatting toCF)
         {
-            Ponctuation p = Ponct4String(ponctS);
+            Ponctuation p = PonctInT.Ponct4String(ponctS);
             SetCF(p, toCF);
             SetCB(p, true);
         }
 
         public bool GetCB(Ponctuation p) => checkBoxes[p];
 
-        public bool GetCB(string ponct) => GetCB(Ponct4String(ponct));
+        public bool GetCB(string ponct) => GetCB(PonctInT.Ponct4String(ponct));
 
         public void SetCB(Ponctuation p, bool toCB)
         {
@@ -251,7 +290,7 @@ namespace ColorLib
             }
         }
 
-        public void SetCB(string ponct, bool toCB) => SetCB(Ponct4String(ponct), toCB);
+        public void SetCB(string ponct, bool toCB) => SetCB(PonctInT.Ponct4String(ponct), toCB);
 
         /// <summary>
         /// Est utilisé par <see cref="CharFormatForm"/> qui réclame une fonction (delegate) avec
@@ -269,7 +308,7 @@ namespace ColorLib
         /// <param name="ponctS">La famille de signes à effacer.</param>
         public void ClearPonct(string ponctS)
         {
-            Ponctuation p = Ponct4String(ponctS);
+            Ponctuation p = PonctInT.Ponct4String(ponctS);
             SetCF(p, CharFormatting.NeutralCF);
             SetCB(p, false);
         }
@@ -288,26 +327,14 @@ namespace ColorLib
             }
         }
 
-        private Ponctuation Ponct4String(string s)
-        {
-            try
-            {
-                return (Ponctuation)Enum.Parse(typeof(Ponctuation), s, true);
-            }
-            catch (ArgumentException)
-            {
-                logger.Error("{0} n'est pas un type de ponctuation.");
-                Debug.Assert(false);
-                return Ponctuation.point; // il faut bien une valeur...
-            }
-        }
-
         // --------------------------------------- Serialization ----------------------------------
 
         [OnDeserializing()]
         private void SetOptionalFieldsToDefaultVal(StreamingContext sc)
         {
             logger.ConditionalDebug("SetOptionalFieldsToDefaultVal");
+            MajDebCF = MasterCF;
+            MajDebCB = false;
         }
 
         // ------------------------------------------ Events --------------------------------------
