@@ -293,6 +293,8 @@
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
             this.cmsArcButtons = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
+            this.btMDMajDeb = new System.Windows.Forms.Button();
+            this.cbMDMajDeb = new System.Windows.Forms.CheckBox();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -2799,6 +2801,8 @@
             // tabArcs
             // 
             this.tabArcs.BackColor = System.Drawing.SystemColors.Control;
+            this.tabArcs.Controls.Add(this.btMDMajDeb);
+            this.tabArcs.Controls.Add(this.cbMDMajDeb);
             this.tabArcs.Controls.Add(this.lblTous);
             this.tabArcs.Controls.Add(this.btcLnoir3);
             this.tabArcs.Controls.Add(this.lblTitrePonct);
@@ -2848,7 +2852,7 @@
             // 
             this.lblTous.AutoSize = true;
             this.lblTous.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTous.Location = new System.Drawing.Point(95, 228);
+            this.lblTous.Location = new System.Drawing.Point(46, 228);
             this.lblTous.Name = "lblTous";
             this.lblTous.Size = new System.Drawing.Size(40, 17);
             this.lblTous.TabIndex = 222;
@@ -2858,7 +2862,7 @@
             // 
             this.btcLnoir3.BackColor = System.Drawing.SystemColors.Control;
             this.btcLnoir3.Image = global::ColorizationControls.Properties.Resources.black2_30;
-            this.btcLnoir3.Location = new System.Drawing.Point(290, 164);
+            this.btcLnoir3.Location = new System.Drawing.Point(290, 165);
             this.btcLnoir3.Name = "btcLnoir3";
             this.btcLnoir3.Size = new System.Drawing.Size(38, 38);
             this.btcLnoir3.TabIndex = 221;
@@ -2880,7 +2884,7 @@
             // 
             this.btPAponctuation.BackColor = System.Drawing.SystemColors.Control;
             this.btPAponctuation.Image = global::ColorizationControls.Properties.Resources.phrase_26;
-            this.btPAponctuation.Location = new System.Drawing.Point(8, 164);
+            this.btPAponctuation.Location = new System.Drawing.Point(8, 165);
             this.btPAponctuation.Name = "btPAponctuation";
             this.btPAponctuation.Size = new System.Drawing.Size(38, 38);
             this.btPAponctuation.TabIndex = 219;
@@ -2914,7 +2918,7 @@
             // 
             this.btPMmaitre.ContextMenuStrip = this.cmsEffacerCopier;
             this.btPMmaitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btPMmaitre.Location = new System.Drawing.Point(141, 221);
+            this.btPMmaitre.Location = new System.Drawing.Point(92, 221);
             this.btPMmaitre.Name = "btPMmaitre";
             this.btPMmaitre.Size = new System.Drawing.Size(96, 31);
             this.btPMmaitre.TabIndex = 216;
@@ -3599,6 +3603,35 @@
             this.tsmEffacerCoulArc.Text = "Effacer";
             this.tsmEffacerCoulArc.Click += new System.EventHandler(this.tsmEffacerCoulArc_Click);
             // 
+            // btMDMajDeb
+            // 
+            this.btMDMajDeb.ContextMenuStrip = this.cmsEffacerCopier;
+            this.btMDMajDeb.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btMDMajDeb.FlatAppearance.BorderSize = 2;
+            this.btMDMajDeb.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btMDMajDeb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btMDMajDeb.Location = new System.Drawing.Point(241, 224);
+            this.btMDMajDeb.Name = "btMDMajDeb";
+            this.btMDMajDeb.Size = new System.Drawing.Size(61, 25);
+            this.btMDMajDeb.TabIndex = 224;
+            this.btMDMajDeb.Text = ". Maj";
+            this.ttipLettreEnNoir.SetToolTip(this.btMDMajDeb, "Formatage pour les majuscules qui\r\nsuivent un point. ");
+            this.btMDMajDeb.UseVisualStyleBackColor = true;
+            this.btMDMajDeb.Click += new System.EventHandler(this.btMDMajDeb_Click);
+            // 
+            // cbMDMajDeb
+            // 
+            this.cbMDMajDeb.AutoSize = true;
+            this.cbMDMajDeb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbMDMajDeb.Location = new System.Drawing.Point(202, 228);
+            this.cbMDMajDeb.Name = "cbMDMajDeb";
+            this.cbMDMajDeb.Size = new System.Drawing.Size(40, 19);
+            this.cbMDMajDeb.TabIndex = 223;
+            this.cbMDMajDeb.Text = ". X";
+            this.ttipLettreEnNoir.SetToolTip(this.cbMDMajDeb, "Indique s\'il faut coloriser les majuscules\r\nqui suivent un point.");
+            this.cbMDMajDeb.UseVisualStyleBackColor = true;
+            this.cbMDMajDeb.CheckedChanged += new System.EventHandler(this.cbMDMajDeb_CheckedChanged);
+            // 
             // ConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3917,5 +3950,7 @@
         private System.Windows.Forms.Button btPMmaitre;
         private System.Windows.Forms.Button btcLnoir3;
         private System.Windows.Forms.Label lblTous;
+        private System.Windows.Forms.Button btMDMajDeb;
+        private System.Windows.Forms.CheckBox cbMDMajDeb;
     }
 }

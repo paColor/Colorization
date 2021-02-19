@@ -615,7 +615,7 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de coloriser les phonèmes sans une configuration vallable.");
+                logger.Error("conf == null. Impossible de coloriser les phonèmes sans une configuration valable.");
                 throw new ArgumentException("conf == null. Impossible de coloriser les phonèmes sans une configuration valable.");
             }
         }
@@ -641,7 +641,7 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de coloriser les lettres sans une configuration vallable.");
+                logger.Error("conf == null. Impossible de coloriser les lettres sans une configuration valable.");
                 throw new ArgumentException("conf == null. Impossible de coloriser les lettres sans une configuration valable.");
             }
         }
@@ -675,7 +675,7 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de coloriser les syllabes sans une configuration vallable.");
+                logger.Error("conf == null. Impossible de coloriser les syllabes sans une configuration valable.");
                 throw new ArgumentException("conf == null. Impossible de coloriser les syllabes sans une configuration valable.");
             }
         }
@@ -701,7 +701,7 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de coloriser les mots sans une configuration vallable.");
+                logger.Error("conf == null. Impossible de coloriser les mots sans une configuration valable.");
                 throw new ArgumentException("conf == null. Impossible de coloriser les mots sans une configuration valable.");
             }
         }
@@ -748,7 +748,7 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de coloriser les voyelles et les consonnes sans une configuration vallable.");
+                logger.Error("conf == null. Impossible de coloriser les voyelles et les consonnes sans une configuration valable.");
                 throw new ArgumentException("conf == null. Impossible de coloriser les voyelles et les consonnes sans une configuration valable.");
             }
         }
@@ -776,7 +776,7 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de mettre le texte en noir sans une configuration vallable.");
+                logger.Error("conf == null. Impossible de mettre le texte en noir sans une configuration valable.");
                 throw new ArgumentException("conf == null. Impossible de mettre le texte en noir sans une configuration valable.");
             }
         }
@@ -809,8 +809,8 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de marquer les lignes sans une configuration vallable.");
-                throw new ArgumentException("conf == null. Impossible de marquer les lignes sans une configuration vallable.");
+                logger.Error("conf == null. Impossible de marquer les lignes sans une configuration valable.");
+                throw new ArgumentException("conf == null. Impossible de marquer les lignes sans une configuration valable.");
             }
         }
 
@@ -918,7 +918,7 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de coloriser en \'Duo\' sans une configuration vallable.");
+                logger.Error("conf == null. Impossible de coloriser en \'Duo\' sans une configuration valable.");
                 throw new ArgumentException("conf == null. Impossible de coloriser en \'Duo\' sans une configuration valable.");
             }
             logger.ConditionalTrace("MarkDuo EXIT");
@@ -950,7 +950,7 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de coloriser les arcs sans une configuration vallable.");
+                logger.Error("conf == null. Impossible de coloriser les arcs sans une configuration valable.");
                 throw new ArgumentException("conf == null. Impossible de coloriser les arcs sans une configuration valable.");
             }
         }
@@ -970,7 +970,7 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible d'effacer les arcs sans une configuration vallable.");
+                logger.Error("conf == null. Impossible d'effacer les arcs sans une configuration valable.");
                 throw new ArgumentException("conf == null. Impossible d'effacer les arcs sans une configuration valable.");
             }
         }
@@ -981,7 +981,6 @@ namespace ColorLib
             if (conf != null)
             {
                 formatsMgmt.ClearFormats();
-                ConcurrentBag<PonctInT> signesP = new ConcurrentBag<PonctInT>();
                 Regex rx = new Regex(@"\W", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                 MatchCollection matches = rx.Matches(S);
                 foreach (Match m in matches)
@@ -993,17 +992,36 @@ namespace ColorLib
             }
             else
             {
-                logger.Error("conf == null. Impossible de coloriser la ponctuation sans une configuration vallable.");
+                logger.Error("conf == null. Impossible de coloriser la ponctuation sans une configuration valable.");
                 throw new ArgumentException("conf == null. Impossible de coloriser la ponctuation sans une configuration valable.");
             }
         }
 
         /// <summary>
-        /// Marque les majuscules des débuts de phrase.
+        /// Marque les majuscules qui suivent les points.
         /// </summary>
         /// <param name="conf">La config à appliquer.</param>
         public void MarkMajDebut(Config conf)
         {
+            logger.ConditionalDebug("MarkMajDebut");
+            if (conf != null)
+            {
+                formatsMgmt.ClearFormats();
+                Regex rx = new Regex(@"[.…?!]\s*([A-Z]|[ÀÉÈÊËÎÏÔÙ])", RegexOptions.Compiled);
+                MatchCollection matches = rx.Matches(S);
+                foreach (Match m in matches)
+                {
+                    logger.ConditionalTrace(m.Value);
+                    MajDebInT maj = new MajDebInT(this, m.Index + m.Length - 1); // la dernière lettre
+                    maj.PutColor(conf);
+                }
+                ApplyFormatting(conf);
+            }
+            else
+            {
+                logger.Error("conf == null. Impossible de coloriser le début des phrases sans une configuration valable.");
+                throw new ArgumentNullException(nameof(conf));
+            }
 
         }
 

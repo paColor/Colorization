@@ -183,6 +183,19 @@ namespace ColorLib
         [field: NonSerialized]
         public event EventHandler MasterStateModified;
 
+        /// <summary>
+        /// Evènement déclenché quand le bouton Majuscule début est modifié
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler MajDebCFModified;
+
+        /// <summary>
+        /// Evènement déclenché quand le checkbox Majuscule début est modifié
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler MajDebCBModified;
+
+
         // ----------------------------------------------------------------------------------------
         // ------------------------------------  Public Methods -----------------------------------
         // ----------------------------------------------------------------------------------------
@@ -302,6 +315,15 @@ namespace ColorLib
         public void SetMasterCF(string dummy, CharFormatting cf) => MasterCF = cf;
 
         /// <summary>
+        /// Est utilisé par <see cref="CharFormatForm"/> qui réclame une fonction (delegate) avec
+        /// cette signature.
+        /// </summary>
+        /// <param name="dummy">N'est pas utilisé.</param>
+        /// <param name="cf">Le <see cref="CharFormatting"/> auquel <c>MajDebCF</c> doit être
+        /// mis.</param>
+        public void SetMajDebCF(string dummy, CharFormatting cf) => MajDebCF = cf;
+
+        /// <summary>
         /// Efface le CharFormatting pour la famille de signes indiquée. La checkbox correspondante
         /// est également mise à <c>false</c>.
         /// </summary>
@@ -325,6 +347,15 @@ namespace ColorLib
                 checkBoxes[p] = false;
                 OnPonctCBModified(p);
             }
+        }
+
+        /// <summary>
+        /// Efface le bouton MajDeb. 
+        /// </summary>
+        public void ClearMajDeb()
+        {
+            MajDebCF = CharFormatting.NeutralCF;
+            MajDebCB = false;
         }
 
         // --------------------------------------- Serialization ----------------------------------
@@ -364,6 +395,20 @@ namespace ColorLib
         {
             logger.ConditionalDebug("OnMasterStateModified");
             EventHandler eventHandler = MasterStateModified;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnMajDebCFModified()
+        {
+            logger.ConditionalDebug("OnMajDebCFModified");
+            EventHandler eventHandler = MajDebCFModified;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnMajDebCBModified()
+        {
+            logger.ConditionalDebug("OnMajDebCBModified");
+            EventHandler eventHandler = MajDebCBModified;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }
 

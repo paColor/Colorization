@@ -137,6 +137,7 @@ namespace ColorizationControls
 
         private Dictionary<string, SonInfo> ponctInfos;
         private RGB defaultPonctMasterButCol;
+        private RGB defaultPonctMajDebButCol;
 
         /// <summary>
         /// Ordonne au <c>ConfigControl</c> d'éditer une autre <c>Config</c>. Ajuste les affichages aux nouvelles valeurs.
@@ -304,6 +305,33 @@ namespace ColorizationControls
             }
         }
 
+        private void UpdateCBPonctMajDeb()
+        {
+            logger.ConditionalTrace("UpdateCBPonctMajDeb");
+            cbMDMajDeb.Checked = theConf.ponctConf.MajDebCB;
+            UpdatePonctMajDebBut();
+        }
+
+        private void UpdatePonctMajDebBut()
+        {
+            logger.ConditionalTrace("UpdatePonctMajDebBut");
+
+            if (theConf.ponctConf.MajDebCB)
+            {
+                CharFormatting cf = theConf.ponctConf.MajDebCF;
+                SetButtonFont(btMDMajDeb, cf);
+                if (cf.changeColor)
+                {
+                    SetButtonColor(btMDMajDeb, cf.color);
+                }
+            }
+            else
+            {
+                SetButtonColor(btMDMajDeb, defaultPonctMajDebButCol);
+                SetButtonFont(btMDMajDeb, CharFormatting.NeutralCF);
+            }
+        }
+
         private void UpdateAllPonctCBandButtons()
         {
             logger.ConditionalDebug("UpdateAllPonctCBandButtons");
@@ -313,6 +341,7 @@ namespace ColorizationControls
                 UpdateCBPonct(ponct); // exécute UpdatePonctButton
             }
             UpdatePonctMaitreBut();
+            UpdateCBPonctMajDeb(); // exécute UpdatePonctMajDebBut
             ResumeLayout();
         }
 
@@ -569,6 +598,8 @@ namespace ColorizationControls
             theConf.ponctConf.MasterStateModified += MasterStateModifiedHandler;
             theConf.ponctConf.PonctCBModified += PonctCBModifiedHandler;
             theConf.ponctConf.PonctFormattingModified += PonctFormattingModifiedHandler;
+            theConf.ponctConf.MajDebCBModified += MajDebCBModifiedHandler;
+            theConf.ponctConf.MajDebCFModified += MajDebCFModifiedHandler;
         }
 
         private void ConfigReplaced(object sender, ConfigReplacedEventArgs e)
@@ -603,6 +634,8 @@ namespace ColorizationControls
             theConf.ponctConf.MasterStateModified -= MasterStateModifiedHandler;
             theConf.ponctConf.PonctCBModified -= PonctCBModifiedHandler;
             theConf.ponctConf.PonctFormattingModified -= PonctFormattingModifiedHandler;
+            theConf.ponctConf.MajDebCBModified -= MajDebCBModifiedHandler;
+            theConf.ponctConf.MajDebCFModified -= MajDebCFModifiedHandler;
 
             // Initialiser les handlers
             InitializeTheConf(e.newConfig);
@@ -657,6 +690,7 @@ namespace ColorizationControls
                 ponctInfos.Add(p.ToString(), new SonInfo());
             }
             defaultPonctMasterButCol = btPMmaitre.BackColor;
+            defaultPonctMajDebButCol = btMDMajDeb.BackColor;
 
             // UCheckBoxes
             formattingCheckBoxes = new Dictionary<string, CheckBox>(6); // 6 is just an estimation. Currently the correct number is 5
@@ -1359,6 +1393,26 @@ namespace ColorizationControls
             form.Dispose();
         }
 
+        private void cbMDMajDeb_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("cbMDMajDeb_CheckedChanged");
+            CheckBox cbMD = (CheckBox)sender;
+            theConf.ponctConf.MajDebCB = cbMD.Checked;
+        }
+
+        private void btMDMajDeb_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btMDMajDeb_Click");
+            Button theBtn = (Button)sender;
+            Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
+            CharFormatForm form = new CharFormatForm(theConf.ponctConf.MajDebCF, "MajDeb", "Majuscule début",
+                theConf.ponctConf.SetMajDebCF);
+            p.Offset(-form.Width, -(form.Height / 2));
+            form.Location = p;
+            _ = form.ShowDialog();
+            form.Dispose();
+        }
+
         private void btPAreset_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btPAreset_Click");
@@ -1388,6 +1442,19 @@ namespace ColorizationControls
             logger.ConditionalTrace("MasterStateModifiedHandler");
             UpdatePonctMaitreBut();
         }
+
+        private void MajDebCFModifiedHandler(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("MajDebCFModifiedHandler");
+            UpdatePonctMajDebBut();
+        }
+
+        private void MajDebCBModifiedHandler(object sender, EventArgs e)
+        {
+            logger.ConditionalTrace("MasterStateModifiedHandler");
+            UpdateCBPonctMajDeb();
+        }
+
 
         //--------------------------------------------------------------------------------------------
         // --------------------------------------  Onglet Sauv. --------------------------------------
@@ -1777,6 +1844,23 @@ namespace ColorizationControls
                 cmsCF = theConf.ponctConf.MasterCF;
                 SetTsmiGISforCF(cmsCF, "Tous");
             }
+            else if (cName.StartsWith("btMD"))
+            {
+                cmsButType = "btMD";
+                if (theConf.ponctConf.MajDebCB)
+                {
+                    tsmiCouper.Enabled = true;
+                    tsmiCopier.Enabled = true;
+                    tsmiEffacer.Enabled = true;
+                }
+                cmsCF = theConf.ponctConf.MajDebCF;
+                SetTsmiGISforCF(cmsCF, ". Maj");
+            }
+            else
+            {
+                logger.Error("Type de bouton non traité pour le click droit: {0}", cName);
+                throw new ArgumentException(String.Format("Type de bouton non traité pour le click droit: {0}", cName));
+            }
         }
 
         // tsmi => ToolStripMenuItem
@@ -1808,6 +1892,12 @@ namespace ColorizationControls
                 case "btpM":
                     clipboard = theConf.ponctConf.MasterCF;
                     break;
+                case "btMD":
+                    clipboard = theConf.ponctConf.MajDebCF;
+                    break;
+                default:
+                    logger.Error("Type de bouton non traité: {0}", cmsButType);
+                    throw new ArgumentException(String.Format("Type de bouton non traité: {0}", cmsButType));
             }
         }
 
@@ -1838,6 +1928,12 @@ namespace ColorizationControls
                 case "btPM":
                     theConf.ponctConf.MasterCF = clipboard;
                     break;
+                case "btMD":
+                    theConf.ponctConf.MajDebCF = clipboard;
+                    break;
+                default:
+                    logger.Error("Type de bouton non traité: {0}", cmsButType);
+                    throw new ArgumentException(String.Format("Type de bouton non traité: {0}", cmsButType));
             }
         }
 
@@ -1863,10 +1959,16 @@ namespace ColorizationControls
                 case "btPM":
                     theConf.ponctConf.ClearMaster();
                     break;
+                case "btMD":
+                    theConf.ponctConf.ClearMajDeb();
+                    break;
+                default:
+                    logger.Error("Type de bouton non traité: {0}", cmsButType);
+                    throw new ArgumentException(String.Format("Type de bouton non traité: {0}", cmsButType));
             }
         }
 
-        private void APplyCFToClickedButton(CharFormatting cf)
+        private void ApplyCFToClickedButton(CharFormatting cf)
         {
             logger.ConditionalDebug("APplyCFToClickedButton");
             switch (cmsButType)
@@ -1886,25 +1988,31 @@ namespace ColorizationControls
                 case "btPM":
                     theConf.ponctConf.MasterCF = cf;
                     break;
+                case "btMD":
+                    theConf.ponctConf.MajDebCF = cf;
+                    break;
+                default:
+                    logger.Error("Type de bouton non traité: {0}", cmsButType);
+                    throw new ArgumentException(String.Format("Type de bouton non traité: {0}", cmsButType));
             }
         }
 
         private void tsmiGras_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("APplyCFToClickedButton");
-            APplyCFToClickedButton(new CharFormatting(cmsCF, !cmsCF.bold, cmsCF.italic, cmsCF.underline));
+            ApplyCFToClickedButton(new CharFormatting(cmsCF, !cmsCF.bold, cmsCF.italic, cmsCF.underline));
         }
 
         private void tsmiItalique_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("APplyCFToClickedButton");
-            APplyCFToClickedButton(new CharFormatting(cmsCF, cmsCF.bold, !cmsCF.italic, cmsCF.underline));
+            ApplyCFToClickedButton(new CharFormatting(cmsCF, cmsCF.bold, !cmsCF.italic, cmsCF.underline));
         }
 
         private void tsmiSouligne_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("APplyCFToClickedButton");
-            APplyCFToClickedButton(new CharFormatting(cmsCF, cmsCF.bold, cmsCF.italic, !cmsCF.underline));
+            ApplyCFToClickedButton(new CharFormatting(cmsCF, cmsCF.bold, cmsCF.italic, !cmsCF.underline));
         }
 
         private void tsmiCouleur_Click(object sender, EventArgs e)
@@ -1920,7 +2028,7 @@ namespace ColorizationControls
             mcd.SetPos(p);
             if (mcd.ShowDialog() == DialogResult.OK)
             {
-                APplyCFToClickedButton(new CharFormatting(cmsCF, mcd.Color));
+                ApplyCFToClickedButton(new CharFormatting(cmsCF, mcd.Color));
                 StaticColorizControls.customColors = mcd.CustomColors;
             }
             mcd.Dispose();
@@ -1935,7 +2043,7 @@ namespace ColorizationControls
             hiForm.Location = p;
             if (hiForm.ShowDialog() == DialogResult.OK)
             {
-                APplyCFToClickedButton(new CharFormatting(cmsCF.bold, cmsCF.italic, cmsCF.underline, cmsCF.caps, cmsCF.changeColor, cmsCF.color,
+                ApplyCFToClickedButton(new CharFormatting(cmsCF.bold, cmsCF.italic, cmsCF.underline, cmsCF.caps, cmsCF.changeColor, cmsCF.color,
                            true, hiForm.GetSelectedColor()));
             }
             hiForm.Dispose();

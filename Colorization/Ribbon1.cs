@@ -48,7 +48,7 @@ namespace Colorization
         private static void MarkDuo(PPTText t, Config conf) => t.MarkDuo(conf);
         private static void MarkArcs(PPTText t, Config conf) => t.MarkArcs(conf);
         private static void MarkPonct(PPTText t, Config conf) => t.MarkPonct(conf);
-
+        private static void MarKMajDebut(PPTText t, Config conf) => t.MarkMajDebut(conf);
 
 
         public static void Init()
@@ -198,6 +198,10 @@ namespace Colorization
         {
             logger.Info("ColorPonctuation");
             ActOnSelectedText(MarkPonct, conf);
+            if (conf.ponctConf.MajDebCB)
+            {
+                ActOnSelectedText(MarKMajDebut, conf);
+            }
         }
 
         private static void ActOnShape(Shape sh, ActOnPPTText act, int nrObjSelected, Config conf)
