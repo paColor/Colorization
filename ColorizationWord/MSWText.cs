@@ -468,7 +468,6 @@ namespace ColorizationWord
             // ce caractère n'est pas dans "Text". On le construit donc ici avec un caractère "vide" à la 
             // place du caractère spécial.
         {         
-            const string empty = "͢";
             mChL = new List<MultipleCharInfo>(5); // pourquoi pas 5? ça doit suffire pour la plupart des cas...
             string chText;
             Range itR = rge.Duplicate;
@@ -485,7 +484,7 @@ namespace ColorizationWord
                 }
                 else if (chText.Length > 1)
                 {
-                    chText = empty;
+                    chText = empty; // empty comes from TheText
                     MultipleCharInfo mci;
                     mci.pos = i;
                     mci.nrChars = chText.Length;

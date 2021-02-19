@@ -1889,7 +1889,7 @@ namespace ColorizationControls
                 case "btPN":
                     clipboard = theConf.ponctConf.GetCF(cmsButPonct);
                     break;
-                case "btpM":
+                case "btPM":
                     clipboard = theConf.ponctConf.MasterCF;
                     break;
                 case "btMD":
@@ -1930,6 +1930,7 @@ namespace ColorizationControls
                     break;
                 case "btMD":
                     theConf.ponctConf.MajDebCF = clipboard;
+                    theConf.ponctConf.MajDebCB = true;
                     break;
                 default:
                     logger.Error("Type de bouton non traité: {0}", cmsButType);

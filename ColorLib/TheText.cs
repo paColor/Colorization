@@ -428,6 +428,12 @@ namespace ColorLib
         // ****************************************************************************************
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static Regex rxWords
+            = new Regex(@"\b\w+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase); // matches words;
+        private static Regex rxPonct
+            = new Regex(@"\W", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex rxMajDeb;
+
 
         // ****************************************************************************************
         // *                               public static methods                                  *
@@ -458,6 +464,14 @@ namespace ColorLib
             AutomAutomat.InitAutomat();
             SylInW.Init();
             Config.Init(errMsgs);
+
+            // Regex
+            StringBuilder sb = new StringBuilder(25);
+            // Regex: @"[.…?!](\s|empty)*([A-Z]|[ÀÉÈÊËÎÏÔÙ])"
+            sb.Append(@"[.…?!](\s|");
+            sb.Append(empty);
+            sb.Append(@")*([A-Z]|[ÀÉÈÊËÎÏÔÙ])");
+            rxMajDeb = new Regex(sb.ToString(), RegexOptions.Compiled);
         }
 
         // ****************************************************************************************
@@ -469,6 +483,18 @@ namespace ColorLib
         /// empty.
         /// </summary>
         public string S { get; private set; }
+
+        /// <summary>
+        /// Caractère à utiliser pour remplacer d'éventuels caractères problématiques dans le
+        /// string passé à <see cref="TheText"/>.
+        /// </summary>
+        /// <remarks>Ses caractéristiques:
+        /// <para>- Est considéré comme faisant partie de la famille Autres pour la colorisation de
+        /// caractères spéciaux.</para>
+        /// <para>- Sera considéré comme un espace pour la colorisation des majsucules après le
+        /// point.</para>
+        /// </remarks>
+        protected const string empty = "͢";
 
 
         // ****************************************************************************************
@@ -534,8 +560,7 @@ namespace ColorLib
         {
             logger.ConditionalDebug("GetWords");
             List<Word> words = new List<Word>(S.Length / 5); // longueur moyenne d'un mot avec l'espace : 5 charactères...
-            Regex rx = new Regex(@"\b\w+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase); // matches words
-            MatchCollection matches = rx.Matches(S);
+            MatchCollection matches = rxWords.Matches(S);
             int i = 0;
             while (i < matches.Count)
             {
@@ -981,8 +1006,7 @@ namespace ColorLib
             if (conf != null)
             {
                 formatsMgmt.ClearFormats();
-                Regex rx = new Regex(@"\W", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                MatchCollection matches = rx.Matches(S);
+                MatchCollection matches = rxPonct.Matches(S);
                 foreach (Match m in matches)
                 {
                     PonctInT p = new PonctInT(this, m.Index);
@@ -1007,8 +1031,7 @@ namespace ColorLib
             if (conf != null)
             {
                 formatsMgmt.ClearFormats();
-                Regex rx = new Regex(@"[.…?!]\s*([A-Z]|[ÀÉÈÊËÎÏÔÙ])", RegexOptions.Compiled);
-                MatchCollection matches = rx.Matches(S);
+                MatchCollection matches = rxMajDeb.Matches(S);
                 foreach (Match m in matches)
                 {
                     logger.ConditionalTrace(m.Value);
