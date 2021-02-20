@@ -230,6 +230,8 @@
             this.btSMots = new System.Windows.Forms.Button();
             this.btSAppliquer = new System.Windows.Forms.Button();
             this.tabArcs = new System.Windows.Forms.TabPage();
+            this.btMDMajDeb = new System.Windows.Forms.Button();
+            this.cbMDMajDeb = new System.Windows.Forms.CheckBox();
             this.lblTous = new System.Windows.Forms.Label();
             this.btcLnoir3 = new System.Windows.Forms.Button();
             this.lblTitrePonct = new System.Windows.Forms.Label();
@@ -293,8 +295,6 @@
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
             this.cmsArcButtons = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
-            this.btMDMajDeb = new System.Windows.Forms.Button();
-            this.cbMDMajDeb = new System.Windows.Forms.CheckBox();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -1894,13 +1894,7 @@
             this.tabAutres.Controls.Add(this.btAR1);
             this.tabAutres.Controls.Add(this.btAR0);
             this.tabAutres.Controls.Add(this.lblArcs);
-            this.tabAutres.Controls.Add(this.btSC5);
-            this.tabAutres.Controls.Add(this.btSC4);
             this.tabAutres.Controls.Add(this.btcInitSyls);
-            this.tabAutres.Controls.Add(this.btSC3);
-            this.tabAutres.Controls.Add(this.btSC2);
-            this.tabAutres.Controls.Add(this.btSC1);
-            this.tabAutres.Controls.Add(this.btSC0);
             this.tabAutres.Controls.Add(this.lblSylText);
             this.tabAutres.Controls.Add(this.btCPBDQ);
             this.tabAutres.Controls.Add(this.btL7);
@@ -1927,6 +1921,12 @@
             this.tabAutres.Controls.Add(this.btcLbpdq);
             this.tabAutres.Controls.Add(this.btSMots);
             this.tabAutres.Controls.Add(this.btSAppliquer);
+            this.tabAutres.Controls.Add(this.btSC5);
+            this.tabAutres.Controls.Add(this.btSC4);
+            this.tabAutres.Controls.Add(this.btSC3);
+            this.tabAutres.Controls.Add(this.btSC2);
+            this.tabAutres.Controls.Add(this.btSC1);
+            this.tabAutres.Controls.Add(this.btSC0);
             this.tabAutres.Location = new System.Drawing.Point(4, 22);
             this.tabAutres.Name = "tabAutres";
             this.tabAutres.Padding = new System.Windows.Forms.Padding(3);
@@ -2848,6 +2848,35 @@
             this.tabArcs.TabIndex = 5;
             this.tabArcs.Text = "Duo/Ponct";
             // 
+            // btMDMajDeb
+            // 
+            this.btMDMajDeb.ContextMenuStrip = this.cmsEffacerCopier;
+            this.btMDMajDeb.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btMDMajDeb.FlatAppearance.BorderSize = 2;
+            this.btMDMajDeb.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btMDMajDeb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btMDMajDeb.Location = new System.Drawing.Point(241, 224);
+            this.btMDMajDeb.Name = "btMDMajDeb";
+            this.btMDMajDeb.Size = new System.Drawing.Size(61, 25);
+            this.btMDMajDeb.TabIndex = 224;
+            this.btMDMajDeb.Text = ". Maj";
+            this.ttipLettreEnNoir.SetToolTip(this.btMDMajDeb, "Formatage pour les majuscules qui\r\nsuivent un point. ");
+            this.btMDMajDeb.UseVisualStyleBackColor = true;
+            this.btMDMajDeb.Click += new System.EventHandler(this.btMDMajDeb_Click);
+            // 
+            // cbMDMajDeb
+            // 
+            this.cbMDMajDeb.AutoSize = true;
+            this.cbMDMajDeb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbMDMajDeb.Location = new System.Drawing.Point(202, 228);
+            this.cbMDMajDeb.Name = "cbMDMajDeb";
+            this.cbMDMajDeb.Size = new System.Drawing.Size(40, 19);
+            this.cbMDMajDeb.TabIndex = 223;
+            this.cbMDMajDeb.Text = ". X";
+            this.ttipLettreEnNoir.SetToolTip(this.cbMDMajDeb, "Indique s\'il faut coloriser les majuscules\r\nqui suivent un point.");
+            this.cbMDMajDeb.UseVisualStyleBackColor = true;
+            this.cbMDMajDeb.CheckedChanged += new System.EventHandler(this.cbMDMajDeb_CheckedChanged);
+            // 
             // lblTous
             // 
             this.lblTous.AutoSize = true;
@@ -3602,35 +3631,6 @@
             this.tsmEffacerCoulArc.Size = new System.Drawing.Size(110, 22);
             this.tsmEffacerCoulArc.Text = "Effacer";
             this.tsmEffacerCoulArc.Click += new System.EventHandler(this.tsmEffacerCoulArc_Click);
-            // 
-            // btMDMajDeb
-            // 
-            this.btMDMajDeb.ContextMenuStrip = this.cmsEffacerCopier;
-            this.btMDMajDeb.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btMDMajDeb.FlatAppearance.BorderSize = 2;
-            this.btMDMajDeb.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btMDMajDeb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btMDMajDeb.Location = new System.Drawing.Point(241, 224);
-            this.btMDMajDeb.Name = "btMDMajDeb";
-            this.btMDMajDeb.Size = new System.Drawing.Size(61, 25);
-            this.btMDMajDeb.TabIndex = 224;
-            this.btMDMajDeb.Text = ". Maj";
-            this.ttipLettreEnNoir.SetToolTip(this.btMDMajDeb, "Formatage pour les majuscules qui\r\nsuivent un point. ");
-            this.btMDMajDeb.UseVisualStyleBackColor = true;
-            this.btMDMajDeb.Click += new System.EventHandler(this.btMDMajDeb_Click);
-            // 
-            // cbMDMajDeb
-            // 
-            this.cbMDMajDeb.AutoSize = true;
-            this.cbMDMajDeb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbMDMajDeb.Location = new System.Drawing.Point(202, 228);
-            this.cbMDMajDeb.Name = "cbMDMajDeb";
-            this.cbMDMajDeb.Size = new System.Drawing.Size(40, 19);
-            this.cbMDMajDeb.TabIndex = 223;
-            this.cbMDMajDeb.Text = ". X";
-            this.ttipLettreEnNoir.SetToolTip(this.cbMDMajDeb, "Indique s\'il faut coloriser les majuscules\r\nqui suivent un point.");
-            this.cbMDMajDeb.UseVisualStyleBackColor = true;
-            this.cbMDMajDeb.CheckedChanged += new System.EventHandler(this.cbMDMajDeb_CheckedChanged);
             // 
             // ConfigControl
             // 
