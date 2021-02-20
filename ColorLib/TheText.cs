@@ -1031,6 +1031,13 @@ namespace ColorLib
             if (conf != null)
             {
                 formatsMgmt.ClearFormats();
+                const string voyAcc = "ÀÉÈÊËÎÏÔÙ";
+                if ((S[0] >= 'A' && S[0] <= 'Z') || voyAcc.IndexOf(S[0]) > -1)
+                {
+                    MajDebInT maj = new MajDebInT(this, 0); // la première lettre du texte
+                    maj.PutColor(conf);
+                }
+
                 MatchCollection matches = rxMajDeb.Matches(S);
                 foreach (Match m in matches)
                 {
