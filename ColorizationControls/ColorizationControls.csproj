@@ -77,7 +77,6 @@
     <Compile Include="DuoConfFormDummy.Designer.cs">
       <DependentUpon>DuoConfFormDummy.cs</DependentUpon>
     </Compile>
-    <Compile Include="HiFormatForm.cs" />
     <Compile Include="WaitingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -359,6 +358,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\phrase_26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rien 32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

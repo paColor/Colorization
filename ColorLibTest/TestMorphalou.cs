@@ -26,7 +26,7 @@ namespace ColorLibTest
             ValideFichierRef(ColConfWin.IllRule.ceras);
         }
 
-        // [TestMethod]
+        [TestMethod]
         public void TestIllLireCouleur()
         {
             ValideFichierRef(ColConfWin.IllRule.lirecouleur);

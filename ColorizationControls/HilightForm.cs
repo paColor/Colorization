@@ -59,12 +59,34 @@ namespace ColorizationControls
         /// <returns><c>true</c> if the selection of hilight colors is possible.</returns>
         public static bool CanOperate() => (hiliColors != null);
 
+        public CharFormatting ResultCF { get; private set; }
 
         private Button[] colButtons;
-        private RGB selCol; // selected color
 
-        public HilightForm(RGB selectedCol)
+        /// <summary>
+        /// Crée un dialogue pour modifier la couleur de surlignage d'un <see cref="CharFormatting"/>.
+        /// </summary>
+        /// <remarks>A utiliser de la façon suivante:
+        /// <code>
+        /// // position relative à l'écran (exemple du menu clic droit)
+        /// Point p = cmsEffacerCopier.PointToScreen(tsmiCouleur.Bounds.Location); 
+        /// HilightForm hiForm = new HilightForm(theCF);
+        /// p.Offset((int)(ScaleFactor* (-hiForm.Width)), (int) (ScaleFactor* (-(hiForm.Height / 2))));
+        /// hiForm.Location = p;
+        /// if (hiForm.ShowDialog() == DialogResult.OK)
+        /// {
+        ///     theCF = hiForm.ResultCF;
+        /// }
+        /// hiForm.Dispose();
+        /// </code>
+        /// </remarks>
+        /// <param name="cf">Le <see cref="CharFormatting"/> actuel. Non null.</param>
+        public HilightForm(CharFormatting cf)
         {
+            if (cf == null)
+            {
+                throw new ArgumentNullException(nameof(cf));
+            }
             InitializeComponent();
             colButtons = new Button[nrColors];
             colButtons[0] = btnC0;
@@ -85,26 +107,44 @@ namespace ColorizationControls
             colButtons[15] = btnC15;
             for (int i = 0; i < nrColors; i++)
                 colButtons[i].BackColor = hiliColors[i];
-            int j = 0;
-            while ((j < nrColors) && (hiliColors[j] != selectedCol))
-                j++;
-            if (j < nrColors)
+            
+            if (cf.changeHilight)
             {
-                colButtons[j].FlatStyle = FlatStyle.Flat;
-                colButtons[j].FlatAppearance.BorderSize = 2;
+                int j = 0;
+                while ((j < nrColors) && (hiliColors[j] != cf.hilightColor))
+                    j++;
+                if (j < nrColors)
+                {
+                    colButtons[j].FlatStyle = FlatStyle.Flat;
+                    colButtons[j].FlatAppearance.BorderSize = 2;
+                }
             }
-            selCol = selectedCol;
+            else
+            {
+                btnCclear.FlatStyle = FlatStyle.Flat;
+                btnCclear.FlatAppearance.BorderSize = 2;
+            }
+            ResultCF = cf;
         }
-
-        public RGB GetSelectedColor() => selCol;
 
         private void btnC_Click(object sender, EventArgs e)
         {
             Button theBtn = (Button)sender;
             Debug.Assert(theBtn.Name.StartsWith("btnC"));
             string butNrTxt = theBtn.Name.Substring(4, theBtn.Name.Length - 4);
-            int butNr = int.Parse(butNrTxt);
-            selCol = hiliColors[butNr];
+            if (butNrTxt == "clear")
+            {
+                CharFormatting theCF = new CharFormatting(ResultCF, false, 
+                    CharFormatting.NeutralCF.hilightColor);
+                ResultCF = theCF;
+            }
+            else
+            {
+                int butNr = int.Parse(butNrTxt);
+                CharFormatting theCF = new CharFormatting(ResultCF, true, hiliColors[butNr]);
+                ResultCF = theCF;
+            }
+            
         }
 
         private void FormShown(object sender, EventArgs e)

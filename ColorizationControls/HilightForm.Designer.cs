@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnC0 = new System.Windows.Forms.Button();
             this.btnC1 = new System.Windows.Forms.Button();
             this.btnC2 = new System.Windows.Forms.Button();
@@ -45,6 +46,8 @@
             this.btnC13 = new System.Windows.Forms.Button();
             this.btnC12 = new System.Windows.Forms.Button();
             this.btnACancel = new System.Windows.Forms.Button();
+            this.btnCclear = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // btnC0
@@ -211,18 +214,31 @@
             // btnACancel
             // 
             this.btnACancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnACancel.Location = new System.Drawing.Point(56, 190);
+            this.btnACancel.Location = new System.Drawing.Point(28, 195);
             this.btnACancel.Name = "btnACancel";
             this.btnACancel.Size = new System.Drawing.Size(75, 23);
             this.btnACancel.TabIndex = 16;
             this.btnACancel.Text = "Annuler";
             this.btnACancel.UseVisualStyleBackColor = true;
             // 
+            // btnCclear
+            // 
+            this.btnCclear.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnCclear.Image = global::ColorizationControls.Properties.Resources.rien_32;
+            this.btnCclear.Location = new System.Drawing.Point(119, 188);
+            this.btnCclear.Name = "btnCclear";
+            this.btnCclear.Size = new System.Drawing.Size(38, 38);
+            this.btnCclear.TabIndex = 17;
+            this.toolTip1.SetToolTip(this.btnCclear, "Pas de surlignage");
+            this.btnCclear.UseVisualStyleBackColor = true;
+            this.btnCclear.Click += new System.EventHandler(this.btnC_Click);
+            // 
             // HilightForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(189, 225);
+            this.ClientSize = new System.Drawing.Size(189, 231);
+            this.Controls.Add(this.btnCclear);
             this.Controls.Add(this.btnACancel);
             this.Controls.Add(this.btnC15);
             this.Controls.Add(this.btnC14);
@@ -268,5 +284,7 @@
         private System.Windows.Forms.Button btnC13;
         private System.Windows.Forms.Button btnC12;
         private System.Windows.Forms.Button btnACancel;
+        private System.Windows.Forms.Button btnCclear;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

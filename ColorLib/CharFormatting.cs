@@ -423,6 +423,35 @@ namespace ColorLib
         }
 
         /// <summary>
+        /// Crée un <c>CharFormatting</c> comme une copie de <c>cfToCopy</c> et en mettant 
+        /// <c>changeHilight</c> et <c>hilightColor</c> aux valeurs demandées.
+        /// </summary>
+        /// <param name="cfToCopy">Le <c>CharFormatting</c> qui doit être recopié. Non null.</param>
+        /// <param name="inChangeHilight">La nouvelle valeur pour <c>changeHilight</c>.</param>
+        /// <param name="inHilightColor">La nouvelle valeur pour <c>hilightColor</c>.</param>
+        public CharFormatting(
+                                CharFormatting cfToCopy,
+                                bool inChangeHilight,
+                                RGB inHilightColor
+                              )
+        {
+            bold = cfToCopy.bold;
+            italic = cfToCopy.italic;
+            underline = cfToCopy.underline;
+            caps = cfToCopy.caps;
+            changeColor = cfToCopy.changeColor;
+            color = cfToCopy.color;
+            changeHilight = inChangeHilight;
+            hilightColor = inHilightColor;
+            contour = cfToCopy.contour;
+            serif = cfToCopy.serif;
+            changeFontSize = cfToCopy.changeFontSize;
+            percIncrFontSize = cfToCopy.percIncrFontSize;
+            drawArc = cfToCopy.drawArc;
+            arcColor = cfToCopy.arcColor;
+        }
+
+        /// <summary>
         /// Créé un <c>CharFormatting</c> pour la colorisation d'arcs.
         /// </summary>
         /// <remarks><paramref name="inDrawArc"/> doit être <c>true</c>. La seule raison de sa

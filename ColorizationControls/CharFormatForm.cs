@@ -40,6 +40,7 @@ namespace ColorizationControls
         
 
         private string son;
+        private CharFormatting inCF;
         private bool bold = false;
         private bool italic = false;
         private bool underscore = false;
@@ -107,6 +108,7 @@ namespace ColorizationControls
             mcd.FullOpen = true;
             mcd.Color = cf.color;
             colorSet = true; // Si le bouton "valider" est cliqué, la couleur doit être la couleur mise.
+            inCF = cf;
             theColor = cf.color;
             hilightSet = cf.changeHilight;
             theHilightColor = cf.hilightColor;
@@ -193,16 +195,17 @@ namespace ColorizationControls
 
         private void btnSurl_Click(object sender, EventArgs e)
         {
+            logger.ConditionalDebug("btnSurl_Click");
             Debug.Assert(HilightForm.CanOperate());
             Button theBtn = (Button)sender;
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
-            HilightForm hiForm = new HilightForm(theHilightColor);
+            HilightForm hiForm = new HilightForm(inCF);
             p.Offset(-hiForm.Width, -(hiForm.Height / 2));
             hiForm.Location = p;
             if (hiForm.ShowDialog() == DialogResult.OK)
             {
-                hilightSet = true;
-                theHilightColor = hiForm.GetSelectedColor();
+                hilightSet = hiForm.ResultCF.changeHilight;
+                theHilightColor = hiForm.ResultCF.hilightColor;
                 btnSurl.BackColor = theHilightColor;
             }
             hiForm.Dispose();

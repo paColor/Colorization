@@ -2039,13 +2039,12 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("tsmiSurlignage_Click");
             Point p = cmsEffacerCopier.PointToScreen(tsmiCouleur.Bounds.Location); // position relative à l'écran
-            HilightForm hiForm = new HilightForm(cmsCF.hilightColor);
+            HilightForm hiForm = new HilightForm(cmsCF);
             p.Offset((int)(ScaleFactor * (-hiForm.Width)), (int)(ScaleFactor * (-(hiForm.Height / 2))));
             hiForm.Location = p;
             if (hiForm.ShowDialog() == DialogResult.OK)
             {
-                ApplyCFToClickedButton(new CharFormatting(cmsCF.bold, cmsCF.italic, cmsCF.underline, cmsCF.caps, cmsCF.changeColor, cmsCF.color,
-                           true, hiForm.GetSelectedColor()));
+                ApplyCFToClickedButton(hiForm.ResultCF);
             }
             hiForm.Dispose();
         }
