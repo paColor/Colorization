@@ -944,6 +944,7 @@ namespace ColorizationControls
             form.Location = p;
             _ = form.ShowDialog();
             form.Dispose();
+            tabControl1.Focus();
         }
 
         //--------------------------------------------------------------------------------------------
@@ -963,18 +964,21 @@ namespace ColorizationControls
             form.Location = p;
             _ = form.ShowDialog();
             form.Dispose();
+            tabControl1.Focus();
         }
 
         private void btCPBDQ_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btCPBDQ_Click");
             theConf.pBDQ.Reset();
+            tabControl1.Focus();
         }
 
         private void btcLbpdq_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btcLbpdq_Click");
             markSelLetters(theConf);
+            tabControl1.Focus();
         }
 
         private void LetterButtonModified(object sender, LetterButtonModifiedEventArgs e)
@@ -1126,36 +1130,42 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("btSAppliquer_Click");
             colSylSelLetters(theConf);
+            tabControl1.Focus();
         }
 
         private void btSMots_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btSMots_Click");
             colMotsSelLetters(theConf);
+            tabControl1.Focus();
         }
 
         private void btZeLignes_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btZeLignes_Click");
             colLignesSelText(theConf);
+            tabControl1.Focus();
         }
 
         private void btSVoyCons_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btSVoyCons_Click");
             colVoyConsSelText(theConf);
+            tabControl1.Focus();
         }
 
         private void btcLNoir_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btcLNoir_Click");
             colNoirSelText(theConf);
+            tabControl1.Focus();
         }
 
         private void btcInitSyls_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btcInitSyls_Click");
             theConf.sylConf.Reset();
+            tabControl1.Focus();
         }
 
         private void SylButton_Click(object sender, EventArgs e)
@@ -1177,6 +1187,7 @@ namespace ColorizationControls
                 _ = form.ShowDialog();
                 form.Dispose();
             }
+            tabControl1.Focus();
         }
 
         private void SylButtonModified(object sender, SylButtonModifiedEventArgs e)
@@ -1218,18 +1229,21 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("btcArcs_Click");
             drawArcs(theConf);
+            tabControl1.Focus();
         }
 
         private void btcRemoveArcs_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btcRemoveArcs_Click");
             removeArcs(theConf);
+            tabControl1.Focus();
         }
 
         private void btcIniArcBleu_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btcIniArcBleu_Click");
             theConf.arcConf.Reset();
+            tabControl1.Focus();
         }
 
         private void ArcButton_Click(object sender, EventArgs e)
@@ -1249,6 +1263,7 @@ namespace ColorizationControls
                 theConf.arcConf.SetArcButtonCol(bNr, mcd4Arcs.Color);
                 StaticColorizControls.customColors = mcd4Arcs.CustomColors;
             }
+            tabControl1.Focus();
         }
 
         private void ArcButtonModifiedHandler(object sender, ArcButtonModifiedEventArgs e)
@@ -1270,6 +1285,7 @@ namespace ColorizationControls
         private void tsmEffacerCoulArc_Click(object sender, EventArgs e)
         {
             theConf.arcConf.ClearButton(cmsArcButNr);
+            tabControl1.Focus();
         }
 
         // - - - - - - - - - - - - - - - -  Hauteur - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1338,12 +1354,14 @@ namespace ColorizationControls
             logger.ConditionalDebug("butConfigDuo_Click");
             DuoConfForm dcf = new DuoConfForm(theConf);
             dcf.ShowDialog();
+            tabControl1.Focus();
         }
 
         private void butExecuteDuo_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("butExecuteDuo_Click");
             colDuoSelText(theConf);
+            tabControl1.Focus();
         }
 
         //-----------------------------------------------------------------------------------------
@@ -1354,6 +1372,7 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("btPAponctuation_Click");
             colPonctuation(theConf);
+            tabControl1.Focus();
         }
 
         private void PonctCheckBox_CheckedChanged(Object sender, EventArgs e)
@@ -1378,6 +1397,7 @@ namespace ColorizationControls
             form.Location = p;
             _ = form.ShowDialog();
             form.Dispose();
+            tabControl1.Focus();
         }
 
         private void btPMmaitre_Click(object sender, EventArgs e)
@@ -1391,6 +1411,7 @@ namespace ColorizationControls
             form.Location = p;
             _ = form.ShowDialog();
             form.Dispose();
+            tabControl1.Focus();
         }
 
         private void cbMDMajDeb_CheckedChanged(object sender, EventArgs e)
@@ -1411,12 +1432,14 @@ namespace ColorizationControls
             form.Location = p;
             _ = form.ShowDialog();
             form.Dispose();
+            tabControl1.Focus();
         }
 
         private void btPAreset_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btPAreset_Click");
             theConf.ponctConf.Reset();
+            tabControl1.Focus();
         }
 
         private void PonctFormattingModifiedHandler(object sender, PonctModifiedEventArgs e)
@@ -1564,6 +1587,7 @@ namespace ColorizationControls
             {
                 logger.Warn("btSauvSauv_Click a été exécuté alors que txtBNomConfig.Text est vide.");
             }
+            tabControl1.Focus();
         }
 
         private void btSauvSauv_KeyPress(object sender, KeyPressEventArgs e)
@@ -1608,6 +1632,7 @@ namespace ColorizationControls
                     configName, errMsg);
                 MessageBox.Show(message, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            tabControl1.Focus();
         }
 
         private void btSauvCharger_KeyPress(object sender, KeyPressEventArgs e)
@@ -1641,6 +1666,7 @@ namespace ColorizationControls
                     MessageBox.Show(errMessages, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            tabControl1.Focus();
         }
 
         // --------------------------------- btSauv : Bouton "Par défaut" ------------------ ------------------------
@@ -1702,12 +1728,14 @@ namespace ColorizationControls
             lf.Location = p;
             _ = lf.ShowDialog();
             lf.Dispose();
+            tabControl1.Focus();
         }
 
         private void butAide_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("butAide_Click");
             System.Diagnostics.Process.Start("https://colorization.ch/docs/Manuel_Utilisateur_Colorization.pdf");
+            tabControl1.Focus();
         }
 
         //--------------------------------------------------------------------------------------------
@@ -1870,6 +1898,7 @@ namespace ColorizationControls
             logger.ConditionalDebug("tsmiCouper_Click cmsButType == {0}, cmsButNr == {1}, cmsButSon == {2}", cmsButType, cmsButNr, cmsButSon);
             tsmiCopier_Click(sender, e);
             tsmiEffacer_Click(sender, e);
+            tabControl1.Focus();
         }
 
         private void tsmiCopier_Click(object sender, EventArgs e)
@@ -1899,6 +1928,7 @@ namespace ColorizationControls
                     logger.Error("Type de bouton non traité: {0}", cmsButType);
                     throw new ArgumentException(String.Format("Type de bouton non traité: {0}", cmsButType));
             }
+            tabControl1.Focus();
         }
 
         private void tsmiColler_Click(object sender, EventArgs e)
@@ -1936,6 +1966,7 @@ namespace ColorizationControls
                     logger.Error("Type de bouton non traité: {0}", cmsButType);
                     throw new ArgumentException(String.Format("Type de bouton non traité: {0}", cmsButType));
             }
+            tabControl1.Focus();
         }
 
         private void tsmiEffacer_Click(object sender, EventArgs e)
@@ -1967,6 +1998,7 @@ namespace ColorizationControls
                     logger.Error("Type de bouton non traité: {0}", cmsButType);
                     throw new ArgumentException(String.Format("Type de bouton non traité: {0}", cmsButType));
             }
+            tabControl1.Focus();
         }
 
         private void ApplyCFToClickedButton(CharFormatting cf)
@@ -2002,18 +2034,21 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("APplyCFToClickedButton");
             ApplyCFToClickedButton(new CharFormatting(cmsCF, !cmsCF.bold, cmsCF.italic, cmsCF.underline));
+            tabControl1.Focus();
         }
 
         private void tsmiItalique_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("APplyCFToClickedButton");
             ApplyCFToClickedButton(new CharFormatting(cmsCF, cmsCF.bold, !cmsCF.italic, cmsCF.underline));
+            tabControl1.Focus();
         }
 
         private void tsmiSouligne_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("APplyCFToClickedButton");
             ApplyCFToClickedButton(new CharFormatting(cmsCF, cmsCF.bold, cmsCF.italic, !cmsCF.underline));
+            tabControl1.Focus();
         }
 
         private void tsmiCouleur_Click(object sender, EventArgs e)
@@ -2033,6 +2068,7 @@ namespace ColorizationControls
                 StaticColorizControls.customColors = mcd.CustomColors;
             }
             mcd.Dispose();
+            tabControl1.Focus();
         }
 
         private void tsmiSurlignage_Click(object sender, EventArgs e)
@@ -2047,6 +2083,7 @@ namespace ColorizationControls
                 ApplyCFToClickedButton(hiForm.ResultCF);
             }
             hiForm.Dispose();
+            tabControl1.Focus();
         }
 
         //--------------------------------------------------------------------------------------------
@@ -2073,6 +2110,12 @@ namespace ColorizationControls
                 ttipLettreEnNoir.SetToolTip(btcPhons, "Coloriser les phonèmes");
             }
             UpdateAllSoundCbxAndButtons();
+            tabControl1.Focus();
+        }
+
+        private void tabControl1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            logger.ConditionalTrace("tabControl1_KeyPress {0}, {1}", e.KeyChar, (int)e.KeyChar);
         }
 
     }

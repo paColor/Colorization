@@ -173,13 +173,7 @@
             this.btAR1 = new System.Windows.Forms.Button();
             this.btAR0 = new System.Windows.Forms.Button();
             this.lblArcs = new System.Windows.Forms.Label();
-            this.btSC5 = new System.Windows.Forms.Button();
-            this.btSC4 = new System.Windows.Forms.Button();
             this.btcInitSyls = new System.Windows.Forms.Button();
-            this.btSC3 = new System.Windows.Forms.Button();
-            this.btSC2 = new System.Windows.Forms.Button();
-            this.btSC1 = new System.Windows.Forms.Button();
-            this.btSC0 = new System.Windows.Forms.Button();
             this.lblSylText = new System.Windows.Forms.Label();
             this.btCPBDQ = new System.Windows.Forms.Button();
             this.btL7 = new System.Windows.Forms.Button();
@@ -229,6 +223,12 @@
             this.btcLbpdq = new System.Windows.Forms.Button();
             this.btSMots = new System.Windows.Forms.Button();
             this.btSAppliquer = new System.Windows.Forms.Button();
+            this.btSC5 = new System.Windows.Forms.Button();
+            this.btSC4 = new System.Windows.Forms.Button();
+            this.btSC3 = new System.Windows.Forms.Button();
+            this.btSC2 = new System.Windows.Forms.Button();
+            this.btSC1 = new System.Windows.Forms.Button();
+            this.btSC0 = new System.Windows.Forms.Button();
             this.tabArcs = new System.Windows.Forms.TabPage();
             this.btMDMajDeb = new System.Windows.Forms.Button();
             this.cbMDMajDeb = new System.Windows.Forms.CheckBox();
@@ -1562,6 +1562,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(345, 583);
             this.tabControl1.TabIndex = 102;
+            this.tabControl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tabControl1_KeyPress);
             // 
             // tabCouleurs
             // 
@@ -2164,28 +2165,6 @@
             this.lblArcs.Text = "Couleurs des \r\narcs sous les syllabes";
             this.lblArcs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btSC5
-            // 
-            this.btSC5.Location = new System.Drawing.Point(281, 307);
-            this.btSC5.Name = "btSC5";
-            this.btSC5.Size = new System.Drawing.Size(48, 23);
-            this.btSC5.TabIndex = 156;
-            this.btSC5.Text = "Txt";
-            this.btSC5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btSC5.UseVisualStyleBackColor = true;
-            this.btSC5.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // btSC4
-            // 
-            this.btSC4.Location = new System.Drawing.Point(227, 307);
-            this.btSC4.Name = "btSC4";
-            this.btSC4.Size = new System.Drawing.Size(48, 23);
-            this.btSC4.TabIndex = 155;
-            this.btSC4.Text = "Txt";
-            this.btSC4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btSC4.UseVisualStyleBackColor = true;
-            this.btSC4.Click += new System.EventHandler(this.SylButton_Click);
-            // 
             // btcInitSyls
             // 
             this.btcInitSyls.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
@@ -2198,50 +2177,6 @@
         "isation\r\nde syllabes à leur valeur par défaut.");
             this.btcInitSyls.UseVisualStyleBackColor = false;
             this.btcInitSyls.Click += new System.EventHandler(this.btcInitSyls_Click);
-            // 
-            // btSC3
-            // 
-            this.btSC3.Location = new System.Drawing.Point(173, 307);
-            this.btSC3.Name = "btSC3";
-            this.btSC3.Size = new System.Drawing.Size(48, 23);
-            this.btSC3.TabIndex = 149;
-            this.btSC3.Text = "Txt";
-            this.btSC3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btSC3.UseVisualStyleBackColor = true;
-            this.btSC3.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // btSC2
-            // 
-            this.btSC2.Location = new System.Drawing.Point(119, 307);
-            this.btSC2.Name = "btSC2";
-            this.btSC2.Size = new System.Drawing.Size(48, 23);
-            this.btSC2.TabIndex = 148;
-            this.btSC2.Text = "Txt";
-            this.btSC2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btSC2.UseVisualStyleBackColor = true;
-            this.btSC2.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // btSC1
-            // 
-            this.btSC1.Location = new System.Drawing.Point(65, 307);
-            this.btSC1.Name = "btSC1";
-            this.btSC1.Size = new System.Drawing.Size(48, 23);
-            this.btSC1.TabIndex = 147;
-            this.btSC1.Text = "Txt";
-            this.btSC1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btSC1.UseVisualStyleBackColor = true;
-            this.btSC1.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // btSC0
-            // 
-            this.btSC0.Location = new System.Drawing.Point(12, 307);
-            this.btSC0.Name = "btSC0";
-            this.btSC0.Size = new System.Drawing.Size(48, 23);
-            this.btSC0.TabIndex = 146;
-            this.btSC0.Text = "Txt";
-            this.btSC0.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btSC0.UseVisualStyleBackColor = true;
-            this.btSC0.Click += new System.EventHandler(this.SylButton_Click);
             // 
             // lblSylText
             // 
@@ -2797,6 +2732,72 @@
             this.ttipLettreEnNoir.SetToolTip(this.btSAppliquer, "Coloriser les syllabes");
             this.btSAppliquer.UseVisualStyleBackColor = false;
             this.btSAppliquer.Click += new System.EventHandler(this.btSAppliquer_Click);
+            // 
+            // btSC5
+            // 
+            this.btSC5.Location = new System.Drawing.Point(281, 307);
+            this.btSC5.Name = "btSC5";
+            this.btSC5.Size = new System.Drawing.Size(48, 23);
+            this.btSC5.TabIndex = 156;
+            this.btSC5.Text = "Txt";
+            this.btSC5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btSC5.UseVisualStyleBackColor = true;
+            this.btSC5.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // btSC4
+            // 
+            this.btSC4.Location = new System.Drawing.Point(227, 307);
+            this.btSC4.Name = "btSC4";
+            this.btSC4.Size = new System.Drawing.Size(48, 23);
+            this.btSC4.TabIndex = 155;
+            this.btSC4.Text = "Txt";
+            this.btSC4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btSC4.UseVisualStyleBackColor = true;
+            this.btSC4.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // btSC3
+            // 
+            this.btSC3.Location = new System.Drawing.Point(173, 307);
+            this.btSC3.Name = "btSC3";
+            this.btSC3.Size = new System.Drawing.Size(48, 23);
+            this.btSC3.TabIndex = 149;
+            this.btSC3.Text = "Txt";
+            this.btSC3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btSC3.UseVisualStyleBackColor = true;
+            this.btSC3.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // btSC2
+            // 
+            this.btSC2.Location = new System.Drawing.Point(119, 307);
+            this.btSC2.Name = "btSC2";
+            this.btSC2.Size = new System.Drawing.Size(48, 23);
+            this.btSC2.TabIndex = 148;
+            this.btSC2.Text = "Txt";
+            this.btSC2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btSC2.UseVisualStyleBackColor = true;
+            this.btSC2.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // btSC1
+            // 
+            this.btSC1.Location = new System.Drawing.Point(65, 307);
+            this.btSC1.Name = "btSC1";
+            this.btSC1.Size = new System.Drawing.Size(48, 23);
+            this.btSC1.TabIndex = 147;
+            this.btSC1.Text = "Txt";
+            this.btSC1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btSC1.UseVisualStyleBackColor = true;
+            this.btSC1.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // btSC0
+            // 
+            this.btSC0.Location = new System.Drawing.Point(12, 307);
+            this.btSC0.Name = "btSC0";
+            this.btSC0.Size = new System.Drawing.Size(48, 23);
+            this.btSC0.TabIndex = 146;
+            this.btSC0.Text = "Txt";
+            this.btSC0.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btSC0.UseVisualStyleBackColor = true;
+            this.btSC0.Click += new System.EventHandler(this.SylButton_Click);
             // 
             // tabArcs
             // 

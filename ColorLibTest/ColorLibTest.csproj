@@ -86,6 +86,7 @@
     <Compile Include="ChiffresTest.cs" />
     <Compile Include="TestMorphalou.cs" />
     <Compile Include="TransformWordLists.cs" />
+    <Compile Include="Undo\TestActionStack.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">
