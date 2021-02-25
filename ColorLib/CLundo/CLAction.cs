@@ -25,18 +25,12 @@ namespace ColorLib
         /// <summary>
         /// Annule l'action.
         /// </summary>
-        public virtual void Undo()
-        {
-
-        }
+        public abstract void Undo();
 
         /// <summary>
         /// Réexécute l'action.
         /// </summary>
-        public virtual void Redo()
-        {
-
-        }
+        public abstract void Redo();
 
     }
 }

@@ -11,6 +11,7 @@ namespace ColorLib
     public class CLActionStack
     {
         public const int StackSize = 50;
+        public int Count => ((beg - end) + StackSize) % StackSize;
         private CLAction[] stack;
         private int beg;
         private int end;

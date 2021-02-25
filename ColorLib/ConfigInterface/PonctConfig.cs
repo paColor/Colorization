@@ -315,6 +315,16 @@ namespace ColorLib
         public void SetMasterCF(string dummy, CharFormatting cf) => MasterCF = cf;
 
         /// <summary>
+        /// Est nécessaire dans le cas d'une annulation de la commande pour revenir à l'état
+        /// précédent, sans déclencher une propagation éventuellement fausse.
+        /// </summary>
+        /// <param name="cf">Le <see cref="CharFormatting"> à utiliser.</param>
+        public void SetMasterCFWithoutPropagation(CharFormatting cf)
+        {
+            _masterCF = cf;
+        }
+
+        /// <summary>
         /// Est utilisé par <see cref="CharFormatForm"/> qui réclame une fonction (delegate) avec
         /// cette signature.
         /// </summary>
