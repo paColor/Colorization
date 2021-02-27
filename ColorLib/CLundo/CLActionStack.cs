@@ -23,6 +23,18 @@ namespace ColorLib
             end = 0;
         }
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            int i = beg;
+            while (i != end)
+            {
+                i = (i + StackSize - 1) % StackSize;
+                sb.AppendLine(stack[i].ToString());
+            }
+            return sb.ToString();
+        }
+
         public void Push(CLAction theAction)
         {
             stack[beg] = theAction;
@@ -53,7 +65,7 @@ namespace ColorLib
         /// <summary>
         /// Vide la pile.
         /// </summary>
-        public void Clean()
+        public void Clear()
         {
             beg = 0;
             end = 0;

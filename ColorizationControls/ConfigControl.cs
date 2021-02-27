@@ -236,7 +236,8 @@ namespace ColorizationControls
         private void UpdateCbxSon(string son)
         {
             logger.ConditionalTrace("UpdateCbxSon son: {0}", son);
-            sonInfos[son].cbx.Checked = theConf.colors[pct].GetCheck(son);
+            if (sonInfos[son].cbx.Checked != theConf.colors[pct].GetCheck(son))
+                sonInfos[son].cbx.Checked = theConf.colors[pct].GetCheck(son);
             UpdateSonButton(son);
         }
 
@@ -280,7 +281,8 @@ namespace ColorizationControls
         private void UpdateCBPonct(string ponct)
         {
             logger.ConditionalTrace("UpdateCBPonct ponct: {0}", ponct);
-            ponctInfos[ponct].cbx.Checked = theConf.ponctConf.GetCB(ponct);
+            if (ponctInfos[ponct].cbx.Checked != theConf.ponctConf.GetCB(ponct))
+                ponctInfos[ponct].cbx.Checked = theConf.ponctConf.GetCB(ponct);
             UpdatePonctButton(ponct);
         }
         
@@ -2113,9 +2115,17 @@ namespace ColorizationControls
             tabControl1.Focus();
         }
 
+        //--------------------------------------------------------------------------------------------
+        // -------------------------------------------- UNDO -----------------------------------------
+        //--------------------------------------------------------------------------------------------
+
         private void tabControl1_KeyPress(object sender, KeyPressEventArgs e)
         {
             logger.ConditionalTrace("tabControl1_KeyPress {0}, {1}", e.KeyChar, (int)e.KeyChar);
+            if (e.KeyChar == '\x001A')
+            {
+                UndoFactory.UndoLastAction();
+            }
         }
 
     }

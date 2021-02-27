@@ -70,18 +70,19 @@ namespace ColorLib
 
             set
             {
+                logger.ConditionalTrace("set MasterCF to {0}", value);
                 if (_masterCF != value || MasterState == State.off)
                 {
-                    _masterCF = value;
+                    UndoFactory.StartRecording("Bouton maître");
+                    SetMasterCFWithoutPropagation(value);
                     MasterState = State.master;
                     for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
                     {
-                        charFormats[p] = MasterCF;
-                        OnPonctFormattingModified(p);
-                        checkBoxes[p] = true;
-                        OnPonctCBModified(p);
+                        SetCFwoState(p, MasterCF);
+                        SetCBwoState(p, true);
                     }
                     OnMasterCFModified();
+                    UndoFactory.EndRecording();
                 }
             }
         }
@@ -95,8 +96,11 @@ namespace ColorLib
 
             set
             {
+                logger.ConditionalTrace("set MasterState to {0}", value);
                 if (_masterState != value)
                 {
+                    UndoFactory.ExceutingAction(
+                        new PonctAction("Etat maître", this, "masterState", _masterState, value));
                     _masterState = value;
                     OnMasterStateModified();
                 }
@@ -111,8 +115,11 @@ namespace ColorLib
             }
             set
             {
+                logger.ConditionalTrace("set MajDebCF to {0}", value?.ToString());
                 if (_majDebCF != value)
                 {
+                    UndoFactory.ExceutingAction(new PonctAction("Format majuscule", this, 
+                        "majDebCF", Ponctuation.firstP, _majDebCF, value));
                     _majDebCF = value;
                     OnMajDebCFModified();
                 }
@@ -127,8 +134,11 @@ namespace ColorLib
             }
             set
             {
+                logger.ConditionalTrace("set MajDebCB to {0}", value);
                 if (_majDebCB != value)
                 {
+                    UndoFactory.ExceutingAction(new PonctAction("Contôle majuscule", this,
+                        "majDebCB", Ponctuation.firstP, _majDebCB, value));
                     _majDebCB = value;
                     OnMajDebCBModified();
                 }
@@ -205,9 +215,7 @@ namespace ColorLib
             for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
             {
                 charFormats[p] = CharFormatting.NeutralCF;
-                OnPonctFormattingModified(p);
                 checkBoxes[p] = false;
-                OnPonctCBModified(p);
             }
             Reset();
         }
@@ -218,9 +226,11 @@ namespace ColorLib
         public override void Reset()
         {
             logger.ConditionalDebug("Reset");
+            UndoFactory.StartRecording("Réinitialiser");
             MasterCF = new CharFormatting(ColConfWin.coloredCF[(int)PredefCol.pinky], true, false, false);
             MajDebCF = MasterCF;
             MajDebCB = false;
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -262,15 +272,38 @@ namespace ColorLib
         /// <returns></returns>
         public CharFormatting GetCF(string ponct) => GetCF(PonctInT.Ponct4String(ponct));
 
+        /// <summary>
+        /// Permet de mettre le <see cref="CharFormatting"/> pour une famille de ponctuation
+        /// sans que la situation du mâître soit impactée. 
+        /// </summary>
+        /// <remarks>Devrait être <c>private</c>, mais doit être visible pour la gestion des
+        /// annulations. NE PAS UTILISER DANS UN AUTRE CONTEXTE!</remarks>
+        /// <param name="p">La famille de ponctuation.</param>
+        /// <param name="toCF">Le nouveau <see cref="CharFormatting"/>.</param>
+        public void SetCFwoState(Ponctuation p, CharFormatting toCF)
+        {
+            logger.ConditionalTrace("SetCFwoState, p: {0}, to: {1}", p, toCF.ToString());
+            if (toCF != charFormats[p])
+            {
+                UndoFactory.ExceutingAction(new PonctAction("Format ponct.", this, "ponctCF",
+                    p, charFormats[p], toCF));
+                charFormats[p] = toCF;
+                OnPonctFormattingModified(p);
+            }
+        }
+
+        /// <summary>
+        /// Permet de mettre le CF pour une famille de ponctuation à la valeur souhaitée.
+        /// </summary>
+        /// <param name="p">La famille de ponctuation.</param>
+        /// <param name="toCF">Le nouveau <see cref="CharFormatting"/>.</param>
         public void SetCF(Ponctuation p, CharFormatting toCF)
         {
             logger.ConditionalDebug("SetCF {0} to {1}", p.ToString(), toCF.ToString());
-            if (toCF != charFormats[p])
-            {
-                charFormats[p] = toCF;
-                OnPonctFormattingModified(p);
-                MasterState = State.off;
-            }
+            UndoFactory.StartRecording("Format ponctuation");
+            SetCFwoState(p, toCF);
+            MasterState = State.off;
+            UndoFactory.EndRecording();
         }
 
         public void SetCF(string ponct, CharFormatting toCF) => SetCF(PonctInT.Ponct4String(ponct), toCF);
@@ -283,24 +316,45 @@ namespace ColorLib
         /// <param name="toCF">Le nouveau <see cref="CharFormatting"/>.</param>
         public void SetCFandCB(string ponctS, CharFormatting toCF)
         {
+            logger.ConditionalDebug("SetCFandCB {0} toCF: {1}", ponctS, toCF.ToString());
             Ponctuation p = PonctInT.Ponct4String(ponctS);
+            UndoFactory.StartRecording("SetCFandCB");
             SetCF(p, toCF);
             SetCB(p, true);
+            UndoFactory.EndRecording();
         }
 
         public bool GetCB(Ponctuation p) => checkBoxes[p];
 
         public bool GetCB(string ponct) => GetCB(PonctInT.Ponct4String(ponct));
 
+        /// <summary>
+        /// Permet de mettre la "checkbox" pour une famille de ponctuation
+        /// sans que la situation du mâître soit impactée. 
+        /// </summary>
+        /// <remarks>Devrait être <c>private</c>, mais doit être visible pour la gestion des
+        /// annulations. NE PAS UTILISER DANS UN AUTRE CONTEXTE!</remarks>
+        /// <param name="p">La famille de ponctuation.</param>
+        /// <param name="toCB">La nouvelle valeur de la checkbox.</param>
+        public void SetCBwoState(Ponctuation p, bool toCB)
+        {
+            logger.ConditionalTrace("SetCBwoState p: {0}, toCB: {1}", p, toCB);
+            if (toCB != checkBoxes[p])
+            {
+                UndoFactory.ExceutingAction(new PonctAction("Contrôle ponct.", this, "ponctCB",
+                    p, checkBoxes[p], toCB));
+                checkBoxes[p] = toCB;
+                OnPonctCBModified(p);
+            }
+        }
+
         public void SetCB(Ponctuation p, bool toCB)
         {
             logger.ConditionalDebug("SetCF {0} to {1}", p.ToString(), toCB);
-            if (toCB != checkBoxes[p])
-            {
-                checkBoxes[p] = toCB;
-                OnPonctCBModified(p);
-                MasterState = State.off;
-            }
+            UndoFactory.StartRecording("Contrôle ponctuation");
+            SetCBwoState(p, toCB);
+            MasterState = State.off;
+            UndoFactory.EndRecording();
         }
 
         public void SetCB(string ponct, bool toCB) => SetCB(PonctInT.Ponct4String(ponct), toCB);
@@ -321,6 +375,9 @@ namespace ColorLib
         /// <param name="cf">Le <see cref="CharFormatting"> à utiliser.</param>
         public void SetMasterCFWithoutPropagation(CharFormatting cf)
         {
+            logger.ConditionalTrace("SetMasterCFWithoutPropagation to {0}", cf?.ToString());
+            UndoFactory.ExceutingAction(new PonctAction("Format Maître", this, "masterCF",
+                        Ponctuation.firstP, MasterCF, cf));
             _masterCF = cf;
         }
 
@@ -341,8 +398,10 @@ namespace ColorLib
         public void ClearPonct(string ponctS)
         {
             Ponctuation p = PonctInT.Ponct4String(ponctS);
+            UndoFactory.StartRecording("ClearPonct");
             SetCF(p, CharFormatting.NeutralCF);
             SetCB(p, false);
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -350,6 +409,7 @@ namespace ColorLib
         /// </summary>
         public void ClearMaster()
         {
+            UndoFactory.StartRecording("Efface maître");
             MasterCF = CharFormatting.NeutralCF;
             MasterState = State.off;
             for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
@@ -357,6 +417,7 @@ namespace ColorLib
                 checkBoxes[p] = false;
                 OnPonctCBModified(p);
             }
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -364,8 +425,10 @@ namespace ColorLib
         /// </summary>
         public void ClearMajDeb()
         {
+            UndoFactory.StartRecording("Efface maj");
             MajDebCF = CharFormatting.NeutralCF;
             MajDebCB = false;
+            UndoFactory.EndRecording();
         }
 
         // --------------------------------------- Serialization ----------------------------------

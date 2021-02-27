@@ -256,6 +256,7 @@ namespace ColorLib
                     logger.ConditionalDebug("New Config created.");
                 }
                 UpdateWindowsLists(win, doc, toReturn);
+                UndoFactory.Clear();
             }
             return toReturn;
         }

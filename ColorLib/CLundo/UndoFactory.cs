@@ -12,11 +12,16 @@ namespace ColorLib
         private static CLActionStack redoStack = new CLActionStack();
         private static CLActionList actList = null;
         /// <summary>
+        /// nombre de listes d'action imbriquées.
+        /// </summary>
+        private static int depth = 0;
+
+        /// <summary>
         /// Indique si on est en train d'exécuter un undo. Dans ce cas, il ne faut pas
         /// enregistrer les actions.
         /// </summary>
-        private static bool undoing = false; 
-
+        private static bool undoing = false;
+        
         public static int UndoCount => undoStack.Count;
         public static int RedoCount => redoStack.Count;
 
@@ -32,7 +37,7 @@ namespace ColorLib
         /// <param name="act">L'action exécutée.</param>
         public static void ExceutingAction(CLAction act)
         {
-            logger.ConditionalTrace("ExceutingAction {0}", act.Name);
+            logger.ConditionalTrace("ExceutingAction {0}, undoing: {1}", act.Name, undoing);
             if (!undoing)
             {
                 if (actList != null)
@@ -54,6 +59,7 @@ namespace ColorLib
         public static void UndoLastAction()
         {
             logger.ConditionalDebug("UndoLastAction");
+            logger.ConditionalTrace(undoStack.ToString());
             CLAction act = undoStack.Pop();
             if (act != null)
             {
@@ -84,25 +90,52 @@ namespace ColorLib
         /// <param name="name">Le nom de l'action groupée.</param>
         public static void StartRecording(string name)
         {
-            if (actList != null)
+            logger.ConditionalTrace("StartRecording {0}, undoing: {1}", name, undoing);
+            if (!undoing)
             {
-                EndRecording();
+                if (actList != null)
+                {
+                    depth++;
+                }
+                else
+                {
+                    actList = new CLActionList(name);
+                }
             }
-            actList = new CLActionList(name);
         }
 
         public static void EndRecording()
         {
-            if (actList != null)
+            logger.ConditionalTrace("EndRecording depth: {0} undoing: {1}", depth, undoing);
+            if (!undoing)
             {
-                undoStack.Push(actList);
-                actList = null;
-                OnUndoCountModified();
+                if (actList != null)
+                {
+                    if (depth > 0)
+                    {
+                        depth--;
+                    }
+                    else
+                    {
+                        undoStack.Push(actList);
+                        actList = null;
+                        OnUndoCountModified();
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("EndRecording alors qu'il semble ne pas y avoir eu de Start correspondant.");
+                }
             }
-            else
-            {
-                throw new InvalidOperationException("EndRecording alors qu'il semble ne pas y avoir eu de Start correspondant.");
-            }
+        }
+
+        /// <summary>
+        /// Efface la mémoire des actions effectuées.
+        /// </summary>
+        public static void Clear()
+        {
+            undoStack.Clear();
+            redoStack.Clear();
         }
 
         private static void OnUndoCountModified()

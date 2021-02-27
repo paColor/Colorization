@@ -15,25 +15,26 @@ namespace ColorLib
         /// "ponctCF",
         /// "ponctCB",
         /// "masterCF",
+        /// "masterState"
         /// "majDebCF",
         /// "majDebCB"
         /// qui ont chacune 2 paramètres: l'ancienne et la nouvelle valeur.
         /// </summary>
         private string type;
         private Ponctuation p;
-        private PonctConfig.State prevMasterState;
         private CharFormatting prevCF;
         private CharFormatting newCF;
         private bool prevCB;
         private bool newCB;
+        PonctConfig.State prevMasterState;
+        PonctConfig.State newMasterState;
 
         public PonctAction(string name, 
             PonctConfig pc, 
             string inType, 
             Ponctuation inP,
             CharFormatting inPrevCF, 
-            CharFormatting inNewCF,
-            PonctConfig.State inPrevState = PonctConfig.State.undef)
+            CharFormatting inNewCF)
             :base(name)
         {
             ponctConf = pc;
@@ -41,13 +42,17 @@ namespace ColorLib
             prevCF = inPrevCF;
             newCF = inNewCF;
             p = inP;
-            prevMasterState = inPrevState;
             // pour ne rien avoir de non défini:
             prevCB = false;
             newCB = false;
         }
 
-        public PonctAction(string name, PonctConfig pc, string inType, Ponctuation inP, bool inPrevCB, bool inNewCB)
+        public PonctAction(string name, 
+            PonctConfig pc, 
+            string inType, 
+            Ponctuation inP, 
+            bool inPrevCB, 
+            bool inNewCB)
             : base(name)
         {
             ponctConf = pc;
@@ -60,27 +65,59 @@ namespace ColorLib
             newCF = null;
         }
 
+        public PonctAction(string name,
+            PonctConfig pc,
+            string inType,
+            PonctConfig.State inPrevMasterState,
+            PonctConfig.State inNewMasterState)
+            :base(name)
+        {
+            ponctConf = pc;
+            type = inType;
+            prevMasterState = inPrevMasterState;
+            newMasterState = inNewMasterState;
+
+            // pour ne rien avoir de non défini:
+            prevCF = null; ;
+            newCF = null;
+            p = Ponctuation.firstP;
+            prevCB = false;
+            newCB = false;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} - type: {1}, prevMState: {2}", Name, type, prevMasterState);
+        }
+
         public override void Undo()
         {
+            logger.ConditionalDebug("Undo");
             switch (type)
             {
                 case "ponctCF":
-                    ponctConf.SetCF(p, prevCF);
+                    ponctConf.SetCFwoState(p, prevCF);
                     break;
 
                 case "ponctCB":
-                    ponctConf.SetCB(p, prevCB);
+                    ponctConf.SetCBwoState(p, prevCB);
                     break;
 
                 case "masterCF":
-                    ponctConf.MasterState = prevMasterState;
                     ponctConf.SetMasterCFWithoutPropagation(prevCF);
+                    // les familles de ponctuation sont restaurées individuellement.
+                    break;
+
+                case "masterState":
+                    ponctConf.MasterState = prevMasterState;
                     break;
 
                 case "majDebCF":
+                    ponctConf.MajDebCF = prevCF;
                     break;
 
                 case "majDebCB":
+                    ponctConf.MajDebCB = prevCB;
                     break;
 
                 default:
