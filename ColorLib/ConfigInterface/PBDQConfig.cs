@@ -81,7 +81,7 @@ namespace ColorLib
         /// avec les anciennes versions des fichiers de sauvegarde. 
         /// </para>
         /// <para>
-        /// Seule la culeur est mise à noir. Les autres caractéristiques comme 'bold' ne sont
+        /// Seule la couleur est mise à noir. Les autres caractéristiques comme 'bold' ne sont
         /// pas touchées.
         /// </para>
         /// </remarks>

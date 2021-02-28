@@ -547,23 +547,27 @@ namespace ColorLib
 
             set
             {
-                if ((value == IllRule.ceras) && (flags[(int)RuleFlag.IllCeras] == false))
+                if (value != IllRuleToUse)
                 {
-                    flags[(int)RuleFlag.IllCeras] = true;
-                    flags[(int)RuleFlag.IllLireCouleur] = false;
-                    OnIllModified(pct);
-                }
-                else if ((value == IllRule.lirecouleur) && (flags[(int)RuleFlag.IllLireCouleur] == false))
-                {
-                    flags[(int)RuleFlag.IllCeras] = false;
-                    flags[(int)RuleFlag.IllLireCouleur] = true;
-                    OnIllModified(pct);
-                }
-                else if (value == IllRule.undefined)
-                {
-                    flags[(int)RuleFlag.IllCeras] = false;
-                    flags[(int)RuleFlag.IllLireCouleur] = false;
-                    OnIllModified(pct);
+                    UndoFactory.ExceutingAction(new ColPhonAct("Ill", this, IllRuleToUse, value));
+                    if ((value == IllRule.ceras) && (flags[(int)RuleFlag.IllCeras] == false))
+                    {
+                        flags[(int)RuleFlag.IllCeras] = true;
+                        flags[(int)RuleFlag.IllLireCouleur] = false;
+                        OnIllModified(pct);
+                    }
+                    else if ((value == IllRule.lirecouleur) && (flags[(int)RuleFlag.IllLireCouleur] == false))
+                    {
+                        flags[(int)RuleFlag.IllCeras] = false;
+                        flags[(int)RuleFlag.IllLireCouleur] = true;
+                        OnIllModified(pct);
+                    }
+                    else if (value == IllRule.undefined)
+                    {
+                        flags[(int)RuleFlag.IllCeras] = false;
+                        flags[(int)RuleFlag.IllLireCouleur] = false;
+                        OnIllModified(pct);
+                    }
                 }
             }
         }
@@ -641,7 +645,11 @@ namespace ColorLib
         public override void Reset()
         {
             logger.ConditionalDebug("Reset");
+            UndoFactory.StartRecording("Réinitialiser sons");
+
+            IllRule prevIllRule = IllRuleToUse;
             flags[(int)RuleFlag.IllLireCouleur] = false; // config par défaut
+            UndoFactory.ExceutingAction(new ColPhonAct("Ill", this, prevIllRule, IllRuleToUse));
 
             switch (pct)
             {
@@ -654,6 +662,7 @@ namespace ColorLib
                 default:
                     break;
             }
+            UndoFactory.EndRecording();
         }
 
 
@@ -714,8 +723,10 @@ namespace ColorLib
         public void SetCbxAndCF(string son, CharFormatting cf)
         {
             logger.ConditionalDebug("SetCbxAndCF, son: {0}", son);
+            UndoFactory.StartRecording(string.Format("cbx et format du son {0}", son));
             SetChkSon(son, true);
             SetCFSon(son, cf);
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -726,8 +737,10 @@ namespace ColorLib
         public void ClearSon(string son)
         {
             logger.ConditionalDebug("ClearSon");
+            UndoFactory.StartRecording(string.Format("effacer son {0}", son));
             SetChkSon(son, false);
             SetCFSon(son, CharFormatting.BlackCF);
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -736,8 +749,10 @@ namespace ColorLib
         public void SetAllCbxSons()
         {
             logger.ConditionalDebug("SetAllCbxSons");
+            UndoFactory.StartRecording("Toutes les cbx");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
                 SetChkSon(k.Key, true);
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -746,8 +761,10 @@ namespace ColorLib
         public void ClearAllCbxSons()
         {
             logger.ConditionalDebug("ClearAllCbxSons");
+            UndoFactory.StartRecording("Aucune cbx");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
                 SetChkSon(k.Key, false);
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -756,6 +773,7 @@ namespace ColorLib
         public void SetCeras()
         {
             logger.ConditionalDebug("SetCeras");
+            UndoFactory.StartRecording("Ceras");
             HashSet<string> cerasSons = new HashSet<string>();
 
             // o
@@ -808,6 +826,7 @@ namespace ColorLib
             SetCbxAndCF("_muet", cerasCF[(int)CERASColor.CERAS_muet]);
 
             CleanAllSonsBut(cerasSons);
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -816,6 +835,7 @@ namespace ColorLib
         public void SetCerasRose()
         {
             logger.ConditionalDebug("SetCerasRose");
+            UndoFactory.StartRecording("Ceras rosé");
             // est construit en delta par rapport à SetCeras
             SetCeras();
             // changer la couleur du é en rosé
@@ -832,6 +852,7 @@ namespace ColorLib
             // Set("oin", CharFormatting.BlackCF);
 
             IllRuleToUse = IllRule.ceras;
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -866,6 +887,8 @@ namespace ColorLib
             if(!(cfSon.TryGetValue(son, out valCF) && valCF == cf))
             {
                 Debug.Assert(sonMap.ContainsKey(son), String.Format(ConfigBase.cultF, "{0} n'est pas un son connu", son));
+                UndoFactory.ExceutingAction(new ColPhonAct(String.Format("Format son {0}", son),
+                    this, son, cfSon[son], cf));
                 cfSon[son] = cf;
                 foreach (Phonemes p in sonMap[son])
                     Set(p, cf);
@@ -898,6 +921,8 @@ namespace ColorLib
             bool valCK;
             if (!(chkSon.TryGetValue(son, out valCK) && valCK == checkVal)) 
             {
+                UndoFactory.ExceutingAction(new ColPhonAct(String.Format("Cbx son {0}", son),
+                    this, son, chkSon[son], checkVal));
                 chkSon[son] = checkVal;
                 foreach (Phonemes p in sonMap[son])
                     chkPhon[(int)p] = checkVal;
@@ -925,6 +950,8 @@ namespace ColorLib
             logger.ConditionalDebug("SetDefaultBehaviourTo {0}", val);
             if (val != defBeh)
             {
+                UndoFactory.ExceutingAction(new ColPhonAct("comportement par déf.",
+                    this, defBeh, val));
                 defBeh = val;
                 switch (defBeh)
                 {
@@ -1020,6 +1047,7 @@ namespace ColorLib
         private void CleanAllSonsBut(HashSet<string> alreadyCleaned)
         {
             logger.ConditionalDebug("CleanAllSons");
+            UndoFactory.StartRecording("Effacer tous les sons");
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
             {
                 if (!alreadyCleaned.Contains(k.Key))
@@ -1028,6 +1056,7 @@ namespace ColorLib
                     SetChkSon(k.Key, false);
                 }
             }
+            UndoFactory.EndRecording();
         }
 
         private void InitColorMuettes()
@@ -1035,8 +1064,10 @@ namespace ColorLib
             logger.ConditionalDebug("InitColorMuettes");
             HashSet<string> sonsMuettes = new HashSet<string>();
             sonsMuettes.Add("_muet");
+            UndoFactory.StartRecording("Initialiser muettes");
             SetCbxAndCF("_muet", cerasCF[(int)CERASColor.CERAS_muet]);
             CleanAllSonsBut(sonsMuettes);
+            UndoFactory.EndRecording();
         }
 
         [OnDeserializing()]

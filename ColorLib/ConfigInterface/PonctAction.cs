@@ -129,7 +129,38 @@ namespace ColorLib
 
         public override void Redo()
         {
-            throw new NotImplementedException();
+            logger.ConditionalDebug("Redo");
+            switch (type)
+            {
+                case "ponctCF":
+                    ponctConf.SetCFwoState(p, newCF);
+                    break;
+
+                case "ponctCB":
+                    ponctConf.SetCBwoState(p, newCB);
+                    break;
+
+                case "masterCF":
+                    ponctConf.SetMasterCFWithoutPropagation(newCF);
+                    // les familles de ponctuation sont restaurées individuellement.
+                    break;
+
+                case "masterState":
+                    ponctConf.MasterState = newMasterState;
+                    break;
+
+                case "majDebCF":
+                    ponctConf.MajDebCF = newCF;
+                    break;
+
+                case "majDebCB":
+                    ponctConf.MajDebCB = newCB;
+                    break;
+
+                default:
+                    logger.Error("Type de commande non traitée: {0}", type);
+                    throw new InvalidOperationException(String.Format("Type de commande non traitée: {0}", type));
+            }
         }
 
     }

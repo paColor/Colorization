@@ -300,10 +300,13 @@ namespace ColorLib
         public void SetCF(Ponctuation p, CharFormatting toCF)
         {
             logger.ConditionalDebug("SetCF {0} to {1}", p.ToString(), toCF.ToString());
-            UndoFactory.StartRecording("Format ponctuation");
-            SetCFwoState(p, toCF);
-            MasterState = State.off;
-            UndoFactory.EndRecording();
+            if (toCF != GetCF(p))
+            {
+                UndoFactory.StartRecording("Format ponctuation");
+                SetCFwoState(p, toCF);
+                MasterState = State.off;
+                UndoFactory.EndRecording();
+            }
         }
 
         public void SetCF(string ponct, CharFormatting toCF) => SetCF(PonctInT.Ponct4String(ponct), toCF);
@@ -351,10 +354,13 @@ namespace ColorLib
         public void SetCB(Ponctuation p, bool toCB)
         {
             logger.ConditionalDebug("SetCF {0} to {1}", p.ToString(), toCB);
-            UndoFactory.StartRecording("Contrôle ponctuation");
-            SetCBwoState(p, toCB);
-            MasterState = State.off;
-            UndoFactory.EndRecording();
+            if (toCB != GetCB(p))
+            {
+                UndoFactory.StartRecording("Contrôle ponctuation");
+                SetCBwoState(p, toCB);
+                MasterState = State.off;
+                UndoFactory.EndRecording();
+            }
         }
 
         public void SetCB(string ponct, bool toCB) => SetCB(PonctInT.Ponct4String(ponct), toCB);
