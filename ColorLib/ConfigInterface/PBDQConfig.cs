@@ -191,6 +191,7 @@ namespace ColorLib
             if (c != inactiveLetter)
             {
                 toReturn = true;
+                UndoFactory.ExceutingAction(new PBDQAction("Format lettre", this, butNr, bpdqCF[c], cf));
                 bpdqCF[c] = cf;
                 OnLetterButtonModifed(new LetterButtonModifiedEventArgs(butNr));
             }
@@ -220,6 +221,11 @@ namespace ColorLib
             }
             bool toReturn = true;
             char previousC = selLetters[butNr];
+            CharFormatting previousCF = CharFormatting.NeutralCF;
+            if (previousC != inactiveLetter)
+            {
+                previousCF = bpdqCF[previousC];
+            }
 
             if (c != inactiveLetter)
             {
@@ -228,7 +234,11 @@ namespace ColorLib
                     if (!bpdqCF.ContainsKey(c))
                     {
                         if (previousC != inactiveLetter)
+                        {
                             bpdqCF.Remove(previousC);
+                        }
+                        UndoFactory.ExceutingAction(new PBDQAction("Format et car. lettre", this,
+                            butNr, previousC, c, previousCF, cf));
                         bpdqCF[c] = cf;
                         selLetters[butNr] = c;
                     }
@@ -240,12 +250,15 @@ namespace ColorLib
                 }
                 else
                 {
+                    UndoFactory.ExceutingAction(new PBDQAction("Format lettre", this, butNr, previousCF, cf));
                     // previousC == c
                     bpdqCF[c] = cf;
                 }
             }
             else
             {
+                UndoFactory.ExceutingAction(new PBDQAction("Format et car. lettre", this,
+                            butNr, previousC, c, previousCF, cf));
                 // c == inactiveLetter
                 selLetters[butNr] = inactiveLetter; // neutral character inactiveLetter
                 if (previousC != inactiveLetter)
@@ -253,7 +266,7 @@ namespace ColorLib
             }
             if (toReturn)
                 OnLetterButtonModifed(new LetterButtonModifiedEventArgs(butNr));
-            logger.ConditionalDebug("END UodateLetter toReturn: {0}", toReturn.ToString());
+            logger.ConditionalDebug("END UpdateLetter toReturn: {0}", toReturn.ToString());
             return toReturn;
         } // UpdateLetter
 
@@ -264,6 +277,7 @@ namespace ColorLib
         public void SetMarkAsBlackTo(bool val)
         {
             if (markAsBlack != val) { // on s'assure qu'il ne peut y avoir de boucle pour toujours remettre la même valeur.
+                UndoFactory.ExceutingAction(new PBDQAction("Marquer lettre noir", this, markAsBlack, val));
                 markAsBlack = val;
                 OnMarkAsBlackModified();
                 if (markAsBlack)
@@ -277,8 +291,12 @@ namespace ColorLib
         /// <inheritdoc/>
         public override void Reset()
         {
-            
-            bpdqCF.Clear();
+            UndoFactory.StartRecording("Réinitialiser lettres");
+            //bpdqCF.Clear();
+            //for (int i = 0; i < nrButtons; i++)
+            //{
+            //    selLetters[i] = inactiveLetter;
+            //}
             // bpdqCF.Add(inactiveLetter, defaultCF); - not needed since done in SetMarkAsBlackTo
             SetMarkAsBlackTo(false);
             UpdateLetter(0, 'b', ColConfWin.coloredCF[(int)PredefCol.red]);
@@ -288,7 +306,8 @@ namespace ColorLib
             UpdateLetter(4, inactiveLetter, defaultCF);
             UpdateLetter(5, inactiveLetter, defaultCF);
             UpdateLetter(6, inactiveLetter, defaultCF);
-            UpdateLetter(7, inactiveLetter, defaultCF); ;
+            UpdateLetter(7, inactiveLetter, defaultCF);
+            UndoFactory.EndRecording();
         }
 
         // -------------------------------------------------------------------------------------------------------------------

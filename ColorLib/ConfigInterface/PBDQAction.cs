@@ -15,7 +15,7 @@ namespace ColorLib
         /// "markAsBlack"
         /// </summary>
         private string type;
-        PBDQConfig pbdqConf;
+        private PBDQConfig pbdqConf;
         private CharFormatting prevCF;
         private CharFormatting newCF;
         private int buttonNr;
@@ -53,18 +53,19 @@ namespace ColorLib
         /// <summary>
         /// Action de mise à jour d'un bouton, y.c. une lettre - "letterAndCF"
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="inPBDQConf"></param>
-        /// <param name="inButtonNr"></param>
-        /// <param name="inPrevLetter"></param>
-        /// <param name="inNewLetter"></param>
-        /// <param name="inPrevCF"></param>
-        /// <param name="inNewCF"></param>
+        /// <param name="name">Nom de l'action</param>
+        /// <param name="inPBDQConf">La <see cref="PBDQConfig"/> sur laquelle se déroule l'action.
+        /// </param>
+        /// <param name="inButtonNr">Le bouton de l'action.</param>
+        /// <param name="inPrevLetter">La lettre précédente.</param>
+        /// <param name="inNewLetter">La nouvelle lettre pour le bouton.</param>
+        /// <param name="inPrevCF">La configuration précédente pour le bouton.</param>
+        /// <param name="inNewCF">La nouvelle configuration pour le bouton.</param>
         public PBDQAction(string name, PBDQConfig inPBDQConf, int inButtonNr,
             char inPrevLetter, char inNewLetter, CharFormatting inPrevCF, CharFormatting inNewCF)
             : base(name)
         {
-            type = "cfOnly";
+            type = "leterAndCF";
             pbdqConf = inPBDQConf;
             buttonNr = inButtonNr;
             prevCF = inPrevCF;
@@ -77,14 +78,66 @@ namespace ColorLib
             newMarkAsBlack = false;
         }
 
+        public PBDQAction(string name, PBDQConfig inPBDQConf, bool inPrevMarkAsBlack, bool inNewMarkAsBlack)
+            : base(name)
+        {
+            type = "markAsBlack";
+            pbdqConf = inPBDQConf;
+            prevMarkAsBlack = inPrevMarkAsBlack;
+            newMarkAsBlack = inNewMarkAsBlack;
+
+            // Pour éviter les champs non initialisés.
+            buttonNr = 0;
+            prevCF = null;
+            newCF = null;
+            prevLetter = ' ';
+            newLetter = ' ';
+        }
+
         public override void Undo()
         {
-            throw new NotImplementedException();
+            logger.ConditionalDebug("Undo");
+            switch (type)
+            {
+                case "cfOnly":
+                    pbdqConf.UpdateLetter(buttonNr, prevCF);
+                    break;
+
+                case "leterAndCF":
+                    pbdqConf.UpdateLetter(buttonNr, prevLetter, prevCF);
+                    break;
+
+                case "markAsBlack":
+                    pbdqConf.SetMarkAsBlackTo(prevMarkAsBlack);
+                    break;
+
+                default:
+                    logger.Error("Type de commande non traitée: {0}", type);
+                    throw new InvalidOperationException(String.Format("Type de commande non traitée: {0}", type));
+            }
         }
 
         public override void Redo()
         {
-            throw new NotImplementedException();
+            logger.ConditionalDebug("Redo");
+            switch (type)
+            {
+                case "cfOnly":
+                    pbdqConf.UpdateLetter(buttonNr, newCF);
+                    break;
+
+                case "leterAndCF":
+                    pbdqConf.UpdateLetter(buttonNr, newLetter, newCF);
+                    break;
+
+                case "markAsBlack":
+                    pbdqConf.SetMarkAsBlackTo(newMarkAsBlack);
+                    break;
+
+                default:
+                    logger.Error("Type de commande non traitée: {0}", type);
+                    throw new InvalidOperationException(String.Format("Type de commande non traitée: {0}", type));
+            }
         }
     }
 }
