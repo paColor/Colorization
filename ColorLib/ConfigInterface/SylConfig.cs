@@ -113,8 +113,10 @@ namespace ColorLib
             }
             set
             {
-                if (_doubleConsStd != value) // pour ne déclencher l'évèenement que s'il y a vraiement un changement.
+                if (_doubleConsStd != value) // pour ne déclencher l'évènement que s'il y a vraiement un changement.
                 {
+                    UndoFactory.ExceutingAction(new SylAction("Double consonne", "doubleCons",
+                        this, DoubleConsStd, value));
                     _doubleConsStd = value;
                     OnDoubleConsStdModified();
                 }
@@ -169,6 +171,8 @@ namespace ColorLib
                 // pour éviter les boucles d'événements
                 if (value != prevMode)
                 {
+                    UndoFactory.ExceutingAction(new SylAction("Mode syllabes", this, prevMode, 
+                        value));
                     OnModeModified();
                 }
             }
@@ -184,6 +188,8 @@ namespace ColorLib
             {
                 if (value != _marquerMuettes)
                 {
+                    UndoFactory.ExceutingAction(new SylAction("Marquer muettes", "marquerMuettes",
+                        this, marquerMuettes, value));
                     _marquerMuettes = value;
                     OnMarquerMuettesModified();
                 }
@@ -200,6 +206,8 @@ namespace ColorLib
             {
                 if (value != _chercherDierese)
                 {
+                    UndoFactory.ExceutingAction(new SylAction("Chercher diérèse", "dierese",
+                        this, chercherDierese, value));
                     _chercherDierese = value;
                     OnChercherDiereseModified();
                 }
@@ -216,6 +224,8 @@ namespace ColorLib
             {
                 if (value != _nbrPieds)
                 {
+                    UndoFactory.ExceutingAction(new SylAction("Nombre de pieds", this, nbrPieds,
+                        value));
                     _nbrPieds = value;
                     OnNbrPiedsModified();
                 }
@@ -278,6 +288,14 @@ namespace ColorLib
         public SylConfig()
         {
             sylButtons = new SylButtonConf[NrButtons];
+            for (int i = 0; i < NrButtons; i++)
+            {
+                sylButtons[i].buttonClickable = false;
+                sylButtons[i].cf = CharFormatting.NeutralCF;
+                OnSylButtonModified(i);
+            }
+            sylButtons[0].buttonClickable = true;
+            nrSetButtons = 0;
             Reset();
         }
 
@@ -319,6 +337,8 @@ namespace ColorLib
                 logger.Fatal("Modification d'un bouton non actif butNr: {0}", butNr);
                 throw new ArgumentException("Modification d'un bouton non actif.", nameof(butNr));
             }
+            UndoFactory.ExceutingAction(new SylAction("Formatage bout. syll.", this, butNr,
+                nrSetButtons, sylButtons[butNr].cf, inCf));
             sylButtons[butNr].cf = inCf;
             if (butNr == nrSetButtons)
             {
@@ -359,8 +379,12 @@ namespace ColorLib
             logger.ConditionalDebug("ClearButton butNr: {0}", butNr);
             if ((butNr == (nrSetButtons - 1)) && (nrSetButtons > 0))
             {
-                sylButtons[nrSetButtons].buttonClickable = false;
-                OnSylButtonModified(nrSetButtons);
+                UndoFactory.ExceutingAction(new SylAction("Effacer bout. syll.", this, butNr, sylButtons[butNr].cf));
+                if (nrSetButtons < NrButtons)
+                {
+                    sylButtons[nrSetButtons].buttonClickable = false;
+                    OnSylButtonModified(nrSetButtons);
+                }
                 nrSetButtons--;
                 sylButtons[nrSetButtons].cf = CharFormatting.NeutralCF;
                 OnSylButtonModified(nrSetButtons);
@@ -402,14 +426,11 @@ namespace ColorLib
         /// </summary>
         public override void Reset()
         {
-            for (int i = 2; i < NrButtons; i++)
+            UndoFactory.StartRecording("Réinitialise syllabes");
+            for (int i = nrSetButtons - 1; i >= 2; i--)
             {
-                sylButtons[i].buttonClickable = false;
-                sylButtons[i].cf = CharFormatting.NeutralCF;
-                OnSylButtonModified(i);
+                ClearButton(i);
             }
-            sylButtons[0].buttonClickable = true;
-            nrSetButtons = 0;
             SetSylButtonCF(0, ColConfWin.coloredCF[(int)PredefCol.pureBlue]);
             SetSylButtonCF(1, ColConfWin.coloredCF[(int)PredefCol.red]);
             ResetCounter();
@@ -418,6 +439,7 @@ namespace ColorLib
             marquerMuettes = true;
             chercherDierese = true;
             nbrPieds = 0; // Par défaut, mode automatique.
+            UndoFactory.EndRecording();
         }
 
         // --------------------------------------- Serialization ----------------------------------

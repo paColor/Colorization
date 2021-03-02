@@ -44,8 +44,8 @@ namespace ColorLib
             newCF = inNewCF;
 
             // Pour éviter les champs non initialisés.
-            prevLetter = ' ';
-            newLetter = ' ';
+            prevLetter = PBDQConfig.inactiveLetter;
+            newLetter = PBDQConfig.inactiveLetter;
             prevMarkAsBlack = false;
             newMarkAsBlack = false;
         }
@@ -88,10 +88,10 @@ namespace ColorLib
 
             // Pour éviter les champs non initialisés.
             buttonNr = 0;
-            prevCF = null;
-            newCF = null;
-            prevLetter = ' ';
-            newLetter = ' ';
+            prevCF = CharFormatting.NeutralCF;
+            newCF = CharFormatting.NeutralCF;
+            prevLetter = PBDQConfig.inactiveLetter;
+            newLetter = PBDQConfig.inactiveLetter;
         }
 
         public override void Undo()

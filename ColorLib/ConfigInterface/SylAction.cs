@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ColorLib.ConfigInterface
+namespace ColorLib
 {
     class SylAction : CLAction
     {
@@ -86,7 +86,7 @@ namespace ColorLib.ConfigInterface
             int inPrevNrPieds, int inNewNrPieds)
             : base(name)
         {
-            type = "mode";
+            type = "nbrePieds";
             sylConf = inSylConf;
             prevNrPieds = inPrevNrPieds;
             newNrPieds = inNewNrPieds;
