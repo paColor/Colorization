@@ -106,6 +106,10 @@ namespace ColorLib
         {
             bpdqCF = new Dictionary<char, CharFormatting>(nrButtons);
             selLetters = new char[nrButtons];
+            for (int i = 0; i < nrButtons; i++)
+            {
+                selLetters[i] = inactiveLetter;
+            }
             markAsBlack = false;
             defaultCF = CharFormatting.NeutralCF;
             Reset();
@@ -292,12 +296,6 @@ namespace ColorLib
         public override void Reset()
         {
             UndoFactory.StartRecording("Réinitialiser lettres");
-            //bpdqCF.Clear();
-            //for (int i = 0; i < nrButtons; i++)
-            //{
-            //    selLetters[i] = inactiveLetter;
-            //}
-            // bpdqCF.Add(inactiveLetter, defaultCF); - not needed since done in SetMarkAsBlackTo
             SetMarkAsBlackTo(false);
             UpdateLetter(0, 'b', ColConfWin.coloredCF[(int)PredefCol.red]);
             UpdateLetter(1, 'p', ColConfWin.coloredCF[(int)PredefCol.darkGreen]);

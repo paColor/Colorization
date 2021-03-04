@@ -48,7 +48,7 @@ namespace ColorLib
             }
             private set
             {
-                logger.ConditionalDebug("Set subConfig1");
+                logger.ConditionalTrace("Set subConfig1");
                 _subConfig1 = value;
             }
         }
@@ -64,7 +64,7 @@ namespace ColorLib
             }
             private set
             {
-                logger.ConditionalDebug("Set subConfig2");
+                logger.ConditionalTrace("Set subConfig2");
                 _subConfig2 = value;
             }
         }
@@ -86,7 +86,8 @@ namespace ColorLib
             {
                 if (value != _alternance)
                 {
-                    logger.ConditionalDebug("Set alternance to {0}", value);
+                    logger.ConditionalTrace("Set alternance to {0}", value);
+                    UndoFactory.ExceutingAction(new DuoAction("Duo alternance", this, alternance, value));
                     _alternance = value;
                     OnAlternanceModified(EventArgs.Empty);
                 }
@@ -112,6 +113,7 @@ namespace ColorLib
                 logger.ConditionalDebug("Set colorisFunction to {0}", value);
                 if (value != _colorisFunction)
                 {
+                    UndoFactory.ExceutingAction(new DuoAction("Duo colorisFunction", this, colorisFunction, value));
                     _colorisFunction = value;
                     OnColorisFunctionModified(EventArgs.Empty);
                 }
@@ -131,6 +133,7 @@ namespace ColorLib
             {
                 if (_nbreAlt != value)
                 {
+                    UndoFactory.ExceutingAction(new DuoAction("Duo nombre alt.", this, nbreAlt, value));
                     _nbreAlt = value;
                     OnNbreAltModifed(EventArgs.Empty);
                 }
@@ -139,11 +142,11 @@ namespace ColorLib
 
         private Config _subConfig1;
         private Config _subConfig2;
-        private Alternance _alternance;
-        private ColorisFunction _colorisFunction;
+        private Alternance _alternance = Alternance.mots; // pour mettre une base aux séries d'annulation
+        private ColorisFunction _colorisFunction = ColorisFunction.syllabes; // pour mettre une base aux séries d'annulation
 
         [OptionalField(VersionAdded = 4)]
-        private int _nbreAlt;
+        private int _nbreAlt = 1; // pour mettre une base aux séries d'annulation
 
         // ------------------------------------------ Methods -------------------------------------------------
 

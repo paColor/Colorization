@@ -369,5 +369,22 @@ namespace ColorizationControls
                 duoConfCopy.colorisFunction = DuoConfig.ColorisFunction.arcs;
             }
         }
+
+        //--------------------------------------------------------------------------------------------
+        // -------------------------------------------- UNDO -----------------------------------------
+        //--------------------------------------------------------------------------------------------
+
+        private void Undo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            logger.ConditionalDebug("Undo_KeyPress {0}, {1}", e.KeyChar, (int)e.KeyChar);
+            if (e.KeyChar == '\x001A') // ctrl-z
+            {
+                UndoFactory.UndoLastAction();
+            }
+            else if (e.KeyChar == '\x0019') // ctrl-y
+            {
+                UndoFactory.RedoLastCanceledAction();
+            }
+        }
     }
 }

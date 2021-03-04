@@ -1106,12 +1106,7 @@ namespace ColorizationControls
 
         private void DoubleConsStdModified(object sender, EventArgs e)
         {
-            logger.ConditionalDebug("DoubleConsStdModified");
-            Debug.Assert(ReferenceEquals(sender, theConf.sylConf));
-            rbnStandard.Checked = theConf.sylConf.DoubleConsStd;
-            rbnAv2Cons.Checked = !theConf.sylConf.DoubleConsStd;
-            rbnStandard.PerformLayout();
-            rbnAv2Cons.PerformLayout();
+
         }
 
         private void cbMuettesSyl_CheckedChanged(object sender, EventArgs e)
@@ -2134,6 +2129,5 @@ namespace ColorizationControls
                 UndoFactory.RedoLastCanceledAction();
             }
         }
-
     }
 }

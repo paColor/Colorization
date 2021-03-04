@@ -888,7 +888,7 @@ namespace ColorLib
             {
                 Debug.Assert(sonMap.ContainsKey(son), String.Format(ConfigBase.cultF, "{0} n'est pas un son connu", son));
                 UndoFactory.ExceutingAction(new ColPhonAct(String.Format("Format son {0}", son),
-                    this, son, cfSon[son], cf));
+                    this, son, valCF, cf));
                 cfSon[son] = cf;
                 foreach (Phonemes p in sonMap[son])
                     Set(p, cf);
@@ -922,7 +922,7 @@ namespace ColorLib
             if (!(chkSon.TryGetValue(son, out valCK) && valCK == checkVal)) 
             {
                 UndoFactory.ExceutingAction(new ColPhonAct(String.Format("Cbx son {0}", son),
-                    this, son, chkSon[son], checkVal));
+                    this, son, !checkVal, checkVal));
                 chkSon[son] = checkVal;
                 foreach (Phonemes p in sonMap[son])
                     chkPhon[(int)p] = checkVal;

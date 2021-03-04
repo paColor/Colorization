@@ -144,7 +144,8 @@ namespace ColorLib
             switch (type)
             {
                 case "sonCF":
-                    ccw.SetCFSon(son, prevCF);
+                    if (prevCF != null)
+                        ccw.SetCFSon(son, prevCF);
                     break;
 
                 case "sonCB":

@@ -1415,6 +1415,7 @@
         "ont mises en noir\r\nnon coché--> --> les lettres dont la couleur ne doit pas\r\ncha" +
         "nger sont laissées telles quelles\r\n");
             this.cbuHilight.UseVisualStyleBackColor = true;
+            this.cbuHilight.CheckedChanged += new System.EventHandler(this.UcheckBoxes_CheckedChanged);
             // 
             // tabSauv
             // 

@@ -185,13 +185,19 @@ namespace ColorLib
             eventHandler?.Invoke(this, new CheckboxUnsetModifiedEventArgs(u, cbuNames[(int)u]));
         }
 
-        private void SetCbuFlag(Ucbx flag, bool val)
+        /// <summary>
+        /// N'est <c>public</c> que pour les annulations. 
+        /// </summary>
+        /// <param name="flag">Le flag à modifier.</param>
+        /// <param name="val">La nouvelle valeur.</param>
+        public void SetCbuFlag(Ucbx flag, bool val)
         {
             logger.ConditionalDebug("SetCbuFlag flag: \'{0}\', val: {1}", flag, val);
             int btuIndex = (int)flag;
 
             if (act[btuIndex] != val) // Pour éviter un évènement si rien ne change
             {
+                UndoFactory.ExceutingAction(new UnsetBehAction("Modifier flag avancé", this, flag, act[btuIndex], val));
                 act[btuIndex] = val;
                 OnCheckboxUnsetModified((Ucbx)btuIndex);
                 if (btuIndex == (int)Ucbx.all)

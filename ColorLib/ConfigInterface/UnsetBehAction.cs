@@ -9,25 +9,29 @@ namespace ColorLib
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         UnsetBehConf ubc;
-        Ucbx ucbx;
-        bool prevFlag;
-        bool newFlag;
+        Ucbx flag;
+        bool prevFlagValue;
+        bool newFlagValue;
 
 
-        public UnsetBehAction(string name, UnsetBehConf inUbc)
+        public UnsetBehAction(string name, UnsetBehConf inUbc, Ucbx inUcbx, bool inPrevFlag, 
+            bool inNewFlag)
             : base(name)
         {
-
+            ubc = inUbc;
+            flag = inUcbx;
+            prevFlagValue = inPrevFlag;
+            newFlagValue = inNewFlag;
         }
 
         public override void Undo()
         {
-            throw new NotImplementedException();
+            ubc.SetCbuFlag(flag, prevFlagValue);
         }
 
         public override void Redo()
         {
-            throw new NotImplementedException();
+            ubc.SetCbuFlag(flag, newFlagValue);
         }
     }
 }

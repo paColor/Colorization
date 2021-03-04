@@ -108,6 +108,7 @@
         "e\r\nde la configuration 2 aux mots pairs.");
             this.rbtnMots.UseVisualStyleBackColor = true;
             this.rbtnMots.CheckedChanged += new System.EventHandler(this.rbtnMots_CheckedChanged);
+            this.rbtnMots.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // lblAlternance
             // 
@@ -133,6 +134,7 @@
         "\n");
             this.rbtnLignes.UseVisualStyleBackColor = true;
             this.rbtnLignes.CheckedChanged += new System.EventHandler(this.rbtnLignes_CheckedChanged);
+            this.rbtnLignes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // lblColoriser
             // 
@@ -179,6 +181,7 @@
         "\r\nalternance.");
             this.rbtnArcs.UseVisualStyleBackColor = true;
             this.rbtnArcs.CheckedChanged += new System.EventHandler(this.rbtnArcs_CheckedChanged);
+            this.rbtnArcs.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // rbtnMuettes
             // 
@@ -199,6 +202,7 @@
         "\nalternance.\r\n");
             this.rbtnMuettes.UseVisualStyleBackColor = true;
             this.rbtnMuettes.CheckedChanged += new System.EventHandler(this.rbtnMuettes_CheckedChanged);
+            this.rbtnMuettes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // rbtnPhonemes
             // 
@@ -219,6 +223,7 @@
         "\r\nalternance.");
             this.rbtnPhonemes.UseVisualStyleBackColor = true;
             this.rbtnPhonemes.CheckedChanged += new System.EventHandler(this.rbtnPhonemes_CheckedChanged);
+            this.rbtnPhonemes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // rbtnVoyCons
             // 
@@ -239,6 +244,7 @@
         "isis appliqués en alternance.\r\n");
             this.rbtnVoyCons.UseVisualStyleBackColor = true;
             this.rbtnVoyCons.CheckedChanged += new System.EventHandler(this.rbtnVoyCons_CheckedChanged);
+            this.rbtnVoyCons.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // rbtnLettres
             // 
@@ -260,6 +266,7 @@
         "\nalternance.\r\n");
             this.rbtnLettres.UseVisualStyleBackColor = true;
             this.rbtnLettres.CheckedChanged += new System.EventHandler(this.rbtnLettres_CheckedChanged);
+            this.rbtnLettres.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // rbtnSyylabes
             // 
@@ -281,6 +288,7 @@
         "\r\nalternance.");
             this.rbtnSyylabes.UseVisualStyleBackColor = true;
             this.rbtnSyylabes.CheckedChanged += new System.EventHandler(this.rbtnSyylabes_CheckedChanged);
+            this.rbtnSyylabes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // rbtnColorMots
             // 
@@ -302,6 +310,7 @@
         "ternance.\r\n");
             this.rbtnColorMots.UseVisualStyleBackColor = true;
             this.rbtnColorMots.CheckedChanged += new System.EventHandler(this.rbtnColorMots_CheckedChanged);
+            this.rbtnColorMots.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // panel2
             // 
@@ -352,6 +361,7 @@
             0,
             0});
             this.nudNbreAlt.ValueChanged += new System.EventHandler(this.nudNbreAlt_ValueChanged);
+            this.nudNbreAlt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // btnDefConf2
             // 
@@ -365,6 +375,7 @@
             this.toolTip1.SetToolTip(this.btnDefConf2, "Réinitialise la \'configuration 2\'\r\nà sa valeur par défaut.");
             this.btnDefConf2.UseVisualStyleBackColor = true;
             this.btnDefConf2.Click += new System.EventHandler(this.btnDefConf2_Click);
+            this.btnDefConf2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // btnDefConf1
             // 
@@ -378,6 +389,7 @@
             this.toolTip1.SetToolTip(this.btnDefConf1, "Réinitialise la \'configuration 1\'\r\nà sa valeur par défaut.");
             this.btnDefConf1.UseVisualStyleBackColor = true;
             this.btnDefConf1.Click += new System.EventHandler(this.btnDefConf1_Click);
+            this.btnDefConf1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // btnDefaut
             // 
@@ -391,6 +403,7 @@
             this.toolTip1.SetToolTip(this.btnDefaut, "Réinitialise les deux configurations\r\nà leur valeur par défaut.");
             this.btnDefaut.UseVisualStyleBackColor = true;
             this.btnDefaut.Click += new System.EventHandler(this.btnDefaut_Click);
+            this.btnDefaut.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Undo_KeyPress);
             // 
             // lblNombre
             // 

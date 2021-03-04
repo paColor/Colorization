@@ -191,10 +191,11 @@ namespace ColorLib
         private int nrSetArcButtons;
         private int counter;
 
-        private int _hauteur;
-        private int _ecartement;
-        private float _epaisseur;
-        private float _decalage;
+        // les initialisations sont là pour le cas normalement impossible où les "undo" remontent jusque là.
+        private int _hauteur = 50;
+        private int _ecartement = 50;
+        private float _epaisseur = 0.5f;
+        private float _decalage = 0.0f;
 
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  Public Methods ----------------------------------------------------
