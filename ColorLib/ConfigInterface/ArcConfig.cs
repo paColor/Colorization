@@ -109,6 +109,8 @@ namespace ColorLib
             {
                 if (_hauteur != value) // pour ne déclencher l'évèenement que s'il y a vraiement un changement.
                 {
+                    UndoFactory.ExceutingAction(new ArcAction("Hauteur arcs", ArcAction.ArcActType.hauteur,
+                        this, Hauteur, value));
                     _hauteur = value;
                     OnHauteurModified();
                 }
@@ -130,6 +132,8 @@ namespace ColorLib
             {
                 if (value != _ecartement)
                 {
+                    UndoFactory.ExceutingAction(new ArcAction("Ecartement arcs", ArcAction.ArcActType.ecartement,
+                        this, Ecartement, value));
                     _ecartement = value;
                     OnEcartementModified();
                 }
@@ -149,6 +153,8 @@ namespace ColorLib
             {
                 if (value != _epaisseur)
                 {
+                    UndoFactory.ExceutingAction(new ArcAction("Epaisseur arcs", ArcAction.ArcActType.epaisseur,
+                        this, Epaisseur, value));
                     _epaisseur = value;
                     OnEpaisseurModified();
                 }
@@ -169,6 +175,8 @@ namespace ColorLib
             {
                 if (value != _decalage)
                 {
+                    UndoFactory.ExceutingAction(new ArcAction("Epaisseur arcs", ArcAction.ArcActType.decalage,
+                        this, Decalage, value));
                     _decalage = value;
                     OnDecalageModified();
                 }
@@ -195,6 +203,13 @@ namespace ColorLib
         public ArcConfig()
         {
             arcButtons = new ArcButtonConf[NrArcButtons];
+            for (int i = 0; i < NrArcButtons; i++)
+            {
+                arcButtons[i].buttonClickable = false;
+                arcButtons[i].cf = CharFormatting.NeutralCF;
+            }
+            arcButtons[0].buttonClickable = true;
+            nrSetArcButtons = 0;
             Reset();
         }
 
@@ -251,6 +266,8 @@ namespace ColorLib
                 logger.Fatal("Modification d'un bouton d'arc non actif butNr: {0}", butNr);
                 throw new ArgumentException("Modification d'un bouton d'arc non actif.", nameof(butNr));
             }
+            UndoFactory.ExceutingAction(new ArcAction("Couleur bouton arcs", this, butNr,
+                nrSetArcButtons, arcButtons[butNr].cf.arcColor, inCol));
             arcButtons[butNr].cf = new CharFormatting(true, inCol);
             if (butNr == nrSetArcButtons)
             {
@@ -285,8 +302,13 @@ namespace ColorLib
             logger.ConditionalDebug("ClearButton butNr: {0}", butNr);
             if ((butNr == (nrSetArcButtons - 1)) && (nrSetArcButtons > 0))
             {
-                arcButtons[nrSetArcButtons].buttonClickable = false;
-                OnArcButtonModified(nrSetArcButtons);
+                UndoFactory.ExceutingAction(new ArcAction("Effacer bouton arcs", this, butNr,
+                    arcButtons[butNr].cf.arcColor));
+                if (nrSetArcButtons < NrArcButtons)
+                {
+                    arcButtons[nrSetArcButtons].buttonClickable = false;
+                    OnArcButtonModified(nrSetArcButtons);
+                }
                 nrSetArcButtons--;
                 arcButtons[nrSetArcButtons].cf = CharFormatting.NeutralCF;
                 OnArcButtonModified(nrSetArcButtons);
@@ -328,20 +350,18 @@ namespace ColorLib
         /// </summary>
         public override void Reset()
         {
-            for (int i = 1; i < NrArcButtons; i++)
+            UndoFactory.StartRecording("Réinitialiser arcs");
+            for (int i = nrSetArcButtons - 1; i >= 1; i--)
             {
-                arcButtons[i].buttonClickable = false;
-                arcButtons[i].cf = CharFormatting.NeutralCF;
-                OnArcButtonModified(i);
+                ClearButton(i);
             }
-            arcButtons[0].buttonClickable = true;
-            nrSetArcButtons = 0;
             SetArcButtonCol(0, ColConfWin.predefinedColors[(int)PredefCol.darkBlue]);
             ResetCounter();
             Hauteur = 45;
             Ecartement = 80;
             Epaisseur = 0.75f;
             Decalage = 0.0f;
+            UndoFactory.EndRecording();
         }
 
         // --------------------------------------- Serialization ----------------------------------

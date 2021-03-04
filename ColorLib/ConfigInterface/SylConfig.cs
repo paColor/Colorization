@@ -292,7 +292,6 @@ namespace ColorLib
             {
                 sylButtons[i].buttonClickable = false;
                 sylButtons[i].cf = CharFormatting.NeutralCF;
-                OnSylButtonModified(i);
             }
             sylButtons[0].buttonClickable = true;
             nrSetButtons = 0;
@@ -426,7 +425,7 @@ namespace ColorLib
         /// </summary>
         public override void Reset()
         {
-            UndoFactory.StartRecording("Réinitialise syllabes");
+            UndoFactory.StartRecording("Réinitialiser syllabes");
             for (int i = nrSetButtons - 1; i >= 2; i--)
             {
                 ClearButton(i);
