@@ -287,6 +287,7 @@ namespace ColorLib
 
         public SylConfig()
         {
+            UndoFactory.DisableUndoRegistration();
             sylButtons = new SylButtonConf[NrButtons];
             for (int i = 0; i < NrButtons; i++)
             {
@@ -296,6 +297,7 @@ namespace ColorLib
             sylButtons[0].buttonClickable = true;
             nrSetButtons = 0;
             Reset();
+            UndoFactory.EnableUndoRegistration();
         }
 
         /// <summary>

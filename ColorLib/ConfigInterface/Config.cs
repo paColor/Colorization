@@ -516,6 +516,8 @@ namespace ColorLib
             {
                 if(!isSubConfig)
                 {
+                    UndoFactory.ExceutingAction(new ConfigAction("Sous config", this, _duoConf,
+                        value));
                     _duoConf = value;
                     OnDuoConfReplaced(_duoConf);
                 }
@@ -531,13 +533,13 @@ namespace ColorLib
         public ArcConfig arcConf
         {
             get { return _arcConf; }
-            set { _arcConf = value; }
+            private set { _arcConf = value; }
         }
 
         public PonctConfig ponctConf
         {
             get { return _ponctConf; }
-            set { _ponctConf = value; }
+            private set { _ponctConf = value; }
         }
 
         [OptionalField(VersionAdded = 2)]
@@ -590,10 +592,12 @@ namespace ColorLib
         public Config()
         {
             logger.ConditionalDebug("Config()");
+            UndoFactory.DisableUndoRegistration();
             isSubConfig = false;
             subConfNr = 0;
             InitCtor();
             SetConfigName(DefaultConfigName);
+            UndoFactory.EnableUndoRegistration();
         }
 
         /// <summary>
@@ -604,10 +608,12 @@ namespace ColorLib
         public Config(int daughterNr)
         {
             logger.ConditionalDebug("Config(Config), daughterNr: {0}", daughterNr);
+            UndoFactory.DisableUndoRegistration();
             isSubConfig = true;
             subConfNr = daughterNr;
             InitCtor();
             ResetSubConfig(subConfNr);
+            UndoFactory.EnableUndoRegistration();
         }
 
         /// <summary>
@@ -624,6 +630,7 @@ namespace ColorLib
         public override void Reset()
         {
             logger.ConditionalDebug("Reset");
+            UndoFactory.StartRecording("Réinitialiser config");
             pBDQ.Reset();
             foreach (ColConfWin ccf in colors.Values)
             {
@@ -642,6 +649,7 @@ namespace ColorLib
                 _duoConf?.Reset(); // on ne fait le reset que si la duoConf existe
                 SetConfigName(DefaultConfigName);
             }
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -817,9 +825,11 @@ namespace ColorLib
         /// mais je n'avais pas bien compris comment ça marche avec la sérialisation et 
         /// je ne veux plus toucher à ça de peur de devenir incompatible avec d'anciens fichiers de 
         /// sauvegarde. </remarks>
+        /// <remarks>N'est <c>public</c> que pour <see cref="ConfigAction"/></remarks>
         /// <param name="theName">Le nouveau nom.</param>
-        private void SetConfigName (string theName)
+        public void SetConfigName (string theName)
         {
+            UndoFactory.ExceutingAction(new ConfigAction("Nom de config", this, configName, theName));
             configName = theName;
             OnConfigNameModified();
         }

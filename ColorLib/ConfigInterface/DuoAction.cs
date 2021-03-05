@@ -8,7 +8,7 @@ namespace ColorLib
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public enum DuoActionType { alternance, colorisFunction, nbreAlt, defaut, defaut1, defaut2 }
+        public enum DuoActionType { alternance, colorisFunction, nbreAlt }
 
         private DuoActionType type;
         private DuoConfig duoConf;
@@ -69,15 +69,6 @@ namespace ColorLib
                     duoConf.nbreAlt = prevNbrAlt;
                     break;
 
-                case DuoActionType.defaut:
-                    break;
-
-                case DuoActionType.defaut1:
-                    break;
-
-                case DuoActionType.defaut2:
-                    break;
-
                 default:
                     logger.Error("Type de commande non traitée: {0}", type);
                     throw new InvalidOperationException(String.Format("Type de commande non traitée: {0}", type));
@@ -100,15 +91,6 @@ namespace ColorLib
 
                 case DuoActionType.nbreAlt:
                     duoConf.nbreAlt = newNbrAlt;
-                    break;
-
-                case DuoActionType.defaut:
-                    break;
-
-                case DuoActionType.defaut1:
-                    break;
-
-                case DuoActionType.defaut2:
                     break;
 
                 default:

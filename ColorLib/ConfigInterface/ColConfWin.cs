@@ -621,6 +621,7 @@ namespace ColorLib
         public ColConfWin(PhonConfType inPct)
         {
             logger.ConditionalDebug("ColConfWin Constructor for {0}", inPct);
+            UndoFactory.DisableUndoRegistration();
             defBeh = DefBeh.transparent;
             defChF = CharFormatting.NeutralCF;
 
@@ -636,6 +637,7 @@ namespace ColorLib
             pct = inPct;
 
             Reset();
+            UndoFactory.EnableUndoRegistration();
         }
 
         /// <summary>

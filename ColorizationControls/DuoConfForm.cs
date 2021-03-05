@@ -77,6 +77,7 @@ namespace ColorizationControls
 
         public DuoConfForm(Config inConf)
         {
+            UndoFactory.DisableUndoRegistration();
             InitializeComponent();
             theConf = inConf;
 
@@ -110,6 +111,7 @@ namespace ColorizationControls
             UpdateRichTextBox(this, EventArgs.Empty);
 
             this.ResumeLayout();
+            UndoFactory.EnableUndoRegistration();
         }
 
         private void UpdateAlternance(object sender, EventArgs e)
@@ -251,12 +253,14 @@ namespace ColorizationControls
             logger.ConditionalDebug("btnValider_Click");
             theConf.duoConf = duoConfCopy;
             this.Dispose();
+            UndoFactory.Clear(); // c'est plus simple que d'effacer seulement ce qui a rapport avec duo.
         }
 
         private void btnAnnuler_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("btnAnnuler_Click");
             this.Dispose();
+            UndoFactory.Clear(); // c'est plus simple que d'effacer seulement ce qui a rapport avec duo.
         }
 
         private void btnDefConf1_Click(object sender, EventArgs e)

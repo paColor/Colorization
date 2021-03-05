@@ -104,6 +104,7 @@ namespace ColorLib
         /// </summary>
         public PBDQConfig()
         {
+            UndoFactory.DisableUndoRegistration();
             bpdqCF = new Dictionary<char, CharFormatting>(nrButtons);
             selLetters = new char[nrButtons];
             for (int i = 0; i < nrButtons; i++)
@@ -113,6 +114,7 @@ namespace ColorLib
             markAsBlack = false;
             defaultCF = CharFormatting.NeutralCF;
             Reset();
+            UndoFactory.EnableUndoRegistration();
         }
 
         /// <summary>

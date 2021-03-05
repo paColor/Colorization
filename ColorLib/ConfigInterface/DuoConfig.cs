@@ -156,6 +156,7 @@ namespace ColorLib
         public DuoConfig()
         {
             logger.ConditionalDebug("DuoConfig");
+            UndoFactory.DisableUndoRegistration();
             subConfig1 = new Config(1);
             subConfig1.ConfigReplacedEvent += SubConfig1Replaced;
 
@@ -163,14 +164,17 @@ namespace ColorLib
             subConfig2.ConfigReplacedEvent += SubConfig2Replaced;
 
             InitFields();
+            UndoFactory.EnableUndoRegistration();
         }
 
         public override void Reset()
         {
             logger.ConditionalDebug("DuoConfig");
+            UndoFactory.StartRecording("Réinitialiser duo");
             subConfig1.Reset();
             subConfig2.Reset();
             InitFields();
+            UndoFactory.EndRecording();
         }
 
         /// <summary>
@@ -234,9 +238,11 @@ namespace ColorLib
         private void InitFields()
         {
             logger.ConditionalDebug("InitFields");
+            UndoFactory.StartRecording("Réinitialise les champs duo.");
             alternance = Alternance.mots;
             colorisFunction = ColorisFunction.syllabes;
             nbreAlt = 1;
+            UndoFactory.EndRecording();
         }
 
 

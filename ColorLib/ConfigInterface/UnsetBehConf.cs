@@ -127,8 +127,10 @@ namespace ColorLib
         /// </summary>
         public UnsetBehConf()
         {
+            UndoFactory.DisableUndoRegistration();
             act = new bool[(int)Ucbx.last];
             Reset();
+            UndoFactory.EnableUndoRegistration();
         }
 
         /// <summary>

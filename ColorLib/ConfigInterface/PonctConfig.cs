@@ -212,12 +212,14 @@ namespace ColorLib
 
         public PonctConfig()
         {
+            UndoFactory.DisableUndoRegistration();
             for (Ponctuation p = Ponctuation.firstP + 1; p < Ponctuation.lastP; p++)
             {
                 charFormats[p] = CharFormatting.NeutralCF;
                 checkBoxes[p] = false;
             }
             Reset();
+            UndoFactory.EnableUndoRegistration();
         }
 
         // <summary>
@@ -226,7 +228,7 @@ namespace ColorLib
         public override void Reset()
         {
             logger.ConditionalDebug("Reset");
-            UndoFactory.StartRecording("Réinitialiser");
+            UndoFactory.StartRecording("Réinitialiser ponctuation");
             MasterCF = new CharFormatting(ColConfWin.coloredCF[(int)PredefCol.pinky], true, false, false);
             MajDebCF = MasterCF;
             MajDebCB = false;

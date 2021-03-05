@@ -203,6 +203,7 @@ namespace ColorLib
 
         public ArcConfig()
         {
+            UndoFactory.DisableUndoRegistration();
             arcButtons = new ArcButtonConf[NrArcButtons];
             for (int i = 0; i < NrArcButtons; i++)
             {
@@ -212,6 +213,7 @@ namespace ColorLib
             arcButtons[0].buttonClickable = true;
             nrSetArcButtons = 0;
             Reset();
+            UndoFactory.EnableUndoRegistration();
         }
 
         /// <summary>
