@@ -8,7 +8,7 @@ namespace ColorLib
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public enum ConfigActionType { confName, duoConf}
+        public enum ConfigActionType { confName, duoConf, newConfig}
 
         private ConfigActionType type;
         private Config conf;
@@ -16,6 +16,7 @@ namespace ColorLib
         private string newConfName;
         private DuoConfig prevDuoConf;
         private DuoConfig newDuoConf;
+        private Config newConf;
 
         public ConfigAction(string name, Config inConf, string inPrevConfName, string inNewConfName)
             : base (name)
@@ -36,6 +37,14 @@ namespace ColorLib
             newDuoConf = inNewDuoConf;
         }
 
+        public ConfigAction(string name, Config inConf, Config inNewConf)
+            : base(name)
+        {
+            type = ConfigActionType.newConfig;
+            conf = inConf;
+            newConf = inNewConf;
+        }
+
         public override void Undo()
         {
             logger.ConditionalDebug("Undo");
@@ -47,6 +56,10 @@ namespace ColorLib
 
                 case ConfigActionType.duoConf:
                     conf.duoConf = prevDuoConf;
+                    break;
+
+                case ConfigActionType.newConfig:
+                    newConf.OnConfigReplaced(conf);
                     break;
 
                 default:
@@ -66,6 +79,10 @@ namespace ColorLib
 
                 case ConfigActionType.duoConf:
                     conf.duoConf = newDuoConf;
+                    break;
+
+                case ConfigActionType.newConfig:
+                    conf.OnConfigReplaced(newConf);
                     break;
 
                 default:

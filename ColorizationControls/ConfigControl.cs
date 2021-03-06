@@ -1598,6 +1598,14 @@ namespace ColorizationControls
                 btSauvSauv.PerformClick();
                 e.Handled = true;
             }
+            if (e.KeyChar == '\x001A') // ctrl-z
+            {
+                UndoFactory.UndoLastAction();
+            }
+            else if (e.KeyChar == '\x0019') // ctrl-y
+            {
+                UndoFactory.RedoLastCanceledAction();
+            }
         }
 
 
@@ -1642,6 +1650,14 @@ namespace ColorizationControls
             {
                 btSauvCharger.PerformClick();
                 e.Handled = true;
+            }
+            if (e.KeyChar == '\x001A') // ctrl-z
+            {
+                UndoFactory.UndoLastAction();
+            }
+            else if (e.KeyChar == '\x0019') // ctrl-y
+            {
+                UndoFactory.RedoLastCanceledAction();
             }
         }
 

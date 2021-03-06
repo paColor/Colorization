@@ -226,6 +226,7 @@ namespace ColorLib
         // if there is none, a new one with the defauilt config is created.
         {
             logger.ConditionalDebug("GetConfigFor");
+            UndoFactory.DisableUndoRegistration();
             Config toReturn;
             errMsg = null;
             if (!theConfs.TryGetValue(win, out toReturn))
@@ -256,8 +257,8 @@ namespace ColorLib
                     logger.ConditionalDebug("New Config created.");
                 }
                 UpdateWindowsLists(win, doc, toReturn);
-                UndoFactory.Clear();
             }
+            UndoFactory.EnableUndoRegistration();
             return toReturn;
         }
 
@@ -343,6 +344,7 @@ namespace ColorLib
         /// <returns>La <c>Config</c> chargée ou <c>null</c> en cas d'erreur.</returns>
         private static Config LoadConfigFile(string fileName, out string errMsg)
         {
+            UndoFactory.DisableUndoRegistration();
             Config toReturn = null;
             Stream stream = null;
             errMsg = "";
@@ -365,6 +367,7 @@ namespace ColorLib
                     stream.Dispose();
                 }
             }
+            UndoFactory.EnableUndoRegistration();
             return toReturn;
         }
 
@@ -851,9 +854,10 @@ namespace ColorLib
 
         // ------------------------------------------------- Events --------------------------------------------
 
-        protected virtual void OnConfigReplaced (Config newConfig)
+        public virtual void OnConfigReplaced(Config newConfig)
         {
             logger.ConditionalDebug("OnConfigReplaced");
+            UndoFactory.ExceutingAction(new ConfigAction("Remplacer config", this, newConfig));
             EventHandler<ConfigReplacedEventArgs> eventHandler = ConfigReplacedEvent;
             // il est conseillé de faire ceci pour le cas tordu où le dernier "handler" se désabonnerait entre
             // le test sur null et l'évèenement. Je ne suis pas sûr que ça puisse jamais arriver ici. 
