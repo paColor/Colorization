@@ -137,7 +137,7 @@ namespace ColorLib
                 logger.ConditionalTrace("set MajDebCB to {0}", value);
                 if (_majDebCB != value)
                 {
-                    UndoFactory.ExceutingAction(new PonctAction("Contôle majuscule", this,
+                    UndoFactory.ExceutingAction(new PonctAction("Contrôle majuscule", this,
                         "majDebCB", Ponctuation.firstP, _majDebCB, value));
                     _majDebCB = value;
                     OnMajDebCBModified();

@@ -362,5 +362,11 @@
   <ItemGroup>
     <None Include="Resources\rien 32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Redo_b_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Undo_b_32-2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

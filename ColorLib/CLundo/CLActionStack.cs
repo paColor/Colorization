@@ -70,5 +70,21 @@ namespace ColorLib
             beg = 0;
             end = 0;
         }
+
+        /// <summary>
+        /// Retourne la liste ordonnée des actions sur la pile.
+        /// </summary>
+        /// <returns>Liste d'actions. Peut être vide, mais pas <c>null</c>.</returns>
+        public List<CLAction> GetActionList()
+        {
+            List<CLAction> toReturn = new List<CLAction>(Count);
+            int index = (beg + StackSize - 1) % StackSize;
+            for (int i = 0; i< Count; i++)
+            {
+                toReturn.Add(stack[index]);
+                index = (index + StackSize - 1) % StackSize;
+            }
+            return toReturn;
+        }
     }
 }

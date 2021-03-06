@@ -27,6 +27,12 @@ namespace ColorLib
         /// enregistrer les actions.
         /// </summary>
         private static bool undoing = false;
+
+        /// <summary>
+        /// Indique si on est en train d'exécuter un redo. Dans ce cas, il ne faut pas
+        /// vider le <c>redoStack</c>.
+        /// </summary>
+        private static bool redoing = false;
         
         public static int UndoCount => undoStack.Count;
         public static int RedoCount => redoStack.Count;
@@ -34,6 +40,16 @@ namespace ColorLib
         public static event EventHandler UndoCountModified;
 
         public static event EventHandler RedoCountModified;
+
+        public static List<CLAction> GetUndoList()
+        {
+            return undoStack.GetActionList();
+        }
+
+        public static List<CLAction> GetRedoList()
+        {
+            return redoStack.GetActionList();
+        }
 
         /// <summary>
         /// Empêche que les actions soient enregistrées pour pouvoir ensuite être annulées.
@@ -72,8 +88,7 @@ namespace ColorLib
                 }
                 else
                 {
-                    undoStack.Push(act);
-                    OnUndoCountModified();
+                    PushUndoAct(act);
                 }
             }
         }
@@ -104,8 +119,10 @@ namespace ColorLib
             CLAction act = redoStack.Pop();
             if (act != null)
             {
+                redoing = true;
                 act.Redo();
                 OnRedoCountModified();
+                redoing = false;
             }
         }
 
@@ -150,9 +167,8 @@ namespace ColorLib
                     }
                     else
                     {
-                        undoStack.Push(actList);
+                        PushUndoAct(actList);
                         actList = null;
-                        OnUndoCountModified();
                     }
                 }
                 else
@@ -169,6 +185,17 @@ namespace ColorLib
         {
             undoStack.Clear();
             redoStack.Clear();
+        }
+
+        private static void PushUndoAct(CLAction act)
+        {
+            undoStack.Push(act);
+            OnUndoCountModified();
+            if (redoStack.Count > 0 && !redoing)
+            {
+                redoStack.Clear();
+                OnRedoCountModified();
+            }
         }
 
         private static void OnUndoCountModified()

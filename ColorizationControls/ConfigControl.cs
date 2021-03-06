@@ -139,6 +139,8 @@ namespace ColorizationControls
         private RGB defaultPonctMasterButCol;
         private RGB defaultPonctMajDebButCol;
 
+        private string lastSelectedTab; // nom du tab sélectionné en dernier.
+
         /// <summary>
         /// Ordonne au <c>ConfigControl</c> d'éditer une autre <c>Config</c>. Ajuste les affichages aux nouvelles valeurs.
         /// </summary>
@@ -716,6 +718,10 @@ namespace ColorizationControls
             countPasteLetters = 0;
 
             SetLocalTablesForControl(this);
+
+            // Undo
+            UndoFactory.UndoCountModified += UndoCountModifiedHandler;
+            UndoFactory.RedoCountModified += RedoCountModifiedHandler;
 
             if (ApplicationDeployment.IsNetworkDeployed)
                 version = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
@@ -1488,6 +1494,7 @@ namespace ColorizationControls
             // Quand l'utilisateur rend l'onglet visible
             logger.ConditionalDebug("tabSauv_Enter");
             UpdateListeConfigs();
+            lastSelectedTab = tabSauv.Name;
         }
 
         private void UpdateConfigName()
@@ -2144,6 +2151,111 @@ namespace ColorizationControls
             {
                 UndoFactory.RedoLastCanceledAction();
             }
+        }
+
+        private void btxAnnuler_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btxAnnuler_Click");
+            UndoFactory.UndoLastAction();
+        }
+
+        private void btxRefaire_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btxRefaire_Click");
+            UndoFactory.RedoLastCanceledAction();
+        }
+
+        private void btxRevenir_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btxRevenir_Click");
+            int nrToUndo = lBoxAnnuler.SelectedIndex + 1;
+            for (int i = 0; i < nrToUndo; i++)
+            {
+                UndoFactory.UndoLastAction();
+            }
+        }
+
+        private void btxReexecuter_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btxReexecuter_Click");
+            int nrToRedo = lBoxRefaire.SelectedIndex + 1;
+            for (int i = 0; i < nrToRedo; i++)
+            {
+                UndoFactory.RedoLastCanceledAction();
+            }
+        }
+
+        private void UpdateListUndo()
+        {
+            logger.ConditionalDebug("UpdateListUndo");
+            List<CLAction> undoList = UndoFactory.GetUndoList();
+            lBoxAnnuler.DataSource = undoList;
+            if (undoList.Count > 0)
+            {
+                btxRevenir.Enabled = true;
+                btxAnnuler.Enabled = true;
+                lBoxAnnuler.SetSelected(0, true);
+            }
+            else
+            {
+                btxRevenir.Enabled = false;
+                btxAnnuler.Enabled = false;
+            }
+        }
+
+        private void UpdateListRedo()
+        {
+            logger.ConditionalDebug("UpdateListRedo");
+            lBoxRefaire.DataSource = UndoFactory.GetRedoList();
+            if (UndoFactory.RedoCount > 0)
+            {
+                btxReexecuter.Enabled = true;
+                btxRefaire.Enabled = true;
+                lBoxRefaire.SetSelected(0, true);
+            }
+            else
+            {
+                btxReexecuter.Enabled = false;
+                btxRefaire.Enabled = false;
+            }
+        }
+
+        private void UndoCountModifiedHandler(object sender, EventArgs e)
+        {
+            if (lastSelectedTab == tabAvance.Name)
+            {
+                UpdateListUndo();
+            }
+        }
+
+        private void RedoCountModifiedHandler(object sender, EventArgs e)
+        {
+            if (lastSelectedTab == tabAvance.Name)
+            {
+                UpdateListRedo();
+            }
+        }
+
+
+        private void tabAvance_Enter(object sender, EventArgs e)
+        {
+            // Quand l'utilisateur rend l'onglet visible
+            logger.ConditionalDebug("tabAvance_Enter");
+            UpdateListUndo();
+            UpdateListRedo();
+            lastSelectedTab = tabAvance.Name;
+        }
+
+        private void lBoxAnnuler_DoubleClick(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("lBoxAnnuler_DoubleClick");
+            btxRevenir.PerformClick();
+        }
+
+        private void lBoxRefaire_DoubleClick(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("lBoxRefaire_DoubleClick");
+            btxReexecuter.PerformClick();
         }
     }
 }

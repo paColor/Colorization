@@ -533,6 +533,26 @@ namespace ColorizationControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Redo_32 {
+            get {
+                object obj = ResourceManager.GetObject("Redo_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Redo_b_32 {
+            get {
+                object obj = ResourceManager.GetObject("Redo_b_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap rien_32 {
             get {
                 object obj = ResourceManager.GetObject("rien 32", resourceCulture);
@@ -676,6 +696,36 @@ namespace ColorizationControls.Properties {
         internal static System.Drawing.Bitmap UnderscoreSetOver {
             get {
                 object obj = ResourceManager.GetObject("UnderscoreSetOver", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Undo_32 {
+            get {
+                object obj = ResourceManager.GetObject("Undo_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Undo_b_32 {
+            get {
+                object obj = ResourceManager.GetObject("Undo_b_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Undo_b_32_2 {
+            get {
+                object obj = ResourceManager.GetObject("Undo_b_32-2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

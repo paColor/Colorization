@@ -85,11 +85,6 @@ namespace ColorLib
             newCB = false;
         }
 
-        public override string ToString()
-        {
-            return String.Format("{0} - type: {1}, prevMState: {2}", Name, type, prevMasterState);
-        }
-
         public override void Undo()
         {
             logger.ConditionalDebug("Undo");
