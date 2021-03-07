@@ -6,19 +6,12 @@ namespace ColorLib
 {
     class SylAction : CLAction
     {
+        public enum SylActionType { sylBut, clearBut, doubleCons, mode, marquerMuettes, dierese,
+            nbrePieds, exceptMots}
+
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        /// <summary>
-        /// On traite les actions des types suivants
-        /// "sylBut"
-        /// "clearBut"
-        /// "doubleCons"
-        /// "mode"
-        /// "marquerMuettes"
-        /// "dierese"
-        /// "nbrePieds"
-        /// </summary>
-        private string type;
+        private SylActionType type;
         private SylConfig sylConf;
         private int prevNrSetButtons;
         private int butNr;
@@ -30,12 +23,14 @@ namespace ColorLib
         private int newNrPieds;
         private bool prevBoolVal;
         private bool newBoolVal;
+        private ExceptionMots prevExcMots;
+        private ExceptionMots newExcMots;
 
         public SylAction(string name,SylConfig inSylConf, int inButNr, int inPrevNrSetBut,
             CharFormatting inPrevCF, CharFormatting inNewCF)
             : base(name)
         {
-            type = "sylBut";
+            type = SylActionType.sylBut;
             sylConf = inSylConf;
             prevNrSetButtons = inPrevNrSetBut;
             butNr = inButNr;
@@ -46,7 +41,7 @@ namespace ColorLib
         public SylAction(string name, SylConfig inSylConf, int inButNr, CharFormatting inPrevCF)
             : base(name)
         {
-            type = "clearBut";
+            type = SylActionType.clearBut;
             sylConf = inSylConf;
             butNr = inButNr;
             prevCF = inPrevCF;
@@ -62,7 +57,7 @@ namespace ColorLib
         /// <param name="inSylConf">La <see cref="SylConfig"/> sur laquelle l'action agit.</param>
         /// <param name="inPrevVal">La valeur du booléen avant l'action.</param>
         /// <param name="inNewVal">La valeur du booléen après l'action.</param>
-        public SylAction(string name, string inType, SylConfig inSylConf, 
+        public SylAction(string name, SylActionType inType, SylConfig inSylConf, 
             bool inPrevVal, bool inNewVal)
             : base(name)
         {
@@ -76,7 +71,7 @@ namespace ColorLib
             SylConfig.Mode inPrevMode, SylConfig.Mode inNewMode)
             : base(name)
         {
-            type = "mode";
+            type = SylActionType.mode;
             sylConf = inSylConf;
             prevMode = inPrevMode;
             newMode = inNewMode;
@@ -86,10 +81,20 @@ namespace ColorLib
             int inPrevNrPieds, int inNewNrPieds)
             : base(name)
         {
-            type = "nbrePieds";
+            type = SylActionType.nbrePieds;
             sylConf = inSylConf;
             prevNrPieds = inPrevNrPieds;
             newNrPieds = inNewNrPieds;
+        }
+
+        public SylAction(string name, SylConfig inSylConf,
+            ExceptionMots inPrevExcMots, ExceptionMots inNewExcMots)
+            : base(name)
+        {
+            type = SylActionType.exceptMots;
+            sylConf = inSylConf;
+            prevExcMots = inPrevExcMots;
+            newExcMots = inNewExcMots;
         }
 
 
@@ -98,7 +103,7 @@ namespace ColorLib
             logger.ConditionalDebug("Undo");
             switch (type)
             {
-                case "sylBut":
+                case SylActionType.sylBut:
                     if (butNr == prevNrSetButtons)
                     {
                         sylConf.ClearButton(butNr);
@@ -109,28 +114,32 @@ namespace ColorLib
                     }
                     break;
 
-                case "clearBut":
+                case SylActionType.clearBut:
                     sylConf.SetSylButtonCF(butNr, prevCF);
                     break;
 
-                case "doubleCons":
+                case SylActionType.doubleCons:
                     sylConf.DoubleConsStd = prevBoolVal;
                     break;
 
-                case "mode":
+                case SylActionType.mode:
                     sylConf.mode = prevMode;
                     break;
 
-                case "marquerMuettes":
+                case SylActionType.marquerMuettes:
                     sylConf.marquerMuettes = prevBoolVal;
                     break;
 
-                case "dierese":
+                case SylActionType.dierese:
                     sylConf.chercherDierese = prevBoolVal;
                     break;
 
-                case "nbrePieds":
+                case SylActionType.nbrePieds:
                     sylConf.nbrPieds = prevNrPieds;
+                    break;
+
+                case SylActionType.exceptMots:
+                    sylConf.ExcMots = prevExcMots;
                     break;
 
                 default:
@@ -144,32 +153,36 @@ namespace ColorLib
             logger.ConditionalDebug("Redo");
             switch (type)
             {
-                case "sylBut":
+                case SylActionType.sylBut:
                     sylConf.SetSylButtonCF(butNr, newCF);
                     break;
 
-                case "clearBut":
+                case SylActionType.clearBut:
                     sylConf.ClearButton(butNr);
                     break;
 
-                case "doubleCons":
+                case SylActionType.doubleCons:
                     sylConf.DoubleConsStd = newBoolVal;
                     break;
 
-                case "mode":
+                case SylActionType.mode:
                     sylConf.mode = newMode;
                     break;
 
-                case "marquerMuettes":
+                case SylActionType.marquerMuettes:
                     sylConf.marquerMuettes = newBoolVal;
                     break;
 
-                case "dierese":
+                case SylActionType.dierese:
                     sylConf.chercherDierese = newBoolVal;
                     break;
 
-                case "nbrePieds":
+                case SylActionType.nbrePieds:
                     sylConf.nbrPieds = newNrPieds;
+                    break;
+
+                case SylActionType.exceptMots:
+                    sylConf.ExcMots = newExcMots;
                     break;
 
                 default:

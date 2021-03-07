@@ -428,7 +428,7 @@ namespace ColorLib
         // ****************************************************************************************
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private static Regex rxWords
+        public static Regex rxWords { get; private set; }
             = new Regex(@"\b\w+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase); // matches words;
         private static Regex rxPonct
             = new Regex(@"\W", RegexOptions.Compiled | RegexOptions.IgnoreCase);

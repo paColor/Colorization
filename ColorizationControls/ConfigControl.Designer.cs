@@ -149,6 +149,7 @@
             this.cbxill = new System.Windows.Forms.CheckBox();
             this.cmsPhonVSMuettes = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tabAutres = new System.Windows.Forms.TabPage();
+            this.btcListeExcpt = new System.Windows.Forms.Button();
             this.lblFormeArc = new System.Windows.Forms.Label();
             this.nudDecalage = new System.Windows.Forms.NumericUpDown();
             this.lblDecalage = new System.Windows.Forms.Label();
@@ -242,6 +243,7 @@
             this.btPNpointDExclamation = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.tabAvance = new System.Windows.Forms.TabPage();
+            this.lblTitreAnnulation = new System.Windows.Forms.Label();
             this.btxReexecuter = new System.Windows.Forms.Button();
             this.btxRevenir = new System.Windows.Forms.Button();
             this.lBoxRefaire = new System.Windows.Forms.ListBox();
@@ -302,8 +304,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.configMuettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblTitreAnnulation = new System.Windows.Forms.Label();
-            this.btcListeExcpt = new System.Windows.Forms.Button();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -1624,6 +1624,7 @@
             this.tabCouleurs.TabIndex = 0;
             this.tabCouleurs.Text = "Phonèmes";
             this.ttipLettreEnNoir.SetToolTip(this.tabCouleurs, "Configuration pour la colorisation des phonèmes");
+            this.tabCouleurs.Enter += new System.EventHandler(this.tab_Enter);
             // 
             // label6
             // 
@@ -1853,6 +1854,20 @@
             this.tabAutres.TabIndex = 3;
             this.tabAutres.Text = "Autres";
             this.ttipLettreEnNoir.SetToolTip(this.tabAutres, "Configuration pour la colorisation de lettres, syllabes, mots, lignes");
+            this.tabAutres.Enter += new System.EventHandler(this.tab_Enter);
+            // 
+            // btcListeExcpt
+            // 
+            this.btcListeExcpt.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.btcListeExcpt.Location = new System.Drawing.Point(94, 365);
+            this.btcListeExcpt.Name = "btcListeExcpt";
+            this.btcListeExcpt.Size = new System.Drawing.Size(150, 23);
+            this.btcListeExcpt.TabIndex = 196;
+            this.btcListeExcpt.Text = "Liste d\'exceptions";
+            this.ttipLettreEnNoir.SetToolTip(this.btcListeExcpt, "Créer une liste de mots qui ne seront pas\r\ncolorisés / où il n\'y aura pas d\'arcs." +
+        "");
+            this.btcListeExcpt.UseVisualStyleBackColor = false;
+            this.btcListeExcpt.Click += new System.EventHandler(this.btcListeExcpt_Click);
             // 
             // lblFormeArc
             // 
@@ -2583,6 +2598,7 @@
             this.tabArcs.Size = new System.Drawing.Size(337, 557);
             this.tabArcs.TabIndex = 5;
             this.tabArcs.Text = "Duo/Ponct";
+            this.tabArcs.Enter += new System.EventHandler(this.tab_Enter);
             // 
             // btMDMajDeb
             // 
@@ -3030,8 +3046,6 @@
             this.tabAvance.Controls.Add(this.lBoxRefaire);
             this.tabAvance.Controls.Add(this.lBoxAnnuler);
             this.tabAvance.Controls.Add(this.lblAnnuler);
-            this.tabAvance.Controls.Add(this.btxRefaire);
-            this.tabAvance.Controls.Add(this.btxAnnuler);
             this.tabAvance.Controls.Add(this.groupBoxIll);
             this.tabAvance.Controls.Add(this.label7);
             this.tabAvance.Controls.Add(this.label5);
@@ -3044,6 +3058,8 @@
             this.tabAvance.Controls.Add(this.cbuBold);
             this.tabAvance.Controls.Add(this.cbAlettresNoir);
             this.tabAvance.Controls.Add(this.cbSBlackPhons);
+            this.tabAvance.Controls.Add(this.btxRefaire);
+            this.tabAvance.Controls.Add(this.btxAnnuler);
             this.tabAvance.Location = new System.Drawing.Point(4, 22);
             this.tabAvance.Name = "tabAvance";
             this.tabAvance.Padding = new System.Windows.Forms.Padding(3);
@@ -3051,6 +3067,16 @@
             this.tabAvance.TabIndex = 1;
             this.tabAvance.Text = "Avancé";
             this.tabAvance.Enter += new System.EventHandler(this.tabAvance_Enter);
+            // 
+            // lblTitreAnnulation
+            // 
+            this.lblTitreAnnulation.AutoSize = true;
+            this.lblTitreAnnulation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitreAnnulation.Location = new System.Drawing.Point(132, 309);
+            this.lblTitreAnnulation.Name = "lblTitreAnnulation";
+            this.lblTitreAnnulation.Size = new System.Drawing.Size(75, 15);
+            this.lblTitreAnnulation.TabIndex = 124;
+            this.lblTitreAnnulation.Text = "Annulation";
             // 
             // btxReexecuter
             // 
@@ -3205,6 +3231,7 @@
             this.tabAPropos.Size = new System.Drawing.Size(337, 557);
             this.tabAPropos.TabIndex = 2;
             this.tabAPropos.Text = "A propos";
+            this.tabAPropos.Enter += new System.EventHandler(this.tab_Enter);
             // 
             // linkCodeCouleurAPIRose
             // 
@@ -3725,28 +3752,6 @@
             this.tsmEffacerCoulArc.Size = new System.Drawing.Size(110, 22);
             this.tsmEffacerCoulArc.Text = "Effacer";
             this.tsmEffacerCoulArc.Click += new System.EventHandler(this.tsmEffacerCoulArc_Click);
-            // 
-            // lblTitreAnnulation
-            // 
-            this.lblTitreAnnulation.AutoSize = true;
-            this.lblTitreAnnulation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitreAnnulation.Location = new System.Drawing.Point(132, 309);
-            this.lblTitreAnnulation.Name = "lblTitreAnnulation";
-            this.lblTitreAnnulation.Size = new System.Drawing.Size(75, 15);
-            this.lblTitreAnnulation.TabIndex = 124;
-            this.lblTitreAnnulation.Text = "Annulation";
-            // 
-            // btcListeExcpt
-            // 
-            this.btcListeExcpt.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btcListeExcpt.Location = new System.Drawing.Point(94, 365);
-            this.btcListeExcpt.Name = "btcListeExcpt";
-            this.btcListeExcpt.Size = new System.Drawing.Size(150, 23);
-            this.btcListeExcpt.TabIndex = 196;
-            this.btcListeExcpt.Text = "Liste d\'exceptions";
-            this.ttipLettreEnNoir.SetToolTip(this.btcListeExcpt, "Créer une liste de mots qui ne seront pas\r\ncolorisés / où il n\'y aura pas d\'arcs." +
-        "");
-            this.btcListeExcpt.UseVisualStyleBackColor = false;
             // 
             // ConfigControl
             // 

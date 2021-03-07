@@ -24,10 +24,12 @@ namespace ColorLib
 
         public override void Redo()
         {
+            UndoFactory.StartRecording(Name);
             for (int i = 0; i < actList.Count; i++)
             {
                 actList[i].Redo();
             }
+            UndoFactory.EndRecording();
         }
 
         public void Add(CLAction theAction)

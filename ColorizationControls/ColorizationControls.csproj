@@ -131,6 +131,12 @@
     <Compile Include="SylFormatForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WordListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordListForm.Designer.cs">
+      <DependentUpon>WordListForm.cs</DependentUpon>
+    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WaitingForm.resx">
       <DependentUpon>WaitingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordListForm.resx">
+      <DependentUpon>WordListForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

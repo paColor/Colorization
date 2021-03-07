@@ -59,7 +59,8 @@ namespace ColorizationControls
 
         private static CharFormatting clipboard = null;
 
-        private enum FontFormat {
+        private enum FontFormat
+        {
             standard = 0,
             bold = 1,
             italic = 2,
@@ -139,7 +140,7 @@ namespace ColorizationControls
         private RGB defaultPonctMasterButCol;
         private RGB defaultPonctMajDebButCol;
 
-        private string lastSelectedTab; // nom du tab sélectionné en dernier.
+        private TabPage lastSelectedTab; // le tab sélectionné en dernier.
 
         /// <summary>
         /// Ordonne au <c>ConfigControl</c> d'éditer une autre <c>Config</c>. Ajuste les affichages aux nouvelles valeurs.
@@ -151,7 +152,7 @@ namespace ColorizationControls
             InitializeTheConf(newConfig);
             UpdateAll();
         }
-        
+
         /// <summary>
         /// Crée un <c>ConfiControl</c> pour <c>subConf</c>. Il s'agit d'une "sub Config" qui n'est pas attachée
         /// à une fenêtre mais à une autre <c>Config</c> "mère".
@@ -287,7 +288,7 @@ namespace ColorizationControls
                 ponctInfos[ponct].cbx.Checked = theConf.ponctConf.GetCB(ponct);
             UpdatePonctButton(ponct);
         }
-        
+
         private void UpdatePonctMaitreBut()
         {
             logger.ConditionalTrace("UpdatePonctMaitreBut");
@@ -415,7 +416,7 @@ namespace ColorizationControls
             UpdateChercherDierese();
         }
 
-        private void UpdateSylButtons ()
+        private void UpdateSylButtons()
         {
             logger.ConditionalDebug("UpdateLetterButtons");
             SuspendLayout();
@@ -426,6 +427,7 @@ namespace ColorizationControls
             rbnStandard.Checked = theConf.sylConf.DoubleConsStd;
             UpdateSylModeButtons();
             UpdateMarquerMuettesButton();
+            UpdateExcepButton();
             ResumeLayout();
         }
 
@@ -457,6 +459,20 @@ namespace ColorizationControls
             sylPictureBoxes[butNr].BackColor = thePbxCol;
             theButton.Enabled = sbC.buttonClickable;
             sylPictureBoxes[butNr].Enabled = sbC.buttonClickable;
+        }
+
+        private void UpdateExcepButton()
+        {
+            logger.ConditionalDebug("UpdateExcepButton");
+            RGB lightGreen = new RGB(206, 250, 210);
+            RGB lightRed = new RGB(255, 205, 205);
+            RGB butColor = lightGreen;
+            ExceptionMots em = theConf.sylConf.ExcMots;
+            if (em != null && em.exceptMots.Count > 0)
+            {
+                butColor = lightRed;
+            }
+            btcListeExcpt.BackColor = butColor;
         }
 
         // -------------------------------------- Update arcs -------------------------------------
@@ -537,7 +553,7 @@ namespace ColorizationControls
             {
                 rbnIllCeras.Checked = false;
                 rbnIllLireCouleur.Checked = true;
-            } 
+            }
         }
 
         private void IllConfigModified(object sender, PhonConfModifiedEventArgs e)
@@ -592,6 +608,7 @@ namespace ColorizationControls
             theConf.sylConf.MarquerMuettesModified += MarquerMuettesModified;
             theConf.sylConf.ChercherDiereseModified += HandleChercherDiereseModified;
             theConf.sylConf.NbrPiedsModified += HandleNbrPiedsModified;
+            theConf.sylConf.ExcMotsModified += HandleExcMotsModified;
             theConf.arcConf.ArcButtonModified += ArcButtonModifiedHandler;
             theConf.arcConf.HauteurModified += HauteurModifiedHandler;
             theConf.arcConf.EcartementModified += EcartementModifiedHandler;
@@ -628,6 +645,7 @@ namespace ColorizationControls
             theConf.sylConf.MarquerMuettesModified -= MarquerMuettesModified;
             theConf.sylConf.ChercherDiereseModified -= HandleChercherDiereseModified;
             theConf.sylConf.NbrPiedsModified -= HandleNbrPiedsModified;
+            theConf.sylConf.ExcMotsModified -= HandleExcMotsModified;
             theConf.arcConf.ArcButtonModified -= ArcButtonModifiedHandler;
             theConf.arcConf.HauteurModified -= HauteurModifiedHandler;
             theConf.arcConf.EcartementModified -= EcartementModifiedHandler;
@@ -756,7 +774,7 @@ namespace ColorizationControls
                     cNameFin = c.Name.Substring(3, c.Name.Length - 3);
                     sonInfos[cNameFin].cbx = (CheckBox)c;
                 }
-                else if(c.Name.StartsWith("cbu")) // Upcall buttons
+                else if (c.Name.StartsWith("cbu")) // Upcall buttons
                 {
                     cNameFin = c.Name.Substring(3, c.Name.Length - 3);
                     formattingCheckBoxes[cNameFin] = (CheckBox)c;
@@ -776,7 +794,7 @@ namespace ColorizationControls
                     sonInfos[cNameFin].btn = b;
                     sonInfos[cNameFin].btnOrigColor = b.BackColor;
                     b.ContextMenuStrip = this.cmsEffacerCopier; // ça nous évite de les mettre à la main
-                } 
+                }
                 else if (c.Name.StartsWith("btSC"))
                 {
                     Button theBtn = (Button)c;
@@ -827,7 +845,7 @@ namespace ColorizationControls
 
         // ---------------------------- formatage des boutons -------------------------------------
 
-        private void SetButtonColor (Button b, RGB color)
+        private void SetButtonColor(Button b, RGB color)
         {
             logger.ConditionalTrace("SetButtonColor, bouton \'{0}\'", b.Name);
             b.BackColor = color;
@@ -842,7 +860,7 @@ namespace ColorizationControls
         /// </summary>
         /// <param name="b">Le bouton dont le font doit être adapté.</param>
         /// <param name="cf">Le <c>CharFormatting</c> définissant le font à utiliser.</param>
-        private void SetButtonFont (Button b, CharFormatting cf)
+        private void SetButtonFont(Button b, CharFormatting cf)
         {
             logger.ConditionalTrace("SetButtonFont bouton \'{0}\'", b.Name);
             int fontIndex = 0;
@@ -946,7 +964,7 @@ namespace ColorizationControls
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
             Debug.Assert(theBtn.Name.StartsWith("btn"));
             string son = theBtn.Name.Substring(3, theBtn.Name.Length - 3);
-            CharFormatForm form = new CharFormatForm(theConf.colors[pct].GetCF(son), son, 
+            CharFormatForm form = new CharFormatForm(theConf.colors[pct].GetCF(son), son,
                 theConf.colors[pct].SetCFSon);
             p.Offset(-form.Width, -(form.Height / 2));
             form.Location = p;
@@ -966,7 +984,7 @@ namespace ColorizationControls
             Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
             Debug.Assert(theBtn.Name.StartsWith("btL"));
             string butNrTxt = theBtn.Name.Substring(3, theBtn.Name.Length - 3);
-            int butNr = int.Parse(butNrTxt);           
+            int butNr = int.Parse(butNrTxt);
             LetterFormatForm form = new LetterFormatForm(theBtn.Text[0], butNr, theConf.pBDQ);
             p.Offset(-form.Width, -(form.Height / 2));
             form.Location = p;
@@ -1041,7 +1059,7 @@ namespace ColorizationControls
             theConf.unsetBeh.SetCbuFlag(cbuNameEnd, cbu.Checked);
         }
 
-        private void CheckboxUnsetModified (object sender, CheckboxUnsetModifiedEventArgs e)
+        private void CheckboxUnsetModified(object sender, CheckboxUnsetModifiedEventArgs e)
         {
             logger.ConditionalDebug("CheckboxUnsetModified, checkbox \'{0}\'", e.unsetCBName);
             Debug.Assert(ReferenceEquals(sender, theConf.unsetBeh));
@@ -1073,7 +1091,7 @@ namespace ColorizationControls
         private void rbnEcrit_CheckedChanged(object sender, EventArgs e)
         {
             logger.ConditionalDebug("rbnEcrit_CheckedChanged");
-            if(rbnEcrit.Checked)
+            if (rbnEcrit.Checked)
             {
                 theConf.sylConf.mode = SylConfig.Mode.ecrit;
             }
@@ -1175,7 +1193,7 @@ namespace ColorizationControls
         }
 
         private void SylButton_Click(object sender, EventArgs e)
-            // can be called for the Buttons and for the PictureBoxes
+        // can be called for the Buttons and for the PictureBoxes
         {
             logger.ConditionalDebug("SylButton_Click");
             Control theControl = (Control)sender;
@@ -1194,6 +1212,17 @@ namespace ColorizationControls
                 form.Dispose();
             }
             tabControl1.Focus();
+        }
+
+        private void btcListeExcpt_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("btcListeExcpt_Click");
+            WordListForm wlf = new WordListForm(theConf.sylConf.ExcMots);
+            if (wlf.ShowDialog() == DialogResult.OK)
+            {
+                theConf.sylConf.ExcMots = wlf.ExcMots;
+            }
+            wlf.Dispose();
         }
 
         private void SylButtonModified(object sender, SylButtonModifiedEventArgs e)
@@ -1225,6 +1254,12 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("HandleNbrPiedsModified");
             UpdateNrPieds();
+        }
+
+        private void HandleExcMotsModified(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("HandleExcMotsModified");
+            UpdateExcepButton();
         }
 
         //--------------------------------------------------------------------------------------------
@@ -1450,7 +1485,7 @@ namespace ColorizationControls
 
         private void PonctFormattingModifiedHandler(object sender, PonctModifiedEventArgs e)
         {
-            logger.ConditionalTrace("PonctFormattingModifiedHandler {0}",e.pName);
+            logger.ConditionalTrace("PonctFormattingModifiedHandler {0}", e.pName);
             UpdatePonctButton(e.pName);
         }
 
@@ -1494,7 +1529,7 @@ namespace ColorizationControls
             // Quand l'utilisateur rend l'onglet visible
             logger.ConditionalDebug("tabSauv_Enter");
             UpdateListeConfigs();
-            lastSelectedTab = tabSauv.Name;
+            lastSelectedTab = tabSauv;
         }
 
         private void UpdateConfigName()
@@ -1532,7 +1567,7 @@ namespace ColorizationControls
         }
 
         // --------------- txtBNomConfig : Text Box contenant le nom de la config ------------------------
-        
+
         private void txtBNomConfig_KeyPress(object sender, KeyPressEventArgs e)
         {
             logger.ConditionalDebug("txtBNomConfig_KeyPress: \'{0}\'", e.KeyChar);
@@ -1561,7 +1596,7 @@ namespace ColorizationControls
             btSauvSauv.Enabled = (txtBNomConfig.Text.Length > 0);
         }
 
-        
+
         // --------------------------------- btSauvSauv : Bouton "Sauver" ------------------ ------------------------
 
         private void btSauvSauv_Click(object sender, EventArgs e)
@@ -1584,7 +1619,7 @@ namespace ColorizationControls
                     string msgTxt;
                     if (!theConf.SaveConfig(txtBNomConfig.Text, out msgTxt))
                     {
-                        string message = String.Format("Impossible de sauvegarder la configuration \'{0}\'. Erreur: {1}", 
+                        string message = String.Format("Impossible de sauvegarder la configuration \'{0}\'. Erreur: {1}",
                             txtBNomConfig.Text, msgTxt);
                         MessageBox.Show(message, ConfigBase.ColorizationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -1641,7 +1676,7 @@ namespace ColorizationControls
             logger.ConditionalDebug("btSauvCharger_Click");
             string configName = lbConfigs.SelectedItem.ToString();
             string errMsg;
-            if(!theConf.LoadConfig(configName, out errMsg))
+            if (!theConf.LoadConfig(configName, out errMsg))
             {
                 string message = String.Format("Impossible de charger la configuration \'{0}\'. Erreur: {1}",
                     configName, errMsg);
@@ -1801,13 +1836,13 @@ namespace ColorizationControls
             if (cf.color.Dark())
                 tsmiCouleur.ForeColor = ColConfWin.predefinedColors[(int)PredefCol.white];
             else
-                tsmiCouleur.ForeColor = ColConfWin.predefinedColors[(int)PredefCol.black]; 
+                tsmiCouleur.ForeColor = ColConfWin.predefinedColors[(int)PredefCol.black];
         }
 
         // cms => context menu strip
         private void cmsEffacerCopier_Opening(object sender, CancelEventArgs e)
         {
-            string cName = cmsEffacerCopier.SourceControl.Name; 
+            string cName = cmsEffacerCopier.SourceControl.Name;
             logger.ConditionalDebug("cmsEffacerCopier_Opening {0}", cName);
             tsmiCouper.Enabled = false;
             tsmiCopier.Enabled = false;
@@ -1851,12 +1886,12 @@ namespace ColorizationControls
                     }
                     cmsCF = theConf.sylConf.GetSylButtonConfFor(cmsButNr).cf;
                     SetTsmiGISforCF(cmsCF);
-                } 
+                }
                 else
                 {
                     tsmiColler.Enabled = false;
                 }
-            } 
+            }
             else if (cName.StartsWith("btn"))
             {
                 cmsButType = "btn";
@@ -1868,7 +1903,7 @@ namespace ColorizationControls
                     tsmiEffacer.Enabled = true;
                 }
                 cmsCF = theConf.colors[pct].GetCF(cmsButSon);
-                SetTsmiGISforCF(cmsCF,ColConfWin.ExampleText(cmsButSon));
+                SetTsmiGISforCF(cmsCF, ColConfWin.ExampleText(cmsButSon));
             }
             else if (cName.StartsWith("btPN"))
             {
@@ -2222,7 +2257,7 @@ namespace ColorizationControls
 
         private void UndoCountModifiedHandler(object sender, EventArgs e)
         {
-            if (lastSelectedTab == tabAvance.Name)
+            if (lastSelectedTab == tabAvance)
             {
                 UpdateListUndo();
             }
@@ -2230,12 +2265,11 @@ namespace ColorizationControls
 
         private void RedoCountModifiedHandler(object sender, EventArgs e)
         {
-            if (lastSelectedTab == tabAvance.Name)
+            if (lastSelectedTab == tabAvance)
             {
                 UpdateListRedo();
             }
         }
-
 
         private void tabAvance_Enter(object sender, EventArgs e)
         {
@@ -2243,7 +2277,7 @@ namespace ColorizationControls
             logger.ConditionalDebug("tabAvance_Enter");
             UpdateListUndo();
             UpdateListRedo();
-            lastSelectedTab = tabAvance.Name;
+            lastSelectedTab = tabAvance;
         }
 
         private void lBoxAnnuler_DoubleClick(object sender, EventArgs e)
@@ -2257,5 +2291,12 @@ namespace ColorizationControls
             logger.ConditionalDebug("lBoxRefaire_DoubleClick");
             btxReexecuter.PerformClick();
         }
+
+        private void tab_Enter(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("tab_Enter");
+            lastSelectedTab = (TabPage)sender;
+        }
+
     }
 }

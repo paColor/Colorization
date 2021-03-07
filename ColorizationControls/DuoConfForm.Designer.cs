@@ -464,8 +464,10 @@
             this.Controls.Add(this.panelConfig2);
             this.Controls.Add(this.panelConfig1);
             this.Controls.Add(this.lblConfig1);
-            this.HelpButton = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "DuoConfForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Duo - lecture à deux";

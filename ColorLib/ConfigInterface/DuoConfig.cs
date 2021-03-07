@@ -227,6 +227,9 @@ namespace ColorLib
             subConfig2.IsSubConfig(2);
             subConfig2.PostLoadInitOptionalFields();
             subConfig2.ConfigReplacedEvent += SubConfig2Replaced;
+
+            if (nbreAlt < 1)
+                nbreAlt = 1;
         }
         
         /// <summary>

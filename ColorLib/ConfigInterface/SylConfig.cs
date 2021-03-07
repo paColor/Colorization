@@ -38,6 +38,30 @@ namespace ColorLib
     }
 
     /// <summary>
+    /// contient les informations pour la fenêtre d'édition des exceptions.
+    /// </summary>
+    [Serializable]
+    public class ExceptionMots
+    {
+        /// <summary>
+        /// Le texte dans la fenêtre d'édition.
+        /// </summary>
+        public string texte;
+
+        /// <summary>
+        /// Les mots contenus dans <c>texte</c>.
+        /// </summary>
+        public HashSet<string> exceptMots;
+
+        /// <summary>
+        /// Les checkboxes
+        /// </summary>
+        public bool syllabes;
+        public bool mots;
+        public bool arcs;
+    }
+
+    /// <summary>
     /// Configuration pour les commandes demandant un formatage alterné comme le marquage des syllabes, des mots
     /// des lignes...
     /// </summary>
@@ -95,10 +119,16 @@ namespace ColorLib
         public event EventHandler ChercherDiereseModified;
 
         /// <summary>
-        /// Evènement déclenché quand nombre de pieds à considérer est modifié.
+        /// Evènement déclenché quand le nombre de pieds à considérer est modifié.
         /// </summary>
         [field: NonSerialized]
         public event EventHandler NbrPiedsModified;
+
+        /// <summary>
+        /// Evènement déclenché quand les exceptions sont modifiées.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler ExcMotsModified;
 
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  Public Members ---------------------------------------------------
@@ -115,7 +145,7 @@ namespace ColorLib
             {
                 if (_doubleConsStd != value) // pour ne déclencher l'évènement que s'il y a vraiement un changement.
                 {
-                    UndoFactory.ExceutingAction(new SylAction("Double consonne", "doubleCons",
+                    UndoFactory.ExceutingAction(new SylAction("Double consonne", SylAction.SylActionType.doubleCons,
                         this, DoubleConsStd, value));
                     _doubleConsStd = value;
                     OnDoubleConsStdModified();
@@ -188,7 +218,8 @@ namespace ColorLib
             {
                 if (value != _marquerMuettes)
                 {
-                    UndoFactory.ExceutingAction(new SylAction("Marquer muettes", "marquerMuettes",
+                    UndoFactory.ExceutingAction(new SylAction("Marquer muettes", 
+                        SylAction.SylActionType.marquerMuettes,
                         this, marquerMuettes, value));
                     _marquerMuettes = value;
                     OnMarquerMuettesModified();
@@ -206,7 +237,7 @@ namespace ColorLib
             {
                 if (value != _chercherDierese)
                 {
-                    UndoFactory.ExceutingAction(new SylAction("Chercher diérèse", "dierese",
+                    UndoFactory.ExceutingAction(new SylAction("Chercher diérèse", SylAction.SylActionType.dierese,
                         this, chercherDierese, value));
                     _chercherDierese = value;
                     OnChercherDiereseModified();
@@ -229,6 +260,17 @@ namespace ColorLib
                     _nbrPieds = value;
                     OnNbrPiedsModified();
                 }
+            }
+        }
+
+        public ExceptionMots ExcMots
+        {
+            get { return _excMots; }
+            set
+            {
+                UndoFactory.ExceutingAction(new SylAction("Exceptions", this, ExcMots, value));
+                _excMots = value;
+                OnExcMotsModified();
             }
         }
 
@@ -279,6 +321,10 @@ namespace ColorLib
         [OptionalField(VersionAdded = 4)]
         private int _nbrPieds;
 
+        // ---------------------------------------- Exceptions --------------------------------------
+
+        [OptionalField(VersionAdded = 9)]
+        private ExceptionMots _excMots; // null si aucune exception n'a jamais été créée.
 
 
         // -------------------------------------------------------------------------------------------------------------------
@@ -296,6 +342,7 @@ namespace ColorLib
             }
             sylButtons[0].buttonClickable = true;
             nrSetButtons = 0;
+            _excMots = null;
             Reset();
             UndoFactory.EnableUndoRegistration();
         }
@@ -453,6 +500,7 @@ namespace ColorLib
             marquerMuettes = true;
             chercherDierese = true;
             nbrPieds = 0;
+            _excMots = null;
         }
 
         internal override void PostLoadInitOptionalFields()
@@ -506,6 +554,13 @@ namespace ColorLib
         {
             logger.ConditionalDebug("OnNbrPiedsModified");
             EventHandler eventHandler = NbrPiedsModified;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnExcMotsModified()
+        {
+            logger.ConditionalDebug("OnExcMotsModified");
+            EventHandler eventHandler = ExcMotsModified;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }
 
