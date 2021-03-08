@@ -38,6 +38,9 @@ namespace ColorizationControls
                 cbxArcs.Checked = gMots.arcs;
                 cbxMots.Checked = gMots.mots;
                 cbxSyllabes.Checked = gMots.syllabes;
+                cbxPhonemes.Checked = gMots.phonemes;
+                cbxLettres.Checked = gMots.lettres;
+                cbxVoyCons.Checked = gMots.voyCons;
             }
         }
 
@@ -48,15 +51,39 @@ namespace ColorizationControls
             ExcMots.arcs = cbxArcs.Checked;
             ExcMots.mots = cbxMots.Checked;
             ExcMots.syllabes = cbxSyllabes.Checked;
+            ExcMots.phonemes = cbxPhonemes.Checked;
+            ExcMots.lettres = cbxLettres.Checked;
+            ExcMots.voyCons = cbxVoyCons.Checked;
 
             ExcMots.exceptMots = new HashSet<string>();
             MatchCollection matches = TheText.rxWords.Matches(ExcMots.texte);
-            int i = 0;
             foreach (Match m in matches)
             {
                 ExcMots.exceptMots.Add(ExcMots.texte.Substring(m.Index, m.Length));
             }
             DialogResult = DialogResult.OK;
+        }
+
+        private void btnTrier_Click(object sender, EventArgs e)
+        {
+            string texte = textBox1.Text;
+            SortedSet<string> mots = new SortedSet<string>();
+            MatchCollection matches = TheText.rxWords.Matches(texte);
+            foreach (Match m in matches)
+            {
+                string mot = texte.Substring(m.Index, m.Length);
+                if (!mots.Contains(mot))
+                {
+                    mots.Add(mot);
+                }
+            }
+            StringBuilder sb = new StringBuilder(texte.Length);
+            foreach (string mot in mots)
+            {
+                sb.Append(mot);
+                sb.Append(" ");
+            }
+            textBox1.Text = sb.ToString();
         }
     }
 }

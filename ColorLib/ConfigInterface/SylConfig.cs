@@ -59,6 +59,15 @@ namespace ColorLib
         public bool syllabes;
         public bool mots;
         public bool arcs;
+
+        [OptionalField(VersionAdded = 10)]
+        public bool phonemes;
+
+        [OptionalField(VersionAdded = 10)]
+        public bool lettres;
+
+        [OptionalField(VersionAdded = 10)]
+        public bool voyCons;
     }
 
     /// <summary>
