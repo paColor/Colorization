@@ -52,6 +52,7 @@ namespace ColorLib
         /// Les mots contenus dans <c>texte</c>.
         /// </summary>
         public HashSet<string> exceptMots;
+        public HashSet<string> exceptMotsSyls;
 
         /// <summary>
         /// Les checkboxes
@@ -60,8 +61,6 @@ namespace ColorLib
         public bool mots;
         public bool arcs;
         public bool phonemes;
-        public bool lettres;
-        public bool voyCons;
     }
 
     /// <summary>

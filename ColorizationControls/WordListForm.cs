@@ -39,8 +39,6 @@ namespace ColorizationControls
                 cbxMots.Checked = gMots.mots;
                 cbxSyllabes.Checked = gMots.syllabes;
                 cbxPhonemes.Checked = gMots.phonemes;
-                cbxLettres.Checked = gMots.lettres;
-                cbxVoyCons.Checked = gMots.voyCons;
             }
         }
 
@@ -52,38 +50,47 @@ namespace ColorizationControls
             ExcMots.mots = cbxMots.Checked;
             ExcMots.syllabes = cbxSyllabes.Checked;
             ExcMots.phonemes = cbxPhonemes.Checked;
-            ExcMots.lettres = cbxLettres.Checked;
-            ExcMots.voyCons = cbxVoyCons.Checked;
 
-            ExcMots.exceptMots = new HashSet<string>();
             MatchCollection matches = TheText.rxWords.Matches(ExcMots.texte);
+
+            ExcMots.exceptMots = new HashSet<string>(matches.Count);
             foreach (Match m in matches)
             {
-                ExcMots.exceptMots.Add(ExcMots.texte.Substring(m.Index, m.Length));
+                ExcMots.exceptMots.Add(m.Value);
+            }
+
+            ExcMots.exceptMotsSyls = new HashSet<string>(matches.Count);
+            int i = 0;
+            while (i < matches.Count)
+            {
+                Match m = matches[i];
+                int beg = m.Index;
+                int end = beg + m.Length - 1;
+
+                //Voir commentaire su le traitement de l'apostrophe dans TheText.
+                if ((m.Length <= 2)
+                    && (end + 1 < ExcMots.texte.Length)
+                    && ((ExcMots.texte[end + 1] == '\'')
+                        || (ExcMots.texte[end + 1] == '’')
+                        || (m.Value == "t" && ExcMots.texte[end + 1] == '-')))
+                {
+                    if (i < matches.Count - 1)
+                    {
+                        Match nextMatch = matches[i + 1];
+                        end = nextMatch.Index + nextMatch.Length - 1;
+                        i++;
+                    }
+                    else
+                    {
+                        end++;
+                    }
+                }
+                string mot = ExcMots.texte.Substring(beg, end - beg + 1);
+                ExcMots.exceptMotsSyls.Add(mot);
+                i++;
             }
             DialogResult = DialogResult.OK;
         }
 
-        private void btnTrier_Click(object sender, EventArgs e)
-        {
-            string texte = textBox1.Text;
-            SortedSet<string> mots = new SortedSet<string>();
-            MatchCollection matches = TheText.rxWords.Matches(texte);
-            foreach (Match m in matches)
-            {
-                string mot = texte.Substring(m.Index, m.Length);
-                if (!mots.Contains(mot))
-                {
-                    mots.Add(mot);
-                }
-            }
-            StringBuilder sb = new StringBuilder(texte.Length);
-            foreach (string mot in mots)
-            {
-                sb.Append(mot);
-                sb.Append(" ");
-            }
-            textBox1.Text = sb.ToString();
-        }
     }
 }

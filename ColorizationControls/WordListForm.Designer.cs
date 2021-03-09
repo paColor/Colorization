@@ -39,22 +39,15 @@ namespace ColorizationControls
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.cbxMots = new System.Windows.Forms.CheckBox();
             this.cbxArcs = new System.Windows.Forms.CheckBox();
+            this.cbxPhonemes = new System.Windows.Forms.CheckBox();
             this.pictBoxSyllabes = new System.Windows.Forms.PictureBox();
             this.pictBoxMots = new System.Windows.Forms.PictureBox();
             this.pictBoxArcs = new System.Windows.Forms.PictureBox();
             this.pictBoxPhonemes = new System.Windows.Forms.PictureBox();
-            this.cbxPhonemes = new System.Windows.Forms.CheckBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.cbxLettres = new System.Windows.Forms.CheckBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.cbxVoyCons = new System.Windows.Forms.CheckBox();
-            this.btnTrier = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxSyllabes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxMots)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxArcs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxPhonemes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -152,6 +145,18 @@ namespace ColorizationControls
         "\r\n");
             this.cbxArcs.UseVisualStyleBackColor = true;
             // 
+            // cbxPhonemes
+            // 
+            this.cbxPhonemes.AutoSize = true;
+            this.cbxPhonemes.Location = new System.Drawing.Point(487, 162);
+            this.cbxPhonemes.Name = "cbxPhonemes";
+            this.cbxPhonemes.Size = new System.Drawing.Size(76, 17);
+            this.cbxPhonemes.TabIndex = 11;
+            this.cbxPhonemes.Text = "Phonèmes";
+            this.toolTip1.SetToolTip(this.cbxPhonemes, "Cocher pour que les mots de \r\nla liste ne soient pas colorisés par\r\nl\'outil \"Phon" +
+        "èmes\".");
+            this.cbxPhonemes.UseVisualStyleBackColor = true;
+            // 
             // pictBoxSyllabes
             // 
             this.pictBoxSyllabes.Image = global::ColorizationControls.Properties.Resources.syll_dys_16;
@@ -196,85 +201,12 @@ namespace ColorizationControls
             this.pictBoxPhonemes.TabIndex = 12;
             this.pictBoxPhonemes.TabStop = false;
             // 
-            // cbxPhonemes
-            // 
-            this.cbxPhonemes.AutoSize = true;
-            this.cbxPhonemes.Location = new System.Drawing.Point(487, 162);
-            this.cbxPhonemes.Name = "cbxPhonemes";
-            this.cbxPhonemes.Size = new System.Drawing.Size(76, 17);
-            this.cbxPhonemes.TabIndex = 11;
-            this.cbxPhonemes.Text = "Phonèmes";
-            this.toolTip1.SetToolTip(this.cbxPhonemes, "Cocher pour que les mots de \r\nla liste ne soient pas colorisés par\r\nl\'outil \"Phon" +
-        "èmes\".");
-            this.cbxPhonemes.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::ColorizationControls.Properties.Resources.bdpq_26;
-            this.pictureBox3.InitialImage = null;
-            this.pictureBox3.Location = new System.Drawing.Point(463, 253);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(16, 16);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 14;
-            this.pictureBox3.TabStop = false;
-            // 
-            // cbxLettres
-            // 
-            this.cbxLettres.AutoSize = true;
-            this.cbxLettres.Location = new System.Drawing.Point(487, 254);
-            this.cbxLettres.Name = "cbxLettres";
-            this.cbxLettres.Size = new System.Drawing.Size(58, 17);
-            this.cbxLettres.TabIndex = 13;
-            this.cbxLettres.Text = "Lettres";
-            this.toolTip1.SetToolTip(this.cbxLettres, "Cocher pour que les mots de \r\nla liste ne soient pas traités par\r\nl\'outil \"Lettre" +
-        "s\".");
-            this.cbxLettres.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = global::ColorizationControls.Properties.Resources.voycons_26;
-            this.pictureBox4.InitialImage = null;
-            this.pictureBox4.Location = new System.Drawing.Point(463, 276);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(16, 16);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox4.TabIndex = 16;
-            this.pictureBox4.TabStop = false;
-            // 
-            // cbxVoyCons
-            // 
-            this.cbxVoyCons.AutoSize = true;
-            this.cbxVoyCons.Location = new System.Drawing.Point(487, 277);
-            this.cbxVoyCons.Name = "cbxVoyCons";
-            this.cbxVoyCons.Size = new System.Drawing.Size(129, 17);
-            this.cbxVoyCons.TabIndex = 15;
-            this.cbxVoyCons.Text = "Voyelles / Consonnes";
-            this.toolTip1.SetToolTip(this.cbxVoyCons, "Cocher pour que les mots de \r\nla liste ne soient pas colorisés par\r\nl\'outil \"Voye" +
-        "lles / Consonnes\".\r\n");
-            this.cbxVoyCons.UseVisualStyleBackColor = true;
-            // 
-            // btnTrier
-            // 
-            this.btnTrier.Location = new System.Drawing.Point(500, 329);
-            this.btnTrier.Name = "btnTrier";
-            this.btnTrier.Size = new System.Drawing.Size(75, 23);
-            this.btnTrier.TabIndex = 17;
-            this.btnTrier.Text = "Trier";
-            this.btnTrier.UseVisualStyleBackColor = true;
-            this.btnTrier.Click += new System.EventHandler(this.btnTrier_Click);
-            // 
             // WordListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnAnnuler;
             this.ClientSize = new System.Drawing.Size(623, 450);
-            this.Controls.Add(this.btnTrier);
-            this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.cbxVoyCons);
-            this.Controls.Add(this.pictureBox3);
-            this.Controls.Add(this.cbxLettres);
             this.Controls.Add(this.pictBoxPhonemes);
             this.Controls.Add(this.cbxPhonemes);
             this.Controls.Add(this.pictBoxArcs);
@@ -299,8 +231,6 @@ namespace ColorizationControls
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxMots)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxArcs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxPhonemes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -322,10 +252,5 @@ namespace ColorizationControls
         private System.Windows.Forms.PictureBox pictBoxArcs;
         private System.Windows.Forms.PictureBox pictBoxPhonemes;
         private System.Windows.Forms.CheckBox cbxPhonemes;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.CheckBox cbxLettres;
-        private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.CheckBox cbxVoyCons;
-        private System.Windows.Forms.Button btnTrier;
     }
 }

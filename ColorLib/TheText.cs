@@ -647,7 +647,7 @@ namespace ColorLib
 
         /// <summary>
         /// Colors the letters in the text, according to the <see cref="PBDQConfig"/> <c>conf</c>,
-        ///i.e. fills <see cref="formatsMgmt"/>and makes sure that 
+        /// i.e. fills <see cref="formatsMgmt"/>and makes sure that 
         /// <see cref="SetChars(FormattedTextEl, Config)"/> is called for each <c>FormattedTextEl</c>.
         /// </summary>
         /// <remarks> <c>ProgressNotifier.thePN</c> must be started. Progress will be signalled
@@ -1191,7 +1191,12 @@ namespace ColorLib
         {
             logger.ConditionalDebug("FormatPhons");
             foreach (PhonWord pw in pws)
-                pw.ColorPhons(conf, pct);
+            {
+                if (!conf.sylConf.ExcMots.phonemes || !conf.sylConf.ExcMots.exceptMots.Contains(pw.GetWord()))
+                {
+                    pw.ColorPhons(conf, pct);
+                }
+            }
         }
 
         /// <summary>
@@ -1241,7 +1246,13 @@ namespace ColorLib
             logger.ConditionalDebug("ColorizeSyls");
             conf.sylConf.ResetCounter();
             foreach (PhonWord pw in pws)
-                pw.ColorizeSyls(conf);
+            {
+                if (!conf.sylConf.ExcMots.syllabes 
+                    || !conf.sylConf.ExcMots.exceptMotsSyls.Contains(pw.GetWord()))
+                {
+                    pw.ColorizeSyls(conf);
+                }
+            }
         }
 
         private void FormatArcs(List<PhonWord> pws, Config conf)
@@ -1249,7 +1260,13 @@ namespace ColorLib
             logger.ConditionalDebug("DrawArcs");
             conf.arcConf.ResetCounter();
             foreach (PhonWord pw in pws)
-                pw.FormatArcs(conf);
+            {
+                if (!conf.sylConf.ExcMots.arcs 
+                    || !conf.sylConf.ExcMots.exceptMotsSyls.Contains(pw.GetWord()))
+                {
+                    pw.FormatArcs(conf);
+                }
+            }
         }
 
         /// <summary>
@@ -1263,7 +1280,12 @@ namespace ColorLib
             logger.ConditionalDebug("FormatWords");
             conf.sylConf.ResetCounter();
             foreach (Word w in wL)
-                w.PutColor(conf);
+            {
+                if (!conf.sylConf.ExcMots.mots || !conf.sylConf.ExcMots.exceptMots.Contains(w.GetWord()))
+                {
+                    w.PutColor(conf);
+                }
+            }
         }
 
         /// <summary>
