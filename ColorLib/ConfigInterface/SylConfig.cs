@@ -59,14 +59,8 @@ namespace ColorLib
         public bool syllabes;
         public bool mots;
         public bool arcs;
-
-        [OptionalField(VersionAdded = 10)]
         public bool phonemes;
-
-        [OptionalField(VersionAdded = 10)]
         public bool lettres;
-
-        [OptionalField(VersionAdded = 10)]
         public bool voyCons;
     }
 
@@ -476,6 +470,8 @@ namespace ColorLib
         /// Réinitialise le compteur utilisé par <see cref="NextCF"/> pour retourner les formatages aletrnés. 
         /// Permet de s'assurer que la série retournée commence par le formatage du premier bouton.
         /// </summary>
+        /// <remarks><c>ExcMots</c> n'est pas réinitialisé. Il faut appeler une autre méthode pour
+        /// cela.</remarks>
         public void ResetCounter() => counter = 0;
 
         /// <summary>
@@ -497,6 +493,14 @@ namespace ColorLib
             chercherDierese = true;
             nbrPieds = 0; // Par défaut, mode automatique.
             UndoFactory.EndRecording();
+        }
+
+        /// <summary>
+        /// Réinitialise les exceptions à "aucune exception".
+        /// </summary>
+        public void ResetExceptionMots()
+        {
+            ExcMots = null;
         }
 
         // --------------------------------------- Serialization ----------------------------------

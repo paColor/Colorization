@@ -1223,6 +1223,7 @@ namespace ColorizationControls
                 theConf.sylConf.ExcMots = wlf.ExcMots;
             }
             wlf.Dispose();
+            tabControl1.Focus();
         }
 
         private void SylButtonModified(object sender, SylButtonModifiedEventArgs e)

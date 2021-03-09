@@ -640,6 +640,7 @@ namespace ColorLib
                 ccf.Reset();
             }
             sylConf.Reset();
+            sylConf.ResetExceptionMots();
             unsetBeh.Reset();
             arcConf.Reset();
             ponctConf.Reset();
