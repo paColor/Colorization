@@ -522,6 +522,8 @@ namespace ColorLib
                 && changeFontSize == changeFontSize
                 && contour == cf.contour
                 && serif == cf.serif
+                && drawArc == cf.drawArc
+                && removeArcs == cf.removeArcs
                 );
             if (changeColor)
                 toReturn = toReturn && color == cf.color;
@@ -529,6 +531,8 @@ namespace ColorLib
                 toReturn = toReturn && hilightColor == cf.hilightColor;
             if (changeFontSize)
                 toReturn = toReturn && percIncrFontSize == cf.percIncrFontSize;
+            if (drawArc)
+                toReturn = toReturn && arcColor == cf.arcColor;
 
             return toReturn;
         }

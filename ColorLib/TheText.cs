@@ -1192,7 +1192,9 @@ namespace ColorLib
             logger.ConditionalDebug("FormatPhons");
             foreach (PhonWord pw in pws)
             {
-                if (!conf.sylConf.ExcMots.phonemes || !conf.sylConf.ExcMots.exceptMots.Contains(pw.GetWord()))
+                if (conf.sylConf.ExcMots == null 
+                    || !conf.sylConf.ExcMots.phonemes 
+                    || !conf.sylConf.ExcMots.exceptMots.Contains(pw.GetWord()))
                 {
                     pw.ColorPhons(conf, pct);
                 }
@@ -1247,7 +1249,8 @@ namespace ColorLib
             conf.sylConf.ResetCounter();
             foreach (PhonWord pw in pws)
             {
-                if (!conf.sylConf.ExcMots.syllabes 
+                if (conf.sylConf.ExcMots == null
+                    || !conf.sylConf.ExcMots.syllabes 
                     || !conf.sylConf.ExcMots.exceptMotsSyls.Contains(pw.GetWord()))
                 {
                     pw.ColorizeSyls(conf);
@@ -1261,7 +1264,8 @@ namespace ColorLib
             conf.arcConf.ResetCounter();
             foreach (PhonWord pw in pws)
             {
-                if (!conf.sylConf.ExcMots.arcs 
+                if (conf.sylConf.ExcMots == null
+                    || !conf.sylConf.ExcMots.arcs 
                     || !conf.sylConf.ExcMots.exceptMotsSyls.Contains(pw.GetWord()))
                 {
                     pw.FormatArcs(conf);
@@ -1281,7 +1285,9 @@ namespace ColorLib
             conf.sylConf.ResetCounter();
             foreach (Word w in wL)
             {
-                if (!conf.sylConf.ExcMots.mots || !conf.sylConf.ExcMots.exceptMots.Contains(w.GetWord()))
+                if (conf.sylConf.ExcMots == null
+                    || !conf.sylConf.ExcMots.mots 
+                    || !conf.sylConf.ExcMots.exceptMots.Contains(w.GetWord()))
                 {
                     w.PutColor(conf);
                 }

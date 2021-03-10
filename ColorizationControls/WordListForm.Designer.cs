@@ -59,7 +59,7 @@ namespace ColorizationControls
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox1.Size = new System.Drawing.Size(427, 426);
-            this.textBox1.TabIndex = 0;
+            this.textBox1.TabIndex = 6;
             // 
             // btnOK
             // 
@@ -69,7 +69,7 @@ namespace ColorizationControls
             this.btnOK.Name = "btnOK";
             this.btnOK.Padding = new System.Windows.Forms.Padding(0, 0, 6, 0);
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 1;
+            this.btnOK.TabIndex = 0;
             this.btnOK.Text = "Valider";
             this.btnOK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnOK.UseVisualStyleBackColor = true;
@@ -84,7 +84,7 @@ namespace ColorizationControls
             this.btnAnnuler.Name = "btnAnnuler";
             this.btnAnnuler.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
-            this.btnAnnuler.TabIndex = 2;
+            this.btnAnnuler.TabIndex = 1;
             this.btnAnnuler.Text = "Annuler";
             this.btnAnnuler.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAnnuler.UseVisualStyleBackColor = true;
@@ -96,7 +96,7 @@ namespace ColorizationControls
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(146, 39);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Choicissez ci-dessous quels\r\noutils ne doivent pas coloriser\r\nles mots de la list" +
+            this.label1.Text = "Choisissez ci-dessous quels\r\noutils ne doivent pas coloriser\r\nles mots de la list" +
     "e.";
             // 
             // label2
@@ -115,7 +115,7 @@ namespace ColorizationControls
             this.cbxSyllabes.Location = new System.Drawing.Point(487, 185);
             this.cbxSyllabes.Name = "cbxSyllabes";
             this.cbxSyllabes.Size = new System.Drawing.Size(65, 17);
-            this.cbxSyllabes.TabIndex = 5;
+            this.cbxSyllabes.TabIndex = 3;
             this.cbxSyllabes.Text = "Syllabes";
             this.toolTip1.SetToolTip(this.cbxSyllabes, "Cocher pour que les mots de \r\nla liste ne soient pas colorisés par\r\nl\'outil \"Syll" +
         "abes\".");
@@ -127,7 +127,7 @@ namespace ColorizationControls
             this.cbxMots.Location = new System.Drawing.Point(487, 231);
             this.cbxMots.Name = "cbxMots";
             this.cbxMots.Size = new System.Drawing.Size(49, 17);
-            this.cbxMots.TabIndex = 6;
+            this.cbxMots.TabIndex = 5;
             this.cbxMots.Text = "Mots";
             this.toolTip1.SetToolTip(this.cbxMots, "Cocher pour que les mots de \r\nla liste ne soient pas colorisés par\r\nl\'outil \"Mots" +
         "\".");
@@ -139,7 +139,7 @@ namespace ColorizationControls
             this.cbxArcs.Location = new System.Drawing.Point(487, 208);
             this.cbxArcs.Name = "cbxArcs";
             this.cbxArcs.Size = new System.Drawing.Size(47, 17);
-            this.cbxArcs.TabIndex = 7;
+            this.cbxArcs.TabIndex = 4;
             this.cbxArcs.Text = "Arcs";
             this.toolTip1.SetToolTip(this.cbxArcs, "Cocher pour que les mots de \r\nla liste ne soient pas traités par\r\nl\'outil \"Arcs\"." +
         "\r\n");
@@ -151,7 +151,7 @@ namespace ColorizationControls
             this.cbxPhonemes.Location = new System.Drawing.Point(487, 162);
             this.cbxPhonemes.Name = "cbxPhonemes";
             this.cbxPhonemes.Size = new System.Drawing.Size(76, 17);
-            this.cbxPhonemes.TabIndex = 11;
+            this.cbxPhonemes.TabIndex = 2;
             this.cbxPhonemes.Text = "Phonèmes";
             this.toolTip1.SetToolTip(this.cbxPhonemes, "Cocher pour que les mots de \r\nla liste ne soient pas colorisés par\r\nl\'outil \"Phon" +
         "èmes\".");

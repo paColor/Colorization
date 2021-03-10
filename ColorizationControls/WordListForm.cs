@@ -54,13 +54,29 @@ namespace ColorizationControls
             MatchCollection matches = TheText.rxWords.Matches(ExcMots.texte);
 
             ExcMots.exceptMots = new HashSet<string>(matches.Count);
-            foreach (Match m in matches)
+            int i = 0;
+            while (i < matches.Count)
             {
-                ExcMots.exceptMots.Add(m.Value);
+                Match m = matches[i];
+                int beg = m.Index;
+                int end = beg + m.Length - 1;
+
+                //Voir commentaire su le traitement de l'apostrophe dans TheText.
+                if ((m.Length <= 2)
+                    && (end + 1 < ExcMots.texte.Length)
+                    && ((ExcMots.texte[end + 1] == '\'')
+                        || (ExcMots.texte[end + 1] == '’')
+                        || (m.Value == "t" && ExcMots.texte[end + 1] == '-')))
+                {
+                    end++;
+                }
+                string mot = ExcMots.texte.Substring(beg, end - beg + 1);
+                ExcMots.exceptMots.Add(mot);
+                i++;
             }
 
             ExcMots.exceptMotsSyls = new HashSet<string>(matches.Count);
-            int i = 0;
+            i = 0;
             while (i < matches.Count)
             {
                 Match m = matches[i];
