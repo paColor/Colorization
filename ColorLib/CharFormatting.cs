@@ -540,15 +540,17 @@ namespace ColorLib
         public override int GetHashCode()
         {
             int hashCode = 0;
-            hashCode = hashCode + (256 * Convert.ToInt32(bold));
-            hashCode = hashCode + (128 * Convert.ToInt32(italic));
-            hashCode = hashCode + ( 64 * Convert.ToInt32(underline));
-            hashCode = hashCode + ( 32 * Convert.ToInt32(caps));
-            hashCode = hashCode + ( 16 * Convert.ToInt32(changeColor));
-            hashCode = hashCode + (  8 * Convert.ToInt32(changeHilight));
-            hashCode = hashCode + (  4 * Convert.ToInt32(changeFontSize));
-            hashCode = hashCode + (  2 * Convert.ToInt32(contour));
-            hashCode = hashCode + (  1 * Convert.ToInt32(serif));
+            hashCode = hashCode + (1024 * Convert.ToInt32(removeArcs));
+            hashCode = hashCode + ( 512 * Convert.ToInt32(drawArc));
+            hashCode = hashCode + ( 256 * Convert.ToInt32(bold));
+            hashCode = hashCode + ( 128 * Convert.ToInt32(italic));
+            hashCode = hashCode + (  64 * Convert.ToInt32(underline));
+            hashCode = hashCode + (  32 * Convert.ToInt32(caps));
+            hashCode = hashCode + (  16 * Convert.ToInt32(changeColor));
+            hashCode = hashCode + (   8 * Convert.ToInt32(changeHilight));
+            hashCode = hashCode + (   4 * Convert.ToInt32(changeFontSize));
+            hashCode = hashCode + (   2 * Convert.ToInt32(contour));
+            hashCode = hashCode + (   1 * Convert.ToInt32(serif));
             hashCode = hashCode << 20;
 
             if (changeColor)
@@ -559,6 +561,8 @@ namespace ColorLib
             hashCode = hashCode << 1;
             if (changeFontSize)
                 hashCode = hashCode ^ percIncrFontSize.GetHashCode();
+            if (drawArc)
+                hashCode = hashCode ^ arcColor.GetHashCode();
 
             return hashCode;
         }
