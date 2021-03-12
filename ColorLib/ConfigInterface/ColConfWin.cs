@@ -638,6 +638,7 @@ namespace ColorLib
 
             Reset();
             UndoFactory.EnableUndoRegistration();
+            logger.ConditionalTrace("EXIT ColConfWin Constructor for {0}", inPct);
         }
 
         /// <summary>
@@ -665,6 +666,7 @@ namespace ColorLib
                     break;
             }
             UndoFactory.EndRecording();
+            logger.ConditionalTrace("EXIT Reset");
         }
 
 
@@ -729,6 +731,7 @@ namespace ColorLib
             SetChkSon(son, true);
             SetCFSon(son, cf);
             UndoFactory.EndRecording();
+            logger.ConditionalTrace("EXIT SetCbxAndCF, son: {0}", son);
         }
 
         /// <summary>
@@ -743,6 +746,7 @@ namespace ColorLib
             SetChkSon(son, false);
             SetCFSon(son, CharFormatting.BlackCF);
             UndoFactory.EndRecording();
+            logger.ConditionalTrace("ClearSon");
         }
 
         /// <summary>
@@ -755,6 +759,7 @@ namespace ColorLib
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
                 SetChkSon(k.Key, true);
             UndoFactory.EndRecording();
+            logger.ConditionalTrace("EXIT SetAllCbxSons");
         }
 
         /// <summary>
@@ -767,6 +772,7 @@ namespace ColorLib
             foreach (KeyValuePair<string, List<Phonemes>> k in sonMap)
                 SetChkSon(k.Key, false);
             UndoFactory.EndRecording();
+            logger.ConditionalTrace("EXIT ClearAllCbxSons");
         }
 
         /// <summary>
@@ -829,6 +835,7 @@ namespace ColorLib
 
             CleanAllSonsBut(cerasSons);
             UndoFactory.EndRecording();
+            logger.ConditionalTrace("EXIT SetCeras");
         }
 
         /// <summary>
@@ -855,6 +862,7 @@ namespace ColorLib
 
             IllRuleToUse = IllRule.ceras;
             UndoFactory.EndRecording();
+            logger.ConditionalTrace("EXIT SetCerasRose");
         }
 
         /// <summary>
@@ -869,6 +877,7 @@ namespace ColorLib
         /// </exception>
         public void SetCFSon(string son, CharFormatting cf)
         {
+            logger.ConditionalDebug("SetCFSon {0} to {1}", son, cf);
             if (cf == null)
             {
                 logger.Fatal("CharFormatting null passé à SetCFSon");
@@ -896,6 +905,7 @@ namespace ColorLib
                     Set(p, cf);
                 OnSonCharFormattingModified(new SonConfigModifiedEventArgs(son, pct));
             }
+            logger.ConditionalTrace("EXIT SetCFSon {0} to {1}", son, cf);
         }
 
         /// <summary>
@@ -909,6 +919,7 @@ namespace ColorLib
         /// </exception>
         public void SetChkSon(string son, bool checkVal)
         {
+            logger.ConditionalDebug("SetChkSon {0} to {1}", son, checkVal);
             if (son == null)
             {
                 logger.Fatal("son null passé à SetCFSon");
@@ -930,6 +941,7 @@ namespace ColorLib
                     chkPhon[(int)p] = checkVal;
                 OnSonCBModified(new SonConfigModifiedEventArgs(son, pct));
             }
+            logger.ConditionalTrace("EXIT SetChkSon {0} to {1}", son, checkVal);
         }
 
         // ---------------------------------------------------  Default Behaviour  ------------------------------------------------------
@@ -971,6 +983,7 @@ namespace ColorLib
                 }
                 OnDefBehModified(pct);
             }
+            logger.ConditionalTrace("EXIT SetDefaultBehaviourTo {0}", val);
         }
 
         // -------------------------------------------------------------------------------------------------------------------
@@ -1059,6 +1072,7 @@ namespace ColorLib
                 }
             }
             UndoFactory.EndRecording();
+            logger.ConditionalTrace("EXIT CleanAllSons");
         }
 
         private void InitColorMuettes()
@@ -1070,6 +1084,7 @@ namespace ColorLib
             SetCbxAndCF("_muet", cerasCF[(int)CERASColor.CERAS_muet]);
             CleanAllSonsBut(sonsMuettes);
             UndoFactory.EndRecording();
+            logger.ConditionalTrace("EXIT InitColorMuettes");
         }
 
         [OnDeserializing()]
@@ -1080,6 +1095,7 @@ namespace ColorLib
             flags[(int)RuleFlag.IllLireCouleur] = false; // config par défaut
             defBeh = DefBeh.transparent;
             defChF = CharFormatting.NeutralCF;
+            logger.ConditionalTrace("EXIT SetOptionalFieldsToDefaultVal");
         }
 
 
@@ -1090,6 +1106,7 @@ namespace ColorLib
             logger.ConditionalDebug("OnSonCharFormattingModified e.son: \'{0}\', e.pct: {1}", e.son, e.pct);
             EventHandler<SonConfigModifiedEventArgs> eventHandler = SonCharFormattingModifiedEvent;
             eventHandler?.Invoke(this, e);
+            logger.ConditionalTrace("EXIT OnSonCharFormattingModified e.son: \'{0}\', e.pct: {1}", e.son, e.pct);
         }
 
         protected virtual void OnSonCBModified(SonConfigModifiedEventArgs e)
@@ -1097,6 +1114,7 @@ namespace ColorLib
             logger.ConditionalDebug("OnSonCBModified e.son: \'{0}\', e.pct: {1}", e.son, e.pct);
             EventHandler<SonConfigModifiedEventArgs> eventHandler = SonCBModifiedEvent;
             eventHandler?.Invoke(this, e);
+            logger.ConditionalTrace("EXIT OnSonCBModified e.son: \'{0}\', e.pct: {1}", e.son, e.pct);
         }
 
         protected virtual void OnIllModified(PhonConfType inPCT)
@@ -1104,6 +1122,7 @@ namespace ColorLib
             logger.ConditionalDebug("OnIllModified");
             EventHandler<PhonConfModifiedEventArgs> eventHandler = IllModifiedEvent;
             eventHandler?.Invoke(this, new PhonConfModifiedEventArgs(inPCT));
+            logger.ConditionalTrace("EXIT OnIllModified");
         }
 
         protected virtual void OnDefBehModified(PhonConfType inPCT)
@@ -1111,6 +1130,7 @@ namespace ColorLib
             logger.ConditionalDebug("OnDefBehModified");
             EventHandler<PhonConfModifiedEventArgs> eventHandler = DefBehModifiedEvent;
             eventHandler?.Invoke(this, new PhonConfModifiedEventArgs(inPCT));
+            logger.ConditionalTrace("EXIT OnDefBehModified");
         }
     }
 }

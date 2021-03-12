@@ -2,6 +2,7 @@
 using ColorLib;
 using ColorLibTest.ConfigTest;
 using System;
+using NLog;
 
 namespace ColorLibTest.Undo
 {
@@ -12,14 +13,30 @@ namespace ColorLibTest.Undo
         public static void MyClassInitialize(TestContext testContext)
         {
             TheText.Init();
-            InitNLog.StartNLog();
+            //InitNLog.StartNLog();
+            NLog.LogManager.Setup().SetupExtensions(s => s.AutoLoadAssemblies(false));
+            var nLogConfig = LogManager.Configuration;
+            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+            logconsole.Layout = "${longdate} ${uppercase:${level}} ${logger} ${message}";
+            nLogConfig.AddRule(LogLevel.Debug, LogLevel.Fatal, logconsole);  // everything equal or higher than Debug
+            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, logconsole, "ColorLib.UndoFactory*");
+            nLogConfig.AddRule(LogLevel.Trace, LogLevel.Trace, logconsole, "ColorLib.ColConfWin*");
+            LogManager.Configuration = nLogConfig;
         }
 
         // Use ClassCleanup to run code after all tests in a class have run
         [ClassCleanup()]
         public static void MyClassCleanup()
         {
-            InitNLog.CloseNLog();
+            // InitNLog.CloseNLog();
+            NLog.LogManager.Shutdown();
+        }
+
+        // Use TestInitialize to run code before running each test 
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            UndoFactory.Clear();
         }
 
         [TestMethod]

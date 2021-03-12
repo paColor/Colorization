@@ -20,7 +20,7 @@ namespace ColorLib
         /// <summary>
         /// si > 0 aucune action n'est enregistrée pour un possible undo. 
         /// </summary>
-        private static int disableRegistering;
+        private static int disableRegistering = 0;
 
         /// <summary>
         /// Indique si on est en train d'exécuter un undo. Dans ce cas, il ne faut pas
@@ -60,6 +60,7 @@ namespace ColorLib
         /// <see cref="EnableUndoRegistration"/> doit correspondre à un <c>Disable</c></remarks>
         public static void DisableUndoRegistration()
         {
+            logger.ConditionalTrace("DisableUndoRegistration");
             disableRegistering++;
         }
 
@@ -69,6 +70,7 @@ namespace ColorLib
         /// </summary>
         public static void EnableUndoRegistration()
         {
+            logger.ConditionalTrace("EnableUndoRegistration");
             disableRegistering--;
             Debug.Assert(disableRegistering >= 0);
         }
@@ -79,7 +81,8 @@ namespace ColorLib
         /// <param name="act">L'action exécutée.</param>
         public static void ExceutingAction(CLAction act)
         {
-            logger.ConditionalTrace("ExceutingAction {0}, undoing: {1}", act.Name, undoing);
+            logger.ConditionalTrace("ExceutingAction {0}, undoing: {1}, disableRegistering: {2}",
+                act.Name, undoing, disableRegistering);
             if (!undoing && disableRegistering == 0)
             {
                 if (actList != null)
@@ -136,18 +139,22 @@ namespace ColorLib
         /// <param name="name">Le nom de l'action groupée.</param>
         public static void StartRecording(string name)
         {
-            logger.ConditionalTrace("StartRecording {0}, undoing: {1}", name, undoing);
+            logger.ConditionalTrace("StartRecording {0}, undoing: {1}, disableRegistering: {2}", 
+                name, undoing, disableRegistering);
+            logger.ConditionalTrace("    recDepth on entry: {0}", recDepth);
             if (!undoing && disableRegistering == 0)
             {
                 if (actList != null)
                 {
                     recDepth++;
+                    logger.ConditionalTrace("    recDepth incremented to {0}", recDepth);
                 }
                 else
                 {
                     actList = new CLActionList(name);
                 }
             }
+
         }
 
         /// <summary>
@@ -156,7 +163,8 @@ namespace ColorLib
         /// </summary>
         public static void EndRecording()
         {
-            logger.ConditionalTrace("EndRecording depth: {0} undoing: {1}", recDepth, undoing);
+            logger.ConditionalTrace("EndRecording depth: {0} undoing: {1}, disableRegistering: {2}",
+                recDepth, undoing, disableRegistering);
             if (!undoing && disableRegistering == 0)
             {
                 if (actList != null)
@@ -179,12 +187,23 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Efface la mémoire des actions effectuées.
+        /// Efface la mémoire des actions effectuées. 
         /// </summary>
+        /// <remarks>
+        /// Attention ne doit pas être appelé à l'intérieur d'un couple 
+        /// <see cref="StartRecording"/> <see cref="EndRecording"/> ou d'un couple 
+        /// <see cref="DisableUndoRegistration"/> <see cref="EnableUndoRegistration"/>.
+        /// </remarks>
         public static void Clear()
         {
+            logger.ConditionalTrace("Clear");
             undoStack.Clear();
             redoStack.Clear();
+            actList = null;
+            recDepth = 0;
+            disableRegistering = 0;
+            undoing = false;
+            redoing = false;
         }
 
         private static void PushUndoAct(CLAction act)
