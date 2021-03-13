@@ -165,7 +165,7 @@ namespace ColorLib
         /// Décalage en points des arcs par rapport au texte souligné. Une valeur positive éloigne
         /// du texte, une valeur négative rapproche.
         /// </summary>
-        public float Decalage // en pourcents
+        public float Decalage
         {
             get
             {

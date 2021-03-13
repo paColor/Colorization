@@ -665,6 +665,7 @@ namespace ColorLib
                 default:
                     break;
             }
+            SetDefaultBehaviourTo(DefBeh.transparent);
             UndoFactory.EndRecording();
             logger.ConditionalTrace("EXIT Reset");
         }

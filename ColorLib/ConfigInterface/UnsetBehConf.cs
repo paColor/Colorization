@@ -59,7 +59,7 @@ namespace ColorLib
     /// admises sont:
     /// <code>
     /// { "Bold",       Ucbx.bold },
-    /// { "Italic",     Ucbx.},
+    /// { "Italic",     Ucbx.italic},
     /// { "Underline",  Ucbx.underline },
     /// { "Color",      Ucbx.color },
     /// { "Hilight",    Ucbx.hilight },

@@ -136,7 +136,7 @@ namespace ColorLib
         // ----------------------------------------------  Public Members ---------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
 
-        /// <value>Indique si les </value>
+        /// <value>Indique si les doubles consonnes doivent être séparées entre ou avant elles. </value>
         public bool DoubleConsStd
         {
             get

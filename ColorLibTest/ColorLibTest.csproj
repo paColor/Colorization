@@ -88,7 +88,7 @@
     <Compile Include="TestMorphalou.cs" />
     <Compile Include="TransformWordLists.cs" />
     <Compile Include="Undo\TestActionStack.cs" />
-    <Compile Include="Undo\UndoTests1.cs" />
+    <Compile Include="Undo\UndoTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">
