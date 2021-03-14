@@ -89,6 +89,7 @@
     <Compile Include="TransformWordLists.cs" />
     <Compile Include="Undo\TestActionStack.cs" />
     <Compile Include="Undo\UndoTests.cs" />
+    <Compile Include="ExcMotsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">

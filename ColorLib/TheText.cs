@@ -494,8 +494,8 @@ namespace ColorLib
         /// <para>- Sera considéré comme un espace pour la colorisation des majsucules après le
         /// point.</para>
         /// </remarks>
-        protected const string empty = "͢";
 
+        protected const string empty = @" ";
 
         // ****************************************************************************************
         // *                                    private members                                   *

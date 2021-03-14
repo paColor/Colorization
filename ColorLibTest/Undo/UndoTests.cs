@@ -458,7 +458,7 @@ namespace ColorLibTest.Undo
         {
             var sc = new SylConfig();
             Assert.IsNull(sc.ExcMots);
-            var exc1 = new ExceptionMots();
+            var exc1 = new ExceptionMots("le");
             sc.ExcMots = exc1;
             Assert.AreEqual(exc1, sc.ExcMots);
             UndoFactory.UndoLastAction();
@@ -469,7 +469,7 @@ namespace ColorLibTest.Undo
             Assert.IsNull(sc.ExcMots);
             UndoFactory.UndoLastAction();
             Assert.AreEqual(exc1, sc.ExcMots);
-            var exc2 = new ExceptionMots();
+            var exc2 = new ExceptionMots("le");
             sc.ExcMots = exc2;
             Assert.AreEqual(exc2, sc.ExcMots);
             UndoFactory.UndoLastAction();
@@ -543,7 +543,33 @@ namespace ColorLibTest.Undo
             Assert.AreEqual(dc2, c.duoConf);
             UndoFactory.RedoLastCanceledAction();
             Assert.AreEqual(dc3, c.duoConf);
+        }
 
+        private Config previousConf;
+        private Config newConf;
+
+        private void ConfigReplacedHandler(Object sender, ConfigReplacedEventArgs e)
+        {
+            previousConf = sender as Config;
+            newConf = e.newConfig;
+        }
+
+        [TestMethod]
+        public void TestConfig_2()
+        {
+            Config c1 = new Config();
+            c1.ConfigReplacedEvent += ConfigReplacedHandler;
+            Config c2 = new Config();
+            c2.ConfigReplacedEvent += ConfigReplacedHandler;
+            c1.OnConfigReplaced(c2);
+            Assert.AreEqual(c1, previousConf);
+            Assert.AreEqual(c2, newConf);
+            UndoFactory.UndoLastAction();
+            Assert.AreEqual(c2, previousConf);
+            Assert.AreEqual(c1, newConf);
+            UndoFactory.RedoLastCanceledAction();
+            Assert.AreEqual(c1, previousConf);
+            Assert.AreEqual(c2, newConf);
         }
     }
 }

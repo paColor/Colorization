@@ -29,6 +29,7 @@ using ColorizationControls;
 using System.Windows.Forms;
 using NLog;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace ColorizationWord
 {
@@ -259,57 +260,98 @@ namespace ColorizationWord
                 {
                     if (cf.drawArc)
                     {
-                        int pageNr = toR.Information[WdInformation.wdActiveEndPageNumber];
-                        logger.ConditionalTrace("Page Number {0}", pageNr);
-                        if (lastPage == 0)
+                        // Let's get rid of any special char before and after the effective text.
+                        // We could possibly do that for each case, but arcs seems to be the only
+                        // one requesting it, in the other cases, setting a color to an undisplayed
+                        // character does not really matter.
+
+                        Range ran = toR.Duplicate;
+                        MatchCollection matches = TheText.rxWords.Matches(ran.Text);
+                        if (matches.Count > 0)
                         {
-                            lastPage = pageNr;
-                        }
-                        else if (pageNr > lastPage)
-                        {
-                            lastPage = pageNr;
-                            toR.Select();
-                        }
+                            // beg and end are zero based in ran.Text
+                            // beg is the first character in a word, end - 1 is the last character
+                            // in a word.
+                            string texte = ran.Text;
+                            int beg = matches[0].Index;
+                            Match m = matches[matches.Count - 1];
+                            int end = m.Index + m.Length; //char after the match so that end-beg == length
 
-                        _ = toR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
-                        // Ne me demandez pas pourquoi il faut le faire deux fois... Mais seul le
-                        // 2e appel donne le bon résultat... PAE 06.02.2021
+                            // Il peut semble-t-il arriver que des caractères spéciaux se trouvent au début de Text et
+                            // qu'ils soient comptés différemment pour Start que pour Text... Probablement qqch à voir
+                            // avec UTF-8 vs. UTF-16 ou un truc du genre...
 
-                        float x0 = toR.Information[WdInformation.wdHorizontalPositionRelativeToPage];
-                        float y0 = toR.Information[WdInformation.wdVerticalPositionRelativeToPage];
-                        float fontHeight = toR.Font.Size;
-                        y0 += fontHeight;
-                        y0 += inConf.arcConf.Decalage;
-                        float lineheight = toR.ParagraphFormat.LineSpacing;
-                        float h = (inConf.arcConf.Hauteur/100.0f) * 
-                            (float)Math.Sqrt(20.0f*(Math.Max(1, lineheight - fontHeight)));
+                            // On corrige donc beg pour qu'il corresponde bien au premier caractère voulu. end doit
+                            // aussi être corrigé, le cas échéant. 
 
-                        
-                        Range endPosition = toR.Duplicate;
-                        endPosition.Collapse(WdCollapseDirection.wdCollapseEnd);
-                        float x1 = endPosition.Information[WdInformation.wdHorizontalPositionRelativeToPage];
-                        float w = x1 - x0; // width
+                            string wishedChar = texte.Substring(beg, 1);
+                            int i = 0;
+                            foreach(Range c in ran.Characters)
+                            {
+                                if (c.Text == wishedChar)
+                                {
+                                    break;
+                                }
+                                i++;
+                            }
+                            Debug.Assert(i < ran.Characters.Count);
+                            int delta = beg - i;
+                            beg = i;
+                            end = end - delta;
 
-                        float[,] thePoints0 = new float[4, 2]
-                        {
+                            ran.SetRange(ran.Start + beg, ran.Start + end);
+
+                            int pageNr = ran.Information[WdInformation.wdActiveEndPageNumber];
+                            logger.ConditionalTrace("Page Number {0}", pageNr);
+                            if (lastPage == 0)
+                            {
+                                lastPage = pageNr;
+                            }
+                            else if (pageNr > lastPage)
+                            {
+                                lastPage = pageNr;
+                                ran.Select();
+                            }
+
+                            _ = ran.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                            // Ne me demandez pas pourquoi il faut le faire deux fois... Mais seul le
+                            // 2e appel donne le bon résultat... PAE 06.02.2021
+
+                            float x0 = ran.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                            float y0 = ran.Information[WdInformation.wdVerticalPositionRelativeToPage];
+                            float fontHeight = ran.Font.Size;
+                            y0 += fontHeight;
+                            y0 += inConf.arcConf.Decalage;
+                            float lineheight = ran.ParagraphFormat.LineSpacing;
+                            float h = (inConf.arcConf.Hauteur / 100.0f) *
+                                (float)Math.Sqrt(20.0f * (Math.Max(1, lineheight - fontHeight)));
+
+
+                            Range endPosition = ran.Duplicate;
+                            endPosition.Collapse(WdCollapseDirection.wdCollapseEnd);
+                            float x1 = endPosition.Information[WdInformation.wdHorizontalPositionRelativeToPage];
+                            float w = x1 - x0; // width
+
+                            float[,] thePoints0 = new float[4, 2]
+                            {
                             { x0, y0 },
                             { x0 + (((float)(100 - inConf.arcConf.Ecartement) / 200.0f) * w), y0 + h },
                             { x0 + (((float)(100 + inConf.arcConf.Ecartement) / 200.0f) * w), y0 + h },
                             { x1, y0 },
-                        };
+                            };
 
-                        Shape s =
-                            ColorizationMSW.thisAddIn.Application.ActiveDocument.Shapes.AddCurve(
-                            thePoints0);
-                        s.Line.ForeColor.RGB = cf.arcColor;
-                        s.Line.Weight = inConf.arcConf.Epaisseur;
-                        s.Name = "arc";
+                            Shape s =
+                                ColorizationMSW.thisAddIn.Application.ActiveDocument.Shapes.AddCurve(
+                                thePoints0);
+                            s.Line.ForeColor.RGB = cf.arcColor;
+                            s.Line.Weight = inConf.arcConf.Epaisseur;
+                            s.Name = "arc";
 
-                        if (s.Anchor.Start <= toR.End)
-                        {
-                            nrArcs++;
+                            if (s.Anchor.Start <= ran.End)
+                            {
+                                nrArcs++;
+                            }
                         }
-                            
                     }
                 }
                 catch (Exception e)
@@ -393,7 +435,8 @@ namespace ColorizationWord
             }
             rgeWork.SetRange(rgStart + nrArcs + fte.First, 
                 rgStart + nrArcs + fte.Last + 1); // End doit pointer sur le caractère qui suit le range...
-            ApplyCFToRange(fte.cf, rgeWork, conf);
+            if (fte.ToString() != empty || rgeWork.Text == empty)
+                ApplyCFToRange(fte.cf, rgeWork, conf);
         }
 
         /// <summary>
@@ -464,7 +507,7 @@ namespace ColorizationWord
         /// <param name="mChL">Out: La liste des cas spéciaux rencontrés.</param>
         /// <returns></returns>
         private static string GetStringFor(Range rge, out List<MultipleCharInfo> mChL)
-            // dans le cas où il a un objet attaché au texte, il y a un caractère pour marquer l'ancrage.
+            // dans le cas où il y a un objet attaché au texte, il y a un caractère pour marquer l'ancrage.
             // ce caractère n'est pas dans "Text". On le construit donc ici avec un caractère "vide" à la 
             // place du caractère spécial.
         {         
@@ -496,7 +539,7 @@ namespace ColorizationWord
         }
 
         /// <summary>
-        /// Calcule la position dasn <c>S</c> de la position <paramref name="rangePos"/> dans <c>range</c>.
+        /// Calcule la position dans <c>S</c> de la position <paramref name="rangePos"/> dans <c>range</c>.
         /// Condition: <c>rangePos</c> se situe dans <c>range</c>.
         /// </summary>
         /// <param name="rangePos">La position dans <c>range</c>.</param>

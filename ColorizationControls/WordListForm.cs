@@ -44,67 +44,11 @@ namespace ColorizationControls
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            ExcMots = new ExceptionMots();
-            ExcMots.texte = textBox1.Text;
+            ExcMots = new ExceptionMots(textBox1.Text);
             ExcMots.arcs = cbxArcs.Checked;
             ExcMots.mots = cbxMots.Checked;
             ExcMots.syllabes = cbxSyllabes.Checked;
             ExcMots.phonemes = cbxPhonemes.Checked;
-
-            MatchCollection matches = TheText.rxWords.Matches(ExcMots.texte);
-
-            ExcMots.exceptMots = new HashSet<string>(matches.Count);
-            int i = 0;
-            while (i < matches.Count)
-            {
-                Match m = matches[i];
-                int beg = m.Index;
-                int end = beg + m.Length - 1;
-
-                //Voir commentaire su le traitement de l'apostrophe dans TheText.
-                if ((m.Length <= 2)
-                    && (end + 1 < ExcMots.texte.Length)
-                    && ((ExcMots.texte[end + 1] == '\'')
-                        || (ExcMots.texte[end + 1] == '’')
-                        || (m.Value == "t" && ExcMots.texte[end + 1] == '-')))
-                {
-                    end++;
-                }
-                string mot = ExcMots.texte.Substring(beg, end - beg + 1);
-                ExcMots.exceptMots.Add(mot);
-                i++;
-            }
-
-            ExcMots.exceptMotsSyls = new HashSet<string>(matches.Count);
-            i = 0;
-            while (i < matches.Count)
-            {
-                Match m = matches[i];
-                int beg = m.Index;
-                int end = beg + m.Length - 1;
-
-                //Voir commentaire su le traitement de l'apostrophe dans TheText.
-                if ((m.Length <= 2)
-                    && (end + 1 < ExcMots.texte.Length)
-                    && ((ExcMots.texte[end + 1] == '\'')
-                        || (ExcMots.texte[end + 1] == '’')
-                        || (m.Value == "t" && ExcMots.texte[end + 1] == '-')))
-                {
-                    if (i < matches.Count - 1)
-                    {
-                        Match nextMatch = matches[i + 1];
-                        end = nextMatch.Index + nextMatch.Length - 1;
-                        i++;
-                    }
-                    else
-                    {
-                        end++;
-                    }
-                }
-                string mot = ExcMots.texte.Substring(beg, end - beg + 1);
-                ExcMots.exceptMotsSyls.Add(mot);
-                i++;
-            }
             DialogResult = DialogResult.OK;
         }
 

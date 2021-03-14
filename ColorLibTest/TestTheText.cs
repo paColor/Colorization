@@ -188,8 +188,25 @@ namespace ColorLibTest
         private const int LineLength = 100;
 
         /// <summary>
+        /// Retourne une configuration par défaut où chaque son a un CharFormatting différent.
+        /// </summary>
+        /// <returns></returns>
+        public static Config GetSpecialConfig()
+        {
+            Config toReturn = new Config();
+            int i = 0;
+            foreach (string son in ColConfWin.sonsValides)
+            {
+                toReturn.colors[PhonConfType.phonemes].SetCbxAndCF(son, fixCFs[i]);
+                i++;
+            }
+            return toReturn;
+        }
+
+
+        /// <summary>
         /// Extraits les mots des deux strings et effectue une Assert.AreEqual sur chaque mot
-        /// avec ^la même position dans les deux trings.
+        /// avec la même position dans les deux trings.
         /// </summary>
         /// <param name="expected">Mots attendus.</param>
         /// <param name="real">Mots effectifs.</param>
@@ -260,6 +277,9 @@ namespace ColorLibTest
                 RGB color = cf.color;
                 bool changeHilight = cf.changeHilight;
                 RGB hilightColor = cf.hilightColor;
+                bool drawArc = cf.drawArc;
+                RGB arcColor = cf.arcColor;
+                bool removeArcs = cf.removeArcs;
 
                 if (theCF.bold)
                     bold = true;
@@ -299,8 +319,21 @@ namespace ColorLibTest
                     changeHilight = false;
                 }
 
+                if (theCF.drawArc)
+                {
+                    drawArc = true;
+                    arcColor = theCF.arcColor;
+                }
+
+                if (theCF.removeArcs)
+                {
+                    drawArc = false;
+                    removeArcs = true;
+                }
+
                 cf = new CharFormatting(bold, italic, underline, 
-                    caps, changeColor, color, changeHilight, hilightColor);
+                    caps, changeColor, color, changeHilight, hilightColor,
+                    false, false, false, 0, drawArc, arcColor, removeArcs);
 
             }
         }
@@ -408,6 +441,19 @@ namespace ColorLibTest
             Assert.AreEqual(theCol, formattedText[pos].cf.hilightColor);
         }
 
+        public void AssertDrawArc(int pos, bool drawArc)
+        {
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
+            Assert.AreEqual(drawArc, formattedText[pos].cf.drawArc);
+        }
+
+        public void AssertArcColor(int pos, RGB theCol)
+        {
+            Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
+            Assert.AreEqual(theCol, formattedText[pos].cf.arcColor);
+        }
+
+
         public CharFormatting GetCF (int pos)
         {
             Assert.IsTrue(pos >= 0 && pos < formattedText.Count);
@@ -424,6 +470,14 @@ namespace ColorLibTest
             }
         }
 
+        public void AssertNotColor(int fromPos, int len, RGB theCol)
+        {
+            for (int i = fromPos; i <= fromPos + len - 1; i++)
+            {
+                AssertNotColor(i, theCol);
+            }
+        }
+
         public void AssertCF(int pos, CharFormatting theCF)
         {
             Assert.IsTrue(pos >= 0 && pos < S.Length);
@@ -435,6 +489,14 @@ namespace ColorLibTest
             for (int i = fromPos; i <= fromPos + len - 1; i++)
             {
                 AssertCF(i, theCF);
+            }
+        }
+
+        public void AssertDrawArc(int fromPos, int len, bool drawArc)
+        {
+            for (int i = fromPos; i <= fromPos + len - 1; i++)
+            {
+                AssertDrawArc(i, drawArc);
             }
         }
 

@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ColorLib
 {
@@ -61,6 +62,65 @@ namespace ColorLib
         public bool mots;
         public bool arcs;
         public bool phonemes;
+
+        public ExceptionMots(string inTxt)
+        {
+            texte = inTxt.ToLower(); // Rigoureusement, WordListForm se chacrge déjà de ça.
+            MatchCollection matches = TheText.rxWords.Matches(texte);
+
+            exceptMots = new HashSet<string>();
+            int i = 0;
+            while (i < matches.Count)
+            {
+                Match m = matches[i];
+                int beg = m.Index;
+                int end = beg + m.Length - 1;
+
+                //Voir commentaire su le traitement de l'apostrophe dans TheText.
+                if ((m.Length <= 2)
+                    && (end + 1 < texte.Length)
+                    && ((texte[end + 1] == '\'')
+                        || (texte[end + 1] == '’')
+                        || (m.Value == "t" && texte[end + 1] == '-')))
+                {
+                    end++;
+                }
+                string mot = texte.Substring(beg, end - beg + 1);
+                exceptMots.Add(mot);
+                i++;
+            }
+
+            exceptMotsSyls = new HashSet<string>();
+            i = 0;
+            while (i < matches.Count)
+            {
+                Match m = matches[i];
+                int beg = m.Index;
+                int end = beg + m.Length - 1;
+
+                //Voir commentaire su le traitement de l'apostrophe dans TheText.
+                if ((m.Length <= 2)
+                    && (end + 1 < texte.Length)
+                    && ((texte[end + 1] == '\'')
+                        || (texte[end + 1] == '’')
+                        || (m.Value == "t" && texte[end + 1] == '-')))
+                {
+                    if (i < matches.Count - 1)
+                    {
+                        Match nextMatch = matches[i + 1];
+                        end = nextMatch.Index + nextMatch.Length - 1;
+                        i++;
+                    }
+                    else
+                    {
+                        end++;
+                    }
+                }
+                string mot = texte.Substring(beg, end - beg + 1);
+                exceptMotsSyls.Add(mot);
+                i++;
+            }
+        }
     }
 
     /// <summary>
