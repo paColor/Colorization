@@ -45,16 +45,34 @@ namespace Colorization
         }
 
         private TextRange txtRange;
+        private bool withinTable;
+        private float tableIncrX;
+        private float tableIncrY;
 
         /// <summary>
         /// Liste des positions de fin de ligne (dans S) à retourner dans <see cref="GetLastLinesPos"/>.
         /// </summary>
         private List<int> finsDeLigne;
 
-        public PPTText(TextRange txtRange)
-            :base(txtRange.Text)
+        /// <summary>
+        /// Crée le PPTText.
+        /// </summary>
+        /// <param name="inTxtRange">Le <c>TextRange</c> sur lequel on travaille.</param>
+        /// <param name="inWithinTable">Indique si le texte se situe à l'intérieur d'une table.
+        /// </param>
+        /// <param name="incrX">L'incrément en x pour trouver la position des lettres du texte. 
+        /// N'est différent de zéro que pour le cas où <c>inWithinTable</c> est <c>true</c>."/>
+        /// </param>
+        /// <param name="incrY">L'incrément en y pour trouver la position des lettres du texte. 
+        /// N'est différent de zéro que pour le cas où <c>inWithinTable</c> est <c>true</c>."/>
+        /// </param>
+        public PPTText(TextRange inTxtRange, bool inWithinTable = false, float incrX = 0.0f, float incrY = 0.0f )
+            :base(inTxtRange.Text)
         {
-            this.txtRange = txtRange;
+            txtRange = inTxtRange;
+            withinTable = inWithinTable;
+            tableIncrX = incrX;
+            tableIncrY = incrY;
             finsDeLigne = null;
         }
 
@@ -66,7 +84,7 @@ namespace Colorization
         /// <c>null</c>.</param>
         /// <param name="tRange">Le <see cref="TextRange"/> à formater.</param>
         /// <param name="inConf">La <see cref="Config"/> à utiliser le cas échéant.</param>
-        private static void ApplyCFToRange(CharFormatting cf, TextRange tRange, Config inConf)
+        private void ApplyCFToRange(CharFormatting cf, TextRange tRange, Config inConf)
         {
             if (cf != null)
             {
@@ -131,6 +149,13 @@ namespace Colorization
                     float w = tRange.BoundWidth; // width
                     float x1 = x0 + w;
 
+                    if (withinTable)
+                    {
+                        x0 += tableIncrX;
+                        x1 += tableIncrX;
+                        y0 += tableIncrY;
+                    }
+
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
                     float[,] thePoints0 = new float[4, 2]
                        {
@@ -142,14 +167,38 @@ namespace Colorization
 #pragma warning restore CA1814 // Prefer jagged arrays over multidimensional
 
                     TextFrame tFrame = tRange.Parent;
-                    Shape tShape = tFrame.Parent;
-                    Debug.Assert(tShape is Shape);
-                    Slide tSlide = tShape.Parent;
-                    Debug.Assert(tSlide is Slide);
-                    Shape s = tSlide.Shapes.AddCurve(thePoints0);
-                    s.Line.ForeColor.RGB = cf.arcColor;
-                    s.Line.Weight = inConf.arcConf.Epaisseur;
-                    s.Name = "arc";
+                    if (tFrame != null)
+                    {
+                        Shape tShape = tFrame.Parent;
+                        if (tShape != null)
+                        {
+                            Debug.Assert(tShape is Shape);
+                            Slide tSlide = tShape.Parent;
+                            if (tSlide != null)
+                            {
+                                Debug.Assert(tSlide is Slide);
+                                Shape s = tSlide.Shapes.AddCurve(thePoints0);
+                                s.Line.ForeColor.RGB = cf.arcColor;
+                                s.Line.Weight = inConf.arcConf.Epaisseur;
+                                s.Name = "arc";
+                            } 
+                            else
+                            {
+                                logger.Error("Le Shape n'a pas de parent... (?)");
+                            }
+                            
+                        }
+                        else
+                        {
+                            logger.Error("Le TextFrame n'a pas de parent... (?)");
+                        }
+                        
+                    }
+                    else
+                    {
+                        logger.Error("Le TextRange n'a pas de parent... (?)");
+                    }
+                    
                 }
             }
             else

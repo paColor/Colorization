@@ -488,7 +488,8 @@ namespace ColorLib
         /// Caractère à utiliser pour remplacer d'éventuels caractères problématiques dans le
         /// string passé à <see cref="TheText"/>.
         /// </summary>
-        /// <remarks>Ses caractéristiques:
+        /// <remarks>Ses caractéristiques: (théoriques. en pratique je n'ai pas encore trouvé de
+        /// caractère qui remplisse les critères. J'ai donc un traitement spécial dans MSWText...)
         /// <para>- Est considéré comme faisant partie de la famille Autres pour la colorisation de
         /// caractères spéciaux.</para>
         /// <para>- Sera considéré comme un espace pour la colorisation des majsucules après le

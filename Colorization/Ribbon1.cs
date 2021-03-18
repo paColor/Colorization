@@ -204,23 +204,24 @@ namespace Colorization
             }
         }
 
-        private static void ActOnShape(Shape sh, ActOnPPTText act, int nrObjSelected, Config conf)
+        private static void ActOnShape(Shape sh, ActOnPPTText act, int nrObjSelected, Config conf,
+            bool withinTable = false, float posX = 0.0f, float posY = 0.0f)
         {
             logger.ConditionalDebug("ActOnShape");
             Debug.Assert(sh != null);
             if(sh.HasTextFrame == Microsoft.Office.Core.MsoTriState.msoTrue){
                 if (sh.TextFrame.HasText == Microsoft.Office.Core.MsoTriState.msoTrue)
-                    act(new PPTText(sh.TextFrame.TextRange), conf);
+                    act(new PPTText(sh.TextFrame.TextRange, withinTable, posX, posY), conf);
             } else if (sh.Type == Microsoft.Office.Core.MsoShapeType.msoGroup)
                 foreach (Shape descSh in sh.GroupItems)
-                    ActOnShape(descSh, act, nrObjSelected, conf);
+                    ActOnShape(descSh, act, nrObjSelected, conf, withinTable, posX, posY);
             if (sh.HasTable == Microsoft.Office.Core.MsoTriState.msoTrue)
                 foreach (Row r in sh.Table.Rows)
                     foreach (Cell c in r.Cells)
                         if ((nrObjSelected > 1) || (c.Selected))
-                            ActOnShape(c.Shape, act, nrObjSelected, conf);
+                            ActOnShape(c.Shape, act, nrObjSelected, conf, true, sh.Left, sh.Top);
             // il y a visiblement un problème avec la sélection de tableaux. Les cellules ne sont pas sélectionnées
-            // si plusieurs objects sont sélectionnés dont le tableau...
+            // si plusieurs objets sont sélectionnés dont le tableau...
             // rendons donc le comportement dépendant du nombre d'objets dans la sélection... Y a-t-il un piège?
             // Powerpoint lui-même n'utilise pas ce truc. Hypothèse il s'agit d'un bug de Powerpoint dans la version
             // que j'utilise. Le comportement pourrait donc changer. Avec un peu de chance, le code devrait continuer 
@@ -239,7 +240,13 @@ namespace Colorization
                     var sel = ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection;
                     if (sel.Type == PpSelectionType.ppSelectionText)
                     {
-                        act(new PPTText(ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection.TextRange), conf);
+                        ShapeRange shapeR = sel.ShapeRange;
+                        Debug.Assert(shapeR.Count == 1);
+                        Shape s = shapeR[1];
+                        SlideRange slideR = sel.SlideRange;
+                        Debug.Assert(slideR.Count == 1);
+                        act(new PPTText(ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection.TextRange,
+                            s.HasTable == Microsoft.Office.Core.MsoTriState.msoTrue, s.Left, s.Top), conf);
                     }
                     else if (sel.Type == PpSelectionType.ppSelectionShapes)
                     {
