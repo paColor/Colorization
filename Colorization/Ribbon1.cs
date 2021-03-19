@@ -145,7 +145,7 @@ namespace Colorization
             {
                 List<Shape> toRemoveShapes = new List<Shape>(sh.GroupItems.Count);
                 foreach (Shape descSh in sh.GroupItems)
-                    toRemoveShapes.Add(sh);
+                    toRemoveShapes.Add(descSh);
 
                 foreach (Shape sh2 in toRemoveShapes)
                 {
@@ -211,7 +211,22 @@ namespace Colorization
             Debug.Assert(sh != null);
             if(sh.HasTextFrame == Microsoft.Office.Core.MsoTriState.msoTrue){
                 if (sh.TextFrame.HasText == Microsoft.Office.Core.MsoTriState.msoTrue)
-                    act(new PPTText(sh.TextFrame.TextRange, withinTable, posX, posY), conf);
+                {
+                    Slide slide = null;
+                    Shape theShape = sh;
+                    while (theShape != null && slide == null)
+                    {
+                        if (theShape.Parent != null && theShape.Parent is Slide)
+                        {
+                            slide = sh.Parent;
+                        }
+                        else
+                        {
+                            theShape = theShape.Parent;
+                        }
+                    }
+                    act(new PPTText(sh.TextFrame.TextRange, slide, withinTable, posX, posY), conf);
+                }
             } else if (sh.Type == Microsoft.Office.Core.MsoShapeType.msoGroup)
                 foreach (Shape descSh in sh.GroupItems)
                     ActOnShape(descSh, act, nrObjSelected, conf, withinTable, posX, posY);
@@ -246,7 +261,7 @@ namespace Colorization
                         SlideRange slideR = sel.SlideRange;
                         Debug.Assert(slideR.Count == 1);
                         act(new PPTText(ColorizationPPT.thisAddIn.Application.ActiveWindow.Selection.TextRange,
-                            s.HasTable == Microsoft.Office.Core.MsoTriState.msoTrue, s.Left, s.Top), conf);
+                            slideR[1], s.HasTable == Microsoft.Office.Core.MsoTriState.msoTrue, s.Left, s.Top), conf);
                     }
                     else if (sel.Type == PpSelectionType.ppSelectionShapes)
                     {
