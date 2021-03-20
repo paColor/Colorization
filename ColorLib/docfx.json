@@ -6,7 +6,7 @@
           "files": [
             "**.csproj"
           ],
-          "src": "F:\\Utilisateurs\\Papa\\Prog\\VisStud\\repos\\Colorization\\"
+          "src": "C:\\Users\\paeti\\source\\repos\\paColor\\Colorization\\"
         }
       ],
       "dest": "api",
@@ -49,7 +49,7 @@
         ]
       }
     ],
-    "dest": "F:\\Utilisateurs\\Papa\\Prog\\VisStud\\documentation\\Colorization.site",
+    "dest": "C:\\Users\\paeti\\source\\repos\\Colorization.site",
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
