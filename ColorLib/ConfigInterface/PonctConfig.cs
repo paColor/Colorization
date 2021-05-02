@@ -222,7 +222,7 @@ namespace ColorLib
             UndoFactory.EnableUndoRegistration();
         }
 
-        // <summary>
+        /// <summary>
         /// Réinitialise à la configuration par défaut
         /// </summary>
         public override void Reset()
@@ -368,11 +368,11 @@ namespace ColorLib
         public void SetCB(string ponct, bool toCB) => SetCB(PonctInT.Ponct4String(ponct), toCB);
 
         /// <summary>
-        /// Est utilisé par <see cref="CharFormatForm"/> qui réclame une fonction (delegate) avec
+        /// Est utilisé par <c>CharFormatForm</c> qui réclame une fonction (delegate) avec
         /// cette signature.
         /// </summary>
         /// <param name="dummy">N'est pas utilisé.</param>
-        /// <param name="cf">le <see cref="CharFormatting"/> auquel <c>MasterCF</c> doit être
+        /// <param name="cf">Le <see cref="CharFormatting"/> auquel <c>MasterCF</c> doit être
         /// mis.</param>
         public void SetMasterCF(string dummy, CharFormatting cf) => MasterCF = cf;
 
@@ -390,7 +390,7 @@ namespace ColorLib
         }
 
         /// <summary>
-        /// Est utilisé par <see cref="CharFormatForm"/> qui réclame une fonction (delegate) avec
+        /// Est utilisé par <c>CharFormatForm</c> qui réclame une fonction (delegate) avec
         /// cette signature.
         /// </summary>
         /// <param name="dummy">N'est pas utilisé.</param>
