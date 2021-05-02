@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Checkbox, DefaultButton, DefaultPalette, IButtonStyles, ICheckboxStyles, IStackItemStyles, IStackStyles, IStackTokens, Stack, Text } from "office-ui-fabric-react";
+import { DefaultButton, DefaultPalette, IButtonStyles, IStackItemStyles, IStackStyles, IStackTokens, Stack, Text } from "office-ui-fabric-react";
 import CommandButton from "./CommandButton";
+import PhonControl from "./PhonControl";
 
 export interface AppProps {
   title: string;
@@ -12,7 +13,7 @@ const stackTokens: IStackTokens = {
   padding: 2,
  };
 
- const stackStyles: IStackStyles = {
+const stackStyles: IStackStyles = {
   root: {
     // background: DefaultPalette.themeTertiary,
     overflow: 'auto',
@@ -43,7 +44,7 @@ const slStackItemStyles: IStackItemStyles = {
 const customButStyles: IButtonStyles = { 
   root: {
     height: 16, 
-    padding: 0,
+    padding: 7,
     margin: 0,
     background: DefaultPalette.themeLighter,
   },
@@ -54,9 +55,9 @@ const customButStyles: IButtonStyles = {
 
 const narrowButStyles: IButtonStyles = { 
   root: {
-    width: 27,
+    // width: 27,
     height: 16, 
-    padding: 0,
+    padding: 2,
     margin: 0,
     minWidth: 10,
     background: DefaultPalette.themeLighter,
@@ -65,39 +66,6 @@ const narrowButStyles: IButtonStyles = {
     fontSize: 11,
   },
 };
-
-const phonButStyles: IButtonStyles = { 
-  root: {
-    width: 50,
-    height: 20, 
-    padding: 0,
-    margin: 0,
-    minWidth: 10,
-  },
-  label: {
-    fontSize: 11,
-  },
-};
-
-const phonCBStyles: ICheckboxStyles ={
-  // root: {
-  //   width: 80,
-  //   height: 80,
-  //   minWidth: 10,
-  //   maxWidth:200,
-  //   minHeight:10,
-  //   maxHeight:200,
-  // },
-  
-  checkbox: {
-    width: 12,
-    height: 12,
-    marginTop: 4,
-    marginRight:0,
-  }
-
-
-}
 
 export default function App() {
   return (
@@ -127,7 +95,7 @@ export default function App() {
 
       {/* deuxième ligne */}
       <Stack horizontal styles={stackStyles} tokens={stackTokens}>
-        <Stack.Item align="auto" grow styles={slStackItemStyles}> 
+        <Stack.Item align="start" styles={slStackItemStyles}> 
           <DefaultButton text="tout" styles={narrowButStyles}/>
         </Stack.Item>
         <Stack.Item align="auto" grow styles={slStackItemStyles}> 
@@ -136,19 +104,13 @@ export default function App() {
         <Stack.Item align="auto" grow styles={slStackItemStyles}> 
           <DefaultButton text="API ceras (rosé)" styles={customButStyles}/>
         </Stack.Item>
-        <Stack.Item align="auto" grow styles={slStackItemStyles}> 
+        <Stack.Item align="end" styles={slStackItemStyles}> 
           <DefaultButton text="rien" styles={narrowButStyles}/>
         </Stack.Item>
       </Stack>
 
-      <Stack horizontal styles={stackStyles} tokens={stackTokens}>
-        <Stack.Item>
-          <Checkbox label="[a]" styles={phonCBStyles}/>
-        </Stack.Item>
-        <Stack.Item>
-          <DefaultButton text="ta, plat" styles={phonButStyles}/>
-        </Stack.Item>
-      </Stack>
+      <PhonControl phonTxt="[a]" butTxt="ta, plat"/>
+        
     </div>
 
       
