@@ -38,7 +38,7 @@ const phonButStyles: IButtonStyles = {
   
 const phonCBStyles: ICheckboxStyles ={
     root: {
-       width: 30,
+       width: 32,
        minWidth: 10,
        maxWidth:200,
     },
