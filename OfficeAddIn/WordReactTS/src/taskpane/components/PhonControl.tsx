@@ -2,13 +2,14 @@ import { Stack, Checkbox, DefaultButton, IStackStyles, IStackTokens, IButtonStyl
 import * as React from "react";
 
 export interface PhonControlProps {
+    phon: string;
     phonTxt: string; // le texte après la checkbox
     butTxt: string; // le texte dans le bouton
 }
 
 const stackStyles: IStackStyles = {
     root: {
-        overflow: 'auto',
+        overflow: 'hidden',
     },
 };
 
@@ -19,33 +20,38 @@ const stackTokens: IStackTokens = {
 
 const phonButStyles: IButtonStyles = { 
     root: {
-      width: 50,
+      width: 53,
       height: 20, 
       padding: 0,
       margin: 0,
       minWidth: 10,
+      flexWrap: 'nowrap',
     },
     label: {
       fontSize: 11,
+      padding: 0,
+      margin: 0,
+      flexWrap: 'nowrap',
     },
+
   };
   
 const phonCBStyles: ICheckboxStyles ={
-    // root: {
-    //   width: 80,
-    //   height: 80,
-    //   minWidth: 10,
-    //   maxWidth:200,
-    //   minHeight:10,
-    //   maxHeight:200,
-    // },
+    root: {
+       width: 30,
+       minWidth: 10,
+       maxWidth:200,
+    },
 
     checkbox: {
         width: 12,
         height: 12,
         marginTop: 4,
         marginRight:0,
-    }
+    },
+    text: {
+        fontSize: 10.5,
+    },
 }
 
 export default function PhonControl(props:PhonControlProps) {
