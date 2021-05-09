@@ -2,26 +2,11 @@ import { Stack, Checkbox, DefaultButton, IStackStyles, IStackTokens, IButtonStyl
 import * as React from "react";
 
 export interface PhonControlProps {
-    // Le phonème / son
     phon: string;
-
-    // le texte affiché à côté de la checkbox
-    phonTxt: string;
-
-    // le texte dans le bouton
-    butTxt: string; 
-
-    //la valeur de la checkbox
-    chk:boolean; 
-
-    // la fonction à appeler quand la checkbox est cliquée
-    // signature: (phon: string, valeurChkBox: boolean) : void
-    // Il faut que j'apprenne comment déclarer le bon type :-)
+    phonTxt: string; // le texte après la checkbox
+    butTxt: string; // le texte dans le bouton
+    chk:boolean | undefined; //la valeur de la checkbox
     chkOnChange: any;
-
-    // la fonction à appeler quand le bouton est cliqué.
-    // signature: (phon: string) : void
-    clickBut: any;
 }
 
 const stackStyles: IStackStyles = {
@@ -78,11 +63,6 @@ export default function PhonControl(props:PhonControlProps) {
     function onChecked(_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) {
         props.chkOnChange(props.phon, checked);
     }
-
-    function onClicked() {
-        props.clickBut(props.phon);
-    }
-
     return (
         <div>
             <Stack horizontal styles={stackStyles} tokens={stackTokens}>
@@ -95,11 +75,7 @@ export default function PhonControl(props:PhonControlProps) {
                         />
                 </Stack.Item>
                 <Stack.Item>
-                    <DefaultButton 
-                        text={props.butTxt} 
-                        styles={phonButStyles}
-                        onClick={onClicked}
-                    />
+                    <DefaultButton text={props.butTxt} styles={phonButStyles}/>
                 </Stack.Item>
             </Stack>
         </div>
