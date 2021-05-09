@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IButtonStyles, IconButton, IIconProps, ImageFit} from "office-ui-fabric-react";
+import { IButtonStyles, IconButton, IIconProps, ImageFit} from "@fluentui/react";
 
 export interface CommandButtonProps {
     butTitle : string;
