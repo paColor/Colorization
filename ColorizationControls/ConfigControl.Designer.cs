@@ -342,6 +342,7 @@
             this.cbxa.Size = new System.Drawing.Size(39, 19);
             this.cbxa.TabIndex = 0;
             this.cbxa.Text = "[a]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxa, "Activer / désactiver la mise en forme du phonème");
             this.cbxa.UseVisualStyleBackColor = true;
             this.cbxa.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -365,6 +366,7 @@
             this.cbxq.Size = new System.Drawing.Size(39, 19);
             this.cbxq.TabIndex = 3;
             this.cbxq.Text = "[e]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxq, "Activer / désactiver la mise en forme du phonème");
             this.cbxq.UseVisualStyleBackColor = true;
             this.cbxq.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -377,6 +379,7 @@
             this.btna.Size = new System.Drawing.Size(61, 25);
             this.btna.TabIndex = 5;
             this.btna.Text = "ta, plat";
+            this.ttipLettreEnNoir.SetToolTip(this.btna, "Mise en forme du phonème");
             this.btna.UseVisualStyleBackColor = true;
             this.btna.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -388,6 +391,7 @@
             this.btnq.Size = new System.Drawing.Size(61, 25);
             this.btnq.TabIndex = 6;
             this.btnq.Text = "le";
+            this.ttipLettreEnNoir.SetToolTip(this.btnq, "Mise en forme du phonème");
             this.btnq.UseVisualStyleBackColor = true;
             this.btnq.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -399,6 +403,7 @@
             this.btni.Size = new System.Drawing.Size(61, 25);
             this.btni.TabIndex = 8;
             this.btni.Text = "il, lit";
+            this.ttipLettreEnNoir.SetToolTip(this.btni, "Mise en forme du phonème");
             this.btni.UseVisualStyleBackColor = true;
             this.btni.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -411,6 +416,7 @@
             this.cbxi.Size = new System.Drawing.Size(35, 19);
             this.cbxi.TabIndex = 7;
             this.cbxi.Text = "[i]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxi, "Activer / désactiver la mise en forme du phonème");
             this.cbxi.UseVisualStyleBackColor = true;
             this.cbxi.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -422,6 +428,7 @@
             this.btnu.Size = new System.Drawing.Size(61, 25);
             this.btnu.TabIndex = 10;
             this.btnu.Text = "cou, roue";
+            this.ttipLettreEnNoir.SetToolTip(this.btnu, "Mise en forme du phonème");
             this.btnu.UseVisualStyleBackColor = true;
             this.btnu.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -434,6 +441,7 @@
             this.cbxu.Size = new System.Drawing.Size(39, 19);
             this.cbxu.TabIndex = 9;
             this.cbxu.Text = "[u]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxu, "Activer / désactiver la mise en forme du phonème");
             this.cbxu.UseVisualStyleBackColor = true;
             this.cbxu.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -445,6 +453,7 @@
             this.btno.Size = new System.Drawing.Size(61, 25);
             this.btno.TabIndex = 18;
             this.btno.Text = "mot eau";
+            this.ttipLettreEnNoir.SetToolTip(this.btno, "Mise en forme du phonème");
             this.btno.UseVisualStyleBackColor = true;
             this.btno.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -457,6 +466,7 @@
             this.cbxo.Size = new System.Drawing.Size(39, 19);
             this.cbxo.TabIndex = 17;
             this.cbxo.Text = "[o]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxo, "Activer / désactiver la mise en forme du phonème");
             this.cbxo.UseVisualStyleBackColor = true;
             this.cbxo.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -468,6 +478,7 @@
             this.btnng.Size = new System.Drawing.Size(61, 25);
             this.btnng.TabIndex = 16;
             this.btnng.Text = "parking";
+            this.ttipLettreEnNoir.SetToolTip(this.btnng, "Mise en forme du phonème");
             this.btnng.UseVisualStyleBackColor = true;
             this.btnng.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -480,6 +491,7 @@
             this.cbxng.Size = new System.Drawing.Size(46, 19);
             this.cbxng.TabIndex = 15;
             this.cbxng.Text = "[ng]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxng, "Activer / désactiver la mise en forme du phonème");
             this.cbxng.UseVisualStyleBackColor = true;
             this.cbxng.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -491,6 +503,7 @@
             this.btné.Size = new System.Drawing.Size(61, 25);
             this.btné.TabIndex = 14;
             this.btné.Text = "né, été";
+            this.ttipLettreEnNoir.SetToolTip(this.btné, "Mise en forme du phonème");
             this.btné.UseVisualStyleBackColor = true;
             this.btné.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -503,6 +516,7 @@
             this.btny.Size = new System.Drawing.Size(61, 25);
             this.btny.TabIndex = 13;
             this.btny.Text = "tu, lu";
+            this.ttipLettreEnNoir.SetToolTip(this.btny, "Mise en forme du phonème");
             this.btny.UseVisualStyleBackColor = true;
             this.btny.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -515,6 +529,7 @@
             this.cbxé.Size = new System.Drawing.Size(39, 19);
             this.cbxé.TabIndex = 12;
             this.cbxé.Text = "[é]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxé, "Activer / désactiver la mise en forme du phonème");
             this.cbxé.UseVisualStyleBackColor = true;
             this.cbxé.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -527,6 +542,7 @@
             this.cbxy.Size = new System.Drawing.Size(37, 19);
             this.cbxy.TabIndex = 11;
             this.cbxy.Text = "[y]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxy, "Activer / désactiver la mise en forme du phonème");
             this.cbxy.UseVisualStyleBackColor = true;
             this.cbxy.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -538,6 +554,7 @@
             this.btnm.Size = new System.Drawing.Size(61, 25);
             this.btnm.TabIndex = 34;
             this.btnm.Text = "pomme";
+            this.ttipLettreEnNoir.SetToolTip(this.btnm, "Mise en forme du phonème");
             this.btnm.UseVisualStyleBackColor = true;
             this.btnm.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -550,6 +567,7 @@
             this.cbxm.Size = new System.Drawing.Size(43, 19);
             this.cbxm.TabIndex = 33;
             this.cbxm.Text = "[m]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxm, "Activer / désactiver la mise en forme du phonème");
             this.cbxm.UseVisualStyleBackColor = true;
             this.cbxm.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -561,6 +579,7 @@
             this.btnf.Size = new System.Drawing.Size(61, 25);
             this.btnf.TabIndex = 32;
             this.btnf.Text = "effacer";
+            this.ttipLettreEnNoir.SetToolTip(this.btnf, "Mise en forme du phonème");
             this.btnf.UseVisualStyleBackColor = true;
             this.btnf.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -573,6 +592,7 @@
             this.cbxf.Size = new System.Drawing.Size(35, 19);
             this.cbxf.TabIndex = 31;
             this.cbxf.Text = "[f]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxf, "Activer / désactiver la mise en forme du phonème");
             this.cbxf.UseVisualStyleBackColor = true;
             this.cbxf.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -584,6 +604,7 @@
             this.btn_muet.Size = new System.Drawing.Size(61, 25);
             this.btn_muet.TabIndex = 30;
             this.btn_muet.Text = "_muet";
+            this.ttipLettreEnNoir.SetToolTip(this.btn_muet, "Mise en forme du phonème");
             this.btn_muet.UseVisualStyleBackColor = true;
             this.btn_muet.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -596,6 +617,7 @@
             this.btnv.Size = new System.Drawing.Size(61, 25);
             this.btnv.TabIndex = 29;
             this.btnv.Text = "veau";
+            this.ttipLettreEnNoir.SetToolTip(this.btnv, "Mise en forme du phonème");
             this.btnv.UseVisualStyleBackColor = true;
             this.btnv.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -608,6 +630,7 @@
             this.cbx_muet.Size = new System.Drawing.Size(39, 19);
             this.cbx_muet.TabIndex = 28;
             this.cbx_muet.Text = "[#]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbx_muet, "Activer / désactiver la mise en forme du phonème");
             this.cbx_muet.UseVisualStyleBackColor = true;
             this.cbx_muet.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -620,6 +643,7 @@
             this.cbxv.Size = new System.Drawing.Size(37, 19);
             this.cbxv.TabIndex = 27;
             this.cbxv.Text = "[v]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxv, "Activer / désactiver la mise en forme du phonème");
             this.cbxv.UseVisualStyleBackColor = true;
             this.cbxv.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -632,6 +656,7 @@
             this.btnan.Size = new System.Drawing.Size(61, 25);
             this.btnan.TabIndex = 26;
             this.btnan.Text = "grand";
+            this.ttipLettreEnNoir.SetToolTip(this.btnan, "Mise en forme du phonème");
             this.btnan.UseVisualStyleBackColor = true;
             this.btnan.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -644,6 +669,7 @@
             this.cbxan.Size = new System.Drawing.Size(44, 19);
             this.cbxan.TabIndex = 25;
             this.cbxan.Text = "[@]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxan, "Activer / désactiver la mise en forme du phonème");
             this.cbxan.UseVisualStyleBackColor = true;
             this.cbxan.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -655,6 +681,7 @@
             this.btnl.Size = new System.Drawing.Size(61, 25);
             this.btnl.TabIndex = 24;
             this.btnl.Text = "aller";
+            this.ttipLettreEnNoir.SetToolTip(this.btnl, "Mise en forme du phonème");
             this.btnl.UseVisualStyleBackColor = true;
             this.btnl.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -667,6 +694,7 @@
             this.cbxl.Size = new System.Drawing.Size(35, 19);
             this.cbxl.TabIndex = 23;
             this.cbxl.Text = "[l]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxl, "Activer / désactiver la mise en forme du phonème");
             this.cbxl.UseVisualStyleBackColor = true;
             this.cbxl.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -678,6 +706,7 @@
             this.btnè.Size = new System.Drawing.Size(61, 25);
             this.btnè.TabIndex = 22;
             this.btnè.Text = "sel";
+            this.ttipLettreEnNoir.SetToolTip(this.btnè, "Mise en forme du phonème");
             this.btnè.UseVisualStyleBackColor = true;
             this.btnè.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -690,6 +719,7 @@
             this.btngn.Size = new System.Drawing.Size(61, 25);
             this.btngn.TabIndex = 21;
             this.btngn.Text = "ligne";
+            this.ttipLettreEnNoir.SetToolTip(this.btngn, "Mise en forme du phonème");
             this.btngn.UseVisualStyleBackColor = true;
             this.btngn.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -702,6 +732,7 @@
             this.cbxè.Size = new System.Drawing.Size(39, 19);
             this.cbxè.TabIndex = 20;
             this.cbxè.Text = "[è]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxè, "Activer / désactiver la mise en forme du phonème");
             this.cbxè.UseVisualStyleBackColor = true;
             this.cbxè.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -714,6 +745,7 @@
             this.cbxgn.Size = new System.Drawing.Size(46, 19);
             this.cbxgn.TabIndex = 19;
             this.cbxgn.Text = "[gn]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxgn, "Activer / désactiver la mise en forme du phonème");
             this.cbxgn.UseVisualStyleBackColor = true;
             this.cbxgn.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -725,6 +757,7 @@
             this.btnge.Size = new System.Drawing.Size(61, 25);
             this.btnge.TabIndex = 66;
             this.btnge.Text = "jupe";
+            this.ttipLettreEnNoir.SetToolTip(this.btnge, "Mise en forme du phonème");
             this.btnge.UseVisualStyleBackColor = true;
             this.btnge.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -737,6 +770,7 @@
             this.cbxge.Size = new System.Drawing.Size(46, 19);
             this.cbxge.TabIndex = 65;
             this.cbxge.Text = "[ge]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxge, "Activer / désactiver la mise en forme du phonème");
             this.cbxge.UseVisualStyleBackColor = true;
             this.cbxge.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -748,6 +782,7 @@
             this.btnon.Size = new System.Drawing.Size(61, 25);
             this.btnon.TabIndex = 64;
             this.btnon.Text = "son";
+            this.ttipLettreEnNoir.SetToolTip(this.btnon, "Mise en forme du phonème");
             this.btnon.UseVisualStyleBackColor = true;
             this.btnon.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -760,6 +795,7 @@
             this.cbxon.Size = new System.Drawing.Size(39, 19);
             this.cbxon.TabIndex = 63;
             this.cbxon.Text = "[§]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxon, "Activer / désactiver la mise en forme du phonème");
             this.cbxon.UseVisualStyleBackColor = true;
             this.cbxon.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -771,6 +807,7 @@
             this.btnn.Size = new System.Drawing.Size(61, 25);
             this.btnn.TabIndex = 62;
             this.btnn.Text = "Nicole";
+            this.ttipLettreEnNoir.SetToolTip(this.btnn, "Mise en forme du phonème");
             this.btnn.UseVisualStyleBackColor = true;
             this.btnn.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -783,6 +820,7 @@
             this.btnj.Size = new System.Drawing.Size(61, 25);
             this.btnj.TabIndex = 61;
             this.btnj.Text = "payer";
+            this.ttipLettreEnNoir.SetToolTip(this.btnj, "Mise en forme du phonème");
             this.btnj.UseVisualStyleBackColor = true;
             this.btnj.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -795,6 +833,7 @@
             this.cbxn.Size = new System.Drawing.Size(39, 19);
             this.cbxn.TabIndex = 60;
             this.cbxn.Text = "[n]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxn, "Activer / désactiver la mise en forme du phonème");
             this.cbxn.UseVisualStyleBackColor = true;
             this.cbxn.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -807,6 +846,7 @@
             this.cbxj.Size = new System.Drawing.Size(35, 19);
             this.cbxj.TabIndex = 59;
             this.cbxj.Text = "[j]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxj, "Activer / désactiver la mise en forme du phonème");
             this.cbxj.UseVisualStyleBackColor = true;
             this.cbxj.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -818,6 +858,7 @@
             this.btnr.Size = new System.Drawing.Size(61, 25);
             this.btnr.TabIndex = 58;
             this.btnr.Text = "rare";
+            this.ttipLettreEnNoir.SetToolTip(this.btnr, "Mise en forme du phonème");
             this.btnr.UseVisualStyleBackColor = true;
             this.btnr.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -830,6 +871,7 @@
             this.cbxr.Size = new System.Drawing.Size(36, 19);
             this.cbxr.TabIndex = 57;
             this.cbxr.Text = "[r]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxr, "Activer / désactiver la mise en forme du phonème");
             this.cbxr.UseVisualStyleBackColor = true;
             this.cbxr.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -841,6 +883,7 @@
             this.btnw.Size = new System.Drawing.Size(61, 25);
             this.btnw.TabIndex = 56;
             this.btnw.Text = "kiwi";
+            this.ttipLettreEnNoir.SetToolTip(this.btnw, "Mise en forme du phonème");
             this.btnw.UseVisualStyleBackColor = true;
             this.btnw.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -853,6 +896,7 @@
             this.cbxw.Size = new System.Drawing.Size(41, 19);
             this.cbxw.TabIndex = 55;
             this.cbxw.Text = "[w]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxw, "Activer / désactiver la mise en forme du phonème");
             this.cbxw.UseVisualStyleBackColor = true;
             this.cbxw.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -865,6 +909,7 @@
             this.btn5.Size = new System.Drawing.Size(61, 25);
             this.btn5.TabIndex = 53;
             this.btn5.Text = "fin";
+            this.ttipLettreEnNoir.SetToolTip(this.btn5, "Mise en forme du phonème");
             this.btn5.UseVisualStyleBackColor = true;
             this.btn5.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -877,6 +922,7 @@
             this.cbx5.Size = new System.Drawing.Size(39, 19);
             this.cbx5.TabIndex = 51;
             this.cbx5.Text = "[5]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbx5, "Activer / désactiver la mise en forme du phonème");
             this.cbx5.UseVisualStyleBackColor = true;
             this.cbx5.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -888,6 +934,7 @@
             this.btnd.Size = new System.Drawing.Size(61, 25);
             this.btnd.TabIndex = 50;
             this.btnd.Text = "dindon";
+            this.ttipLettreEnNoir.SetToolTip(this.btnd, "Mise en forme du phonème");
             this.btnd.UseVisualStyleBackColor = true;
             this.btnd.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -900,6 +947,7 @@
             this.cbxd.Size = new System.Drawing.Size(39, 19);
             this.cbxd.TabIndex = 49;
             this.cbxd.Text = "[d]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxd, "Activer / désactiver la mise en forme du phonème");
             this.cbxd.UseVisualStyleBackColor = true;
             this.cbxd.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -911,6 +959,7 @@
             this.btn2.Size = new System.Drawing.Size(61, 25);
             this.btn2.TabIndex = 48;
             this.btn2.Text = "feu, oeuf";
+            this.ttipLettreEnNoir.SetToolTip(this.btn2, "Mise en forme du phonème");
             this.btn2.UseVisualStyleBackColor = true;
             this.btn2.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -923,6 +972,7 @@
             this.cbx2.Size = new System.Drawing.Size(39, 19);
             this.cbx2.TabIndex = 47;
             this.cbx2.Text = "[2]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbx2, "Activer / désactiver la mise en forme du phonème");
             this.cbx2.UseVisualStyleBackColor = true;
             this.cbx2.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -934,6 +984,7 @@
             this.btnt.Size = new System.Drawing.Size(61, 25);
             this.btnt.TabIndex = 46;
             this.btnt.Text = "tortue";
+            this.ttipLettreEnNoir.SetToolTip(this.btnt, "Mise en forme du phonème");
             this.btnt.UseVisualStyleBackColor = true;
             this.btnt.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -946,6 +997,7 @@
             this.btnq_caduc.Size = new System.Drawing.Size(61, 25);
             this.btnq_caduc.TabIndex = 45;
             this.btnq_caduc.Text = "e caduc";
+            this.ttipLettreEnNoir.SetToolTip(this.btnq_caduc, "Mise en forme du phonème");
             this.btnq_caduc.UseVisualStyleBackColor = true;
             this.btnq_caduc.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -958,6 +1010,7 @@
             this.cbxt.Size = new System.Drawing.Size(35, 19);
             this.cbxt.TabIndex = 44;
             this.cbxt.Text = "[t]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxt, "Activer / désactiver la mise en forme du phonème");
             this.cbxt.UseVisualStyleBackColor = true;
             this.cbxt.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -970,6 +1023,7 @@
             this.cbxq_caduc.Size = new System.Drawing.Size(36, 19);
             this.cbxq_caduc.TabIndex = 43;
             this.cbxq_caduc.Text = "[-]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxq_caduc, "Activer / désactiver la mise en forme du phonème");
             this.cbxq_caduc.UseVisualStyleBackColor = true;
             this.cbxq_caduc.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -981,6 +1035,7 @@
             this.btns.Size = new System.Drawing.Size(61, 25);
             this.btns.TabIndex = 42;
             this.btns.Text = "scie";
+            this.ttipLettreEnNoir.SetToolTip(this.btns, "Mise en forme du phonème");
             this.btns.UseVisualStyleBackColor = true;
             this.btns.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -993,6 +1048,7 @@
             this.cbxs.Size = new System.Drawing.Size(38, 19);
             this.cbxs.TabIndex = 41;
             this.cbxs.Text = "[s]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxs, "Activer / désactiver la mise en forme du phonème");
             this.cbxs.UseVisualStyleBackColor = true;
             this.cbxs.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1004,6 +1060,7 @@
             this.btnb.Size = new System.Drawing.Size(61, 25);
             this.btnb.TabIndex = 40;
             this.btnb.Text = "bébé";
+            this.ttipLettreEnNoir.SetToolTip(this.btnb, "Mise en forme du phonème");
             this.btnb.UseVisualStyleBackColor = true;
             this.btnb.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1016,6 +1073,7 @@
             this.cbxb.Size = new System.Drawing.Size(39, 19);
             this.cbxb.TabIndex = 39;
             this.cbxb.Text = "[b]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxb, "Activer / désactiver la mise en forme du phonème");
             this.cbxb.UseVisualStyleBackColor = true;
             this.cbxb.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1027,6 +1085,7 @@
             this.btnz.Size = new System.Drawing.Size(61, 25);
             this.btnz.TabIndex = 38;
             this.btnz.Text = "zoo";
+            this.ttipLettreEnNoir.SetToolTip(this.btnz, "Mise en forme du phonème");
             this.btnz.UseVisualStyleBackColor = true;
             this.btnz.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1039,6 +1098,7 @@
             this.btnp.Size = new System.Drawing.Size(61, 25);
             this.btnp.TabIndex = 37;
             this.btnp.Text = "papa";
+            this.ttipLettreEnNoir.SetToolTip(this.btnp, "Mise en forme du phonème");
             this.btnp.UseVisualStyleBackColor = true;
             this.btnp.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1051,6 +1111,7 @@
             this.cbxz.Size = new System.Drawing.Size(38, 19);
             this.cbxz.TabIndex = 36;
             this.cbxz.Text = "[z]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxz, "Activer / désactiver la mise en forme du phonème");
             this.cbxz.UseVisualStyleBackColor = true;
             this.cbxz.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1063,6 +1124,7 @@
             this.cbxp.Size = new System.Drawing.Size(39, 19);
             this.cbxp.TabIndex = 35;
             this.cbxp.Text = "[p]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxp, "Activer / désactiver la mise en forme du phonème");
             this.cbxp.UseVisualStyleBackColor = true;
             this.cbxp.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1074,6 +1136,7 @@
             this.btn1.Size = new System.Drawing.Size(61, 25);
             this.btn1.TabIndex = 70;
             this.btn1.Text = "parfum";
+            this.ttipLettreEnNoir.SetToolTip(this.btn1, "Mise en forme du phonème");
             this.btn1.UseVisualStyleBackColor = true;
             this.btn1.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1086,6 +1149,7 @@
             this.cbx1.Size = new System.Drawing.Size(39, 19);
             this.cbx1.TabIndex = 69;
             this.cbx1.Text = "[1]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbx1, "Activer / désactiver la mise en forme du phonème");
             this.cbx1.UseVisualStyleBackColor = true;
             this.cbx1.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1097,6 +1161,7 @@
             this.btnks.Size = new System.Drawing.Size(61, 25);
             this.btnks.TabIndex = 72;
             this.btnks.Text = "rixe";
+            this.ttipLettreEnNoir.SetToolTip(this.btnks, "Mise en forme du phonème");
             this.btnks.UseVisualStyleBackColor = true;
             this.btnks.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1109,6 +1174,7 @@
             this.cbxks.Size = new System.Drawing.Size(44, 19);
             this.cbxks.TabIndex = 71;
             this.cbxks.Text = "[ks]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxks, "Activer / désactiver la mise en forme du phonème");
             this.cbxks.UseVisualStyleBackColor = true;
             this.cbxks.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1120,6 +1186,7 @@
             this.btng.Size = new System.Drawing.Size(61, 25);
             this.btng.TabIndex = 78;
             this.btng.Text = "gare";
+            this.ttipLettreEnNoir.SetToolTip(this.btng, "Mise en forme du phonème");
             this.btng.UseVisualStyleBackColor = true;
             this.btng.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1132,6 +1199,7 @@
             this.cbxg.Size = new System.Drawing.Size(39, 19);
             this.cbxg.TabIndex = 77;
             this.cbxg.Text = "[g]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxg, "Activer / désactiver la mise en forme du phonème");
             this.cbxg.UseVisualStyleBackColor = true;
             this.cbxg.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1143,6 +1211,7 @@
             this.btnk.Size = new System.Drawing.Size(61, 25);
             this.btnk.TabIndex = 76;
             this.btnk.Text = "coq";
+            this.ttipLettreEnNoir.SetToolTip(this.btnk, "Mise en forme du phonème");
             this.btnk.UseVisualStyleBackColor = true;
             this.btnk.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1155,6 +1224,7 @@
             this.cbxk.Size = new System.Drawing.Size(38, 19);
             this.cbxk.TabIndex = 75;
             this.cbxk.Text = "[k]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxk, "Activer / désactiver la mise en forme du phonème");
             this.cbxk.UseVisualStyleBackColor = true;
             this.cbxk.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1166,6 +1236,7 @@
             this.btnch.Size = new System.Drawing.Size(61, 25);
             this.btnch.TabIndex = 74;
             this.btnch.Text = "chat";
+            this.ttipLettreEnNoir.SetToolTip(this.btnch, "Mise en forme du phonème");
             this.btnch.UseVisualStyleBackColor = true;
             this.btnch.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1178,6 +1249,7 @@
             this.cbxch.Size = new System.Drawing.Size(45, 19);
             this.cbxch.TabIndex = 73;
             this.cbxch.Text = "[ch]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxch, "Activer / désactiver la mise en forme du phonème");
             this.cbxch.UseVisualStyleBackColor = true;
             this.cbxch.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1189,6 +1261,7 @@
             this.btngz.Size = new System.Drawing.Size(61, 25);
             this.btngz.TabIndex = 80;
             this.btngz.Text = "examen";
+            this.ttipLettreEnNoir.SetToolTip(this.btngz, "Mise en forme du phonème");
             this.btngz.UseVisualStyleBackColor = true;
             this.btngz.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1201,6 +1274,7 @@
             this.cbxgz.Size = new System.Drawing.Size(45, 19);
             this.cbxgz.TabIndex = 79;
             this.cbxgz.Text = "[gz]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxgz, "Activer / désactiver la mise en forme du phonème");
             this.cbxgz.UseVisualStyleBackColor = true;
             this.cbxgz.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1262,6 +1336,7 @@
             this.btnij.Size = new System.Drawing.Size(61, 25);
             this.btnij.TabIndex = 85;
             this.btnij.Text = "pria";
+            this.ttipLettreEnNoir.SetToolTip(this.btnij, "Mise en forme du phonème");
             this.btnij.UseVisualStyleBackColor = true;
             this.btnij.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1274,6 +1349,7 @@
             this.cbxij.Size = new System.Drawing.Size(38, 19);
             this.cbxij.TabIndex = 84;
             this.cbxij.Text = "[ij]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxij, "Activer / désactiver la mise en forme du phonème");
             this.cbxij.UseVisualStyleBackColor = true;
             this.cbxij.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1285,6 +1361,7 @@
             this.btnoin.Size = new System.Drawing.Size(61, 25);
             this.btnoin.TabIndex = 87;
             this.btnoin.Text = "soin";
+            this.ttipLettreEnNoir.SetToolTip(this.btnoin, "Mise en forme du phonème");
             this.btnoin.UseVisualStyleBackColor = true;
             this.btnoin.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1297,6 +1374,7 @@
             this.cbxoin.Size = new System.Drawing.Size(46, 17);
             this.cbxoin.TabIndex = 86;
             this.cbxoin.Text = "[oin]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxoin, "Activer / désactiver la mise en forme du phonème");
             this.cbxoin.UseVisualStyleBackColor = true;
             this.cbxoin.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1308,6 +1386,7 @@
             this.btnoi.Size = new System.Drawing.Size(61, 25);
             this.btnoi.TabIndex = 89;
             this.btnoi.Text = "noix";
+            this.ttipLettreEnNoir.SetToolTip(this.btnoi, "Mise en forme du phonème");
             this.btnoi.UseVisualStyleBackColor = true;
             this.btnoi.Click += new System.EventHandler(this.SonButton_Click);
             // 
@@ -1320,6 +1399,7 @@
             this.cbxoi.Size = new System.Drawing.Size(42, 19);
             this.cbxoi.TabIndex = 88;
             this.cbxoi.Text = "[oi]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxoi, "Activer / désactiver la mise en forme du phonème");
             this.cbxoi.UseVisualStyleBackColor = true;
             this.cbxoi.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1717,6 +1797,7 @@
             this.cbxuni.Size = new System.Drawing.Size(46, 17);
             this.cbxuni.TabIndex = 177;
             this.cbxuni.Text = "[uni]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxuni, "Activer / désactiver la mise en forme des unités");
             this.cbxuni.UseVisualStyleBackColor = true;
             this.cbxuni.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1741,6 +1822,7 @@
             this.cbxdiz.Size = new System.Drawing.Size(45, 17);
             this.cbxdiz.TabIndex = 175;
             this.cbxdiz.Text = "[diz]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxdiz, "Activer / désactiver la mise en forme des dizaines");
             this.cbxdiz.UseVisualStyleBackColor = true;
             this.cbxdiz.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1765,6 +1847,7 @@
             this.cbxcen.Size = new System.Drawing.Size(50, 17);
             this.cbxcen.TabIndex = 173;
             this.cbxcen.Text = "[cen]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxcen, "Activer / désactiver la mise en forme des centaines");
             this.cbxcen.UseVisualStyleBackColor = true;
             this.cbxcen.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1789,6 +1872,7 @@
             this.cbxmil.Size = new System.Drawing.Size(44, 17);
             this.cbxmil.TabIndex = 171;
             this.cbxmil.Text = "[mil]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbxmil, "Activer / désactiver la mise en forme des milliers");
             this.cbxmil.UseVisualStyleBackColor = true;
             this.cbxmil.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -1813,6 +1897,7 @@
             this.cbx47.Size = new System.Drawing.Size(44, 17);
             this.cbx47.TabIndex = 169;
             this.cbx47.Text = "[47]";
+            this.ttipLettreEnNoir.SetToolTip(this.cbx47, "Activer / désactiver la mise en forme des autres chiffres");
             this.cbx47.UseVisualStyleBackColor = true;
             this.cbx47.CheckedChanged += new System.EventHandler(this.SonCheckBox_CheckedChanged);
             // 
@@ -2224,6 +2309,8 @@
             this.btCPBDQ.Size = new System.Drawing.Size(130, 23);
             this.btCPBDQ.TabIndex = 142;
             this.btCPBDQ.Text = "réinitialiser à bpdq";
+            this.ttipLettreEnNoir.SetToolTip(this.btCPBDQ, "Réinialiser la mise en forme de lettres à la \r\nconfiguration par défaut (lettres " +
+        "b, p, d, q)");
             this.btCPBDQ.UseVisualStyleBackColor = false;
             this.btCPBDQ.Click += new System.EventHandler(this.btCPBDQ_Click);
             // 
@@ -2236,6 +2323,7 @@
             this.btL7.Size = new System.Drawing.Size(34, 23);
             this.btL7.TabIndex = 141;
             this.btL7.Text = "b";
+            this.ttipLettreEnNoir.SetToolTip(this.btL7, "Mise en forme de la 8e lettre");
             this.btL7.UseVisualStyleBackColor = true;
             this.btL7.Click += new System.EventHandler(this.LetterButton_Click);
             // 
@@ -2342,6 +2430,7 @@
             this.btL6.Size = new System.Drawing.Size(34, 23);
             this.btL6.TabIndex = 140;
             this.btL6.Text = "b";
+            this.ttipLettreEnNoir.SetToolTip(this.btL6, "Mise en forme de la 7e lettre");
             this.btL6.UseVisualStyleBackColor = true;
             this.btL6.Click += new System.EventHandler(this.LetterButton_Click);
             // 
@@ -2354,6 +2443,7 @@
             this.btL5.Size = new System.Drawing.Size(34, 23);
             this.btL5.TabIndex = 139;
             this.btL5.Text = "b";
+            this.ttipLettreEnNoir.SetToolTip(this.btL5, "Mise en forme de la 6e lettre");
             this.btL5.UseVisualStyleBackColor = true;
             this.btL5.Click += new System.EventHandler(this.LetterButton_Click);
             // 
@@ -2366,6 +2456,7 @@
             this.btL4.Size = new System.Drawing.Size(34, 23);
             this.btL4.TabIndex = 138;
             this.btL4.Text = "b";
+            this.ttipLettreEnNoir.SetToolTip(this.btL4, "Mise en forme de la 5e lettre");
             this.btL4.UseVisualStyleBackColor = true;
             this.btL4.Click += new System.EventHandler(this.LetterButton_Click);
             // 
@@ -2378,6 +2469,7 @@
             this.btL3.Size = new System.Drawing.Size(34, 23);
             this.btL3.TabIndex = 137;
             this.btL3.Text = "b";
+            this.ttipLettreEnNoir.SetToolTip(this.btL3, "Mise en forme de la 4e lettre");
             this.btL3.UseVisualStyleBackColor = true;
             this.btL3.Click += new System.EventHandler(this.LetterButton_Click);
             // 
@@ -2390,6 +2482,7 @@
             this.btL2.Size = new System.Drawing.Size(34, 23);
             this.btL2.TabIndex = 136;
             this.btL2.Text = "b";
+            this.ttipLettreEnNoir.SetToolTip(this.btL2, "Mise en forme de la 3e lettre");
             this.btL2.UseVisualStyleBackColor = true;
             this.btL2.Click += new System.EventHandler(this.LetterButton_Click);
             // 
@@ -2402,6 +2495,7 @@
             this.btL1.Size = new System.Drawing.Size(34, 23);
             this.btL1.TabIndex = 135;
             this.btL1.Text = "b";
+            this.ttipLettreEnNoir.SetToolTip(this.btL1, "Mise en forme de la 2e lettre");
             this.btL1.UseVisualStyleBackColor = true;
             this.btL1.Click += new System.EventHandler(this.LetterButton_Click);
             // 
@@ -2414,6 +2508,7 @@
             this.btL0.Size = new System.Drawing.Size(34, 23);
             this.btL0.TabIndex = 134;
             this.btL0.Text = "b";
+            this.ttipLettreEnNoir.SetToolTip(this.btL0, "Mise en forme de la 1e lettre");
             this.btL0.UseVisualStyleBackColor = true;
             this.btL0.Click += new System.EventHandler(this.LetterButton_Click);
             // 
@@ -2451,6 +2546,8 @@
             this.cbMuettesSyl.Size = new System.Drawing.Size(111, 17);
             this.cbMuettesSyl.TabIndex = 172;
             this.cbMuettesSyl.Text = "Marquer muettes  ";
+            this.ttipLettreEnNoir.SetToolTip(this.cbMuettesSyl, "Formater les lettres muettes selon la mise en forme\r\ndéfinie pour le phonème \"mue" +
+        "t\" à l\'onglet précédent");
             this.cbMuettesSyl.UseVisualStyleBackColor = true;
             this.cbMuettesSyl.CheckedChanged += new System.EventHandler(this.cbMuettesSyl_CheckedChanged);
             // 
@@ -2540,6 +2637,7 @@
             this.rbnPoesie.TabIndex = 167;
             this.rbnPoesie.TabStop = true;
             this.rbnPoesie.Text = "Poésie";
+            this.ttipLettreEnNoir.SetToolTip(this.rbnPoesie, "Les syllabes sont marquées en suivant\r\nles conventions de la poésie");
             this.rbnPoesie.UseVisualStyleBackColor = true;
             this.rbnPoesie.CheckedChanged += new System.EventHandler(this.rbnPoesie_CheckedChanged);
             // 
@@ -2616,6 +2714,7 @@
             this.btSC5.TabIndex = 156;
             this.btSC5.Text = "Txt";
             this.btSC5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC5, "6e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
             this.btSC5.UseVisualStyleBackColor = true;
             this.btSC5.Click += new System.EventHandler(this.SylButton_Click);
             // 
@@ -2627,6 +2726,7 @@
             this.btSC4.TabIndex = 155;
             this.btSC4.Text = "Txt";
             this.btSC4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC4, "5e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
             this.btSC4.UseVisualStyleBackColor = true;
             this.btSC4.Click += new System.EventHandler(this.SylButton_Click);
             // 
@@ -2638,6 +2738,7 @@
             this.btSC3.TabIndex = 149;
             this.btSC3.Text = "Txt";
             this.btSC3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC3, "4e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
             this.btSC3.UseVisualStyleBackColor = true;
             this.btSC3.Click += new System.EventHandler(this.SylButton_Click);
             // 
@@ -2649,6 +2750,7 @@
             this.btSC2.TabIndex = 148;
             this.btSC2.Text = "Txt";
             this.btSC2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC2, "3e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
             this.btSC2.UseVisualStyleBackColor = true;
             this.btSC2.Click += new System.EventHandler(this.SylButton_Click);
             // 
@@ -2660,6 +2762,7 @@
             this.btSC1.TabIndex = 147;
             this.btSC1.Text = "Txt";
             this.btSC1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC1, "2e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
             this.btSC1.UseVisualStyleBackColor = true;
             this.btSC1.Click += new System.EventHandler(this.SylButton_Click);
             // 
@@ -2671,6 +2774,7 @@
             this.btSC0.TabIndex = 146;
             this.btSC0.Text = "Txt";
             this.btSC0.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC0, "1e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes");
             this.btSC0.UseVisualStyleBackColor = true;
             this.btSC0.Click += new System.EventHandler(this.SylButton_Click);
             // 

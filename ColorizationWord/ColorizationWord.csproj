@@ -197,6 +197,9 @@
     <Compile Include="WordRibbon.Designer.cs">
       <DependentUpon>WordRibbon.cs</DependentUpon>
     </Compile>
+    <None Include="Resources\Shrink_sq26.png" />
+    <None Include="Resources\Srink_carré_26.png" />
+    <None Include="Resources\enlarge_26.png" />
     <None Include="Resources\phrase_16.png" />
     <None Include="Resources\cleaner_26.png" />
     <None Include="Resources\syll_26.png" />

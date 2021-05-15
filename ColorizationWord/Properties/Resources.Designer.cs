@@ -103,6 +103,16 @@ namespace ColorizationWord.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap enlarge_26 {
+            get {
+                object obj = ResourceManager.GetObject("enlarge_26", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap l_muettes_26 {
             get {
                 object obj = ResourceManager.GetObject("l_muettes_26", resourceCulture);
@@ -156,6 +166,26 @@ namespace ColorizationWord.Properties {
         internal static System.Drawing.Bitmap phrase_16 {
             get {
                 object obj = ResourceManager.GetObject("phrase_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Shrink_sq26 {
+            get {
+                object obj = ResourceManager.GetObject("Shrink_sq26", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Srink_carré_26 {
+            get {
+                object obj = ResourceManager.GetObject("Srink_carré_26", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

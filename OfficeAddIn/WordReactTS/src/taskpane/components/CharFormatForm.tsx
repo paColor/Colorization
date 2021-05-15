@@ -1,5 +1,5 @@
 import { useId } from '@fluentui/react-hooks';
-import { ContextualMenu, FontWeights, getTheme, IconButton, IDragOptions, mergeStyleSets, Modal, IIconProps, } from "@fluentui/react";
+import { FontWeights, getTheme, IconButton, mergeStyleSets, Modal, IIconProps, getColorFromString, IColor, ColorPicker, IColorPickerStyles, ImageFit, DefaultButton, } from "@fluentui/react";
 import * as React from "react";
 
 export interface CharFormatFormProps {
@@ -18,24 +18,34 @@ export interface CharFormatFormProps {
         
 }
 
-const dragOptions: IDragOptions = {
-    moveMenuItemText: 'Move',
-    closeMenuItemText: 'Close',
-    menu: ContextualMenu,
+const btnSize = 15;
+
+const boldIcon: IIconProps = {
+  imageProps: {
+      imageFit: ImageFit.centerContain,
+      width: btnSize,
+      height: btnSize,
+      src: "../assets/phon-carré 52.png"
+  }
 };
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
 export default function CharFormatForm(props:CharFormatFormProps) {
 
+    const white = getColorFromString('#ffffff')!;
+    const [color, setColor] = React.useState(white);
+    const updateColor = React.useCallback((_ev: any, colorObj: IColor) => setColor(colorObj), []);
+
     const titleId = useId('title');
+    
     return(
         <Modal
             isOpen= {props.visible}
             onDismiss= {props.cancel}
             isModeless= {false}
             containerClassName={contentStyles.container}
-            dragOptions={dragOptions}
+            // dragOptions={dragOptions}
             styles={modalStyles}
         >
             <div className={contentStyles.header}>
@@ -46,6 +56,31 @@ export default function CharFormatForm(props:CharFormatFormProps) {
                     ariaLabel="Close popup modal"
                     onClick={props.cancel}
                 />
+            </div>
+            <div className={contentStyles.body}>
+              <ColorPicker
+                color={color}
+                onChange={updateColor}
+                alphaType={"none"}
+                showPreview={true}
+                styles={colorPickerStyles}
+                // The ColorPicker provides default English strings for visible text.
+                // If your app is localized, you MUST provide the `strings` prop with localized strings.
+                strings={{
+                  red: "Rouge",
+                  green: "Vert",
+                  blue: "Bleu",
+                }}
+              />
+
+              <DefaultButton
+                toggle
+                checked={false}
+                iconProps={muted ? volume0Icon : volume3Icon}
+                onClick={setMuted}
+                allowDisabledFocus
+                disabled={disabled}
+              />
             </div>
         </Modal>
     )
@@ -71,14 +106,8 @@ const contentStyles = mergeStyleSets({
       },
     ],
     body: {
-      flex: '4 4 auto',
-      padding: '0 24px 24px 24px',
+      padding: '0 10px',
       overflowY: 'hidden',
-      selectors: {
-        p: { margin: '14px 0' },
-        'p:first-child': { marginTop: 0 },
-        'p:last-child': { marginBottom: 0 },
-      },
     },
 });
 
@@ -97,10 +126,21 @@ const iconButtonStyles = {
 const modalStyles = {
     main: {
         minWidth: 150,
-        maxWidth: 300,
-        width: 200,
+        maxWidth: 350,
+        width: 300,
         minHeight: 100,
-        height: 100,
+        height: 500,
     }
 }
+
+const colorPickerStyles: Partial<IColorPickerStyles> = {
+  panel: { 
+    padding: 12,
+  },
+  root: {
+    maxWidth: 280,
+    minWidth: 280,
+  },
+  colorRectangle: { height: 100 },
+};
 

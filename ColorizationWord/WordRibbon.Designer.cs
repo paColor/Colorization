@@ -39,16 +39,18 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.buttonGroup3 = this.Factory.CreateRibbonButtonGroup();
+            this.buttonGroup1 = this.Factory.CreateRibbonButtonGroup();
+            this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.btnPhonemes = this.Factory.CreateRibbonButton();
             this.btnMuettes = this.Factory.CreateRibbonButton();
             this.btnSyls = this.Factory.CreateRibbonButton();
             this.btnArcs = this.Factory.CreateRibbonButton();
-            this.buttonGroup1 = this.Factory.CreateRibbonButtonGroup();
+            this.btnEcarter = this.Factory.CreateRibbonButton();
             this.btnMots = this.Factory.CreateRibbonButton();
             this.btnLignes = this.Factory.CreateRibbonButton();
             this.btnBPDQ = this.Factory.CreateRibbonButton();
             this.btnNettoyageArcs = this.Factory.CreateRibbonButton();
-            this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
+            this.btnResserrer = this.Factory.CreateRibbonButton();
             this.btnVoyCons = this.Factory.CreateRibbonButton();
             this.btnDuo = this.Factory.CreateRibbonButton();
             this.btnNoir = this.Factory.CreateRibbonButton();
@@ -86,7 +88,25 @@
             this.buttonGroup3.Items.Add(this.btnMuettes);
             this.buttonGroup3.Items.Add(this.btnSyls);
             this.buttonGroup3.Items.Add(this.btnArcs);
+            this.buttonGroup3.Items.Add(this.btnEcarter);
             this.buttonGroup3.Name = "buttonGroup3";
+            // 
+            // buttonGroup1
+            // 
+            this.buttonGroup1.Items.Add(this.btnMots);
+            this.buttonGroup1.Items.Add(this.btnLignes);
+            this.buttonGroup1.Items.Add(this.btnBPDQ);
+            this.buttonGroup1.Items.Add(this.btnNettoyageArcs);
+            this.buttonGroup1.Items.Add(this.btnResserrer);
+            this.buttonGroup1.Name = "buttonGroup1";
+            // 
+            // buttonGroup2
+            // 
+            this.buttonGroup2.Items.Add(this.btnVoyCons);
+            this.buttonGroup2.Items.Add(this.btnDuo);
+            this.buttonGroup2.Items.Add(this.btnNoir);
+            this.buttonGroup2.Items.Add(this.btnPonct);
+            this.buttonGroup2.Name = "buttonGroup2";
             // 
             // btnPhonemes
             // 
@@ -132,13 +152,16 @@
             this.btnArcs.SuperTip = "Trace un arc sous chaque syllabe du texte sélectionné.";
             this.btnArcs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnArcs_Click);
             // 
-            // buttonGroup1
+            // btnEcarter
             // 
-            this.buttonGroup1.Items.Add(this.btnMots);
-            this.buttonGroup1.Items.Add(this.btnLignes);
-            this.buttonGroup1.Items.Add(this.btnBPDQ);
-            this.buttonGroup1.Items.Add(this.btnNettoyageArcs);
-            this.buttonGroup1.Name = "buttonGroup1";
+            this.btnEcarter.Image = global::ColorizationWord.Properties.Resources.enlarge_26;
+            this.btnEcarter.Label = "Ecarter";
+            this.btnEcarter.Name = "btnEcarter";
+            this.btnEcarter.ScreenTip = "Écarter";
+            this.btnEcarter.ShowImage = true;
+            this.btnEcarter.ShowLabel = false;
+            this.btnEcarter.SuperTip = "Augmenter l\'espace entre les mots";
+            this.btnEcarter.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnEcarter_Click);
             // 
             // btnMots
             // 
@@ -184,13 +207,16 @@
             this.btnNettoyageArcs.SuperTip = "Efface les arcs dont le point d\'ancrage est sélectionné.";
             this.btnNettoyageArcs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNettoyageArcs_Click);
             // 
-            // buttonGroup2
+            // btnResserrer
             // 
-            this.buttonGroup2.Items.Add(this.btnVoyCons);
-            this.buttonGroup2.Items.Add(this.btnDuo);
-            this.buttonGroup2.Items.Add(this.btnNoir);
-            this.buttonGroup2.Items.Add(this.btnPonct);
-            this.buttonGroup2.Name = "buttonGroup2";
+            this.btnResserrer.Image = global::ColorizationWord.Properties.Resources.Shrink_sq26;
+            this.btnResserrer.Label = "Resserrer";
+            this.btnResserrer.Name = "btnResserrer";
+            this.btnResserrer.ScreenTip = "Resserrer";
+            this.btnResserrer.ShowImage = true;
+            this.btnResserrer.ShowLabel = false;
+            this.btnResserrer.SuperTip = "Diminuer l\'écart entre les mots";
+            this.btnResserrer.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnResserrer_Click);
             // 
             // btnVoyCons
             // 
@@ -275,6 +301,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnArcs;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnNettoyageArcs;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnPonct;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnEcarter;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnResserrer;
     }
 
     partial class ThisRibbonCollection

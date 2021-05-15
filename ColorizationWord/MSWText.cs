@@ -419,6 +419,71 @@ namespace ColorizationWord
         }
 
         /// <summary>
+        /// Ajoute un espace entre chaque mot.
+        /// </summary>
+        /// <remarks>
+        /// A priori, la config n'est pas utilisée, mais ça permet de réutiliser le même "pattern"
+        /// </remarks>
+        /// <param name="conf">La <see cref="Config"/> à utiliser.</param>
+        public void AddSpace(Config conf)
+        {
+            logger.ConditionalDebug("AddSpace");
+            bool previousIsSpace = false;
+            foreach (Range r in range.Characters)
+            {
+                if (r.Text == " ")
+                {
+                    if (!previousIsSpace)
+                    {
+                        r.InsertBefore(" ");
+                    }
+                    previousIsSpace = true;
+                }
+                else
+                {
+                    previousIsSpace = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Enlève un espace entre chaque mot du texte sélectionné. Ne fait rien s'il n'y a
+        /// qu'un seul espace.
+        /// </summary>
+        /// <remarks>
+        /// A priori, la config n'est pas utilisée, mais ça permet de réutiliser le même "pattern"
+        /// </remarks>
+        /// <param name="conf">La <see cref="Config"/> à utiliser.</param>
+        public void ShrinkSpace(Config conf)
+        {
+            logger.ConditionalDebug("ShrinkSpace");
+            int countSpace = 0;
+            Range lastSpace = null;
+            foreach (Range r in range.Characters)
+            {
+                if (r.Text == " ")
+                {
+                    countSpace++;
+                    lastSpace = r;
+                }
+                else
+                {
+                    if (countSpace > 1)
+                    {
+                        lastSpace.Delete();
+                    }
+                    countSpace = 0;
+                    lastSpace = null;
+                }
+            }
+            // Si le dernièr caractère est un espace...
+            if (countSpace > 1)
+            {
+                lastSpace.Delete();
+            }
+        }
+
+        /// <summary>
         /// Applique le formatage voulu au <see cref="FormattedTextEl"/> sur l'affichage.
         /// </summary>
         /// <exception cref="ArgumentNullException"> si <paramref name="fte"/> est <c>null</c>.

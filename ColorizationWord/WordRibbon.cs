@@ -57,7 +57,10 @@ namespace ColorizationWord
         private static void RemoveArcs(MSWText t, Config conf) => t.RemoveArcs(conf);
         private static void MarkPonct(MSWText t, Config conf) => t.MarkPonct(conf);
         private static void MarKMajDebut(MSWText t, Config conf) => t.MarkMajDebut(conf);
- 
+        private static void AddSpace(MSWText t, Config conf) => t.AddSpace(conf);
+        private static void ShrinkSpace(MSWText t, Config conf) => t.ShrinkSpace(conf);
+
+
         public static void Init()
         {
             logger.ConditionalDebug("Init");
@@ -149,6 +152,33 @@ namespace ColorizationWord
             {
                 ActOnSelectedText(MarKMajDebut, "Majuscules début", conf);
             }
+        }
+
+        /// <summary>
+        /// Ajoute un espace entre chaque mot du texte sélectionné.
+        /// </summary>
+        /// <remarks>
+        /// A priori, la config n'est pas utilisée, mais ça permet de réutiliser le même "pattern"
+        /// </remarks>
+        /// <param name="conf">La <see cref="Config"/> à utiliser.</param>
+        public static void Ecarter(Config conf)
+        {
+            logger.Info("Ecarter");
+            ActOnSelectedText(AddSpace, "Écarter", conf);
+        }
+
+        /// <summary>
+        /// Enlève un espace entre chaque mot du texte sélectionné. Ne fait rien s'il n'y a
+        /// qu'un seul espace.
+        /// </summary>
+        /// <remarks>
+        /// A priori, la config n'est pas utilisée, mais ça permet de réutiliser le même "pattern"
+        /// </remarks>
+        /// <param name="conf">La <see cref="Config"/> à utiliser.</param>
+        public static void Resserrer(Config conf)
+        {
+            logger.Info("Resserrer");
+            ActOnSelectedText(ShrinkSpace, "Resserrer", conf);
         }
 
         private static void ActOnShape(Shape sh, ActOnMSWText act, Config conf)
@@ -299,6 +329,8 @@ namespace ColorizationWord
                 btnArcs.Enabled = enable;
                 btnNettoyageArcs.Enabled = enable;
                 btnPonct.Enabled = enable;
+                btnEcarter.Enabled = enable;
+                btnResserrer.Enabled = enable;
             }
         }
 
@@ -393,6 +425,18 @@ namespace ColorizationWord
         {
             logger.ConditionalDebug("btnPonct_Click");
             ColorPonctuation(GetConfigForActiveWindow());
+        }
+
+        private void btnEcarter_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalDebug("btnEcarter_Click");
+            Ecarter(GetConfigForActiveWindow());
+        }
+
+        private void btnResserrer_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalDebug("btnResserrer_Click");
+            Resserrer(GetConfigForActiveWindow());
         }
     }
 }
