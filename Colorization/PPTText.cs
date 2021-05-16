@@ -81,6 +81,70 @@ namespace Colorization
         }
 
         /// <summary>
+        /// Ajoute un espace entre chaque mot.
+        /// </summary>
+        /// <remarks>
+        /// A priori, la config n'est pas utilisée, mais ça permet de réutiliser le même "pattern"
+        /// </remarks>
+        /// <param name="conf">La <see cref="Config"/> à utiliser.</param>
+        public void AddSpace(Config conf)
+        {
+            logger.ConditionalDebug("AddSpace");
+            bool previousIsSpace = false;
+            for (int i = txtRange.Length - 1; i >= 0; i--)
+            {
+                if (txtRange.Text[i]==' ')
+                {
+                    if (!previousIsSpace)
+                    {
+                        TextRange space = txtRange.Characters(i+1, 1);
+                        space.InsertAfter(" ");
+                    }
+                    previousIsSpace = true;
+                }
+                else
+                {
+                    previousIsSpace = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Enlève un espace entre chaque mot du texte sélectionné. Ne fait rien s'il n'y a
+        /// qu'un seul espace.
+        /// </summary>
+        /// <remarks>
+        /// A priori, la config n'est pas utilisée, mais ça permet de réutiliser le même "pattern"
+        /// </remarks>
+        /// <param name="conf">La <see cref="Config"/> à utiliser.</param>
+        public void ShrinkSpace(Config conf)
+        {
+            logger.ConditionalDebug("ShrinkSpace");
+            int countSpace = 0;
+            for (int i = txtRange.Length - 1; i >= 0; i--)
+            {
+                if (txtRange.Text[i] == ' ')
+                {
+                    countSpace++;
+                }
+                else
+                {
+                    if (countSpace > 1)
+                    {
+                        TextRange space = txtRange.Characters(i+2, 1);
+                        space.Delete();
+                    }
+                    countSpace = 0;
+                }
+            }
+            if (countSpace > 1)
+            {
+                TextRange space = txtRange.Characters(0, 1);
+                space.Delete();
+            }
+        }
+
+        /// <summary>
         /// Applique le formatage <paramref name="cf"/> aux caractères dans le <see cref="TextRange"/>
         /// <paramref name="tRange"/> en utilisant la <see cref="Config"/> <paramref name="inConf"/>.
         /// </summary>

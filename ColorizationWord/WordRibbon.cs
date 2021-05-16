@@ -76,6 +76,8 @@ namespace ColorizationWord
             ConfigControl.drawArcs = WordRibbon.ColorSelectedArcs;
             ConfigControl.removeArcs = WordRibbon.RemoveSelectedArcs;
             ConfigControl.colPonctuation = WordRibbon.ColorPonctuation;
+            ConfigControl.ecarter = WordRibbon.Ecarter;
+            ConfigControl.resserrer = WordRibbon.Resserrer;
         }
 
         public static void ColorSelectedPhons(Config conf)

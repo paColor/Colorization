@@ -39,18 +39,18 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.buttonGroup3 = this.Factory.CreateRibbonButtonGroup();
-            this.buttonGroup1 = this.Factory.CreateRibbonButtonGroup();
-            this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.btnPhonemes = this.Factory.CreateRibbonButton();
             this.btnMuettes = this.Factory.CreateRibbonButton();
             this.btnSyls = this.Factory.CreateRibbonButton();
             this.btnArcs = this.Factory.CreateRibbonButton();
             this.btnEcarter = this.Factory.CreateRibbonButton();
+            this.buttonGroup1 = this.Factory.CreateRibbonButtonGroup();
             this.btnMots = this.Factory.CreateRibbonButton();
             this.btnLignes = this.Factory.CreateRibbonButton();
             this.btnBPDQ = this.Factory.CreateRibbonButton();
             this.btnNettoyageArcs = this.Factory.CreateRibbonButton();
             this.btnResserrer = this.Factory.CreateRibbonButton();
+            this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.btnVoyCons = this.Factory.CreateRibbonButton();
             this.btnDuo = this.Factory.CreateRibbonButton();
             this.btnNoir = this.Factory.CreateRibbonButton();
@@ -90,23 +90,6 @@
             this.buttonGroup3.Items.Add(this.btnArcs);
             this.buttonGroup3.Items.Add(this.btnEcarter);
             this.buttonGroup3.Name = "buttonGroup3";
-            // 
-            // buttonGroup1
-            // 
-            this.buttonGroup1.Items.Add(this.btnMots);
-            this.buttonGroup1.Items.Add(this.btnLignes);
-            this.buttonGroup1.Items.Add(this.btnBPDQ);
-            this.buttonGroup1.Items.Add(this.btnNettoyageArcs);
-            this.buttonGroup1.Items.Add(this.btnResserrer);
-            this.buttonGroup1.Name = "buttonGroup1";
-            // 
-            // buttonGroup2
-            // 
-            this.buttonGroup2.Items.Add(this.btnVoyCons);
-            this.buttonGroup2.Items.Add(this.btnDuo);
-            this.buttonGroup2.Items.Add(this.btnNoir);
-            this.buttonGroup2.Items.Add(this.btnPonct);
-            this.buttonGroup2.Name = "buttonGroup2";
             // 
             // btnPhonemes
             // 
@@ -163,6 +146,15 @@
             this.btnEcarter.SuperTip = "Augmenter l\'espace entre les mots";
             this.btnEcarter.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnEcarter_Click);
             // 
+            // buttonGroup1
+            // 
+            this.buttonGroup1.Items.Add(this.btnMots);
+            this.buttonGroup1.Items.Add(this.btnLignes);
+            this.buttonGroup1.Items.Add(this.btnBPDQ);
+            this.buttonGroup1.Items.Add(this.btnNettoyageArcs);
+            this.buttonGroup1.Items.Add(this.btnResserrer);
+            this.buttonGroup1.Name = "buttonGroup1";
+            // 
             // btnMots
             // 
             this.btnMots.Image = global::ColorizationWord.Properties.Resources.mots_30;
@@ -209,7 +201,7 @@
             // 
             // btnResserrer
             // 
-            this.btnResserrer.Image = global::ColorizationWord.Properties.Resources.Shrink_sq26;
+            this.btnResserrer.Image = global::ColorizationWord.Properties.Resources.Shrink_red_sq26;
             this.btnResserrer.Label = "Resserrer";
             this.btnResserrer.Name = "btnResserrer";
             this.btnResserrer.ScreenTip = "Resserrer";
@@ -217,6 +209,14 @@
             this.btnResserrer.ShowLabel = false;
             this.btnResserrer.SuperTip = "Diminuer l\'écart entre les mots";
             this.btnResserrer.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnResserrer_Click);
+            // 
+            // buttonGroup2
+            // 
+            this.buttonGroup2.Items.Add(this.btnVoyCons);
+            this.buttonGroup2.Items.Add(this.btnDuo);
+            this.buttonGroup2.Items.Add(this.btnNoir);
+            this.buttonGroup2.Items.Add(this.btnPonct);
+            this.buttonGroup2.Name = "buttonGroup2";
             // 
             // btnVoyCons
             // 

@@ -52,6 +52,9 @@ namespace ColorizationControls
         public static ExecuteCommand drawArcs { set; private get; }
         public static ExecuteCommand removeArcs { set; private get; }
         public static ExecuteCommand colPonctuation { set; private get; }
+        public static ExecuteCommand ecarter { set; private get; }
+        public static ExecuteCommand resserrer { set; private get; }
+
 
 
 
@@ -1518,6 +1521,22 @@ namespace ColorizationControls
         {
             logger.ConditionalTrace("MasterStateModifiedHandler");
             UpdateCBPonctMajDeb();
+        }
+
+        //--------------------------------------------------------------------------------------------
+        // -------------------------------  Boutons Ecarter / Resserrer ------------------------------
+        //--------------------------------------------------------------------------------------------
+
+        private void butEcarter_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("butEcarter_Click");
+            ecarter(theConf);
+        }
+
+        private void butResserrer_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("butResserrer_Click");
+            resserrer(theConf);
         }
 
 

@@ -377,5 +377,17 @@
   <ItemGroup>
     <None Include="Resources\Undo_b_32-2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\enlarge_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shrink_red_sq32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shrink_red_sq30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\enlarge_30.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

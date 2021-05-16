@@ -173,6 +173,16 @@ namespace Colorization.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap enlarge_26 {
+            get {
+                object obj = ResourceManager.GetObject("enlarge_26", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Italic {
             get {
                 object obj = ResourceManager.GetObject("Italic", resourceCulture);
@@ -266,6 +276,16 @@ namespace Colorization.Properties {
         internal static System.Drawing.Bitmap phrase_16 {
             get {
                 object obj = ResourceManager.GetObject("phrase_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Shrink_red_sq26 {
+            get {
+                object obj = ResourceManager.GetObject("Shrink_red_sq26", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

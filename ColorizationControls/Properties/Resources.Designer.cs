@@ -343,6 +343,26 @@ namespace ColorizationControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap enlarge_30 {
+            get {
+                object obj = ResourceManager.GetObject("enlarge_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap enlarge_32 {
+            get {
+                object obj = ResourceManager.GetObject("enlarge_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Italic {
             get {
                 object obj = ResourceManager.GetObject("Italic", resourceCulture);
@@ -556,6 +576,26 @@ namespace ColorizationControls.Properties {
         internal static System.Drawing.Bitmap rien_32 {
             get {
                 object obj = ResourceManager.GetObject("rien 32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Shrink_red_sq30 {
+            get {
+                object obj = ResourceManager.GetObject("Shrink_red_sq30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Shrink_red_sq32 {
+            get {
+                object obj = ResourceManager.GetObject("Shrink_red_sq32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

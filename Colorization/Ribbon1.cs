@@ -49,7 +49,8 @@ namespace Colorization
         private static void MarkArcs(PPTText t, Config conf) => t.MarkArcs(conf);
         private static void MarkPonct(PPTText t, Config conf) => t.MarkPonct(conf);
         private static void MarKMajDebut(PPTText t, Config conf) => t.MarkMajDebut(conf);
-
+        private static void AddSpace(PPTText t, Config conf) => t.AddSpace(conf);
+        private static void ShrinkSpace(PPTText t, Config conf) => t.ShrinkSpace(conf);
 
         public static void Init()
         {
@@ -66,6 +67,8 @@ namespace Colorization
             ConfigControl.drawArcs = Ribbon1.ColorSelectedArcs;
             ConfigControl.removeArcs = Ribbon1.RemoveSelectedArcs;
             ConfigControl.colPonctuation = Ribbon1.ColorPonctuation;
+            ConfigControl.ecarter = Ribbon1.Ecarter;
+            ConfigControl.resserrer = Ribbon1.Resserrer;
         }
 
         public static void ColorizeSelectedPhons(Config conf)
@@ -202,6 +205,33 @@ namespace Colorization
             {
                 ActOnSelectedText(MarKMajDebut, conf);
             }
+        }
+
+        /// <summary>
+        /// Ajoute un espace entre chaque mot du texte sélectionné.
+        /// </summary>
+        /// <remarks>
+        /// A priori, la config n'est pas utilisée, mais ça permet de réutiliser le même "pattern"
+        /// </remarks>
+        /// <param name="conf">La <see cref="Config"/> à utiliser.</param>
+        public static void Ecarter(Config conf)
+        {
+            logger.Info("Ecarter");
+            ActOnSelectedText(AddSpace, conf);
+        }
+
+        /// <summary>
+        /// Enlève un espace entre chaque mot du texte sélectionné. Ne fait rien s'il n'y a
+        /// qu'un seul espace.
+        /// </summary>
+        /// <remarks>
+        /// A priori, la config n'est pas utilisée, mais ça permet de réutiliser le même "pattern"
+        /// </remarks>
+        /// <param name="conf">La <see cref="Config"/> à utiliser.</param>
+        public static void Resserrer(Config conf)
+        {
+            logger.Info("Resserrer");
+            ActOnSelectedText(ShrinkSpace, conf);
         }
 
         private static void ActOnShape(Shape sh, ActOnPPTText act, int nrObjSelected, Config conf,
@@ -358,6 +388,8 @@ namespace Colorization
                 btnDuo.Enabled = enable;
                 btnArcs.Enabled = enable;
                 btnRemoveArcs.Enabled = enable;
+                btnEcarter.Enabled = enable;
+                btnResserrer.Enabled = enable;
             }
         }
 
@@ -442,6 +474,18 @@ namespace Colorization
         {
             logger.ConditionalDebug("btnPonct_Click");
             ColorPonctuation(GetConfigForActiveWindow());
+        }
+
+        private void btnEcarter_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalDebug("btnEcarter_Click");
+            Ecarter(GetConfigForActiveWindow());
+        }
+
+        private void btnResserrer_Click(object sender, RibbonControlEventArgs e)
+        {
+            logger.ConditionalDebug("btnResserrer_Click");
+            Resserrer(GetConfigForActiveWindow());
         }
     }
 }

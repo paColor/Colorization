@@ -40,7 +40,7 @@
     <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\Publishing\PowerPoint\</PublishUrl>
     <InstallUrl>https://colorization.ch/publish/PowerPoint/</InstallUrl>
     <TargetCulture>fr</TargetCulture>
-    <ApplicationVersion>1.3.0.1</ApplicationVersion>
+    <ApplicationVersion>1.4.0.1</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>3</UpdateInterval>
@@ -196,6 +196,8 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="Resources\Shrink_red_sq26.png" />
+    <None Include="Resources\enlarge_26.png" />
     <None Include="Resources\phrase_16.png" />
     <None Include="Resources\cleaner_26.png" />
     <None Include="Resources\syll_26.png" />

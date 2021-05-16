@@ -45,11 +45,13 @@ namespace Colorization
             this.btnMuettes = this.Factory.CreateRibbonButton();
             this.btnSyl = this.Factory.CreateRibbonButton();
             this.btnArcs = this.Factory.CreateRibbonButton();
+            this.btnEcarter = this.Factory.CreateRibbonButton();
             this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.btnMots = this.Factory.CreateRibbonButton();
             this.btnLignes = this.Factory.CreateRibbonButton();
             this.btnBPDQ = this.Factory.CreateRibbonButton();
             this.btnRemoveArcs = this.Factory.CreateRibbonButton();
+            this.btnResserrer = this.Factory.CreateRibbonButton();
             this.buttonGroup3 = this.Factory.CreateRibbonButtonGroup();
             this.btnVoyCons = this.Factory.CreateRibbonButton();
             this.btnDuo = this.Factory.CreateRibbonButton();
@@ -89,6 +91,7 @@ namespace Colorization
             this.buttonGroup1.Items.Add(this.btnMuettes);
             this.buttonGroup1.Items.Add(this.btnSyl);
             this.buttonGroup1.Items.Add(this.btnArcs);
+            this.buttonGroup1.Items.Add(this.btnEcarter);
             this.buttonGroup1.Name = "buttonGroup1";
             // 
             // btnPhon
@@ -143,12 +146,25 @@ namespace Colorization
             this.btnArcs.SuperTip = "Dessine des arcs sous les syllabes du texte sélectionné.";
             this.btnArcs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnArcs_Click);
             // 
+            // btnEcarter
+            // 
+            this.btnEcarter.Enabled = false;
+            this.btnEcarter.Image = global::Colorization.Properties.Resources.enlarge_26;
+            this.btnEcarter.Label = "Ecarter";
+            this.btnEcarter.Name = "btnEcarter";
+            this.btnEcarter.ScreenTip = "Écarter";
+            this.btnEcarter.ShowImage = true;
+            this.btnEcarter.ShowLabel = false;
+            this.btnEcarter.SuperTip = "Augmente l\'espacement entre les mots";
+            this.btnEcarter.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnEcarter_Click);
+            // 
             // buttonGroup2
             // 
             this.buttonGroup2.Items.Add(this.btnMots);
             this.buttonGroup2.Items.Add(this.btnLignes);
             this.buttonGroup2.Items.Add(this.btnBPDQ);
             this.buttonGroup2.Items.Add(this.btnRemoveArcs);
+            this.buttonGroup2.Items.Add(this.btnResserrer);
             this.buttonGroup2.Name = "buttonGroup2";
             // 
             // btnMots
@@ -200,6 +216,18 @@ namespace Colorization
             this.btnRemoveArcs.ShowLabel = false;
             this.btnRemoveArcs.SuperTip = "Efface les arcs qui se trouvent dans la sélection.";
             this.btnRemoveArcs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnRemoveArcs_Click);
+            // 
+            // btnResserrer
+            // 
+            this.btnResserrer.Enabled = false;
+            this.btnResserrer.Image = global::Colorization.Properties.Resources.Shrink_red_sq26;
+            this.btnResserrer.Label = "Resserrer";
+            this.btnResserrer.Name = "btnResserrer";
+            this.btnResserrer.ScreenTip = "Resserrer";
+            this.btnResserrer.ShowImage = true;
+            this.btnResserrer.ShowLabel = false;
+            this.btnResserrer.SuperTip = "Diminue l\'espacement entre les mots";
+            this.btnResserrer.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnResserrer_Click);
             // 
             // buttonGroup3
             // 
@@ -301,6 +329,8 @@ namespace Colorization
         internal RibbonButton btnArcs;
         internal RibbonButton btnRemoveArcs;
         internal RibbonButton btnPonct;
+        internal RibbonButton btnEcarter;
+        internal RibbonButton btnResserrer;
     }
 
     partial class ThisRibbonCollection
