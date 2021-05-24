@@ -1,5 +1,5 @@
-import { useId } from '@fluentui/react-hooks';
-import { FontWeights, getTheme, IconButton, mergeStyleSets, Modal, IIconProps, getColorFromString, IColor, ColorPicker, IColorPickerStyles, ImageFit, DefaultButton, } from "@fluentui/react";
+import { useId, useBoolean } from '@fluentui/react-hooks';
+import { FontWeights, getTheme, IconButton, mergeStyleSets, Modal, IIconProps, getColorFromString, IColor, ColorPicker, IColorPickerStyles, ImageFit, IButtonStyles, Stack, } from "@fluentui/react";
 import * as React from "react";
 
 export interface CharFormatFormProps {
@@ -18,15 +18,44 @@ export interface CharFormatFormProps {
         
 }
 
-const btnSize = 15;
+const btnSize = 22;
+const margin = 12;
 
 const boldIcon: IIconProps = {
   imageProps: {
       imageFit: ImageFit.centerContain,
       width: btnSize,
       height: btnSize,
-      src: "../assets/phon-carré 52.png"
+      src: "../assets/Bold_22.png"
   }
+};
+
+const italicIcon: IIconProps = {
+  imageProps: {
+      imageFit: ImageFit.centerContain,
+      width: btnSize,
+      height: btnSize,
+      src: "../assets/Italic_22.png"
+  }
+};
+
+const undescoreIcon: IIconProps = {
+  imageProps: {
+      imageFit: ImageFit.centerContain,
+      width: btnSize,
+      height: btnSize,
+      src: "../assets/Underscore_22.png"
+  }
+};
+
+const withBorderIconButStyles: IButtonStyles = { 
+  root: {height: btnSize + margin, width: btnSize + margin, border: "solid", borderWidth: 1, borderColor: "#A19F9D"},
+  icon: {height: btnSize}
+};
+
+const noBorderIconButStyles: IButtonStyles = { 
+  root: {height: btnSize + margin, width: btnSize + margin, border: "none"},
+  icon: {height: btnSize}
 };
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
@@ -36,6 +65,10 @@ export default function CharFormatForm(props:CharFormatFormProps) {
     const white = getColorFromString('#ffffff')!;
     const [color, setColor] = React.useState(white);
     const updateColor = React.useCallback((_ev: any, colorObj: IColor) => setColor(colorObj), []);
+    const [bold, {toggle : setBold}] = useBoolean(false);
+    const [italic, {toggle : setItalic}] = useBoolean(false);
+    const [underscore, {toggle : setUnderscore}] = useBoolean(false);
+
 
     const titleId = useId('title');
     
@@ -57,6 +90,7 @@ export default function CharFormatForm(props:CharFormatFormProps) {
                     onClick={props.cancel}
                 />
             </div>
+
             <div className={contentStyles.body}>
               <ColorPicker
                 color={color}
@@ -72,16 +106,32 @@ export default function CharFormatForm(props:CharFormatFormProps) {
                   blue: "Bleu",
                 }}
               />
-
-              <DefaultButton
-                toggle
-                checked={false}
-                iconProps={muted ? volume0Icon : volume3Icon}
-                onClick={setMuted}
-                allowDisabledFocus
-                disabled={disabled}
-              />
             </div>
+
+            <Stack horizontal horizontalAlign="center">
+              <IconButton
+                toggle
+                checked={bold}
+                iconProps={boldIcon}
+                onClick={setBold}
+                styles= {bold?withBorderIconButStyles:noBorderIconButStyles}
+              />
+              <IconButton
+                toggle
+                checked={italic}
+                iconProps={italicIcon}
+                onClick={setItalic}
+                styles= {italic?withBorderIconButStyles:noBorderIconButStyles}
+              />
+              <IconButton
+                toggle
+                checked={underscore}
+                iconProps={undescoreIcon}
+                onClick={setUnderscore}
+                styles= {underscore?withBorderIconButStyles:noBorderIconButStyles}
+              />
+            </Stack>
+
         </Modal>
     )
 }
@@ -108,6 +158,17 @@ const contentStyles = mergeStyleSets({
     body: {
       padding: '0 10px',
       overflowY: 'hidden',
+      display: 'flex',
+      flexFlow: 'column nowrap',
+      alignItems: 'center',
+    },
+    buttons: {
+      padding: '60',
+      overflowY: 'hidden',
+      display: 'flex',
+      flexFlow: 'column nowrap',
+      alignItems: 'center',
+      margin: '30',
     },
 });
 
