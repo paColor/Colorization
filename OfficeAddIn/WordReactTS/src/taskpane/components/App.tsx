@@ -34,7 +34,7 @@ const phonLineStackStyles: IStackStyles = {
   root: {
     overflow: 'auto',
     marginBottom: 3,
-  },
+  }, 
 };
 
 // first line
