@@ -1,5 +1,5 @@
-import { useId, useBoolean } from '@fluentui/react-hooks';
-import { FontWeights, getTheme, IconButton, mergeStyleSets, Modal, IIconProps, getColorFromString, IColor, ColorPicker, IColorPickerStyles, ImageFit, IButtonStyles, Stack, } from "@fluentui/react";
+import { useId } from '@fluentui/react-hooks';
+import { FontWeights, getTheme, IconButton, mergeStyleSets, Modal, IIconProps, IColor, ColorPicker, IColorPickerStyles, ImageFit, IButtonStyles, Stack, IStackStyles, PrimaryButton, DefaultButton, IStackTokens, } from "@fluentui/react";
 import * as React from "react";
 
 export interface CharFormatFormProps {
@@ -10,11 +10,24 @@ export interface CharFormatFormProps {
     // le phonème / son pour lequel on ouvre le dialogue
     phon: string;
 
+    // Les détails du CharFormatting à éditer.
+    bold: boolean;
+    clickBold: () => void; // fonction "toggle" appelée quand le bouton est pressé
+
+    italic: boolean;
+    clickItalic : () => void; // fonction "toggle"
+
+    underline: boolean;
+    clickUnderline : () => void; // fonction "toggle"
+
+    color: IColor;
+    setColor: (c: IColor) => void; // fonction appelée quand la couleur change.
+
     // fonction appelée quand OK ou "Valider" est cliqué.
-    valid: any;
+    valid: () => void;
 
     // fonction appelée quand le dialogue est annulé   
-    cancel: any; 
+    cancel: () => void; 
         
 }
 
@@ -39,7 +52,7 @@ const italicIcon: IIconProps = {
   }
 };
 
-const undescoreIcon: IIconProps = {
+const underlineIcon: IIconProps = {
   imageProps: {
       imageFit: ImageFit.centerContain,
       width: btnSize,
@@ -58,17 +71,25 @@ const noBorderIconButStyles: IButtonStyles = {
   icon: {height: btnSize}
 };
 
+const formatStackStyles: IStackStyles = {
+  root: {
+    marginTop: 5,
+  },
+};
+
+const buttonsStackStyles: IStackStyles = {
+  root: {
+    marginTop: 15,
+  },
+};
+
+const buttonsStackTokens: IStackTokens = { childrenGap: 40 };
+
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
 export default function CharFormatForm(props:CharFormatFormProps) {
 
-    const white = getColorFromString('#ffffff')!;
-    const [color, setColor] = React.useState(white);
-    const updateColor = React.useCallback((_ev: any, colorObj: IColor) => setColor(colorObj), []);
-    const [bold, {toggle : setBold}] = useBoolean(false);
-    const [italic, {toggle : setItalic}] = useBoolean(false);
-    const [underscore, {toggle : setUnderscore}] = useBoolean(false);
-
+    const updateColor = React.useCallback((_ev: any, colorObj: IColor) => props.setColor(colorObj), []);
 
     const titleId = useId('title');
     
@@ -93,7 +114,7 @@ export default function CharFormatForm(props:CharFormatFormProps) {
 
             <div className={contentStyles.body}>
               <ColorPicker
-                color={color}
+                color={props.color}
                 onChange={updateColor}
                 alphaType={"none"}
                 showPreview={true}
@@ -108,33 +129,41 @@ export default function CharFormatForm(props:CharFormatFormProps) {
               />
             </div>
 
-            <Stack horizontal horizontalAlign="center">
+            <Stack horizontal horizontalAlign="center" styles={formatStackStyles}>
               <IconButton
                 toggle
-                checked={bold}
+                checked={props.bold}
                 iconProps={boldIcon}
-                onClick={setBold}
-                styles= {bold?withBorderIconButStyles:noBorderIconButStyles}
+                onClick={props.clickBold}
+                styles= {props.bold?withBorderIconButStyles:noBorderIconButStyles}
               />
               <IconButton
                 toggle
-                checked={italic}
+                checked={props.italic}
                 iconProps={italicIcon}
-                onClick={setItalic}
-                styles= {italic?withBorderIconButStyles:noBorderIconButStyles}
+                onClick={props.clickItalic}
+                styles= {props.italic?withBorderIconButStyles:noBorderIconButStyles}
               />
               <IconButton
                 toggle
-                checked={underscore}
-                iconProps={undescoreIcon}
-                onClick={setUnderscore}
-                styles= {underscore?withBorderIconButStyles:noBorderIconButStyles}
+                checked={props.underline}
+                iconProps={underlineIcon}
+                onClick={props.clickUnderline}
+                styles= {props.underline?withBorderIconButStyles:noBorderIconButStyles}
               />
             </Stack>
+
+            <Stack horizontal horizontalAlign="center" styles={buttonsStackStyles} tokens={buttonsStackTokens}>
+              <PrimaryButton text="OK" onClick={props.valid} />
+              <DefaultButton text="Annuler" onClick={props.cancel} />
+            </Stack>
+
 
         </Modal>
     )
 }
+
+
 
 const theme = getTheme();
 const contentStyles = mergeStyleSets({

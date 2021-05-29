@@ -1,10 +1,11 @@
 import * as React from "react";
 import { useBoolean } from '@fluentui/react-hooks';
-import { DefaultButton, DefaultPalette, IButtonStyles, IStackItemStyles, IStackStyles, IStackTokens, Stack, Text } from "@fluentui/react";
+import { DefaultButton, DefaultPalette, getColorFromRGBA, getColorFromString, IButtonStyles, IRGB, IStackItemStyles, IStackStyles, IStackTokens, Stack, Text } from "@fluentui/react";
 import CommandButton from "./CommandButton";
 import PhonControl from "./PhonControl";
 import { useState } from "react";
 import CharFormatForm from "./CharFormatForm";
+import CharFormatting from "./CharFormatting";
 
 export interface AppProps {
   title: string;
@@ -93,19 +94,74 @@ const chiffresStackItemStyles: IStackItemStyles = {
   },
 };
 
-
-// const phonValides = [
-//   "a", "q", "i", "y", "1", "u", "é", "o", "è", "an", "on", "2", "oi", "5", "w", "j", "ill", "ng", 
-//   "gn", "l", "v", "f", "p", "b", "m", "z", "s", "t", "d", "ks", "gz", "r", "n", "ge", "ch", "k",   
-//   "g", "ij", "oin", "47", "uni", "diz", "cen", "mil", "_muet", "q_caduc", 
-// ]
-
-
+/* 
+const phonValides = [
+  "a", "q", "i", "y", "1", "u", "é", "o", "è", "an", "on", "2", "oi", "5", "w", "j", "ill", "ng", 
+  "gn", "l", "v", "f", "p", "b", "m", "z", "s", "t", "d", "ks", "gz", "r", "n", "ge", "ch", "k",   
+  "g", "ij", "oin", "47", "uni", "diz", "cen", "mil", "_muet", "q_caduc", 
+]
+ */
+/* 
 const initChkPhons: Map<string, boolean> = new Map([
   ["a", false], ["q", false], ["i", false], ["y", false], ["1", false], ["u", false], ["é", false], ["o", false], ["è", false], ["an", false], ["on", false], ["2", false], ["oi", false], ["5", false], ["w", false], ["j", false], ["ill", false], ["ng", false], 
   ["gn", false], ["l", false], ["v", false], ["f", false], ["p", false], ["b", false], ["m", false], ["z", false], ["s", false], ["t", false], ["d", false], ["ks", false], ["gz", false], ["r", false], ["n", false], ["ge", false], ["ch", false], ["k", false],   
   ["g", false], ["ij", false], ["oin", false], ["47", false], ["uni", false], ["diz", false], ["cen", false], ["mil", false], ["_muet", false], ["q_caduc", false], 
 ]) 
+ */
+
+const cerasChkPhons: Map<string, boolean> = new Map([
+  ["a", false], ["q", false], ["i", false], ["y", false], ["1", true], ["u", true], ["é", true], ["o", true], ["è", true], ["an", true], ["on", true], ["2", true], ["oi", true], ["5", true], ["w", false], ["j", false], ["ill", false], ["ng", false], 
+  ["gn", false], ["l", false], ["v", false], ["f", false], ["p", false], ["b", false], ["m", false], ["z", false], ["s", false], ["t", false], ["d", false], ["ks", false], ["gz", false], ["r", false], ["n", false], ["ge", false], ["ch", false], ["k", false],   
+  ["g", false], ["ij", false], ["oin", true], ["47", false], ["uni", false], ["diz", false], ["cen", false], ["mil", false], ["_muet", true], ["q_caduc", false], 
+]) 
+
+const roseChkPhons: Map<string, boolean> = new Map([
+  ["a", false], ["q", false], ["i", false], ["y", false], ["1", true], ["u", true], ["é", true], ["o", true], ["è", true], ["an", true], ["on", true], ["2", true], ["oi", true], ["5", true], ["w", false], ["j", false], ["ill", true], ["ng", false], 
+  ["gn", false], ["l", false], ["v", false], ["f", false], ["p", false], ["b", false], ["m", false], ["z", false], ["s", false], ["t", false], ["d", false], ["ks", false], ["gz", false], ["r", false], ["n", false], ["ge", false], ["ch", false], ["k", false],   
+  ["g", false], ["ij", false], ["oin", true], ["47", false], ["uni", false], ["diz", false], ["cen", false], ["mil", false], ["_muet", true], ["q_caduc", false], 
+]) 
+
+const black: IRGB = { r: 0, g: 0, b: 0 }; 
+const defCF: CharFormatting = new CharFormatting(false, false, false, false, black);
+
+const cerasCFPhons: Map<string, CharFormatting> = new Map([
+  ["a", defCF], ["q", defCF], ["i", defCF], ["y", defCF], ["w", defCF], ["j", defCF], ["ill", defCF], ["ng", defCF], 
+  ["gn", defCF], ["l", defCF], ["v", defCF], ["f", defCF], ["p", defCF], ["b", defCF], ["m", defCF], ["z", defCF], ["s", defCF], 
+  ["t", defCF], ["d", defCF], ["ks", defCF], ["gz", defCF], ["r", defCF], ["n", defCF], ["ge", defCF], ["ch", defCF], ["k", defCF],   
+  ["g", defCF], ["ij", defCF], ["47", defCF], ["uni", defCF], ["diz", defCF], ["cen", defCF], ["mil", defCF], ["q_caduc", defCF], 
+  ["1",     new CharFormatting (false, false, true, false, {r: 0, g: 0, b: 0})], 
+  ["u",     new CharFormatting (false, false, false, true, {r: 255, g: 0, b: 0})], 
+  ["é",     new CharFormatting (false, false, false, true, {r: 0, g: 20, b: 208})], 
+  ["o",     new CharFormatting (false, false, false, true, {r: 240, g: 222, b: 0})], 
+  ["è",     new CharFormatting (false, false, false, true, {r: 164, g: 20, b: 210})], 
+  ["an",    new CharFormatting (false, false, false, true, {r: 237, g: 125, b: 49})], 
+  ["on",    new CharFormatting (false, false, false, true, {r: 172, g: 121, b: 66})], 
+  ["2",     new CharFormatting (false, false, false, true, {r: 71, g: 115, b: 255})], 
+  ["oi",    new CharFormatting (true, false, false, true,  {r: 0, g: 0, b: 0})], 
+  ["5",     new CharFormatting (false, false, false, true, {r: 51, g: 153, b: 102})],
+  ["oin",   new CharFormatting (false, false, false, true, {r: 15, g: 201, b: 221})],
+  ["_muet", new CharFormatting (false, false, false, true, {r: 166, g: 166, b: 166})],
+])
+
+const roseCFPhons: Map<string, CharFormatting> = new Map([
+  ["a", defCF], ["q", defCF], ["i", defCF], ["y", defCF], ["w", defCF], ["j", defCF], ["ng", defCF], 
+  ["gn", defCF], ["l", defCF], ["v", defCF], ["f", defCF], ["p", defCF], ["b", defCF], ["m", defCF], ["z", defCF], ["s", defCF], 
+  ["t", defCF], ["d", defCF], ["ks", defCF], ["gz", defCF], ["r", defCF], ["n", defCF], ["ge", defCF], ["ch", defCF], ["k", defCF],   
+  ["g", defCF], ["ij", defCF], ["47", defCF], ["uni", defCF], ["diz", defCF], ["cen", defCF], ["mil", defCF], ["q_caduc", defCF], 
+  ["1",     new CharFormatting (false, false, true, false, { r: 0,   g: 0,   b: 0   })], 
+  ["u",     new CharFormatting (false, false, false, true, { r: 255, g: 0,   b: 0   })], 
+  ["é",     new CharFormatting (false, false, false, true, { r: 255, g: 100, b: 177 })], 
+  ["o",     new CharFormatting (false, false, false, true, { r: 240, g: 222, b: 0   })], 
+  ["è",     new CharFormatting (false, false, false, true, { r: 164, g: 20,  b: 210 })], 
+  ["an",    new CharFormatting (false, false, false, true, { r: 237, g: 125, b: 49  })], 
+  ["on",    new CharFormatting (false, false, false, true, { r: 172, g: 121, b: 66  })], 
+  ["2",     new CharFormatting (false, false, false, true, { r: 71,  g: 115, b: 255 })], 
+  ["oi",    new CharFormatting (true, false, false, true,  { r: 0,   g: 0,   b: 0   })], 
+  ["5",     new CharFormatting (false, false, false, true, { r: 51,  g: 153, b: 102 })],
+  ["oin",   new CharFormatting (false, false, false, true, { r: 15,  g: 201, b: 221 })],
+  ["_muet", new CharFormatting (false, false, false, true, { r: 166, g: 166, b: 166 })],
+  ["ill",   new CharFormatting (false, false, false, true, { r: 127, g: 241, b: 0   })], 
+])
 
 const phonList = [
   [["a",  "[a]",  "ta, plat"],      ["u",   "[u]",   "cou roue"], ["on",  "[§]",   "son"]],
@@ -124,27 +180,73 @@ const phonList = [
   [["b",  "[b]",  "bébé"],          ["gz",  "[gz]",  "examen"]],
 ]
 
+
 export default function App() {
 
-  // Etat de la config
-  const [chkPhons, setChkPhons] = useState(initChkPhons);
+  const [cfPhons, setCFPhons] = useState(roseCFPhons);
+  const [chkPhons, setChkPhons] = useState(roseChkPhons);
 
-  // Pour forcer le rendu --> Il  a une variante officielle, ä adapter à l'occase
+  // Pour forcer le rendu
   const [dummy, setDummy] = useState(false)
 
   // Pour CharFormatForm
   const [isCFFOpen, { setTrue: showCFF, setFalse: hideCFF }] = useBoolean(false);
   const [phonToEdit, setPTE] = useState("");
+  const white = getColorFromString('#ffffff')!;
+  const [cffColor, setCffColor] = useState(white);
+  const [cffBold, {toggle : clickCffBold, setTrue : setBold, setFalse : clearBold}] = useBoolean(false);
+  const [cffItalic, {toggle : clickCffItalic, setTrue : setItalic, setFalse : clearItalic}] = useBoolean(false);
+  const [cffUnderline, {toggle : clickCffUnderline, setTrue : setUnderline, setFalse : clearUnderline}] = useBoolean(false);
 
   function SetChk(phon: string, chkBoxVal: boolean) {
     let chkMap = chkPhons;
     chkMap.set(phon, chkBoxVal);
     setChkPhons(chkMap);
+    setDummy(!dummy); // to force rendering
+  }
+
+  function SetCF(phon: string, cf: CharFormatting) {
+    let cfMap = cfPhons;
+    cfMap.set(phon, cf);
+    setCFPhons(cfMap);
+  }
+
+  function LoadCffData() {
+    SetCF(phonToEdit, new CharFormatting(cffBold, cffItalic, cffUnderline, true, cffColor));
+    hideCFF();
+  }
+
+  function SetCERAS() {
+    setChkPhons(cerasChkPhons);
+    setCFPhons(cerasCFPhons);
+    setDummy(!dummy);
+  }
+
+  function SetRose() {
+    setChkPhons(roseChkPhons);
+    setCFPhons(roseCFPhons);
     setDummy(!dummy);
   }
   
   function OpenCFF(phon: string) {
     setPTE(phon);
+    let cf = cfPhons.get(phon);
+    if (cf.bold) {
+      setBold();
+    } else {
+      clearBold();
+    }
+    if (cf.italic) {
+      setItalic();
+    } else {
+      clearItalic();
+    }
+    if (cf.underline) {
+      setUnderline();
+    } else {
+      clearUnderline();
+    }
+    setCffColor(getColorFromRGBA(cf.color));
     showCFF();
   }
 
@@ -214,7 +316,6 @@ export default function App() {
         </Stack>
       )
     }
-    
   }
   
   return (
@@ -248,10 +349,18 @@ export default function App() {
           <DefaultButton text="tout" styles={narrowButStyles}/>
         </Stack.Item>
         <Stack.Item align="auto" grow styles={slStackItemStyles}> 
-          <DefaultButton text="API ceras (foncé)" styles={customButStyles} />
+          <DefaultButton 
+            text="API ceras (foncé)" 
+            styles={customButStyles} 
+            onClick = {SetCERAS}
+          />
         </Stack.Item>
         <Stack.Item align="auto" grow styles={slStackItemStyles}> 
-          <DefaultButton text="API ceras (rosé)" styles={customButStyles}/>
+          <DefaultButton 
+            text="API ceras (rosé)" 
+            styles={customButStyles}
+            onClick = {SetRose}
+          />
         </Stack.Item>
         <Stack.Item align="end" styles={slStackItemStyles}> 
           <DefaultButton text="rien" styles={narrowButStyles}/>
@@ -324,7 +433,15 @@ export default function App() {
       <CharFormatForm
         visible={isCFFOpen}
         phon= {phonToEdit}
-        valid= {hideCFF}
+        bold= {cffBold}
+        clickBold = {clickCffBold}
+        italic= {cffItalic}
+        clickItalic={clickCffItalic}
+        underline= {cffUnderline}
+        clickUnderline= {clickCffUnderline}
+        color= {cffColor}
+        setColor= {setCffColor}
+        valid= {LoadCffData}
         cancel= {hideCFF}
       />
 
