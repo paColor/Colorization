@@ -122,9 +122,9 @@ export default function CharFormatForm(props:CharFormatFormProps) {
                 // The ColorPicker provides default English strings for visible text.
                 // If your app is localized, you MUST provide the `strings` prop with localized strings.
                 strings={{
-                  red: "Rouge",
-                  green: "Vert",
-                  blue: "Bleu",
+                  red: "R",
+                  green: "V",
+                  blue: "B",
                 }}
               />
             </div>

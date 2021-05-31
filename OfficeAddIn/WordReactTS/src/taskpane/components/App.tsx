@@ -261,6 +261,7 @@ export default function App() {
               phon= {phonList[i][0][0]} 
               phonTxt ={phonList[i][0][1]} 
               butTxt={phonList[i][0][2]}
+              cf = {cfPhons.get(phonList[i][0][0])}
               chk = {chkPhons.get(phonList[i][0][0])} 
               chkOnChange = {SetChk} 
               clickBut = {OpenCFF}/>
@@ -271,6 +272,7 @@ export default function App() {
               phon= {phonList[i][1][0]} 
               phonTxt ={phonList[i][1][1]} 
               butTxt={phonList[i][1][2]} 
+              cf = {cfPhons.get(phonList[i][1][0])}
               chk = {chkPhons.get(phonList[i][1][0])} 
               chkOnChange = {SetChk} 
               clickBut = {OpenCFF}/>
@@ -281,6 +283,7 @@ export default function App() {
               phon= {phonList[i][2][0]} 
               phonTxt ={phonList[i][2][1]} 
               butTxt={phonList[i][2][2]} 
+              cf = {cfPhons.get(phonList[i][2][0])}
               chk = {chkPhons.get(phonList[i][2][0])} 
               chkOnChange = {SetChk}  
               clickBut = {OpenCFF}/>
@@ -296,6 +299,7 @@ export default function App() {
               phon= {phonList[i][0][0]} 
               phonTxt ={phonList[i][0][1]} 
               butTxt={phonList[i][0][2]} 
+              cf = {cfPhons.get(phonList[i][0][0])}
               chk = {chkPhons.get(phonList[i][0][0])} 
               chkOnChange = {SetChk} 
               clickBut = {OpenCFF} />
@@ -309,6 +313,7 @@ export default function App() {
               phon= {phonList[i][1][0]} 
               phonTxt ={phonList[i][1][1]} 
               butTxt={phonList[i][1][2]} 
+              cf = {cfPhons.get(phonList[i][1][0])}
               chk = {chkPhons.get(phonList[i][1][0])} 
               chkOnChange = {SetChk} 
               clickBut = {OpenCFF} />
@@ -381,6 +386,7 @@ export default function App() {
               phon= "diz" 
               phonTxt ="[diz]" 
               butTxt="0010" 
+              cf = {cfPhons.get("diz")}
               chk = {chkPhons.get("diz")} 
               chkOnChange = {SetChk} 
               clickBut = {OpenCFF} />
@@ -391,6 +397,7 @@ export default function App() {
               phon= "mil" 
               phonTxt ="[mil]" 
               butTxt="1000" 
+              cf = {cfPhons.get("mil")}
               chk = {chkPhons.get("mil")}  
               chkOnChange = {SetChk} 
               clickBut = {OpenCFF} />
@@ -404,6 +411,7 @@ export default function App() {
                 phon= "uni" 
                 phonTxt ="[uni]" 
                 butTxt="0001" 
+                cf = {cfPhons.get("uni")}
                 chk = {chkPhons.get("uni")}  
                 chkOnChange = {SetChk} 
                 clickBut = {OpenCFF} />
@@ -415,6 +423,7 @@ export default function App() {
               phonTxt ="[cen]" 
               butTxt="0100" 
               chk = {chkPhons.get("cen")}  
+              cf = {cfPhons.get("cen")}
               chkOnChange = {SetChk} 
               clickBut = {OpenCFF} />
         </Stack.Item>
@@ -424,6 +433,7 @@ export default function App() {
               phon= "47" 
               phonTxt ="[47]" 
               butTxt="0..9" 
+              cf = {cfPhons.get("47")}
               chk = {chkPhons.get("47")}  
               chkOnChange = {SetChk} 
               clickBut = {OpenCFF} />

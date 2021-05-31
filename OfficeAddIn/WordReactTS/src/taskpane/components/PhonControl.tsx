@@ -1,5 +1,6 @@
-import { Stack, Checkbox, DefaultButton, IStackStyles, IStackTokens, IButtonStyles, ICheckboxStyles } from "@fluentui/react";
+import { Stack, Checkbox, DefaultButton, IStackStyles, IStackTokens, IButtonStyles, ICheckboxStyles, getColorFromRGBA } from "@fluentui/react";
 import * as React from "react";
+import CharFormatting from "./CharFormatting";
 
 export interface PhonControlProps {
     // Le phonème / son
@@ -11,17 +12,18 @@ export interface PhonControlProps {
     // le texte dans le bouton
     butTxt: string; 
 
+    // Le formattage
+    cf: CharFormatting;
+
     //la valeur de la checkbox
     chk:boolean; 
 
     // la fonction à appeler quand la checkbox est cliquée
-    // signature: (phon: string, valeurChkBox: boolean) : void
     // Il faut que j'apprenne comment déclarer le bon type :-)
-    chkOnChange: any;
+    chkOnChange: (phon: string, valeurChkBox: boolean) => void;
 
     // la fonction à appeler quand le bouton est cliqué.
-    // signature: (phon: string) : void
-    clickBut: any;
+    clickBut: (phon: string) => void;
 }
 
 const stackStyles: IStackStyles = {
@@ -34,24 +36,6 @@ const stackTokens: IStackTokens = {
     childrenGap: 5,
     padding: 2,
 };
-
-const phonButStyles: IButtonStyles = { 
-    root: {
-      width: 53,
-      height: 20, 
-      padding: 0,
-      margin: 0,
-      minWidth: 10,
-      flexWrap: 'nowrap',
-    },
-    label: {
-      fontSize: 11,
-      padding: 0,
-      margin: 0,
-      flexWrap: 'nowrap',
-    },
-
-  };
   
 const phonCBStyles: ICheckboxStyles ={
     root: {
@@ -82,6 +66,38 @@ export default function PhonControl(props:PhonControlProps) {
     function onClicked() {
         props.clickBut(props.phon);
     }
+
+    
+    let col: string = "#FFFFFF"; // blanc
+    let fontCol: string = "#000000"; // noir
+
+    if (props.chk && props.cf.changeColor) {
+        let iCol = getColorFromRGBA(props.cf.color);
+        col = iCol.str;
+        if (((0.9 * iCol.r) + (1.5 * iCol.g) + (0.5 * iCol.b)) < 380) {
+            // foncé
+            fontCol = "#FFFFFF";
+        }
+    }
+
+    const phonButStyles: IButtonStyles = { 
+        root: {
+          width: 53,
+          height: 20, 
+          padding: 0,
+          margin: 0,
+          minWidth: 10,
+          flexWrap: 'nowrap',
+          background: col,
+        },
+        label: {
+          fontSize: 11,
+          padding: 0,
+          margin: 0,
+          flexWrap: 'nowrap',
+          color: fontCol,
+        },
+      };
 
     return (
         <div>
