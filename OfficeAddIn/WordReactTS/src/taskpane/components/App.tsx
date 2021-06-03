@@ -160,7 +160,7 @@ const roseCFPhons: Map<string, CharFormatting> = new Map([
   ["5",     new CharFormatting (false, false, false, true, { r: 51,  g: 153, b: 102 })],
   ["oin",   new CharFormatting (false, false, false, true, { r: 15,  g: 201, b: 221 })],
   ["_muet", new CharFormatting (false, false, false, true, { r: 166, g: 166, b: 166 })],
-  ["ill",   new CharFormatting (false, false, false, true, { r: 127, g: 241, b: 0   })], 
+  ["ill",   new CharFormatting (false, true, false, true,  { r: 127, g: 241, b: 0   })], 
 ])
 
 const phonList = [

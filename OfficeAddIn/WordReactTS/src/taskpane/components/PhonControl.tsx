@@ -76,7 +76,7 @@ export default function PhonControl(props:PhonControlProps) {
         col = iCol.str;
         if (((0.9 * iCol.r) + (1.5 * iCol.g) + (0.5 * iCol.b)) < 380) {
             // foncé
-            fontCol = "#FFFFFF";
+            fontCol = "#FFFFFF"; // blanc
         }
     }
 
@@ -92,6 +92,9 @@ export default function PhonControl(props:PhonControlProps) {
         },
         label: {
           fontSize: 11,
+          fontWeight: props.chk && props.cf.bold?"800":"400",
+          fontStyle: props.chk && props.cf.italic?"italic":"normal",
+          textDecoration: props.chk && props.cf.underline?"underline":"",
           padding: 0,
           margin: 0,
           flexWrap: 'nowrap',
