@@ -1,14 +1,10 @@
-import * as React from "react";
-import { Button, ButtonType } from "office-ui-fabric-react";
-import Header from "./Header";
-import HeroList, { HeroListItem } from "./HeroList";
-import Progress from "./Progress";
 // images references in the manifest
-import "../../../assets/icon-16.png";
-import "../../../assets/icon-32.png";
-import "../../../assets/icon-80.png";
+// import "../../../assets/icon-16.png";
+// import "../../../assets/icon-32.png";
+// import "../../../assets/icon-80.png";
 /* global Button Header, HeroList, HeroListItem, Progress, Word */
 
+/*
 export interface AppProps {
   title: string;
   isOfficeInitialized: boolean;
@@ -50,7 +46,7 @@ export default class App extends React.Component<AppProps, AppState> {
       /**
        * Insert your Word code here
        */
-
+/*
       // insert a paragraph at the end of the document.
       const paragraph = context.document.body.insertParagraph("Hello World", Word.InsertLocation.end);
 
@@ -90,3 +86,5 @@ export default class App extends React.Component<AppProps, AppState> {
     );
   }
 }
+
+*/

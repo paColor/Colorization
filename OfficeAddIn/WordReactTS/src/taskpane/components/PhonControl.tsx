@@ -1,6 +1,6 @@
 import { Stack, Checkbox, DefaultButton, IStackStyles, IStackTokens, IButtonStyles, ICheckboxStyles, getColorFromRGBA } from "@fluentui/react";
 import * as React from "react";
-import CharFormatting from "./CharFormatting";
+import CharFormatting from "../Configs/CharFormatting";
 
 export interface PhonControlProps {
     // Le phonème / son
@@ -19,7 +19,6 @@ export interface PhonControlProps {
     chk:boolean; 
 
     // la fonction à appeler quand la checkbox est cliquée
-    // Il faut que j'apprenne comment déclarer le bon type :-)
     chkOnChange: (phon: string, valeurChkBox: boolean) => void;
 
     // la fonction à appeler quand le bouton est cliqué.
@@ -56,8 +55,7 @@ const phonCBStyles: ICheckboxStyles ={
 }
 
 
-
-export default function PhonControl(props:PhonControlProps) {
+export default function PhonControl(props: PhonControlProps) {
 
     function onChecked(_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) {
         props.chkOnChange(props.phon, checked);
