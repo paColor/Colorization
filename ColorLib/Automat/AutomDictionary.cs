@@ -47,7 +47,17 @@ namespace ColorLib
         {
             bool toReturn = false;
             string sons;
-            if (except.TryGetValue(pw.GetWord(), out sons)) 
+            if (except == null)
+            {
+                // load except
+                except = new Dictionary<string, string>();
+                int length = exceptArr.GetLength(0);
+                for (int i = 0; i < length; i++)
+                {
+                    except.Add(exceptArr[i, 0], exceptArr[i, 1]);
+                }
+            }
+            if (except.TryGetValue(pw.GetWord(), out sons))
             {
                 toReturn = true;
                 int l = 0; // indice dans le mot
@@ -114,11 +124,14 @@ namespace ColorLib
         /// Objectivement, un dico va beaucoup plus vite qu'une série de règles, de l'autre côté,
         /// à part pour un texte vraiment très long comme dans les tests de non régression où près
         /// de 400 000 mots sont testés, le temps pris par l'automate est négligeable par rapport
-        ///  au temps de colorisation du texte. C'est donc un peu (beaucoup) du pinaillage :-). 
-        ///  De plus, mis à part qu'elles prennent moins de place, les règles ont l'avantage de
-        ///  fonctionner également quand il y a des fautes d'orthographe...
+        /// au temps de colorisation du texte. C'est donc un peu (beaucoup) du pinaillage :-). 
+        /// De plus, mis à part qu'elles prennent moins de place, les règles ont l'avantage de
+        /// fonctionner également quand il y a des fautes d'orthographe...
         /// </remarks>
-        private static Dictionary<string, string> except = new Dictionary<string, string>()
+        private static Dictionary<string, string> except = null;
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+        private static string[,] exceptArr = new string[,]
         {
             // les mots suivants proviennent de la base de données Morphalou.
             // Je me demande s'ils existent vraiment tous dans notre belle langue...
@@ -2976,6 +2989,7 @@ namespace ColorLib
             { "pétiolée", "p-p;é-e;t-s;i-j;o-o;l-l;é-e;e-#" },
             { "pétiolées", "p-p;é-e;t-s;i-j;o-o;l-l;é-e;e-#;s-#" },
 
-        }; 
+        };
+#pragma warning restore CA1814 // Prefer jagged arrays over multidimensional
     }
 }

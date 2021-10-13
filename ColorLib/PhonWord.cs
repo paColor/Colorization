@@ -660,7 +660,7 @@ namespace ColorLib
                     {
                         for (int i = succIndex + 1; i < syls.Count; i++)
                         {
-                            toReturn = toReturn & syls[i].EstMuet();
+                            toReturn = toReturn && syls[i].EstMuet();
                         }
                     }
                 }

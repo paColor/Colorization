@@ -82,7 +82,7 @@ namespace ColorLibTest
         [TestMethod]
         public void PrintConstruct()
         {
-            string txt = "millefeuille";
+            string txt = "cœur";
             TheText tt = new TheText(txt);
             Config conf = new Config();
             conf.colors[PhonConfType.phonemes].IllRuleToUse = ColConfWin.IllRule.ceras;
