@@ -52,7 +52,7 @@ namespace ColorLib
             theConf = conf;
             syls = null;
             phons = new List<PhonInW>((inLast - inFirst) + 1);
-            AutomAutomat.autom.FindPhons(this, conf);
+            AutomAutomat.FindPhons(this, conf);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace ColorLib
             theConf = conf;
             syls = null;
             phons = new List<PhonInW>((Last - First) + 1);
-            AutomAutomat.autom.FindPhons(this, conf);
+            AutomAutomat.FindPhons(this, conf);
         }
 
         /// <summary>

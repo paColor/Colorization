@@ -241,13 +241,37 @@ namespace ColorLib
 
         private static bool initiated = false;
 
+        /// <summary>
+        /// Initialise les listes indexées de cas spéciaux
+        /// </summary>
+        /// <remarks>
+        /// Le fait d'initialiser explicitement ces HashSet, permet d'exécuter cette initialisation 
+        /// avant la première utilisation et pas de manière statique. De cette façon. le démarrage du
+        /// programme n'est pas ralenti. Par contre la première exécution est plus lente...
+        /// </remarks>
         public static void InitAutomat()
         {
             logger.ConditionalDebug("InitAutomat");
             if (!initiated)
             {
-                for (int i = 0; i < avoir_eu.Length; i++)
-                    avoir_eu_hashed.Add(avoir_eu[i], null);
+                termFutCond         = new HashSet<string>(termFutCondArr);
+                mots_ent            = new HashSet<string>(mots_entArr);
+                exceptions_final_er = new HashSet<string>(exceptions_final_erArr);
+                noms_ai             = new HashSet<string>(noms_aiArr);
+                avoir_eu_hashed     = new HashSet<string>(avoir_euArr);
+                mots_s_final        = new HashSet<string>(mots_s_finalArr);
+                mots_t_final        = new HashSet<string>(mots_t_finalArr);
+                mots_d_final        = new HashSet<string>(mots_d_finalArr);
+                mots_am_final       = new HashSet<string>(mots_am_finalArr);
+                motsUNon            = new HashSet<string>(motsUNonArr);
+                motsUM              = new HashSet<string>(motsUMArr);
+                motsX               = new HashSet<string>(motsXArr);
+                verbes_mer          = new HashSet<string>(verbes_merArr);
+                motsQUkw            = new HashSet<string>(motsQUkwArr);
+                motsEn5             = new HashSet<string>(motsEn5Arr);
+                except_ill          = new HashSet<string>(except_illArr);
+                motsOYoj            = new HashSet<string>(motsOYojArr);
+                motsRe6             = new HashSet<string>(motsRe6Arr);
             }
             initiated = true;
         }
@@ -307,7 +331,6 @@ namespace ColorLib
                 return s;
         }
 
-
         private static Regex rxConsIent = new Regex("[bcçdéfghjklnmpqrstvwxz]ient$", RegexOptions.Compiled);
 
         /// <summary>
@@ -334,16 +357,21 @@ namespace ColorLib
                     StringBuilder sb = new StringBuilder(mot.Length);
                     sb.Append(mot.Substring(0, mot.Length - 2));
                     sb.Append('r');
+                    if (verbes_ier == null)
+                    {
+                        verbes_ier = new HashSet<string>(verbes_ierArr);
+                    }
                     toReturn = verbes_ier.Contains(sb.ToString());
                 }
             }
             return toReturn;
         }
 
-        private static HashSet<string> termFutCond = new HashSet<string>()
+        private static HashSet<string> termFutCond = null;
+        private static string[] termFutCondArr =  
         {
-            { "ai" }, { "as" }, { "a" }, { "ons" }, { "ez" }, { "ont" },
-            { "ais" }, { "ait" }, { "ions" }, { "iez" }, { "aient" }
+           "ai", "as", "a", "ons", "ez", "ont",
+           "ais", "ait", "ions", "iez", "aient"
         };
 
         /// <summary>
@@ -398,7 +426,8 @@ namespace ColorLib
         /// <remarks>
         /// Pas besoin que liste contienne les version féminines ou plurielles des mots.
         /// </remarks>
-        private static HashSet<string> mots_ent = new HashSet<string>
+        private static HashSet<string> mots_ent = null;
+        private static string[] mots_entArr = 
         {
             "absent", "abstinent", "accent", "accident", "adhérent", "adjacent",
             "adolescent", "afférent", "agent", "ambivalent", "antécédent", "apparent",
@@ -533,7 +562,8 @@ namespace ColorLib
         /// <remarks>
         /// Attention: sans le 's' final qui est condiéré comme pluriel.
         /// </remarks>
-        private static HashSet<string> exceptions_final_er = new HashSet<string>
+        private static HashSet<string> exceptions_final_er = null;
+        private static string[] exceptions_final_erArr =
         {
             "aber", "acquier", "afrikander", "alter", "amer", "amphiaster", "aster", "auster",
             "aver", "baedeker", "ber", "bitter", "-boxer", "bulldozer", "cancer", "carter",
@@ -589,7 +619,8 @@ namespace ColorLib
         /// <summary>
         /// Liste des mots se terminant par 'ai' qui se prononce [E].
         /// </summary>
-        private static HashSet<string> noms_ai = new HashSet<string>
+        private static HashSet<string> noms_ai = null;
+        private static string[] noms_aiArr = 
         {
             "balai", "brai", "chai", "déblai", "délai", "essai", "frai", "geai", "lai", "mai",
             "minerai", "papegai", "quai", "rai", "remblai", "vrai" // PAE: ajouté "vrai" 18.05.20
@@ -615,13 +646,12 @@ namespace ColorLib
             return toReturn;
         }
 
-        static string[] avoir_eu =
+        private static HashSet<string> avoir_eu_hashed = null;
+        private static string[] avoir_euArr =
         {
             "eu", "eue", "eues", "eus", "eut", "eûmes", "eûtes", "eurent",
             "eusse", "eusses", "eût", "eussions", "eussiez", "eussent"
         };
-
-        private static StringDictionary avoir_eu_hashed = new StringDictionary();
 
         /*
          * Règle spécifique de traitement des successions de lettres 'eu'
@@ -636,14 +666,15 @@ namespace ColorLib
 
             bool toReturn = false;
             if ((pos_mot == 0) && (mot.Length > 1) && ((mot[1] == 'u') || (mot[1] == 'û')))
-                toReturn = avoir_eu_hashed.ContainsKey(mot);
+                toReturn = avoir_eu_hashed.Contains(mot);
             return toReturn;
         }
 
         /// <summary>
         /// Liste des mots se terminant par 's' où le 's' se prononce.
         /// </summary>
-        private static HashSet<string> mots_s_final = new HashSet<string>
+        private static HashSet<string> mots_s_final = null;
+        private static string[] mots_s_finalArr =
         {
             "abies", "abraxas", "acarus", "acens", "acinus", "adonis", "agasillis", "agnus", "agnès",
             "agrostis", "albatros", "albinos", "albinos", "alcarazas", "alios", "alkermès", "aloès",
@@ -769,7 +800,8 @@ namespace ColorLib
         /// <summary>
         /// Liste des mots se termionant par 't' où le 't' se prononce.
         /// </summary>
-        private static HashSet<string> mots_t_final = new HashSet<string>
+        private static HashSet<string> mots_t_final = null;
+        private static string[] mots_t_finalArr =
         {
             "abject", "abrupt", "abrupt", "abstract", "accessit", "aconit", "affect", "affidavit",
             "ajust", "alcootest", "anet", "antichrist", "antitrust", "antéchrist", "août", "artéfact",
@@ -886,7 +918,8 @@ namespace ColorLib
         /// <summary>
         /// Liste des mots se termionant par 'd' où le 'd' se prononce.
         /// </summary>
-        private static HashSet<string> mots_d_final = new HashSet<string>
+        private static HashSet<string> mots_d_final = null;
+        private static string [] mots_d_finalArr =
         {
             "apartheid", "aïd", "background", "barmaid", "baroud", "band", "bled", "caïd", "celluloïd", "damned",
             "djihad", "kid", "fjord", "hard", "jihad", "lad", "lord", "sud", "oued", "pad", "plaid", "polaroid", "polaroïd",
@@ -910,7 +943,8 @@ namespace ColorLib
         /// <summary>
         /// Liste des mots se terminant par 'am' où celà se prononce [am].
         /// </summary>
-        private static HashSet<string> mots_am_final = new HashSet<string>
+        private static HashSet<string> mots_am_final = null;
+        private static string[] mots_am_finalArr =
         {
             "ayam", "bairam", "baïram", "bantam", "brougham", "clam", "dam", "goddam", "gram",
             "hammam", "imam", "islam", "jéroboam", "lingam", "litham", "macadam", "madapolam",
@@ -1031,6 +1065,10 @@ namespace ColorLib
                 StringBuilder sb = new StringBuilder(mot.Length);
                 sb.Append(mot.Substring(0, pos + 1));
                 sb.Append("er");
+                if (verbesTer == null)
+                {
+                    verbesTer = new HashSet<string>(verbesTerArr);
+                }
                 toReturn = verbesTer.Contains(sb.ToString());
             }
             return toReturn;
@@ -1072,7 +1110,13 @@ namespace ColorLib
             if (pos < mot.Length - 1
                 && mot[pos] == 'c'
                 && mot[pos + 1] == 'h')
+            {
+                if (motsChK == null)
+                {
+                    motsChK = new HashSet<string>(motsChKArr);
+                }
                 toReturn = motsChK.Contains(mot);
+            }
             return toReturn;
         }
 
@@ -1202,7 +1246,8 @@ namespace ColorLib
         /// <summary>
         /// Liste des mots contenant 'un' où 'un' se prononce [§]
         /// </summary>
-        private static HashSet<string> motsUNon = new HashSet<string>
+        private static HashSet<string> motsUNon = null;
+        private static string[] motsUNonArr = 
         {
             "acupuncteur", "acupuncteurs", "acupuncture", "acupunctures", "avunculaire", "avunculairement",
             "avunculaires", "avunculat", "avunculats", "bécabunga", "bécabungas", "carborundum",
@@ -1222,7 +1267,8 @@ namespace ColorLib
         /// <summary>
         /// Liste des verbes en ier. Avec accents.
         /// </summary>
-        private static HashSet<string> verbes_ier = new HashSet<string>
+        private static HashSet<string> verbes_ier = null;
+        private static string[] verbes_ierArr =
         {
             "abrier", "abêtifier", "académifier", "académisier", "acidifier", "acétifier", "affier", "affilier",
             "agatifier", "allier", "amnistier", "amodier", "amplier", "amplifier", "anesthésier", "anémier",
@@ -1348,7 +1394,8 @@ namespace ColorLib
         /// <summary>
         /// Liste des mots en "um" se prononçant [Om]. (sans le 's' du pluriel)
         /// </summary>
-        private static HashSet<string> motsUM = new HashSet<string>
+        private static HashSet<string> motsUM = null;
+        private static string[] motsUMArr = 
         {
             "abrotanum", "acanthophyllum", "acérathérium", "acérothérium", "acétabulum", "acrotérium", "actinium",
             "adénoépithélium", "adiantum", "adytum", "aérium", "ageratum", "album", "allopalladium", "aluminium",
@@ -1409,7 +1456,8 @@ namespace ColorLib
         /// conjuguent en 'tions' ou 'tiez' comme démentir qui est présent dans la liste 
         /// comme 'démenter'... 
         /// </summary>
-        private static HashSet<string> verbesTer = new HashSet<string>
+        private static HashSet<string> verbesTer = null;
+        private static string[] verbesTerArr =
         {
             "aboter", "abouter", "abricoter", "abriter", "absorbanter", "abuter", "accepter", "accidenter",
             "accoiter",
@@ -1727,7 +1775,8 @@ namespace ColorLib
         /// <summary>
         /// mots dont le x final se pronoce.
         /// </summary>
-        private static HashSet<string> motsX = new HashSet<string>
+        private static HashSet<string> motsX = null;
+        private static string[] motsXArr =
         {
             "abax", "abrasax", "acromyrmex", "ajax", "alpax", "anthrax", "apex", "archéoptéryx",
             "aspalax", "bembex", "bombyx", "borax", "box", "carex", "chaix", "climax", "codex",
@@ -1754,7 +1803,8 @@ namespace ColorLib
         /// <summary>
         /// Liste "complète" des verbes en "mer"
         /// </summary>
-        private static HashSet<string> verbes_mer = new HashSet<string>
+        private static HashSet<string> verbes_mer = null;
+        private static string[] verbes_merArr =
         {
             "abimer",
             "abîmer", "acclamer", "accoutumer", "affamer", "affermer", "affirmer", "aimer", "alarmer",
@@ -1827,7 +1877,9 @@ namespace ColorLib
         /// <summary>
         /// Liste mots non identifiés par les règles, où 'ch' se prononce [k]
         /// </summary>
-        private static HashSet<string> motsChK = new HashSet<string>
+        private static HashSet<string> motsChK = null;
+        // Initialisation lors de la première utilisation pour ne pas trop charger le démarrage...
+        private static string[] motsChKArr =
         {
             "achéen", "achéenne", "achéennes", "achéens", "achéménide", "achéménides", "achène",
             "achènes", "achillée", "achillées", "achilléine", "achilléines", "achirite", "achirites",
@@ -1983,7 +2035,8 @@ namespace ColorLib
         /// <summary>
         /// Liste mots où 'qu' se prononce [kw]
         /// </summary>
-        private static HashSet<string> motsQUkw = new HashSet<string>
+        private static HashSet<string> motsQUkw = null;
+        private static string[] motsQUkwArr =
         {
             "aquafortiste", "aquafortistes", "aquamoteur", "aquaphobie", "aquaplane", "aquaplanes",
             "aquarella", "aquarellai", "aquarellaient", "aquarellais", "aquarellait", "aquarellâmes",
@@ -2051,7 +2104,8 @@ namespace ColorLib
         /// Liste mots où 'en' se prononce [5] et qui ne sont pas intercéptés par les règles déjà
         /// existantes.
         /// </summary>
-        private static HashSet<string> motsEn5 = new HashSet<string>
+        private static HashSet<string> motsEn5 = null;
+        private static string[] motsEn5Arr =
         {
             "agenda", "agendas", "aléoutiens", "algonkiens", "alsaciens", "angioendothéliome",
             "apexiens", "apiens", "aplacentaire", "aplacentaires", "aptiens", "archiloquiens",
@@ -2110,7 +2164,8 @@ namespace ColorLib
         /// Liste des mots où ill se pronoce [il] et non [j] ou [ij]. Les pluriels doivent être
         /// dans la liste.
         /// </summary>
-        private static HashSet<string> except_ill = new HashSet<string>
+        private static HashSet<string> except_ill = null;
+        private static string[] except_illArr =
         {
             "abbevillien", "abbevillienne", "abbevilliennes", "abbevilliens", "abbevillois", "abbevilloise",
             "abbevilloises", "admaxillaire", "admaxillaires",
@@ -2191,7 +2246,8 @@ namespace ColorLib
         /// <summary>
         /// Liste des mots où "oy" se pronoce [oj] et non [waj]
         /// </summary>
-        private static HashSet<string> motsOYoj = new HashSet<string>
+        private static HashSet<string> motsOYoj = null;
+        private static string[] motsOYojArr =
         {
             "agoyate", "agoyates", "alcoyle", "alcoyles", "arroyo", "arroyos", "benzoyle", "benzoyles",
             "boy", "boys", "boyard", "boyards", "boycott", "boycotts", "boycottage", "boycottages",
@@ -2215,7 +2271,8 @@ namespace ColorLib
         /// Liste des groupes de 6 lettres (ou moins) au début des mots commençant par "re" et où
         /// le 'e' ne se prononce pas [°].
         /// </summary>
-        public static HashSet<string> motsRe6 = new HashSet<string>
+        private static HashSet<string> motsRe6 = null;
+        private static string[] motsRe6Arr =
         {
             "realia", "recta", "rectal", "rectan", "rectas", "rectau", "rectem", "recteu", "rectic",
             "rectid", "rectif", "rectig", "rectil", "rectim", "rectin", "rectio", "rectir", "rectis",

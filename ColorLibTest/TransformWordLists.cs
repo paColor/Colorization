@@ -130,31 +130,31 @@ pétiolées
             }
         }
 
-        [TestMethod]
-        public void CheckReWords()
-        {
-            HashSet<string> wordSet = new HashSet<string>();
-            Regex rx = new Regex(@"\b\w+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase); // matches words
-            MatchCollection matches = rx.Matches(words);
-            const int nrLetters = 6;
-            foreach (Match m in matches)
-            {
-                string w = m.Value;
-                string ws;
-                if (w.Length <= nrLetters)
-                {
-                    ws = w;
-                }
-                else
-                {
-                    ws = w.Substring(0, nrLetters);
-                }
-                if (AutomRuleFilter.motsRe6.Contains(ws))
-                {
-                    WriteBlock(w);
-                }
-            }
-        }
+        //[TestMethod]
+        //public void CheckReWords()
+        //{
+        //    HashSet<string> wordSet = new HashSet<string>();
+        //    Regex rx = new Regex(@"\b\w+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase); // matches words
+        //    MatchCollection matches = rx.Matches(words);
+        //    const int nrLetters = 6;
+        //    foreach (Match m in matches)
+        //    {
+        //        string w = m.Value;
+        //        string ws;
+        //        if (w.Length <= nrLetters)
+        //        {
+        //            ws = w;
+        //        }
+        //        else
+        //        {
+        //            ws = w.Substring(0, nrLetters);
+        //        }
+        //        if (AutomRuleFilter.motsRe6.Contains(ws))
+        //        {
+        //            WriteBlock(w);
+        //        }
+        //    }
+        //}
 
 
         [TestMethod]

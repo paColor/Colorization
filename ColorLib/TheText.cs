@@ -461,7 +461,6 @@ namespace ColorLib
             logger.ConditionalDebug("Init");
             CharFormatting.Init();
             ConfigBase.Init(errMsgs);
-            AutomAutomat.InitAutomat();
             SylInW.Init();
             Config.Init(errMsgs);
 
@@ -1160,6 +1159,9 @@ namespace ColorLib
             // Limite du nombre de mots au-dessus de laquelle on travaille en parallèle.
             const int ParallelLimit = 50; 
             logger.ConditionalDebug("GetPhonWords (wordList, conf), nr mots: {0}", wordList.Count);
+            AutomAutomat.InitAutomat(); // c'est un peu bizarre d'initialiser l'automate ici,
+                                        // mais ça permet de ne le faire que si on en a besoin
+                                        // et une seule fois (avant la parallélisation).
             ConcurrentBag<PhonWord> toReturn = new ConcurrentBag<PhonWord>();
             if (wordList.Count > ParallelLimit)
             {

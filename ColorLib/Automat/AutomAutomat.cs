@@ -590,14 +590,38 @@ namespace ColorLib
 
 }";
 
-		static public AutomAutomat autom;
+		static private AutomAutomat autom = null;
 
+		/// <summary>
+		/// Initialise l'automate. Doit être appelé avant <see cref="FindPhons(PhonWord, Config)"/>.
+		/// Peut être appelé plusieurs fois. 
+		/// </summary>
 		static public void InitAutomat()
 		{
 			logger.ConditionalDebug("InitAutomat");
-			AutomLetter.InitAutomat();
-			autom = new AutomAutomat(theAutomat);
+			if (autom == null)
+            {
+				AutomLetter.InitAutomat();
+				autom = new AutomAutomat(theAutomat);
+			}
 		}
+
+		/// <summary>
+		/// Cherche les phonèmes dans <c>pw</c> et complète <c>pw</c> pour qu'il contienne l'information.
+		/// </summary>
+		/// <param name="pw">Le <see cref="PhonWord"/> à analyser et à compléter avec ses phonèmes.</param>
+		/// <param name="conf">La <see cref="Config"/> à utiliser au cours de cette analyse.</param>
+		static public void FindPhons(PhonWord pw, Config conf)
+        {
+			if (autom == null)
+            {
+				throw new NullReferenceException("L'automate n'est pas initilisé");
+				// L'automate n'est pas initilisé ici, car cette méthode est appelée en parallèle.
+				// Il faudrait donc bloquer le parallélisme pour l'initialisation et je ne sais pas 
+				// comment faire. Je chercherai un de ces jours ;-)
+            }
+			autom.DoFindPhons(pw, conf);
+        }
 
 		private Dictionary<char, AutomLetter> automLetters;
 
@@ -647,7 +671,7 @@ namespace ColorLib
 		/// </summary>
 		/// <param name="pw">Le <see cref="PhonWord"/> à analyser et à compléter avec ses phonèmes.</param>
 		/// <param name="conf">La <see cref="Config"/> à utiliser au cours de cette analyse.</param>
-		public void FindPhons(PhonWord pw, Config conf)
+		private void DoFindPhons(PhonWord pw, Config conf)
 		{
 			logger.ConditionalTrace("FindPhons");
 			Debug.Assert(pw != null);
