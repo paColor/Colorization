@@ -40,7 +40,7 @@
     <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\Publishing\PowerPoint\</PublishUrl>
     <InstallUrl>https://colorization.ch/publish/PowerPoint/</InstallUrl>
     <TargetCulture>fr</TargetCulture>
-    <ApplicationVersion>1.4.0.1</ApplicationVersion>
+    <ApplicationVersion>1.4.0.2</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>3</UpdateInterval>
@@ -196,6 +196,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="ColorizationPPT_TemporaryKey.pfx" />
     <None Include="Resources\Shrink_red_sq26.png" />
     <None Include="Resources\enlarge_26.png" />
     <None Include="Resources\phrase_16.png" />
@@ -348,11 +349,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>ColorizationPPT_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>57A0E6A280F79B0C6FAB85F19A17F269197F9335</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>9554BCB3454A72D15DABED647E47B9B2EAD8D936</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
