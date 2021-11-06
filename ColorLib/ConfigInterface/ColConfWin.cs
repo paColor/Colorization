@@ -438,6 +438,56 @@ namespace ColorLib
             {"q_caduc", new string[2] {"[-]", "e caduc" } }, 
         };
 
+        private static Dictionary<string, List<string>> listeGraphemes = new Dictionary<string, List<string>>()
+        {
+            {"a",   new List<string> (1) {"a", "à", "â", "e"}},
+            {"q",   new List<string> (1) {"a", "e"}},
+            {"i",   new List<string> (1) {"i", "ï", "î", "y"}},
+            {"y",   new List<string> (1) {"eu", "u", "û", "ù", "ü"}},
+            {"1",   new List<string> (1) {"un", "um"}},
+            {"u",   new List<string> (1) {"ou", "oo"}},
+            {"é",   new List<string> (2) {"ae", "æ", "é", "oe", "œ", "ai", "ed", "er", "ez", "es"}},
+            {"o",   new List<string> (2) {"o", "oo", "oa", "ô", "ö", "u",  "au", "eau"}},
+            {"è",   new List<string> (2) {"è", "ê", "ë",  "ai", "ay", "e", "ei", "ey", "et", "est" }},
+            {"an",  new List<string> (1) {"an", "am", "en", "em"}},
+            {"on",  new List<string> (1) {"o_tilda"}},
+            {"2",   new List<string> (1) {"x2"}},
+            {"oi",  new List<string> (1) {"oi"}},
+            {"5",   new List<string> (1) {"e_tilda"}},
+            {"w",   new List<string> (1) {"w"}},
+            {"j",   new List<string> (2) {"j", "ji"}},
+            {"ill", new List<string> (2) {"j_ill", "i_j_ill"}},
+            {"ng",  new List<string> (1) {"J"}},
+            {"gn",  new List<string> (1) {"N"}},
+            {"l",   new List<string> (1) {"l"}},
+            {"v",   new List<string> (1) {"v"}},
+            {"f",   new List<string> (2) {"f", "f_ph"}},
+            {"p",   new List<string> (1) {"p"}},
+            {"b",   new List<string> (1) {"b"}},
+            {"m",   new List<string> (1) {"m"}},
+            {"z",   new List<string> (2) {"z", "z_s"}},
+            {"s",   new List<string> (4) {"s", "s_c", "s_t", "s_x"}},
+            {"t",   new List<string> (1) {"t"}},
+            {"d",   new List<string> (1) {"d"}},
+            {"ks",  new List<string> (1) {"ks"}},
+            {"gz",  new List<string> (1) {"gz"}},
+            {"r",   new List<string> (1) {"R"}},
+            {"n",   new List<string> (1) {"n"}},
+            {"ge",  new List<string> (1) {"Z"}},
+            {"ch",  new List<string> (1) {"S"}},
+            {"k",   new List<string> (2) {"k", "k_qu"}},
+            {"g",   new List<string> (2) {"g", "g_u"}},
+            {"ij",  new List<string> (1) {"i_j"}},
+            {"oin", new List<string> (1) {"w_e_tilda"}},
+            {"47",  new List<string> (1) {"chiffre"}},
+            {"uni", new List<string> (1) {"unité"}},
+            {"diz", new List<string> (1) {"dizaine"}},
+            {"cen", new List<string> (1) {"centaine"}},
+            {"mil", new List<string> (1) {"milliers"}},
+            {"_muet",   new List<string> (2) {"verb_3p", "_muet"}},
+            {"q_caduc", new List<string> (1) {"q_caduc"}}
+        };
+
 
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  public static methods ---------------------------------------------
@@ -608,6 +658,11 @@ namespace ColorLib
         [OptionalField(VersionAdded = 3)]
         private CharFormatting defChF; // CharFormatting returned for phonemes where the checkbox is not set
 
+        /// <summary>
+        /// Pour chaque son, contient une liste de graphèmes avec l'indication s'ils doivent être colorisés ou non. 
+        /// </summary>
+        [OptionalField(VersionAdded = 3)]
+        private Dictionary<string, Dictionary<string, bool>> graphemes;
 
         // -------------------------------------------------------------------------------------------------------------------
         // ---------------------------------------------------  public  methods ----------------------------------------------
@@ -635,6 +690,9 @@ namespace ColorLib
             // notons au passage que la plupart des règles utilisent le flag 'undefined'
 
             pct = inPct;
+
+            graphemes = new Dictionary<string, Dictionary<string, bool>> (nrSons);
+            // ResetGraphemes(); // est redondant puisque Reset() l'exécute.
 
             Reset();
             UndoFactory.EnableUndoRegistration();
@@ -835,6 +893,7 @@ namespace ColorLib
             SetCbxAndCF("_muet", cerasCF[(int)CERASColor.CERAS_muet]);
 
             CleanAllSonsBut(cerasSons);
+            ResetGraphemes();
             UndoFactory.EndRecording();
             logger.ConditionalTrace("EXIT SetCeras");
         }
@@ -987,6 +1046,31 @@ namespace ColorLib
             logger.ConditionalTrace("EXIT SetDefaultBehaviourTo {0}", val);
         }
 
+        // ----------------------------------- Graphèmes ------------------------------------------
+
+        /// <summary>
+        /// Pour un son donné, donne la liste des graphèmes correspondants associés à l'indication
+        /// s'ils doivent être coloriés ou non.
+        /// </summary>
+        /// <param name="son">Le son dont on veut les graphèmes. Doit être un son valable.</param>
+        /// <returns>Le dictionnaire des graphèmes associés à un bool indiquant si le graphème sera
+        /// colorisé ou non. </returns>
+        public Dictionary<string, bool> GetGraphemes(string son)
+        {
+            return new Dictionary<string, bool>(graphemes[son]);
+        }
+
+        /// <summary>
+        /// Définit pour le <paramref name="son"/> donné, comment les graphèmes doivent être traités
+        /// </summary>
+        /// <param name="son">Le son dont on veut modifier le traitement des graphèmes.</param>
+        /// <param name="graphemesConfig">La liste des graphèmes avec un booléen disant pour chaque 
+        /// graphème s'il doit être colorisé.</param>
+        public void SetGraphemes(string son, Dictionary<string, bool> graphemesConfig)
+        {
+            graphemes[son] = graphemesConfig;
+        }
+
         // -------------------------------------------------------------------------------------------------------------------
         // ---------------------------------------------------  internal  methods ---------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
@@ -1084,8 +1168,23 @@ namespace ColorLib
             UndoFactory.StartRecording("Initialiser muettes");
             SetCbxAndCF("_muet", cerasCF[(int)CERASColor.CERAS_muet]);
             CleanAllSonsBut(sonsMuettes);
+            ResetGraphemes();
             UndoFactory.EndRecording();
             logger.ConditionalTrace("EXIT InitColorMuettes");
+        }
+
+        private void ResetGraphemes()
+        {
+            graphemes.Clear();
+            foreach (KeyValuePair<string, List<string>> el in listeGraphemes)
+            {
+                Dictionary<string, bool> grList = new Dictionary<string, bool>(el.Value.Count);
+                foreach (string s in el.Value)
+                {
+                    grList.Add(s, true);
+                }
+                graphemes.Add(el.Key, grList);
+            }
         }
 
         [OnDeserializing()]
@@ -1096,9 +1195,12 @@ namespace ColorLib
             flags[(int)RuleFlag.IllLireCouleur] = false; // config par défaut
             defBeh = DefBeh.transparent;
             defChF = CharFormatting.NeutralCF;
+            graphemes = new Dictionary<string, Dictionary<string, bool>>(nrSons);
+            ResetGraphemes();
             logger.ConditionalTrace("EXIT SetOptionalFieldsToDefaultVal");
         }
 
+        
 
         // --------------------------------------- Events --------------------------------
 

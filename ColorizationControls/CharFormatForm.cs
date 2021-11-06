@@ -40,6 +40,7 @@ namespace ColorizationControls
         
 
         private string son;
+        private ColConfWin ccw;
         private CharFormatting inCF;
         private bool bold = false;
         private bool italic = false;
@@ -54,6 +55,8 @@ namespace ColorizationControls
         private SetCharFormResult charFormResult; // la fonction à appeler quand le nouveau format est connu
 
         private FormatButtonHandler2 bHandler, iHandler, uHandler;
+
+        private Dictionary<string, bool> grphs;
 
         /// <summary>
         /// Ouvre une fenêtre pour le choix des paramètres de formatage des caractères.
@@ -83,14 +86,17 @@ namespace ColorizationControls
         /// <param name="inCharFormResult">La méthode à appeler pour communiquer le nouveau
         /// <see cref="CharFormatting"/>. A noter que <paramref name="theSon"/> est également 
         /// transmis à cette méthode.</param>
-        public CharFormatForm(CharFormatting cf, string theSon, SetCharFormResult inCharFormResult)
+        /// <param name="ccw">Le <see cref="ColConfWin"/> contenant les graphèmes pour le son 
+        /// édité. <c>null</c> si le bouton d'édition des graphèmes doit être désactivé.</param>
+        public CharFormatForm(CharFormatting cf, string theSon, SetCharFormResult inCharFormResult, 
+            ColConfWin ccw = null)
         {
             logger.ConditionalDebug("CTOR CharFormatForm");
-            InitCtor(cf, theSon, FormName(theSon), inCharFormResult);
+            InitCtor(cf, theSon, FormName(theSon), inCharFormResult, ccw);
         }
 
         private void InitCtor(CharFormatting cf, string theSon,
-            string displayText, SetCharFormResult inCharFormResult)
+            string displayText, SetCharFormResult inCharFormResult, ColConfWin inCCW = null)
         {
             logger.ConditionalDebug("InitCtor");
 
@@ -116,6 +122,8 @@ namespace ColorizationControls
             italic = cf.italic;
             underscore = cf.underline;
             son = theSon;
+            ccw = inCCW;
+            grphs = inCCW != null ? inCCW.GetGraphemes(son) : null;
 
             bHandler = new FormatButtonHandler2(pbxBold, Properties.Resources.Bold, Properties.Resources.BoldSet,
                 Properties.Resources.BoldPressed, Properties.Resources.BoldSetMouseOn1, SetBold, UnsetBold, bold);
@@ -127,6 +135,7 @@ namespace ColorizationControls
             btnCouleur.BackColor = theColor;
             btnSurl.BackColor = theHilightColor;
             this.Text = displayText;
+            btnGraphemes.Enabled = (ccw != null);
             charFormResult = inCharFormResult;
         }
 
@@ -189,6 +198,23 @@ namespace ColorizationControls
             btnValider.Focus();
         }
 
+        private void SetGraphemes(string inSon, Dictionary<string, bool> graphemesConfig)
+        {
+            grphs = graphemesConfig;
+        }
+
+        private void btnGraphemes_Click(object sender, EventArgs e)
+        {
+            Button theBtn = (Button)sender;
+            Point p = theBtn.PointToScreen(((MouseEventArgs)e).Location); // Mouse position relative to the screen
+            GraphForm grf = new GraphForm(son, grphs, SetGraphemes);
+            p.Offset((int)(-grf.Width / 2), (int)(-(grf.Height / 1.5f)));
+            grf.Location = p;
+            _ = grf.ShowDialog();
+            grf.Dispose();
+            btnValider.Focus();
+        }
+
         //-----------------------------------------------------------------------------
         //---------------------------------  Surlignage  ------------------------------
         //-----------------------------------------------------------------------------
@@ -218,6 +244,7 @@ namespace ColorizationControls
 
         private void btnValider_Click(object sender, EventArgs e)
         {
+            ccw.SetGraphemes(son, grphs);
             charFormResult(son, new CharFormatting(bold, italic, underscore, caps, colorSet, theColor,
                            hilightSet, theHilightColor));
         }

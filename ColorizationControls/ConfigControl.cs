@@ -125,6 +125,9 @@ namespace ColorizationControls
         private RGB defaultSylButtonCol;
         private Dictionary<string, SonInfo> sonInfos;
 
+        /// <summary>
+        /// le type de ColConfWin traité actuellement
+        /// </summary>
         private PhonConfType pct;
         private string cmsButType; // type of button, that was right clicked e.g. "btSC", "btL", "btn", ...
         private int cmsButNr; // le numéro du bouton cliqué droit
@@ -968,7 +971,7 @@ namespace ColorizationControls
             Debug.Assert(theBtn.Name.StartsWith("btn"));
             string son = theBtn.Name.Substring(3, theBtn.Name.Length - 3);
             CharFormatForm form = new CharFormatForm(theConf.colors[pct].GetCF(son), son,
-                theConf.colors[pct].SetCFSon);
+                theConf.colors[pct].SetCFSon, theConf.colors[pct]);
             p.Offset(-form.Width, -(form.Height / 2));
             form.Location = p;
             _ = form.ShowDialog();
@@ -1873,6 +1876,7 @@ namespace ColorizationControls
             tsmiSouligne.Enabled = false;
             tsmiCouleur.Enabled = false;
             tsmiSurlignage.Enabled = false;
+            tsmiGraphemes.Enabled = false;
             if (cName.StartsWith("btL"))
             {
                 // Bouton Lettre
@@ -1921,6 +1925,7 @@ namespace ColorizationControls
                     tsmiCouper.Enabled = true;
                     tsmiCopier.Enabled = true;
                     tsmiEffacer.Enabled = true;
+                    tsmiGraphemes.Enabled = true;
                 }
                 cmsCF = theConf.colors[pct].GetCF(cmsButSon);
                 SetTsmiGISforCF(cmsCF, ColConfWin.ExampleText(cmsButSon));
@@ -2161,6 +2166,20 @@ namespace ColorizationControls
                 ApplyCFToClickedButton(hiForm.ResultCF);
             }
             hiForm.Dispose();
+            tabControl1.Focus();
+        }
+
+        private void graphemesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("graphemesToolStripMenuItem_Click");
+            
+            GraphForm grf = new GraphForm(cmsButSon, theConf.colors[pct].GetGraphemes(cmsButSon), 
+                theConf.colors[pct].SetGraphemes);
+            Point p = cmsEffacerCopier.PointToScreen(tsmiGraphemes.Bounds.Location); // position relative à l'écran
+            p.Offset((int)(ScaleFactor * (-grf.Width / 2)), (int)(ScaleFactor * (-(grf.Height / 1.5f))));
+            grf.Location = p;
+            _ = grf.ShowDialog();
+            grf.Dispose();
             tabControl1.Focus();
         }
 

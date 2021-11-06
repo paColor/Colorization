@@ -77,6 +77,12 @@
     <Compile Include="DuoConfFormDummy.Designer.cs">
       <DependentUpon>DuoConfFormDummy.cs</DependentUpon>
     </Compile>
+    <Compile Include="GraphForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraphForm.Designer.cs">
+      <DependentUpon>GraphForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WaitingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DuoConfFormDummy.resx">
       <DependentUpon>DuoConfFormDummy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphForm.resx">
+      <DependentUpon>GraphForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HilightForm.resx">
       <DependentUpon>HilightForm.cs</DependentUpon>
@@ -388,6 +397,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\enlarge_30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pencil_32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

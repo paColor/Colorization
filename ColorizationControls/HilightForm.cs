@@ -54,7 +54,7 @@ namespace ColorizationControls
 
         /// <summary>
         /// indicates whether the selection of hilight colors is possible.
-        /// no HilightForm should be crated if the response is <c>false</c>.
+        /// no HilightForm should be created if the response is <c>false</c>.
         /// </summary>
         /// <returns><c>true</c> if the selection of hilight colors is possible.</returns>
         public static bool CanOperate() => (hiliColors != null);
