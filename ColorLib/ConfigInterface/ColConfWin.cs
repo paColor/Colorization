@@ -388,6 +388,11 @@ namespace ColorLib
             {"q_caduc", new List<Phonemes> (1) {Phonemes.q_caduc}}
         };
 
+        /// <summary>
+        /// Pour chaque phonème, le son correspondant.
+        /// </summary>
+        private static string[] phonMap = new string[(int)Phonemes.lastPhon];
+
         private static Dictionary<string, string[]> sonOutMap = new Dictionary<string, string[]> (nrSons)
         {
             {"a",   new string[2] {"[a]",   "ta, plat"  } },
@@ -440,52 +445,52 @@ namespace ColorLib
 
         private static Dictionary<string, List<string>> listeGraphemes = new Dictionary<string, List<string>>()
         {
-            {"a",   new List<string> (1) {"a", "à", "â", "e"}},
-            {"q",   new List<string> (1) {"a", "e"}},
-            {"i",   new List<string> (1) {"i", "ï", "î", "y"}},
-            {"y",   new List<string> (1) {"eu", "u", "û", "ù", "ü"}},
-            {"1",   new List<string> (1) {"un", "um"}},
-            {"u",   new List<string> (1) {"ou", "oo"}},
-            {"é",   new List<string> (2) {"ae", "æ", "é", "oe", "œ", "ai", "ed", "er", "ez", "es"}},
-            {"o",   new List<string> (2) {"o", "oo", "oa", "ô", "ö", "u",  "au", "eau"}},
-            {"è",   new List<string> (2) {"è", "ê", "ë",  "ai", "ay", "e", "ei", "ey", "et", "est" }},
-            {"an",  new List<string> (1) {"an", "am", "en", "em"}},
-            {"on",  new List<string> (1) {"o_tilda"}},
-            {"2",   new List<string> (1) {"x2"}},
-            {"oi",  new List<string> (1) {"oi"}},
-            {"5",   new List<string> (1) {"e_tilda"}},
-            {"w",   new List<string> (1) {"w"}},
-            {"j",   new List<string> (2) {"j", "ji"}},
-            {"ill", new List<string> (2) {"j_ill", "i_j_ill"}},
-            {"ng",  new List<string> (1) {"J"}},
-            {"gn",  new List<string> (1) {"N"}},
-            {"l",   new List<string> (1) {"l"}},
-            {"v",   new List<string> (1) {"v"}},
-            {"f",   new List<string> (2) {"f", "f_ph"}},
-            {"p",   new List<string> (1) {"p"}},
-            {"b",   new List<string> (1) {"b"}},
-            {"m",   new List<string> (1) {"m"}},
-            {"z",   new List<string> (2) {"z", "z_s"}},
-            {"s",   new List<string> (4) {"s", "s_c", "s_t", "s_x"}},
-            {"t",   new List<string> (1) {"t"}},
-            {"d",   new List<string> (1) {"d"}},
-            {"ks",  new List<string> (1) {"ks"}},
-            {"gz",  new List<string> (1) {"gz"}},
-            {"r",   new List<string> (1) {"R"}},
-            {"n",   new List<string> (1) {"n"}},
-            {"ge",  new List<string> (1) {"Z"}},
-            {"ch",  new List<string> (1) {"S"}},
-            {"k",   new List<string> (2) {"k", "k_qu"}},
-            {"g",   new List<string> (2) {"g", "g_u"}},
-            {"ij",  new List<string> (1) {"i_j"}},
-            {"oin", new List<string> (1) {"w_e_tilda"}},
-            {"47",  new List<string> (1) {"chiffre"}},
-            {"uni", new List<string> (1) {"unité"}},
-            {"diz", new List<string> (1) {"dizaine"}},
-            {"cen", new List<string> (1) {"centaine"}},
-            {"mil", new List<string> (1) {"milliers"}},
-            {"_muet",   new List<string> (2) {"verb_3p", "_muet"}},
-            {"q_caduc", new List<string> (1) {"q_caduc"}}
+            {"a",   new List<string> () {"a", "à", "â", "e"}},
+            {"q",   new List<string> () {"a", "e"}},
+            {"i",   new List<string> () {"i", "ï", "î", "y"}},
+            {"y",   new List<string> () {"eu", "u", "û", "ù", "ü"}},
+            {"1",   new List<string> () {"un", "um"}},
+            {"u",   new List<string> () {"ou", "où", "oû", "oo"}},
+            {"é",   new List<string> () {"ae", "æ", "é", "oe", "œ", "ai", "ed", "er", "ez", "es", "et"}},
+            {"o",   new List<string> () {"o", "oo", "oa", "ô", "ö", "u",  "au", "eau"}},
+            {"è",   new List<string> () {"è", "ê", "ë",  "ai", "ay", "e", "ei", "ey", "et", "est" }},
+            {"an",  new List<string> () {"an", "am", "en", "em"}},
+            {"on",  new List<string> () {"on", "om", "un", "um"}},
+            {"2",   new List<string> () {"eu", "eû", "e", "i", "oeu", "oe", "œ", "œu", "ue", "u"}},
+            {"oi",  new List<string> () {"oi", "oê", "oe"}},
+            {"5",   new List<string> () {"ain", "aim", "en", "ein", "eim", "in", "im", "ïn", "ïm", "în", "yn", "ym"}},
+            {"w",   new List<string> () {"u", "w"}},
+            {"j",   new List<string> () {"ill", "il", "i", "ï", "ll", "l", "y" }},
+            {"ill", new List<string> () {"il", "ill" }},
+            {"ng",  new List<string> () {"ng"}},
+            {"gn",  new List<string> () {"gn"}},
+            {"l",   new List<string> () {"l", "ll"}},
+            {"v",   new List<string> () {"v", "w"}},
+            {"f",   new List<string> () {"f", "ff", "ph"}},
+            {"p",   new List<string> () {"p", "pp"}},
+            {"b",   new List<string> () {"b", "bb"}},
+            {"m",   new List<string> () {"m", "mm"}},
+            {"z",   new List<string> () {"z", "x", "s"}},
+            {"s",   new List<string> () {"s", "z", "ç", "ss", "c", "c\'", "t", "x"}},
+            {"t",   new List<string> () {"t", "tt"}},
+            {"d",   new List<string> () {"d", "dd", "z"}},
+            {"ks",  new List<string> () {"x"}},
+            {"gz",  new List<string> () {"x"}},
+            {"r",   new List<string> () {"r", "rr"}},
+            {"n",   new List<string> () {"n", "nn"}},
+            {"ge",  new List<string> () {"g", "j"}},
+            {"ch",  new List<string> () {"ch", "sch", "sh", "sc", "zsch"}},
+            {"k",   new List<string> () {"c", "cc", "ch", "k", "q", "qu"}},
+            {"g",   new List<string> () {"c", "g", "gg", "gu"}},
+            {"ij",  new List<string> () {"i"}},
+            {"oin", new List<string> () {"oin"}},
+            {"47",  new List<string> () {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "\'", "’", "*", "-", "_"}},
+            {"uni", new List<string> () {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+            {"diz", new List<string> () {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+            {"cen", new List<string> () {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+            {"mil", new List<string> () {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+            {"_muet",   new List<string> () {"ent", "nt", "a", "b", "c", "d", "e", "f", "g", "h", "l", "m", "o", "p", "r", "s", "t", "x", "z" }},
+            {"q_caduc", new List<string> () {"e"}}
         };
 
 
@@ -519,6 +524,10 @@ namespace ColorLib
             foreach (KeyValuePair<string, List<Phonemes>> kvp in sonMap)
             {
                 sonsValides.Add(kvp.Key);
+                foreach (Phonemes p in kvp.Value)
+                {
+                    phonMap[(int)p] = kvp.Key;
+                }
             }
         }
 
@@ -735,15 +744,36 @@ namespace ColorLib
         /// Retourne le <c>CharFormatting</c> pour le phonème <paramref name="p"/>
         /// </summary>
         /// <param name="p">Le phonème pour lequel on veut le <c>CharFormatting</c>.</param>
+        /// <param name="graph">Le graphème corrspondant au phonème a formatter.</param>
         /// <returns><c>CharFormatting</c> pour le phonème</returns>
-        public CharFormatting GetCF(Phonemes p)
+        public CharFormatting GetCF(Phonemes p, string graph = null)
         // get the Charformatting for the given Phoneme
         {
-            CharFormatting toReturn;
-            if (chkPhon[(int)p])
+            CharFormatting toReturn = defChF;
+            bool graphActif = true; 
+            if (graph != null)
+            {
+                string son = phonMap[(int)p];
+                Dictionary<string, bool> grs;
+                if (graphemes.TryGetValue(son, out grs))
+                {
+                    if (!grs.TryGetValue(graph, out graphActif))
+                    {
+                        // graphème inconnu
+                        string errMsg = String.Format("Graphème {0} inconnu pour le son {1}", graph, son);
+                        logger.Warn(errMsg);
+                        Debug.Fail(errMsg);
+                    }
+                }
+                else
+                {
+                    string errMsg = String.Format("Le son {0} n'a pas de graphèmes", son);
+                    logger.Error(errMsg);
+                    Debug.Fail(errMsg);
+                }
+            }
+            if (graphActif && chkPhon[(int)p])
                 toReturn = cfPhon[(int)p];
-            else
-                toReturn = defChF;
             return toReturn;
         }
 

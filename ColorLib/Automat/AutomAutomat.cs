@@ -370,14 +370,9 @@ namespace ColorLib
 		'k':[{'+':/u/i},'k_qu',2],
 		'*':[{},'k',1]}],
 'r' : [[
-		//'monsieur','messieurs','gars',
 		'r', '*'],
 		{
-		//'monsieur':[{'-':/monsieu/i},'_muet',1],
-		//'messieurs':[{'-':/messieu/i},'_muet',1],
-
 		'r':[{'+':/r/i},'R',2],
-		//'gars':[{'+':/s/i,'-':/ga/i},'_muet',2], // gars
 		'*':[{},'R',1]}],
 's' : [['schizo','sch','transs','s','s_final','@','parasit','balsa','subside','asept','pasZ','pasZ2',
 		'déss','prés_s','z','dész','h','fasci',
@@ -482,7 +477,6 @@ namespace ColorLib
 'z' : [['riz', 'aio_z','razzia','zsch','tz','zisole','@', '*'],
 		{'riz':[{'-':/^r(i|a)/i,'+':/$/i},'_muet',1], 
 		'aio_z':[{'-':/(a|i|o)/i,'+':/$/i},'z',1],
-		//'gaz':[{'-':/a/i,'+':/$/i},'z',1],
 		'razzia':[{'+':/z/i},'d',1],
 		'zsch':[{'+':/sch/i},'S',4], // nietzschéen...
 		'tz':[{'-':/t/i},'s',1],
