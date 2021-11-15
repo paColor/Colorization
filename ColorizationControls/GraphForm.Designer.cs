@@ -47,10 +47,16 @@ namespace ColorizationControls
             "e",
             "f",
             "g",
-            "h"});
+            "h",
+            "i",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n"});
             this.checkedListBox1.Location = new System.Drawing.Point(12, 44);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(137, 124);
+            this.checkedListBox1.Size = new System.Drawing.Size(137, 214);
             this.checkedListBox1.Sorted = true;
             this.checkedListBox1.TabIndex = 0;
             // 
@@ -66,7 +72,7 @@ namespace ColorizationControls
             // btnValider
             // 
             this.btnValider.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnValider.Location = new System.Drawing.Point(44, 174);
+            this.btnValider.Location = new System.Drawing.Point(42, 264);
             this.btnValider.Name = "btnValider";
             this.btnValider.Size = new System.Drawing.Size(75, 23);
             this.btnValider.TabIndex = 2;
@@ -77,7 +83,7 @@ namespace ColorizationControls
             // btnAnnuler
             // 
             this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnAnnuler.Location = new System.Drawing.Point(44, 203);
+            this.btnAnnuler.Location = new System.Drawing.Point(42, 293);
             this.btnAnnuler.Name = "btnAnnuler";
             this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
             this.btnAnnuler.TabIndex = 3;
@@ -90,7 +96,7 @@ namespace ColorizationControls
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnAnnuler;
-            this.ClientSize = new System.Drawing.Size(165, 241);
+            this.ClientSize = new System.Drawing.Size(165, 324);
             this.Controls.Add(this.btnAnnuler);
             this.Controls.Add(this.btnValider);
             this.Controls.Add(this.label1);

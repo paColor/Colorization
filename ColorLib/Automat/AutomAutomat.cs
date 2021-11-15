@@ -117,6 +117,8 @@ namespace ColorLib
 		{'*':[{},'a',1]}],
 'à' : [['*'],
 		{'*':[{},'a',1]}],
+'ä' : [['*'],
+		{'*':[{},'a',1]}],
 'b' : [['b','plomb', '*'],
 		{'b':[{'+':/b/i},'b',2],
 		'plomb':[{'-':/om/i,'+':/(s?)$/i},'_muet',1], // le ´b´ à la fin de plomb ne se prononce pas

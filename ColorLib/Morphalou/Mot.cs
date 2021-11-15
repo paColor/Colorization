@@ -520,7 +520,7 @@ namespace ColorLib.Morphalou
         // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
         private string id;
-        private string graphie;
+        public string graphie { get; private set; }
         private string morph; // format morphalou peut contenir "OU"
         private string morph1; // format morphalou sans "OU"
         private string morph2; // format morphalou sans "OU"

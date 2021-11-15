@@ -4,6 +4,7 @@ using ColorLib;
 using ColorLib.Morphalou;
 using Microsoft.VisualBasic.FileIO;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ColorLibTest
 {
@@ -31,6 +32,35 @@ namespace ColorLibTest
         {
             ValideFichierRef(ColConfWin.IllRule.lirecouleur);
         }
+
+        [TestMethod]
+        public void TestGraphemes()
+        {
+            if (File.Exists(fullName))
+            {
+                using (TextFieldParser csvParser = new TextFieldParser(fullName))
+                {
+                    csvParser.SetDelimiters(new string[] { ";" });
+                    csvParser.HasFieldsEnclosedInQuotes = false;
+
+                    // Skip the row with the column names
+                    string headerLine = csvParser.ReadLine();
+                    while (!csvParser.EndOfData)
+                    {
+                        // Read current line fields, pointer moves to the next line.
+                        Mot m = new Mot(csvParser.ReadFields());
+                    }
+                    Config conf = new Config();
+
+                    Parallel.ForEach(Mot.mots, (m) =>
+                    {
+                        TestTheText ttt = new TestTheText(m.graphie);
+                        ttt.ColorizePhons(conf, PhonConfType.phonemes);
+                    });
+                }
+            }
+        }
+
 
         private void ValideFichierRef(ColConfWin.IllRule illRuleToUse)
         {
