@@ -244,7 +244,10 @@ namespace ColorizationControls
 
         private void btnValider_Click(object sender, EventArgs e)
         {
-            ccw.SetGraphemes(son, grphs);
+            if (ccw != null)
+            {
+                ccw.SetGraphemes(son, grphs);
+            }
             charFormResult(son, new CharFormatting(bold, italic, underscore, caps, colorSet, theColor,
                            hilightSet, theHilightColor));
         }

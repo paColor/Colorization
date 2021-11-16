@@ -1979,6 +1979,7 @@
             // tabAutres
             // 
             this.tabAutres.BackColor = System.Drawing.SystemColors.Control;
+            this.tabAutres.Controls.Add(this.pbHL0);
             this.tabAutres.Controls.Add(this.btcListeExcpt);
             this.tabAutres.Controls.Add(this.lblFormeArc);
             this.tabAutres.Controls.Add(this.nudDecalage);
@@ -2010,11 +2011,6 @@
             this.tabAutres.Controls.Add(this.btL0);
             this.tabAutres.Controls.Add(this.lblLetters);
             this.tabAutres.Controls.Add(this.groupBoxSyllabes);
-            this.tabAutres.Controls.Add(this.btSC5);
-            this.tabAutres.Controls.Add(this.btSC4);
-            this.tabAutres.Controls.Add(this.btSC3);
-            this.tabAutres.Controls.Add(this.btSC2);
-            this.tabAutres.Controls.Add(this.btSC1);
             this.tabAutres.Controls.Add(this.btSC0);
             this.tabAutres.Controls.Add(this.btcRemoveArcs);
             this.tabAutres.Controls.Add(this.btcArcs);
@@ -2025,11 +2021,15 @@
             this.tabAutres.Controls.Add(this.pbHL3);
             this.tabAutres.Controls.Add(this.pbHL2);
             this.tabAutres.Controls.Add(this.pbHL1);
-            this.tabAutres.Controls.Add(this.pbHL0);
             this.tabAutres.Controls.Add(this.btZeLignes);
             this.tabAutres.Controls.Add(this.btcLbpdq);
             this.tabAutres.Controls.Add(this.btSMots);
             this.tabAutres.Controls.Add(this.btSAppliquer);
+            this.tabAutres.Controls.Add(this.btSC1);
+            this.tabAutres.Controls.Add(this.btSC2);
+            this.tabAutres.Controls.Add(this.btSC3);
+            this.tabAutres.Controls.Add(this.btSC4);
+            this.tabAutres.Controls.Add(this.btSC5);
             this.tabAutres.Location = new System.Drawing.Point(4, 22);
             this.tabAutres.Name = "tabAutres";
             this.tabAutres.Padding = new System.Windows.Forms.Padding(3);
@@ -2347,7 +2347,7 @@
             this.tsmiSurlignage,
             this.tsmiGraphemes});
             this.cmsEffacerCopier.Name = "cmsEffacerCopier";
-            this.cmsEffacerCopier.Size = new System.Drawing.Size(181, 252);
+            this.cmsEffacerCopier.Size = new System.Drawing.Size(135, 230);
             this.cmsEffacerCopier.Text = "Choix";
             this.cmsEffacerCopier.Opening += new System.ComponentModel.CancelEventHandler(this.cmsEffacerCopier_Opening);
             // 
@@ -2355,7 +2355,7 @@
             // 
             this.tsmiCouper.Image = global::ColorizationControls.Properties.Resources.Couper;
             this.tsmiCouper.Name = "tsmiCouper";
-            this.tsmiCouper.Size = new System.Drawing.Size(180, 22);
+            this.tsmiCouper.Size = new System.Drawing.Size(134, 22);
             this.tsmiCouper.Text = "Couper";
             this.tsmiCouper.Click += new System.EventHandler(this.tsmiCouper_Click);
             // 
@@ -2363,7 +2363,7 @@
             // 
             this.tsmiCopier.Image = global::ColorizationControls.Properties.Resources.Copier;
             this.tsmiCopier.Name = "tsmiCopier";
-            this.tsmiCopier.Size = new System.Drawing.Size(180, 22);
+            this.tsmiCopier.Size = new System.Drawing.Size(134, 22);
             this.tsmiCopier.Text = "Copier";
             this.tsmiCopier.Click += new System.EventHandler(this.tsmiCopier_Click);
             // 
@@ -2371,7 +2371,7 @@
             // 
             this.tsmiColler.Image = global::ColorizationControls.Properties.Resources.Coller;
             this.tsmiColler.Name = "tsmiColler";
-            this.tsmiColler.Size = new System.Drawing.Size(180, 22);
+            this.tsmiColler.Size = new System.Drawing.Size(134, 22);
             this.tsmiColler.Text = "Coller";
             this.tsmiColler.Click += new System.EventHandler(this.tsmiColler_Click);
             // 
@@ -2379,20 +2379,20 @@
             // 
             this.tsmiEffacer.Image = global::ColorizationControls.Properties.Resources.Effacer15;
             this.tsmiEffacer.Name = "tsmiEffacer";
-            this.tsmiEffacer.Size = new System.Drawing.Size(180, 22);
+            this.tsmiEffacer.Size = new System.Drawing.Size(134, 22);
             this.tsmiEffacer.Text = "Effacer";
             this.tsmiEffacer.Click += new System.EventHandler(this.tsmiEffacer_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(131, 6);
             // 
             // tsmiGras
             // 
             this.tsmiGras.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiGras.Name = "tsmiGras";
-            this.tsmiGras.Size = new System.Drawing.Size(180, 22);
+            this.tsmiGras.Size = new System.Drawing.Size(134, 22);
             this.tsmiGras.Text = "Gras";
             this.tsmiGras.Click += new System.EventHandler(this.tsmiGras_Click);
             // 
@@ -2400,7 +2400,7 @@
             // 
             this.tsmiItalique.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiItalique.Name = "tsmiItalique";
-            this.tsmiItalique.Size = new System.Drawing.Size(180, 22);
+            this.tsmiItalique.Size = new System.Drawing.Size(134, 22);
             this.tsmiItalique.Text = "Italique";
             this.tsmiItalique.Click += new System.EventHandler(this.tsmiItalique_Click);
             // 
@@ -2408,7 +2408,7 @@
             // 
             this.tsmiSouligne.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiSouligne.Name = "tsmiSouligne";
-            this.tsmiSouligne.Size = new System.Drawing.Size(180, 22);
+            this.tsmiSouligne.Size = new System.Drawing.Size(134, 22);
             this.tsmiSouligne.Text = "Souligné";
             this.tsmiSouligne.Click += new System.EventHandler(this.tsmiSouligne_Click);
             // 
@@ -2416,21 +2416,21 @@
             // 
             this.tsmiCouleur.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.tsmiCouleur.Name = "tsmiCouleur";
-            this.tsmiCouleur.Size = new System.Drawing.Size(180, 22);
+            this.tsmiCouleur.Size = new System.Drawing.Size(134, 22);
             this.tsmiCouleur.Text = "Texte";
             this.tsmiCouleur.Click += new System.EventHandler(this.tsmiCouleur_Click);
             // 
             // tsmiSurlignage
             // 
             this.tsmiSurlignage.Name = "tsmiSurlignage";
-            this.tsmiSurlignage.Size = new System.Drawing.Size(180, 22);
+            this.tsmiSurlignage.Size = new System.Drawing.Size(134, 22);
             this.tsmiSurlignage.Text = "Surlignage";
             this.tsmiSurlignage.Click += new System.EventHandler(this.tsmiSurlignage_Click);
             // 
             // tsmiGraphemes
             // 
             this.tsmiGraphemes.Name = "tsmiGraphemes";
-            this.tsmiGraphemes.Size = new System.Drawing.Size(180, 22);
+            this.tsmiGraphemes.Size = new System.Drawing.Size(134, 22);
             this.tsmiGraphemes.Text = "Graphèmes";
             this.tsmiGraphemes.Click += new System.EventHandler(this.graphemesToolStripMenuItem_Click);
             // 
