@@ -156,6 +156,7 @@
             this.cmsPhonVSMuettes = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.configMuettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabAutres = new System.Windows.Forms.TabPage();
+            this.pbHL0 = new System.Windows.Forms.PictureBox();
             this.btcListeExcpt = new System.Windows.Forms.Button();
             this.lblFormeArc = new System.Windows.Forms.Label();
             this.nudDecalage = new System.Windows.Forms.NumericUpDown();
@@ -211,11 +212,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbnStandard = new System.Windows.Forms.RadioButton();
             this.rbnAv2Cons = new System.Windows.Forms.RadioButton();
-            this.btSC5 = new System.Windows.Forms.Button();
-            this.btSC4 = new System.Windows.Forms.Button();
-            this.btSC3 = new System.Windows.Forms.Button();
-            this.btSC2 = new System.Windows.Forms.Button();
-            this.btSC1 = new System.Windows.Forms.Button();
             this.btSC0 = new System.Windows.Forms.Button();
             this.btcRemoveArcs = new System.Windows.Forms.Button();
             this.btcArcs = new System.Windows.Forms.Button();
@@ -226,11 +222,15 @@
             this.pbHL3 = new System.Windows.Forms.PictureBox();
             this.pbHL2 = new System.Windows.Forms.PictureBox();
             this.pbHL1 = new System.Windows.Forms.PictureBox();
-            this.pbHL0 = new System.Windows.Forms.PictureBox();
             this.btZeLignes = new System.Windows.Forms.Button();
             this.btcLbpdq = new System.Windows.Forms.Button();
             this.btSMots = new System.Windows.Forms.Button();
             this.btSAppliquer = new System.Windows.Forms.Button();
+            this.btSC1 = new System.Windows.Forms.Button();
+            this.btSC2 = new System.Windows.Forms.Button();
+            this.btSC3 = new System.Windows.Forms.Button();
+            this.btSC4 = new System.Windows.Forms.Button();
+            this.btSC5 = new System.Windows.Forms.Button();
             this.tabArcs = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
             this.butResserrer = new System.Windows.Forms.Button();
@@ -314,6 +314,7 @@
             this.tabCouleurs.SuspendLayout();
             this.cmsPhonVSMuettes.SuspendLayout();
             this.tabAutres.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDecalage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEpaisseur)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEcartement)).BeginInit();
@@ -328,7 +329,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).BeginInit();
             this.tabArcs.SuspendLayout();
             this.tabAvance.SuspendLayout();
             this.groupBoxIll.SuspendLayout();
@@ -2039,6 +2039,16 @@
             this.ttipLettreEnNoir.SetToolTip(this.tabAutres, "Configuration pour la colorisation de lettres, syllabes, mots, lignes");
             this.tabAutres.Enter += new System.EventHandler(this.tab_Enter);
             // 
+            // pbHL0
+            // 
+            this.pbHL0.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.pbHL0.Location = new System.Drawing.Point(38, 312);
+            this.pbHL0.Name = "pbHL0";
+            this.pbHL0.Size = new System.Drawing.Size(17, 13);
+            this.pbHL0.TabIndex = 157;
+            this.pbHL0.TabStop = false;
+            this.pbHL0.Click += new System.EventHandler(this.SylButton_Click);
+            // 
             // btcListeExcpt
             // 
             this.btcListeExcpt.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
@@ -2300,7 +2310,7 @@
             this.lblSylText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSylText.Location = new System.Drawing.Point(18, 111);
             this.lblSylText.Name = "lblSylText";
-            this.lblSylText.Size = new System.Drawing.Size(303, 32);
+            this.lblSylText.Size = new System.Drawing.Size(302, 32);
             this.lblSylText.TabIndex = 144;
             this.lblSylText.Text = "Choisir les couleurs pour la mise en évidence des\r\nsyllabes, mots, lignes, voyell" +
     "es et consonnes";
@@ -2531,7 +2541,7 @@
             this.lblLetters.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLetters.Location = new System.Drawing.Point(44, 17);
             this.lblLetters.Name = "lblLetters";
-            this.lblLetters.Size = new System.Drawing.Size(260, 16);
+            this.lblLetters.Size = new System.Drawing.Size(259, 16);
             this.lblLetters.TabIndex = 133;
             this.lblLetters.Text = "Configurer les lettres à mettre en évidence ";
             // 
@@ -2719,66 +2729,6 @@
             this.ttipLettreEnNoir.SetToolTip(this.rbnAv2Cons, "Les syllabes sont coupées avant\r\ndeux consonnes répétées.\r\n");
             this.rbnAv2Cons.UseVisualStyleBackColor = true;
             // 
-            // btSC5
-            // 
-            this.btSC5.Location = new System.Drawing.Point(281, 307);
-            this.btSC5.Name = "btSC5";
-            this.btSC5.Size = new System.Drawing.Size(48, 23);
-            this.btSC5.TabIndex = 156;
-            this.btSC5.Text = "Txt";
-            this.btSC5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btSC5, "6e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
-            this.btSC5.UseVisualStyleBackColor = true;
-            this.btSC5.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // btSC4
-            // 
-            this.btSC4.Location = new System.Drawing.Point(227, 307);
-            this.btSC4.Name = "btSC4";
-            this.btSC4.Size = new System.Drawing.Size(48, 23);
-            this.btSC4.TabIndex = 155;
-            this.btSC4.Text = "Txt";
-            this.btSC4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btSC4, "5e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
-            this.btSC4.UseVisualStyleBackColor = true;
-            this.btSC4.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // btSC3
-            // 
-            this.btSC3.Location = new System.Drawing.Point(173, 307);
-            this.btSC3.Name = "btSC3";
-            this.btSC3.Size = new System.Drawing.Size(48, 23);
-            this.btSC3.TabIndex = 149;
-            this.btSC3.Text = "Txt";
-            this.btSC3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btSC3, "4e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
-            this.btSC3.UseVisualStyleBackColor = true;
-            this.btSC3.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // btSC2
-            // 
-            this.btSC2.Location = new System.Drawing.Point(119, 307);
-            this.btSC2.Name = "btSC2";
-            this.btSC2.Size = new System.Drawing.Size(48, 23);
-            this.btSC2.TabIndex = 148;
-            this.btSC2.Text = "Txt";
-            this.btSC2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btSC2, "3e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
-            this.btSC2.UseVisualStyleBackColor = true;
-            this.btSC2.Click += new System.EventHandler(this.SylButton_Click);
-            // 
-            // btSC1
-            // 
-            this.btSC1.Location = new System.Drawing.Point(65, 307);
-            this.btSC1.Name = "btSC1";
-            this.btSC1.Size = new System.Drawing.Size(48, 23);
-            this.btSC1.TabIndex = 147;
-            this.btSC1.Text = "Txt";
-            this.btSC1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ttipLettreEnNoir.SetToolTip(this.btSC1, "2e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
-            this.btSC1.UseVisualStyleBackColor = true;
-            this.btSC1.Click += new System.EventHandler(this.SylButton_Click);
-            // 
             // btSC0
             // 
             this.btSC0.Location = new System.Drawing.Point(12, 307);
@@ -2884,16 +2834,6 @@
             this.pbHL1.TabStop = false;
             this.pbHL1.Click += new System.EventHandler(this.SylButton_Click);
             // 
-            // pbHL0
-            // 
-            this.pbHL0.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.pbHL0.Location = new System.Drawing.Point(38, 312);
-            this.pbHL0.Name = "pbHL0";
-            this.pbHL0.Size = new System.Drawing.Size(17, 13);
-            this.pbHL0.TabIndex = 157;
-            this.pbHL0.TabStop = false;
-            this.pbHL0.Click += new System.EventHandler(this.SylButton_Click);
-            // 
             // btZeLignes
             // 
             this.btZeLignes.BackColor = System.Drawing.SystemColors.Control;
@@ -2941,6 +2881,66 @@
             this.ttipLettreEnNoir.SetToolTip(this.btSAppliquer, "Coloriser les syllabes");
             this.btSAppliquer.UseVisualStyleBackColor = false;
             this.btSAppliquer.Click += new System.EventHandler(this.btSAppliquer_Click);
+            // 
+            // btSC1
+            // 
+            this.btSC1.Location = new System.Drawing.Point(65, 307);
+            this.btSC1.Name = "btSC1";
+            this.btSC1.Size = new System.Drawing.Size(48, 23);
+            this.btSC1.TabIndex = 147;
+            this.btSC1.Text = "Txt";
+            this.btSC1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC1, "2e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
+            this.btSC1.UseVisualStyleBackColor = true;
+            this.btSC1.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // btSC2
+            // 
+            this.btSC2.Location = new System.Drawing.Point(119, 307);
+            this.btSC2.Name = "btSC2";
+            this.btSC2.Size = new System.Drawing.Size(48, 23);
+            this.btSC2.TabIndex = 148;
+            this.btSC2.Text = "Txt";
+            this.btSC2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC2, "3e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
+            this.btSC2.UseVisualStyleBackColor = true;
+            this.btSC2.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // btSC3
+            // 
+            this.btSC3.Location = new System.Drawing.Point(173, 307);
+            this.btSC3.Name = "btSC3";
+            this.btSC3.Size = new System.Drawing.Size(48, 23);
+            this.btSC3.TabIndex = 149;
+            this.btSC3.Text = "Txt";
+            this.btSC3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC3, "4e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
+            this.btSC3.UseVisualStyleBackColor = true;
+            this.btSC3.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // btSC4
+            // 
+            this.btSC4.Location = new System.Drawing.Point(227, 307);
+            this.btSC4.Name = "btSC4";
+            this.btSC4.Size = new System.Drawing.Size(48, 23);
+            this.btSC4.TabIndex = 155;
+            this.btSC4.Text = "Txt";
+            this.btSC4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC4, "5e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
+            this.btSC4.UseVisualStyleBackColor = true;
+            this.btSC4.Click += new System.EventHandler(this.SylButton_Click);
+            // 
+            // btSC5
+            // 
+            this.btSC5.Location = new System.Drawing.Point(281, 307);
+            this.btSC5.Name = "btSC5";
+            this.btSC5.Size = new System.Drawing.Size(48, 23);
+            this.btSC5.TabIndex = 156;
+            this.btSC5.Text = "Txt";
+            this.btSC5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ttipLettreEnNoir.SetToolTip(this.btSC5, "6e mise en forme pour les\r\nsyllabes / mots / lignes /\r\nvoyelles et consonnes\r\n");
+            this.btSC5.UseVisualStyleBackColor = true;
+            this.btSC5.Click += new System.EventHandler(this.SylButton_Click);
             // 
             // tabArcs
             // 
@@ -3472,7 +3472,7 @@
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(10, 11);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(318, 32);
+            this.label8.Size = new System.Drawing.Size(317, 32);
             this.label8.TabIndex = 182;
             this.label8.Text = "La fonction \"Duo\" permet de formater en alternance \r\ndes mots ou des lignes pour " +
     "deux lecteurs différents.";
@@ -3618,10 +3618,10 @@
             this.lblAnnuler.AutoSize = true;
             this.lblAnnuler.Location = new System.Drawing.Point(88, 331);
             this.lblAnnuler.Name = "lblAnnuler";
-            this.lblAnnuler.Size = new System.Drawing.Size(170, 39);
+            this.lblAnnuler.Size = new System.Drawing.Size(176, 39);
             this.lblAnnuler.TabIndex = 119;
-            this.lblAnnuler.Text = "Vous pouvez annuler la dernière\r\nommande ou choisir dans la liste le\r\npoint où vo" +
-    "us voulez revenir.";
+            this.lblAnnuler.Text = "Vous pouvez annuler la dernière\r\ncommande ou choisir dans la liste le\r\npoint où v" +
+    "ous voulez revenir.";
             this.lblAnnuler.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBoxIll
@@ -3860,7 +3860,7 @@
             this.lblVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVersion.Location = new System.Drawing.Point(97, 83);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(122, 16);
+            this.lblVersion.Size = new System.Drawing.Size(121, 16);
             this.lblVersion.TabIndex = 0;
             this.lblVersion.Text = "Version 0.8.0.36665";
             // 
@@ -3937,6 +3937,7 @@
             this.cmsPhonVSMuettes.ResumeLayout(false);
             this.tabAutres.ResumeLayout(false);
             this.tabAutres.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDecalage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEpaisseur)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEcartement)).EndInit();
@@ -3955,7 +3956,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHL0)).EndInit();
             this.tabArcs.ResumeLayout(false);
             this.tabArcs.PerformLayout();
             this.tabAvance.ResumeLayout(false);

@@ -40,7 +40,7 @@
     <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\Publishing\PowerPoint\</PublishUrl>
     <InstallUrl>https://colorization.ch/publish/PowerPoint/</InstallUrl>
     <TargetCulture>fr</TargetCulture>
-    <ApplicationVersion>1.4.0.2</ApplicationVersion>
+    <ApplicationVersion>1.5.0.1</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>3</UpdateInterval>
@@ -131,7 +131,7 @@
   <ItemGroup>
     <Reference Include="Accessibility" />
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.7.0\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.7.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -197,6 +197,9 @@
       <SubType>Code</SubType>
     </Compile>
     <None Include="ColorizationPPT_TemporaryKey.pfx" />
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\Shrink_red_sq26.png" />
     <None Include="Resources\enlarge_26.png" />
     <None Include="Resources\phrase_16.png" />
@@ -219,9 +222,6 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -349,7 +349,8 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>ColorizationPPT_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>9554BCB3454A72D15DABED647E47B9B2EAD8D936</ManifestCertificateThumbprint>

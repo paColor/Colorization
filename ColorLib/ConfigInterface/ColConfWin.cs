@@ -1087,6 +1087,7 @@ namespace ColorLib
         /// colorisé ou non. </returns>
         public Dictionary<string, bool> GetGraphemes(string son)
         {
+            logger.ConditionalDebug("GetGraphemes {0}", son);
             return new Dictionary<string, bool>(graphemes[son]);
         }
 
@@ -1098,6 +1099,9 @@ namespace ColorLib
         /// graphème s'il doit être colorisé.</param>
         public void SetGraphemes(string son, Dictionary<string, bool> graphemesConfig)
         {
+            logger.ConditionalDebug("SetGraphemes {0}", son);
+            UndoFactory.ExceutingAction(
+                new ColPhonAct(this, son, graphemes[son], graphemesConfig));
             graphemes[son] = graphemesConfig;
         }
 

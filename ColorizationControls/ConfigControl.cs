@@ -2336,6 +2336,5 @@ namespace ColorizationControls
             logger.ConditionalDebug("tab_Enter");
             lastSelectedTab = (TabPage)sender;
         }
-
     }
 }

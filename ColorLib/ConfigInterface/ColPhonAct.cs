@@ -4,6 +4,9 @@ using System.Text;
 
 namespace ColorLib
 {
+    /// <summary>
+    /// Action en relation avec <see cref="ColConfWin"/>.
+    /// </summary>
     public class ColPhonAct : CLAction
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -14,6 +17,7 @@ namespace ColorLib
         /// "sonCB"
         /// "ill"
         /// "defBeh"
+        /// "grapheme"
         /// </summary>
         private string type;
         private ColConfWin ccw;
@@ -26,6 +30,9 @@ namespace ColorLib
         private ColConfWin.IllRule newIllRule;
         private ColConfWin.DefBeh prevDefBeh;
         private ColConfWin.DefBeh newDefBeh;
+        private Dictionary<string, bool> prevGrConf;
+        private Dictionary<string, bool> newGrConf;
+        private string grSon;
 
 
         /// <summary>
@@ -138,6 +145,34 @@ namespace ColorLib
             newIllRule = ColConfWin.IllRule.undefined;
         }
 
+        /// <summary>
+        /// Crée une "action" pour une modification des graphèmes relatifs à un son.
+        /// </summary>
+        /// <param name="inCcw">Le <see cref="ColConfWin"/> auquel l'action se rapporte.</param>
+        /// <param name="inSon">Le son dont la liste de graphèmes est modifiée</param>
+        /// <param name="inPrevGrConf">La liste de grpahèmes avant la modification</param>
+        /// <param name="inNewGrConf">La liste de grpahèmes après la modification</param>
+        public ColPhonAct(ColConfWin inCcw, string inSon, Dictionary<string, bool> inPrevGrConf,
+            Dictionary<string, bool> inNewGrConf)
+            : base(String.Format("Graphèmes pour {0}", inSon))
+        {
+            type = "grapheme";
+            ccw = inCcw;
+            prevGrConf = inPrevGrConf;
+            newGrConf = inNewGrConf;
+            grSon = inSon;
+            // pour éviter les membres non définis
+            son = null;
+            prevCF = null;
+            newCF = null;
+            prevCB = false;
+            newCB = false;
+            prevIllRule = ColConfWin.IllRule.undefined;
+            newIllRule = ColConfWin.IllRule.undefined;
+            prevDefBeh = ColConfWin.DefBeh.undefined;
+            newDefBeh = ColConfWin.DefBeh.undefined;
+        }
+
         public override void Undo()
         {
             logger.ConditionalDebug("Undo");
@@ -158,6 +193,10 @@ namespace ColorLib
 
                 case "defBeh":
                     ccw.SetDefaultBehaviourTo(prevDefBeh);
+                    break;
+
+                case "grapheme":
+                    ccw.SetGraphemes(grSon, prevGrConf);
                     break;
 
                 default:
@@ -185,6 +224,10 @@ namespace ColorLib
 
                 case "defBeh":
                     ccw.SetDefaultBehaviourTo(newDefBeh);
+                    break;
+
+                case "grapheme":
+                    ccw.SetGraphemes(grSon, newGrConf);
                     break;
 
                 default:

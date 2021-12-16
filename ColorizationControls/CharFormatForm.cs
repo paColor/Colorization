@@ -57,6 +57,7 @@ namespace ColorizationControls
         private FormatButtonHandler2 bHandler, iHandler, uHandler;
 
         private Dictionary<string, bool> grphs;
+        private bool grphsModif = false; // indique si les pgraphèmes ont été modifiés.
 
         /// <summary>
         /// Ouvre une fenêtre pour le choix des paramètres de formatage des caractères.
@@ -198,6 +199,10 @@ namespace ColorizationControls
             btnValider.Focus();
         }
 
+        //-----------------------------------------------------------------------------
+        //---------------------------------  Graphèmes  -------------------------------
+        //-----------------------------------------------------------------------------
+
         private void SetGraphemes(string inSon, Dictionary<string, bool> graphemesConfig)
         {
             grphs = graphemesConfig;
@@ -210,7 +215,7 @@ namespace ColorizationControls
             GraphForm grf = new GraphForm(son, grphs, SetGraphemes);
             p.Offset((int)(-grf.Width / 2), (int)(-(grf.Height / 1.5f)));
             grf.Location = p;
-            _ = grf.ShowDialog();
+            grphsModif = (grf.ShowDialog() == DialogResult.OK);
             grf.Dispose();
             btnValider.Focus();
         }
@@ -244,7 +249,7 @@ namespace ColorizationControls
 
         private void btnValider_Click(object sender, EventArgs e)
         {
-            if (ccw != null)
+            if (ccw != null && grphsModif)
             {
                 ccw.SetGraphemes(son, grphs);
             }
