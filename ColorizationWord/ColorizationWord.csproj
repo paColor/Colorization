@@ -28,15 +28,15 @@
     <AssemblyName>ColorizationWord</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
-    <IsWebBootstrapper>True</IsWebBootstrapper>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\Publishing\Word\</PublishUrl>
-    <InstallUrl>https://colorization.ch/publish/Word/</InstallUrl>
+    <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\PublishingNoNW\Word\</PublishUrl>
+    <InstallUrl />
     <TargetCulture>fr</TargetCulture>
-    <ApplicationVersion>1.5.0.1</ApplicationVersion>
+    <ApplicationVersion>1.5.0.2</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
-    <UpdateEnabled>true</UpdateEnabled>
-    <UpdateInterval>3</UpdateInterval>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateInterval>0</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
     <ProductName>Coloriƨation Word</ProductName>
     <PublisherName>Pierre-Alain Etique</PublisherName>
@@ -295,7 +295,7 @@
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>9554BCB3454A72D15DABED647E47B9B2EAD8D936</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>4ED1205C30F0E730E05027546590059D7CF82128</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
