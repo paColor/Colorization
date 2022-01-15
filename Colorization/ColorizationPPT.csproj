@@ -35,21 +35,21 @@
     <DefineConstants>VSTO40</DefineConstants>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <IsWebBootstrapper>True</IsWebBootstrapper>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\Publishing\PowerPoint\</PublishUrl>
-    <InstallUrl>https://colorization.ch/publish/PowerPoint/</InstallUrl>
+    <PublishUrl>F:\Utilisateurs\Papa\Prog\VisStud\repos\Colorization\PublishingNoNW\PowerPoint\</PublishUrl>
+    <InstallUrl />
     <TargetCulture>fr</TargetCulture>
-    <ApplicationVersion>1.5.0.1</ApplicationVersion>
+    <ApplicationVersion>1.5.0.2</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
-    <UpdateEnabled>true</UpdateEnabled>
-    <UpdateInterval>3</UpdateInterval>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateInterval>0</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
     <ProductName>Coloriƨation PowerPoint</ProductName>
     <PublisherName>Pierre-Alain Etique</PublisherName>
-    <SupportUrl>http://colorization.ch/</SupportUrl>
+    <SupportUrl>https://colorization.ch/</SupportUrl>
     <FriendlyName>Colorization</FriendlyName>
-    <OfficeApplicationDescription />
+    <OfficeApplicationDescription>Coloriƨation est un complément pour Word et PowerPoint qui permet de mettre en couleur certaines parties d’un texte %28coloriser%29. L’idée est de fournir une aide pour les lecteurs débutants ou en difficulté, comme ceux présentant des troubles dys.</OfficeApplicationDescription>
     <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
   <ItemGroup>
@@ -353,7 +353,7 @@
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>9554BCB3454A72D15DABED647E47B9B2EAD8D936</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>4ED1205C30F0E730E05027546590059D7CF82128</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
