@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29709.97
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorizationPPT", "Colorization\ColorizationPPT.csproj", "{F7BBD087-4059-4413-BFE2-E5A389A36F7C}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -42,6 +42,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupColWord", "SetupColWord\SetupColWord.vdproj", "{60300B9B-6339-4A85-81EF-70461BC1E5EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +139,12 @@ Global
 		{DB00A780-D368-46B5-AC93-A40E886A3263}.Release|x64.Build.0 = Release|Any CPU
 		{DB00A780-D368-46B5-AC93-A40E886A3263}.Release|x86.ActiveCfg = Release|Any CPU
 		{DB00A780-D368-46B5-AC93-A40E886A3263}.Release|x86.Build.0 = Release|Any CPU
+		{60300B9B-6339-4A85-81EF-70461BC1E5EA}.Debug|Any CPU.ActiveCfg = Debug
+		{60300B9B-6339-4A85-81EF-70461BC1E5EA}.Debug|x64.ActiveCfg = Debug
+		{60300B9B-6339-4A85-81EF-70461BC1E5EA}.Debug|x86.ActiveCfg = Debug
+		{60300B9B-6339-4A85-81EF-70461BC1E5EA}.Release|Any CPU.ActiveCfg = Release
+		{60300B9B-6339-4A85-81EF-70461BC1E5EA}.Release|x64.ActiveCfg = Release
+		{60300B9B-6339-4A85-81EF-70461BC1E5EA}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
