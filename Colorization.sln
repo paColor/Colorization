@@ -43,7 +43,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupColWord", "SetupColWord\SetupColWord.vdproj", "{60300B9B-6339-4A85-81EF-70461BC1E5EA}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Colorization_Word", "SetupColWord\SetupColWord.vdproj", "{60300B9B-6339-4A85-81EF-70461BC1E5EA}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Colorization_PowerPoint", "Colorization_PowerPoint\Colorization_PowerPoint.vdproj", "{6AB33A4E-6347-4C8A-9307-53F1778F2575}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -145,6 +147,12 @@ Global
 		{60300B9B-6339-4A85-81EF-70461BC1E5EA}.Release|Any CPU.ActiveCfg = Release
 		{60300B9B-6339-4A85-81EF-70461BC1E5EA}.Release|x64.ActiveCfg = Release
 		{60300B9B-6339-4A85-81EF-70461BC1E5EA}.Release|x86.ActiveCfg = Release
+		{6AB33A4E-6347-4C8A-9307-53F1778F2575}.Debug|Any CPU.ActiveCfg = Debug
+		{6AB33A4E-6347-4C8A-9307-53F1778F2575}.Debug|x64.ActiveCfg = Debug
+		{6AB33A4E-6347-4C8A-9307-53F1778F2575}.Debug|x86.ActiveCfg = Debug
+		{6AB33A4E-6347-4C8A-9307-53F1778F2575}.Release|Any CPU.ActiveCfg = Release
+		{6AB33A4E-6347-4C8A-9307-53F1778F2575}.Release|x64.ActiveCfg = Release
+		{6AB33A4E-6347-4C8A-9307-53F1778F2575}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
