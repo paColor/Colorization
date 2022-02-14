@@ -12,7 +12,7 @@ using System.Security;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Etique & Co")]
 [assembly: AssemblyProduct("ColorizationPowerPoint")]
-[assembly: AssemblyCopyright("Copyright ©  2020 Pierre-Alain Etique")]
+[assembly: AssemblyCopyright("Copyright ©  2022 Pierre-Alain Etique")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
