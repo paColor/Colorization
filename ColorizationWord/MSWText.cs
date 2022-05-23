@@ -505,6 +505,57 @@ namespace ColorizationWord
         }
 
         /// <summary>
+        /// Calcule la variable globale <c>finDeLignes</c> à partir de la liste de rectangles
+        /// <paramref name="rects"/>.
+        /// </summary>
+        /// <param name="rects">Les rectangles à considérer pour la recherche de lignes.</param>
+        private void CalculeFinDeLignes(List<Rectangle> rects)
+        {
+            int i = 0;
+            int nrRects = rects.Count;
+            bool found = false;
+            while (i < nrRects && !found)
+            {
+                Rectangle r = rects[i];
+                WdRectangleType rt = WdRectangleType.wdSystem;
+                try
+                {
+                    rt = r.RectangleType;
+                    if (rt == WdRectangleType.wdTextRectangle)
+                    {
+                        foreach (Line l in r.Lines)
+                        {
+                            Range lineRange = l.Range;
+                            if (lineRange.InRange(this.range))
+                            {
+                                // linerange est dans la région sélectionnée.
+                                // linerange.End est toujours sur le caractère qui suit le range
+                                finDeLignes.Add(GetSPosForRangePos(lineRange.End - 1));
+                                found = true;
+                            }
+                        }
+                    }
+                    i++;
+                }
+                catch (Exception e)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("Il semblerait qu'il y a ait un nouveau bug dans Word et ");
+                    sb.AppendLine("qu'il est parfois impossioble d'accéder à r.RectangleType ");
+                    sb.AppendLine("sans qu'il y ait un moyen de tester avant l'appel si ce ");
+                    sb.AppendLine("sera possible ou non... ");
+                    sb.AppendLine("Voici donc du contrôle de flux par try / catch.");
+                    sb.AppendLine("Tout ce qu'il faudrait éviter - Mais je ne vois pas comment faire autrement...");
+                    sb.AppendLine(e.Message);
+                    sb.AppendLine(e.StackTrace);
+                    logger.Error(sb.ToString());
+                }
+                
+                
+            }
+        }
+
+        /// <summary>
         /// Retourne la liste des positions des derniers caractères de chaque ligne (dans S).
         /// </summary>
         /// <remarks>Utilise <c>finDeLignes</c> comme cache.</remarks>
@@ -517,44 +568,17 @@ namespace ColorizationWord
                 finDeLignes = new List<int>(7); // imaginons 7 lignes. Aucun moyen de savoir ce qu'il en est vraiment...
                 if (ColorizationMSW.thisAddIn.Application.ActiveWindow.View.Type == WdViewType.wdPrintView)
                 {
-                    // Cherchons tous les Rectangles de la feneêtre active et travaillons sur toutes les lignes
+                    // Cherchons tous les Rectangles de la fenêtre active et travaillons sur toutes les lignes
                     // qui se trouvent dans la sélection
                     foreach (Page p in ColorizationMSW.thisAddIn.Application.ActiveWindow.ActivePane.Pages)
                     {
-                        foreach (Rectangle r in p.Rectangles)
+                        List<Rectangle> rectangles = new List<Rectangle>(p.Rectangles.Count);
+                        foreach (Rectangle rect in p.Rectangles)
                         {
-                            try
-                            {
-                                if (r.RectangleType == WdRectangleType.wdTextRectangle)
-                                {
-                                    foreach (Line l in r.Lines)
-                                    {
-                                        Range lineRange = l.Range;
-                                        if (lineRange.InRange(range))
-                                        {
-                                            // linerange est dans la région sélectionnée.
-                                            // linerange.End est toujours sur le caractère qui suit le range
-                                            finDeLignes.Add(GetSPosForRangePos(lineRange.End - 1));
-                                        }
-                                    }
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                StringBuilder sb = new StringBuilder();
-                                sb.AppendLine("Il semblerait qu'il y a ait un nouveau bug dans Word et ");
-                                sb.AppendLine("qu'il est parfois impossioble d'accéder à r.RectangleType ");
-                                sb.AppendLine("sans qu'il y ait un moyen de tester avant l'appel si ce ");
-                                sb.AppendLine("sera possible ou non... ");
-                                sb.AppendLine("Voici donc du contrôle de flux par try / catch.");
-                                sb.AppendLine("Tout ce qu'il faudrait éviter - Mais je ne vois pas comment faire autrement...");
-                                sb.AppendLine(e.Message);
-                                sb.AppendLine(e.StackTrace);
-                                logger.Error(sb.ToString());
-                            }
+                            rectangles.Add(rect);
                         }
+                        CalculeFinDeLignes(rectangles);
                     }
-
                 }
                 else
                 {
