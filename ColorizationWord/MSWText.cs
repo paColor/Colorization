@@ -513,8 +513,7 @@ namespace ColorizationWord
         {
             int i = 0;
             int nrRects = rects.Count;
-            bool found = false;
-            while (i < nrRects && !found)
+            while (i < nrRects)
             {
                 Rectangle r = rects[i];
                 WdRectangleType rt = WdRectangleType.wdSystem;
@@ -531,11 +530,9 @@ namespace ColorizationWord
                                 // linerange est dans la région sélectionnée.
                                 // linerange.End est toujours sur le caractère qui suit le range
                                 finDeLignes.Add(GetSPosForRangePos(lineRange.End - 1));
-                                found = true;
                             }
                         }
                     }
-                    i++;
                 }
                 catch (Exception e)
                 {
@@ -550,8 +547,7 @@ namespace ColorizationWord
                     sb.AppendLine(e.StackTrace);
                     logger.Error(sb.ToString());
                 }
-                
-                
+                i++;
             }
         }
 
