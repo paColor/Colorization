@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using ColorLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualBasic.FileIO;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace ColorLibTest
 {
@@ -182,5 +185,87 @@ pétiolées
 
 
         ";
+
+        public class LineOfCSV
+        {
+            public string l; // the complete line
+            public string w; // the word
+            public string p; // phonetic representation
+        }
+
+
+        [TestMethod]
+        public void AddPhonToCSVJoachim()
+        {
+            const string path = @"F:\Utilisateurs\Papa\Prog\ClavierAPI\dictionaries\dictionaries\";
+            // const string path = @"F:\Utilisateurs\Papa\Prog\ClavierAPI\tmp\";
+            const string fullInName = path + @"wiktionnaire_clean.csv";
+            const string fullOutName = path + @"wiktionnaire_clean_phon.csv";
+
+            List<LineOfCSV> linesOfCSV = new List<LineOfCSV>();
+
+            if (File.Exists(fullOutName))
+            {
+                File.Delete(fullOutName);
+            }
+
+            if (File.Exists(fullInName))
+            {
+                using (TextFieldParser csvParser = new TextFieldParser(fullInName))
+                {
+                    using (System.IO.StreamWriter outFile = new System.IO.StreamWriter(fullOutName))
+                    {
+                        string headerLine = csvParser.ReadLine();
+                        headerLine = headerLine.Trim();
+                        headerLine = headerLine + ";phon";
+                        outFile.WriteLine(headerLine);
+
+                        // csvParser.SetDelimiters(new string[] { ";" });
+                        // csvParser.HasFieldsEnclosedInQuotes = false;
+
+                        while (!csvParser.EndOfData)
+                        {
+                            string line = csvParser.ReadLine();
+                            string[] elements = line.Split(new char[] { ';' }, 3);
+                            if (elements.Length == 3)
+                            {
+                                LineOfCSV lineOfCSV = new LineOfCSV();
+                                lineOfCSV.l = line;
+                                lineOfCSV.w = elements[1];
+                                linesOfCSV.Add(lineOfCSV);
+                            }
+                        }
+                        
+                        Config conf = new Config();
+
+                        Parallel.ForEach(linesOfCSV, (l) =>
+                        {
+                            TheText tt = new TheText(l.w);
+                            List<PhonWord> pws = tt.GetPhonWordList(conf);
+                            l.p = "";
+                            foreach (PhonWord pw in pws)
+                            {
+                                if (l.p.Length > 0)
+                                {
+                                    l.p = l.p + " ";
+                                }
+                                l.p = l.p + pw.ToColSE();
+                            }
+                          
+                        });
+
+                        foreach (LineOfCSV l in linesOfCSV)
+                        {
+                            outFile.Write(l.l);
+                            outFile.Write(";");
+                            outFile.WriteLine(l.p);
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+
     }
 }

@@ -522,6 +522,13 @@ namespace ColorLib
         // Retourne la correspondance "Lexique" (voir lexique.org) du phonème.
 
         /// <summary>
+        /// La correspondance au format ColSE du phonème. Chaque phonème est représenté par un caractère
+        /// </summary>
+        /// <returns></returns>
+        public string Phon2ColSE() => phon2colSE[P];
+        
+
+        /// <summary>
         /// Crée un <see cref="PhonInW"/> et l'ajoute à la liste des phonèmes de 
         /// <paramref name="inW"/>
         /// </summary>

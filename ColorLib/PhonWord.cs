@@ -439,6 +439,20 @@ namespace ColorLib
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Retourne la représentation ColSE (Colorization Simplifié Etendu) du PhonWord.
+        /// </summary>
+        /// <returns>Retourne la représentation ColSE du PhonWord -> un caractère par son.</returns>
+        public string ToColSE()
+        {
+            StringBuilder sb = new StringBuilder(GetWord().Length - 1);
+            foreach (PhonInW piw in phons)
+            {
+                sb.Append(piw.Phon2ColSE());
+            }
+            return sb.ToString();
+        }
+
         public override string AllStringInfo ()
         {
             StringBuilder sb = new StringBuilder();
