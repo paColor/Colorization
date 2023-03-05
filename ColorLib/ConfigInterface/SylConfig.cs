@@ -192,6 +192,12 @@ namespace ColorLib
         [field: NonSerialized]
         public event EventHandler ExcMotsModified;
 
+        /// <summary>
+        /// Evènement déclenché quand ignorerMonosyllabes est modifié.
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler IgnorerMonosyllabesModified;
+
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  Public Members ---------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
@@ -336,6 +342,26 @@ namespace ColorLib
             }
         }
 
+
+        public bool ignorerMonosyllabes
+        {
+            get
+            {
+                return _ignorerMonosyllabes;
+            }
+            set
+            {
+                if (value != _ignorerMonosyllabes)
+                {
+                    UndoFactory.ExceutingAction(new SylAction("Ignorer monosyllabes", SylAction.SylActionType.monosyllabes,
+                        this, ignorerMonosyllabes, value));
+                    _ignorerMonosyllabes = value;
+                    OnIgnorerMonosyllabesModified();
+                }
+            }
+        }
+
+
         // -------------------------------------------------------------------------------------------------------------------
         // ----------------------------------------------  Private Members ---------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------------
@@ -387,6 +413,14 @@ namespace ColorLib
 
         [OptionalField(VersionAdded = 9)]
         private ExceptionMots _excMots; // null si aucune exception n'a jamais été créée.
+
+        // ----------------------------------- ignorer monosyllabes ---------------------------------
+
+        /// <summary>
+        /// indique si les mots monosyllabiques doivent être ignorés dans la colorisation de syllabes.
+        /// </summary>
+        [OptionalField(VersionAdded = 11)]
+        private bool _ignorerMonosyllabes; 
 
 
         // -------------------------------------------------------------------------------------------------------------------
@@ -551,6 +585,7 @@ namespace ColorLib
             marquerMuettes = true;
             chercherDierese = true;
             nbrPieds = 0; // Par défaut, mode automatique.
+            ignorerMonosyllabes = false;
             UndoFactory.EndRecording();
         }
 
@@ -633,6 +668,13 @@ namespace ColorLib
         {
             logger.ConditionalDebug("OnExcMotsModified");
             EventHandler eventHandler = ExcMotsModified;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnIgnorerMonosyllabesModified()
+        {
+            logger.ConditionalDebug("OnIgnorerMonosyllabesModified");
+            EventHandler eventHandler = IgnorerMonosyllabesModified;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }
 

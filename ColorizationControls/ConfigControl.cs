@@ -2210,6 +2210,29 @@ namespace ColorizationControls
             tabControl1.Focus();
         }
 
+
+        //--------------------------------------------------------------------------------------------
+        // -------------------  Context Menu Strip - Clic droit Syllabes ------------------------
+        //--------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Ouverture du menu contextuel pour exclure les monosyllabes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmsMonosyllabes_Opening(object sender, CancelEventArgs e)
+        {
+            logger.ConditionalDebug("cmsMonosyllabes_Opening");
+            tabControl1.Focus();
+        }
+
+
+        private void ignorerMonosyllabesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("ignorerMonosyllabesToolStripMenuItem_Click");
+            tabControl1.Focus();
+        }
+
         //--------------------------------------------------------------------------------------------
         // -------------------------------------------- UNDO -----------------------------------------
         //--------------------------------------------------------------------------------------------
@@ -2336,5 +2359,6 @@ namespace ColorizationControls
             logger.ConditionalDebug("tab_Enter");
             lastSelectedTab = (TabPage)sender;
         }
+
     }
 }

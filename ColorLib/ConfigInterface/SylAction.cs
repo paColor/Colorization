@@ -7,7 +7,7 @@ namespace ColorLib
     class SylAction : CLAction
     {
         public enum SylActionType { sylBut, clearBut, doubleCons, mode, marquerMuettes, dierese,
-            nbrePieds, exceptMots}
+            nbrePieds, exceptMots, monosyllabes }
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -52,8 +52,8 @@ namespace ColorLib
         /// "dierese"
         /// </summary>
         /// <param name="name">le nom de l'action.</param>
-        /// <param name="inType">Le type de l'action. "doubleCons", "marquerMuettes" ou 
-        /// "dierese"</param>
+        /// <param name="inType">Le type de l'action. "doubleCons", "marquerMuettes" 
+        /// "dierese" ou "monosyllabes"</param>
         /// <param name="inSylConf">La <see cref="SylConfig"/> sur laquelle l'action agit.</param>
         /// <param name="inPrevVal">La valeur du booléen avant l'action.</param>
         /// <param name="inNewVal">La valeur du booléen après l'action.</param>

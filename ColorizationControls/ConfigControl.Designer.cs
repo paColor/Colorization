@@ -309,6 +309,8 @@
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
             this.cmsArcButtons = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsMonosyllabes = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ignorerMonosyllabesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -336,6 +338,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.cmsArcButtons.SuspendLayout();
+            this.cmsMonosyllabes.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbxa
@@ -2873,6 +2876,7 @@
             // btSAppliquer
             // 
             this.btSAppliquer.BackColor = System.Drawing.SystemColors.Control;
+            this.btSAppliquer.ContextMenuStrip = this.cmsMonosyllabes;
             this.btSAppliquer.Image = global::ColorizationControls.Properties.Resources.syll_dys_30;
             this.btSAppliquer.Location = new System.Drawing.Point(29, 152);
             this.btSAppliquer.Name = "btSAppliquer";
@@ -3918,6 +3922,21 @@
             this.tsmEffacerCoulArc.Text = "Effacer";
             this.tsmEffacerCoulArc.Click += new System.EventHandler(this.tsmEffacerCoulArc_Click);
             // 
+            // cmsMonosyllabes
+            // 
+            this.cmsMonosyllabes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ignorerMonosyllabesToolStripMenuItem});
+            this.cmsMonosyllabes.Name = "cmsMonosyllabes";
+            this.cmsMonosyllabes.Size = new System.Drawing.Size(189, 48);
+            this.cmsMonosyllabes.Opening += new System.ComponentModel.CancelEventHandler(this.cmsMonosyllabes_Opening);
+            // 
+            // ignorerMonosyllabesToolStripMenuItem
+            // 
+            this.ignorerMonosyllabesToolStripMenuItem.Name = "ignorerMonosyllabesToolStripMenuItem";
+            this.ignorerMonosyllabesToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.ignorerMonosyllabesToolStripMenuItem.Text = "ignorer monosyllabes";
+            this.ignorerMonosyllabesToolStripMenuItem.Click += new System.EventHandler(this.ignorerMonosyllabesToolStripMenuItem_Click);
+            // 
             // ConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3967,6 +3986,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.cmsArcButtons.ResumeLayout(false);
+            this.cmsMonosyllabes.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -4252,5 +4272,7 @@
         private System.Windows.Forms.Button butEcarter;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ToolStripMenuItem tsmiGraphemes;
+        private System.Windows.Forms.ContextMenuStrip cmsMonosyllabes;
+        private System.Windows.Forms.ToolStripMenuItem ignorerMonosyllabesToolStripMenuItem;
     }
 }
