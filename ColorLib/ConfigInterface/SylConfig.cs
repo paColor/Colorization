@@ -608,6 +608,7 @@ namespace ColorLib
             chercherDierese = true;
             nbrPieds = 0;
             _excMots = null;
+            ignorerMonosyllabes = false;
         }
 
         internal override void PostLoadInitOptionalFields()
