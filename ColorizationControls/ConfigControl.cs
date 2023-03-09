@@ -424,7 +424,7 @@ namespace ColorizationControls
 
         private void UpdateSylButtons()
         {
-            logger.ConditionalDebug("UpdateLetterButtons");
+            logger.ConditionalDebug("UpdateSylButtons");
             SuspendLayout();
             for (int i = 0; i < SylConfig.NrButtons; i++)
                 UpdateSylButton(i);
@@ -479,6 +479,12 @@ namespace ColorizationControls
                 butColor = lightRed;
             }
             btcListeExcpt.BackColor = butColor;
+        }
+
+        private void UpdateIgnorerMonosyllabes()
+        {
+            logger.ConditionalDebug("UpdateIgnorerMonosyllabes");
+            // On ne fait rien tant qu'il n'y a pas de checkbox correspondant à l'option...
         }
 
         // -------------------------------------- Update arcs -------------------------------------
@@ -615,6 +621,7 @@ namespace ColorizationControls
             theConf.sylConf.ChercherDiereseModified += HandleChercherDiereseModified;
             theConf.sylConf.NbrPiedsModified += HandleNbrPiedsModified;
             theConf.sylConf.ExcMotsModified += HandleExcMotsModified;
+            theConf.sylConf.IgnorerMonosyllabesModified += HandleIgnorerMonosyllabesModified;
             theConf.arcConf.ArcButtonModified += ArcButtonModifiedHandler;
             theConf.arcConf.HauteurModified += HauteurModifiedHandler;
             theConf.arcConf.EcartementModified += EcartementModifiedHandler;
@@ -652,6 +659,7 @@ namespace ColorizationControls
             theConf.sylConf.ChercherDiereseModified -= HandleChercherDiereseModified;
             theConf.sylConf.NbrPiedsModified -= HandleNbrPiedsModified;
             theConf.sylConf.ExcMotsModified -= HandleExcMotsModified;
+            theConf.sylConf.IgnorerMonosyllabesModified -= HandleIgnorerMonosyllabesModified;
             theConf.arcConf.ArcButtonModified -= ArcButtonModifiedHandler;
             theConf.arcConf.HauteurModified -= HauteurModifiedHandler;
             theConf.arcConf.EcartementModified -= EcartementModifiedHandler;
@@ -1268,6 +1276,13 @@ namespace ColorizationControls
             logger.ConditionalDebug("HandleExcMotsModified");
             UpdateExcepButton();
         }
+
+        private void HandleIgnorerMonosyllabesModified(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("HandleIgnorerMonosyllabesModified");
+            UpdateIgnorerMonosyllabes();
+        }
+
 
         //--------------------------------------------------------------------------------------------
         // ---------------------------------------  Boutons Arcs -------------------------------------
@@ -2223,13 +2238,14 @@ namespace ColorizationControls
         private void cmsMonosyllabes_Opening(object sender, CancelEventArgs e)
         {
             logger.ConditionalDebug("cmsMonosyllabes_Opening");
-            tabControl1.Focus();
+            ignorerMonosyllabesToolStripMenuItem.Checked = theConf.sylConf.ignorerMonosyllabes;
         }
 
 
         private void ignorerMonosyllabesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             logger.ConditionalDebug("ignorerMonosyllabesToolStripMenuItem_Click");
+            theConf.sylConf.ignorerMonosyllabes = !theConf.sylConf.ignorerMonosyllabes;
             tabControl1.Focus();
         }
 

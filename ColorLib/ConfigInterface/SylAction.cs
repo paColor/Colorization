@@ -142,6 +142,10 @@ namespace ColorLib
                     sylConf.ExcMots = prevExcMots;
                     break;
 
+                case SylActionType.monosyllabes:
+                    sylConf.ignorerMonosyllabes = prevBoolVal;
+                    break;
+
                 default:
                     logger.Error("Type de commande non traitée: {0}", type);
                     throw new InvalidOperationException(String.Format("Type de commande non traitée: {0}", type));
@@ -183,6 +187,10 @@ namespace ColorLib
 
                 case SylActionType.exceptMots:
                     sylConf.ExcMots = newExcMots;
+                    break;
+
+                case SylActionType.monosyllabes:
+                    sylConf.ignorerMonosyllabes = newBoolVal;
                     break;
 
                 default:

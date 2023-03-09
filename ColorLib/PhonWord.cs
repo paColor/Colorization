@@ -397,15 +397,18 @@ namespace ColorLib
             logger.ConditionalDebug("ColorizeSyls");
             if (syls != null)
             {
-                // Mettre les syllabes en couleur
-                foreach (SylInW s in syls)
-                    s.PutColor(conf);
+                if (!conf.sylConf.ignorerMonosyllabes || syls.Count > 1)
+                {
+                    // Mettre les syllabes en couleur
+                    foreach (SylInW s in syls)
+                        s.PutColor(conf);
 
-                // s'il le faut, marquer par-dessus les phonemes muets.
-                if (theConf.sylConf.marquerMuettes)
-                    foreach (PhonInW piw in phons)
-                        if (piw.EstMuet())
-                            piw.PutColor(conf, PhonConfType.muettes); 
+                    // s'il le faut, marquer par-dessus les phonemes muets.
+                    if (conf.sylConf.marquerMuettes)
+                        foreach (PhonInW piw in phons)
+                            if (piw.EstMuet())
+                                piw.PutColor(conf, PhonConfType.muettes);
+                }
             }
             else
             {
