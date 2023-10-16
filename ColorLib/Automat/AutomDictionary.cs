@@ -2988,6 +2988,7 @@ namespace ColorLib
             { "pétiolés", "p-p;é-e;t-s;i-j;o-o;l-l;é-e;s-#" },
             { "pétiolée", "p-p;é-e;t-s;i-j;o-o;l-l;é-e;e-#" },
             { "pétiolées", "p-p;é-e;t-s;i-j;o-o;l-l;é-e;e-#;s-#" },
+            { "min", "m-m;i-i;n-n" },
 
         };
 #pragma warning restore CA1814 // Prefer jagged arrays over multidimensional

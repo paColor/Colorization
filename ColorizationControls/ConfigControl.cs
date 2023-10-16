@@ -433,6 +433,7 @@ namespace ColorizationControls
             rbnStandard.Checked = theConf.sylConf.DoubleConsStd;
             UpdateSylModeButtons();
             UpdateMarquerMuettesButton();
+            UpdateIgnorerMonosyllabes();
             UpdateExcepButton();
             ResumeLayout();
         }
@@ -484,7 +485,7 @@ namespace ColorizationControls
         private void UpdateIgnorerMonosyllabes()
         {
             logger.ConditionalDebug("UpdateIgnorerMonosyllabes");
-            // On ne fait rien tant qu'il n'y a pas de checkbox correspondant à l'option...
+            cbMonoSyl.Checked = theConf.sylConf.ignorerMonosyllabes;
         }
 
         // -------------------------------------- Update arcs -------------------------------------
@@ -1257,6 +1258,12 @@ namespace ColorizationControls
         {
             logger.ConditionalDebug("checkBoxDierese_CheckedChanged: {0}", comboBoxNrPieds.SelectedIndex);
             theConf.sylConf.nbrPieds = comboBoxNrPieds.SelectedIndex;
+        }
+
+        private void cbMonoSyl_CheckedChanged(object sender, EventArgs e)
+        {
+            logger.ConditionalDebug("cbMonoSyl_CheckedChanged: {0}", cbMonoSyl.Checked);
+            theConf.sylConf.ignorerMonosyllabes = cbMonoSyl.Checked;
         }
 
         private void HandleChercherDiereseModified(object sender, EventArgs e)
@@ -2375,6 +2382,7 @@ namespace ColorizationControls
             logger.ConditionalDebug("tab_Enter");
             lastSelectedTab = (TabPage)sender;
         }
+
 
     }
 }

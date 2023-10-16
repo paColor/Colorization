@@ -200,6 +200,7 @@
             this.btL0 = new System.Windows.Forms.Button();
             this.lblLetters = new System.Windows.Forms.Label();
             this.groupBoxSyllabes = new System.Windows.Forms.GroupBox();
+            this.cbMonoSyl = new System.Windows.Forms.CheckBox();
             this.cbMuettesSyl = new System.Windows.Forms.CheckBox();
             this.groupBoxPoesie = new System.Windows.Forms.GroupBox();
             this.comboBoxNrPieds = new System.Windows.Forms.ComboBox();
@@ -226,6 +227,8 @@
             this.btcLbpdq = new System.Windows.Forms.Button();
             this.btSMots = new System.Windows.Forms.Button();
             this.btSAppliquer = new System.Windows.Forms.Button();
+            this.cmsMonosyllabes = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ignorerMonosyllabesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btSC1 = new System.Windows.Forms.Button();
             this.btSC2 = new System.Windows.Forms.Button();
             this.btSC3 = new System.Windows.Forms.Button();
@@ -309,8 +312,8 @@
             this.ttipLettreEnNoir = new System.Windows.Forms.ToolTip(this.components);
             this.cmsArcButtons = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmEffacerCoulArc = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsMonosyllabes = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ignorerMonosyllabesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbDebMot = new System.Windows.Forms.CheckBox();
+            this.btDebMot = new System.Windows.Forms.Button();
             this.tabSauv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabCouleurs.SuspendLayout();
@@ -331,6 +334,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).BeginInit();
+            this.cmsMonosyllabes.SuspendLayout();
             this.tabArcs.SuspendLayout();
             this.tabAvance.SuspendLayout();
             this.groupBoxIll.SuspendLayout();
@@ -338,7 +342,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.cmsArcButtons.SuspendLayout();
-            this.cmsMonosyllabes.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbxa
@@ -2045,7 +2048,7 @@
             // pbHL0
             // 
             this.pbHL0.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.pbHL0.Location = new System.Drawing.Point(38, 312);
+            this.pbHL0.Location = new System.Drawing.Point(40, 341);
             this.pbHL0.Name = "pbHL0";
             this.pbHL0.Size = new System.Drawing.Size(17, 13);
             this.pbHL0.TabIndex = 157;
@@ -2055,7 +2058,7 @@
             // btcListeExcpt
             // 
             this.btcListeExcpt.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btcListeExcpt.Location = new System.Drawing.Point(94, 365);
+            this.btcListeExcpt.Location = new System.Drawing.Point(181, 365);
             this.btcListeExcpt.Name = "btcListeExcpt";
             this.btcListeExcpt.Size = new System.Drawing.Size(150, 23);
             this.btcListeExcpt.TabIndex = 196;
@@ -2297,7 +2300,7 @@
             // btcInitSyls
             // 
             this.btcInitSyls.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btcInitSyls.Location = new System.Drawing.Point(94, 336);
+            this.btcInitSyls.Location = new System.Drawing.Point(12, 365);
             this.btcInitSyls.Name = "btcInitSyls";
             this.btcInitSyls.Size = new System.Drawing.Size(150, 23);
             this.btcInitSyls.TabIndex = 151;
@@ -2551,17 +2554,30 @@
             // groupBoxSyllabes
             // 
             this.groupBoxSyllabes.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxSyllabes.Controls.Add(this.cbMonoSyl);
             this.groupBoxSyllabes.Controls.Add(this.cbMuettesSyl);
             this.groupBoxSyllabes.Controls.Add(this.groupBoxPoesie);
             this.groupBoxSyllabes.Controls.Add(this.grpBEcritOral);
             this.groupBoxSyllabes.Controls.Add(this.groupBox1);
             this.groupBoxSyllabes.Location = new System.Drawing.Point(14, 196);
             this.groupBoxSyllabes.Name = "groupBoxSyllabes";
-            this.groupBoxSyllabes.Size = new System.Drawing.Size(314, 105);
+            this.groupBoxSyllabes.Size = new System.Drawing.Size(314, 134);
             this.groupBoxSyllabes.TabIndex = 176;
             this.groupBoxSyllabes.TabStop = false;
             this.groupBoxSyllabes.Text = "Syllabes";
             this.ttipLettreEnNoir.SetToolTip(this.groupBoxSyllabes, "Paramètres pour la mise \r\nen couleur des syllabes.");
+            // 
+            // cbMonoSyl
+            // 
+            this.cbMonoSyl.AutoSize = true;
+            this.cbMonoSyl.Location = new System.Drawing.Point(99, 101);
+            this.cbMonoSyl.Name = "cbMonoSyl";
+            this.cbMonoSyl.Size = new System.Drawing.Size(89, 30);
+            this.cbMonoSyl.TabIndex = 177;
+            this.cbMonoSyl.Text = "Ignorer\r\nmonosyllabes";
+            this.ttipLettreEnNoir.SetToolTip(this.cbMonoSyl, "Les mots d\'une syllabe ne sont pas colorisés.");
+            this.cbMonoSyl.UseVisualStyleBackColor = true;
+            this.cbMonoSyl.CheckedChanged += new System.EventHandler(this.cbMonoSyl_CheckedChanged);
             // 
             // cbMuettesSyl
             // 
@@ -2734,7 +2750,7 @@
             // 
             // btSC0
             // 
-            this.btSC0.Location = new System.Drawing.Point(12, 307);
+            this.btSC0.Location = new System.Drawing.Point(14, 336);
             this.btSC0.Name = "btSC0";
             this.btSC0.Size = new System.Drawing.Size(48, 23);
             this.btSC0.TabIndex = 146;
@@ -2794,7 +2810,7 @@
             // 
             // pbHL5
             // 
-            this.pbHL5.Location = new System.Drawing.Point(307, 312);
+            this.pbHL5.Location = new System.Drawing.Point(309, 341);
             this.pbHL5.Name = "pbHL5";
             this.pbHL5.Size = new System.Drawing.Size(17, 13);
             this.pbHL5.TabIndex = 162;
@@ -2803,7 +2819,7 @@
             // 
             // pbHL4
             // 
-            this.pbHL4.Location = new System.Drawing.Point(253, 312);
+            this.pbHL4.Location = new System.Drawing.Point(255, 341);
             this.pbHL4.Name = "pbHL4";
             this.pbHL4.Size = new System.Drawing.Size(17, 13);
             this.pbHL4.TabIndex = 161;
@@ -2812,7 +2828,7 @@
             // 
             // pbHL3
             // 
-            this.pbHL3.Location = new System.Drawing.Point(199, 312);
+            this.pbHL3.Location = new System.Drawing.Point(201, 341);
             this.pbHL3.Name = "pbHL3";
             this.pbHL3.Size = new System.Drawing.Size(17, 13);
             this.pbHL3.TabIndex = 160;
@@ -2821,7 +2837,7 @@
             // 
             // pbHL2
             // 
-            this.pbHL2.Location = new System.Drawing.Point(145, 312);
+            this.pbHL2.Location = new System.Drawing.Point(147, 341);
             this.pbHL2.Name = "pbHL2";
             this.pbHL2.Size = new System.Drawing.Size(17, 13);
             this.pbHL2.TabIndex = 159;
@@ -2830,7 +2846,7 @@
             // 
             // pbHL1
             // 
-            this.pbHL1.Location = new System.Drawing.Point(91, 312);
+            this.pbHL1.Location = new System.Drawing.Point(93, 341);
             this.pbHL1.Name = "pbHL1";
             this.pbHL1.Size = new System.Drawing.Size(17, 13);
             this.pbHL1.TabIndex = 158;
@@ -2886,9 +2902,24 @@
             this.btSAppliquer.UseVisualStyleBackColor = false;
             this.btSAppliquer.Click += new System.EventHandler(this.btSAppliquer_Click);
             // 
+            // cmsMonosyllabes
+            // 
+            this.cmsMonosyllabes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ignorerMonosyllabesToolStripMenuItem});
+            this.cmsMonosyllabes.Name = "cmsMonosyllabes";
+            this.cmsMonosyllabes.Size = new System.Drawing.Size(189, 26);
+            this.cmsMonosyllabes.Opening += new System.ComponentModel.CancelEventHandler(this.cmsMonosyllabes_Opening);
+            // 
+            // ignorerMonosyllabesToolStripMenuItem
+            // 
+            this.ignorerMonosyllabesToolStripMenuItem.Name = "ignorerMonosyllabesToolStripMenuItem";
+            this.ignorerMonosyllabesToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.ignorerMonosyllabesToolStripMenuItem.Text = "ignorer monosyllabes";
+            this.ignorerMonosyllabesToolStripMenuItem.Click += new System.EventHandler(this.ignorerMonosyllabesToolStripMenuItem_Click);
+            // 
             // btSC1
             // 
-            this.btSC1.Location = new System.Drawing.Point(65, 307);
+            this.btSC1.Location = new System.Drawing.Point(67, 336);
             this.btSC1.Name = "btSC1";
             this.btSC1.Size = new System.Drawing.Size(48, 23);
             this.btSC1.TabIndex = 147;
@@ -2900,7 +2931,7 @@
             // 
             // btSC2
             // 
-            this.btSC2.Location = new System.Drawing.Point(119, 307);
+            this.btSC2.Location = new System.Drawing.Point(121, 336);
             this.btSC2.Name = "btSC2";
             this.btSC2.Size = new System.Drawing.Size(48, 23);
             this.btSC2.TabIndex = 148;
@@ -2912,7 +2943,7 @@
             // 
             // btSC3
             // 
-            this.btSC3.Location = new System.Drawing.Point(173, 307);
+            this.btSC3.Location = new System.Drawing.Point(175, 336);
             this.btSC3.Name = "btSC3";
             this.btSC3.Size = new System.Drawing.Size(48, 23);
             this.btSC3.TabIndex = 149;
@@ -2924,7 +2955,7 @@
             // 
             // btSC4
             // 
-            this.btSC4.Location = new System.Drawing.Point(227, 307);
+            this.btSC4.Location = new System.Drawing.Point(229, 336);
             this.btSC4.Name = "btSC4";
             this.btSC4.Size = new System.Drawing.Size(48, 23);
             this.btSC4.TabIndex = 155;
@@ -2936,7 +2967,7 @@
             // 
             // btSC5
             // 
-            this.btSC5.Location = new System.Drawing.Point(281, 307);
+            this.btSC5.Location = new System.Drawing.Point(283, 336);
             this.btSC5.Name = "btSC5";
             this.btSC5.Size = new System.Drawing.Size(48, 23);
             this.btSC5.TabIndex = 156;
@@ -2949,6 +2980,8 @@
             // tabArcs
             // 
             this.tabArcs.BackColor = System.Drawing.SystemColors.Control;
+            this.tabArcs.Controls.Add(this.btDebMot);
+            this.tabArcs.Controls.Add(this.cbDebMot);
             this.tabArcs.Controls.Add(this.label10);
             this.tabArcs.Controls.Add(this.butResserrer);
             this.tabArcs.Controls.Add(this.butEcarter);
@@ -3004,7 +3037,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(63, 484);
+            this.label10.Location = new System.Drawing.Point(62, 516);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(206, 39);
             this.label10.TabIndex = 228;
@@ -3015,7 +3048,7 @@
             // 
             this.butResserrer.BackColor = System.Drawing.SystemColors.Control;
             this.butResserrer.Image = global::ColorizationControls.Properties.Resources.Shrink_red_sq30;
-            this.butResserrer.Location = new System.Drawing.Point(290, 484);
+            this.butResserrer.Location = new System.Drawing.Point(289, 516);
             this.butResserrer.Name = "butResserrer";
             this.butResserrer.Size = new System.Drawing.Size(38, 38);
             this.butResserrer.TabIndex = 227;
@@ -3027,7 +3060,7 @@
             // 
             this.butEcarter.BackColor = System.Drawing.SystemColors.Control;
             this.butEcarter.Image = global::ColorizationControls.Properties.Resources.enlarge_30;
-            this.butEcarter.Location = new System.Drawing.Point(8, 484);
+            this.butEcarter.Location = new System.Drawing.Point(7, 516);
             this.butEcarter.Name = "butEcarter";
             this.butEcarter.Size = new System.Drawing.Size(38, 38);
             this.butEcarter.TabIndex = 226;
@@ -3039,7 +3072,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(64, 453);
+            this.label9.Location = new System.Drawing.Point(63, 485);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(208, 17);
             this.label9.TabIndex = 225;
@@ -3052,7 +3085,7 @@
             this.btMDMajDeb.FlatAppearance.BorderSize = 2;
             this.btMDMajDeb.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btMDMajDeb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btMDMajDeb.Location = new System.Drawing.Point(241, 224);
+            this.btMDMajDeb.Location = new System.Drawing.Point(92, 416);
             this.btMDMajDeb.Name = "btMDMajDeb";
             this.btMDMajDeb.Size = new System.Drawing.Size(61, 25);
             this.btMDMajDeb.TabIndex = 224;
@@ -3065,7 +3098,7 @@
             // 
             this.cbMDMajDeb.AutoSize = true;
             this.cbMDMajDeb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbMDMajDeb.Location = new System.Drawing.Point(202, 228);
+            this.cbMDMajDeb.Location = new System.Drawing.Point(53, 420);
             this.cbMDMajDeb.Name = "cbMDMajDeb";
             this.cbMDMajDeb.Size = new System.Drawing.Size(40, 19);
             this.cbMDMajDeb.TabIndex = 223;
@@ -3078,7 +3111,7 @@
             // 
             this.lblTous.AutoSize = true;
             this.lblTous.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTous.Location = new System.Drawing.Point(46, 228);
+            this.lblTous.Location = new System.Drawing.Point(100, 228);
             this.lblTous.Name = "lblTous";
             this.lblTous.Size = new System.Drawing.Size(40, 17);
             this.lblTous.TabIndex = 222;
@@ -3107,7 +3140,7 @@
             // btPAreset
             // 
             this.btPAreset.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.btPAreset.Location = new System.Drawing.Point(93, 416);
+            this.btPAreset.Location = new System.Drawing.Point(92, 448);
             this.btPAreset.Name = "btPAreset";
             this.btPAreset.Size = new System.Drawing.Size(150, 23);
             this.btPAreset.TabIndex = 217;
@@ -3120,7 +3153,7 @@
             // 
             this.btPMmaitre.ContextMenuStrip = this.cmsEffacerCopier;
             this.btPMmaitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btPMmaitre.Location = new System.Drawing.Point(92, 221);
+            this.btPMmaitre.Location = new System.Drawing.Point(146, 221);
             this.btPMmaitre.Name = "btPMmaitre";
             this.btPMmaitre.Size = new System.Drawing.Size(96, 31);
             this.btPMmaitre.TabIndex = 216;
@@ -3922,20 +3955,31 @@
             this.tsmEffacerCoulArc.Text = "Effacer";
             this.tsmEffacerCoulArc.Click += new System.EventHandler(this.tsmEffacerCoulArc_Click);
             // 
-            // cmsMonosyllabes
+            // cbDebMot
             // 
-            this.cmsMonosyllabes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ignorerMonosyllabesToolStripMenuItem});
-            this.cmsMonosyllabes.Name = "cmsMonosyllabes";
-            this.cmsMonosyllabes.Size = new System.Drawing.Size(189, 48);
-            this.cmsMonosyllabes.Opening += new System.ComponentModel.CancelEventHandler(this.cmsMonosyllabes_Opening);
+            this.cbDebMot.AutoSize = true;
+            this.cbDebMot.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbDebMot.Location = new System.Drawing.Point(176, 422);
+            this.cbDebMot.Name = "cbDebMot";
+            this.cbDebMot.Size = new System.Drawing.Size(15, 14);
+            this.cbDebMot.TabIndex = 229;
+            this.ttipLettreEnNoir.SetToolTip(this.cbDebMot, "Indique s\'il faut coloriser les premières\r\nlettres des mots.");
+            this.cbDebMot.UseVisualStyleBackColor = true;
             // 
-            // ignorerMonosyllabesToolStripMenuItem
+            // btDebMot
             // 
-            this.ignorerMonosyllabesToolStripMenuItem.Name = "ignorerMonosyllabesToolStripMenuItem";
-            this.ignorerMonosyllabesToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.ignorerMonosyllabesToolStripMenuItem.Text = "ignorer monosyllabes";
-            this.ignorerMonosyllabesToolStripMenuItem.Click += new System.EventHandler(this.ignorerMonosyllabesToolStripMenuItem_Click);
+            this.btDebMot.ContextMenuStrip = this.cmsEffacerCopier;
+            this.btDebMot.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btDebMot.FlatAppearance.BorderSize = 2;
+            this.btDebMot.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btDebMot.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btDebMot.Location = new System.Drawing.Point(197, 416);
+            this.btDebMot.Name = "btDebMot";
+            this.btDebMot.Size = new System.Drawing.Size(61, 25);
+            this.btDebMot.TabIndex = 230;
+            this.btDebMot.Text = "1e Mot";
+            this.ttipLettreEnNoir.SetToolTip(this.btDebMot, "Formatage pour les premières\r\nlettres des mots.");
+            this.btDebMot.UseVisualStyleBackColor = true;
             // 
             // ConfigControl
             // 
@@ -3975,6 +4019,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbHL3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHL1)).EndInit();
+            this.cmsMonosyllabes.ResumeLayout(false);
             this.tabArcs.ResumeLayout(false);
             this.tabArcs.PerformLayout();
             this.tabAvance.ResumeLayout(false);
@@ -3986,7 +4031,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.cmsArcButtons.ResumeLayout(false);
-            this.cmsMonosyllabes.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -4274,5 +4318,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiGraphemes;
         private System.Windows.Forms.ContextMenuStrip cmsMonosyllabes;
         private System.Windows.Forms.ToolStripMenuItem ignorerMonosyllabesToolStripMenuItem;
+        private System.Windows.Forms.CheckBox cbMonoSyl;
+        private System.Windows.Forms.Button btDebMot;
+        private System.Windows.Forms.CheckBox cbDebMot;
     }
 }

@@ -145,6 +145,43 @@ namespace ColorLib
             }
         }
 
+        public CharFormatting DebMotCF
+        {
+            get
+            {
+                return _debMotCF;
+            }
+            set
+            {
+                logger.ConditionalTrace("set DebMotCF to {0}", value?.ToString());
+                if (_debMotCF != value)
+                {
+                    UndoFactory.ExceutingAction(new PonctAction("Format début mot", this,
+                        "debMotCF", Ponctuation.firstP, _debMotCF, value));
+                    _debMotCF = value;
+                    OnDebMotCFModified();
+                }
+            }
+        }
+
+        public bool DebMotCB
+        {
+            get
+            {
+                return _debMotCB;
+            }
+            set
+            {
+                logger.ConditionalTrace("set DebMotCB to {0}", value);
+                if (_debMotCB != value)
+                {
+                    UndoFactory.ExceutingAction(new PonctAction("Contrôle début mot", this,
+                        "debMotCB", Ponctuation.firstP, _debMotCB, value));
+                    _debMotCB = value;
+                    OnDebMotCBModified();
+                }
+            }
+        }
 
         // ----------------------------------------------------------------------------------------
         // -----------------------------------  Private Members  ----------------------------------
@@ -163,6 +200,12 @@ namespace ColorLib
 
         [OptionalField(VersionAdded = 7)]
         private bool _majDebCB;
+
+        [OptionalField(VersionAdded = 12)]
+        private CharFormatting _debMotCF;
+
+        [OptionalField(VersionAdded = 12)]
+        private bool _debMotCB;
 
         // ----------------------------------------------------------------------------------------
         // ------------------------------------  Event Handlers -----------------------------------
@@ -204,6 +247,18 @@ namespace ColorLib
         /// </summary>
         [field: NonSerialized]
         public event EventHandler MajDebCBModified;
+
+        // <summary>
+        /// Evènement déclenché quand le bouton début de mot est modifié
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler DebMotCFModified;
+
+        /// <summary>
+        /// Evènement déclenché quand le checkbox début de mot est modifié
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler DebMotCBModified;
 
 
         // ----------------------------------------------------------------------------------------
@@ -490,6 +545,20 @@ namespace ColorLib
         {
             logger.ConditionalDebug("OnMajDebCBModified");
             EventHandler eventHandler = MajDebCBModified;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnDebMotCFModified()
+        {
+            logger.ConditionalDebug("OnDebMotCFModified");
+            EventHandler eventHandler = DebMotCFModified;
+            eventHandler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnDebMotCBModified()
+        {
+            logger.ConditionalDebug("OnDebMotCBModified");
+            EventHandler eventHandler = DebMotCBModified;
             eventHandler?.Invoke(this, EventArgs.Empty);
         }
 
